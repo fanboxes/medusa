@@ -1,12 +1,12 @@
 {
-	"id": 44530,
+	"id": 38468,
 	"name": "fulfillment-provider",
 	"variant": "project",
 	"kind": 1,
 	"flags": {},
 	"children": [
 		{
-			"id": 44531,
+			"id": 38469,
 			"name": "AbstractFulfillmentProviderService",
 			"variant": "declaration",
 			"kind": 128,
@@ -15,17 +15,17 @@
 				"summary": [
 					{
 						"kind": "text",
-						"text": "### constructor\n\nThe constructor allows you to access resources from the module's container using the first parameter,\nand the module's options using the second parameter.\n\n:::note\n\nA module's options are passed when you register it in the Medusa application.\n\n:::\n\nIf you're creating a client or establishing a connection with a third-party service, do it in the constructor.\n\n#### Example\n\n"
+						"text": "### constructor\n\nThe constructor allows you to access resources from the [module's container](https://docs.medusajs.com/learn/fundamentals/modules/container) \nusing the first parameter, and the module's options using the second parameter.\n\n:::note\n\nA module's options are passed when you register it in the Medusa application.\n\n:::\n\nIf you're creating a client or establishing a connection with a third-party service, do it in the constructor.\n\n#### Example\n\n"
 					},
 					{
 						"kind": "code",
-						"text": "```ts title=\"src/modules/my-fulfillment/service.ts\"\nimport { AbstractFulfillmentProviderService } from \"@medusajs/framework/utils\"\nimport { Logger } from \"@medusajs/framework/types\"\n\ntype InjectedDependencies = {\n  logger: Logger\n}\n\ntype Options = {\n  apiKey: string\n}\n\nclass MyFulfillmentProviderService extends AbstractFulfillmentProviderService {\n  protected logger_: Logger\n  protected options_: Options\n  // assuming you're initializing a client\n  protected client\n\n  constructor(\n    { logger }: InjectedDependencies,\n    options: Options\n  ) {\n    super()\n\n    this.logger_ = logger\n    this.options_ = options\n  }\n}\n\nexport default MyFulfillmentProviderService\n```"
+						"text": "```ts title=\"src/modules/my-fulfillment/service.ts\"\nimport { AbstractFulfillmentProviderService } from \"@medusajs/framework/utils\"\nimport { Logger } from \"@medusajs/framework/types\"\n\ntype InjectedDependencies = {\n  logger: Logger\n}\n\ntype Options = {\n  apiKey: string\n}\n\nclass MyFulfillmentProviderService extends AbstractFulfillmentProviderService {\n// other properties...\n  protected logger_: Logger\n  protected options_: Options\n  // assuming you're initializing a client\n  protected client\n\n  constructor(\n    { logger }: InjectedDependencies,\n    options: Options\n  ) {\n    super()\n\n    this.logger_ = logger\n    this.options_ = options\n  }\n}\n\nexport default MyFulfillmentProviderService\n```"
 					}
 				]
 			},
 			"children": [
 				{
-					"id": 44532,
+					"id": 38470,
 					"name": "identifier",
 					"variant": "declaration",
 					"kind": 1024,
@@ -89,21 +89,21 @@
 					}
 				},
 				{
-					"id": 44537,
+					"id": 38475,
 					"name": "constructor",
 					"variant": "declaration",
 					"kind": 512,
 					"flags": {},
 					"signatures": [
 						{
-							"id": 44538,
-							"name": "new AbstractFulfillmentProviderService",
+							"id": 38476,
+							"name": "AbstractFulfillmentProviderService",
 							"variant": "signature",
 							"kind": 16384,
 							"flags": {},
 							"type": {
 								"type": "reference",
-								"target": 44531,
+								"target": 38469,
 								"name": "AbstractFulfillmentProviderService",
 								"package": "@medusajs/utils"
 							}
@@ -111,14 +111,14 @@
 					]
 				},
 				{
-					"id": 44541,
+					"id": 38479,
 					"name": "getFulfillmentOptions",
 					"variant": "declaration",
 					"kind": 2048,
 					"flags": {},
 					"signatures": [
 						{
-							"id": 44542,
+							"id": 38480,
 							"name": "getFulfillmentOptions",
 							"variant": "signature",
 							"kind": 4096,
@@ -127,7 +127,23 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "This method retrieves the shipping options this fulfillment provider supports."
+										"text": "This method retrieves a list of fulfillment options that this provider supports. Admin users will then choose from these options when\nthey're creating a shipping option. The chosen fulfillment option's object is then stored within the created shipping option's "
+									},
+									{
+										"kind": "code",
+										"text": "`data`"
+									},
+									{
+										"kind": "text",
+										"text": " property.\nThe "
+									},
+									{
+										"kind": "code",
+										"text": "`data`"
+									},
+									{
+										"kind": "text",
+										"text": " property is useful to store data relevant for the third-party provider to later process the fulfillment.\n\nThis method is useful if your third-party provider allows you to retrieve support options, carriers, or services from an API. You can then\nretrieve those and return then in the method, allowing the admin user to choose from the services provided by the third-party provider."
 									}
 								],
 								"blockTags": [
@@ -136,7 +152,23 @@
 										"content": [
 											{
 												"kind": "text",
-												"text": "The list of fulfillment options."
+												"text": "The list of fulfillment options. Each object in the array should have an "
+											},
+											{
+												"kind": "code",
+												"text": "`id`"
+											},
+											{
+												"kind": "text",
+												"text": " property unique to an item, and a "
+											},
+											{
+												"kind": "code",
+												"text": "`name`"
+											},
+											{
+												"kind": "text",
+												"text": " property\nthat's used to display the option in the admin."
 											}
 										]
 									},
@@ -145,7 +177,7 @@
 										"content": [
 											{
 												"kind": "code",
-												"text": "```ts\n// other imports...\nimport { FulfillmentOption } from \"@medusajs/framework/types\"\n\nclass MyFulfillmentProviderService extends AbstractFulfillmentProviderService {\n  // ...\n  async getFulfillmentOptions(): Promise<FulfillmentOption[]> {\n    return [\n      {\n        id: \"express\"\n      },\n      {\n        id: \"return-express\",\n        is_return: true\n      }\n    ]\n  }\n}\n```"
+												"text": "```ts\n// other imports...\nimport { FulfillmentOption } from \"@medusajs/framework/types\"\n\nclass MyFulfillmentProviderService extends AbstractFulfillmentProviderService {\n  // ...\n  async getFulfillmentOptions(): Promise<FulfillmentOption[]> {\n    // assuming you have a client\n    const services = await this.client.getServices()\n\n    return services.map((service) => ({\n      id: service.service_id,\n      name: service.name,\n      service_code: service.code,\n      // can add other relevant data for the provider to later process the shipping option.\n    }))\n  }\n}\n```"
 											}
 										]
 									}
@@ -188,14 +220,14 @@
 					}
 				},
 				{
-					"id": 44543,
+					"id": 38481,
 					"name": "validateFulfillmentData",
 					"variant": "declaration",
 					"kind": 2048,
 					"flags": {},
 					"signatures": [
 						{
-							"id": 44544,
+							"id": 38482,
 							"name": "validateFulfillmentData",
 							"variant": "signature",
 							"kind": 4096,
@@ -262,7 +294,7 @@
 							},
 							"parameters": [
 								{
-									"id": 44545,
+									"id": 38483,
 									"name": "optionData",
 									"variant": "param",
 									"kind": 32768,
@@ -304,7 +336,7 @@
 									}
 								},
 								{
-									"id": 44546,
+									"id": 38484,
 									"name": "data",
 									"variant": "param",
 									"kind": 32768,
@@ -346,7 +378,7 @@
 									}
 								},
 								{
-									"id": 44547,
+									"id": 38485,
 									"name": "context",
 									"variant": "param",
 									"kind": 32768,
@@ -409,14 +441,14 @@
 					}
 				},
 				{
-					"id": 44548,
+					"id": 38486,
 					"name": "validateOption",
 					"variant": "declaration",
 					"kind": 2048,
 					"flags": {},
 					"signatures": [
 						{
-							"id": 44549,
+							"id": 38487,
 							"name": "validateOption",
 							"variant": "signature",
 							"kind": 4096,
@@ -475,7 +507,7 @@
 							},
 							"parameters": [
 								{
-									"id": 44550,
+									"id": 38488,
 									"name": "data",
 									"variant": "param",
 									"kind": 32768,
@@ -538,14 +570,14 @@
 					}
 				},
 				{
-					"id": 44551,
+					"id": 38489,
 					"name": "canCalculate",
 					"variant": "declaration",
 					"kind": 2048,
 					"flags": {},
 					"signatures": [
 						{
-							"id": 44552,
+							"id": 38490,
 							"name": "canCalculate",
 							"variant": "signature",
 							"kind": 4096,
@@ -554,7 +586,49 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "This method indicates whether a shippin option's price is calculated during\ncheckout or is fixed."
+										"text": "This method validates whether a shippin option's price can be calculated during checkout. It's executed when the admin user creates a shipping\noption of type "
+									},
+									{
+										"kind": "code",
+										"text": "`calculated`"
+									},
+									{
+										"kind": "text",
+										"text": ". If this method returns "
+									},
+									{
+										"kind": "code",
+										"text": "`false`"
+									},
+									{
+										"kind": "text",
+										"text": ", an error is thrown as the shipping option's price can't be calculated.\n\nYou can perform the checking using the third-party provider if applicable. The "
+									},
+									{
+										"kind": "code",
+										"text": "`data`"
+									},
+									{
+										"kind": "text",
+										"text": " parameter will hold the shipping option's "
+									},
+									{
+										"kind": "code",
+										"text": "`data`"
+									},
+									{
+										"kind": "text",
+										"text": " property, which\nincludes the data of a fulfillment option returned by "
+									},
+									{
+										"kind": "inline-tag",
+										"tag": "@link",
+										"text": "getFulfillmentOptions",
+										"target": 38479
+									},
+									{
+										"kind": "text",
+										"text": "."
 									}
 								],
 								"blockTags": [
@@ -563,7 +637,7 @@
 										"content": [
 											{
 												"kind": "text",
-												"text": "Whether the price is calculated for the shipping option."
+												"text": "Whether the price can be calculated for the shipping option."
 											}
 										]
 									},
@@ -572,7 +646,7 @@
 										"content": [
 											{
 												"kind": "code",
-												"text": "```ts\nclass MyFulfillmentProviderService extends AbstractFulfillmentProviderService {\n  // ...\n  async canCalculate(data: any): Promise<boolean> {\n    return data.custom_type !== \"fixed\"\n  }\n}\n```"
+												"text": "```ts\nclass MyFulfillmentProviderService extends AbstractFulfillmentProviderService {\n  // ...\n  async canCalculate(data: Record<string, unknown>): Promise<boolean> {\n    // assuming you have a client\n    return await this.client.hasRates(data.id)\n  }\n}\n```"
 											}
 										]
 									}
@@ -580,7 +654,7 @@
 							},
 							"parameters": [
 								{
-									"id": 44553,
+									"id": 38491,
 									"name": "data",
 									"variant": "param",
 									"kind": 32768,
@@ -651,14 +725,14 @@
 					}
 				},
 				{
-					"id": 44554,
+					"id": 38492,
 					"name": "calculatePrice",
 					"variant": "declaration",
 					"kind": 2048,
 					"flags": {},
 					"signatures": [
 						{
-							"id": 44555,
+							"id": 38493,
 							"name": "calculatePrice",
 							"variant": "signature",
 							"kind": 4096,
@@ -667,26 +741,43 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "This method calculates the price of a shipping option, or a shipping method when it's created.\n\nThe Medusa application uses the "
+										"text": "This method calculates the price of a shipping method when it's created or its cart is refreshed.\n\nIn this method, you can send a request to your third-party provider to retrieve the prices. The first \nparameters holds the "
+									},
+									{
+										"kind": "code",
+										"text": "`data`"
+									},
+									{
+										"kind": "text",
+										"text": " property of the shipping method's shipping option, which has fulfillment \nobject data returned by "
 									},
 									{
 										"kind": "inline-tag",
 										"tag": "@link",
-										"text": "canCalculate",
-										"target": 44551,
-										"tsLinkText": ""
+										"text": "getFulfillmentOptions",
+										"target": 38479
 									},
 									{
 										"kind": "text",
-										"text": " method first to check whether the shipping option's price is calculated.\nIf it returns "
+										"text": ".\n\nThe second parameter holds the "
 									},
 									{
 										"kind": "code",
-										"text": "`true`"
+										"text": "`data`"
 									},
 									{
 										"kind": "text",
-										"text": ", Medusa uses this method to retrieve the calculated price."
+										"text": " property of the shipping method, which has data returned by "
+									},
+									{
+										"kind": "inline-tag",
+										"tag": "@link",
+										"text": "validateFulfillmentData",
+										"target": 38481
+									},
+									{
+										"kind": "text",
+										"text": ".\nIt can also hold custom data passed from the frontend during checkout.\n\nSo, using both of these data, assuming you're storing in them data related to the third-party service,\nyou can retrieve the calculated price of the shipping method."
 									}
 								],
 								"blockTags": [
@@ -695,7 +786,7 @@
 										"content": [
 											{
 												"kind": "text",
-												"text": "The calculated price"
+												"text": "The calculated price's details."
 											}
 										]
 									},
@@ -712,7 +803,7 @@
 							},
 							"parameters": [
 								{
-									"id": 44556,
+									"id": 38494,
 									"name": "optionData",
 									"variant": "param",
 									"kind": 32768,
@@ -721,7 +812,7 @@
 										"summary": [
 											{
 												"kind": "text",
-												"text": "Shipping option data from the provider, the "
+												"text": "The "
 											},
 											{
 												"kind": "code",
@@ -754,7 +845,7 @@
 									}
 								},
 								{
-									"id": 44557,
+									"id": 38495,
 									"name": "data",
 									"variant": "param",
 									"kind": 32768,
@@ -763,7 +854,15 @@
 										"summary": [
 											{
 												"kind": "text",
-												"text": "Additional data passed when the price is calculated."
+												"text": "The shipping method's "
+											},
+											{
+												"kind": "code",
+												"text": "`data`"
+											},
+											{
+												"kind": "text",
+												"text": " property with custom data passed from the frontend."
 											}
 										]
 									},
@@ -788,7 +887,7 @@
 									}
 								},
 								{
-									"id": 44558,
+									"id": 38496,
 									"name": "context",
 									"variant": "param",
 									"kind": 32768,
@@ -797,7 +896,7 @@
 										"summary": [
 											{
 												"kind": "text",
-												"text": "The context details, such as the cart or customer."
+												"text": "The context details, such as the cart details."
 											}
 										]
 									},
@@ -816,19 +915,27 @@
 											{
 												"type": "reflection",
 												"declaration": {
-													"id": 44559,
+													"id": 38497,
 													"name": "__type",
 													"variant": "declaration",
 													"kind": 65536,
 													"flags": {},
 													"children": [
 														{
-															"id": 44560,
+															"id": 38498,
 															"name": "from_location",
 															"variant": "declaration",
 															"kind": 1024,
 															"flags": {
 																"isOptional": true
+															},
+															"comment": {
+																"summary": [
+																	{
+																		"kind": "text",
+																		"text": "The location that the items will be shipped from."
+																	}
+																]
 															},
 															"type": {
 																"type": "reference",
@@ -845,7 +952,7 @@
 														{
 															"title": "Properties",
 															"children": [
-																44560
+																38498
 															]
 														}
 													]
@@ -908,14 +1015,14 @@
 					}
 				},
 				{
-					"id": 44561,
+					"id": 38499,
 					"name": "createFulfillment",
 					"variant": "declaration",
 					"kind": 2048,
 					"flags": {},
 					"signatures": [
 						{
-							"id": 44562,
+							"id": 38500,
 							"name": "createFulfillment",
 							"variant": "signature",
 							"kind": 4096,
@@ -948,7 +1055,7 @@
 									},
 									{
 										"kind": "text",
-										"text": " property is useful when handling the fulfillment later,\nas you can access information useful for your integration.\n\nYou can also use this method to perform an action with the third-party fulfillment service."
+										"text": " property is useful when handling the fulfillment later,\nas you can access information useful for your integration, such as the ID in the\nthird-party provider.\n\nYou can also use this method to perform an action with the third-party fulfillment service\nsince a fulfillment is created, such as purchase a label."
 									}
 								],
 								"blockTags": [
@@ -957,7 +1064,15 @@
 										"content": [
 											{
 												"kind": "text",
-												"text": "The data to store in the fulfillment's "
+												"text": "An object whose "
+											},
+											{
+												"kind": "code",
+												"text": "`data`"
+											},
+											{
+												"kind": "text",
+												"text": " property is stored in the fulfillment's "
 											},
 											{
 												"kind": "code",
@@ -974,7 +1089,7 @@
 										"content": [
 											{
 												"kind": "code",
-												"text": "```ts\nclass MyFulfillmentProviderService extends AbstractFulfillmentProviderService {\n  // ...\n  async createFulfillment(\n    data: any,\n    items: any,\n    order: any,\n    fulfillment: any\n  ): Promise<any> {\n    // assuming the client creates a fulfillment\n    // in the third-party service\n    const externalData = await this.client.create(\n      fulfillment,\n      items\n    )\n\n    return {\n      data: {\n        ...data,\n        ...externalData\n      }\n    }\n  }\n}\n```"
+												"text": "```ts\nclass MyFulfillmentProviderService extends AbstractFulfillmentProviderService {\n  // ...\n  async createFulfillment(\n    data: any,\n    items: any,\n    order: any,\n    fulfillment: any\n  ): Promise<any> {\n    // assuming the client creates a fulfillment\n    // in the third-party service\n    const externalData = await this.client.create(\n      fulfillment,\n      items\n    )\n\n    return {\n      data: {\n        ...(fulfillment.data as object || {}),\n        ...externalData\n      }\n    }\n  }\n}\n```"
 											}
 										]
 									}
@@ -982,7 +1097,7 @@
 							},
 							"parameters": [
 								{
-									"id": 44563,
+									"id": 38501,
 									"name": "data",
 									"variant": "param",
 									"kind": 32768,
@@ -1009,7 +1124,7 @@
 									}
 								},
 								{
-									"id": 44564,
+									"id": 38502,
 									"name": "items",
 									"variant": "param",
 									"kind": 32768,
@@ -1031,7 +1146,7 @@
 									}
 								},
 								{
-									"id": 44565,
+									"id": 38503,
 									"name": "order",
 									"variant": "param",
 									"kind": 32768,
@@ -1059,7 +1174,7 @@
 									}
 								},
 								{
-									"id": 44566,
+									"id": 38504,
 									"name": "fulfillment",
 									"variant": "param",
 									"kind": 32768,
@@ -1122,14 +1237,14 @@
 					}
 				},
 				{
-					"id": 44567,
+					"id": 38505,
 					"name": "cancelFulfillment",
 					"variant": "declaration",
 					"kind": 2048,
 					"flags": {},
 					"signatures": [
 						{
-							"id": 44568,
+							"id": 38506,
 							"name": "cancelFulfillment",
 							"variant": "signature",
 							"kind": 4096,
@@ -1147,7 +1262,7 @@
 										"content": [
 											{
 												"kind": "code",
-												"text": "```ts\nclass MyFulfillmentProviderService extends AbstractFulfillmentProviderService {\n  // ...\n  async cancelFulfillment(fulfillment: any): Promise<any> {\n    // assuming the client cancels a fulfillment\n    // in the third-party service\n    await this.client.cancel(fulfillment.id)\n  }\n}\n```"
+												"text": "```ts\nclass MyFulfillmentProviderService extends AbstractFulfillmentProviderService {\n  // ...\n  async cancelFulfillment(data: Record<string, unknown>): Promise<any> {\n    // assuming the client cancels a fulfillment\n    // in the third-party service\n    const { external_id } = data as {\n      external_id: string\n    }\n    await this.client.cancel(external_id)\n  }\n}\n```"
 											}
 										]
 									}
@@ -1155,8 +1270,8 @@
 							},
 							"parameters": [
 								{
-									"id": 44569,
-									"name": "fulfillment",
+									"id": 38507,
+									"name": "data",
 									"variant": "param",
 									"kind": 32768,
 									"flags": {},
@@ -1164,7 +1279,15 @@
 										"summary": [
 											{
 												"kind": "text",
-												"text": "The fulfillment's details."
+												"text": "The fulfillment's "
+											},
+											{
+												"kind": "code",
+												"text": "`data`"
+											},
+											{
+												"kind": "text",
+												"text": " property."
 											}
 										]
 									},
@@ -1218,14 +1341,14 @@
 					}
 				},
 				{
-					"id": 44570,
+					"id": 38508,
 					"name": "getFulfillmentDocuments",
 					"variant": "declaration",
 					"kind": 2048,
 					"flags": {},
 					"signatures": [
 						{
-							"id": 44571,
+							"id": 38509,
 							"name": "getFulfillmentDocuments",
 							"variant": "signature",
 							"kind": 4096,
@@ -1260,7 +1383,7 @@
 							},
 							"parameters": [
 								{
-									"id": 44572,
+									"id": 38510,
 									"name": "data",
 									"variant": "param",
 									"kind": 32768,
@@ -1334,14 +1457,14 @@
 					}
 				},
 				{
-					"id": 44573,
+					"id": 38511,
 					"name": "createReturnFulfillment",
 					"variant": "declaration",
 					"kind": 2048,
 					"flags": {},
 					"signatures": [
 						{
-							"id": 44574,
+							"id": 38512,
 							"name": "createReturnFulfillment",
 							"variant": "signature",
 							"kind": 4096,
@@ -1374,7 +1497,7 @@
 									},
 									{
 										"kind": "text",
-										"text": " property is useful when handling the fulfillment later,\nas you can access information useful for your integration.\n\nUse this method to perform actions necessary in the third-party fulfillment service."
+										"text": " property is useful when handling the fulfillment later,\nas you can access information useful for your integration. For example, you \ncan store an ID for the fulfillment in the third-party service.\n\nUse this method to perform actions necessary in the third-party fulfillment service, such as\npurchasing a label for the return fulfillment."
 									}
 								],
 								"blockTags": [
@@ -1383,7 +1506,15 @@
 										"content": [
 											{
 												"kind": "text",
-												"text": "The data to store in the fulfillment's "
+												"text": "An object whose "
+											},
+											{
+												"kind": "code",
+												"text": "`data`"
+											},
+											{
+												"kind": "text",
+												"text": " property is stored in the fulfillment's "
 											},
 											{
 												"kind": "code",
@@ -1400,7 +1531,7 @@
 										"content": [
 											{
 												"kind": "code",
-												"text": "```ts\nclass MyFulfillmentProviderService extends AbstractFulfillmentProviderService {\n  // ...\n  async createReturnFulfillment(fulfillment: any): Promise<any> {\n    // assuming the client creates a fulfillment for a return\n    // in the third-party service\n    const externalData = await this.client.createReturn(\n      fulfillment\n    )\n\n    return {\n      data: {\n        ...fulfillment.data,\n        ...externalData\n      }\n    }\n  }\n}\n```"
+												"text": "```ts\nclass MyFulfillmentProviderService extends AbstractFulfillmentProviderService {\n  // ...\n  async createReturnFulfillment(fulfillment: Record<string, unknown>): Promise<any> {\n    // assuming the client creates a fulfillment for a return\n    // in the third-party service\n    const externalData = await this.client.createReturn(\n      fulfillment\n    )\n\n    return {\n      data: {\n        ...(fulfillment.data as object || {}),\n        ...externalData\n      }\n    }\n  }\n}\n```"
 											}
 										]
 									}
@@ -1408,7 +1539,7 @@
 							},
 							"parameters": [
 								{
-									"id": 44575,
+									"id": 38513,
 									"name": "fulfillment",
 									"variant": "param",
 									"kind": 32768,
@@ -1471,14 +1602,14 @@
 					}
 				},
 				{
-					"id": 44576,
+					"id": 38514,
 					"name": "getReturnDocuments",
 					"variant": "declaration",
 					"kind": 2048,
 					"flags": {},
 					"signatures": [
 						{
-							"id": 44577,
+							"id": 38515,
 							"name": "getReturnDocuments",
 							"variant": "signature",
 							"kind": 4096,
@@ -1513,7 +1644,7 @@
 							},
 							"parameters": [
 								{
-									"id": 44578,
+									"id": 38516,
 									"name": "data",
 									"variant": "param",
 									"kind": 32768,
@@ -1587,14 +1718,14 @@
 					}
 				},
 				{
-					"id": 44579,
+					"id": 38517,
 					"name": "getShipmentDocuments",
 					"variant": "declaration",
 					"kind": 2048,
 					"flags": {},
 					"signatures": [
 						{
-							"id": 44580,
+							"id": 38518,
 							"name": "getShipmentDocuments",
 							"variant": "signature",
 							"kind": 4096,
@@ -1629,7 +1760,7 @@
 							},
 							"parameters": [
 								{
-									"id": 44581,
+									"id": 38519,
 									"name": "data",
 									"variant": "param",
 									"kind": 32768,
@@ -1703,14 +1834,14 @@
 					}
 				},
 				{
-					"id": 44582,
+					"id": 38520,
 					"name": "retrieveDocuments",
 					"variant": "declaration",
 					"kind": 2048,
 					"flags": {},
 					"signatures": [
 						{
-							"id": 44583,
+							"id": 38521,
 							"name": "retrieveDocuments",
 							"variant": "signature",
 							"kind": 4096,
@@ -1745,7 +1876,7 @@
 							},
 							"parameters": [
 								{
-									"id": 44584,
+									"id": 38522,
 									"name": "fulfillmentData",
 									"variant": "param",
 									"kind": 32768,
@@ -1787,7 +1918,7 @@
 									}
 								},
 								{
-									"id": 44585,
+									"id": 38523,
 									"name": "documentType",
 									"variant": "param",
 									"kind": 32768,
@@ -1847,30 +1978,30 @@
 				{
 					"title": "Constructors",
 					"children": [
-						44537
+						38475
 					]
 				},
 				{
 					"title": "Properties",
 					"children": [
-						44532
+						38470
 					]
 				},
 				{
 					"title": "Methods",
 					"children": [
-						44541,
-						44543,
-						44548,
-						44551,
-						44554,
-						44561,
-						44567,
-						44570,
-						44573,
-						44576,
-						44579,
-						44582
+						38479,
+						38481,
+						38486,
+						38489,
+						38492,
+						38499,
+						38505,
+						38508,
+						38511,
+						38514,
+						38517,
+						38520
 					]
 				}
 			],
@@ -1891,201 +2022,201 @@
 		{
 			"title": "Classes",
 			"children": [
-				44531
+				38469
 			]
 		}
 	],
 	"packageName": "@medusajs/utils",
 	"symbolIdMap": {
-		"44530": {
+		"38468": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": ""
 		},
-		"44531": {
+		"38469": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "AbstractFulfillmentProviderService"
 		},
-		"44532": {
+		"38470": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "AbstractFulfillmentProviderService.identifier"
 		},
-		"44541": {
+		"38479": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "AbstractFulfillmentProviderService.getFulfillmentOptions"
 		},
-		"44542": {
+		"38480": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "AbstractFulfillmentProviderService.getFulfillmentOptions"
 		},
-		"44543": {
+		"38481": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "AbstractFulfillmentProviderService.validateFulfillmentData"
 		},
-		"44544": {
+		"38482": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "AbstractFulfillmentProviderService.validateFulfillmentData"
 		},
-		"44545": {
+		"38483": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "optionData"
 		},
-		"44546": {
+		"38484": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "data"
 		},
-		"44547": {
+		"38485": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "context"
 		},
-		"44548": {
+		"38486": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "AbstractFulfillmentProviderService.validateOption"
 		},
-		"44549": {
+		"38487": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "AbstractFulfillmentProviderService.validateOption"
 		},
-		"44550": {
+		"38488": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "data"
 		},
-		"44551": {
+		"38489": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "AbstractFulfillmentProviderService.canCalculate"
 		},
-		"44552": {
+		"38490": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "AbstractFulfillmentProviderService.canCalculate"
 		},
-		"44553": {
+		"38491": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "data"
 		},
-		"44554": {
+		"38492": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "AbstractFulfillmentProviderService.calculatePrice"
 		},
-		"44555": {
+		"38493": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "AbstractFulfillmentProviderService.calculatePrice"
 		},
-		"44556": {
+		"38494": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "optionData"
 		},
-		"44557": {
+		"38495": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "data"
 		},
-		"44558": {
+		"38496": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "context"
 		},
-		"44559": {
+		"38497": {
 			"sourceFileName": "../../../../packages/core/types/src/fulfillment/mutations/shipping-option.ts",
 			"qualifiedName": "__type"
 		},
-		"44560": {
+		"38498": {
 			"sourceFileName": "../../../../packages/core/types/src/fulfillment/mutations/shipping-option.ts",
 			"qualifiedName": "__type.from_location"
 		},
-		"44561": {
+		"38499": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "AbstractFulfillmentProviderService.createFulfillment"
 		},
-		"44562": {
+		"38500": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "AbstractFulfillmentProviderService.createFulfillment"
 		},
-		"44563": {
+		"38501": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "data"
 		},
-		"44564": {
+		"38502": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "items"
 		},
-		"44565": {
+		"38503": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "order"
 		},
-		"44566": {
+		"38504": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "fulfillment"
 		},
-		"44567": {
+		"38505": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "AbstractFulfillmentProviderService.cancelFulfillment"
 		},
-		"44568": {
+		"38506": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "AbstractFulfillmentProviderService.cancelFulfillment"
 		},
-		"44569": {
+		"38507": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
-			"qualifiedName": "fulfillment"
+			"qualifiedName": "data"
 		},
-		"44570": {
+		"38508": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "AbstractFulfillmentProviderService.getFulfillmentDocuments"
 		},
-		"44571": {
+		"38509": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "AbstractFulfillmentProviderService.getFulfillmentDocuments"
 		},
-		"44572": {
+		"38510": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "data"
 		},
-		"44573": {
+		"38511": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "AbstractFulfillmentProviderService.createReturnFulfillment"
 		},
-		"44574": {
+		"38512": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "AbstractFulfillmentProviderService.createReturnFulfillment"
 		},
-		"44575": {
+		"38513": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "fulfillment"
 		},
-		"44576": {
+		"38514": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "AbstractFulfillmentProviderService.getReturnDocuments"
 		},
-		"44577": {
+		"38515": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "AbstractFulfillmentProviderService.getReturnDocuments"
 		},
-		"44578": {
+		"38516": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "data"
 		},
-		"44579": {
+		"38517": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "AbstractFulfillmentProviderService.getShipmentDocuments"
 		},
-		"44580": {
+		"38518": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "AbstractFulfillmentProviderService.getShipmentDocuments"
 		},
-		"44581": {
+		"38519": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "data"
 		},
-		"44582": {
+		"38520": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "AbstractFulfillmentProviderService.retrieveDocuments"
 		},
-		"44583": {
+		"38521": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "AbstractFulfillmentProviderService.retrieveDocuments"
 		},
-		"44584": {
+		"38522": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "fulfillmentData"
 		},
-		"44585": {
+		"38523": {
 			"sourceFileName": "../../../../packages/core/utils/src/fulfillment/provider.ts",
 			"qualifiedName": "documentType"
 		}
@@ -2095,7 +2226,7 @@
 			"1": "../../../../packages/core/utils/src/fulfillment/provider.ts"
 		},
 		"reflections": {
-			"1": 44530
+			"1": 38468
 		}
 	}
 }

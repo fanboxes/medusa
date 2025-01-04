@@ -281,7 +281,7 @@ const CustomPage = () => {
   const { data } = useQuery({
     queryFn: () => sdk.admin.product.list({
       limit,
-      offset
+      offset,
     }),
     queryKey: [["products", limit, offset]],
   })
@@ -325,12 +325,12 @@ return (
           columns={[
             {
               key: "id",
-              label: "ID"
+              label: "ID",
             },
             {
               key: "title",
-              label: "Title"
-            }
+              label: "Title",
+            },
           ]}
           data={data.products as any}
           pageSize={data.limit}

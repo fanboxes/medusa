@@ -17,8 +17,7 @@ import { validateAndReturnShippingMethodsDataStep } from "../steps/validate-ship
 import { validateCartShippingOptionsPriceStep } from "../steps/validate-shipping-options-price"
 import { cartFieldsForRefreshSteps } from "../utils/fields"
 import { listShippingOptionsForCartWithPricingWorkflow } from "./list-shipping-options-for-cart-with-pricing"
-import { updateCartPromotionsWorkflow } from "./update-cart-promotions"
-import { updateTaxLinesWorkflow } from "./update-tax-lines"
+import { refreshCartItemsWorkflow } from "./refresh-cart-items"
 
 export interface AddShippingMethodToCartWorkflowInput {
   cart_id: string
@@ -94,7 +93,11 @@ export const addShippingMethodToCartWorkflow = createWorkflow(
     )
 
     const shippingMethodInput = transform(
-      { input, shippingOptions, validatedMethodData },
+      {
+        input,
+        shippingOptions,
+        validatedMethodData,
+      },
       (data) => {
         const options = (data.input.options ?? []).map((option) => {
           const shippingOption = data.shippingOptions.find(
@@ -128,9 +131,9 @@ export const addShippingMethodToCartWorkflow = createWorkflow(
       }
     )
 
-    const currentShippingMethods = transform({ cart }, ({ cart }) => {
-      return cart.shipping_methods.map((sm) => sm.id)
-    })
+    const currentShippingMethods = transform({ cart }, ({ cart }) =>
+      cart.shipping_methods.map((sm) => sm.id)
+    )
 
     parallelize(
       removeShippingMethodFromCartStep({
@@ -145,16 +148,8 @@ export const addShippingMethodToCartWorkflow = createWorkflow(
       })
     )
 
-    updateTaxLinesWorkflow.runAsStep({
-      input: {
-        cart_id: input.cart_id,
-      },
-    })
-
-    updateCartPromotionsWorkflow.runAsStep({
-      input: {
-        cart_id: input.cart_id,
-      },
+    refreshCartItemsWorkflow.runAsStep({
+      input: { cart_id: cart.id },
     })
   }
 )

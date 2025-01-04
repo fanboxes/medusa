@@ -1,6 +1,13 @@
 ---
 slug: /references/medusa-workflows/deleteProductVariantsWorkflow
 sidebar_label: deleteProductVariantsWorkflow
+tags:
+  - remote link
+  - query
+  - product
+  - event bus
+  - workflow
+  - inventory
 ---
 
 import { TypeList, WorkflowDiagram } from "docs-ui"
@@ -13,7 +20,7 @@ This workflow deletes one or more product variants.
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"deleteProductVariantsWorkflow","steps":[{"type":"step","name":"removeRemoteLinkStep","description":"This step deletes linked records of a record.\n\nLearn more in the [Remote Link documentation](https://docs.medusajs.com/learn/fundamentals/module-links/remote-link#cascade-delete-linked-records)\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.removeRemoteLinkStep/page.mdx","depth":1},{"type":"step","name":"useQueryGraphStep","description":"This step fetches data across modules using the Query.\n\nLearn more in the [Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx","depth":2},{"type":"workflow","name":"deleteInventoryItemWorkflow","description":"This workflow deletes one or more inventory items.","link":"../../../../Inventory/Workflows_Inventory/functions/core_flows.Inventory.Workflows_Inventory.deleteInventoryItemWorkflow/page.mdx","depth":3},{"type":"step","name":"deleteProductVariantsStep","description":"This step deletes one or more product variants.","link":"../../../Steps_Product/functions/core_flows.Product.Steps_Product.deleteProductVariantsStep/page.mdx","depth":4},{"type":"step","name":"emitEventStep","description":"Emit an event.\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":5},{"type":"hook","name":"productVariantsDeleted","description":"This step is a hook that you can inject custom functionality into.\n\n","link":"#productVariantsDeleted","depth":6}]}} />
+<WorkflowDiagram workflow={{"name":"deleteProductVariantsWorkflow","steps":[{"type":"step","name":"removeRemoteLinkStep","description":"This step deletes linked records of a record.\n\nLearn more in the [Remote Link documentation](https://docs.medusajs.com/learn/fundamentals/module-links/remote-link#cascade-delete-linked-records)\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.removeRemoteLinkStep/page.mdx","depth":1},{"type":"step","name":"useQueryGraphStep","description":"This step fetches data across modules using the Query.\n\nLearn more in the [Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx","depth":2},{"type":"workflow","name":"deleteInventoryItemWorkflow","description":"This workflow deletes one or more inventory items.\n\n","link":"../../../../Inventory/Workflows_Inventory/functions/core_flows.Inventory.Workflows_Inventory.deleteInventoryItemWorkflow/page.mdx","depth":3},{"type":"step","name":"deleteProductVariantsStep","description":"This step deletes one or more product variants.\n\n","link":"../../../Steps_Product/functions/core_flows.Product.Steps_Product.deleteProductVariantsStep/page.mdx","depth":4},{"type":"step","name":"emitEventStep","description":"Emit an event.\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":5},{"type":"hook","name":"productVariantsDeleted","description":"This step is a hook that you can inject custom functionality into.\n\n","link":"#productVariantsDeleted","depth":6}]}} />
 
 ## Input
 

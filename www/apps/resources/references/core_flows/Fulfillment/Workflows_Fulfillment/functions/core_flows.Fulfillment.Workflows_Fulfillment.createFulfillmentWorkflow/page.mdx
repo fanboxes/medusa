@@ -1,6 +1,10 @@
 ---
 slug: /references/medusa-workflows/createFulfillmentWorkflow
 sidebar_label: createFulfillmentWorkflow
+tags:
+  - remote query
+  - fulfillment
+  - workflow
 ---
 
 import { TypeList, WorkflowDiagram } from "docs-ui"
@@ -13,7 +17,7 @@ This workflow creates a fulfillment.
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"createFulfillmentWorkflow","steps":[{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":1},{"type":"step","name":"createFulfillmentStep","description":"This step creates a fulfillment","link":"../../../Steps_Fulfillment/functions/core_flows.Fulfillment.Steps_Fulfillment.createFulfillmentStep/page.mdx","depth":2}]}} />
+<WorkflowDiagram workflow={{"name":"createFulfillmentWorkflow","steps":[{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":1},{"type":"step","name":"createFulfillmentStep","description":"This step creates a fulfillment\n\n","link":"../../../Steps_Fulfillment/functions/core_flows.Fulfillment.Steps_Fulfillment.createFulfillmentStep/page.mdx","depth":2}]}} />
 
 ## Input
 

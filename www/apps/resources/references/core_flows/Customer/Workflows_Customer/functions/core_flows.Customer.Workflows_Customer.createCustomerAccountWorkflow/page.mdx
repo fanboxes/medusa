@@ -1,6 +1,11 @@
 ---
 slug: /references/medusa-workflows/createCustomerAccountWorkflow
 sidebar_label: createCustomerAccountWorkflow
+tags:
+  - auth
+  - workflow
+  - customer
+  - event bus
 ---
 
 import { TypeList, WorkflowDiagram } from "docs-ui"
@@ -13,7 +18,7 @@ This workflow creates an authentication account for a customer.
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"createCustomerAccountWorkflow","steps":[{"type":"workflow","name":"createCustomersWorkflow","description":"This workflow creates one or more customers.","link":"../core_flows.Customer.Workflows_Customer.createCustomersWorkflow/page.mdx","depth":1},{"type":"step","name":"setAuthAppMetadataStep","description":"This step sets the `app_metadata` property of an auth identity.","link":"../../../../Auth/Steps_Auth/functions/core_flows.Auth.Steps_Auth.setAuthAppMetadataStep/page.mdx","depth":2}]}} />
+<WorkflowDiagram workflow={{"name":"createCustomerAccountWorkflow","steps":[{"type":"workflow","name":"createCustomersWorkflow","description":"This workflow creates one or more customers.\n\n","link":"../core_flows.Customer.Workflows_Customer.createCustomersWorkflow/page.mdx","depth":1},{"type":"step","name":"setAuthAppMetadataStep","description":"This step sets the `app_metadata` property of an auth identity.\n\n","link":"../../../../Auth/Steps_Auth/functions/core_flows.Auth.Steps_Auth.setAuthAppMetadataStep/page.mdx","depth":2}]}} />
 
 ## Input
 

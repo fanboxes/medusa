@@ -1,3 +1,9 @@
+---
+tags:
+  - product
+  - storefront
+---
+
 import { CodeTabs, CodeTab } from "docs-ui"
 
 export const metadata = {
@@ -75,7 +81,7 @@ export default function Product({ params: { id } }: Params) {
     }
 
     return product.variants.find((variant) => variant.options?.every(
-      (optionValue) => optionValue.value === selectedOptions[optionValue.option_id!]
+      (optionValue) => optionValue.id === selectedOptions[optionValue.option_id!]
     ))
   }, [selectedOptions, product])
 

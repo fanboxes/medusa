@@ -1,5 +1,5 @@
 {
-	"id": 656,
+	"id": 644,
 	"name": "auth-models",
 	"variant": "project",
 	"kind": 1,
@@ -18,7 +18,7 @@
 	},
 	"children": [
 		{
-			"id": 657,
+			"id": 645,
 			"name": "AuthIdentity",
 			"variant": "declaration",
 			"kind": 32,
@@ -33,19 +33,23 @@
 				},
 				"typeArguments": [
 					{
-						"type": "intersection",
-						"types": [
+						"type": "reference",
+						"target": {
+							"sourceFileName": "../../../../packages/core/utils/src/dml/entity.ts",
+							"qualifiedName": "DMLEntitySchemaBuilder"
+						},
+						"typeArguments": [
 							{
 								"type": "reflection",
 								"declaration": {
-									"id": 658,
+									"id": 646,
 									"name": "__type",
 									"variant": "declaration",
 									"kind": 65536,
 									"flags": {},
 									"children": [
 										{
-											"id": 659,
+											"id": 647,
 											"name": "id",
 											"variant": "declaration",
 											"kind": 1024,
@@ -81,7 +85,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 660,
+											"id": 648,
 											"name": "provider_identities",
 											"variant": "declaration",
 											"kind": 1024,
@@ -106,7 +110,7 @@
 												"typeArguments": [
 													{
 														"type": "reference",
-														"target": 709,
+														"target": 661,
 														"name": "ProviderIdentity"
 													}
 												],
@@ -116,7 +120,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 682,
+											"id": 660,
 											"name": "app_metadata",
 											"variant": "declaration",
 											"kind": 1024,
@@ -147,514 +151,17 @@
 										{
 											"title": "Properties",
 											"children": [
-												659,
-												660,
-												682
+												647,
+												648,
+												660
 											]
 										}
 									]
 								}
-							},
-							{
-								"type": "reflection",
-								"declaration": {
-									"id": 683,
-									"name": "__type",
-									"variant": "declaration",
-									"kind": 65536,
-									"flags": {},
-									"children": [
-										{
-											"id": 684,
-											"name": "id",
-											"variant": "declaration",
-											"kind": 1024,
-											"flags": {},
-											"type": {
-												"type": "reference",
-												"target": {
-													"sourceFileName": "../../../../packages/core/utils/src/dml/properties/primary-key.ts",
-													"qualifiedName": "PrimaryKeyModifier"
-												},
-												"typeArguments": [
-													{
-														"type": "reference",
-														"target": {
-															"sourceFileName": "../../../../packages/core/utils/src/dml/properties/id.ts",
-															"qualifiedName": "IdProperty"
-														},
-														"name": "IdProperty",
-														"package": "@medusajs/utils"
-													}
-												],
-												"name": "PrimaryKeyModifier",
-												"package": "@medusajs/utils"
-											},
-											"defaultValue": "..."
-										},
-										{
-											"id": 685,
-											"name": "provider_identities",
-											"variant": "declaration",
-											"kind": 1024,
-											"flags": {},
-											"type": {
-												"type": "reference",
-												"target": {
-													"sourceFileName": "../../../../packages/core/utils/src/dml/relations/has-many.ts",
-													"qualifiedName": "HasMany"
-												},
-												"typeArguments": [
-													{
-														"type": "reflection",
-														"declaration": {
-															"id": 686,
-															"name": "__type",
-															"variant": "declaration",
-															"kind": 65536,
-															"flags": {},
-															"signatures": [
-																{
-																	"id": 687,
-																	"name": "__type",
-																	"variant": "signature",
-																	"kind": 4096,
-																	"flags": {},
-																	"type": {
-																		"type": "reference",
-																		"target": {
-																			"sourceFileName": "../../../../packages/core/utils/src/dml/entity.ts",
-																			"qualifiedName": "DmlEntity"
-																		},
-																		"typeArguments": [
-																			{
-																				"type": "intersection",
-																				"types": [
-																					{
-																						"type": "reflection",
-																						"declaration": {
-																							"id": 688,
-																							"name": "__type",
-																							"variant": "declaration",
-																							"kind": 65536,
-																							"flags": {},
-																							"children": [
-																								{
-																									"id": 689,
-																									"name": "id",
-																									"variant": "declaration",
-																									"kind": 1024,
-																									"flags": {},
-																									"type": {
-																										"type": "reference",
-																										"target": {
-																											"sourceFileName": "../../../../packages/core/utils/src/dml/properties/primary-key.ts",
-																											"qualifiedName": "PrimaryKeyModifier"
-																										},
-																										"typeArguments": [
-																											{
-																												"type": "reference",
-																												"target": {
-																													"sourceFileName": "../../../../packages/core/utils/src/dml/properties/id.ts",
-																													"qualifiedName": "IdProperty"
-																												},
-																												"name": "IdProperty",
-																												"package": "@medusajs/utils"
-																											}
-																										],
-																										"name": "PrimaryKeyModifier",
-																										"package": "@medusajs/utils"
-																									},
-																									"defaultValue": "..."
-																								},
-																								{
-																									"id": 690,
-																									"name": "entity_id",
-																									"variant": "declaration",
-																									"kind": 1024,
-																									"flags": {},
-																									"type": {
-																										"type": "reference",
-																										"target": {
-																											"sourceFileName": "../../../../packages/core/utils/src/dml/properties/text.ts",
-																											"qualifiedName": "TextProperty"
-																										},
-																										"name": "TextProperty",
-																										"package": "@medusajs/utils"
-																									},
-																									"defaultValue": "..."
-																								},
-																								{
-																									"id": 691,
-																									"name": "provider",
-																									"variant": "declaration",
-																									"kind": 1024,
-																									"flags": {},
-																									"type": {
-																										"type": "reference",
-																										"target": {
-																											"sourceFileName": "../../../../packages/core/utils/src/dml/properties/text.ts",
-																											"qualifiedName": "TextProperty"
-																										},
-																										"name": "TextProperty",
-																										"package": "@medusajs/utils"
-																									},
-																									"defaultValue": "..."
-																								},
-																								{
-																									"id": 692,
-																									"name": "auth_identity",
-																									"variant": "declaration",
-																									"kind": 1024,
-																									"flags": {},
-																									"type": {
-																										"type": "reference",
-																										"target": {
-																											"sourceFileName": "../../../../packages/core/utils/src/dml/relations/belongs-to.ts",
-																											"qualifiedName": "BelongsTo"
-																										},
-																										"typeArguments": [
-																											{
-																												"type": "reflection",
-																												"declaration": {
-																													"id": 693,
-																													"name": "__type",
-																													"variant": "declaration",
-																													"kind": 65536,
-																													"flags": {},
-																													"signatures": [
-																														{
-																															"id": 694,
-																															"name": "__type",
-																															"variant": "signature",
-																															"kind": 4096,
-																															"flags": {},
-																															"type": {
-																																"type": "unknown",
-																																"name": "DmlEntity<{ id: PrimaryKeyModifier<string, IdProperty>; provider_identities: HasMany<() => DmlEntity<{ id: PrimaryKeyModifier<string, IdProperty>; ... 4 more ...; provider_metadata: NullableModifier<...>; } & { ...; } & {} & DMLSchemaDefaults, \"provider_identity\">>; app_metadata: NullableModifier<...>; } & { ...; } ..."
-																															}
-																														}
-																													]
-																												}
-																											}
-																										],
-																										"name": "BelongsTo",
-																										"package": "@medusajs/utils"
-																									},
-																									"defaultValue": "..."
-																								},
-																								{
-																									"id": 695,
-																									"name": "user_metadata",
-																									"variant": "declaration",
-																									"kind": 1024,
-																									"flags": {
-																										"isOptional": true
-																									},
-																									"type": {
-																										"type": "reference",
-																										"target": {
-																											"sourceFileName": "../../../../packages/core/utils/src/dml/properties/json.ts",
-																											"qualifiedName": "JSONProperty"
-																										},
-																										"name": "JSONProperty",
-																										"package": "@medusajs/utils"
-																									},
-																									"defaultValue": "..."
-																								},
-																								{
-																									"id": 696,
-																									"name": "provider_metadata",
-																									"variant": "declaration",
-																									"kind": 1024,
-																									"flags": {
-																										"isOptional": true
-																									},
-																									"type": {
-																										"type": "reference",
-																										"target": {
-																											"sourceFileName": "../../../../packages/core/utils/src/dml/properties/json.ts",
-																											"qualifiedName": "JSONProperty"
-																										},
-																										"name": "JSONProperty",
-																										"package": "@medusajs/utils"
-																									},
-																									"defaultValue": "..."
-																								}
-																							],
-																							"groups": [
-																								{
-																									"title": "Properties",
-																									"children": [
-																										689,
-																										690,
-																										691,
-																										692,
-																										695,
-																										696
-																									]
-																								}
-																							]
-																						}
-																					},
-																					{
-																						"type": "reflection",
-																						"declaration": {
-																							"id": 697,
-																							"name": "__type",
-																							"variant": "declaration",
-																							"kind": 65536,
-																							"flags": {},
-																							"children": [
-																								{
-																									"id": 698,
-																									"name": "id",
-																									"variant": "declaration",
-																									"kind": 1024,
-																									"flags": {},
-																									"type": {
-																										"type": "reference",
-																										"target": {
-																											"sourceFileName": "../../../../packages/core/utils/src/dml/properties/primary-key.ts",
-																											"qualifiedName": "PrimaryKeyModifier"
-																										},
-																										"typeArguments": [
-																											{
-																												"type": "reference",
-																												"target": {
-																													"sourceFileName": "../../../../packages/core/utils/src/dml/properties/id.ts",
-																													"qualifiedName": "IdProperty"
-																												},
-																												"name": "IdProperty",
-																												"package": "@medusajs/utils"
-																											}
-																										],
-																										"name": "PrimaryKeyModifier",
-																										"package": "@medusajs/utils"
-																									},
-																									"defaultValue": "..."
-																								},
-																								{
-																									"id": 699,
-																									"name": "entity_id",
-																									"variant": "declaration",
-																									"kind": 1024,
-																									"flags": {},
-																									"type": {
-																										"type": "reference",
-																										"target": {
-																											"sourceFileName": "../../../../packages/core/utils/src/dml/properties/text.ts",
-																											"qualifiedName": "TextProperty"
-																										},
-																										"name": "TextProperty",
-																										"package": "@medusajs/utils"
-																									},
-																									"defaultValue": "..."
-																								},
-																								{
-																									"id": 700,
-																									"name": "provider",
-																									"variant": "declaration",
-																									"kind": 1024,
-																									"flags": {},
-																									"type": {
-																										"type": "reference",
-																										"target": {
-																											"sourceFileName": "../../../../packages/core/utils/src/dml/properties/text.ts",
-																											"qualifiedName": "TextProperty"
-																										},
-																										"name": "TextProperty",
-																										"package": "@medusajs/utils"
-																									},
-																									"defaultValue": "..."
-																								},
-																								{
-																									"id": 701,
-																									"name": "auth_identity",
-																									"variant": "declaration",
-																									"kind": 1024,
-																									"flags": {},
-																									"type": {
-																										"type": "reference",
-																										"target": {
-																											"sourceFileName": "../../../../packages/core/utils/src/dml/relations/belongs-to.ts",
-																											"qualifiedName": "BelongsTo"
-																										},
-																										"typeArguments": [
-																											{
-																												"type": "reflection",
-																												"declaration": {
-																													"id": 702,
-																													"name": "__type",
-																													"variant": "declaration",
-																													"kind": 65536,
-																													"flags": {},
-																													"signatures": [
-																														{
-																															"id": 703,
-																															"name": "__type",
-																															"variant": "signature",
-																															"kind": 4096,
-																															"flags": {},
-																															"type": {
-																																"type": "unknown",
-																																"name": "DmlEntity<{ id: PrimaryKeyModifier<string, IdProperty>; provider_identities: HasMany<() => DmlEntity<{ id: PrimaryKeyModifier<string, IdProperty>; ... 4 more ...; provider_metadata: NullableModifier<...>; } & { ...; } & {} & DMLSchemaDefaults, \"provider_identity\">>; app_metadata: NullableModifier<...>; } & { ...; } ..."
-																															}
-																														}
-																													]
-																												}
-																											}
-																										],
-																										"name": "BelongsTo",
-																										"package": "@medusajs/utils"
-																									},
-																									"defaultValue": "..."
-																								},
-																								{
-																									"id": 704,
-																									"name": "user_metadata",
-																									"variant": "declaration",
-																									"kind": 1024,
-																									"flags": {
-																										"isOptional": true
-																									},
-																									"type": {
-																										"type": "reference",
-																										"target": {
-																											"sourceFileName": "../../../../packages/core/utils/src/dml/properties/json.ts",
-																											"qualifiedName": "JSONProperty"
-																										},
-																										"name": "JSONProperty",
-																										"package": "@medusajs/utils"
-																									},
-																									"defaultValue": "..."
-																								},
-																								{
-																									"id": 705,
-																									"name": "provider_metadata",
-																									"variant": "declaration",
-																									"kind": 1024,
-																									"flags": {
-																										"isOptional": true
-																									},
-																									"type": {
-																										"type": "reference",
-																										"target": {
-																											"sourceFileName": "../../../../packages/core/utils/src/dml/properties/json.ts",
-																											"qualifiedName": "JSONProperty"
-																										},
-																										"name": "JSONProperty",
-																										"package": "@medusajs/utils"
-																									},
-																									"defaultValue": "..."
-																								}
-																							],
-																							"groups": [
-																								{
-																									"title": "Properties",
-																									"children": [
-																										698,
-																										699,
-																										700,
-																										701,
-																										704,
-																										705
-																									]
-																								}
-																							]
-																						}
-																					},
-																					{
-																						"type": "reflection",
-																						"declaration": {
-																							"id": 706,
-																							"name": "__type",
-																							"variant": "declaration",
-																							"kind": 65536,
-																							"flags": {}
-																						}
-																					},
-																					{
-																						"type": "reference",
-																						"target": {
-																							"sourceFileName": "../../../../packages/core/utils/src/dml/helpers/entity-builder/create-default-properties.ts",
-																							"qualifiedName": "DMLSchemaDefaults"
-																						},
-																						"name": "DMLSchemaDefaults",
-																						"package": "@medusajs/utils"
-																					}
-																				]
-																			},
-																			{
-																				"type": "literal",
-																				"value": "provider_identity"
-																			}
-																		],
-																		"name": "DmlEntity",
-																		"package": "@medusajs/utils"
-																	}
-																}
-															]
-														}
-													}
-												],
-												"name": "HasMany",
-												"package": "@medusajs/utils"
-											},
-											"defaultValue": "..."
-										},
-										{
-											"id": 707,
-											"name": "app_metadata",
-											"variant": "declaration",
-											"kind": 1024,
-											"flags": {
-												"isOptional": true
-											},
-											"type": {
-												"type": "reference",
-												"target": {
-													"sourceFileName": "../../../../packages/core/utils/src/dml/properties/json.ts",
-													"qualifiedName": "JSONProperty"
-												},
-												"name": "JSONProperty",
-												"package": "@medusajs/utils"
-											},
-											"defaultValue": "..."
-										}
-									],
-									"groups": [
-										{
-											"title": "Properties",
-											"children": [
-												684,
-												685,
-												707
-											]
-										}
-									]
-								}
-							},
-							{
-								"type": "reflection",
-								"declaration": {
-									"id": 708,
-									"name": "__type",
-									"variant": "declaration",
-									"kind": 65536,
-									"flags": {}
-								}
-							},
-							{
-								"type": "reference",
-								"target": {
-									"sourceFileName": "../../../../packages/core/utils/src/dml/helpers/entity-builder/create-default-properties.ts",
-									"qualifiedName": "DMLSchemaDefaults"
-								},
-								"name": "DMLSchemaDefaults",
-								"package": "@medusajs/utils"
 							}
-						]
+						],
+						"name": "DMLEntitySchemaBuilder",
+						"package": "@medusajs/utils"
 					},
 					{
 						"type": "literal",
@@ -667,7 +174,7 @@
 			"defaultValue": "..."
 		},
 		{
-			"id": 709,
+			"id": 661,
 			"name": "ProviderIdentity",
 			"variant": "declaration",
 			"kind": 32,
@@ -682,19 +189,23 @@
 				},
 				"typeArguments": [
 					{
-						"type": "intersection",
-						"types": [
+						"type": "reference",
+						"target": {
+							"sourceFileName": "../../../../packages/core/utils/src/dml/entity.ts",
+							"qualifiedName": "DMLEntitySchemaBuilder"
+						},
+						"typeArguments": [
 							{
 								"type": "reflection",
 								"declaration": {
-									"id": 710,
+									"id": 662,
 									"name": "__type",
 									"variant": "declaration",
 									"kind": 65536,
 									"flags": {},
 									"children": [
 										{
-											"id": 711,
+											"id": 663,
 											"name": "id",
 											"variant": "declaration",
 											"kind": 1024,
@@ -730,7 +241,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 712,
+											"id": 664,
 											"name": "entity_id",
 											"variant": "declaration",
 											"kind": 1024,
@@ -755,7 +266,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 713,
+											"id": 665,
 											"name": "provider",
 											"variant": "declaration",
 											"kind": 1024,
@@ -780,7 +291,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 714,
+											"id": 666,
 											"name": "auth_identity",
 											"variant": "declaration",
 											"kind": 1024,
@@ -805,7 +316,7 @@
 												"typeArguments": [
 													{
 														"type": "reference",
-														"target": 657,
+														"target": 645,
 														"name": "AuthIdentity"
 													}
 												],
@@ -815,7 +326,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 730,
+											"id": 675,
 											"name": "user_metadata",
 											"variant": "declaration",
 											"kind": 1024,
@@ -842,7 +353,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 731,
+											"id": 676,
 											"name": "provider_metadata",
 											"variant": "declaration",
 											"kind": 1024,
@@ -873,461 +384,20 @@
 										{
 											"title": "Properties",
 											"children": [
-												711,
-												712,
-												713,
-												714,
-												730,
-												731
+												663,
+												664,
+												665,
+												666,
+												675,
+												676
 											]
 										}
 									]
 								}
-							},
-							{
-								"type": "reflection",
-								"declaration": {
-									"id": 732,
-									"name": "__type",
-									"variant": "declaration",
-									"kind": 65536,
-									"flags": {},
-									"children": [
-										{
-											"id": 733,
-											"name": "id",
-											"variant": "declaration",
-											"kind": 1024,
-											"flags": {},
-											"type": {
-												"type": "reference",
-												"target": {
-													"sourceFileName": "../../../../packages/core/utils/src/dml/properties/primary-key.ts",
-													"qualifiedName": "PrimaryKeyModifier"
-												},
-												"typeArguments": [
-													{
-														"type": "reference",
-														"target": {
-															"sourceFileName": "../../../../packages/core/utils/src/dml/properties/id.ts",
-															"qualifiedName": "IdProperty"
-														},
-														"name": "IdProperty",
-														"package": "@medusajs/utils"
-													}
-												],
-												"name": "PrimaryKeyModifier",
-												"package": "@medusajs/utils"
-											},
-											"defaultValue": "..."
-										},
-										{
-											"id": 734,
-											"name": "entity_id",
-											"variant": "declaration",
-											"kind": 1024,
-											"flags": {},
-											"type": {
-												"type": "reference",
-												"target": {
-													"sourceFileName": "../../../../packages/core/utils/src/dml/properties/text.ts",
-													"qualifiedName": "TextProperty"
-												},
-												"name": "TextProperty",
-												"package": "@medusajs/utils"
-											},
-											"defaultValue": "..."
-										},
-										{
-											"id": 735,
-											"name": "provider",
-											"variant": "declaration",
-											"kind": 1024,
-											"flags": {},
-											"type": {
-												"type": "reference",
-												"target": {
-													"sourceFileName": "../../../../packages/core/utils/src/dml/properties/text.ts",
-													"qualifiedName": "TextProperty"
-												},
-												"name": "TextProperty",
-												"package": "@medusajs/utils"
-											},
-											"defaultValue": "..."
-										},
-										{
-											"id": 736,
-											"name": "auth_identity",
-											"variant": "declaration",
-											"kind": 1024,
-											"flags": {},
-											"type": {
-												"type": "reference",
-												"target": {
-													"sourceFileName": "../../../../packages/core/utils/src/dml/relations/belongs-to.ts",
-													"qualifiedName": "BelongsTo"
-												},
-												"typeArguments": [
-													{
-														"type": "reflection",
-														"declaration": {
-															"id": 737,
-															"name": "__type",
-															"variant": "declaration",
-															"kind": 65536,
-															"flags": {},
-															"signatures": [
-																{
-																	"id": 738,
-																	"name": "__type",
-																	"variant": "signature",
-																	"kind": 4096,
-																	"flags": {},
-																	"type": {
-																		"type": "reference",
-																		"target": {
-																			"sourceFileName": "../../../../packages/core/utils/src/dml/entity.ts",
-																			"qualifiedName": "DmlEntity"
-																		},
-																		"typeArguments": [
-																			{
-																				"type": "intersection",
-																				"types": [
-																					{
-																						"type": "reflection",
-																						"declaration": {
-																							"id": 739,
-																							"name": "__type",
-																							"variant": "declaration",
-																							"kind": 65536,
-																							"flags": {},
-																							"children": [
-																								{
-																									"id": 740,
-																									"name": "id",
-																									"variant": "declaration",
-																									"kind": 1024,
-																									"flags": {},
-																									"type": {
-																										"type": "reference",
-																										"target": {
-																											"sourceFileName": "../../../../packages/core/utils/src/dml/properties/primary-key.ts",
-																											"qualifiedName": "PrimaryKeyModifier"
-																										},
-																										"typeArguments": [
-																											{
-																												"type": "reference",
-																												"target": {
-																													"sourceFileName": "../../../../packages/core/utils/src/dml/properties/id.ts",
-																													"qualifiedName": "IdProperty"
-																												},
-																												"name": "IdProperty",
-																												"package": "@medusajs/utils"
-																											}
-																										],
-																										"name": "PrimaryKeyModifier",
-																										"package": "@medusajs/utils"
-																									},
-																									"defaultValue": "..."
-																								},
-																								{
-																									"id": 741,
-																									"name": "provider_identities",
-																									"variant": "declaration",
-																									"kind": 1024,
-																									"flags": {},
-																									"type": {
-																										"type": "reference",
-																										"target": {
-																											"sourceFileName": "../../../../packages/core/utils/src/dml/relations/has-many.ts",
-																											"qualifiedName": "HasMany"
-																										},
-																										"typeArguments": [
-																											{
-																												"type": "reflection",
-																												"declaration": {
-																													"id": 742,
-																													"name": "__type",
-																													"variant": "declaration",
-																													"kind": 65536,
-																													"flags": {},
-																													"signatures": [
-																														{
-																															"id": 743,
-																															"name": "__type",
-																															"variant": "signature",
-																															"kind": 4096,
-																															"flags": {},
-																															"type": {
-																																"type": "unknown",
-																																"name": "DmlEntity<{ id: PrimaryKeyModifier<string, IdProperty>; entity_id: TextProperty; provider: TextProperty; auth_identity: BelongsTo<...>; user_metadata: NullableModifier<...>; provider_metadata: NullableModifier<...>; } & { ...; } & {} & DMLSchemaDefaults, \"provider_identity\">"
-																															}
-																														}
-																													]
-																												}
-																											}
-																										],
-																										"name": "HasMany",
-																										"package": "@medusajs/utils"
-																									},
-																									"defaultValue": "..."
-																								},
-																								{
-																									"id": 744,
-																									"name": "app_metadata",
-																									"variant": "declaration",
-																									"kind": 1024,
-																									"flags": {
-																										"isOptional": true
-																									},
-																									"type": {
-																										"type": "reference",
-																										"target": {
-																											"sourceFileName": "../../../../packages/core/utils/src/dml/properties/json.ts",
-																											"qualifiedName": "JSONProperty"
-																										},
-																										"name": "JSONProperty",
-																										"package": "@medusajs/utils"
-																									},
-																									"defaultValue": "..."
-																								}
-																							],
-																							"groups": [
-																								{
-																									"title": "Properties",
-																									"children": [
-																										740,
-																										741,
-																										744
-																									]
-																								}
-																							]
-																						}
-																					},
-																					{
-																						"type": "reflection",
-																						"declaration": {
-																							"id": 745,
-																							"name": "__type",
-																							"variant": "declaration",
-																							"kind": 65536,
-																							"flags": {},
-																							"children": [
-																								{
-																									"id": 746,
-																									"name": "id",
-																									"variant": "declaration",
-																									"kind": 1024,
-																									"flags": {},
-																									"type": {
-																										"type": "reference",
-																										"target": {
-																											"sourceFileName": "../../../../packages/core/utils/src/dml/properties/primary-key.ts",
-																											"qualifiedName": "PrimaryKeyModifier"
-																										},
-																										"typeArguments": [
-																											{
-																												"type": "reference",
-																												"target": {
-																													"sourceFileName": "../../../../packages/core/utils/src/dml/properties/id.ts",
-																													"qualifiedName": "IdProperty"
-																												},
-																												"name": "IdProperty",
-																												"package": "@medusajs/utils"
-																											}
-																										],
-																										"name": "PrimaryKeyModifier",
-																										"package": "@medusajs/utils"
-																									},
-																									"defaultValue": "..."
-																								},
-																								{
-																									"id": 747,
-																									"name": "provider_identities",
-																									"variant": "declaration",
-																									"kind": 1024,
-																									"flags": {},
-																									"type": {
-																										"type": "reference",
-																										"target": {
-																											"sourceFileName": "../../../../packages/core/utils/src/dml/relations/has-many.ts",
-																											"qualifiedName": "HasMany"
-																										},
-																										"typeArguments": [
-																											{
-																												"type": "reflection",
-																												"declaration": {
-																													"id": 748,
-																													"name": "__type",
-																													"variant": "declaration",
-																													"kind": 65536,
-																													"flags": {},
-																													"signatures": [
-																														{
-																															"id": 749,
-																															"name": "__type",
-																															"variant": "signature",
-																															"kind": 4096,
-																															"flags": {},
-																															"type": {
-																																"type": "unknown",
-																																"name": "DmlEntity<{ id: PrimaryKeyModifier<string, IdProperty>; entity_id: TextProperty; provider: TextProperty; auth_identity: BelongsTo<...>; user_metadata: NullableModifier<...>; provider_metadata: NullableModifier<...>; } & { ...; } & {} & DMLSchemaDefaults, \"provider_identity\">"
-																															}
-																														}
-																													]
-																												}
-																											}
-																										],
-																										"name": "HasMany",
-																										"package": "@medusajs/utils"
-																									},
-																									"defaultValue": "..."
-																								},
-																								{
-																									"id": 750,
-																									"name": "app_metadata",
-																									"variant": "declaration",
-																									"kind": 1024,
-																									"flags": {
-																										"isOptional": true
-																									},
-																									"type": {
-																										"type": "reference",
-																										"target": {
-																											"sourceFileName": "../../../../packages/core/utils/src/dml/properties/json.ts",
-																											"qualifiedName": "JSONProperty"
-																										},
-																										"name": "JSONProperty",
-																										"package": "@medusajs/utils"
-																									},
-																									"defaultValue": "..."
-																								}
-																							],
-																							"groups": [
-																								{
-																									"title": "Properties",
-																									"children": [
-																										746,
-																										747,
-																										750
-																									]
-																								}
-																							]
-																						}
-																					},
-																					{
-																						"type": "reflection",
-																						"declaration": {
-																							"id": 751,
-																							"name": "__type",
-																							"variant": "declaration",
-																							"kind": 65536,
-																							"flags": {}
-																						}
-																					},
-																					{
-																						"type": "reference",
-																						"target": {
-																							"sourceFileName": "../../../../packages/core/utils/src/dml/helpers/entity-builder/create-default-properties.ts",
-																							"qualifiedName": "DMLSchemaDefaults"
-																						},
-																						"name": "DMLSchemaDefaults",
-																						"package": "@medusajs/utils"
-																					}
-																				]
-																			},
-																			{
-																				"type": "literal",
-																				"value": "auth_identity"
-																			}
-																		],
-																		"name": "DmlEntity",
-																		"package": "@medusajs/utils"
-																	}
-																}
-															]
-														}
-													}
-												],
-												"name": "BelongsTo",
-												"package": "@medusajs/utils"
-											},
-											"defaultValue": "..."
-										},
-										{
-											"id": 752,
-											"name": "user_metadata",
-											"variant": "declaration",
-											"kind": 1024,
-											"flags": {
-												"isOptional": true
-											},
-											"type": {
-												"type": "reference",
-												"target": {
-													"sourceFileName": "../../../../packages/core/utils/src/dml/properties/json.ts",
-													"qualifiedName": "JSONProperty"
-												},
-												"name": "JSONProperty",
-												"package": "@medusajs/utils"
-											},
-											"defaultValue": "..."
-										},
-										{
-											"id": 753,
-											"name": "provider_metadata",
-											"variant": "declaration",
-											"kind": 1024,
-											"flags": {
-												"isOptional": true
-											},
-											"type": {
-												"type": "reference",
-												"target": {
-													"sourceFileName": "../../../../packages/core/utils/src/dml/properties/json.ts",
-													"qualifiedName": "JSONProperty"
-												},
-												"name": "JSONProperty",
-												"package": "@medusajs/utils"
-											},
-											"defaultValue": "..."
-										}
-									],
-									"groups": [
-										{
-											"title": "Properties",
-											"children": [
-												733,
-												734,
-												735,
-												736,
-												752,
-												753
-											]
-										}
-									]
-								}
-							},
-							{
-								"type": "reflection",
-								"declaration": {
-									"id": 754,
-									"name": "__type",
-									"variant": "declaration",
-									"kind": 65536,
-									"flags": {}
-								}
-							},
-							{
-								"type": "reference",
-								"target": {
-									"sourceFileName": "../../../../packages/core/utils/src/dml/helpers/entity-builder/create-default-properties.ts",
-									"qualifiedName": "DMLSchemaDefaults"
-								},
-								"name": "DMLSchemaDefaults",
-								"package": "@medusajs/utils"
 							}
-						]
+						],
+						"name": "DMLEntitySchemaBuilder",
+						"package": "@medusajs/utils"
 					},
 					{
 						"type": "literal",
@@ -1344,408 +414,144 @@
 		{
 			"title": "Variables",
 			"children": [
-				657,
-				709
+				645,
+				661
 			]
 		}
 	],
 	"packageName": "@medusajs/auth",
 	"symbolIdMap": {
-		"656": {
+		"644": {
 			"sourceFileName": "../../../../packages/modules/auth/src/models/index.ts",
 			"qualifiedName": ""
 		},
-		"657": {
+		"645": {
 			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
 			"qualifiedName": "AuthIdentity"
 		},
-		"658": {
+		"646": {
 			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
 			"qualifiedName": "__object"
 		},
-		"659": {
+		"647": {
 			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
 			"qualifiedName": "__object.id"
 		},
-		"660": {
+		"648": {
 			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
 			"qualifiedName": "__object.provider_identities"
 		},
-		"661": {
+		"649": {
 			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
 			"qualifiedName": "__function"
 		},
-		"662": {
+		"650": {
 			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
 			"qualifiedName": "__function"
 		},
-		"663": {
+		"651": {
 			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
 			"qualifiedName": "__object"
 		},
-		"664": {
+		"652": {
 			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
 			"qualifiedName": "__object.id"
 		},
-		"665": {
+		"653": {
 			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
 			"qualifiedName": "__object.entity_id"
 		},
-		"666": {
+		"654": {
 			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
 			"qualifiedName": "__object.provider"
 		},
-		"667": {
+		"655": {
 			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
 			"qualifiedName": "__object.auth_identity"
+		},
+		"656": {
+			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
+			"qualifiedName": "__function"
+		},
+		"657": {
+			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
+			"qualifiedName": "__function"
+		},
+		"658": {
+			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
+			"qualifiedName": "__object.user_metadata"
+		},
+		"659": {
+			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
+			"qualifiedName": "__object.provider_metadata"
+		},
+		"660": {
+			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
+			"qualifiedName": "__object.app_metadata"
+		},
+		"661": {
+			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
+			"qualifiedName": "ProviderIdentity"
+		},
+		"662": {
+			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
+			"qualifiedName": "__object"
+		},
+		"663": {
+			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
+			"qualifiedName": "__object.id"
+		},
+		"664": {
+			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
+			"qualifiedName": "__object.entity_id"
+		},
+		"665": {
+			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
+			"qualifiedName": "__object.provider"
+		},
+		"666": {
+			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
+			"qualifiedName": "__object.auth_identity"
+		},
+		"667": {
+			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
+			"qualifiedName": "__function"
 		},
 		"668": {
 			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
 			"qualifiedName": "__function"
 		},
 		"669": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "__function"
+			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
+			"qualifiedName": "__object"
 		},
 		"670": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "__object.user_metadata"
+			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
+			"qualifiedName": "__object.id"
 		},
 		"671": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "__object.provider_metadata"
+			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
+			"qualifiedName": "__object.provider_identities"
 		},
 		"672": {
-			"sourceFileName": "../../../../packages/core/utils/src/dml/helpers/entity-builder/create-big-number-properties.ts",
-			"qualifiedName": "__type"
+			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
+			"qualifiedName": "__function"
 		},
 		"673": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "id"
+			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
+			"qualifiedName": "__function"
 		},
 		"674": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "entity_id"
+			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
+			"qualifiedName": "__object.app_metadata"
 		},
 		"675": {
 			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "provider"
+			"qualifiedName": "__object.user_metadata"
 		},
 		"676": {
 			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "auth_identity"
-		},
-		"677": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "__function"
-		},
-		"678": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "__function"
-		},
-		"679": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "user_metadata"
-		},
-		"680": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "provider_metadata"
-		},
-		"681": {
-			"sourceFileName": "../../../../packages/core/utils/src/dml/helpers/entity-builder/create-big-number-properties.ts",
-			"qualifiedName": "__type"
-		},
-		"682": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
-			"qualifiedName": "__object.app_metadata"
-		},
-		"683": {
-			"sourceFileName": "../../../../packages/core/utils/src/dml/helpers/entity-builder/create-big-number-properties.ts",
-			"qualifiedName": "__type"
-		},
-		"684": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
-			"qualifiedName": "id"
-		},
-		"685": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
-			"qualifiedName": "provider_identities"
-		},
-		"686": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
-			"qualifiedName": "__function"
-		},
-		"687": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
-			"qualifiedName": "__function"
-		},
-		"688": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "__object"
-		},
-		"689": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "__object.id"
-		},
-		"690": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "__object.entity_id"
-		},
-		"691": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "__object.provider"
-		},
-		"692": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "__object.auth_identity"
-		},
-		"693": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "__function"
-		},
-		"694": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "__function"
-		},
-		"695": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "__object.user_metadata"
-		},
-		"696": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
 			"qualifiedName": "__object.provider_metadata"
-		},
-		"697": {
-			"sourceFileName": "../../../../packages/core/utils/src/dml/helpers/entity-builder/create-big-number-properties.ts",
-			"qualifiedName": "__type"
-		},
-		"698": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "id"
-		},
-		"699": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "entity_id"
-		},
-		"700": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "provider"
-		},
-		"701": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "auth_identity"
-		},
-		"702": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "__function"
-		},
-		"703": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "__function"
-		},
-		"704": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "user_metadata"
-		},
-		"705": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "provider_metadata"
-		},
-		"706": {
-			"sourceFileName": "../../../../packages/core/utils/src/dml/helpers/entity-builder/create-big-number-properties.ts",
-			"qualifiedName": "__type"
-		},
-		"707": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
-			"qualifiedName": "app_metadata"
-		},
-		"708": {
-			"sourceFileName": "../../../../packages/core/utils/src/dml/helpers/entity-builder/create-big-number-properties.ts",
-			"qualifiedName": "__type"
-		},
-		"709": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "ProviderIdentity"
-		},
-		"710": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "__object"
-		},
-		"711": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "__object.id"
-		},
-		"712": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "__object.entity_id"
-		},
-		"713": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "__object.provider"
-		},
-		"714": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "__object.auth_identity"
-		},
-		"715": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "__function"
-		},
-		"716": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "__function"
-		},
-		"717": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
-			"qualifiedName": "__object"
-		},
-		"718": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
-			"qualifiedName": "__object.id"
-		},
-		"719": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
-			"qualifiedName": "__object.provider_identities"
-		},
-		"720": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
-			"qualifiedName": "__function"
-		},
-		"721": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
-			"qualifiedName": "__function"
-		},
-		"722": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
-			"qualifiedName": "__object.app_metadata"
-		},
-		"723": {
-			"sourceFileName": "../../../../packages/core/utils/src/dml/helpers/entity-builder/create-big-number-properties.ts",
-			"qualifiedName": "__type"
-		},
-		"724": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
-			"qualifiedName": "id"
-		},
-		"725": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
-			"qualifiedName": "provider_identities"
-		},
-		"726": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
-			"qualifiedName": "__function"
-		},
-		"727": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
-			"qualifiedName": "__function"
-		},
-		"728": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
-			"qualifiedName": "app_metadata"
-		},
-		"729": {
-			"sourceFileName": "../../../../packages/core/utils/src/dml/helpers/entity-builder/create-big-number-properties.ts",
-			"qualifiedName": "__type"
-		},
-		"730": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "__object.user_metadata"
-		},
-		"731": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "__object.provider_metadata"
-		},
-		"732": {
-			"sourceFileName": "../../../../packages/core/utils/src/dml/helpers/entity-builder/create-big-number-properties.ts",
-			"qualifiedName": "__type"
-		},
-		"733": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "id"
-		},
-		"734": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "entity_id"
-		},
-		"735": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "provider"
-		},
-		"736": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "auth_identity"
-		},
-		"737": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "__function"
-		},
-		"738": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "__function"
-		},
-		"739": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
-			"qualifiedName": "__object"
-		},
-		"740": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
-			"qualifiedName": "__object.id"
-		},
-		"741": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
-			"qualifiedName": "__object.provider_identities"
-		},
-		"742": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
-			"qualifiedName": "__function"
-		},
-		"743": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
-			"qualifiedName": "__function"
-		},
-		"744": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
-			"qualifiedName": "__object.app_metadata"
-		},
-		"745": {
-			"sourceFileName": "../../../../packages/core/utils/src/dml/helpers/entity-builder/create-big-number-properties.ts",
-			"qualifiedName": "__type"
-		},
-		"746": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
-			"qualifiedName": "id"
-		},
-		"747": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
-			"qualifiedName": "provider_identities"
-		},
-		"748": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
-			"qualifiedName": "__function"
-		},
-		"749": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
-			"qualifiedName": "__function"
-		},
-		"750": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/auth-identity.ts",
-			"qualifiedName": "app_metadata"
-		},
-		"751": {
-			"sourceFileName": "../../../../packages/core/utils/src/dml/helpers/entity-builder/create-big-number-properties.ts",
-			"qualifiedName": "__type"
-		},
-		"752": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "user_metadata"
-		},
-		"753": {
-			"sourceFileName": "../../../../packages/modules/auth/src/models/provider-identity.ts",
-			"qualifiedName": "provider_metadata"
-		},
-		"754": {
-			"sourceFileName": "../../../../packages/core/utils/src/dml/helpers/entity-builder/create-big-number-properties.ts",
-			"qualifiedName": "__type"
 		}
 	},
 	"files": {
@@ -1753,7 +559,7 @@
 			"1": "../../../../packages/modules/auth/src/models/index.ts"
 		},
 		"reflections": {
-			"1": 656
+			"1": 644
 		}
 	}
 }

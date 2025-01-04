@@ -4,6 +4,8 @@
 
 ### Patch Changes
 
+- [#10617](https://github.com/medusajs/medusa/pull/10617) [`100da64242838739816351ed259461f2d7c258e3`](https://github.com/medusajs/medusa/commit/100da64242838739816351ed259461f2d7c258e3) Thanks [@adrien2p](https://github.com/adrien2p)! - chore: fulfillment module DML
+
 - [#10408](https://github.com/medusajs/medusa/pull/10408) [`c9b8db04c1b35f1cf129bb9ad74789fbc2881815`](https://github.com/medusajs/medusa/commit/c9b8db04c1b35f1cf129bb9ad74789fbc2881815) Thanks [@olivermrbl](https://github.com/olivermrbl)! - chore: Support custom line items
 
 - [#10606](https://github.com/medusajs/medusa/pull/10606) [`2ad08c4c440706dd2ffe2215807b89ee4a7f325b`](https://github.com/medusajs/medusa/commit/2ad08c4c440706dd2ffe2215807b89ee4a7f325b) Thanks [@vethan](https://github.com/vethan)! - Add description and Label to FilterableRefundReasonProps

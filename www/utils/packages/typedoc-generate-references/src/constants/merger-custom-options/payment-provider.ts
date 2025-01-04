@@ -13,9 +13,6 @@ const paymentProviderOptions: FormattingOptionsType = {
     reflectionTitle: {
       fullReplacement: "How to Create a Payment Provider",
     },
-    reflectionGroups: {
-      Constructors: false,
-    },
     shouldIncrementAfterStartSections: true,
     expandMembers: true,
     expandProperties: true,
@@ -101,7 +98,7 @@ Then, go through checkout to place an order. Your payment provider is used to au
 `,
       `## Useful Guides
 
-- [Storefront Guide: how to implement UI for your payment provider during checkout](https://docs.medusajs.com/v2/resources/storefront-development/checkout/payment)
+- [Storefront Guide: how to implement UI for your payment provider during checkout](https://docs.medusajs.com/resources/storefront-development/checkout/payment)
 `,
     ],
   },

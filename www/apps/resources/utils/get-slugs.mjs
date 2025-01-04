@@ -1,6 +1,6 @@
 import { statSync, readdirSync } from "fs"
 import path from "path"
-import { getFileSlugUtil } from "remark-rehype-plugins"
+import { getFileSlug } from "docs-utils"
 
 const monoRepoPath = path.resolve("..", "..", "..")
 
@@ -42,7 +42,7 @@ export default async function getSlugs(options = {}) {
       continue
     }
 
-    const newSlug = await getFileSlugUtil(filePath)
+    const newSlug = await getFileSlug(filePath)
 
     if (newSlug) {
       slugs.push({

@@ -4,7 +4,7 @@ import {
   ProjectReflection,
 } from "typedoc"
 import ts from "typescript"
-import { StepModifier, StepType } from "../types"
+import { StepModifier, StepType } from "../types.js"
 import { capitalize, findReflectionInNamespaces } from "utils"
 
 export const WORKFLOW_AS_STEP_SUFFIX = `-as-step`

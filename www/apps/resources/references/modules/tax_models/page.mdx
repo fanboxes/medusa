@@ -14,6 +14,7 @@ This documentation provides a reference to the data models in the Tax Module
 ```mermaid
 erDiagram
 	TaxRate ||--|| TaxRateRule : rules
+	TaxRegion ||--|| TaxRegion : children
 	TaxRegion ||--|| TaxRate : tax_rates
 	TaxProvider ||--|| TaxRegion : regions
 

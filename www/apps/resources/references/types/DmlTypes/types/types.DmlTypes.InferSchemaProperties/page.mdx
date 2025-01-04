@@ -2,7 +2,7 @@ import { TypeList } from "docs-ui"
 
 # InferSchemaProperties
 
- **InferSchemaProperties**: [Prettify](../../../CommonTypes/types/types.CommonTypes.Prettify/page.mdx)&#60;&#123; [K in keyof Schema as Schema[K] extends Object ? Type extends RelationshipTypes ? never : K : K]: Schema[K]["$dataType"] &#125; & [InferForeignKeys](../types.DmlTypes.InferForeignKeys/page.mdx)&#60;Schema&#62;&#62;
+ **InferSchemaProperties**: [Prettify](../../../CommonTypes/types/types.CommonTypes.Prettify/page.mdx)&#60;&#123; [K in keyof Schema as Schema[K] extends &#123; type: infer Type &#125; ? Type extends RelationshipTypes ? never : K : K]: Schema[K]["$dataType"] &#125; & [InferForeignKeys](../types.DmlTypes.InferForeignKeys/page.mdx)&#60;Schema&#62;&#62;
 
 Infers the schema properties without the relationships
 

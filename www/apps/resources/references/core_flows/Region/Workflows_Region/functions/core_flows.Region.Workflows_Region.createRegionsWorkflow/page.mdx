@@ -1,6 +1,11 @@
 ---
 slug: /references/medusa-workflows/createRegionsWorkflow
 sidebar_label: createRegionsWorkflow
+tags:
+  - region
+  - event bus
+  - workflow
+  - pricing
 ---
 
 import { TypeList, WorkflowDiagram } from "docs-ui"
@@ -13,7 +18,7 @@ This workflow creates one or more regions.
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"createRegionsWorkflow","steps":[{"type":"step","name":"createRegionsStep","description":"This step creates one or more regions.","link":"../../../Steps_Region/functions/core_flows.Region.Steps_Region.createRegionsStep/page.mdx","depth":1},{"type":"workflow","name":"createPricePreferencesWorkflow","description":"This workflow creates one or more price preferences.","link":"../../../../Pricing/Workflows_Pricing/functions/core_flows.Pricing.Workflows_Pricing.createPricePreferencesWorkflow/page.mdx","depth":2},{"type":"step","name":"emitEventStep","description":"Emit an event.\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":2}]}} />
+<WorkflowDiagram workflow={{"name":"createRegionsWorkflow","steps":[{"type":"step","name":"createRegionsStep","description":"This step creates one or more regions.\n\n","link":"../../../Steps_Region/functions/core_flows.Region.Steps_Region.createRegionsStep/page.mdx","depth":1},{"type":"workflow","name":"createPricePreferencesWorkflow","description":"This workflow creates one or more price preferences.\n\n","link":"../../../../Pricing/Workflows_Pricing/functions/core_flows.Pricing.Workflows_Pricing.createPricePreferencesWorkflow/page.mdx","depth":2},{"type":"step","name":"emitEventStep","description":"Emit an event.\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":2}]}} />
 
 ## Input
 

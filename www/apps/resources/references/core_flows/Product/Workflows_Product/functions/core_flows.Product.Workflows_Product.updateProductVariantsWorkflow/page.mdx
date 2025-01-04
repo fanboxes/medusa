@@ -1,6 +1,11 @@
 ---
 slug: /references/medusa-workflows/updateProductVariantsWorkflow
 sidebar_label: updateProductVariantsWorkflow
+tags:
+  - product
+  - pricing
+  - event bus
+  - workflow
 ---
 
 import { TypeList, WorkflowDiagram } from "docs-ui"
@@ -13,7 +18,7 @@ This workflow updates one or more product variants.
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"updateProductVariantsWorkflow","steps":[{"type":"step","name":"updateProductVariantsStep","description":"This step updates one or more product variants.","link":"../../../Steps_Product/functions/core_flows.Product.Steps_Product.updateProductVariantsStep/page.mdx","depth":1},{"type":"step","name":"updatePriceSetsStep","description":"This step updates price sets.","link":"../../../../Pricing/Steps_Pricing/functions/core_flows.Pricing.Steps_Pricing.updatePriceSetsStep/page.mdx","depth":2},{"type":"step","name":"emitEventStep","description":"Emit an event.\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":3},{"type":"hook","name":"productVariantsUpdated","description":"This step is a hook that you can inject custom functionality into.\n\n","link":"#productVariantsUpdated","depth":4}]}} />
+<WorkflowDiagram workflow={{"name":"updateProductVariantsWorkflow","steps":[{"type":"step","name":"updateProductVariantsStep","description":"This step updates one or more product variants.\n\n","link":"../../../Steps_Product/functions/core_flows.Product.Steps_Product.updateProductVariantsStep/page.mdx","depth":1},{"type":"step","name":"updatePriceSetsStep","description":"This step updates price sets.\n\n","link":"../../../../Pricing/Steps_Pricing/functions/core_flows.Pricing.Steps_Pricing.updatePriceSetsStep/page.mdx","depth":2},{"type":"step","name":"emitEventStep","description":"Emit an event.\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":3},{"type":"hook","name":"productVariantsUpdated","description":"This step is a hook that you can inject custom functionality into.\n\n","link":"#productVariantsUpdated","depth":4}]}} />
 
 ## Input
 

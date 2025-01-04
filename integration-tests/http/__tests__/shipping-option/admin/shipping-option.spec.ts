@@ -237,10 +237,10 @@ medusaIntegrationTestRunner({
               },
             ]),
             provider_id: "manual_test-provider",
-            provider: {
+            provider: expect.objectContaining({
               id: "manual_test-provider",
               is_enabled: true,
-            },
+            }),
             rules: [],
             service_zone_id: expect.any(String),
             service_zone: {

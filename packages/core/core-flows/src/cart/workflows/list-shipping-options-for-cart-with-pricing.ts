@@ -6,10 +6,12 @@ import {
   WorkflowData,
   WorkflowResponse,
 } from "@medusajs/framework/workflows-sdk"
+import { CalculateShippingOptionPriceDTO } from "@medusajs/types"
+
 import { useQueryGraphStep, validatePresenceOfStep } from "../../common"
 import { useRemoteQueryStep } from "../../common/steps/use-remote-query"
 import { calculateShippingOptionsPricesStep } from "../../fulfillment"
-import { CalculateShippingOptionPriceDTO } from "@medusajs/types"
+import { cartFieldsForCalculateShippingOptionsPrices } from "../utils/fields"
 
 const COMMON_OPTIONS_FIELDS = [
   "id",
@@ -57,15 +59,10 @@ export const listShippingOptionsForCartWithPricingWorkflow = createWorkflow(
       entity: "cart",
       filters: { id: input.cart_id },
       fields: [
-        "id",
+        ...cartFieldsForCalculateShippingOptionsPrices,
         "sales_channel_id",
         "currency_code",
         "region_id",
-        "shipping_address.city",
-        "shipping_address.country_code",
-        "shipping_address.province",
-        "shipping_address.postal_code",
-        "items.*",
         "item_total",
         "total",
       ],
@@ -245,8 +242,18 @@ export const listShippingOptionsForCartWithPricingWorkflow = createWorkflow(
     )
 
     const shippingOptionsWithPrice = transform(
-      { shippingOptionsFlatRate, shippingOptionsCalculated, prices },
-      ({ shippingOptionsFlatRate, shippingOptionsCalculated, prices }) => {
+      {
+        shippingOptionsFlatRate,
+        shippingOptionsCalculated,
+        prices,
+        fulfillmentSetLocationMap,
+      },
+      ({
+        shippingOptionsFlatRate,
+        shippingOptionsCalculated,
+        prices,
+        fulfillmentSetLocationMap,
+      }) => {
         return [
           ...shippingOptionsFlatRate.map((shippingOption) => {
             const price = shippingOption.calculated_price
@@ -264,6 +271,10 @@ export const listShippingOptionsForCartWithPricingWorkflow = createWorkflow(
               is_tax_inclusive:
                 prices[index]?.is_calculated_price_tax_inclusive,
               calculated_price: prices[index],
+              stock_location:
+                fulfillmentSetLocationMap[
+                  shippingOption.service_zone.fulfillment_set_id
+                ],
             }
           }),
         ]

@@ -117,8 +117,8 @@ export const CodeTabs = ({
 
       if (
         typeof codeBlock.type !== "string" &&
-        "name" in codeBlock.type &&
-        codeBlock.type.name === "CodeBlock"
+        (("name" in codeBlock.type && codeBlock.type.name === "CodeBlock") ||
+          "source" in codeBlockProps)
       ) {
         codeBlockProps = {
           ...codeBlockProps,

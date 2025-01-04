@@ -87,7 +87,7 @@ export interface UpdateShippingOptionDTO {
   /**
    * The shipping option type associated with the shipping option.
    */
-  type:
+  type?:
     | Omit<CreateShippingOptionTypeDTO, "shipping_option_id">
     | {
         /**
@@ -136,23 +136,24 @@ export interface CalculateShippingOptionPriceDTO {
   provider_id: string
 
   /**
-   * The option data from the provider.
+   * The `data` property of the shipping option.
    */
   optionData: Record<string, unknown>
 
   /**
-   * Additional data passed when the price is calculated.
-   *
-   * @example
-   * When calculating the price for a shipping option upon creation of a shipping method additional data can be passed
-   * to the provider.
+   * The shipping method's `data` property with custom data passed from the frontend.
    */
   data: Record<string, unknown>
 
   /**
    * The calculation context needed for the associated fulfillment provider to calculate the price of a shipping option.
    */
-  context: CartDTO & { from_location?: StockLocationDTO } & Record<
+  context: CartDTO & { 
+    /**
+     * The location that the items will be shipped from.
+     */
+    from_location?: StockLocationDTO
+  } & Record<
       string,
       unknown
     >

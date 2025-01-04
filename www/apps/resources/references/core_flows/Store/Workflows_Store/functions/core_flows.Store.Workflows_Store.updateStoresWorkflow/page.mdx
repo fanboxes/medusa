@@ -1,6 +1,10 @@
 ---
 slug: /references/medusa-workflows/updateStoresWorkflow
 sidebar_label: updateStoresWorkflow
+tags:
+  - store
+  - pricing
+  - workflow
 ---
 
 import { TypeList, WorkflowDiagram } from "docs-ui"
@@ -13,7 +17,7 @@ This workflow updates stores matching the specified filters.
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"updateStoresWorkflow","steps":[{"type":"step","name":"updateStoresStep","description":"This step updates stores matching the specified filters.","link":"../../../Steps_Store/functions/core_flows.Store.Steps_Store.updateStoresStep/page.mdx","depth":1},{"type":"when","condition":"{\n      return !!data.input.update.supported_currencies?.length\n    }","depth":"2","steps":[{"type":"step","name":"updatePricePreferencesAsArrayStep","description":"This step updates price preferences.","link":"../../../../Pricing/Steps_Pricing/functions/core_flows.Pricing.Steps_Pricing.updatePricePreferencesAsArrayStep/page.mdx","depth":2}]}]}} />
+<WorkflowDiagram workflow={{"name":"updateStoresWorkflow","steps":[{"type":"step","name":"updateStoresStep","description":"This step updates stores matching the specified filters.\n\n","link":"../../../Steps_Store/functions/core_flows.Store.Steps_Store.updateStoresStep/page.mdx","depth":1},{"type":"when","condition":"{\n      return !!data.input.update.supported_currencies?.length\n    }","depth":"2","steps":[{"type":"step","name":"updatePricePreferencesAsArrayStep","description":"This step updates price preferences.\n\n","link":"../../../../Pricing/Steps_Pricing/functions/core_flows.Pricing.Steps_Pricing.updatePricePreferencesAsArrayStep/page.mdx","depth":2}]}]}} />
 
 ## Input
 

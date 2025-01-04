@@ -1,6 +1,10 @@
 ---
 slug: /references/medusa-workflows/updateProductTypesWorkflow
 sidebar_label: updateProductTypesWorkflow
+tags:
+  - product
+  - event bus
+  - workflow
 ---
 
 import { TypeList, WorkflowDiagram } from "docs-ui"
@@ -13,7 +17,7 @@ This workflow updates product types matching the specified filters.
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"updateProductTypesWorkflow","steps":[{"type":"step","name":"updateProductTypesStep","description":"This step updates product types matching the specified filters.","link":"../../../Steps_Product/functions/core_flows.Product.Steps_Product.updateProductTypesStep/page.mdx","depth":1},{"type":"hook","name":"productTypesUpdated","description":"This step is a hook that you can inject custom functionality into.\n\n","link":"#productTypesUpdated","depth":2},{"type":"step","name":"emitEventStep","description":"Emit an event.\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":3}]}} />
+<WorkflowDiagram workflow={{"name":"updateProductTypesWorkflow","steps":[{"type":"step","name":"updateProductTypesStep","description":"This step updates product types matching the specified filters.\n\n","link":"../../../Steps_Product/functions/core_flows.Product.Steps_Product.updateProductTypesStep/page.mdx","depth":1},{"type":"hook","name":"productTypesUpdated","description":"This step is a hook that you can inject custom functionality into.\n\n","link":"#productTypesUpdated","depth":2},{"type":"step","name":"emitEventStep","description":"Emit an event.\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":3}]}} />
 
 ## Input
 

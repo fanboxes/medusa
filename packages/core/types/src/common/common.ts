@@ -365,26 +365,34 @@ export type Pluralize<Singular extends string> =
     ? PluralizationSpecialRules[Lowercase<Singular>]
     : Lowercase<Singular> extends UncountableRules
     ? Singular
-    : Singular extends `${infer R}ss`
+    : Singular extends `${string}ss`
     ? `${Singular}es`
     : Singular extends `${infer R}sis`
     ? `${R}ses`
     : Singular extends `${infer R}is`
     ? `${R}ises`
-    : Singular extends `${infer R}s`
+    : Singular extends `${string}s`
     ? `${Singular}`
+    : Singular extends `${infer R}ay`
+    ? `${R}ays`
     : Singular extends `${infer R}ey`
     ? `${R}eys`
+    : Singular extends `${infer R}iy`
+    ? `${R}iys`
+    : Singular extends `${infer R}oy`
+    ? `${R}oys`
+    : Singular extends `${infer R}uy`
+    ? `${R}uys`
     : Singular extends `${infer R}y`
     ? `${R}ies`
-    : Singular extends `${infer R}es`
+    : Singular extends `${string}es`
     ? `${Singular}`
     : Singular extends
-        | `${infer R}sh`
-        | `${infer R}ch`
-        | `${infer R}x`
-        | `${infer R}z`
-        | `${infer R}o`
+        | `${string}sh`
+        | `${string}ch`
+        | `${string}x`
+        | `${string}z`
+        | `${string}o`
     ? `${Singular}es`
     : Singular extends `${infer R}fe`
     ? `${R}ves`
@@ -435,7 +443,7 @@ export type QueryConfig<TEntity> = {
   defaultLimit?: number
   /**
    * If the route that will use that configuration is supposed to return a list of entities. This
-   * will change the configuration that will be created on req.listConfig and req.remoteQueryConfig (among
+   * will change the configuration that will be created on req.listConfig and req.queryConfig (among
    * other things it will include pagination and sorting)
    */
   isList?: boolean

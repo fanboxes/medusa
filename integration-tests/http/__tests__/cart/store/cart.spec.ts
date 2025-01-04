@@ -302,7 +302,7 @@ medusaIntegrationTestRunner({
       })
 
       describe("POST /store/carts/:id/line-items", () => {
-        let shippingOption
+        let shippingOption, shippingOptionExpensive
 
         beforeEach(async () => {
           const stockLocation = (
@@ -358,25 +358,63 @@ medusaIntegrationTestRunner({
             adminHeaders
           )
 
+          const shippingOptionPayload = {
+            name: `Shipping`,
+            service_zone_id: fulfillmentSet.service_zones[0].id,
+            shipping_profile_id: shippingProfile.id,
+            provider_id: "manual_test-provider",
+            price_type: "flat",
+            type: {
+              label: "Test type",
+              description: "Test description",
+              code: "test-code",
+            },
+            prices: [
+              { currency_code: "usd", amount: 1000 },
+              {
+                currency_code: "usd",
+                amount: 0,
+                rules: [
+                  {
+                    attribute: "item_total",
+                    operator: "gt",
+                    value: 5000,
+                  },
+                ],
+              },
+            ],
+            rules: [
+              {
+                attribute: "enabled_in_store",
+                value: '"true"',
+                operator: "eq",
+              },
+              {
+                attribute: "is_return",
+                value: "false",
+                operator: "eq",
+              },
+            ],
+          }
+
           shippingOption = (
             await api.post(
               `/admin/shipping-options`,
+              shippingOptionPayload,
+              adminHeaders
+            )
+          ).data.shipping_option
+
+          shippingOptionExpensive = (
+            await api.post(
+              `/admin/shipping-options`,
               {
-                name: `Shipping`,
-                service_zone_id: fulfillmentSet.service_zones[0].id,
-                shipping_profile_id: shippingProfile.id,
-                provider_id: "manual_test-provider",
-                price_type: "flat",
-                type: {
-                  label: "Test type",
-                  description: "Test description",
-                  code: "test-code",
-                },
+                ...shippingOptionPayload,
                 prices: [
-                  { currency_code: "usd", amount: 1000 },
+                  { currency_code: "usd", amount: 10000 },
                   {
                     currency_code: "usd",
-                    amount: 0,
+                    amount: 5000,
                     rules: [
                       {
                         attribute: "item_total",
@@ -384,18 +422,6 @@ medusaIntegrationTestRunner({
                         value: 5000,
                       },
                     ],
-                  },
-                ],
-                rules: [
-                  {
-                    attribute: "enabled_in_store",
-                    value: '"true"',
-                    operator: "eq",
-                  },
-                  {
-                    attribute: "is_return",
-                    value: "false",
-                    operator: "eq",
                   },
                 ],
               },
@@ -552,6 +578,70 @@ medusaIntegrationTestRunner({
               expect.objectContaining({
                 id: cart.id,
                 shipping_methods: expect.arrayContaining([]),
+              })
+            )
+          })
+
+          it("should update payment collection upon changing shipping option", async () => {
+            await api.post(
+              `/store/carts/${cart.id}/shipping-methods`,
+              { option_id: shippingOption.id },
+              storeHeaders
+            )
+
+            await api.post(
+              `/store/payment-collections`,
+              { cart_id: cart.id },
+              storeHeaders
+            )
+
+            const cartAfterCollection = (
+              await api.get(`/store/carts/${cart.id}`, storeHeaders)
+            ).data.cart
+
+            expect(cartAfterCollection).toEqual(
+              expect.objectContaining({
+                id: cart.id,
+                shipping_methods: expect.arrayContaining([
+                  expect.objectContaining({
+                    shipping_option_id: shippingOption.id,
+                  }),
+                ]),
+                payment_collection: expect.objectContaining({
+                  amount: 2398,
+                }),
+              })
+            )
+
+            await api.post(
+              `/store/carts/${cart.id}/line-items`,
+              {
+                variant_id: product.variants[0].id,
+                quantity: 100,
+              },
+              storeHeaders
+            )
+
+            let cartAfterExpensiveShipping = (
+              await api.post(
+                `/store/carts/${cart.id}/shipping-methods`,
+                { option_id: shippingOptionExpensive.id },
+                storeHeaders
+              )
+            ).data.cart
+
+            expect(cartAfterExpensiveShipping).toEqual(
+              expect.objectContaining({
+                id: cartAfterExpensiveShipping.id,
+                shipping_methods: expect.arrayContaining([
+                  expect.objectContaining({
+                    shipping_option_id: shippingOptionExpensive.id,
+                    amount: 5000,
+                  }),
+                ]),
+                payment_collection: expect.objectContaining({
+                  amount: 156398,
+                }),
               })
             )
           })

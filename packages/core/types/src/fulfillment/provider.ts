@@ -2,7 +2,8 @@ import { CalculateShippingOptionPriceDTO } from "./mutations"
 
 export type FulfillmentOption = {
   /**
-   * The option's ID.
+   * The option's ID. This ID can be an ID in the third-party system relevant
+   * for later processing of fulfillment.
    *
    * @example express
    */
@@ -15,7 +16,15 @@ export type FulfillmentOption = {
 }
 
 export type CalculatedShippingOptionPrice = {
+  /**
+   * The calculated price.
+   */
   calculated_amount: number
+  /**
+   * Whether the calculated price includes taxes. If enabled, Medusa will
+   * infer the taxes from the calculated price. If false, Medusa will
+   * add taxes to the calculated price.
+   */
   is_calculated_price_tax_inclusive: boolean
 }
 

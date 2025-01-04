@@ -4,9 +4,13 @@
 
 ### Patch Changes
 
+- [#10617](https://github.com/medusajs/medusa/pull/10617) [`100da64242838739816351ed259461f2d7c258e3`](https://github.com/medusajs/medusa/commit/100da64242838739816351ed259461f2d7c258e3) Thanks [@adrien2p](https://github.com/adrien2p)! - chore: fulfillment module DML
+
 - [#10408](https://github.com/medusajs/medusa/pull/10408) [`c9b8db04c1b35f1cf129bb9ad74789fbc2881815`](https://github.com/medusajs/medusa/commit/c9b8db04c1b35f1cf129bb9ad74789fbc2881815) Thanks [@olivermrbl](https://github.com/olivermrbl)! - chore: Support custom line items
 
-- Updated dependencies [[`c9b8db04c1b35f1cf129bb9ad74789fbc2881815`](https://github.com/medusajs/medusa/commit/c9b8db04c1b35f1cf129bb9ad74789fbc2881815), [`9d85e663b8bac2240ec3e3bf99377dd0eac72160`](https://github.com/medusajs/medusa/commit/9d85e663b8bac2240ec3e3bf99377dd0eac72160), [`1232a43fcec50b01477149089bbb957dec15ba76`](https://github.com/medusajs/medusa/commit/1232a43fcec50b01477149089bbb957dec15ba76)]:
+- Updated dependencies [[`100da64242838739816351ed259461f2d7c258e3`](https://github.com/medusajs/medusa/commit/100da64242838739816351ed259461f2d7c258e3), [`d08b71f9b87c68350e57016e62e406a9bdd82342`](https://github.com/medusajs/medusa/commit/d08b71f9b87c68350e57016e62e406a9bdd82342), [`c9b8db04c1b35f1cf129bb9ad74789fbc2881815`](https://github.com/medusajs/medusa/commit/c9b8db04c1b35f1cf129bb9ad74789fbc2881815), [`9d85e663b8bac2240ec3e3bf99377dd0eac72160`](https://github.com/medusajs/medusa/commit/9d85e663b8bac2240ec3e3bf99377dd0eac72160), [`5d1098ceb9713225186fce16c0306b0539d71fc5`](https://github.com/medusajs/medusa/commit/5d1098ceb9713225186fce16c0306b0539d71fc5), [`1232a43fcec50b01477149089bbb957dec15ba76`](https://github.com/medusajs/medusa/commit/1232a43fcec50b01477149089bbb957dec15ba76)]:
+  - @medusajs/fulfillment@2.1.3
+  - @medusajs/product@2.1.3
   - @medusajs/core-flows@2.1.3
   - @medusajs/cart@2.1.3
   - @medusajs/admin-bundler@2.1.3
@@ -20,7 +24,6 @@
   - @medusajs/event-bus-local@2.1.3
   - @medusajs/event-bus-redis@2.1.3
   - @medusajs/file@2.1.3
-  - @medusajs/fulfillment@2.1.3
   - @medusajs/index@2.1.3
   - @medusajs/inventory@2.1.3
   - @medusajs/link-modules@2.1.3
@@ -29,7 +32,6 @@
   - @medusajs/order@2.1.3
   - @medusajs/payment@2.1.3
   - @medusajs/pricing@2.1.3
-  - @medusajs/product@2.1.3
   - @medusajs/promotion@2.1.3
   - @medusajs/auth-emailpass@2.1.3
   - @medusajs/auth-github@2.1.3

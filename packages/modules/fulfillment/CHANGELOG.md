@@ -2,6 +2,10 @@
 
 ## 2.1.3
 
+### Patch Changes
+
+- [#10617](https://github.com/medusajs/medusa/pull/10617) [`100da64242838739816351ed259461f2d7c258e3`](https://github.com/medusajs/medusa/commit/100da64242838739816351ed259461f2d7c258e3) Thanks [@adrien2p](https://github.com/adrien2p)! - chore: fulfillment module DML
+
 ## 2.1.2
 
 ### Patch Changes

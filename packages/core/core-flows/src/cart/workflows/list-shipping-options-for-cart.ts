@@ -53,22 +53,19 @@ export const listShippingOptionsForCartWorkflow = createWorkflow(
       ({ scFulfillmentSetQuery }) => scFulfillmentSetQuery.data[0]
     )
 
-    const { fulfillmentSetIds, fulfillmentSetLocationMap } = transform(
+    const { fulfillmentSetIds } = transform(
       { scFulfillmentSets },
       ({ scFulfillmentSets }) => {
         const fulfillmentSetIds = new Set<string>()
-        const fulfillmentSetLocationMap = {}
 
         scFulfillmentSets.stock_locations.forEach((stockLocation) => {
           stockLocation.fulfillment_sets.forEach((fulfillmentSet) => {
-            fulfillmentSetLocationMap[fulfillmentSet.id] = stockLocation
             fulfillmentSetIds.add(fulfillmentSet.id)
           })
         })
 
         return {
           fulfillmentSetIds: Array.from(fulfillmentSetIds),
-          fulfillmentSetLocationMap,
         }
       }
     )
@@ -130,19 +127,15 @@ export const listShippingOptionsForCartWorkflow = createWorkflow(
     }).config({ name: "shipping-options-query" })
 
     const shippingOptionsWithPrice = transform(
-      { shippingOptions, fulfillmentSetLocationMap },
-      ({ shippingOptions, fulfillmentSetLocationMap }) =>
+      { shippingOptions },
+      ({ shippingOptions }) =>
         shippingOptions.map((shippingOption) => {
           const price = shippingOption.calculated_price
-          const fulfillmentSetId =
-            shippingOption.service_zone.fulfillment_set_id
-          const stockLocation = fulfillmentSetLocationMap[fulfillmentSetId]
 
           return {
             ...shippingOption,
             amount: price?.calculated_amount,
             is_tax_inclusive: !!price?.is_calculated_price_tax_inclusive,
-            stock_location: stockLocation,
           }
         })
     )

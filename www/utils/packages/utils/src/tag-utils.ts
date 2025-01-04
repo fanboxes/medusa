@@ -1,5 +1,5 @@
 import { Comment, CommentTag, DeclarationReflection, Reflection } from "typedoc"
-import { getUniqueStrArray } from "./str-utils"
+import { getUniqueStrArray } from "./str-utils.js"
 
 export const getTagsAsArray = (
   tag: CommentTag,

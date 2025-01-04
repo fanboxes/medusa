@@ -77,7 +77,7 @@ const retrieveBrandsFromCmsStep = createStep(
 )
 ```
 
-You create a `retrieveBrandsFromSystemStep` that resolves the CMS Module's service and uses its `retrieveBrands` method to retrieve the brands in the CMS. You return those brands in the step's response.
+You create a `retrieveBrandsFromCmsStep` that resolves the CMS Module's service and uses its `retrieveBrands` method to retrieve the brands in the CMS. You return those brands in the step's response.
 
 ### createBrandsStep
 
@@ -208,17 +208,17 @@ import {
 
 // ...
 
-export const syncBrandsFromSystemWorkflow = createWorkflow(
+export const syncBrandsFromCmsWorkflow = createWorkflow(
   "sync-brands-from-system",
   () => {
-    const brands = retrieveBrandsFromSystemStep()
+    const brands = retrieveBrandsFromCmsStep()
 
     // TODO create and update brands
   }
 )
 ```
 
-In the workflow, you only use the `retrieveBrandsFromSystemStep` for now, which retrieves the brands from the third-party CMS.
+In the workflow, you only use the `retrieveBrandsFromCmsStep` for now, which retrieves the brands from the third-party CMS.
 
 Next, you need to identify which brands must be created or updated. Since workflows are constructed internally and are only evaluated during execution, you can't access values to perform data manipulation directly. Instead, use [transform](../../../fundamentals/workflows/variable-manipulation/page.mdx) from the Workflows SDK that gives you access to the real-time values of the data, allowing you to create new variables using those values.
 

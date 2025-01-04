@@ -1,6 +1,10 @@
 ---
 slug: /references/medusa-workflows/deleteCustomersWorkflow
 sidebar_label: deleteCustomersWorkflow
+tags:
+  - customer
+  - event bus
+  - workflow
 ---
 
 import { TypeList, WorkflowDiagram } from "docs-ui"
@@ -13,7 +17,7 @@ This workflow deletes one or more customers.
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"deleteCustomersWorkflow","steps":[{"type":"step","name":"deleteCustomersStep","description":"This step deletes one or more customers.","link":"../../../Steps_Customer/functions/core_flows.Customer.Steps_Customer.deleteCustomersStep/page.mdx","depth":1},{"type":"hook","name":"customersDeleted","description":"This step is a hook that you can inject custom functionality into.\n\n","link":"#customersDeleted","depth":2},{"type":"step","name":"emitEventStep","description":"Emit an event.\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":3}]}} />
+<WorkflowDiagram workflow={{"name":"deleteCustomersWorkflow","steps":[{"type":"step","name":"deleteCustomersStep","description":"This step deletes one or more customers.\n\n","link":"../../../Steps_Customer/functions/core_flows.Customer.Steps_Customer.deleteCustomersStep/page.mdx","depth":1},{"type":"hook","name":"customersDeleted","description":"This step is a hook that you can inject custom functionality into.\n\n","link":"#customersDeleted","depth":2},{"type":"step","name":"emitEventStep","description":"Emit an event.\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":3}]}} />
 
 ## Input
 

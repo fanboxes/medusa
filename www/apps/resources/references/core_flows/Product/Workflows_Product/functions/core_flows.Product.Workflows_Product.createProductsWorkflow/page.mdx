@@ -1,6 +1,14 @@
 ---
 slug: /references/medusa-workflows/createProductsWorkflow
 sidebar_label: createProductsWorkflow
+tags:
+  - product
+  - remote link
+  - event bus
+  - workflow
+  - pricing
+  - inventory
+  - remote query
 ---
 
 import { TypeList, WorkflowDiagram } from "docs-ui"
@@ -13,7 +21,7 @@ This workflow creates one or more products.
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"createProductsWorkflow","steps":[{"type":"step","name":"createProductsStep","description":"This step creates one or more products.","link":"../../../Steps_Product/functions/core_flows.Product.Steps_Product.createProductsStep/page.mdx","depth":1},{"type":"step","name":"associateProductsWithSalesChannelsStep","description":"This step creates links between products and sales channel records.","link":"../../../../Sales_Channel/Steps_Sales_Channel/functions/core_flows.Sales_Channel.Steps_Sales_Channel.associateProductsWithSalesChannelsStep/page.mdx","depth":2},{"type":"workflow","name":"createProductVariantsWorkflow","description":"This workflow creates one or more product variants.","link":"../core_flows.Product.Workflows_Product.createProductVariantsWorkflow/page.mdx","depth":3},{"type":"step","name":"emitEventStep","description":"Emit an event.\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":4},{"type":"hook","name":"productsCreated","description":"This step is a hook that you can inject custom functionality into.\n\n","link":"#productsCreated","depth":5}]}} />
+<WorkflowDiagram workflow={{"name":"createProductsWorkflow","steps":[{"type":"step","name":"createProductsStep","description":"This step creates one or more products.\n\n","link":"../../../Steps_Product/functions/core_flows.Product.Steps_Product.createProductsStep/page.mdx","depth":1},{"type":"step","name":"associateProductsWithSalesChannelsStep","description":"This step creates links between products and sales channel records.\n\n","link":"../../../../Sales_Channel/Steps_Sales_Channel/functions/core_flows.Sales_Channel.Steps_Sales_Channel.associateProductsWithSalesChannelsStep/page.mdx","depth":2},{"type":"workflow","name":"createProductVariantsWorkflow","description":"This workflow creates one or more product variants.\n\n","link":"../core_flows.Product.Workflows_Product.createProductVariantsWorkflow/page.mdx","depth":3},{"type":"step","name":"emitEventStep","description":"Emit an event.\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":4},{"type":"hook","name":"productsCreated","description":"This step is a hook that you can inject custom functionality into.\n\n","link":"#productsCreated","depth":5}]}} />
 
 ## Input
 

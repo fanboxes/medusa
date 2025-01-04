@@ -58,6 +58,12 @@ export class OrderChangeProcessing {
     let paid = MathBN.convert(0)
     let refunded = MathBN.convert(0)
     let transactionTotal = MathBN.convert(0)
+    let creditLineTotal = (this.order.credit_lines || []).reduce(
+      (acc, creditLine) => MathBN.add(acc, creditLine.amount),
+      MathBN.convert(0)
+    )
+
+    const currentOrderTotal = MathBN.add(this.order.total ?? 0, creditLineTotal)
 
     for (const tr of transactions) {
       if (MathBN.lt(tr.amount, 0)) {
@@ -73,11 +79,12 @@ export class OrderChangeProcessing {
     this.summary = {
       pending_difference: 0,
       difference_sum: 0,
-      current_order_total: this.order.total ?? 0,
+      current_order_total: currentOrderTotal,
       original_order_total: this.order.total ?? 0,
       transaction_total: transactionTotal,
       paid_total: paid,
       refunded_total: refunded,
+      credit_line_total: creditLineTotal,
     }
   }
 
@@ -100,6 +107,7 @@ export class OrderChangeProcessing {
     }
 
     const summary = this.summary
+
     for (const action of this.actions) {
       if (!this.isEventActive(action)) {
         continue
@@ -123,6 +131,13 @@ export class OrderChangeProcessing {
       if (!this.isEventDone(action) && !action.change_id) {
         summary.difference_sum = MathBN.add(summary.difference_sum, amount)
       }
+
+      const creditLineTotal = (this.order.credit_lines || []).reduce(
+        (acc, creditLine) => MathBN.add(acc, creditLine.amount),
+        MathBN.convert(0)
+      )
+
+      summary.credit_line_total = creditLineTotal
       summary.current_order_total = MathBN.add(
         summary.current_order_total,
         amount
@@ -200,6 +215,7 @@ export class OrderChangeProcessing {
       difference_sum: new BigNumber(summary.difference_sum),
       paid_total: new BigNumber(summary.paid_total),
       refunded_total: new BigNumber(summary.refunded_total),
+      credit_line_total: new BigNumber(summary.credit_line_total),
     } as unknown as OrderSummaryDTO
 
     return orderSummary

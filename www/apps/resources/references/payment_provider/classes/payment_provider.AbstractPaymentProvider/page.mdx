@@ -36,6 +36,62 @@ class MyPaymentProviderService extends AbstractPaymentProvider<
 export default MyPaymentProviderService
 ```
 
+### constructor
+
+The constructor allows you to access resources from the [module's container](https://docs.medusajs.com/learn/fundamentals/modules/container) 
+using the first parameter, and the module's options using the second parameter.
+
+:::note
+
+A module's options are passed when you register it in the Medusa application.
+
+:::
+
+#### Example
+
+```ts
+import { AbstractPaymentProvider } from "@medusajs/framework/utils"
+import { Logger } from "@medusajs/framework/types"
+
+type Options = {
+  apiKey: string
+}
+
+type InjectedDependencies = {
+  logger: Logger
+}
+
+class MyPaymentProviderService extends AbstractPaymentProvider<Options> {
+  protected logger_: Logger
+  protected options_: Options
+  // assuming you're initializing a client
+  protected client
+
+  constructor(
+    container: InjectedDependencies,
+    options: Options
+  ) {
+    super(container, options)
+
+    this.logger_ = container.logger
+    this.options_ = options
+
+    // TODO initialize your client
+  }
+  // ...
+}
+
+export default MyPaymentProviderService
+```
+
+#### Type Parameters
+
+<TypeList types={[{"name":"TConfig","type":"`object`","description":"The type of the provider's options passed as a second parameter.","optional":true,"defaultValue":"","expandable":false,"children":[]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" sectionTitle="AbstractPaymentProvider"/>
+
+#### Parameters
+
+<TypeList types={[{"name":"cradle","type":"`Record<string, unknown>`","description":"The module's container cradle used to resolve resources.","optional":false,"defaultValue":"","expandable":false,"children":[]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" sectionTitle="AbstractPaymentProvider"/>
+
 ### identifier
 
 Each payment provider has a unique identifier defined in its class. The provider's ID
@@ -111,6 +167,7 @@ class MyPaymentProviderService extends AbstractPaymentProvider<
     const externalId = paymentData.id
 
     try {
+      // assuming you have a client that captures the payment
       const newData = await this.client.capturePayment(externalId)
 
       return {
@@ -173,6 +230,7 @@ class MyPaymentProviderService extends AbstractPaymentProvider<
     const externalId = paymentSessionData.id
 
     try {
+      // assuming you have a client that authorizes the payment
       const paymentData = await this.client.authorizePayment(externalId)
 
       return {
@@ -225,6 +283,7 @@ class MyPaymentProviderService extends AbstractPaymentProvider<
     const externalId = paymentData.id
 
     try {
+      // assuming you have a client that cancels the payment
       const paymentData = await this.client.cancelPayment(externalId)
     } catch (e) {
       return {
@@ -274,6 +333,7 @@ class MyPaymentProviderService extends AbstractPaymentProvider<
     } = context
 
     try {
+      // assuming you have a client that initializes the payment
       const response = await this.client.init(
         amount, currency_code, customerDetails
       )
@@ -331,6 +391,7 @@ class MyPaymentProviderService extends AbstractPaymentProvider<
     const externalId = paymentSessionData.id
 
     try {
+      // assuming you have a client that cancels the payment
       await this.client.cancelPayment(externalId)
     } catch (e) {
       return {
@@ -374,6 +435,7 @@ class MyPaymentProviderService extends AbstractPaymentProvider<
     const externalId = paymentSessionData.id
 
     try {
+      // assuming you have a client that retrieves the payment status
       const status = await this.client.getStatus(externalId)
 
       switch (status) {
@@ -428,6 +490,7 @@ class MyPaymentProviderService extends AbstractPaymentProvider<
     const externalId = paymentData.id
 
     try {
+      // assuming you have a client that refunds the payment
       const newData = await this.client.refund(
         externalId,
         refundAmount
@@ -482,6 +545,7 @@ class MyPaymentProviderService extends AbstractPaymentProvider<
     const externalId = paymentSessionData.id
 
     try {
+      // assuming you have a client that retrieves the payment
       return await this.client.retrieve(externalId)
     } catch (e) {
       return {
@@ -533,6 +597,7 @@ class MyPaymentProviderService extends AbstractPaymentProvider<
     const externalId = data.id
 
     try {
+      // assuming you have a client that updates the payment
       const response = await this.client.update(
         externalId,
         {
@@ -707,4 +772,4 @@ Then, go through checkout to place an order. Your payment provider is used to au
 
 ## Useful Guides
 
-- [Storefront Guide: how to implement UI for your payment provider during checkout](https://docs.medusajs.com/v2/resources/storefront-development/checkout/payment)
+- [Storefront Guide: how to implement UI for your payment provider during checkout](https://docs.medusajs.com/resources/storefront-development/checkout/payment)

@@ -6,19 +6,18 @@ import {
   RequestWithContext,
   wrapProductsWithTaxPrices,
 } from "../helpers"
-import { StoreGetProductParamsType } from "../validators"
 import { HttpTypes } from "@medusajs/framework/types"
 
 export const GET = async (
-  req: RequestWithContext<StoreGetProductParamsType>,
+  req: RequestWithContext<HttpTypes.StoreProductParams>,
   res: MedusaResponse<HttpTypes.StoreProductResponse>
 ) => {
-  const withInventoryQuantity = req.remoteQueryConfig.fields.some((field) =>
+  const withInventoryQuantity = req.queryConfig.fields.some((field) =>
     field.includes("variants.inventory_quantity")
   )
 
   if (withInventoryQuantity) {
-    req.remoteQueryConfig.fields = req.remoteQueryConfig.fields.filter(
+    req.queryConfig.fields = req.queryConfig.fields.filter(
       (field) => !field.includes("variants.inventory_quantity")
     )
   }
@@ -37,7 +36,7 @@ export const GET = async (
   const product = await refetchProduct(
     filters,
     req.scope,
-    req.remoteQueryConfig.fields
+    req.queryConfig.fields
   )
 
   if (!product) {

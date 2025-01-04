@@ -2,7 +2,7 @@ import { TypeList } from "docs-ui"
 
 # ExtractEntityRelations
 
- **ExtractEntityRelations**: &#123; [K in keyof Schema & string]: Schema[K] extends RelationshipType&#60;any&#62; ? Schema[K] extends Object ? K : never : never &#125;[keyof Schema & `string`][]
+ **ExtractEntityRelations**: &#123; [K in keyof Schema & string]: Schema[K] extends RelationshipType&#60;any&#62; ? Schema[K] extends &#123; type: OfType &#125; ? K : never : never &#125;[keyof Schema & `string`][]
 
 Extracts names of relationships from a schema
 

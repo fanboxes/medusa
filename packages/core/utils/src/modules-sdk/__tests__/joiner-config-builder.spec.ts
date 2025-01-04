@@ -613,10 +613,15 @@ describe("joiner-config-builder", () => {
         }
       )
 
-      const linkConfig = buildLinkConfigFromModelObjects("myService", {
-        user,
-        car,
-      })
+      const linkableKeysFromDml = buildLinkableKeysFromDmlObjects([user, car])
+      const linkConfig = buildLinkConfigFromModelObjects(
+        "myService",
+        {
+          user,
+          car,
+        },
+        linkableKeysFromDml
+      )
 
       expectTypeOf(linkConfig).toMatchTypeOf<{
         user: {

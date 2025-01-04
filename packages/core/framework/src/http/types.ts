@@ -108,13 +108,20 @@ export interface MedusaRequest<
    * An object containing the select, relation to be used with medusa internal services
    */
   retrieveConfig: FindConfig<unknown>
+
   /**
    * An object containing fields and variables to be used with the remoteQuery
    */
-  remoteQueryConfig: {
+  queryConfig: {
     fields: string[]
     pagination: { order?: Record<string, string>; skip: number; take?: number }
   }
+
+  /**
+   * @deprecated. Instead use "req.queryConfig"
+   */
+  remoteQueryConfig: MedusaRequest["queryConfig"]
+
   /**
    * An object containing the fields that are filterable e.g `{ id: Any<String> }`
    */
@@ -163,14 +170,18 @@ export interface PublishableKeyContext {
   sales_channel_ids: string[]
 }
 
-export interface AuthenticatedMedusaRequest<Body = unknown, QueryFields = Record<string, unknown>>
-  extends MedusaRequest<Body, QueryFields> {
+export interface AuthenticatedMedusaRequest<
+  Body = unknown,
+  QueryFields = Record<string, unknown>
+> extends MedusaRequest<Body, QueryFields> {
   auth_context: AuthContext
   publishable_key_context?: PublishableKeyContext
 }
 
-export interface MedusaStoreRequest<Body = unknown, QueryFields = Record<string, unknown>>
-  extends MedusaRequest<Body, QueryFields> {
+export interface MedusaStoreRequest<
+  Body = unknown,
+  QueryFields = Record<string, unknown>
+> extends MedusaRequest<Body, QueryFields> {
   auth_context?: AuthContext
   publishable_key_context: PublishableKeyContext
 }

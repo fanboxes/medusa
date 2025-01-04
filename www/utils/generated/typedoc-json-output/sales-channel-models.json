@@ -1,12 +1,12 @@
 {
-	"id": 20884,
+	"id": 14876,
 	"name": "sales-channel-models",
 	"variant": "project",
 	"kind": 1,
 	"flags": {},
 	"children": [
 		{
-			"id": 20885,
+			"id": 14877,
 			"name": "SalesChannel",
 			"variant": "declaration",
 			"kind": 32,
@@ -21,19 +21,23 @@
 				},
 				"typeArguments": [
 					{
-						"type": "intersection",
-						"types": [
+						"type": "reference",
+						"target": {
+							"sourceFileName": "../../../../packages/core/utils/src/dml/entity.ts",
+							"qualifiedName": "DMLEntitySchemaBuilder"
+						},
+						"typeArguments": [
 							{
 								"type": "reflection",
 								"declaration": {
-									"id": 20886,
+									"id": 14878,
 									"name": "__type",
 									"variant": "declaration",
 									"kind": 65536,
 									"flags": {},
 									"children": [
 										{
-											"id": 20887,
+											"id": 14879,
 											"name": "id",
 											"variant": "declaration",
 											"kind": 1024,
@@ -69,7 +73,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 20888,
+											"id": 14880,
 											"name": "name",
 											"variant": "declaration",
 											"kind": 1024,
@@ -94,7 +98,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 20889,
+											"id": 14881,
 											"name": "description",
 											"variant": "declaration",
 											"kind": 1024,
@@ -121,7 +125,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 20890,
+											"id": 14882,
 											"name": "is_disabled",
 											"variant": "declaration",
 											"kind": 1024,
@@ -146,7 +150,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 20891,
+											"id": 14883,
 											"name": "metadata",
 											"variant": "declaration",
 											"kind": 1024,
@@ -177,160 +181,19 @@
 										{
 											"title": "Properties",
 											"children": [
-												20887,
-												20888,
-												20889,
-												20890,
-												20891
+												14879,
+												14880,
+												14881,
+												14882,
+												14883
 											]
 										}
 									]
 								}
-							},
-							{
-								"type": "reflection",
-								"declaration": {
-									"id": 20892,
-									"name": "__type",
-									"variant": "declaration",
-									"kind": 65536,
-									"flags": {},
-									"children": [
-										{
-											"id": 20893,
-											"name": "id",
-											"variant": "declaration",
-											"kind": 1024,
-											"flags": {},
-											"type": {
-												"type": "reference",
-												"target": {
-													"sourceFileName": "../../../../packages/core/utils/src/dml/properties/primary-key.ts",
-													"qualifiedName": "PrimaryKeyModifier"
-												},
-												"typeArguments": [
-													{
-														"type": "reference",
-														"target": {
-															"sourceFileName": "../../../../packages/core/utils/src/dml/properties/id.ts",
-															"qualifiedName": "IdProperty"
-														},
-														"name": "IdProperty",
-														"package": "@medusajs/utils"
-													}
-												],
-												"name": "PrimaryKeyModifier",
-												"package": "@medusajs/utils"
-											},
-											"defaultValue": "..."
-										},
-										{
-											"id": 20894,
-											"name": "name",
-											"variant": "declaration",
-											"kind": 1024,
-											"flags": {},
-											"type": {
-												"type": "reference",
-												"target": {
-													"sourceFileName": "../../../../packages/core/utils/src/dml/properties/text.ts",
-													"qualifiedName": "TextProperty"
-												},
-												"name": "TextProperty",
-												"package": "@medusajs/utils"
-											},
-											"defaultValue": "..."
-										},
-										{
-											"id": 20895,
-											"name": "description",
-											"variant": "declaration",
-											"kind": 1024,
-											"flags": {
-												"isOptional": true
-											},
-											"type": {
-												"type": "reference",
-												"target": {
-													"sourceFileName": "../../../../packages/core/utils/src/dml/properties/text.ts",
-													"qualifiedName": "TextProperty"
-												},
-												"name": "TextProperty",
-												"package": "@medusajs/utils"
-											},
-											"defaultValue": "..."
-										},
-										{
-											"id": 20896,
-											"name": "is_disabled",
-											"variant": "declaration",
-											"kind": 1024,
-											"flags": {},
-											"type": {
-												"type": "reference",
-												"target": {
-													"sourceFileName": "../../../../packages/core/utils/src/dml/properties/boolean.ts",
-													"qualifiedName": "BooleanProperty"
-												},
-												"name": "BooleanProperty",
-												"package": "@medusajs/utils"
-											},
-											"defaultValue": "..."
-										},
-										{
-											"id": 20897,
-											"name": "metadata",
-											"variant": "declaration",
-											"kind": 1024,
-											"flags": {
-												"isOptional": true
-											},
-											"type": {
-												"type": "reference",
-												"target": {
-													"sourceFileName": "../../../../packages/core/utils/src/dml/properties/json.ts",
-													"qualifiedName": "JSONProperty"
-												},
-												"name": "JSONProperty",
-												"package": "@medusajs/utils"
-											},
-											"defaultValue": "..."
-										}
-									],
-									"groups": [
-										{
-											"title": "Properties",
-											"children": [
-												20893,
-												20894,
-												20895,
-												20896,
-												20897
-											]
-										}
-									]
-								}
-							},
-							{
-								"type": "reflection",
-								"declaration": {
-									"id": 20898,
-									"name": "__type",
-									"variant": "declaration",
-									"kind": 65536,
-									"flags": {}
-								}
-							},
-							{
-								"type": "reference",
-								"target": {
-									"sourceFileName": "../../../../packages/core/utils/src/dml/helpers/entity-builder/create-default-properties.ts",
-									"qualifiedName": "DMLSchemaDefaults"
-								},
-								"name": "DMLSchemaDefaults",
-								"package": "@medusajs/utils"
 							}
-						]
+						],
+						"name": "DMLEntitySchemaBuilder",
+						"package": "@medusajs/utils"
 					},
 					{
 						"type": "literal",
@@ -347,71 +210,43 @@
 		{
 			"title": "Variables",
 			"children": [
-				20885
+				14877
 			]
 		}
 	],
 	"packageName": "@medusajs/sales-channel",
 	"symbolIdMap": {
-		"20884": {
+		"14876": {
 			"sourceFileName": "../../../../packages/modules/sales-channel/src/models/index.ts",
 			"qualifiedName": ""
 		},
-		"20885": {
+		"14877": {
 			"sourceFileName": "../../../../packages/modules/sales-channel/src/models/sales-channel.ts",
 			"qualifiedName": "SalesChannel"
 		},
-		"20886": {
+		"14878": {
 			"sourceFileName": "../../../../packages/modules/sales-channel/src/models/sales-channel.ts",
 			"qualifiedName": "__object"
 		},
-		"20887": {
+		"14879": {
 			"sourceFileName": "../../../../packages/modules/sales-channel/src/models/sales-channel.ts",
 			"qualifiedName": "__object.id"
 		},
-		"20888": {
+		"14880": {
 			"sourceFileName": "../../../../packages/modules/sales-channel/src/models/sales-channel.ts",
 			"qualifiedName": "__object.name"
 		},
-		"20889": {
+		"14881": {
 			"sourceFileName": "../../../../packages/modules/sales-channel/src/models/sales-channel.ts",
 			"qualifiedName": "__object.description"
 		},
-		"20890": {
+		"14882": {
 			"sourceFileName": "../../../../packages/modules/sales-channel/src/models/sales-channel.ts",
 			"qualifiedName": "__object.is_disabled"
 		},
-		"20891": {
+		"14883": {
 			"sourceFileName": "../../../../packages/modules/sales-channel/src/models/sales-channel.ts",
 			"qualifiedName": "__object.metadata"
-		},
-		"20892": {
-			"sourceFileName": "../../../../packages/core/utils/src/dml/helpers/entity-builder/create-big-number-properties.ts",
-			"qualifiedName": "__type"
-		},
-		"20893": {
-			"sourceFileName": "../../../../packages/modules/sales-channel/src/models/sales-channel.ts",
-			"qualifiedName": "id"
-		},
-		"20894": {
-			"sourceFileName": "../../../../packages/modules/sales-channel/src/models/sales-channel.ts",
-			"qualifiedName": "name"
-		},
-		"20895": {
-			"sourceFileName": "../../../../packages/modules/sales-channel/src/models/sales-channel.ts",
-			"qualifiedName": "description"
-		},
-		"20896": {
-			"sourceFileName": "../../../../packages/modules/sales-channel/src/models/sales-channel.ts",
-			"qualifiedName": "is_disabled"
-		},
-		"20897": {
-			"sourceFileName": "../../../../packages/modules/sales-channel/src/models/sales-channel.ts",
-			"qualifiedName": "metadata"
-		},
-		"20898": {
-			"sourceFileName": "../../../../packages/core/utils/src/dml/helpers/entity-builder/create-big-number-properties.ts",
-			"qualifiedName": "__type"
 		}
 	},
 	"files": {
@@ -419,7 +254,7 @@
 			"1": "../../../../packages/modules/sales-channel/src/models/index.ts"
 		},
 		"reflections": {
-			"1": 20884
+			"1": 14876
 		}
 	}
 }

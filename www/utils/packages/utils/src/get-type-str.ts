@@ -20,8 +20,8 @@ import {
   UnionType,
   UnknownType,
 } from "typedoc"
-import { escapeChars, getHTMLChar } from "./str-utils"
-import { getProjectChild } from "./get-project-child"
+import { escapeChars, getHTMLChar } from "./str-utils.js"
+import { getProjectChild } from "./get-project-child.js"
 
 export type ReflectionParameterType =
   | ParameterReflection

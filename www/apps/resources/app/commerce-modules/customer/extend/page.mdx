@@ -276,9 +276,9 @@ You'll next execute the workflow in the hook handler.
 
 You can now consume the `customersCreated` hook, which is executed in the `createCustomersWorkflow` after the customer is created.
 
-To consume the hook, create the file `src/workflow/hooks/customer-created.ts` with the following content:
+To consume the hook, create the file `src/workflow/hooks/user-created.ts` with the following content:
 
-```ts title="src/workflow/hooks/customer-created.ts" collapsibleLines="1-6" expandButtonLabel="Show Imports"
+```ts title="src/workflow/hooks/user-created.ts" collapsibleLines="1-6" expandButtonLabel="Show Imports"
 import { createCustomersWorkflow } from "@medusajs/medusa/core-flows"
 import { 
   createCustomFromCustomerWorkflow, 

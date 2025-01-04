@@ -5,7 +5,7 @@ import {
 import {
   Modules,
   OrderStatus,
-  OrderWorkflowEvents
+  OrderWorkflowEvents,
 } from "@medusajs/framework/utils"
 import {
   createWorkflow,

@@ -1,6 +1,11 @@
 ---
 slug: /references/medusa-workflows/refreshPaymentCollectionForCartWorkflow
 sidebar_label: refreshPaymentCollectionForCartWorkflow
+tags:
+  - remote query
+  - payment
+  - workflow
+  - logger
 ---
 
 import { TypeList, WorkflowDiagram } from "docs-ui"
@@ -13,7 +18,7 @@ This workflow refreshes the payment collections of a cart.
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"refreshPaymentCollectionForCartWorkflow","steps":[{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":1},{"type":"when","condition":"{\n      const valueIsEqual = MathBN.eq(\n        cart.payment_collection?.raw_amount ?? -1,\n        cart.raw_total\n      )\n\n      if (valueIsEqual) {\n        return cart.payment_collection.currency_code !== cart.currency_code\n      }\n\n      return true\n    }","depth":"2","steps":[{"type":"workflow","name":"deletePaymentSessionsWorkflow","description":"This workflow deletes one or more payment sessions.","link":"../../../../Payment_Collection/Workflows_Payment_Collection/functions/core_flows.Payment_Collection.Workflows_Payment_Collection.deletePaymentSessionsWorkflow/page.mdx","depth":2},{"type":"step","name":"updatePaymentCollectionStep","description":"This step updates payment collections matching the specified filters.","link":"../../../../Payment_Collection/Steps_Payment_Collection/functions/core_flows.Payment_Collection.Steps_Payment_Collection.updatePaymentCollectionStep/page.mdx","depth":2}]}]}} />
+<WorkflowDiagram workflow={{"name":"refreshPaymentCollectionForCartWorkflow","steps":[{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":1},{"type":"when","condition":"{\n      const valueIsEqual = MathBN.eq(\n        cart.payment_collection?.raw_amount ?? -1,\n        cart.raw_total\n      )\n\n      if (valueIsEqual) {\n        return cart.payment_collection.currency_code !== cart.currency_code\n      }\n\n      return true\n    }","depth":"2","steps":[{"type":"workflow","name":"deletePaymentSessionsWorkflow","description":"This workflow deletes one or more payment sessions.\n\n","link":"../../../../Payment_Collection/Workflows_Payment_Collection/functions/core_flows.Payment_Collection.Workflows_Payment_Collection.deletePaymentSessionsWorkflow/page.mdx","depth":2},{"type":"step","name":"updatePaymentCollectionStep","description":"This step updates payment collections matching the specified filters.\n\n","link":"../../../../Payment_Collection/Steps_Payment_Collection/functions/core_flows.Payment_Collection.Steps_Payment_Collection.updatePaymentCollectionStep/page.mdx","depth":2}]}]}} />
 
 ## Input
 

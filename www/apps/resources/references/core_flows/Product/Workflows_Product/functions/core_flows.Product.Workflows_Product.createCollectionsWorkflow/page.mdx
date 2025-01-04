@@ -1,6 +1,10 @@
 ---
 slug: /references/medusa-workflows/createCollectionsWorkflow
 sidebar_label: createCollectionsWorkflow
+tags:
+  - product
+  - event bus
+  - workflow
 ---
 
 import { TypeList, WorkflowDiagram } from "docs-ui"
@@ -13,7 +17,7 @@ This workflow creates one or more collections.
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"createCollectionsWorkflow","steps":[{"type":"step","name":"createCollectionsStep","description":"This step creates one or more collection.","link":"../../../Steps_Product/functions/core_flows.Product.Steps_Product.createCollectionsStep/page.mdx","depth":1},{"type":"step","name":"emitEventStep","description":"Emit an event.\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":2},{"type":"hook","name":"collectionsCreated","description":"This step is a hook that you can inject custom functionality into.\n\n","link":"#collectionsCreated","depth":3}]}} />
+<WorkflowDiagram workflow={{"name":"createCollectionsWorkflow","steps":[{"type":"step","name":"createCollectionsStep","description":"This step creates one or more collection.\n\n","link":"../../../Steps_Product/functions/core_flows.Product.Steps_Product.createCollectionsStep/page.mdx","depth":1},{"type":"step","name":"emitEventStep","description":"Emit an event.\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":2},{"type":"hook","name":"collectionsCreated","description":"This step is a hook that you can inject custom functionality into.\n\n","link":"#collectionsCreated","depth":3}]}} />
 
 ## Input
 

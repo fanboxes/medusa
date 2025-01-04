@@ -1,6 +1,10 @@
 ---
 slug: /references/medusa-workflows/deleteCollectionsWorkflow
 sidebar_label: deleteCollectionsWorkflow
+tags:
+  - product
+  - event bus
+  - workflow
 ---
 
 import { TypeList, WorkflowDiagram } from "docs-ui"
@@ -13,7 +17,7 @@ This workflow deletes one or more collection.
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"deleteCollectionsWorkflow","steps":[{"type":"step","name":"deleteCollectionsStep","description":"This step deletes one or more collections.","link":"../../../Steps_Product/functions/core_flows.Product.Steps_Product.deleteCollectionsStep/page.mdx","depth":1},{"type":"step","name":"emitEventStep","description":"Emit an event.\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":2},{"type":"hook","name":"collectionsDeleted","description":"This step is a hook that you can inject custom functionality into.\n\n","link":"#collectionsDeleted","depth":3}]}} />
+<WorkflowDiagram workflow={{"name":"deleteCollectionsWorkflow","steps":[{"type":"step","name":"deleteCollectionsStep","description":"This step deletes one or more collections.\n\n","link":"../../../Steps_Product/functions/core_flows.Product.Steps_Product.deleteCollectionsStep/page.mdx","depth":1},{"type":"step","name":"emitEventStep","description":"Emit an event.\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":2},{"type":"hook","name":"collectionsDeleted","description":"This step is a hook that you can inject custom functionality into.\n\n","link":"#collectionsDeleted","depth":3}]}} />
 
 ## Input
 

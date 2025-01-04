@@ -147,7 +147,9 @@ export interface EntityConstructor<Props> extends Function {
  */
 export type InferForeignKeys<Schema extends DMLSchema> = {
   [K in keyof Schema as Schema[K] extends { $foreignKey: true }
-    ? `${K & string}_id`
+    ? Schema[K] extends { $foreignKeyName: `${infer FkName}` }
+      ? `${FkName & string}`
+      : `${K & string}_id`
     : never]: Schema[K] extends { $foreignKey: true }
     ? null extends Schema[K]["$dataType"]
       ? string | null

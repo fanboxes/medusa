@@ -2,7 +2,7 @@ import { TypeList } from "docs-ui"
 
 # CamelCaseParser
 
- **CamelCaseParser**: Type extends `""` ? Tuple : Type extends \`$&#123;WordInCamelCase&#60;Type&#62;&#125;$&#123;infer Tail&#125;\` ? Type extends \`$&#123;infer Word&#125;$&#123;Tail&#125;\` ? [CamelCaseParser](page.mdx)&#60;Uncapitalize&#60;Tail&#62;, [...Tuple, Lowercase&#60;Word&#62;]&#62; : `never` : `never`
+ **CamelCaseParser**: Type extends `""` ? Tuple : Type extends \`$&#123;WordInCamelCase&#60;Type&#62;&#125;$&#123;infer Tail&#125;\` ? Type extends \`$&#123;infer Word&#125;$&#123;Tail&#125;\` ? [CamelCaseParser](./page.mdx)&#60;Uncapitalize&#60;Tail&#62;, [...Tuple, Lowercase&#60;Word&#62;]&#62; : `never` : `never`
 
 ## Type Parameters
 

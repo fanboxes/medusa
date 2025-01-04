@@ -54,6 +54,14 @@ export type VirtualOrder = {
     amount: BigNumberInput
   }[]
 
+  credit_lines: {
+    id: string
+    order_id: string
+    reference_id?: string
+    reference?: string
+    amount: BigNumberInput
+  }[]
+
   total: BigNumberInput
 
   customer_id?: string
@@ -75,6 +83,7 @@ export interface OrderSummaryCalculated {
   difference_sum: BigNumberInput
   paid_total: BigNumberInput
   refunded_total: BigNumberInput
+  credit_line_total: BigNumberInput
 }
 
 export interface OrderTransaction {

@@ -4,7 +4,7 @@ import { LinearClient } from "@linear/sdk"
 import { Octokit } from "@octokit/core"
 import fs from "fs"
 import path from "path"
-import { fileURLToPath } from "url"
+import { getDirname } from "utils"
 
 const octokit = new Octokit({
   auth: process.env.GH_TOKEN,
@@ -14,8 +14,7 @@ const linearClient = new LinearClient({
   apiKey: process.env.LINEAR_API_KEY,
 })
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
+const __dirname = getDirname(import.meta.url)
 
 let freshnessCheckLabelId = ""
 let documentationTeamId = ""

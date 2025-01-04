@@ -1117,10 +1117,26 @@ medusaIntegrationTestRunner({
             )
           ).data.sales_channel
 
+          const salesChannel2 = (
+            await api.post(
+              "/admin/sales-channels",
+              { name: "second channel", description: "channel" },
+              adminHeaders
+            )
+          ).data.sales_channel
+
           stockLocation = (
             await api.post(
               `/admin/stock-locations`,
               { name: "test location" },
+              adminHeaders
+            )
+          ).data.stock_location
+
+          const stockLocation2 = (
+            await api.post(
+              `/admin/stock-locations`,
+              { name: "test location 2" },
               adminHeaders
             )
           ).data.stock_location
@@ -1145,8 +1161,23 @@ medusaIntegrationTestRunner({
           )
 
           await api.post(
+            `/admin/inventory-items/${inventoryItem.id}/location-levels`,
+            {
+              location_id: stockLocation2.id,
+              stocked_quantity: 10,
+            },
+            adminHeaders
+          )
+
+          await api.post(
             `/admin/stock-locations/${stockLocation.id}/sales-channels`,
             { add: [salesChannel.id] },
+            adminHeaders
+          )
+
+          await api.post(
+            `/admin/stock-locations/${stockLocation2.id}/sales-channels`,
+            { add: [salesChannel2.id] },
             adminHeaders
           )
 
@@ -1208,6 +1239,23 @@ medusaIntegrationTestRunner({
               },
               [Modules.FULFILLMENT]: {
                 fulfillment_set_id: fulfillmentSet.id,
+              },
+            },
+            {
+              [Modules.PRODUCT]: {
+                product_id: product.id,
+              },
+              [Modules.SALES_CHANNEL]: {
+                sales_channel_id: salesChannel2.id,
+              },
+            },
+            // Add product to 2 sales channels to test that the right stock location is selected for reservations
+            {
+              [Modules.PRODUCT]: {
+                product_id: product.id,
+              },
+              [Modules.SALES_CHANNEL]: {
+                sales_channel_id: salesChannel.id,
               },
             },
           ])

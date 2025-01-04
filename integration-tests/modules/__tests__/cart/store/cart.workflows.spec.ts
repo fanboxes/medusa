@@ -2116,6 +2116,7 @@ medusaIntegrationTestRunner({
             ])
 
             let cart = await cartModuleService.createCarts({
+              sales_channel_id: salesChannel.id,
               currency_code: "usd",
               items: [
                 {

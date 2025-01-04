@@ -12,8 +12,15 @@ import {
 import { isObject, isString, toCamelCase, upperCaseFirst } from "../common"
 import { transformIndexWhere } from "./helpers/entity-builder/build-indexes"
 import { BelongsTo } from "./relations/belongs-to"
+import {
+  DMLSchemaDefaults,
+  DMLSchemaWithBigNumber,
+} from "./helpers/entity-builder"
 
 const IsDmlEntity = Symbol.for("isDmlEntity")
+
+export type DMLEntitySchemaBuilder<Schema extends DMLSchema> =
+  DMLSchemaWithBigNumber<Schema> & DMLSchemaDefaults & Schema
 
 function extractNameAndTableName<const Config extends IDmlEntityConfig>(
   nameOrConfig: Config

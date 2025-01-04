@@ -1804,6 +1804,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@next/bundle-analyzer@npm:^15.1.1":
+  version: 15.1.1
+  resolution: "@next/bundle-analyzer@npm:15.1.1"
+  dependencies:
+    webpack-bundle-analyzer: 4.10.1
+  checksum: 2a85db96b1b37a6273d7ee81978ffd11181335b2017c636bcccfc6bca3fdd9a7f1b3c45fba35b4b51f5ca844da76f604d5e8568c894fbdae5a14ff27548cc0d6
+  languageName: node
+  linkType: hard
+
 "@next/env@npm:15.0.4":
   version: 15.0.4
   resolution: "@next/env@npm:15.0.4"
@@ -7142,6 +7151,7 @@ __metadata:
     rehype-mdx-code-props: ^2.0.0
     rehype-slug: ^6.0.0
     remark-rehype-plugins: "*"
+    tags: "*"
     tailwind: "*"
     tailwindcss: ^3.3.0
     tsconfig: "*"
@@ -7204,11 +7214,14 @@ __metadata:
   resolution: "build-scripts@workspace:packages/build-scripts"
   dependencies:
     "@types/node": ^20.11.20
-    remark-rehype-plugins: "*"
+    docs-utils: "*"
     rimraf: ^5.0.5
+    tags: "*"
     tsconfig: "*"
     types: "*"
     typescript: ^5.3.3
+  peerDependencies:
+    docs-utils: "*"
   languageName: unknown
   linkType: soft
 
@@ -8457,6 +8470,24 @@ __metadata:
     next: "*"
     react: "*"
     react-dom: "*"
+  languageName: unknown
+  linkType: soft
+
+"docs-utils@*, docs-utils@workspace:packages/docs-utils":
+  version: 0.0.0-use.local
+  resolution: "docs-utils@workspace:packages/docs-utils"
+  dependencies:
+    "@types/node": ^20.11.20
+    remark-frontmatter: ^5.0.0
+    remark-parse: ^11.0.0
+    remark-stringify: ^11.0.0
+    rimraf: ^5.0.5
+    to-vfile: ^8.0.0
+    tsconfig: "*"
+    types: "*"
+    typescript: ^5.3.3
+    unified: ^11.0.4
+    vfile-matter: ^5.0.0
   languageName: unknown
   linkType: soft
 
@@ -14614,19 +14645,14 @@ __metadata:
   dependencies:
     "@cloudinary/url-gen": ^1.17.0
     "@types/node": ^20.11.20
-    docs-ui: "*"
-    remark-frontmatter: ^5.0.0
-    remark-parse: ^11.0.0
-    remark-stringify: ^11.0.0
+    docs-utils: "*"
     rimraf: ^5.0.5
-    to-vfile: ^8.0.0
     tsconfig: "*"
     types: "*"
     typescript: ^5.3.3
     unified: ^11.0.4
     unist-builder: 3.0.0
     unist-util-visit: 4.1.2
-    vfile-matter: ^5.0.0
   languageName: unknown
   linkType: soft
 
@@ -14797,6 +14823,7 @@ __metadata:
     "@mdx-js/loader": ^3.1.0
     "@mdx-js/react": ^3.1.0
     "@medusajs/icons": ^2.0.0
+    "@next/bundle-analyzer": ^15.1.1
     "@next/mdx": 15.0.4
     "@types/mdx": ^2.0.13
     "@types/node": ^20
@@ -14806,6 +14833,7 @@ __metadata:
     build-scripts: "*"
     clsx: ^2.1.0
     docs-ui: "*"
+    docs-utils: "*"
     eslint: ^9.13.0
     eslint-plugin-prettier: ^5.2.1
     eslint-plugin-react-hooks: ^5.0.0
@@ -14817,6 +14845,7 @@ __metadata:
     remark-directive: ^3.0.0
     remark-frontmatter: ^5.0.0
     remark-rehype-plugins: "*"
+    tags: "*"
     tailwind: "*"
     tailwindcss: ^3.3.0
     ts-node: ^10.9.2
@@ -15648,6 +15677,20 @@ __metadata:
   checksum: e0c262817444e5b872708adb6f5ad37951ba33f6b2d1d4477d45db1f57573a784618ceed5e6614e0225db330632b1f6b95bb74d21e4d013e45ad4bde03d0cb59
   languageName: node
   linkType: hard
+
+"tags@*, tags@workspace:packages/tags":
+  version: 0.0.0-use.local
+  resolution: "tags@workspace:packages/tags"
+  dependencies:
+    "@types/node": ^20.11.20
+    docs-utils: "*"
+    rimraf: ^5.0.5
+    ts-node: ^10.9.1
+    tsconfig: "*"
+    types: "*"
+    typescript: ^5.3.3
+  languageName: unknown
+  linkType: soft
 
 "tailwind-merge@npm:^2.2.1":
   version: 2.2.1

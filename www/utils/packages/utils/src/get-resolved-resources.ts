@@ -1,6 +1,6 @@
 import ts from "typescript"
-import { getUniqueStrArray } from "./str-utils"
-import { camelToWords } from "./str-formatting"
+import { getUniqueStrArray } from "./str-utils.js"
+import { camelToWords } from "./str-formatting.js"
 
 const RESOLVE_EXPRESSIONS = [`container.resolve`, `req.scope.resolve`]
 

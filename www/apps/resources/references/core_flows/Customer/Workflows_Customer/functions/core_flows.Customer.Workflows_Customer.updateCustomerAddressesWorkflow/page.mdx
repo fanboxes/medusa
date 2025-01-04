@@ -1,6 +1,9 @@
 ---
 slug: /references/medusa-workflows/updateCustomerAddressesWorkflow
 sidebar_label: updateCustomerAddressesWorkflow
+tags:
+  - customer
+  - workflow
 ---
 
 import { TypeList, WorkflowDiagram } from "docs-ui"
@@ -13,7 +16,7 @@ This workflow updates one or more customer addresses.
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"updateCustomerAddressesWorkflow","steps":[{"type":"step","name":"maybeUnsetDefaultShippingAddressesStep","description":"This step unsets the `is_default_shipping` property of one or more addresses.","link":"../../../Steps_Customer/functions/core_flows.Customer.Steps_Customer.maybeUnsetDefaultShippingAddressesStep/page.mdx","depth":1},{"type":"step","name":"maybeUnsetDefaultBillingAddressesStep","description":"This step unsets the `is_default_billing` property of one or more addresses.","link":"../../../Steps_Customer/functions/core_flows.Customer.Steps_Customer.maybeUnsetDefaultBillingAddressesStep/page.mdx","depth":1},{"type":"step","name":"updateCustomerAddressesStep","description":"This step updates one or more customer addresses.","link":"../../../Steps_Customer/functions/core_flows.Customer.Steps_Customer.updateCustomerAddressesStep/page.mdx","depth":2},{"type":"hook","name":"addressesUpdated","description":"This step is a hook that you can inject custom functionality into.\n\n","link":"#addressesUpdated","depth":3}]}} />
+<WorkflowDiagram workflow={{"name":"updateCustomerAddressesWorkflow","steps":[{"type":"step","name":"maybeUnsetDefaultShippingAddressesStep","description":"This step unsets the `is_default_shipping` property of one or more addresses.\n\n","link":"../../../Steps_Customer/functions/core_flows.Customer.Steps_Customer.maybeUnsetDefaultShippingAddressesStep/page.mdx","depth":1},{"type":"step","name":"maybeUnsetDefaultBillingAddressesStep","description":"This step unsets the `is_default_billing` property of one or more addresses.\n\n","link":"../../../Steps_Customer/functions/core_flows.Customer.Steps_Customer.maybeUnsetDefaultBillingAddressesStep/page.mdx","depth":1},{"type":"step","name":"updateCustomerAddressesStep","description":"This step updates one or more customer addresses.\n\n","link":"../../../Steps_Customer/functions/core_flows.Customer.Steps_Customer.updateCustomerAddressesStep/page.mdx","depth":2},{"type":"hook","name":"addressesUpdated","description":"This step is a hook that you can inject custom functionality into.\n\n","link":"#addressesUpdated","depth":3}]}} />
 
 ## Input
 

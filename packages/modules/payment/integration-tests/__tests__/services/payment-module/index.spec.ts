@@ -23,11 +23,13 @@ moduleIntegrationTestRunner<IPaymentModuleService>({
           service: PaymentModuleService,
         }).linkable
 
+        expect(Object.keys(linkable)).toHaveLength(5)
         expect(Object.keys(linkable)).toEqual([
           "paymentCollection",
           "paymentSession",
           "payment",
           "refundReason",
+          "paymentProvider",
         ])
 
         Object.keys(linkable).forEach((key) => {
@@ -69,6 +71,15 @@ moduleIntegrationTestRunner<IPaymentModuleService>({
               primaryKey: "id",
               serviceName: "payment",
               field: "refundReason",
+            },
+          },
+          paymentProvider: {
+            id: {
+              linkable: "payment_provider_id",
+              entity: "PaymentProvider",
+              primaryKey: "id",
+              serviceName: "payment",
+              field: "paymentProvider",
             },
           },
         })

@@ -1,6 +1,10 @@
 ---
 slug: /references/medusa-workflows/bulkCreateDeleteLevelsWorkflow
 sidebar_label: bulkCreateDeleteLevelsWorkflow
+tags:
+  - inventory
+  - workflow
+  - remote query
 ---
 
 import { TypeList, WorkflowDiagram } from "docs-ui"
@@ -13,7 +17,7 @@ This workflow creates and deletes inventory levels.
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"bulkCreateDeleteLevelsWorkflow","steps":[{"type":"when","condition":"{\n      return !!input.deletes?.length\n    }","depth":"1","steps":[{"type":"workflow","name":"deleteInventoryLevelsWorkflow","description":"This workflow deletes one or more inventory levels.","link":"../core_flows.Inventory.Workflows_Inventory.deleteInventoryLevelsWorkflow/page.mdx","depth":1}]},{"type":"when","condition":"{\n      return !!input.creates?.length\n    }","depth":"2","steps":[{"type":"step","name":"createInventoryLevelsStep","description":"This step creates one or more inventory levels.","link":"../../../Steps_Inventory/functions/core_flows.Inventory.Steps_Inventory.createInventoryLevelsStep/page.mdx","depth":2}]}]}} />
+<WorkflowDiagram workflow={{"name":"bulkCreateDeleteLevelsWorkflow","steps":[{"type":"when","condition":"{\n      return !!input.deletes?.length\n    }","depth":"1","steps":[{"type":"workflow","name":"deleteInventoryLevelsWorkflow","description":"This workflow deletes one or more inventory levels.\n\n","link":"../core_flows.Inventory.Workflows_Inventory.deleteInventoryLevelsWorkflow/page.mdx","depth":1}]},{"type":"when","condition":"{\n      return !!input.creates?.length\n    }","depth":"2","steps":[{"type":"step","name":"createInventoryLevelsStep","description":"This step creates one or more inventory levels.\n\n","link":"../../../Steps_Inventory/functions/core_flows.Inventory.Steps_Inventory.createInventoryLevelsStep/page.mdx","depth":2}]}]}} />
 
 ## Input
 

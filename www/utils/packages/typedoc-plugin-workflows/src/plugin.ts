@@ -14,7 +14,7 @@ import {
 } from "typedoc"
 import ts, { SyntaxKind, VariableStatement } from "typescript"
 import { WorkflowManager, WorkflowDefinition } from "@medusajs/orchestration"
-import Helper, { WORKFLOW_AS_STEP_SUFFIX } from "./utils/helper"
+import Helper, { WORKFLOW_AS_STEP_SUFFIX } from "./utils/helper.js"
 import {
   findReflectionInNamespaces,
   isWorkflow,
@@ -23,7 +23,7 @@ import {
   getResolvedResourcesOfStep,
   getUniqueStrArray,
 } from "utils"
-import { StepType } from "./types"
+import { StepType } from "./types.js"
 
 type ParsedStep = {
   stepReflection: DeclarationReflection
@@ -223,7 +223,10 @@ class WorkflowsPlugin {
       stepDepth++
     })
 
-    const uniqueResources = addTagsToReflection(parentReflection, resources)
+    const uniqueResources = addTagsToReflection(parentReflection, [
+      ...resources,
+      "workflow",
+    ])
     this.updateWorkflowsTagsMap(workflowId, uniqueResources)
   }
 
@@ -560,7 +563,9 @@ class WorkflowsPlugin {
         },
       ])
     )
-    addTagsToReflection(stepReflection, resources)
+    const resourcesForType =
+      stepType === "step" || stepType === "hook" ? [stepType] : []
+    addTagsToReflection(stepReflection, [...resources, ...resourcesForType])
 
     if (parentReflection.isDocument()) {
       parentReflection.addChild(documentReflection)

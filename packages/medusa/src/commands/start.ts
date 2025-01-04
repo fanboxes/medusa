@@ -12,6 +12,7 @@ import {
   gqlSchemaToTypes,
   GracefulShutdownServer,
   isPresent,
+  generateContainerTypes,
 } from "@medusajs/framework/utils"
 import { logger } from "@medusajs/framework/logger"
 
@@ -120,24 +121,38 @@ async function start(args: {
     })
 
     try {
-      const { shutdown, gqlSchema, container } = await loaders({
+      const { shutdown, gqlSchema, container, modules } = await loaders({
         directory,
         expressApp: app,
       })
 
-      if (gqlSchema && generateTypes) {
-        const outputDirGeneratedTypes = path.join(directory, ".medusa/types")
-        await gqlSchemaToTypes({
-          outputDir: outputDirGeneratedTypes,
-          filename: "remote-query-entry-points",
-          interfaceName: "RemoteQueryEntryPoints",
-          schema: gqlSchema,
-          joinerConfigs: MedusaModule.getAllJoinerConfigs(),
+      if (generateTypes) {
+        await generateContainerTypes(modules, {
+          outputDir: path.join(directory, ".medusa/types"),
+          interfaceName: "ModuleImplementations",
         })
-        logger.info("Generated modules types")
+        logger.debug("Generated container types")
+
+        if (gqlSchema) {
+          const outputDirGeneratedTypes = path.join(directory, ".medusa/types")
+          await gqlSchemaToTypes({
+            outputDir: outputDirGeneratedTypes,
+            filename: "remote-query-entry-points",
+            interfaceName: "RemoteQueryEntryPoints",
+            schema: gqlSchema,
+            joinerConfigs: MedusaModule.getAllJoinerConfigs(),
+          })
+          logger.debug("Generated modules types")
+        }
       }
 
       const serverActivity = logger.activity(`Creating server`)
+
+      // Register a health check endpoint. Ideally this also checks the readiness of the service, rather than just returning a static response.
+      app.get("/health", (_, res) => {
+        res.status(200).send("OK")
+      })
+
       const server = GracefulShutdownServer.create(
         http_.listen(port, host).on("listening", () => {
           logger.success(

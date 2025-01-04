@@ -1,6 +1,10 @@
 ---
 slug: /references/medusa-workflows/deletePaymentSessionsWorkflow
 sidebar_label: deletePaymentSessionsWorkflow
+tags:
+  - logger
+  - payment
+  - workflow
 ---
 
 import { TypeList, WorkflowDiagram } from "docs-ui"
@@ -13,7 +17,7 @@ This workflow deletes one or more payment sessions.
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"deletePaymentSessionsWorkflow","steps":[{"type":"step","name":"deletePaymentSessionsStep","description":"This step deletes one or more payment sessions.\n\nNote: This step should not be used alone as it doesn't consider a revert\nUse deletePaymentSessionsWorkflow instead that uses this step","link":"../../../Steps_Payment_Collection/functions/core_flows.Payment_Collection.Steps_Payment_Collection.deletePaymentSessionsStep/page.mdx","depth":1},{"type":"step","name":"validateDeletedPaymentSessionsStep","description":"This step validates that the specified payment session IDs were deleted.","link":"../../../Steps_Payment_Collection/functions/core_flows.Payment_Collection.Steps_Payment_Collection.validateDeletedPaymentSessionsStep/page.mdx","depth":2}]}} />
+<WorkflowDiagram workflow={{"name":"deletePaymentSessionsWorkflow","steps":[{"type":"step","name":"deletePaymentSessionsStep","description":"This step deletes one or more payment sessions.\n\nNote: This step should not be used alone as it doesn't consider a revert\nUse deletePaymentSessionsWorkflow instead that uses this step\n\n","link":"../../../Steps_Payment_Collection/functions/core_flows.Payment_Collection.Steps_Payment_Collection.deletePaymentSessionsStep/page.mdx","depth":1},{"type":"step","name":"validateDeletedPaymentSessionsStep","description":"This step validates that the specified payment session IDs were deleted.\n\n","link":"../../../Steps_Payment_Collection/functions/core_flows.Payment_Collection.Steps_Payment_Collection.validateDeletedPaymentSessionsStep/page.mdx","depth":2}]}} />
 
 ## Input
 

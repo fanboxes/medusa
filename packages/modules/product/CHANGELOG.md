@@ -2,6 +2,10 @@
 
 ## 2.1.3
 
+### Patch Changes
+
+- [#10668](https://github.com/medusajs/medusa/pull/10668) [`d08b71f9b87c68350e57016e62e406a9bdd82342`](https://github.com/medusajs/medusa/commit/d08b71f9b87c68350e57016e62e406a9bdd82342) Thanks [@riqwan](https://github.com/riqwan)! - fix(product): updating collections with products fix
+
 ## 2.1.2
 
 ### Patch Changes

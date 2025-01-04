@@ -1,6 +1,10 @@
 ---
 slug: /references/medusa-workflows/createUsersWorkflow
 sidebar_label: createUsersWorkflow
+tags:
+  - user
+  - event bus
+  - workflow
 ---
 
 import { TypeList, WorkflowDiagram } from "docs-ui"
@@ -13,7 +17,7 @@ This workflow creates one or more users.
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"createUsersWorkflow","steps":[{"type":"step","name":"createUsersStep","description":"This step creates one or more users.","link":"../../../Steps_User/functions/core_flows.User.Steps_User.createUsersStep/page.mdx","depth":1},{"type":"step","name":"emitEventStep","description":"Emit an event.\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":2}]}} />
+<WorkflowDiagram workflow={{"name":"createUsersWorkflow","steps":[{"type":"step","name":"createUsersStep","description":"This step creates one or more users.\n\n","link":"../../../Steps_User/functions/core_flows.User.Steps_User.createUsersStep/page.mdx","depth":1},{"type":"step","name":"emitEventStep","description":"Emit an event.\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":2}]}} />
 
 ## Input
 

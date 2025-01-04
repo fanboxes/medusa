@@ -133,7 +133,7 @@ Authorization: Bearer {jwt_token}
 
 ### 2. API Token
 
-Use a user's API Token to send authenticated requests.
+Use a user's secret API Token to send authenticated requests.
 
 </DividedMarkdownContent>
 
@@ -145,7 +145,7 @@ Use a user's API Token to send authenticated requests.
 
 #### How to Create an API Token for a User
 
-Use the [Create API Key API Route](#api-keys_postapikeys) to create an API token.
+Create the API key token either from the Medusa Admin or using the [Create API Key API Route](#api-keys_postapikeys).
 
 <Note>
 
@@ -180,15 +180,44 @@ curl -X POST 'localhost:9000/admin/api-keys' \
 #### How to Use the API Token
 
 
-Use the API token by passing it in a basic authorization header.
+You pass the API Key token as a base64 token in the authorization header. For example, when sending a request in JavaScript:
+
+<Note>
+
+When using the JS SDK, you only need to specify the API key token in the [configurations](!resources!/js-sdk#js-sdk-configurations). The JS SDK will handle passing the token as expected.
+
+</Note>
 
 </DividedMarkdownContent>
 
 <DividedMarkdownCode>
 
-```bash title="Use API token"
-Authorization: Basic {api_key_token}
+<CodeTabs group="app-type">
+  <CodeTab label="Browser / Client" value="client">
+
+```js
+fetch(`{backend_url}/admin/products`, {
+  headers: {
+    Authorization: `Basic ${window.btoa(`:${api_key_token}`)}`,
+  },
+})
 ```
+
+  </CodeTab>
+  <CodeTab label="Node.js / Server" value="server">
+
+```js
+fetch(`{backend_url}/admin/products`, {
+  headers: {
+    Authorization: `Basic ${
+      Buffer.from(`:${api_key_token}`).toString("base64")
+    }`,
+  },
+})
+```
+
+  </CodeTab>
+</CodeTabs>
 
 </DividedMarkdownCode>
 

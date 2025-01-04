@@ -1,11 +1,11 @@
-import { MarkdownTheme } from "../../theme"
-import * as Handlebars from "handlebars"
+import { MarkdownTheme } from "../../theme.js"
+import Handlebars from "handlebars"
 import {
   DocumentReflection,
   ReflectionKind,
   SignatureReflection,
 } from "typedoc"
-import { formatWorkflowDiagramComponent } from "../../utils/format-workflow-diagram-component"
+import { formatWorkflowDiagramComponent } from "../../utils/format-workflow-diagram-component.js"
 import { findReflectionInNamespaces, getProjectChild } from "utils"
 
 export default function (theme: MarkdownTheme) {
