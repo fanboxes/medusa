@@ -3,7 +3,6 @@ import { ProductCategoryWorkflowEvents } from "@medusajs/framework/utils"
 import {
   WorkflowData,
   WorkflowResponse,
-  createHook,
   createWorkflow,
   transform,
 } from "@medusajs/framework/workflows-sdk"
@@ -19,12 +18,12 @@ export const createProductCategoriesWorkflow = createWorkflow(
   (
     input: WorkflowData<ProductCategoryWorkflow.CreateProductCategoriesWorkflowInput>
   ) => {
-    const createdProductCategories = createProductCategoriesStep(input)
+    const createdProducts = createProductCategoriesStep(input)
 
     const productCategoryIdEvents = transform(
-      { createdProductCategories },
-      ({ createdProductCategories }) => {
-        return createdProductCategories.map((v) => {
+      { createdProducts },
+      ({ createdProducts }) => {
+        return createdProducts.map((v) => {
           return { id: v.id }
         })
       }
@@ -35,13 +34,6 @@ export const createProductCategoriesWorkflow = createWorkflow(
       data: productCategoryIdEvents,
     })
 
-    const productCategoriesCreated = createHook("productCategoriesCreated", {
-      createdProductCategories,
-      additional_data: input.additional_data,
-    })
-
-    return new WorkflowResponse(createdProductCategories, {
-      hooks: [productCategoriesCreated]
-    })
+    return new WorkflowResponse(createdProducts)
   }
 )
