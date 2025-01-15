@@ -1,11 +1,17 @@
 import {
   CalculateShippingOptionPriceDTO,
   Constructor,
+  CreateFulfillmentResult,
+  CreateShippingOptionDTO,
   DAL,
+  FulfillmentDTO,
+  FulfillmentItemDTO,
   FulfillmentOption,
+  FulfillmentOrderDTO,
   FulfillmentTypes,
   IFulfillmentProvider,
   Logger,
+  ValidateFulfillmentDataContext,
 } from "@medusajs/framework/types"
 import {
   MedusaError,
@@ -56,11 +62,16 @@ export default class FulfillmentProviderService extends ModulesSdkUtils.MedusaIn
     try {
       return this.__container__[`fp_${providerId}`]
     } catch (err) {
-      const errMessage = `
-      Unable to retrieve the fulfillment provider with id: ${providerId}
-      Please make sure that the provider is registered in the container and it is configured correctly in your project configuration file.
-      `
+      if (err.name === "AwilixResolutionError") {
+        const errMessage = `
+Unable to retrieve the fulfillment provider with id: ${providerId}
+Please make sure that the provider is registered in the container and it is configured correctly in your project configuration file.`
+        throw new Error(errMessage)
+      }
+
+      const errMessage = `Unable to retrieve the fulfillment provider with id: ${providerId}, the following error occurred: ${err.message}`
       this.#logger.error(errMessage)
+
       throw new Error(errMessage)
     }
   }
@@ -91,7 +102,7 @@ export default class FulfillmentProviderService extends ModulesSdkUtils.MedusaIn
     providerId: string,
     optionData: Record<string, unknown>,
     data: Record<string, unknown>,
-    context: Record<string, unknown>
+    context: ValidateFulfillmentDataContext
   ) {
     const provider = this.retrieveProviderRegistration(providerId)
     return await provider.validateFulfillmentData(optionData, data, context)
@@ -102,7 +113,7 @@ export default class FulfillmentProviderService extends ModulesSdkUtils.MedusaIn
     return await provider.validateOption(data)
   }
 
-  async canCalculate(providerId: string, data: Record<string, unknown>) {
+  async canCalculate(providerId: string, data: CreateShippingOptionDTO) {
     const provider = this.retrieveProviderRegistration(providerId)
     return await provider.canCalculate(data)
   }
@@ -119,11 +130,11 @@ export default class FulfillmentProviderService extends ModulesSdkUtils.MedusaIn
 
   async createFulfillment(
     providerId: string,
-    data: object,
-    items: object[],
-    order: object | undefined,
-    fulfillment: Record<string, unknown>
-  ): Promise<Record<string, unknown>> {
+    data: Record<string, unknown>,
+    items: Partial<Omit<FulfillmentItemDTO, "fulfillment">>[],
+    order: Partial<FulfillmentOrderDTO> | undefined,
+    fulfillment: Partial<Omit<FulfillmentDTO, "provider_id" | "data" | "items">>
+  ): Promise<CreateFulfillmentResult> {
     const provider = this.retrieveProviderRegistration(providerId)
     return await provider.createFulfillment(data, items, order, fulfillment)
   }

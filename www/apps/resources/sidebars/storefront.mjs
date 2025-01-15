@@ -127,11 +127,6 @@ export const storefrontGuidesSidebar = [
     children: [
       {
         type: "link",
-        path: "/storefront-development/cart",
-        title: "Overview",
-      },
-      {
-        type: "link",
         path: "/storefront-development/cart/create",
         title: "Create Cart",
       },
@@ -204,11 +199,6 @@ export const storefrontGuidesSidebar = [
     type: "category",
     title: "Customers",
     children: [
-      {
-        type: "link",
-        path: "/storefront-development/customers",
-        title: "Overview",
-      },
       {
         type: "link",
         path: "/storefront-development/customers/register",

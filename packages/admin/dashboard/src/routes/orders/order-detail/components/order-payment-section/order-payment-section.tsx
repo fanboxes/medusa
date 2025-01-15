@@ -1,5 +1,5 @@
 import { ArrowDownRightMini, DocumentText, XCircle } from "@medusajs/icons"
-import { AdminPaymentCollection, HttpTypes } from "@medusajs/types"
+import { AdminOrder, AdminPayment, HttpTypes } from "@medusajs/types"
 import {
   Badge,
   Button,
@@ -14,6 +14,7 @@ import {
 import { format } from "date-fns"
 import { Trans, useTranslation } from "react-i18next"
 import { ActionMenu } from "../../../../../components/common/action-menu"
+import DisplayId from "../../../../../components/common/display-id/display-id"
 import { useCapturePayment } from "../../../../../hooks/api"
 import { formatCurrency } from "../../../../../lib/format-currency"
 import {
@@ -22,7 +23,6 @@ import {
 } from "../../../../../lib/money-amount-helpers"
 import { getOrderPaymentStatus } from "../../../../../lib/order-helpers"
 import { getTotalCaptured, getTotalPending } from "../../../../../lib/payment"
-import DisplayId from "../../../../../components/common/display-id/display-id"
 
 type OrderPaymentSectionProps = {
   order: HttpTypes.AdminOrder
@@ -54,10 +54,7 @@ export const OrderPaymentSection = ({ order }: OrderPaymentSectionProps) => {
         currencyCode={order.currency_code}
       />
 
-      <Total
-        paymentCollections={order.payment_collections}
-        currencyCode={order.currency_code}
-      />
+      <Total order={order} />
     </Container>
   )
 }
@@ -173,12 +170,28 @@ const Payment = ({
     )
   }
 
-  const [status, color] = (
-    payment.captured_at ? ["Captured", "green"] : ["Pending", "orange"]
-  ) as [string, "green" | "orange"]
+  const getPaymentStatusAttributes = (payment: AdminPayment) => {
+    if (payment.canceled_at) {
+      return ["Canceled", "red"]
+    } else if (payment.captured_at) {
+      return ["Captured", "green"]
+    } else {
+      return ["Pending", "orange"]
+    }
+  }
+
+  const [status, color] = getPaymentStatusAttributes(payment) as [
+    string,
+    "green" | "orange" | "red",
+  ]
 
   const showCapture =
     payment.captured_at === null && payment.canceled_at === null
+
+  const totalRefunded = payment.refunds.reduce(
+    (acc, next) => next.amount + acc,
+    0
+  )
 
   return (
     <div className="divide-y divide-dashed">
@@ -222,7 +235,10 @@ const Payment = ({
                   label: t("orders.payment.refund"),
                   icon: <XCircle />,
                   to: `/orders/${order.id}/refund?paymentId=${payment.id}`,
-                  disabled: !payment.captured_at,
+                  disabled:
+                    !payment.captured_at ||
+                    !!payment.canceled_at ||
+                    totalRefunded >= payment.amount,
                 },
               ],
             },
@@ -326,15 +342,9 @@ const PaymentBreakdown = ({
   )
 }
 
-const Total = ({
-  paymentCollections,
-  currencyCode,
-}: {
-  paymentCollections: AdminPaymentCollection[]
-  currencyCode: string
-}) => {
+const Total = ({ order }: { order: AdminOrder }) => {
   const { t } = useTranslation()
-  const totalPending = getTotalPending(paymentCollections)
+  const totalPending = getTotalPending(order.payment_collections)
 
   return (
     <div>
@@ -345,20 +355,20 @@ const Total = ({
 
         <Text size="small" weight="plus" leading="compact">
           {getStylizedAmount(
-            getTotalCaptured(paymentCollections),
-            currencyCode
+            getTotalCaptured(order.payment_collections),
+            order.currency_code
           )}
         </Text>
       </div>
 
-      {totalPending > 0 && (
+      {order.status !== "canceled" && totalPending > 0 && (
         <div className="flex items-center justify-between px-6 py-4">
           <Text size="small" weight="plus" leading="compact">
             Total pending
           </Text>
 
           <Text size="small" weight="plus" leading="compact">
-            {getStylizedAmount(totalPending, currencyCode)}
+            {getStylizedAmount(totalPending, order.currency_code)}
           </Text>
         </div>
       )}

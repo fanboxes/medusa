@@ -2649,6 +2649,35 @@
           ],
           "additionalProperties": false
         },
+        "stock": {
+          "type": "object",
+          "properties": {
+            "heading": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "loading": {
+              "type": "string"
+            },
+            "tooltips": {
+              "type": "object",
+              "properties": {
+                "alreadyManaged": {
+                  "type": "string"
+                },
+                "alreadyManagedWithSku": {
+                  "type": "string"
+                }
+              },
+              "required": ["alreadyManaged", "alreadyManagedWithSku"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["heading", "description", "loading", "tooltips"],
+          "additionalProperties": false
+        },
         "toasts": {
           "type": "object",
           "properties": {
@@ -2721,6 +2750,7 @@
         "variant",
         "options",
         "organization",
+        "stock",
         "toasts"
       ],
       "additionalProperties": false
@@ -3307,6 +3337,46 @@
             "updateItem"
           ],
           "additionalProperties": false
+        },
+        "stock": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "action": {
+              "type": "string"
+            },
+            "placeholder": {
+              "type": "string"
+            },
+            "disablePrompt_one": {
+              "type": "string"
+            },
+            "disablePrompt_other": {
+              "type": "string"
+            },
+            "disabledToggleTooltip": {
+              "type": "string"
+            },
+            "successToast": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "title",
+            "description",
+            "action",
+            "placeholder",
+            "disablePrompt_one",
+            "disablePrompt_other",
+            "disabledToggleTooltip",
+            "successToast"
+          ],
+          "additionalProperties": false
         }
       },
       "required": [
@@ -3322,7 +3392,8 @@
         "create",
         "reservation",
         "adjustInventory",
-        "toast"
+        "toast",
+        "stock"
       ],
       "additionalProperties": false
     },
@@ -3783,6 +3854,9 @@
         "cancelWarning": {
           "type": "string"
         },
+        "orderCanceled": {
+          "type": "string"
+        },
         "onDateFromSalesChannel": {
           "type": "string"
         },
@@ -3795,6 +3869,42 @@
           },
           "required": [
             "noRecordsMessage"
+          ],
+          "additionalProperties": false
+        },
+        "status": {
+          "type": "object",
+          "properties": {
+            "not_paid": {
+              "type": "string"
+            },
+            "pending": {
+              "type": "string"
+            },
+            "completed": {
+              "type": "string"
+            },
+            "draft": {
+              "type": "string"
+            },
+            "archived": {
+              "type": "string"
+            },
+            "canceled": {
+              "type": "string"
+            },
+            "requires_action": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "not_paid",
+            "pending",
+            "completed",
+            "draft",
+            "archived",
+            "canceled",
+            "requires_action"
           ],
           "additionalProperties": false
         },
@@ -5500,8 +5610,10 @@
         "exchange",
         "return",
         "cancelWarning",
+        "orderCanceled",
         "onDateFromSalesChannel",
         "list",
+        "status",
         "summary",
         "transfer",
         "payment",

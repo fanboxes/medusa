@@ -111,6 +111,8 @@ export interface MedusaRequest<
 
   /**
    * An object containing fields and variables to be used with the remoteQuery
+   * 
+   * @version 2.2.0
    */
   queryConfig: {
     fields: string[]
@@ -118,7 +120,7 @@ export interface MedusaRequest<
   }
 
   /**
-   * @deprecated. Instead use "req.queryConfig"
+   * @deprecated Use {@link queryConfig} instead.
    */
   remoteQueryConfig: MedusaRequest["queryConfig"]
 

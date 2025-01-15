@@ -19,7 +19,7 @@ Read-only links are used to query data across modules, but the relations aren't 
 </Note>
 
 - [`Product` data model \<\> `Cart` data model of Cart Module](#cart-module). (Read-only).
-- [`Product` data model \<\> `InventoryItem` data model of Inventory Module](#inventory-module).
+- [`ProductVariant` data model \<\> `InventoryItem` data model of Inventory Module](#inventory-module).
 - [`Product` data model \<\> `Order` data model of Order Module](#order-module). (Read-only).
 - [`ProductVariant` data model \<\> `PriceSet` data model of Pricing Module](#pricing-module).
 - [`Product` data model \<\> `SalesChannel` data model of Sales Channel Module](#sales-channel-module).
@@ -129,19 +129,19 @@ const { data: variants } = useQueryGraphStep({
   </CodeTab>
 </CodeTabs>
 
-### Manage with Remote Link
+### Manage with Link
 
-To manage the inventory items of a variant, use [Remote Link](!docs!/learn/fundamentals/module-links/remote-link):
+To manage the inventory items of a variant, use [Link](!docs!/learn/fundamentals/module-links/link):
 
 <CodeTabs group="relation-link">
-  <CodeTab label="remoteLink.create" value="method">
+  <CodeTab label="link.create" value="method">
 
 ```ts
 import { Modules } from "@medusajs/framework/utils"
 
 // ...
 
-await remoteLink.create({
+await link.create({
   [Modules.PRODUCT]: {
     variant_id: "variant_123",
   },
@@ -278,19 +278,19 @@ const { data: variants } = useQueryGraphStep({
   </CodeTab>
 </CodeTabs>
 
-### Manage with Remote Link
+### Manage with Link
 
-To manage the price set of a variant, use [Remote Link](!docs!/learn/fundamentals/module-links/remote-link):
+To manage the price set of a variant, use [Link](!docs!/learn/fundamentals/module-links/link):
 
 <CodeTabs group="relation-link">
-  <CodeTab label="remoteLink.create" value="method">
+  <CodeTab label="link.create" value="method">
 
 ```ts
 import { Modules } from "@medusajs/framework/utils"
 
 // ...
 
-await remoteLink.create({
+await link.create({
   [Modules.PRODUCT]: {
     variant_id: "variant_123",
   },
@@ -371,19 +371,19 @@ const { data: products } = useQueryGraphStep({
   </CodeTab>
 </CodeTabs>
 
-### Manage with Remote Link
+### Manage with Link
 
-To manage the sales channels of a product, use [Remote Link](!docs!/learn/fundamentals/module-links/remote-link):
+To manage the sales channels of a product, use [Link](!docs!/learn/fundamentals/module-links/link):
 
 <CodeTabs group="relation-link">
-  <CodeTab label="remoteLink.create" value="method">
+  <CodeTab label="link.create" value="method">
 
 ```ts
 import { Modules } from "@medusajs/framework/utils"
 
 // ...
 
-await remoteLink.create({
+await link.create({
   [Modules.PRODUCT]: {
     product_id: "prod_123",
   },

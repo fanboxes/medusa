@@ -453,9 +453,15 @@ This method accepts the shipping option's `data` field, which will hold the data
 Add the method to `ShipStationProviderService` in `src/modules/shipstation/service.ts`:
 
 ```ts title="src/modules/shipstation/service.ts"
+// other imports...
+import {
+  // ...
+  CreateShippingOptionDTO,
+} from "@medusajs/framework/types"
+
 class ShipStationProviderService extends AbstractFulfillmentProviderService {
   // ...
-  async canCalculate(data: Record<string, unknown>): Promise<boolean> {
+  async canCalculate(data: CreateShippingOptionDTO): Promise<boolean> {
     return true
   }
 }
@@ -820,7 +826,7 @@ class ShipStationProviderService extends AbstractFulfillmentProviderService {
         },
         to_address: context.shipping_address,
         items: context.items || [],
-        currency_code: context.currency_code,
+        currency_code: context.currency_code as string,
       })
       rate = shipment.rate_response.rates[0]
     } else {

@@ -24,6 +24,7 @@ import {
   getUniqueStrArray,
 } from "utils"
 import { StepType } from "./types.js"
+import Examples from "./utils/examples.js"
 
 type ParsedStep = {
   stepReflection: DeclarationReflection
@@ -38,6 +39,7 @@ type ParsedStep = {
 class WorkflowsPlugin {
   protected app: Application
   protected helper: Helper
+  protected examplesHelper: Examples
   protected workflowsTagsMap: Map<string, string[]>
   protected addTagsAfterParsing: {
     [k: string]: {
@@ -49,6 +51,7 @@ class WorkflowsPlugin {
   constructor(app: Application) {
     this.app = app
     this.helper = new Helper()
+    this.examplesHelper = new Examples()
     this.workflowsTagsMap = new Map()
     this.addTagsAfterParsing = {}
 
@@ -204,6 +207,7 @@ class WorkflowsPlugin {
           workflow,
           workflowVarName: parentReflection.name,
           workflowReflection,
+          workflowComments: parentReflection.comment?.blockTags,
         })
 
         if (!steps.length) {
@@ -227,6 +231,7 @@ class WorkflowsPlugin {
       ...resources,
       "workflow",
     ])
+
     this.updateWorkflowsTagsMap(workflowId, uniqueResources)
   }
 
@@ -242,12 +247,14 @@ class WorkflowsPlugin {
     workflow,
     workflowVarName,
     workflowReflection,
+    workflowComments = [],
   }: {
     initializer: ts.CallExpression
     context: Context
     workflow?: WorkflowDefinition
     workflowVarName: string
     workflowReflection: SignatureReflection
+    workflowComments?: CommentTag[]
   }): ParsedStep[] {
     const steps: ParsedStep[] = []
     const initializerName = this.helper.normalizeName(
@@ -288,6 +295,7 @@ class WorkflowsPlugin {
           context,
           inputSymbol: initializer.arguments[1].symbol as ts.Symbol,
           workflowName: workflowVarName,
+          workflowComments,
         })
       } else {
         const initializerReflection = findReflectionInNamespaces(
@@ -379,10 +387,16 @@ class WorkflowsPlugin {
       .expression as ts.CallExpression
     const thenInitializer = initializer
 
+    const validArgumentsLength =
+      whenInitializer.arguments.length === 2 ||
+      whenInitializer.arguments.length === 3
+
+    const conditionIndex = whenInitializer.arguments.length - 1
+
     if (
-      whenInitializer.arguments.length < 2 ||
-      (!ts.isFunctionExpression(whenInitializer.arguments[1]) &&
-        !ts.isArrowFunction(whenInitializer.arguments[1])) ||
+      !validArgumentsLength ||
+      (!ts.isFunctionExpression(whenInitializer.arguments[conditionIndex]) &&
+        !ts.isArrowFunction(whenInitializer.arguments[conditionIndex])) ||
       thenInitializer.arguments.length < 1 ||
       (!ts.isFunctionExpression(thenInitializer.arguments[0]) &&
         !ts.isArrowFunction(thenInitializer.arguments[0]))
@@ -392,7 +406,8 @@ class WorkflowsPlugin {
       }
     }
 
-    const whenCondition = whenInitializer.arguments[1].body.getText()
+    const whenCondition =
+      whenInitializer.arguments[conditionIndex].body.getText()
 
     const thenStatements = (thenInitializer.arguments[0].body as ts.Block)
       .statements
@@ -467,11 +482,13 @@ class WorkflowsPlugin {
     context,
     inputSymbol,
     workflowName,
+    workflowComments,
   }: {
     stepId: string
     context: Context
     inputSymbol: ts.Symbol
     workflowName: string
+    workflowComments?: CommentTag[]
   }): DeclarationReflection {
     const declarationReflection = context.createDeclarationReflection(
       ReflectionKind.Function,
@@ -481,7 +498,12 @@ class WorkflowsPlugin {
     )
 
     declarationReflection.comment = new Comment()
-    declarationReflection.comment.summary = [
+
+    const hookComment = workflowComments?.find(
+      (tag) => tag.tag === `@property` && tag.name === `hooks.${stepId}`
+    )
+
+    declarationReflection.comment.summary = hookComment?.content || [
       {
         kind: "text",
         text: "This step is a hook that you can inject custom functionality into.",
@@ -503,6 +525,34 @@ class WorkflowsPlugin {
 
     if (parameter.type.name === "__object") {
       parameter.type.name = "object"
+      parameter.type.qualifiedName = "object"
+
+      if (!parameter.comment?.summary) {
+        parameter.comment = new Comment()
+        parameter.comment.summary = [
+          {
+            kind: "text",
+            text: "The input data for the hook.",
+          },
+        ]
+      }
+    }
+
+    if (parameter.type.reflection instanceof DeclarationReflection) {
+      const additionalDataChild = parameter.type.reflection.children?.find(
+        (child) => child.name === "additional_data"
+      )
+
+      if (additionalDataChild) {
+        additionalDataChild.comment =
+          additionalDataChild.comment || new Comment()
+        additionalDataChild.comment.summary = [
+          {
+            kind: "text",
+            text: "Additional data that can be passed through the `additional_data` property in HTTP requests.\nLearn more in [this documentation](https://docs.medusajs.com/learn/fundamentals/api-routes/additional-data).",
+          },
+        ]
+      }
     }
 
     signatureReflection.parameters = []
@@ -517,7 +567,7 @@ class WorkflowsPlugin {
       new CommentTag(`@example`, [
         {
           kind: "code",
-          text: this.helper.generateHookExample({
+          text: this.examplesHelper.generateHookExample({
             hookName: stepId,
             workflowName,
             parameter,
