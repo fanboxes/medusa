@@ -178,6 +178,10 @@ function buildLocalCommands(cli, isLocalProject) {
       command: "db:migrate",
       desc: "Migrate the database by executing pending migrations",
       builder: (builder) => {
+        builder.option("skip-scripts", {
+          type: "boolean",
+          describe: "Do not run migration scripts",
+        })
         builder.option("skip-links", {
           type: "boolean",
           describe: "Do not sync links",

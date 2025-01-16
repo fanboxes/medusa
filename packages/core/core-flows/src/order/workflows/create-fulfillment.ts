@@ -40,17 +40,51 @@ import {
 } from "../utils/order-validation"
 
 /**
- * This step validates that a fulfillment can be created for an order.
+ * The data to validate the order fulfillment creation.
+ */
+export type CreateFulfillmentValidateOrderStepInput = {
+  /**
+   * The order to create the fulfillment for.
+   */
+  order: OrderDTO
+  /**
+   * The items to fulfill.
+   */
+  inputItems: OrderWorkflow.CreateOrderFulfillmentWorkflowInput["items"]
+}
+
+/**
+ * This step validates that a fulfillment can be created for an order. If the order
+ * is canceled, the items don't exist in the order, or the items aren't grouped by
+ * shipping requirement, the step throws an error.
+ * 
+ * :::note
+ * 
+ * You can retrieve an order's details using [Query](https://docs.medusajs.com/learn/fundamentals/module-links/query),
+ * or [useQueryGraphStep](https://docs.medusajs.com/resources/references/medusa-workflows/steps/useQueryGraphStep).
+ * 
+ * :::
+ * 
+ * @example
+ * const data = createFulfillmentValidateOrder({
+ *   order: {
+ *     id: "order_123",
+ *     // other order details...
+ *   },
+ *   inputItems: [
+ *     {
+ *       id: "orli_123",
+ *       quantity: 1,
+ *     }
+ *   ]
+ * })
  */
 export const createFulfillmentValidateOrder = createStep(
   "create-fulfillment-validate-order",
   ({
     order,
     inputItems,
-  }: {
-    order: OrderDTO
-    inputItems: OrderWorkflow.CreateOrderFulfillmentWorkflowInput["items"]
-  }) => {
+  }: CreateFulfillmentValidateOrderStepInput) => {
     throwIfOrderIsCancelled({ order })
     throwIfItemsDoesNotExistsInOrder({ order, inputItems })
     throwIfItemsAreNotGroupedByShippingRequirement({ order, inputItems })
@@ -247,7 +281,7 @@ export const createOrderFulfillmentWorkflowId = "create-order-fulfillment"
  * This workflow has a hook that allows you to perform custom actions on the created fulfillment. For example, you can pass under `additional_data` custom data that 
  * allows you to create custom data models linked to the fulfillment.
  * 
- * You can also use this workflow within your own custom workflows, allowing you to wrap custom logic around creating a fulfillment.
+ * You can also use this workflow within your customizations or your own custom workflows, allowing you to wrap custom logic around creating a fulfillment.
  * 
  * @example
  * const { result } = await createOrderFulfillmentWorkflow(container)

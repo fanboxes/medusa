@@ -5,6 +5,8 @@ import { ConfigModule, PluginDetails } from "@medusajs/framework/types"
 
 const MEDUSA_APP_SOURCE_PATH = "src"
 const MEDUSA_PLUGIN_SOURCE_PATH = ".medusa/server/src"
+const MEDUSA_PLUGIN_OPTIONS_FILE_PATH =
+  ".medusa/server/medusa-plugin-options.json"
 export const MEDUSA_PROJECT_NAME = "project-plugin"
 
 function createPluginId(name: string): string {
@@ -42,6 +44,27 @@ async function resolvePluginPkgFile(
 }
 
 /**
+ * Reads the "medusa-plugin-options.json" file from the plugin root
+ * directory and returns its contents as an object.
+ */
+async function resolvePluginOptions(
+  pluginRootDir: string
+): Promise<Record<string, any>> {
+  try {
+    const contents = await fs.readFile(
+      path.join(pluginRootDir, MEDUSA_PLUGIN_OPTIONS_FILE_PATH),
+      "utf-8"
+    )
+    return JSON.parse(contents)
+  } catch (error) {
+    if (error.code === "MODULE_NOT_FOUND" || error.code === "ENOENT") {
+      return {}
+    }
+    throw error
+  }
+}
+
+/**
  * Finds the correct path for the plugin. If it is a local plugin it will be
  * found in the plugins folder. Otherwise we will look for the plugin in the
  * installed npm packages.
@@ -60,6 +83,7 @@ async function resolvePlugin(
   const name = pkgJSON.contents.name || pluginPath
 
   const resolve = path.join(resolvedPath, MEDUSA_PLUGIN_SOURCE_PATH)
+  const pluginStaticOptions = await resolvePluginOptions(resolvedPath)
   const modules = await readDir(path.join(resolve, "modules"), {
     ignoreMissing: true,
   })
@@ -71,6 +95,7 @@ async function resolvePlugin(
     id: createPluginId(name),
     options: pluginOptions,
     version: pkgJSON.contents.version || "0.0.0",
+    adminResolve: path.join(pluginStaticOptions.srcDir ?? resolve, "admin"),
     modules: modules.map((mod) => {
       return {
         resolve: `${pluginPath}/${MEDUSA_PLUGIN_SOURCE_PATH}/modules/${mod.name}`,
@@ -100,6 +125,7 @@ export async function getResolvedPlugins(
       resolve: extensionDirectory,
       name: MEDUSA_PROJECT_NAME,
       id: createPluginId(MEDUSA_PROJECT_NAME),
+      adminResolve: path.join(extensionDirectory, "admin"),
       options: configModule,
       version: createFileContentHash(process.cwd(), `**`),
     })

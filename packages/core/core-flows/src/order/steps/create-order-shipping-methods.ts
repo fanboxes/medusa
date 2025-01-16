@@ -5,7 +5,13 @@ import {
 import { Modules } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The details of creating order shipping methods.
+ */
 export interface CreateOrderShippingMethodsStepInput {
+  /**
+   * The shipping methods to create.
+   */
   shipping_methods: CreateOrderShippingMethodDTO[]
 }
 

@@ -7,7 +7,7 @@ import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
 export const createCompleteReturnStepId = "create-complete-return"
 /**
- * This step creates a return.
+ * This step creates a complete return.
  */
 export const createCompleteReturnStep = createStep(
   createCompleteReturnStepId,

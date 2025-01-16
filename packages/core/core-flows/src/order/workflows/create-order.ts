@@ -86,7 +86,7 @@ export const createOrdersWorkflowId = "create-orders"
  * This workflow has a hook that allows you to perform custom actions on the created order. For example, you can pass under `additional_data` custom data that 
  * allows you to create custom data models linked to the order.
  * 
- * You can also use this workflow within your own custom workflows, allowing you to wrap custom logic around creating an order. For example,
+ * You can also use this workflow within your customizations or your own custom workflows, allowing you to wrap custom logic around creating an order. For example,
  * you can create a workflow that imports orders from an external system, then uses this workflow to create the orders in Medusa.
  * 
  * @example

@@ -1,7 +1,7 @@
-import { Knex } from "@mikro-orm/knex"
 import { IndexTypes } from "@medusajs/framework/types"
+import { GraphQLUtils, isObject, isString } from "@medusajs/framework/utils"
+import { Knex } from "@mikro-orm/knex"
 import { OrderBy, QueryFormat, QueryOptions, Select } from "@types"
-import { isObject, isString, GraphQLUtils } from "@medusajs/framework/utils"
 
 export const OPERATOR_MAP = {
   $eq: "=",
@@ -108,6 +108,15 @@ export class QueryBuilder {
       "": "",
     }
 
+    const defaultValues = {
+      Int: "0",
+      Float: "0",
+      Boolean: "false",
+      Date: "1970-01-01 00:00:00",
+      Time: "00:00:00",
+      "": "",
+    }
+
     const fullPath = [path, ...field]
     const prop = fullPath.pop()
     const fieldPath = fullPath.join(".")
@@ -115,7 +124,18 @@ export class QueryBuilder {
     const isList = graphqlType.endsWith("[]")
     graphqlType = graphqlType.replace("[]", "")
 
-    return (graphqlToPostgresTypeMap[graphqlType] ?? "") + (isList ? "[]" : "")
+    const cast =
+      (graphqlToPostgresTypeMap[graphqlType] ?? "") + (isList ? "[]" : "")
+
+    function generateCoalesceExpression(field) {
+      const defaultValue = defaultValues[graphqlType]
+      return `COALESCE(${field}, '${defaultValue}')${cast}`
+    }
+
+    return {
+      cast,
+      coalesce: generateCoalesceExpression,
+    }
   }
 
   private parseWhere(
@@ -188,7 +208,7 @@ export class QueryBuilder {
               field,
               value[subKey]
             )
-            const castType = this.getPostgresCastType(attr, field)
+            const castType = this.getPostgresCastType(attr, [field]).cast
 
             const val = operator === "IN" ? subValue : [subValue]
             if (operator === "=" && subValue === null) {
@@ -219,7 +239,7 @@ export class QueryBuilder {
 
         value = this.transformValueToType(attr, field, value)
         if (Array.isArray(value)) {
-          const castType = this.getPostgresCastType(attr, field)
+          const castType = this.getPostgresCastType(attr, field).cast
           const inPlaceholders = value.map(() => "?").join(",")
           builder.whereRaw(
             `(${aliasMapping[attr]}.data${nested}->>?)${castType} IN (${inPlaceholders})`,
@@ -237,7 +257,7 @@ export class QueryBuilder {
               )}'::jsonb`
             )
           } else {
-            const castType = this.getPostgresCastType(attr, field)
+            const castType = this.getPostgresCastType(attr, field).cast
             builder.whereRaw(
               `(${aliasMapping[attr]}.data${nested}->>?)${castType} ${operator} ?`,
               [...field, value]
@@ -496,10 +516,14 @@ export class QueryBuilder {
       const path = aliasPath.split(".")
       const field = path.pop()
       const attr = path.join(".")
+
+      const pgType = this.getPostgresCastType(attr, [field])
       const alias = aliasMapping[attr]
       const direction = orderBy[aliasPath]
 
-      queryBuilder.orderByRaw(`${alias}.data->>'${field}' ${direction}`)
+      queryBuilder.orderByRaw(
+        pgType.coalesce(`${alias}.data->>'${field}'`) + " " + direction
+      )
     }
 
     let sql = `WITH data AS (${queryBuilder.toQuery()})

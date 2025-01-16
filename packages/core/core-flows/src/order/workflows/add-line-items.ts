@@ -48,15 +48,42 @@ function prepareLineItems(data) {
   return items
 }
 
+/**
+ * The created order line items.
+ */
+export type OrderAddLineItemWorkflowOutput = OrderLineItemDTO[]
+
 export const addOrderLineItemsWorkflowId = "order-add-line-items"
 /**
- * This workflow adds line items to an order.
+ * This workflow adds line items to an order. This is useful when making edits to 
+ * an order. It's used by other workflows, such as {@link orderEditAddNewItemWorkflow}.
+ * 
+ * You can use this workflow within your customizations or your own custom workflows, allowing you to wrap custom logic around adding items to
+ * an order.
+ * 
+ * @example
+ * const { result } = await addOrderLineItemsWorkflow(container)
+ * .run({
+ *   input: {
+ *     order_id: "order_123",
+ *     items: [
+ *       {
+ *         variant_id: "variant_123",
+ *         quantity: 1,
+ *       }
+ *     ]
+ *   }
+ * })
+ * 
+ * @summary
+ * 
+ * Add line items to an order.
  */
 export const addOrderLineItemsWorkflow = createWorkflow(
   addOrderLineItemsWorkflowId,
   (
     input: WorkflowData<OrderWorkflow.OrderAddLineItemWorkflowInput>
-  ): WorkflowResponse<OrderLineItemDTO[]> => {
+  ): WorkflowResponse<OrderAddLineItemWorkflowOutput> => {
     const order = useRemoteQueryStep({
       entry_point: "orders",
       fields: [

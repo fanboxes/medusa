@@ -23,7 +23,7 @@ export const createCampaignsWorkflowId = "create-campaigns"
  * This workflow has a hook that allows you to perform custom actions on the created campaigns. For example, you can pass under `additional_data` custom data that
  * allows you to create custom data models linked to the campaigns.
  * 
- * You can also use this workflow within your own custom workflows, allowing you to wrap custom logic around creating campaigns.
+ * You can also use this workflow within your customizations or your own custom workflows, allowing you to wrap custom logic around creating campaigns.
  * 
  * @example
  * const { result } = await createCampaignsWorkflow(container)

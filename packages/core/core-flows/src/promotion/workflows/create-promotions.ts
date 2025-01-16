@@ -23,7 +23,7 @@ export const createPromotionsWorkflowId = "create-promotions"
  * This workflow has a hook that allows you to perform custom actions on the created promotion. For example, you can pass under `additional_data` custom data that
  * allows you to create custom data models linked to the promotions.
  * 
- * You can also use this workflow within your own custom workflows, allowing you to wrap custom logic around creating promotions.
+ * You can also use this workflow within your customizations or your own custom workflows, allowing you to wrap custom logic around creating promotions.
  * 
  * @example
  * const { result } = await createPromotionsWorkflow(container)

@@ -11,6 +11,12 @@ import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 export const updateOrderExchangesStepId = "update-order-exchange"
 /**
  * This step updates one or more exchanges.
+ * 
+ * @example
+ * const data = updateOrderExchangesStep([{
+ *   "id": "exchange_123",
+ *   no_notification: true
+ * }])
  */
 export const updateOrderExchangesStep = createStep(
   updateOrderExchangesStepId,

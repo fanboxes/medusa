@@ -2,6 +2,16 @@ import { CreateOrderTransactionDTO } from "@medusajs/framework/types"
 import { Modules } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The transaction(s) to add to the order.
+ */
+export type AddOrderTransactionStepInput = CreateOrderTransactionDTO | CreateOrderTransactionDTO[]
+
+/**
+ * The added order transaction(s).
+ */
+export type AddOrderTransactionStepOutput = CreateOrderTransactionDTO | CreateOrderTransactionDTO[]
+
 export const addOrderTransactionStepId = "add-order-transaction"
 /**
  * This step creates order transactions.
@@ -9,7 +19,7 @@ export const addOrderTransactionStepId = "add-order-transaction"
 export const addOrderTransactionStep = createStep(
   addOrderTransactionStepId,
   async (
-    data: CreateOrderTransactionDTO | CreateOrderTransactionDTO[],
+    data: AddOrderTransactionStepInput,
     { container }
   ) => {
     const service = container.resolve(Modules.ORDER)
@@ -36,7 +46,7 @@ export const addOrderTransactionStep = createStep(
     const created = await service.addOrderTransactions(trxsData)
 
     return new StepResponse(
-      Array.isArray(data) ? created : created[0],
+      (Array.isArray(data) ? created : created[0]) as AddOrderTransactionStepOutput,
       created.map((c) => c.id)
     )
   },

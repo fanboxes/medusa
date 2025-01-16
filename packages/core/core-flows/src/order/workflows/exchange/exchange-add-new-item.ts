@@ -24,7 +24,49 @@ import { createOrderChangeActionsWorkflow } from "../create-order-change-actions
 import { updateOrderTaxLinesWorkflow } from "../update-tax-lines"
 
 /**
- * This step validates that new items can be added to an exchange.
+ * The data to validate that new or outbound items can be added to an exchange.
+ */
+export type ExchangeAddNewItemValidationStepInput = {
+  /**
+   * The order's details.
+   */
+  order: OrderDTO
+  /**
+   * The order exchange's details.
+   */
+  orderExchange: OrderExchangeDTO
+  /**
+   * The order change's details.
+   */
+  orderChange: OrderChangeDTO
+}
+
+/**
+ * This step validates that new or outbound items can be added to an exchange.
+ * If the order or exchange is canceled, or the order change is not active, the step will throw an error.
+ * 
+ * :::note
+ * 
+ * You can retrieve an order, order exchange, and order change details using [Query](https://docs.medusajs.com/learn/fundamentals/module-links/query),
+ * or [useQueryGraphStep](https://docs.medusajs.com/resources/references/medusa-workflows/steps/useQueryGraphStep).
+ * 
+ * :::
+ * 
+ * @example
+ * const data = exchangeAddNewItemValidationStep({
+ *   order: {
+ *     id: "order_123",
+ *     // other order details...
+ *   },
+ *   orderChange: {
+ *     id: "orch_123",
+ *     // other order change details...
+ *   },
+ *   orderExchange: {
+ *     id: "exchange_123",
+ *     // other order exchange details...
+ *   },
+ * })
  */
 export const exchangeAddNewItemValidationStep = createStep(
   "exchange-add-new-item-validation",
@@ -32,11 +74,7 @@ export const exchangeAddNewItemValidationStep = createStep(
     order,
     orderChange,
     orderExchange,
-  }: {
-    order: OrderDTO
-    orderExchange: OrderExchangeDTO
-    orderChange: OrderChangeDTO
-  }) {
+  }: ExchangeAddNewItemValidationStepInput) {
     throwIfIsCancelled(order, "Order")
     throwIfIsCancelled(orderExchange, "Exchange")
     throwIfOrderChangeIsNotActive({ orderChange })
@@ -45,7 +83,29 @@ export const exchangeAddNewItemValidationStep = createStep(
 
 export const orderExchangeAddNewItemWorkflowId = "exchange-add-new-item"
 /**
- * This workflow adds new items to an exchange.
+ * This workflow adds new or outbound items to an exchange. It's used by the
+ * [Add Outbound Items Admin API Route](https://docs.medusajs.com/api/admin#exchanges_postexchangesidoutbounditems).
+ * 
+ * You can use this workflow within your customizations or your own custom workflows, allowing you to add new or outbound items
+ * to an exchange in your custom flow.
+ * 
+ * @example
+ * const { result } = await orderExchangeAddNewItemWorkflow(container)
+ * .run({
+ *   input: {
+ *     exchange_id: "exchange_123",
+ *     items: [
+ *       {
+ *         variant_id: "variant_123",
+ *         quantity: 1,
+ *       }
+ *     ]
+ *   }
+ * })
+ * 
+ * @summary
+ * 
+ * Add new or outbound items to an exchange.
  */
 export const orderExchangeAddNewItemWorkflow = createWorkflow(
   orderExchangeAddNewItemWorkflowId,

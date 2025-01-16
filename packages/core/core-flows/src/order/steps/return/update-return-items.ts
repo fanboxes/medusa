@@ -4,18 +4,35 @@ import {
 } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
-export interface UpdateReturnItemBySelector {
+/**
+ * The details of updating the return items.
+ */
+export type UpdateReturnItemBySelector = {
+  /**
+   * The ID of the return item to update.
+   */
   id: string
+  /**
+   * The data to update in the return item.
+   */
   [key: string]: any
-}
+}[]
 
 export const updateReturnItemsStepId = "update-return-items"
 /**
  * This step updates return items.
+ * 
+ * @example
+ * const data = updateReturnItemsStep([
+ *   {
+ *     id: "orli_123",
+ *     quantity: 2
+ *   }
+ * ])
  */
 export const updateReturnItemsStep = createStep(
   updateReturnItemsStepId,
-  async (data: UpdateReturnItemBySelector[], { container }) => {
+  async (data: UpdateReturnItemBySelector, { container }) => {
     const service = container.resolve(Modules.ORDER) as any
 
     const { selects, relations } = getSelectsAndRelationsFromObjectArray(data, {

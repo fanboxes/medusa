@@ -3034,13 +3034,28 @@ export interface OrderChangeReturn {
   shippingMethods: any[]
 }
 
+/**
+ * The details of an order after a change is applied on it.
+ */
 export interface OrderPreviewDTO
   extends Omit<OrderDTO, "items" | "shipping_methods"> {
+  /**
+   * The details of the changes made on the order.
+   */
   order_change: OrderChangeDTO
+  /**
+   * The items of the order, along with changes on the items.
+   */
   items: (OrderLineItemDTO & { actions?: OrderChangeActionDTO[] })[]
+  /**
+   * The shipping methods of the order, along with changes on the shipping methods.
+   */
   shipping_methods: (OrderShippingMethodDTO & {
     actions?: OrderChangeActionDTO[]
   })[]
+  /**
+   * The total amount for the requested return.
+   */
   return_requested_total: number
 }
 

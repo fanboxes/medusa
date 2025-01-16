@@ -5,6 +5,11 @@ import {
 import { ModuleRegistrationName } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The input of the register order changes step.
+ */
+export type RegisterOrderChangeStepInput = RegisterOrderChangeDTO[]
+
 export const registerOrderChangeStepId = "register-order-change"
 
 /**
@@ -12,7 +17,7 @@ export const registerOrderChangeStepId = "register-order-change"
  */
 export const registerOrderChangesStep = createStep(
   registerOrderChangeStepId,
-  async (data: RegisterOrderChangeDTO[], { container }) => {
+  async (data: RegisterOrderChangeStepInput, { container }) => {
     const service = container.resolve<IOrderModuleService>(
       ModuleRegistrationName.ORDER
     )

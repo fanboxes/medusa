@@ -2,7 +2,13 @@ import { IOrderModuleService } from "@medusajs/framework/types"
 import { Modules } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The details of deleting order shipping methods.
+ */
 export interface DeleteOrderShippingMethodsStepInput {
+  /**
+   * The IDs of the order shipping methods to delete.
+   */
   ids: string[]
 }
 

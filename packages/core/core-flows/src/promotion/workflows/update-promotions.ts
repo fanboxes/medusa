@@ -23,7 +23,7 @@ export const updatePromotionsWorkflowId = "update-promotions"
  * This workflow has a hook that allows you to perform custom actions on the updated promotion. For example, you can pass under `additional_data` custom data that
  * allows you to update custom data models linked to the promotions.
  * 
- * You can also use this workflow within your own custom workflows, allowing you to wrap custom logic around updating promotions.
+ * You can also use this workflow within your customizations or your own custom workflows, allowing you to wrap custom logic around updating promotions.
  * 
  * @example
  * const { result } = await updatePromotionsWorkflow(container)

@@ -1974,8 +1974,18 @@ export interface UpdateOrderExchangeWithSelectorDTO {
    */
   data: Partial<UpdateOrderExchangeDTO>
 }
+
+/**
+ * The details of the return cancelation.
+ */
 export interface CancelOrderReturnDTO extends BaseOrderBundledActionsDTO {
+  /**
+   * The return's ID.
+   */
   return_id: string
+  /**
+   * The ID of the user canceling the return.
+   */
   canceled_by?: string
 }
 
@@ -2062,8 +2072,17 @@ export interface CreateOrderClaimDTO extends BaseOrderBundledActionsDTO {
   created_by?: string | null
 }
 
+/**
+ * The details of tjhe claim cancelation.
+ */
 export interface CancelOrderClaimDTO extends BaseOrderBundledActionsDTO {
+  /**
+   * The claim's ID.
+   */
   claim_id: string
+  /**
+   * The ID of the user canceling the claim
+   */
   canceled_by?: string
 }
 
@@ -2113,8 +2132,17 @@ export interface CreateOrderExchangeDTO extends BaseOrderBundledActionsDTO {
   created_by?: string | null
 }
 
+/**
+ * The details of the exchange cancelation.
+ */
 export interface CancelOrderExchangeDTO extends BaseOrderBundledActionsDTO {
+  /**
+   * The exchange's ID.
+   */
   exchange_id: string
+  /**
+   * The ID of the user canceling the exchange
+   */
   canceled_by?: string
 }
 

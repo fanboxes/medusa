@@ -23,7 +23,50 @@ import {
 } from "../../utils/order-validation"
 
 /**
- * This step validates that a new item can be removed from an order edit.
+ * The data to validate that an item that was added in an order edit can be removed.
+ */
+export type RemoveOrderEditItemActionValidationStepInput = {
+  /**
+   * The order's details.
+   */
+  order: OrderDTO
+  /**
+   * The order change's details.
+   */
+  orderChange: OrderChangeDTO
+  /**
+   * The details of the item to be removed.
+   */
+  input: OrderWorkflow.DeleteOrderEditItemActionWorkflowInput
+}
+
+/**
+ * This step validates that an item that was added in the order edit can be removed 
+ * from the order edit. If the order is canceled or the order change is not active,
+ * the step will throw an error.
+ * 
+ * :::note
+ * 
+ * You can retrieve an order and order change details using [Query](https://docs.medusajs.com/learn/fundamentals/module-links/query),
+ * or [useQueryGraphStep](https://docs.medusajs.com/resources/references/medusa-workflows/steps/useQueryGraphStep).
+ * 
+ * :::
+ * 
+ * @example
+ * const data = removeOrderEditItemActionValidationStep({
+ *   order: {
+ *     id: "order_123",
+ *     // other order details...
+ *   },
+ *   orderChange: {
+ *     id: "orch_123",
+ *     // other order change details...
+ *   },
+ *   input: {
+ *     order_id: "order_123",
+ *     action_id: "orchact_123",
+ *   }
+ * })
  */
 export const removeOrderEditItemActionValidationStep = createStep(
   "remove-item-order-edit-action-validation",
@@ -31,11 +74,7 @@ export const removeOrderEditItemActionValidationStep = createStep(
     order,
     orderChange,
     input,
-  }: {
-    order: OrderDTO
-    orderChange: OrderChangeDTO
-    input: OrderWorkflow.DeleteOrderEditItemActionWorkflowInput
-  }) {
+  }: RemoveOrderEditItemActionValidationStepInput) {
     throwIfIsCancelled(order, "Order")
     throwIfOrderChangeIsNotActive({ orderChange })
 
@@ -62,7 +101,24 @@ export const removeOrderEditItemActionValidationStep = createStep(
 export const removeItemOrderEditActionWorkflowId =
   "remove-item-order edit-action"
 /**
- * This workflow removes a new item in an order edit.
+ * This workflow removes an item that was added to an order edit. It's used by the
+ * [Remove Item from Order Edit Admin API Route](https://docs.medusajs.com/api/admin#order-edits_deleteordereditsiditemsaction_id).
+ * 
+ * You can use this workflow within your customizations or your own custom workflows, allowing you to remove an item that was 
+ * added to an order edit in your custom flow.
+ * 
+ * @example
+ * const { result } = await removeItemOrderEditActionWorkflow(container)
+ * .run({
+ *   input: {
+ *     order_id: "order_123",
+ *     action_id: "orchact_123",
+ *   }
+ * })
+ * 
+ * @summary
+ * 
+ * Remove an item that was added to an order edit.
  */
 export const removeItemOrderEditActionWorkflow = createWorkflow(
   removeItemOrderEditActionWorkflowId,

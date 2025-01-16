@@ -5,13 +5,18 @@ import {
 } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The returns to update.
+ */
+export type UpdateReturnsStepInput = UpdateReturnDTO[]
+
 export const updateReturnsStepId = "update-returns"
 /**
  * This step updates one or more returns.
  */
 export const updateReturnsStep = createStep(
   updateReturnsStepId,
-  async (data: UpdateReturnDTO[], { container }) => {
+  async (data: UpdateReturnsStepInput, { container }) => {
     const service = container.resolve(Modules.ORDER) as any
 
     const { selects, relations } = getSelectsAndRelationsFromObjectArray(data, {

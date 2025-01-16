@@ -38,7 +38,7 @@ export const updateCustomerAddressesWorkflowId = "update-customer-addresses"
  * This workflow has a hook that allows you to perform custom actions on the updated customer addresses. For example, you can pass under `additional_data` custom data that
  * allows you to update custom data models linked to the addresses.
  * 
- * You can also use this workflow within your own custom workflows, allowing you to wrap custom logic around updating customer addresses.
+ * You can also use this workflow within your customizations or your own custom workflows, allowing you to wrap custom logic around updating customer addresses.
  * 
  * @example
  * const { result } = await updateCustomerAddressesWorkflow(container)

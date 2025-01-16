@@ -2,8 +2,17 @@ import { IOrderModuleService } from "@medusajs/framework/types"
 import { Modules } from "@medusajs/framework/utils"
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The details of canceling the orders.
+ */
 export type CancelOrdersStepInput = {
+  /**
+   * The IDs of the orders to cancel.
+   */
   orderIds: string[]
+  /**
+   * The ID of the user canceling the orders.
+   */
   canceled_by?: string
 }
 

@@ -2,9 +2,9 @@ import { WebhookActionResult } from "@medusajs/types"
 import { PaymentActions } from "@medusajs/utils"
 import { createWorkflow, when } from "@medusajs/workflows-sdk"
 import { completeCartWorkflow } from "../../cart/workflows/complete-cart"
+import { useQueryGraphStep } from "../../common"
 import { authorizePaymentSessionStep } from "../steps"
 import { capturePaymentWorkflow } from "./capture-payment"
-import { useQueryGraphStep } from "../../common"
 
 interface ProcessPaymentWorkflowInput extends WebhookActionResult {}
 
@@ -53,7 +53,7 @@ export const processPaymentWorkflow = createWorkflow(
         })
     })
 
-    when({ input }, ({ input }) => {
+    when({ input, paymentData }, ({ input, paymentData }) => {
       return (
         input.action === PaymentActions.SUCCESSFUL && !!paymentData.data.length
       )
@@ -66,15 +66,18 @@ export const processPaymentWorkflow = createWorkflow(
       })
     })
 
-    when({ input }, ({ input }) => {
-      // Authorize payment session if no Cart is linked to the payment
-      // When associated with a Cart, the complete cart workflow will handle the authorization
-      return (
-        !cartPaymentCollection.data.length &&
-        input.action === PaymentActions.AUTHORIZED &&
-        !!input.data?.session_id
-      )
-    }).then(() => {
+    when(
+      { input, cartPaymentCollection },
+      ({ input, cartPaymentCollection }) => {
+        // Authorize payment session if no Cart is linked to the payment
+        // When associated with a Cart, the complete cart workflow will handle the authorization
+        return (
+          !cartPaymentCollection.data.length &&
+          input.action === PaymentActions.AUTHORIZED &&
+          !!input.data?.session_id
+        )
+      }
+    ).then(() => {
       authorizePaymentSessionStep({
         id: input.data!.session_id,
         context: {},

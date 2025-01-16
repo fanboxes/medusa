@@ -25,17 +25,52 @@ import { throwIfOrderChangeIsNotActive } from "../../utils/order-validation"
 import { prepareShippingMethodUpdate } from "../../utils/prepare-shipping-method"
 
 /**
+ * The data to validate that an order edit's shipping method can be updated.
+ */
+export type UpdateOrderEditShippingMethodValidationStepInput = {
+  /**
+   * The order change's details.
+   */
+  orderChange: OrderChangeDTO
+  /**
+   * The details of the shipping method to be updated.
+   */
+  input: Pick<OrderWorkflow.UpdateOrderEditShippingMethodWorkflowInput, "order_id" | "action_id">
+}
+
+/**
  * This step validates that an order edit's shipping method can be updated.
+ * If the order change is not active, the shipping method isn't in the order edit,
+ * or the action is not adding a shipping method, the step will throw an error.
+ * 
+ * :::note
+ * 
+ * You can retrieve an order change details using [Query](https://docs.medusajs.com/learn/fundamentals/module-links/query),
+ * or [useQueryGraphStep](https://docs.medusajs.com/resources/references/medusa-workflows/steps/useQueryGraphStep).
+ * 
+ * :::
+ * 
+ * @example
+ * const data = updateOrderEditShippingMethodValidationStep({
+ *   orderChange: {
+ *     id: "orch_123",
+ *     // other order change details...
+ *   },
+ *   input: {
+ *     order_id: "order_123",
+ *     action_id: "orchac_123",
+ *     data: {
+ *       custom_amount: 10,
+ *     }
+ *   }
+ * })
  */
 export const updateOrderEditShippingMethodValidationStep = createStep(
   "validate-update-order-edit-shipping-method",
   async function ({
     orderChange,
     input,
-  }: {
-    input: { order_id: string; action_id: string }
-    orderChange: OrderChangeDTO
-  }) {
+  }: UpdateOrderEditShippingMethodValidationStepInput) {
     throwIfOrderChangeIsNotActive({ orderChange })
 
     const associatedAction = (orderChange.actions ?? []).find(
@@ -57,7 +92,27 @@ export const updateOrderEditShippingMethodValidationStep = createStep(
 export const updateOrderEditShippingMethodWorkflowId =
   "update-order-edit-shipping-method"
 /**
- * This workflow updates an order edit's shipping method.
+ * This workflow updates an order edit's shipping method. It's used by the 
+ * [Update Shipping Method Admin API Route](https://docs.medusajs.com/api/admin#order-edits_postordereditsidshippingmethodaction_id).
+ * 
+ * You can use this workflow within your customizations or your own custom workflows, allowing you to update an order edit's shipping method
+ * in your custom flow.
+ * 
+ * @example
+ * const { result } = await updateOrderEditShippingMethodWorkflow(container)
+ * .run({
+ *   input: {
+ *     order_id: "order_123",
+ *     action_id: "orchac_123",
+ *     data: {
+ *       custom_amount: 10,
+ *     }
+ *   }
+ * })
+ * 
+ * @summary
+ * 
+ * Update a shipping method of an order edit.
  */
 export const updateOrderEditShippingMethodWorkflow = createWorkflow(
   updateOrderEditShippingMethodWorkflowId,

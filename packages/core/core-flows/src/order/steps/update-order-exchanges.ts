@@ -8,13 +8,18 @@ import {
 } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The order exchanges to update.
+ */
+export type UpdateOrderExchangesStepInput = UpdateOrderExchangeDTO[]
+
 export const updateOrderExchangesStepId = "update-order-exchange"
 /**
  * This step update order changes.
  */
 export const updateOrderExchangesStep = createStep(
   updateOrderExchangesStepId,
-  async (data: UpdateOrderExchangeDTO[], { container }) => {
+  async (data: UpdateOrderExchangesStepInput, { container }) => {
     const service = container.resolve<IOrderModuleService>(Modules.ORDER)
 
     const { selects, relations } = getSelectsAndRelationsFromObjectArray(data, {

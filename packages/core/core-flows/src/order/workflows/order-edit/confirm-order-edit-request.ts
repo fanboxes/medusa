@@ -27,31 +27,87 @@ import {
 } from "../../utils/order-validation"
 import { createOrUpdateOrderPaymentCollectionWorkflow } from "../create-or-update-order-payment-collection"
 
-export type ConfirmOrderEditRequestWorkflowInput = {
-  order_id: string
-  confirmed_by?: string
+/**
+ * The data to validate that a requested order edit can be confirmed.
+ */
+export type ConfirmOrderEditRequestValidationStepInput = {
+  /**
+   * The order's details.
+   */
+  order: OrderDTO
+  /**
+   * The order change's details.
+   */
+  orderChange: OrderChangeDTO
 }
 
 /**
  * This step validates that a requested order edit can be confirmed.
+ * If the order is canceled or the order change is not active, the step will throw an error.
+ * 
+ * :::note
+ * 
+ * You can retrieve an order and order change details using [Query](https://docs.medusajs.com/learn/fundamentals/module-links/query),
+ * or [useQueryGraphStep](https://docs.medusajs.com/resources/references/medusa-workflows/steps/useQueryGraphStep).
+ * 
+ * :::
+ * 
+ * @example
+ * const data = confirmOrderEditRequestValidationStep({
+ *   order: {
+ *     id: "order_123",
+ *     // other order details...
+ *   },
+ *   orderChange: {
+ *     id: "orch_123",
+ *     // other order change details...
+ *   }
+ * })
  */
 export const confirmOrderEditRequestValidationStep = createStep(
   "validate-confirm-order-edit-request",
   async function ({
     order,
     orderChange,
-  }: {
-    order: OrderDTO
-    orderChange: OrderChangeDTO
-  }) {
+  }: ConfirmOrderEditRequestValidationStepInput) {
     throwIfIsCancelled(order, "Order")
     throwIfOrderChangeIsNotActive({ orderChange })
   }
 )
 
+/**
+ * The data to confirm an order edit request.
+ */
+export type ConfirmOrderEditRequestWorkflowInput = {
+  /**
+   * The ID of the order to confirm the edit for.
+   */
+  order_id: string
+  /**
+   * The ID of the user confirming the edit.
+   */
+  confirmed_by?: string
+}
+
 export const confirmOrderEditRequestWorkflowId = "confirm-order-edit-request"
 /**
- * This workflow confirms an order edit request.
+ * This workflow confirms an order edit request. It's used by the
+ * [Confirm Order Edit Admin API Route](https://docs.medusajs.com/api/admin#order-edits_postordereditsidconfirm).
+ * 
+ * You can use this workflow within your customizations or your own custom workflows, allowing you to confirm an order edit
+ * in your custom flow.
+ * 
+ * @example
+ * const { result } = await confirmOrderEditRequestWorkflow(container)
+ * .run({
+ *   input: {
+ *     order_id: "order_123",
+ *   }
+ * })
+ * 
+ * @summary
+ * 
+ * Confirm an order edit request.
  */
 export const confirmOrderEditRequestWorkflow = createWorkflow(
   confirmOrderEditRequestWorkflowId,

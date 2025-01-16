@@ -1,7 +1,7 @@
-import type { AdminOptions, ConfigModule, Logger } from "@medusajs/types"
-import { getConfigFile } from "@medusajs/utils"
-import { access, constants, copyFile, rm } from "fs/promises"
 import path from "path"
+import { getConfigFile } from "@medusajs/utils"
+import type { AdminOptions, ConfigModule, Logger } from "@medusajs/types"
+import { rm, access, constants, copyFile, writeFile } from "fs/promises"
 import type tsStatic from "typescript"
 
 /**
@@ -27,6 +27,7 @@ export class Compiler {
   #adminSourceFolder: string
   #pluginsDistFolder: string
   #backendIgnoreFiles: string[]
+  #pluginOptionsPath: string
   #adminOnlyDistFolder: string
   #tsCompiler?: typeof tsStatic
 
@@ -37,6 +38,10 @@ export class Compiler {
     this.#adminSourceFolder = path.join(this.#projectRoot, "src/admin")
     this.#adminOnlyDistFolder = path.join(this.#projectRoot, ".medusa/admin")
     this.#pluginsDistFolder = path.join(this.#projectRoot, ".medusa/server")
+    this.#pluginOptionsPath = path.join(
+      this.#projectRoot,
+      ".medusa/server/medusa-plugin-options.json"
+    )
     this.#backendIgnoreFiles = [
       "integration-tests",
       "test",
@@ -150,6 +155,24 @@ export class Compiler {
     }
 
     return { configFilePath, configModule }
+  }
+
+  /**
+   * Creates medusa-plugin-options.json file that contains some
+   * metadata related to the plugin, which could be helpful
+   * for MedusaJS loaders during development
+   */
+  async #createPluginOptionsFile() {
+    await writeFile(
+      this.#pluginOptionsPath,
+      JSON.stringify(
+        {
+          srcDir: path.join(this.#projectRoot, "src"),
+        },
+        null,
+        2
+      )
+    )
   }
 
   /**
@@ -440,6 +463,7 @@ export class Compiler {
    * a file has changed.
    */
   async developPluginBackend(onFileChange?: () => void) {
+    await this.#createPluginOptionsFile()
     const ts = await this.#loadTSCompiler()
 
     /**

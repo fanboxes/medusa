@@ -205,7 +205,7 @@ export const createProductVariantsWorkflowId = "create-product-variants"
  * This workflow has a hook that allows you to perform custom actions on the created product variants. For example, you can pass under `additional_data` custom data that 
  * allows you to create custom data models linked to the product variants.
  * 
- * You can also use this workflow within your own custom workflows, allowing you to wrap custom logic around product-variant creation.
+ * You can also use this workflow within your customizations or your own custom workflows, allowing you to wrap custom logic around product-variant creation.
  * 
  * @example
  * const { result } = await createProductVariantsWorkflow(container)

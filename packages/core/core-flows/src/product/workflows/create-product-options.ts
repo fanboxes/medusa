@@ -27,7 +27,7 @@ export const createProductOptionsWorkflowId = "create-product-options"
  * This workflow has a hook that allows you to perform custom actions on the created product options. For example, you can pass under `additional_data` custom data that 
  * allows you to create custom data models linked to the product options.
  * 
- * You can also use this workflow within your own custom workflows, allowing you to wrap custom logic around product-option creation.
+ * You can also use this workflow within your customizations or your own custom workflows, allowing you to wrap custom logic around product-option creation.
  * 
  * @example
  * const { result } = await createProductOptionsWorkflow(container)

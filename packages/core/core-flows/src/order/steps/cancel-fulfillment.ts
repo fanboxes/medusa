@@ -8,6 +8,17 @@ import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 export const cancelOrderFulfillmentStepId = "cancel-order-fulfillment"
 /**
  * This step cancels an order's fulfillment.
+ * 
+ * @example
+ * const data = cancelOrderFulfillmentStep({
+ *   order_id: "order_123",
+ *   items: [
+ *     {
+ *       id: "item_123",
+ *       quantity: 1
+ *     }
+ *   ]
+ * })
  */
 export const cancelOrderFulfillmentStep = createStep(
   cancelOrderFulfillmentStepId,

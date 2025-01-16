@@ -227,7 +227,7 @@ class HelloModuleService {
     },
     @MedusaContext() sharedContext?: Context<EntityManager>
   ): Promise<any> {
-    anotherMethod(sharedContext)
+    this.anotherMethod(sharedContext)
   }
 }
 ```
@@ -286,7 +286,7 @@ type InjectedDependencies = {
 class HelloModuleService {
   protected baseRepository_: DAL.RepositoryService
 
-  constructor({ manager }: InjectedDependencies) {
+  constructor({ baseRepository }: InjectedDependencies) {
     this.baseRepository_ = baseRepository
   }
 }

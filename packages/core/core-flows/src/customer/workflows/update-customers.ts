@@ -36,7 +36,7 @@ export const updateCustomersWorkflowId = "update-customers"
  * This workflow has a hook that allows you to perform custom actions on the updated customer. For example, you can pass under `additional_data` custom data to update
  * custom data models linked to the customers.
  * 
- * You can also use this workflow within your own custom workflows, allowing you to wrap custom logic around updating customers.
+ * You can also use this workflow within your customizations or your own custom workflows, allowing you to wrap custom logic around updating customers.
  * 
  * @example
  * const { result } = await updateCustomersWorkflow(container)

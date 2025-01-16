@@ -968,6 +968,7 @@ export type InputConfig = Partial<
 
 export type PluginDetails = {
   resolve: string
+  adminResolve: string
   name: string
   id: string
   options: Record<string, unknown>

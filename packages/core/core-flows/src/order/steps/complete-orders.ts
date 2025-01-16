@@ -2,7 +2,13 @@ import { IOrderModuleService } from "@medusajs/framework/types"
 import { Modules } from "@medusajs/framework/utils"
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The details of completing the orders.
+ */
 export type CompleteOrdersStepInput = {
+  /**
+   * The IDs of the orders to complete.
+   */
   orderIds: string[]
 }
 

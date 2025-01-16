@@ -35,13 +35,50 @@ import {
   throwIfOrderChangeIsNotActive,
 } from "../../utils/order-validation"
 
-export type ConfirmReceiveReturnRequestWorkflowInput = {
-  return_id: string
-  confirmed_by?: string
+/**
+ * The data to validate that a return receival can be confirmed.
+ */
+export type ConfirmReceiveReturnValidationStepInput = {
+  /**
+   * The order's details.
+   */
+  order: OrderDTO
+  /**
+   * The order return's details.
+   */
+  orderReturn: ReturnDTO
+  /**
+   * The order change's details.
+   */
+  orderChange: OrderChangeDTO
 }
 
 /**
  * This step validates that a return receival can be confirmed.
+ * If the order or return is canceled, or the order change is not active, the step will throw an error.
+ * 
+ * :::note
+ * 
+ * You can retrieve an order, return, and order change details using [Query](https://docs.medusajs.com/learn/fundamentals/module-links/query),
+ * or [useQueryGraphStep](https://docs.medusajs.com/resources/references/medusa-workflows/steps/useQueryGraphStep).
+ * 
+ * :::
+ * 
+ * @example
+ * const data = confirmReceiveReturnValidationStep({
+ *   order: {
+ *     id: "order_123",
+ *     // other order details...
+ *   },
+ *   orderReturn: {
+ *     id: "return_123",
+ *     // other order return details...
+ *   },
+ *   orderChange: {
+ *     id: "orch_123",
+ *     // other order change details...
+ *   }
+ * })
  */
 export const confirmReceiveReturnValidationStep = createStep(
   "validate-confirm-return-receive",
@@ -49,11 +86,7 @@ export const confirmReceiveReturnValidationStep = createStep(
     order,
     orderChange,
     orderReturn,
-  }: {
-    order: OrderDTO
-    orderReturn: ReturnDTO
-    orderChange: OrderChangeDTO
-  }) {
+  }: ConfirmReceiveReturnValidationStepInput) {
     throwIfIsCancelled(order, "Order")
     throwIfIsCancelled(orderReturn, "Return")
     throwIfOrderChangeIsNotActive({ orderChange })
@@ -131,9 +164,39 @@ function prepareInventoryUpdate({ orderReturn, returnedQuantityMap }) {
   return inventoryAdjustment
 }
 
+/**
+ * The data to confirm a return receival request.
+ */
+export type ConfirmReceiveReturnRequestWorkflowInput = {
+  /**
+   * The ID of the return to confirm the receival for.
+   */
+  return_id: string
+  /**
+   * The ID of the user that's confirming the return receival.
+   */
+  confirmed_by?: string
+}
+
 export const confirmReturnReceiveWorkflowId = "confirm-return-receive"
 /**
- * This workflow confirms a return receival request.
+ * This workflow confirms a return receival request. It's used by the
+ * [Confirm Return Receival Admin API Route](https://docs.medusajs.com/api/admin#returns_postreturnsidreceiveconfirm).
+ * 
+ * You can use this workflow within your customizations or your own custom workflows, allowing you
+ * to confirm a return receival in your custom flow.
+ * 
+ * @example
+ * const { result } = await confirmReturnReceiveWorkflow(container)
+ * .run({
+ *   input: {
+ *     return_id: "return_123",
+ *   }
+ * })
+ * 
+ * @summary
+ * 
+ * Confirm a return receival request.
  */
 export const confirmReturnReceiveWorkflow = createWorkflow(
   confirmReturnReceiveWorkflowId,

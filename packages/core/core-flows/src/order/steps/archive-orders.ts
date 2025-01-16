@@ -2,7 +2,13 @@ import { IOrderModuleService } from "@medusajs/framework/types"
 import { Modules } from "@medusajs/framework/utils"
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The details of archiving the orders.
+ */
 export type ArchiveOrdersStepInput = {
+  /**
+   * The IDs of the orders to archive.
+   */
   orderIds: string[]
 }
 

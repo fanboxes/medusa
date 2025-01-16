@@ -54,7 +54,7 @@ export const updateProductVariantsWorkflowId = "update-product-variants"
  * This workflow has a hook that allows you to perform custom actions on the updated product variants. For example, you can pass under `additional_data` custom data that 
  * allows you to update custom data models linked to the product variants.
  * 
- * You can also use this workflow within your own custom workflows, allowing you to wrap custom logic around product-variant update.
+ * You can also use this workflow within your customizations or your own custom workflows, allowing you to wrap custom logic around product-variant update.
  * 
  * @example
  * To update product variants by their IDs:

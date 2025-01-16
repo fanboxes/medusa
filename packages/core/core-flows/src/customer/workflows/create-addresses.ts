@@ -33,7 +33,7 @@ export const createCustomerAddressesWorkflowId = "create-customer-addresses"
  * This workflow has a hook that allows you to perform custom actions on the created customer addresses. For example, you can pass under `additional_data` custom data that
  * allows you to create custom data models linked to the addresses.
  * 
- * You can also use this workflow within your own custom workflows, allowing you to wrap custom logic around creating customer addresses.
+ * You can also use this workflow within your customizations or your own custom workflows, allowing you to wrap custom logic around creating customer addresses.
  * 
  * @example
  * const { result } = await createCustomerAddressesWorkflow(container)

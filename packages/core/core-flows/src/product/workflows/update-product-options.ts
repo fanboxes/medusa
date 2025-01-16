@@ -31,7 +31,7 @@ export const updateProductOptionsWorkflowId = "update-product-options"
  * This workflow has a hook that allows you to perform custom actions on the updated product options. For example, you can pass under `additional_data` custom data that 
  * allows you to update custom data models linked to the product options.
  * 
- * You can also use this workflow within your own custom workflows, allowing you to wrap custom logic around product-option update.
+ * You can also use this workflow within your customizations or your own custom workflows, allowing you to wrap custom logic around product-option update.
  * 
  * @example
  * const { result } = await updateProductOptionsWorkflow(container)
