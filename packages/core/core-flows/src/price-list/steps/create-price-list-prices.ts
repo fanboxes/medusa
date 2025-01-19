@@ -11,6 +11,23 @@ import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 export const createPriceListPricesStepId = "create-price-list-prices"
 /**
  * This step creates prices for a price list.
+ * 
+ * @example
+ * const data = createPriceListPricesStep({
+ *   data: [{
+ *     id: "plist_123",
+ *     prices: [
+ *       {
+ *         currency_code: "USD",
+ *         amount: 1000,
+ *         variant_id: "variant_123",
+ *       }
+ *     ]
+ *   }],
+ *   variant_price_map: {
+ *     "variant_123": "pset_123"
+ *   }
+ * })
  */
 export const createPriceListPricesStep = createStep(
   createPriceListPricesStepId,

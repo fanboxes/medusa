@@ -60,6 +60,10 @@ export const inventory = [
     "path": "/references/medusa-workflows/steps/updateInventoryLevelsStep"
   },
   {
+    "title": "batchInventoryItemLevelsWorkflow",
+    "path": "/references/medusa-workflows/batchInventoryItemLevelsWorkflow"
+  },
+  {
     "title": "bulkCreateDeleteLevelsWorkflow",
     "path": "/references/medusa-workflows/bulkCreateDeleteLevelsWorkflow"
   },

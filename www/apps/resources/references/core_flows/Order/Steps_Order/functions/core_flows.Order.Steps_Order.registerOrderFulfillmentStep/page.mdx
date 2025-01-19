@@ -14,24 +14,17 @@ This documentation provides a reference to the `registerOrderFulfillmentStep`. I
 
 This step registers a fulfillment for an order.
 
-```ts title="src/workflows/my-workflow.ts"
-import { createWorkflow } from "@medusajs/framework/workflows-sdk"
-import { registerOrderFulfillmentStep } from "@medusajs/medusa/core-flows"
+## Example
 
-const myWorkflow = createWorkflow(
-  "my-workflow",
-  () => {
-    const data = registerOrderFulfillmentStep({
-      "order_id": "{value}",
-      "items": [{
-        "id": "id_Md6KtOyA3XTSe7",
-        "quantity": 7
-      }]
-    })
-  }
-)
+```ts
+const data = registerOrderFulfillmentStep({
+  order_id: "order_123",
+  items: [{
+    id: "item_123",
+    quantity: 1
+  }],
+})
 ```
-  
 
 ## Input
 

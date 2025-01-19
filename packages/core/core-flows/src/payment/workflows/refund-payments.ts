@@ -11,24 +11,52 @@ import { useQueryGraphStep } from "../../common"
 import { addOrderTransactionStep } from "../../order"
 import { refundPaymentsStep } from "../steps/refund-payments"
 
-type RefundPaymentsInput = {
-  payment_id: string
-  amount: BigNumberInput
-  created_by?: string
+/**
+ * The data to validate whether the refund is valid for the payment.
+ */
+export type ValidatePaymentsRefundStepInput = {
+  /**
+   * The payment details.
+   */
+  payments: PaymentDTO[]
+  /**
+   * The payments to refund.
+   */
+  input: RefundPaymentsWorkflowInput
 }
 
 /**
- * This step validates that the refund is valid for the payment
+ * This step validates that the refund is valid for the payment.
+ * If the payment's refundable amount is less than the amount to be refunded,
+ * the step throws an error.
+ * 
+ * :::note
+ * 
+ * You can retrieve a payment's details using [Query](https://docs.medusajs.com/learn/fundamentals/module-links/query),
+ * or [useQueryGraphStep](https://docs.medusajs.com/resources/references/medusa-workflows/steps/useQueryGraphStep).
+ * 
+ * :::
+ * 
+ * @example
+ * const data = validatePaymentsRefundStep({
+ *   payment: [{
+ *     id: "payment_123",
+ *     // other payment details...
+ *   }],
+ *   input: [
+ *     {
+ *       payment_id: "payment_123",
+ *       amount: 10,
+ *     }
+ *   ]
+ * })
  */
 export const validatePaymentsRefundStep = createStep(
   "validate-payments-refund-step",
   async function ({
     payments,
     input,
-  }: {
-    payments: PaymentDTO[]
-    input: RefundPaymentsInput[]
-  }) {
+  }: ValidatePaymentsRefundStepInput) {
     const paymentIdAmountMap = new Map<string, BigNumberInput>(
       input.map(({ payment_id, amount }) => [payment_id, amount])
     )
@@ -57,13 +85,31 @@ export const validatePaymentsRefundStep = createStep(
   }
 )
 
+/**
+ * The data to refund a payment.
+ */
+export type RefundPaymentsWorkflowInput = {
+  /**
+   * The ID of the payment to refund.
+   */
+  payment_id: string
+  /**
+   * The amount to refund. Must be less than the refundable amount of the payment.
+   */
+  amount: BigNumberInput
+  /**
+   * The ID of the user that's refunding the payment.
+   */
+  created_by?: string
+}[]
+
 export const refundPaymentsWorkflowId = "refund-payments-workflow"
 /**
  * This workflow refunds a payment.
  */
 export const refundPaymentsWorkflow = createWorkflow(
   refundPaymentsWorkflowId,
-  (input: WorkflowData<RefundPaymentsInput[]>) => {
+  (input: WorkflowData<RefundPaymentsWorkflowInput>) => {
     const paymentIds = transform({ input }, ({ input }) =>
       input.map((paymentInput) => paymentInput.payment_id)
     )

@@ -21,9 +21,7 @@ import { deleteFulfillmentSetsStep } from "@medusajs/medusa/core-flows"
 const myWorkflow = createWorkflow(
   "my-workflow",
   () => {
-    const data = deleteFulfillmentSetsStep([
-      "{value}"
-    ])
+    const data = deleteFulfillmentSetsStep({})
   }
 )
 ```
@@ -31,4 +29,4 @@ const myWorkflow = createWorkflow(
 
 ## Input
 
-<TypeList types={[{"name":"string[]","type":"`string`[]","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"string","type":"`string`","optional":false,"defaultValue":"","description":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteFulfillmentSetsStep"/>
+<TypeList types={[{"name":"DeleteFulfillmentSetsStepInput","type":"[DeleteFulfillmentSetsStepInput](../../../../types/core_flows.DeleteFulfillmentSetsStepInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"DeleteFulfillmentSetsStepInput","type":"`string`[]","description":"The IDs of the fulfillment sets to delete.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteFulfillmentSetsStep"/>

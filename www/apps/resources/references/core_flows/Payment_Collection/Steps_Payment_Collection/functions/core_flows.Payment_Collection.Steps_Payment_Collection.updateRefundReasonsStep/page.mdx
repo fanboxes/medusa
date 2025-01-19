@@ -21,9 +21,9 @@ import { updateRefundReasonsStep } from "@medusajs/medusa/core-flows"
 const myWorkflow = createWorkflow(
   "my-workflow",
   () => {
-    const data = updateRefundReasonsStep([{
-      "id": "id_nO2vUPhZq8BiFSg0U19"
-    }])
+    const data = updateRefundReasonsStep({
+      "id": "id_RFh4Upc4eOLNaYKVE2"
+    })
   }
 )
 ```
@@ -31,7 +31,7 @@ const myWorkflow = createWorkflow(
 
 ## Input
 
-<TypeList types={[{"name":"UpdateRefundReasonDTO[]","type":"[UpdateRefundReasonDTO](../../../../../payment/interfaces/payment.UpdateRefundReasonDTO/page.mdx)[]","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"UpdateRefundReasonDTO","type":"[UpdateRefundReasonDTO](../../../../../payment/interfaces/payment.UpdateRefundReasonDTO/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"id","type":"`string`","description":"The id of the refund reason","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"label","type":"`string`","description":"The label of the refund reason","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"description","type":"`null` \\| `string`","description":"The description of the refund reason","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"metadata","type":"`null` \\| `Record<string, unknown>`","description":"The metadata of the refund reason","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="updateRefundReasonsStep"/>
+<TypeList types={[{"name":"UpdateRefundReasonStepInput","type":"[UpdateRefundReasonStepInput](../../../../types/core_flows.UpdateRefundReasonStepInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"id","type":"`string`","description":"The id of the refund reason","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"label","type":"`string`","description":"The label of the refund reason","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"description","type":"`null` \\| `string`","description":"The description of the refund reason","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"metadata","type":"`null` \\| `Record<string, unknown>`","description":"The metadata of the refund reason","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="updateRefundReasonsStep"/>
 
 ## Output
 

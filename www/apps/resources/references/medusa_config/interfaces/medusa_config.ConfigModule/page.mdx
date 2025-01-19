@@ -15,6 +15,7 @@ The configurations for your Medusa application are in `medusa-config.ts` located
 `defineConfig` accepts as a parameter an object with the following properties:
 
 - [projectConfig](page.mdx#projectconfig) (required): An object that holds general configurations related to the Medusa application, such as database or CORS configurations.
+- [plugins](page.mdx#plugins): An array of strings or objects that hold the configurations of the plugins installed in the Medusa application.
 - [admin](page.mdx#admin): An object that holds admin-related configurations.
 - [modules](page.mdx#modules): An object that configures the Medusa application's modules.
 - [featureFlags](page.mdx#featureflags): An object that enables or disables features guarded by a feature flag.
@@ -421,6 +422,52 @@ module.exports = defineConfig({
 
 Configure the Vite configuration for the admin dashboard. This function receives the default Vite configuration
 and returns the modified configuration. The default value is `undefined`.
+
+___
+
+## plugins
+
+On your Medusa server, you can use [Plugins](https://docs.medusajs.com/learn/fundamentals/plugins) to add re-usable Medusa customizations. Plugins
+can include modules, workflows, API Routes, and other customizations. Plugins are available starting from [Medusa v2.3.0](https://github.com/medusajs/medusa/releases/tag/v2.3.0).
+
+Aside from installing the plugin with NPM, you need to pass the plugin you installed into the `plugins` array defined in `medusa-config.ts`.
+
+The items in the array can either be:
+
+- A string, which is the name of the plugin's package as specified in the plugin's `package.json` file. You can pass a plugin as a string if it doesn’t require any options.
+- An object having the following properties:
+    - `resolve`: The name of the plugin's package as specified in the plugin's `package.json` file.
+    - `options`: An object that includes options to be passed to the modules within the plugin. Learn more in [this documentation](https://docs.medusajs.com/learn/fundamentals/modules/options).
+
+Learn how to create a plugin in [this documentation](https://docs.medusajs.com/learn/fundamentals/plugins/create).
+
+### Example
+
+```ts title="medusa-config.ts"
+module.exports = {
+  plugins: [
+    `medusa-my-plugin-1`,
+    {
+      resolve: `medusa-my-plugin`,
+      options: {
+        apiKey: process.env.MY_API_KEY ||
+          `test`,
+      },
+    },
+    // ...
+  ],
+  // ...
+}
+```
+
+### resolve
+
+The name of the plugin's package as specified in the plugin's `package.json` file.
+
+### options
+
+An object that includes options to be passed to the modules within the plugin.
+Learn more in [this documentation](https://docs.medusajs.com/learn/fundamentals/modules/options).
 
 ___
 

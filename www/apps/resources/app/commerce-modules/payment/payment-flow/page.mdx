@@ -54,7 +54,6 @@ await createPaymentCollectionForCartWorkflow(req.scope)
 ```ts
 const paymentCollection =
   await paymentModuleService.createPaymentCollections({
-    region_id: "reg_123",
     currency_code: "usd",
     amount: 5000,
   })

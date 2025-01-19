@@ -14,9 +14,13 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `deleteSalesChannelsWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow deletes one or more sales channels.
+This workflow deletes one or more sales channels. It's used by the
+[Delete Sales Channel Admin API Route](https://docs.medusajs.com/api/admin#sales-channels\_deletesaleschannelsid).
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/sales-channel/workflows/delete-sales-channels.ts#L18" />
+You can use this workflow within your customizations or your own custom workflows, allowing you to
+delete sales channels within your custom flows.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/sales-channel/workflows/delete-sales-channels.ts#L42" />
 
 ## Examples
 
@@ -37,9 +41,7 @@ export async function POST(
   const { result } = await deleteSalesChannelsWorkflow(req.scope)
     .run({
       input: {
-        "ids": [
-          "id_tKdzLkobovKsOAyJUS"
-        ]
+        ids: ["sc_123"],
       }
     })
 
@@ -64,9 +66,7 @@ export default async function handleOrderPlaced({
   const { result } = await deleteSalesChannelsWorkflow(container)
     .run({
       input: {
-        "ids": [
-          "id_tKdzLkobovKsOAyJUS"
-        ]
+        ids: ["sc_123"],
       }
     })
 
@@ -91,9 +91,7 @@ export default async function myCustomJob(
   const { result } = await deleteSalesChannelsWorkflow(container)
     .run({
       input: {
-        "ids": [
-          "id_tKdzLkobovKsOAyJUS"
-        ]
+        ids: ["sc_123"],
       }
     })
 
@@ -119,9 +117,7 @@ const myWorkflow = createWorkflow(
     const result = deleteSalesChannelsWorkflow
       .runAsStep({
         input: {
-          "ids": [
-            "id_tKdzLkobovKsOAyJUS"
-          ]
+          ids: ["sc_123"],
         }
       })
   }
@@ -133,8 +129,8 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"deleteSalesChannelsWorkflow","steps":[{"type":"step","name":"canDeleteSalesChannelsOrThrowStep","description":"\n\n","link":"../../../Steps_Sales_Channel/functions/core_flows.Sales_Channel.Steps_Sales_Channel.canDeleteSalesChannelsOrThrowStep/page.mdx","depth":1},{"type":"step","name":"deleteSalesChannelsStep","description":"This step deletes one or more sales channels.\n\n","link":"../../../Steps_Sales_Channel/functions/core_flows.Sales_Channel.Steps_Sales_Channel.deleteSalesChannelsStep/page.mdx","depth":2},{"type":"step","name":"removeRemoteLinkStep","description":"This step deletes linked records of a record.\n\nLearn more in the [Remote Link documentation](https://docs.medusajs.com/learn/fundamentals/module-links/remote-link#cascade-delete-linked-records)\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.removeRemoteLinkStep/page.mdx","depth":3},{"type":"step","name":"emitEventStep","description":"Emit an event.\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":4}]}} />
+<WorkflowDiagram workflow={{"name":"deleteSalesChannelsWorkflow","steps":[{"type":"step","name":"canDeleteSalesChannelsOrThrowStep","description":"This step validates that the specified sales channels can be deleted.\nIf any of the sales channels are default sales channels for a store, \nthe step will throw an error.","link":"../../../Steps_Sales_Channel/functions/core_flows.Sales_Channel.Steps_Sales_Channel.canDeleteSalesChannelsOrThrowStep/page.mdx","depth":1},{"type":"step","name":"deleteSalesChannelsStep","description":"This step deletes one or more sales channels.","link":"../../../Steps_Sales_Channel/functions/core_flows.Sales_Channel.Steps_Sales_Channel.deleteSalesChannelsStep/page.mdx","depth":2},{"type":"step","name":"removeRemoteLinkStep","description":"This step deletes linked records of a record.\n\nLearn more in the [Remote Link documentation](https://docs.medusajs.com/learn/fundamentals/module-links/remote-link#cascade-delete-linked-records)","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.removeRemoteLinkStep/page.mdx","depth":3},{"type":"step","name":"emitEventStep","description":"Emit an event.","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":4}]}} />
 
 ## Input
 
-<TypeList types={[{"name":"DeleteSalesChannelsWorkflowInput","type":"[DeleteSalesChannelsWorkflowInput](../../../../types/core_flows.DeleteSalesChannelsWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"ids","type":"`string`[]","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteSalesChannelsWorkflow"/>
+<TypeList types={[{"name":"DeleteSalesChannelsWorkflowInput","type":"[DeleteSalesChannelsWorkflowInput](../../../../types/core_flows.DeleteSalesChannelsWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"The data to delete sales channels.","expandable":false,"children":[{"name":"ids","type":"`string`[]","description":"The IDs of the sales channels to delete.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteSalesChannelsWorkflow"/>

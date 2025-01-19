@@ -12,9 +12,13 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `createPricePreferencesWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow creates one or more price preferences.
+This workflow creates one or more price preferences. It's used by the
+[Create Price Preferences Admin API Route](https://docs.medusajs.com/api/admin#price-preferences\_postpricepreferences).
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/pricing/workflows/create-price-preferences.ts#L13" />
+You can use this workflow within your customizations or your own custom workflows, allowing you to 
+create price preferences in your custom flows.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/pricing/workflows/create-price-preferences.ts#L38" />
 
 ## Examples
 
@@ -34,9 +38,11 @@ export async function POST(
 ) {
   const { result } = await createPricePreferencesWorkflow(req.scope)
     .run({
-      input: [
-        {}
-      ]
+      input: [{
+        attribute: "region_id",
+        value: "reg_123",
+        is_tax_inclusive: true
+      }]
     })
 
   res.send(result)
@@ -59,9 +65,11 @@ export default async function handleOrderPlaced({
 }: SubscriberArgs < { id: string } > ) {
   const { result } = await createPricePreferencesWorkflow(container)
     .run({
-      input: [
-        {}
-      ]
+      input: [{
+        attribute: "region_id",
+        value: "reg_123",
+        is_tax_inclusive: true
+      }]
     })
 
   console.log(result)
@@ -84,9 +92,11 @@ export default async function myCustomJob(
 ) {
   const { result } = await createPricePreferencesWorkflow(container)
     .run({
-      input: [
-        {}
-      ]
+      input: [{
+        attribute: "region_id",
+        value: "reg_123",
+        is_tax_inclusive: true
+      }]
     })
 
   console.log(result)
@@ -110,9 +120,11 @@ const myWorkflow = createWorkflow(
   () => {
     const result = createPricePreferencesWorkflow
       .runAsStep({
-        input: [
-          {}
-        ]
+        input: [{
+          attribute: "region_id",
+          value: "reg_123",
+          is_tax_inclusive: true
+        }]
       })
   }
 )
@@ -123,11 +135,11 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"createPricePreferencesWorkflow","steps":[{"type":"step","name":"createPricePreferencesStep","description":"This step creates one or more price preferences.\n\n","link":"../../../Steps_Pricing/functions/core_flows.Pricing.Steps_Pricing.createPricePreferencesStep/page.mdx","depth":1}]}} />
+<WorkflowDiagram workflow={{"name":"createPricePreferencesWorkflow","steps":[{"type":"step","name":"createPricePreferencesStep","description":"This step creates one or more price preferences.","link":"../../../Steps_Pricing/functions/core_flows.Pricing.Steps_Pricing.createPricePreferencesStep/page.mdx","depth":1}]}} />
 
 ## Input
 
-<TypeList types={[{"name":"CreatePricePreferencesWorkflowInput[]","type":"[CreatePricePreferencesWorkflowInput](../../../../../types/WorkflowTypes/PricingWorkflow/interfaces/types.WorkflowTypes.PricingWorkflow.CreatePricePreferencesWorkflowInput/page.mdx)[]","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"CreatePricePreferencesWorkflowInput","type":"[CreatePricePreferencesWorkflowInput](../../../../../types/WorkflowTypes/PricingWorkflow/interfaces/types.WorkflowTypes.PricingWorkflow.CreatePricePreferencesWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"attribute","type":"`string`","description":"","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"value","type":"`string`","description":"","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"is_tax_inclusive","type":"`boolean`","description":"","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="createPricePreferencesWorkflow"/>
+<TypeList types={[{"name":"CreatePricePreferencesWorkflowInput","type":"[CreatePricePreferencesWorkflowInput](../../../../types/core_flows.CreatePricePreferencesWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"The price preferences to create.","expandable":false,"children":[{"name":"attribute","type":"`string`","description":"The attribute of the price preference. For example, `region_id` or `currency_code`.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"value","type":"`string`","description":"The value of the price preference. For example, `reg_123` or `usd`.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"is_tax_inclusive","type":"`boolean`","description":"Whether prices matching this preference are tax inclusive.\n\nLearn more in [this documentation](https://docs.medusajs.com/resources/commerce-modules/pricing/tax-inclusive-pricing).","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="createPricePreferencesWorkflow"/>
 
 ## Output
 

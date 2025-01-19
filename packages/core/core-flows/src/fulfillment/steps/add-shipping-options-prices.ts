@@ -8,21 +8,71 @@ import {
 import { isString, Modules } from "@medusajs/framework/utils"
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The data to create price sets for a currency code.
+ */
 export interface ShippingOptionsPriceCurrencyCode {
+  /**
+   * The currency code of the price.
+   * 
+   * @example
+   * usd
+   */
   currency_code: string
+  /**
+   * The amount of the price.
+   */
   amount: number
+  /**
+   * The rules of the price.
+   */
   rules?: PriceRule[]
 }
 
+/**
+ * The data to create price sets for a region ID.
+ */
 interface ShippingOptionsPriceRegionId {
+  /**
+   * The ID of the region that this price applies in.
+   */
   region_id: string
+  /**
+   * The amount of the price.
+   */
   amount: number
+  /**
+   * The rules of the price.
+   */
   rules?: PriceRule[]
 }
 
+/**
+ * The data to create price sets for shipping options.
+ */
 export type CreateShippingOptionsPriceSetsStepInput = {
+  /**
+   * The ID of the shipping option.
+   */
   id: string
+  /**
+   * The prices to create for the shipping option.
+   */
   prices: (ShippingOptionsPriceCurrencyCode | ShippingOptionsPriceRegionId)[]
+}[]
+
+/**
+ * The result of creating price sets for shipping options.
+ */
+export type CreateShippingOptionsPriceSetsStepOutput = {
+  /**
+   * The ID of the shipping option.
+   */
+  id: string
+  /**
+   * The ID of the price set.
+   */
+  priceSetId: string
 }[]
 
 export function buildPriceSet(
@@ -126,7 +176,7 @@ export const createShippingOptionsPriceSetsStep = createStep(
         id: input.id,
         priceSetId: priceSets[index].id,
       }
-    })
+    }) as CreateShippingOptionsPriceSetsStepOutput
 
     return new StepResponse(
       shippingOptionPriceSetLinData,

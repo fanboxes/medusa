@@ -14,7 +14,10 @@ This documentation provides a reference to the `declineOrderChangeWorkflow`. It 
 
 This workflow declines an order change.
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/order/workflows/decline-order-change.ts#L9" />
+You can use this workflow within your customizations or your own custom workflows, allowing you to wrap custom logic around
+declining an order change.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/order/workflows/decline-order-change.ts#L16" />
 
 ## Examples
 
@@ -35,7 +38,7 @@ export async function POST(
   const { result } = await declineOrderChangeWorkflow(req.scope)
     .run({
       input: {
-        "id": "id_gSODbUT6PJMvuQQH"
+        "id": "id_BzEWZbuP9GXM8g5"
       }
     })
 
@@ -60,7 +63,7 @@ export default async function handleOrderPlaced({
   const { result } = await declineOrderChangeWorkflow(container)
     .run({
       input: {
-        "id": "id_gSODbUT6PJMvuQQH"
+        "id": "id_BzEWZbuP9GXM8g5"
       }
     })
 
@@ -85,7 +88,7 @@ export default async function myCustomJob(
   const { result } = await declineOrderChangeWorkflow(container)
     .run({
       input: {
-        "id": "id_gSODbUT6PJMvuQQH"
+        "id": "id_BzEWZbuP9GXM8g5"
       }
     })
 
@@ -111,7 +114,7 @@ const myWorkflow = createWorkflow(
     const result = declineOrderChangeWorkflow
       .runAsStep({
         input: {
-          "id": "id_gSODbUT6PJMvuQQH"
+          "id": "id_BzEWZbuP9GXM8g5"
         }
       })
   }
@@ -123,7 +126,7 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"declineOrderChangeWorkflow","steps":[{"type":"step","name":"declineOrderChangeStep","description":"This step declines an order change.\n\n","link":"../../../Steps_Order/functions/core_flows.Order.Steps_Order.declineOrderChangeStep/page.mdx","depth":1}]}} />
+<WorkflowDiagram workflow={{"name":"declineOrderChangeWorkflow","steps":[{"type":"step","name":"declineOrderChangeStep","description":"This step declines an order change.","link":"../../../Steps_Order/functions/core_flows.Order.Steps_Order.declineOrderChangeStep/page.mdx","depth":1}]}} />
 
 ## Input
 

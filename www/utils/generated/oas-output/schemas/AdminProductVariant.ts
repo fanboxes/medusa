@@ -134,6 +134,11 @@
  *   metadata:
  *     type: object
  *     description: The variant's metadata, can hold custom key-value pairs.
+ *   inventory_items:
+ *     type: array
+ *     description: The variant's inventory items.
+ *     items:
+ *       $ref: "#/components/schemas/AdminProductVariantInventoryItemLink"
  * 
 */
 

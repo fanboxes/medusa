@@ -14,21 +14,12 @@ This documentation provides a reference to the `deleteReturnReasonStep`. It belo
 
 This step deletes one or more return reasons.
 
-```ts title="src/workflows/my-workflow.ts"
-import { createWorkflow } from "@medusajs/framework/workflows-sdk"
-import { deleteReturnReasonStep } from "@medusajs/medusa/core-flows"
+## Example
 
-const myWorkflow = createWorkflow(
-  "my-workflow",
-  () => {
-    const data = deleteReturnReasonStep([
-      "{value}"
-    ])
-  }
-)
+```ts
+const data = deleteReturnReasonStep(["rr_123"])
 ```
-  
 
 ## Input
 
-<TypeList types={[{"name":"string[]","type":"`string`[]","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"string","type":"`string`","optional":false,"defaultValue":"","description":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteReturnReasonStep"/>
+<TypeList types={[{"name":"DeleteReturnReasonStepInput","type":"[DeleteReturnReasonStepInput](../../../../types/core_flows.DeleteReturnReasonStepInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"DeleteReturnReasonStepInput","type":"`string`[]","description":"The IDs of the return reasons to delete.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteReturnReasonStep"/>

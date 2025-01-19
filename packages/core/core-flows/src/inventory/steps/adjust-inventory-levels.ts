@@ -3,14 +3,30 @@ import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
 import { MathBN, Modules } from "@medusajs/framework/utils"
 
+/**
+ * The data to adjust the inventory levels.
+ */
+export type AdjustInventoryLevelsStepInput = InventoryTypes.BulkAdjustInventoryLevelInput[]
+
 export const adjustInventoryLevelsStepId = "adjust-inventory-levels-step"
 /**
- * This step adjusts one or more inventory levels.
+ * This step adjusts the stocked quantity of one or more inventory levels. You can 
+ * pass a positive value in `adjustment` to add to the stocked quantity, or a negative value to
+ * subtract from the stocked quantity.
+ * 
+ * @example
+ * const data = adjustInventoryLevelsStep([
+ *   {
+ *     inventory_item_id: "iitem_123",
+ *     location_id: "sloc_123",
+ *     adjustment: 10,
+ *   }
+ * ])
  */
 export const adjustInventoryLevelsStep = createStep(
   adjustInventoryLevelsStepId,
   async (
-    input: InventoryTypes.BulkAdjustInventoryLevelInput[],
+    input: AdjustInventoryLevelsStepInput,
     { container }
   ) => {
     const inventoryService: IInventoryService = container.resolve(

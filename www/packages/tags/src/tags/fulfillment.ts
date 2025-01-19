@@ -4,6 +4,10 @@ export const fulfillment = [
     "path": "/storefront-development/checkout/shipping"
   },
   {
+    "title": "validateAndReturnShippingMethodsDataStep",
+    "path": "/references/medusa-workflows/steps/validateAndReturnShippingMethodsDataStep"
+  },
+  {
     "title": "validateCartShippingOptionsStep",
     "path": "/references/medusa-workflows/steps/validateCartShippingOptionsStep"
   },
@@ -12,8 +16,32 @@ export const fulfillment = [
     "path": "/references/medusa-workflows/addShippingMethodToCartWorkflow"
   },
   {
+    "title": "addToCartWorkflow",
+    "path": "/references/medusa-workflows/addToCartWorkflow"
+  },
+  {
     "title": "listShippingOptionsForCartWithPricingWorkflow",
     "path": "/references/medusa-workflows/listShippingOptionsForCartWithPricingWorkflow"
+  },
+  {
+    "title": "refreshCartItemsWorkflow",
+    "path": "/references/medusa-workflows/refreshCartItemsWorkflow"
+  },
+  {
+    "title": "refreshCartShippingMethodsWorkflow",
+    "path": "/references/medusa-workflows/refreshCartShippingMethodsWorkflow"
+  },
+  {
+    "title": "transferCartCustomerWorkflow",
+    "path": "/references/medusa-workflows/transferCartCustomerWorkflow"
+  },
+  {
+    "title": "updateCartWorkflow",
+    "path": "/references/medusa-workflows/updateCartWorkflow"
+  },
+  {
+    "title": "updateLineItemInCartWorkflow",
+    "path": "/references/medusa-workflows/updateLineItemInCartWorkflow"
   },
   {
     "title": "calculateShippingOptionsPricesStep",
@@ -68,6 +96,14 @@ export const fulfillment = [
     "path": "/references/medusa-workflows/steps/updateFulfillmentStep"
   },
   {
+    "title": "updateServiceZonesStep",
+    "path": "/references/medusa-workflows/steps/updateServiceZonesStep"
+  },
+  {
+    "title": "updateShippingOptionRulesStep",
+    "path": "/references/medusa-workflows/steps/updateShippingOptionRulesStep"
+  },
+  {
     "title": "updateShippingProfilesStep",
     "path": "/references/medusa-workflows/steps/updateShippingProfilesStep"
   },
@@ -78,6 +114,10 @@ export const fulfillment = [
   {
     "title": "validateShipmentStep",
     "path": "/references/medusa-workflows/steps/validateShipmentStep"
+  },
+  {
+    "title": "validateShippingOptionPricesStep",
+    "path": "/references/medusa-workflows/steps/validateShippingOptionPricesStep"
   },
   {
     "title": "batchShippingOptionRulesWorkflow",
@@ -136,12 +176,20 @@ export const fulfillment = [
     "path": "/references/medusa-workflows/updateFulfillmentWorkflow"
   },
   {
+    "title": "updateServiceZonesWorkflow",
+    "path": "/references/medusa-workflows/updateServiceZonesWorkflow"
+  },
+  {
     "title": "updateShippingOptionsWorkflow",
     "path": "/references/medusa-workflows/updateShippingOptionsWorkflow"
   },
   {
     "title": "updateShippingProfilesWorkflow",
     "path": "/references/medusa-workflows/updateShippingProfilesWorkflow"
+  },
+  {
+    "title": "deleteLineItemsWorkflow",
+    "path": "/references/medusa-workflows/deleteLineItemsWorkflow"
   },
   {
     "title": "cancelOrderFulfillmentWorkflow",

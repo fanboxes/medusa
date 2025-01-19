@@ -3,13 +3,27 @@ import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
 
 import { Modules } from "@medusajs/framework/utils"
 
+/**
+ * The data to create reservation items.
+ */
+export type CreateReservationsStepInput = InventoryTypes.CreateReservationItemInput[]
+
 export const createReservationsStepId = "create-reservations-step"
 /**
  * This step creates one or more reservations.
+ * 
+ * @example
+ * const data = createReservationsStep([
+ *   {
+ *     inventory_item_id: "iitem_123",
+ *     location_id: "sloc_123",
+ *     quantity: 1,
+ *   }
+ * ])
  */
 export const createReservationsStep = createStep(
   createReservationsStepId,
-  async (data: InventoryTypes.CreateReservationItemInput[], { container }) => {
+  async (data: CreateReservationsStepInput, { container }) => {
     const service = container.resolve(Modules.INVENTORY)
     const locking = container.resolve(Modules.LOCKING)
 

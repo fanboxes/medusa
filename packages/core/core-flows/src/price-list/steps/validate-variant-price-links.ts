@@ -4,18 +4,41 @@ import {
 } from "@medusajs/framework/utils"
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The data to validate that the specified variants have prices.
+ */
+export type ValidateVariantPriceLinksStepInput = {
+  /**
+   * The prices to validate that their specified variants have prices.
+   */
+  prices?: {
+    /**
+     * The variant ID.
+     */
+    variant_id: string
+  }[]
+}[]
+
 export const validateVariantPriceLinksStepId = "validate-variant-price-links"
 /**
  * This step validates that the specified variants have prices.
+ * If not valid, the step throws an error.
+ * 
+ * @example
+ * const data = validateVariantPriceLinksStep([
+ *   {
+ *     prices: [
+ *       {
+ *         variant_id: "variant_123",
+ *       }
+ *     ]
+ *   }
+ * ])
  */
 export const validateVariantPriceLinksStep = createStep(
   validateVariantPriceLinksStepId,
   async (
-    data: {
-      prices?: {
-        variant_id: string
-      }[]
-    }[],
+    data: ValidateVariantPriceLinksStepInput,
     { container }
   ) => {
     const remoteQuery = container.resolve(

@@ -5,13 +5,18 @@ import {
 import { Modules } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The service zones to create.
+ */
+export type CreateServiceZonesStepInput = CreateServiceZoneDTO[]
+
 export const createServiceZonesStepId = "create-service-zones"
 /**
  * This step creates one or more service zones.
  */
 export const createServiceZonesStep = createStep(
   createServiceZonesStepId,
-  async (input: CreateServiceZoneDTO[], { container }) => {
+  async (input: CreateServiceZonesStepInput, { container }) => {
     const service = container.resolve<IFulfillmentModuleService>(
       Modules.FULFILLMENT
     )

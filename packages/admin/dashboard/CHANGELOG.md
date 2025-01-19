@@ -1,5 +1,22 @@
 # @medusajs/dashboard
 
+## 2.3.0
+
+### Patch Changes
+
+- [#10888](https://github.com/medusajs/medusa/pull/10888) [`1758bfb8d042fa9fc82f23c36ccd61e4a439448e`](https://github.com/medusajs/medusa/commit/1758bfb8d042fa9fc82f23c36ccd61e4a439448e) Thanks [@riqwan](https://github.com/riqwan)! - fix(dashboard, core-flows): improvements to order page on canceled orders
+
+- [#10950](https://github.com/medusajs/medusa/pull/10950) [`5eab9e739919594ae7e7e416942ec93d84b699fd`](https://github.com/medusajs/medusa/commit/5eab9e739919594ae7e7e416942ec93d84b699fd) Thanks [@riqwan](https://github.com/riqwan)! - feat(promotion,dashboard,types,utils,medusa): Add statuses to promotions
+
+- [#10630](https://github.com/medusajs/medusa/pull/10630) [`bc22b81cdf9591912744f448c74d45bcb0f11e0c`](https://github.com/medusajs/medusa/commit/bc22b81cdf9591912744f448c74d45bcb0f11e0c) Thanks [@kasperkristensen](https://github.com/kasperkristensen)! - feat(inventory,dashboard,core-flows,js-sdk,types,medusa): Improve inventory management UX
+
+- [#10961](https://github.com/medusajs/medusa/pull/10961) [`2a25b4d95f2b7a4d53138718c94124f47f041b36`](https://github.com/medusajs/medusa/commit/2a25b4d95f2b7a4d53138718c94124f47f041b36) Thanks [@kasperkristensen](https://github.com/kasperkristensen)! - chore(icons,dashboard): Pull latest icons and update branch icon in category tree
+
+- Updated dependencies [[`bc22b81cdf9591912744f448c74d45bcb0f11e0c`](https://github.com/medusajs/medusa/commit/bc22b81cdf9591912744f448c74d45bcb0f11e0c), [`2a25b4d95f2b7a4d53138718c94124f47f041b36`](https://github.com/medusajs/medusa/commit/2a25b4d95f2b7a4d53138718c94124f47f041b36)]:
+  - @medusajs/js-sdk@2.3.0
+  - @medusajs/icons@2.3.0
+  - @medusajs/admin-shared@2.3.0
+
 ## 2.2.0
 
 ### Patch Changes

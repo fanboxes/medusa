@@ -1,5 +1,11 @@
 # @medusajs/icons
 
+## 2.3.0
+
+### Patch Changes
+
+- [#10961](https://github.com/medusajs/medusa/pull/10961) [`2a25b4d95f2b7a4d53138718c94124f47f041b36`](https://github.com/medusajs/medusa/commit/2a25b4d95f2b7a4d53138718c94124f47f041b36) Thanks [@kasperkristensen](https://github.com/kasperkristensen)! - chore(icons,dashboard): Pull latest icons and update branch icon in category tree
+
 ## 2.2.0
 
 ### Patch Changes

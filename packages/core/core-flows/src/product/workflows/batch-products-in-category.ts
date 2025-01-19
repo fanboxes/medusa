@@ -8,7 +8,7 @@ export const batchLinkProductsToCategoryWorkflowId =
  * This workflow manages the links between a category and products. It's used by the
  * [Manage Products of Category Admin API Route](https://docs.medusajs.com/api/admin#product-categories_postproductcategoriesidproducts).
  * 
- * You can use this workflow within your own custom workflows to manage the products in a category.
+ * You can use this workflow within your own customizations or custom workflows to manage the products in a category.
  * 
  * @example
  * const { result } = await batchLinkProductsToCategoryWorkflow(container)

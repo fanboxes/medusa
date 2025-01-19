@@ -6,6 +6,9 @@ import { BigNumberInput } from "../../totals"
  * The attributes to update in a reservation item.
  */
 export interface UpdateReservationItemInput {
+  /**
+   * The ID of the reservation to update.
+   */
   id: string
   /**
    * The reserved quantity.

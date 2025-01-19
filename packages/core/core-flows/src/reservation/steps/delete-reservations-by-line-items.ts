@@ -3,6 +3,11 @@ import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 import { IInventoryService } from "@medusajs/framework/types"
 import { Modules } from "@medusajs/framework/utils"
 
+/**
+ * The IDs of the line items to delete reservations for.
+ */
+export type DeleteReservationsByLineItemsStepInput = string[]
+
 export const deleteReservationsByLineItemsStepId =
   "delete-reservations-by-line-items"
 /**
@@ -10,7 +15,7 @@ export const deleteReservationsByLineItemsStepId =
  */
 export const deleteReservationsByLineItemsStep = createStep(
   deleteReservationsByLineItemsStepId,
-  async (ids: string[], { container }) => {
+  async (ids: DeleteReservationsByLineItemsStepInput, { container }) => {
     const service = container.resolve<IInventoryService>(Modules.INVENTORY)
 
     await service.deleteReservationItemsByLineItem(ids)

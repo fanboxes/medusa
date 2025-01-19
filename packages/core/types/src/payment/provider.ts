@@ -135,6 +135,11 @@ export type PaymentProviderAuthorizeResponse = {
   data: PaymentProviderSessionResponse["data"]
 }
 
+export type PaymentMethodResponse = {
+  id: string
+  data: Record<string, unknown>
+}
+
 /**
  * @interface
  *
@@ -248,6 +253,10 @@ export interface IPaymentProvider {
   cancelPayment(
     paymentSessionData: Record<string, unknown>
   ): Promise<PaymentProviderError | PaymentProviderSessionResponse["data"]>
+
+  listPaymentMethods(
+    context: PaymentProviderContext
+  ): Promise<PaymentMethodResponse[]>
 
   getPaymentStatus(
     paymentSessionData: Record<string, unknown>

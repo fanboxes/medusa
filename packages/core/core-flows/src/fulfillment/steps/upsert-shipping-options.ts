@@ -11,6 +11,9 @@ import {
 } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The data to create or update shipping options.
+ */
 export type UpsertShippingOptionsStepInput = Omit<
   | FulfillmentWorkflow.CreateShippingOptionsWorkflowInput
   | FulfillmentWorkflow.UpdateShippingOptionsWorkflowInput,

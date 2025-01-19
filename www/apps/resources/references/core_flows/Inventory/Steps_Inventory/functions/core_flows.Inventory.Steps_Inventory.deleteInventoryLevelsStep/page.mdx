@@ -18,9 +18,7 @@ import { deleteInventoryLevelsStep } from "@medusajs/medusa/core-flows"
 const myWorkflow = createWorkflow(
   "my-workflow",
   () => {
-    const data = deleteInventoryLevelsStep([
-      "{value}"
-    ])
+    const data = deleteInventoryLevelsStep({})
   }
 )
 ```
@@ -28,4 +26,4 @@ const myWorkflow = createWorkflow(
 
 ## Input
 
-<TypeList types={[{"name":"string[]","type":"`string`[]","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"string","type":"`string`","optional":false,"defaultValue":"","description":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteInventoryLevelsStep"/>
+<TypeList types={[{"name":"DeleteInventoryLevelsStepInput","type":"[DeleteInventoryLevelsStepInput](../../../../types/core_flows.DeleteInventoryLevelsStepInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"DeleteInventoryLevelsStepInput","type":"`string`[]","description":"The IDs of inventory levels to delete.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteInventoryLevelsStep"/>

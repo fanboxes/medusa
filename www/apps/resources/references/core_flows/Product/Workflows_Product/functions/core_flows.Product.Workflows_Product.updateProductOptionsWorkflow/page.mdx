@@ -18,9 +18,9 @@ This workflow updates one or more product options. It's used by the [Update Prod
 This workflow has a hook that allows you to perform custom actions on the updated product options. For example, you can pass under `additional_data` custom data that 
 allows you to update custom data models linked to the product options.
 
-You can also use this workflow within your own custom workflows, allowing you to wrap custom logic around product-option update.
+You can also use this workflow within your customizations or your own custom workflows, allowing you to wrap custom logic around product-option update.
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/product/workflows/update-product-options.ts#L58" />
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/product/workflows/update-product-options.ts#L58" />
 
 ## Examples
 
@@ -161,7 +161,7 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"updateProductOptionsWorkflow","steps":[{"type":"step","name":"updateProductOptionsStep","description":"This step updates product options matching the specified filters.\n\n","link":"../../../Steps_Product/functions/core_flows.Product.Steps_Product.updateProductOptionsStep/page.mdx","depth":1},{"type":"hook","name":"productOptionsUpdated","description":"This hook is executed after the product options are updated. You can consume this hook to perform custom actions on the updated product options.\n\n","link":"#productOptionsUpdated","depth":2},{"type":"step","name":"emitEventStep","description":"Emit an event.\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":3}]}} />
+<WorkflowDiagram workflow={{"name":"updateProductOptionsWorkflow","steps":[{"type":"step","name":"updateProductOptionsStep","description":"This step updates product options matching the specified filters.","link":"../../../Steps_Product/functions/core_flows.Product.Steps_Product.updateProductOptionsStep/page.mdx","depth":1},{"type":"hook","name":"productOptionsUpdated","description":"This hook is executed after the product options are updated. You can consume this hook to perform custom actions on the updated product options.","link":"#productOptionsUpdated","depth":2},{"type":"step","name":"emitEventStep","description":"Emit an event.","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":3}]}} />
 
 ## Input
 

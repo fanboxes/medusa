@@ -9,14 +9,33 @@ import {
 } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The data to update in a store.
+ */
 export type UpdateStoresStepInput = {
+  /**
+   * The filters to select the stores to update.
+   */
   selector: FilterableStoreProps
+  /**
+   * The data to update in the stores.
+   */
   update: UpdateStoreDTO
 }
 
 export const updateStoresStepId = "update-stores"
 /**
  * This step updates stores matching the specified filters.
+ * 
+ * @example
+ * const data = updateStoresStep({
+ *   selector: {
+ *     id: "store_123"
+ *   },
+ *   update: {
+ *     name: "Acme"
+ *   }
+ * })
  */
 export const updateStoresStep = createStep(
   updateStoresStepId,

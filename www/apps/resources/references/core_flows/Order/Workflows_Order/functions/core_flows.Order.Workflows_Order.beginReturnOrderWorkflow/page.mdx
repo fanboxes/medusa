@@ -13,9 +13,15 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `beginReturnOrderWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow requests a return.
+This workflow creates an order return that can be later requested or confirmed.
+It's used by the [Create Return Admin API Route](https://docs.medusajs.com/api/admin#returns\_postreturns).
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/order/workflows/return/begin-return.ts#L31" />
+You can start the return receival using the [beginReceiveReturnWorkflow](../core_flows.Order.Workflows_Order.beginReceiveReturnWorkflow/page.mdx).
+
+You can use this workflow within your customizations or your own custom workflows, allowing you
+to create a return for an order in your custom flow.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/order/workflows/return/begin-return.ts#L75" />
 
 ## Examples
 
@@ -36,7 +42,7 @@ export async function POST(
   const { result } = await beginReturnOrderWorkflow(req.scope)
     .run({
       input: {
-        "order_id": "{value}"
+        order_id: "order_123"
       }
     })
 
@@ -61,7 +67,7 @@ export default async function handleOrderPlaced({
   const { result } = await beginReturnOrderWorkflow(container)
     .run({
       input: {
-        "order_id": "{value}"
+        order_id: "order_123"
       }
     })
 
@@ -86,7 +92,7 @@ export default async function myCustomJob(
   const { result } = await beginReturnOrderWorkflow(container)
     .run({
       input: {
-        "order_id": "{value}"
+        order_id: "order_123"
       }
     })
 
@@ -112,7 +118,7 @@ const myWorkflow = createWorkflow(
     const result = beginReturnOrderWorkflow
       .runAsStep({
         input: {
-          "order_id": "{value}"
+          order_id: "order_123"
         }
       })
   }
@@ -124,11 +130,11 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"beginReturnOrderWorkflow","steps":[{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":1},{"type":"step","name":"beginReturnOrderValidationStep","description":"This step validates that a return can be created for an order.\n\n","link":"../core_flows.Order.Workflows_Order.beginReturnOrderValidationStep/page.mdx","depth":2},{"type":"step","name":"createReturnsStep","description":"This step creates returns.\n\n","link":"../../../Steps_Order/functions/core_flows.Order.Steps_Order.createReturnsStep/page.mdx","depth":3},{"type":"step","name":"createOrderChangeStep","description":"This step creates an order change.\n\n","link":"../../../Steps_Order/functions/core_flows.Order.Steps_Order.createOrderChangeStep/page.mdx","depth":4}]}} />
+<WorkflowDiagram workflow={{"name":"beginReturnOrderWorkflow","steps":[{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":1},{"type":"step","name":"beginReturnOrderValidationStep","description":"This step validates that a return can be created for an order.\nIf the order is canceled, the step will throw an error.\n\n:::note\n\nYou can retrieve an order details using [Query](https://docs.medusajs.com/learn/fundamentals/module-links/query),\nor [useQueryGraphStep](https://docs.medusajs.com/resources/references/medusa-workflows/steps/useQueryGraphStep).\n\n:::","link":"../core_flows.Order.Workflows_Order.beginReturnOrderValidationStep/page.mdx","depth":2},{"type":"step","name":"createReturnsStep","description":"This step creates returns.","link":"../../../Steps_Order/functions/core_flows.Order.Steps_Order.createReturnsStep/page.mdx","depth":3},{"type":"step","name":"createOrderChangeStep","description":"This step creates an order change.","link":"../../../Steps_Order/functions/core_flows.Order.Steps_Order.createOrderChangeStep/page.mdx","depth":4}]}} />
 
 ## Input
 
-<TypeList types={[{"name":"BeginOrderReturnWorkflowInput","type":"[BeginOrderReturnWorkflowInput](../../../../../types/WorkflowTypes/OrderWorkflow/interfaces/types.WorkflowTypes.OrderWorkflow.BeginOrderReturnWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"order_id","type":"`string`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"location_id","type":"`string`","description":"","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"created_by","type":"`null` \\| `string`","description":"The id of the user that creates the return","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"internal_note","type":"`string`","description":"","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"description","type":"`string`","description":"","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"metadata","type":"`null` \\| `Record<string, unknown>`","description":"","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="beginReturnOrderWorkflow"/>
+<TypeList types={[{"name":"BeginOrderReturnWorkflowInput","type":"[BeginOrderReturnWorkflowInput](../../../../../types/WorkflowTypes/OrderWorkflow/interfaces/types.WorkflowTypes.OrderWorkflow.BeginOrderReturnWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"order_id","type":"`string`","description":"The ID of the order to create the return for.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"location_id","type":"`string`","description":"The ID of the location to return the items to.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"created_by","type":"`null` \\| `string`","description":"The ID of the user creating the return.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"internal_note","type":"`string`","description":"A note viewed by admins only related to the return.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"description","type":"`string`","description":"Description of the return.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"metadata","type":"`null` \\| `Record<string, unknown>`","description":"Custom key-value pairs of data to store in the return.","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="beginReturnOrderWorkflow"/>
 
 ## Output
 

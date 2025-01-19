@@ -34,7 +34,7 @@ export const batchProductVariantsWorkflowId = "batch-product-variants"
  * This workflow creates, updates, and deletes product variants. It's used by the 
  * [Manage Variants in a Product Admin API Route](https://docs.medusajs.com/api/admin#products_postproductsidvariantsbatch).
  * 
- * You can use this workflow within your own custom workflows to manage the variants of a product. You can also
+ * You can use this workflow within your own customizations or custom workflows to manage the variants of a product. You can also
  * use this within a [seed script](https://docs.medusajs.com/learn/fundamentals/custom-cli-scripts/seed-data) or in a custom import script.
  * 
  * @example

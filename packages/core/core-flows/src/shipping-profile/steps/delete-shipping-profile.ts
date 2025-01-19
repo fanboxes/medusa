@@ -2,13 +2,18 @@ import { IFulfillmentModuleService } from "@medusajs/framework/types"
 import { Modules } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The IDs of the shipping profiles to delete.
+ */
+export type DeleteShippingProfilesStepInput = string[]
+
 export const deleteShippingProfilesStepId = "delete-shipping-profile"
 /**
  * This step deletes one or more shipping profiles.
  */
 export const deleteShippingProfilesStep = createStep(
   deleteShippingProfilesStepId,
-  async (ids: string[], { container }) => {
+  async (ids: DeleteShippingProfilesStepInput, { container }) => {
     const service = container.resolve<IFulfillmentModuleService>(
       Modules.FULFILLMENT
     )

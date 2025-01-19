@@ -5,13 +5,27 @@ import {
 import { Modules } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The data to create a default sales channel.
+ */
 export interface CreateDefaultSalesChannelStepInput {
+  /**
+   * The default sales channel data.
+   */
   data: CreateSalesChannelDTO
 }
 
 export const createDefaultSalesChannelStepId = "create-default-sales-channel"
 /**
- * This step creates a default sales channel.
+ * This step creates a default sales channel if none exist in the application. 
+ * This is useful when creating seed scripts.
+ * 
+ * @example
+ * const data = createDefaultSalesChannelStep({
+ *   data: {
+ *     name: "Webshop",
+ *   }
+ * })
  */
 export const createDefaultSalesChannelStep = createStep(
   createDefaultSalesChannelStepId,

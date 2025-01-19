@@ -28,6 +28,14 @@ export const query = [
     "path": "/references/medusa-workflows/listShippingOptionsForCartWorkflow"
   },
   {
+    "title": "refreshCartItemsWorkflow",
+    "path": "/references/medusa-workflows/refreshCartItemsWorkflow"
+  },
+  {
+    "title": "refreshCartShippingMethodsWorkflow",
+    "path": "/references/medusa-workflows/refreshCartShippingMethodsWorkflow"
+  },
+  {
     "title": "transferCartCustomerWorkflow",
     "path": "/references/medusa-workflows/transferCartCustomerWorkflow"
   },
@@ -50,6 +58,10 @@ export const query = [
   {
     "title": "deleteInventoryItemWorkflow",
     "path": "/references/medusa-workflows/deleteInventoryItemWorkflow"
+  },
+  {
+    "title": "deleteLineItemsWorkflow",
+    "path": "/references/medusa-workflows/deleteLineItemsWorkflow"
   },
   {
     "title": "acceptOrderTransferWorkflow",

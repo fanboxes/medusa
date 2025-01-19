@@ -12,9 +12,13 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `createShipmentWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow creates shipments for a fulfillment.
+This workflow creates shipments for a fulfillment. It's used by the
+[Create Shipment Admin API Route](https://docs.medusajs.com/api/admin#fulfillments\_postfulfillmentsidshipment).
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/fulfillment/workflows/create-shipment.ts#L15" />
+You can use this workflow within your own customizations or custom workflows, allowing you to
+create shipments within your custom flows.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/fulfillment/workflows/create-shipment.ts#L38" />
 
 ## Examples
 
@@ -35,11 +39,11 @@ export async function POST(
   const { result } = await createShipmentWorkflow(req.scope)
     .run({
       input: {
-        "id": "id_bthSIJ3DmvgwjtoD7Ku",
-        "labels": [{
-          "tracking_number": "{value}",
-          "tracking_url": "{value}",
-          "label_url": "{value}"
+        id: "ful_123",
+        labels: [{
+          tracking_url: "https://example.com",
+          tracking_number: "123",
+          label_url: "https://example.com"
         }]
       }
     })
@@ -65,11 +69,11 @@ export default async function handleOrderPlaced({
   const { result } = await createShipmentWorkflow(container)
     .run({
       input: {
-        "id": "id_bthSIJ3DmvgwjtoD7Ku",
-        "labels": [{
-          "tracking_number": "{value}",
-          "tracking_url": "{value}",
-          "label_url": "{value}"
+        id: "ful_123",
+        labels: [{
+          tracking_url: "https://example.com",
+          tracking_number: "123",
+          label_url: "https://example.com"
         }]
       }
     })
@@ -95,11 +99,11 @@ export default async function myCustomJob(
   const { result } = await createShipmentWorkflow(container)
     .run({
       input: {
-        "id": "id_bthSIJ3DmvgwjtoD7Ku",
-        "labels": [{
-          "tracking_number": "{value}",
-          "tracking_url": "{value}",
-          "label_url": "{value}"
+        id: "ful_123",
+        labels: [{
+          tracking_url: "https://example.com",
+          tracking_number: "123",
+          label_url: "https://example.com"
         }]
       }
     })
@@ -126,11 +130,11 @@ const myWorkflow = createWorkflow(
     const result = createShipmentWorkflow
       .runAsStep({
         input: {
-          "id": "id_bthSIJ3DmvgwjtoD7Ku",
-          "labels": [{
-            "tracking_number": "{value}",
-            "tracking_url": "{value}",
-            "label_url": "{value}"
+          id: "ful_123",
+          labels: [{
+            tracking_url: "https://example.com",
+            tracking_number: "123",
+            label_url: "https://example.com"
           }]
         }
       })
@@ -143,7 +147,7 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"createShipmentWorkflow","steps":[{"type":"step","name":"validateShipmentStep","description":"This step validates that a shipment can be created for a fulfillment.\n\n","link":"../../../Steps_Fulfillment/functions/core_flows.Fulfillment.Steps_Fulfillment.validateShipmentStep/page.mdx","depth":1},{"type":"workflow","name":"updateFulfillmentWorkflow","description":"This workflow updates a fulfillment.\n\n","link":"../core_flows.Fulfillment.Workflows_Fulfillment.updateFulfillmentWorkflow/page.mdx","depth":2}]}} />
+<WorkflowDiagram workflow={{"name":"createShipmentWorkflow","steps":[{"type":"step","name":"validateShipmentStep","description":"This step validates that a shipment can be created for a fulfillment.\nIf the shipment has already been created, the fulfillment has been canceled,\nor the fulfillment does not have a shipping option, the step throws an error.","link":"../../../Steps_Fulfillment/functions/core_flows.Fulfillment.Steps_Fulfillment.validateShipmentStep/page.mdx","depth":1},{"type":"workflow","name":"updateFulfillmentWorkflow","description":"This workflow updates a fulfillment. It's used by other workflows that update a \nfulfillment, such as [markFulfillmentAsDeliveredWorkflow](../core_flows.Fulfillment.Workflows_Fulfillment.markFulfillmentAsDeliveredWorkflow/page.mdx).\n\nYou can use this workflow within your own customizations or custom workflows, allowing you to\nupdate a fulfillment within your custom flows.","link":"../core_flows.Fulfillment.Workflows_Fulfillment.updateFulfillmentWorkflow/page.mdx","depth":2}]}} />
 
 ## Input
 

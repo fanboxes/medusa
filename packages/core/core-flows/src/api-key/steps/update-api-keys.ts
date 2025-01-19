@@ -9,14 +9,33 @@ import {
 } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The data to update API keys.
+ */
 export type UpdateApiKeysStepInput = {
+  /**
+   * The filters to select the API keys to update.
+   */
   selector: FilterableApiKeyProps
+  /**
+   * The data to update the API keys.
+   */
   update: UpdateApiKeyDTO
 }
 
 export const updateApiKeysStepId = "update-api-keys"
 /**
  * This step updates one or more API keys.
+ * 
+ * @example
+ * const data = updateApiKeysStep({
+ *   selector: {
+ *     id: "apk_123"
+ *   },
+ *   update: {
+ *     title: "Storefront"
+ *   }
+ * })
  */
 export const updateApiKeysStep = createStep(
   updateApiKeysStepId,

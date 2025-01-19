@@ -4,7 +4,9 @@ import {
   DAL,
   IPaymentProvider,
   Logger,
+  PaymentMethodResponse,
   PaymentProviderAuthorizeResponse,
+  PaymentProviderContext,
   PaymentProviderDataInput,
   PaymentProviderError,
   PaymentProviderSessionResponse,
@@ -13,11 +15,7 @@ import {
   UpdatePaymentProviderSession,
   WebhookActionResult,
 } from "@medusajs/framework/types"
-import {
-  isPaymentProviderError,
-  MedusaError,
-  ModulesSdkUtils,
-} from "@medusajs/framework/utils"
+import { MedusaError, ModulesSdkUtils } from "@medusajs/framework/utils"
 import { PaymentProvider } from "@models"
 import { EOL } from "os"
 
@@ -154,6 +152,14 @@ Please make sure that the provider is registered in the container and it is conf
     return res as Record<string, unknown>
   }
 
+  async listPaymentMethods(
+    providerId: string,
+    context: PaymentProviderContext
+  ): Promise<PaymentMethodResponse[]> {
+    const provider = this.retrieveProvider(providerId)
+    return await provider.listPaymentMethods(context)
+  }
+
   async getWebhookActionAndData(
     providerId: string,
     data: ProviderWebhookPayload["payload"]
@@ -170,4 +176,14 @@ Please make sure that the provider is registered in the container and it is conf
       errObj.code
     )
   }
+}
+
+function isPaymentProviderError(obj: any): obj is PaymentProviderError {
+  return (
+    obj &&
+    typeof obj === "object" &&
+    "error" in obj &&
+    "code" in obj &&
+    "detail" in obj
+  )
 }

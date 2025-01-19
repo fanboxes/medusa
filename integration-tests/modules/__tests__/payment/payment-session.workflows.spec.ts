@@ -39,7 +39,6 @@ medusaIntegrationTestRunner({
           paymentCollection = await paymentModule.createPaymentCollections({
             currency_code: "usd",
             amount: 1000,
-            region_id: region.id,
           })
         })
 
@@ -65,7 +64,6 @@ medusaIntegrationTestRunner({
               id: paymentCollection.id,
               currency_code: "usd",
               amount: 1000,
-              region_id: region.id,
               payment_sessions: expect.arrayContaining([
                 expect.objectContaining({
                   amount: 1000,
@@ -106,7 +104,6 @@ medusaIntegrationTestRunner({
               id: paymentCollection.id,
               currency_code: "usd",
               amount: 1000,
-              region_id: region.id,
               payment_sessions: [
                 expect.objectContaining({
                   amount: 1000,
@@ -139,7 +136,6 @@ medusaIntegrationTestRunner({
               await paymentModule.createPaymentCollections({
                 currency_code: "usd",
                 amount: 1000,
-                region_id: region.id,
               })
 
             const { errors } = await workflow.run({

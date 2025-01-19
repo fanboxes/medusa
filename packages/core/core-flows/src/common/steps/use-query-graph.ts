@@ -35,25 +35,13 @@ const step = createStep(
  * To retrieve a list of records of a data model:
  *
  * ```ts
- * import {
- *   createWorkflow
- * } from "@medusajs/framework/workflows-sdk"
- * import {
- *   useQueryGraphStep
- * } from "@medusajs/medusa/core-flows"
- *
- * const helloWorldWorkflow = createWorkflow(
- *   "hello-world",
- *   () => {
- *     const { data: products } = useQueryGraphStep({
- *       entity: "product",
- *       fields: [
- *         "*",
- *         "variants.*"
- *       ]
- *     })
- *   }
- * )
+ * const { data: products } = useQueryGraphStep({
+ *   entity: "product",
+ *   fields: [
+ *     "*",
+ *     "variants.*"
+ *   ]
+ * })
  * ```
  *
  * To retrieve a single item instead of a an array:

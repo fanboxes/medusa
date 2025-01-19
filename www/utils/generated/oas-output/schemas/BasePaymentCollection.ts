@@ -6,7 +6,6 @@
  * required:
  *   - id
  *   - currency_code
- *   - region_id
  *   - amount
  *   - status
  *   - payment_providers
@@ -19,10 +18,6 @@
  *     type: string
  *     title: currency_code
  *     description: The payment collection's currency code.
- *   region_id:
- *     type: string
- *     title: region_id
- *     description: The ID of the region this payment collection is associated with.
  *   amount:
  *     type: number
  *     title: amount

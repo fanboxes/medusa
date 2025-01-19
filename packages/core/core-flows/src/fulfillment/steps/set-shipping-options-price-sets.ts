@@ -8,8 +8,17 @@ import {
   promiseAll,
 } from "@medusajs/framework/utils"
 
+/**
+ * The data to set the price sets of a shipping option.
+ */
 export type SetShippingOptionsPriceSetsStepInput = {
+  /**
+   * The ID of the shipping option.
+   */
   id: string
+  /**
+   * The IDs of the price sets of the shipping option.
+   */
   price_sets?: string[]
 }[]
 

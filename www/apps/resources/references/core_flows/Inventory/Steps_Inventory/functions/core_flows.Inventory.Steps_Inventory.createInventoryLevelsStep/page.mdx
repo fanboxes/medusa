@@ -21,10 +21,10 @@ import { createInventoryLevelsStep } from "@medusajs/medusa/core-flows"
 const myWorkflow = createWorkflow(
   "my-workflow",
   () => {
-    const data = createInventoryLevelsStep([{
+    const data = createInventoryLevelsStep({
       "inventory_item_id": "{value}",
       "location_id": "{value}"
-    }])
+    })
   }
 )
 ```
@@ -32,7 +32,7 @@ const myWorkflow = createWorkflow(
 
 ## Input
 
-<TypeList types={[{"name":"CreateInventoryLevelInput[]","type":"[CreateInventoryLevelInput](../../../../../types/InventoryTypes/interfaces/types.InventoryTypes.CreateInventoryLevelInput/page.mdx)[]","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"CreateInventoryLevelInput","type":"[CreateInventoryLevelInput](../../../../../types/InventoryTypes/interfaces/types.InventoryTypes.CreateInventoryLevelInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"inventory_item_id","type":"`string`","description":"The ID of the associated inventory item.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"location_id","type":"`string`","description":"The ID of the associated location.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"stocked_quantity","type":"`number`","description":"The stocked quantity of the associated inventory item in the associated location.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"incoming_quantity","type":"`number`","description":"The incoming quantity of the associated inventory item in the associated location.","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="createInventoryLevelsStep"/>
+<TypeList types={[{"name":"CreateInventoryLevelsStepInput","type":"[CreateInventoryLevelsStepInput](../../../../types/core_flows.CreateInventoryLevelsStepInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"inventory_item_id","type":"`string`","description":"The ID of the associated inventory item.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"location_id","type":"`string`","description":"The ID of the associated location.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"stocked_quantity","type":"`number`","description":"The stocked quantity of the associated inventory item in the associated location.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"incoming_quantity","type":"`number`","description":"The incoming quantity of the associated inventory item in the associated location.","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="createInventoryLevelsStep"/>
 
 ## Output
 

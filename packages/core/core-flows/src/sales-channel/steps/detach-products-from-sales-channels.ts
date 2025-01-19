@@ -1,9 +1,21 @@
 import { ContainerRegistrationKeys, Modules } from "@medusajs/framework/utils"
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The data to detach products from sales channels.
+ */
 export interface DetachProductsFromSalesChannelsStepInput {
+  /**
+   * The links to dismiss between products and sales channels.
+   */
   links: {
+    /**
+     * The ID of the sales channel.
+     */
     sales_channel_id: string
+    /**
+     * The ID of the product.
+     */
     product_id: string
   }[]
 }
@@ -12,6 +24,16 @@ export const detachProductsFromSalesChannelsStepId =
   "detach-products-from-sales-channels-step"
 /**
  * This step dismisses links between product and sales channel records.
+ * 
+ * @example
+ * const data = detachProductsFromSalesChannelsStep({
+ *   links: [
+ *     {
+ *       sales_channel_id: "sc_123",
+ *       product_id: "prod_123"
+ *     }
+ *   ]
+ * })
  */
 export const detachProductsFromSalesChannelsStep = createStep(
   detachProductsFromSalesChannelsStepId,

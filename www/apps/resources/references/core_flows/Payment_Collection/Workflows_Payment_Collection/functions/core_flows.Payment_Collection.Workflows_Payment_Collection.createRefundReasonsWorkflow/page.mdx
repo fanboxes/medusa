@@ -12,9 +12,13 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `createRefundReasonsWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow creates one or more refund reasons.
+This workflow creates one or more refund reasons. It's used by the
+[Create Refund Reason Admin API Route](https://docs.medusajs.com/api/admin#refund-reasons\_postrefundreasons).
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/payment-collection/workflows/create-refund-reasons.ts#L16" />
+You can use this workflow within your own customizations or custom workflows, allowing you
+to create refund reasons in your custom flows.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/payment-collection/workflows/create-refund-reasons.ts#L46" />
 
 ## Examples
 
@@ -35,8 +39,8 @@ export async function POST(
   const { result } = await createRefundReasonsWorkflow(req.scope)
     .run({
       input: {
-        "data": [{
-          "label": "{value}"
+        data: [{
+          label: "damaged",
         }]
       }
     })
@@ -62,8 +66,8 @@ export default async function handleOrderPlaced({
   const { result } = await createRefundReasonsWorkflow(container)
     .run({
       input: {
-        "data": [{
-          "label": "{value}"
+        data: [{
+          label: "damaged",
         }]
       }
     })
@@ -89,8 +93,8 @@ export default async function myCustomJob(
   const { result } = await createRefundReasonsWorkflow(container)
     .run({
       input: {
-        "data": [{
-          "label": "{value}"
+        data: [{
+          label: "damaged",
         }]
       }
     })
@@ -117,8 +121,8 @@ const myWorkflow = createWorkflow(
     const result = createRefundReasonsWorkflow
       .runAsStep({
         input: {
-          "data": [{
-            "label": "{value}"
+          data: [{
+            label: "damaged",
           }]
         }
       })
@@ -131,11 +135,11 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"createRefundReasonsWorkflow","steps":[{"type":"step","name":"createRefundReasonStep","description":"This step creates one or more refund reasons.\n\n","link":"../../../Steps_Payment_Collection/functions/core_flows.Payment_Collection.Steps_Payment_Collection.createRefundReasonStep/page.mdx","depth":1}]}} />
+<WorkflowDiagram workflow={{"name":"createRefundReasonsWorkflow","steps":[{"type":"step","name":"createRefundReasonStep","description":"This step creates one or more refund reasons.","link":"../../../Steps_Payment_Collection/functions/core_flows.Payment_Collection.Steps_Payment_Collection.createRefundReasonStep/page.mdx","depth":1}]}} />
 
 ## Input
 
-<TypeList types={[{"name":"data","type":"[CreateRefundReasonDTO](../../../../../payment/interfaces/payment.CreateRefundReasonDTO/page.mdx)[]","description":"","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"label","type":"`string`","description":"The label of the refund reason","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"description","type":"`null` \\| `string`","description":"The description of the refund reason","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"metadata","type":"`null` \\| `Record<string, unknown>`","description":"The metadata of the refund reason","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="createRefundReasonsWorkflow"/>
+<TypeList types={[{"name":"CreateRefundReasonsWorkflowInput","type":"[CreateRefundReasonsWorkflowInput](../../../../types/core_flows.CreateRefundReasonsWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"The data to create refund reasons.","expandable":false,"children":[{"name":"data","type":"[CreateRefundReasonDTO](../../../../../payment/interfaces/payment.CreateRefundReasonDTO/page.mdx)[]","description":"The refund reasons to create.","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"label","type":"`string`","description":"The label of the refund reason","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"description","type":"`null` \\| `string`","description":"The description of the refund reason","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"metadata","type":"`null` \\| `Record<string, unknown>`","description":"The metadata of the refund reason","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="createRefundReasonsWorkflow"/>
 
 ## Output
 

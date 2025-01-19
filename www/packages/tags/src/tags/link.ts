@@ -16,6 +16,14 @@ export const link = [
     "path": "/references/medusa-workflows/steps/updateCartPromotionsStep"
   },
   {
+    "title": "addShippingMethodToCartWorkflow",
+    "path": "/references/medusa-workflows/addShippingMethodToCartWorkflow"
+  },
+  {
+    "title": "addToCartWorkflow",
+    "path": "/references/medusa-workflows/addToCartWorkflow"
+  },
+  {
     "title": "completeCartWorkflow",
     "path": "/references/medusa-workflows/completeCartWorkflow"
   },
@@ -28,8 +36,24 @@ export const link = [
     "path": "/references/medusa-workflows/createPaymentCollectionForCartWorkflow"
   },
   {
+    "title": "refreshCartItemsWorkflow",
+    "path": "/references/medusa-workflows/refreshCartItemsWorkflow"
+  },
+  {
+    "title": "transferCartCustomerWorkflow",
+    "path": "/references/medusa-workflows/transferCartCustomerWorkflow"
+  },
+  {
     "title": "updateCartPromotionsWorkflow",
     "path": "/references/medusa-workflows/updateCartPromotionsWorkflow"
+  },
+  {
+    "title": "updateCartWorkflow",
+    "path": "/references/medusa-workflows/updateCartWorkflow"
+  },
+  {
+    "title": "updateLineItemInCartWorkflow",
+    "path": "/references/medusa-workflows/updateLineItemInCartWorkflow"
   },
   {
     "title": "createRemoteLinkStep",
@@ -76,6 +100,10 @@ export const link = [
     "path": "/references/medusa-workflows/deleteInventoryItemWorkflow"
   },
   {
+    "title": "deleteLineItemsWorkflow",
+    "path": "/references/medusa-workflows/deleteLineItemsWorkflow"
+  },
+  {
     "title": "confirmClaimRequestWorkflow",
     "path": "/references/medusa-workflows/confirmClaimRequestWorkflow"
   },
@@ -84,12 +112,20 @@ export const link = [
     "path": "/references/medusa-workflows/confirmExchangeRequestWorkflow"
   },
   {
+    "title": "confirmOrderEditRequestWorkflow",
+    "path": "/references/medusa-workflows/confirmOrderEditRequestWorkflow"
+  },
+  {
     "title": "confirmReturnRequestWorkflow",
     "path": "/references/medusa-workflows/confirmReturnRequestWorkflow"
   },
   {
     "title": "createAndCompleteReturnOrderWorkflow",
     "path": "/references/medusa-workflows/createAndCompleteReturnOrderWorkflow"
+  },
+  {
+    "title": "createOrUpdateOrderPaymentCollectionWorkflow",
+    "path": "/references/medusa-workflows/createOrUpdateOrderPaymentCollectionWorkflow"
   },
   {
     "title": "createOrderFulfillmentWorkflow",
@@ -102,6 +138,10 @@ export const link = [
   {
     "title": "deleteOrderPaymentCollections",
     "path": "/references/medusa-workflows/deleteOrderPaymentCollections"
+  },
+  {
+    "title": "requestOrderEditRequestWorkflow",
+    "path": "/references/medusa-workflows/requestOrderEditRequestWorkflow"
   },
   {
     "title": "createVariantPricingLinkStep",
@@ -138,6 +178,18 @@ export const link = [
   {
     "title": "upsertVariantPricesWorkflow",
     "path": "/references/medusa-workflows/upsertVariantPricesWorkflow"
+  },
+  {
+    "title": "setRegionsPaymentProvidersStep",
+    "path": "/references/medusa-workflows/steps/setRegionsPaymentProvidersStep"
+  },
+  {
+    "title": "createRegionsWorkflow",
+    "path": "/references/medusa-workflows/createRegionsWorkflow"
+  },
+  {
+    "title": "updateRegionsWorkflow",
+    "path": "/references/medusa-workflows/updateRegionsWorkflow"
   },
   {
     "title": "associateLocationsWithSalesChannelsStep",

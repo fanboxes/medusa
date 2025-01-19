@@ -12,6 +12,14 @@ import {
 export const removeCampaignPromotionsStepId = "remove-campaign-promotions"
 /**
  * This step removes promotions from a campaigns.
+ * 
+ * @example
+ * const data = removeCampaignPromotionsStep([
+ *   {
+ *     id: "camp_123",
+ *     remove: ["promo_321"]
+ *   }
+ * ])
  */
 export const removeCampaignPromotionsStep = createStep(
   removeCampaignPromotionsStepId,

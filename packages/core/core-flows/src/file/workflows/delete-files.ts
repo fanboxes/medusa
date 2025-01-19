@@ -5,7 +5,26 @@ export type DeleteFilesWorkflowInput = { ids: string[] }
 
 export const deleteFilesWorkflowId = "delete-files"
 /**
- * This workflow deletes one or more files.
+ * This workflow deletes one or more files. It's used by the
+ * [Delete File Upload Admin API Route](https://docs.medusajs.com/api/admin#uploads_deleteuploadsid).
+ * 
+ * The [File Module Provider](https://docs.medusajs.com/resources/architectural-modules/file) installed
+ * in your application will be used to delete the file from storage.
+ * 
+ * You can use this workflow within your customizations or your own custom workflows, allowing you to
+ * delete files within your custom flows.
+ * 
+ * @example
+ * const { result } = await deleteFilesWorkflow(container)
+ * .run({
+ *   input: {
+ *     ids: ["123"]
+ *   }
+ * })
+ * 
+ * @summary
+ * 
+ * Delete files from the database and storage.
  */
 export const deleteFilesWorkflow = createWorkflow(
   deleteFilesWorkflowId,

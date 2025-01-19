@@ -1,4 +1,3 @@
-import { plugin } from "@medusajs/admin-bundler"
 import { Compiler } from "@medusajs/framework/build-tools"
 import { logger } from "@medusajs/framework/logger"
 export default async function build({
@@ -15,9 +14,8 @@ export default async function build({
     return false
   }
 
+  const bundler = await import("@medusajs/admin-bundler")
   await compiler.buildPluginBackend(tsConfig)
-  await compiler.buildPluginAdminExtensions({
-    plugin,
-  })
+  await compiler.buildPluginAdminExtensions(bundler)
   return true
 }

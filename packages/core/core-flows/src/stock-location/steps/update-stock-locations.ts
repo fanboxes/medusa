@@ -8,14 +8,33 @@ import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
 import { Modules } from "@medusajs/framework/utils"
 
+/**
+ * The data to update stock locations.
+ */
 interface StepInput {
+  /**
+   * The filters to select stock locations to update.
+   */
   selector: FilterableStockLocationProps
+  /**
+   * The data to update stock locations with.
+   */
   update: UpdateStockLocationInput
 }
 
 export const updateStockLocationsStepId = "update-stock-locations-step"
 /**
  * This step updates stock locations matching the specified filters.
+ * 
+ * @example
+ * const data = updateStockLocationsStep({
+ *   selector: {
+ *     id: "sloc_123"
+ *   },
+ *   update: {
+ *     name: "European Warehouse"
+ *   }
+ * })
  */
 export const updateStockLocationsStep = createStep(
   updateStockLocationsStepId,

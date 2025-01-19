@@ -13,9 +13,14 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `createDefaultsWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow creates default data for a Medusa application.
+This workflow creates default data for a Medusa application, including
+a default sales channel and store. The Medusa application uses this workflow
+to create the default data, if not existing, when the application is first started.
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/defaults/workflows/create-defaults.ts#L12" />
+You can use this workflow within your customizations or your own custom workflows, allowing you to
+create default data within your custom flows, such as seed scripts.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/defaults/workflows/create-defaults.ts#L25" />
 
 ## Examples
 
@@ -108,7 +113,7 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"createDefaultsWorkflow","steps":[{"type":"step","name":"createDefaultSalesChannelStep","description":"This step creates a default sales channel.\n\n","link":"../../../../Sales_Channel/Steps_Sales_Channel/functions/core_flows.Sales_Channel.Steps_Sales_Channel.createDefaultSalesChannelStep/page.mdx","depth":1},{"type":"step","name":"createDefaultStoreStep","description":"This step creates a default store.\n\n","link":"../../../Steps_Defaults/functions/core_flows.Defaults.Steps_Defaults.createDefaultStoreStep/page.mdx","depth":2}]}} />
+<WorkflowDiagram workflow={{"name":"createDefaultsWorkflow","steps":[{"type":"step","name":"createDefaultSalesChannelStep","description":"This step creates a default sales channel if none exist in the application. \nThis is useful when creating seed scripts.","link":"../../../../Sales_Channel/Steps_Sales_Channel/functions/core_flows.Sales_Channel.Steps_Sales_Channel.createDefaultSalesChannelStep/page.mdx","depth":1},{"type":"step","name":"createDefaultStoreStep","description":"This step creates a default store. Useful if creating a workflow\nthat seeds data into Medusa.","link":"../../../Steps_Defaults/functions/core_flows.Defaults.Steps_Defaults.createDefaultStoreStep/page.mdx","depth":2}]}} />
 
 ## Output
 

@@ -8,7 +8,14 @@ import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 export const linkCustomersToCustomerGroupStepId =
   "link-customers-to-customer-group"
 /**
- * This step creates one or more links between customer and customer group records.
+ * This step manages the customers in a customer group.
+ * 
+ * @example
+ * const data = linkCustomersToCustomerGroupStep({
+ *   id: "cusgrp_123",
+ *   add: ["cus_123"],
+ *   remove: ["cus_456"]
+ * })
  */
 export const linkCustomersToCustomerGroupStep = createStep(
   linkCustomersToCustomerGroupStepId,

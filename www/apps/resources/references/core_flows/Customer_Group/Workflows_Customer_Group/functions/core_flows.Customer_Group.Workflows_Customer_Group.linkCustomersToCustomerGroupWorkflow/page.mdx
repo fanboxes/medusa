@@ -12,9 +12,13 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `linkCustomersToCustomerGroupWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow creates one or more links between customer and customer group records.
+This workflow manages the customers of a customer group. It's used by the 
+[Manage Customers of Group Admin API Route](https://docs.medusajs.com/api/admin#customer-groups\_postcustomergroupsidcustomers).
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/customer-group/workflows/link-customers-customer-group.ts#L10" />
+You can use this workflow within your customizations or your own custom workflows, allowing you to
+manage the customers of a customer group within your custom flows.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/customer-group/workflows/link-customers-customer-group.ts#L37" />
 
 ## Examples
 
@@ -35,7 +39,9 @@ export async function POST(
   const { result } = await linkCustomersToCustomerGroupWorkflow(req.scope)
     .run({
       input: {
-        "id": "id_xAgNjOlh1Vs"
+        id: "cusgrp_123",
+        add: ["cus_123"],
+        remove: ["cus_456"]
       }
     })
 
@@ -60,7 +66,9 @@ export default async function handleOrderPlaced({
   const { result } = await linkCustomersToCustomerGroupWorkflow(container)
     .run({
       input: {
-        "id": "id_xAgNjOlh1Vs"
+        id: "cusgrp_123",
+        add: ["cus_123"],
+        remove: ["cus_456"]
       }
     })
 
@@ -85,7 +93,9 @@ export default async function myCustomJob(
   const { result } = await linkCustomersToCustomerGroupWorkflow(container)
     .run({
       input: {
-        "id": "id_xAgNjOlh1Vs"
+        id: "cusgrp_123",
+        add: ["cus_123"],
+        remove: ["cus_456"]
       }
     })
 
@@ -111,7 +121,9 @@ const myWorkflow = createWorkflow(
     const result = linkCustomersToCustomerGroupWorkflow
       .runAsStep({
         input: {
-          "id": "id_xAgNjOlh1Vs"
+          id: "cusgrp_123",
+          add: ["cus_123"],
+          remove: ["cus_456"]
         }
       })
   }
@@ -123,8 +135,8 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"linkCustomersToCustomerGroupWorkflow","steps":[{"type":"step","name":"linkCustomersToCustomerGroupStep","description":"This step creates one or more links between customer and customer group records.\n\n","link":"../../../Steps_Customer_Group/functions/core_flows.Customer_Group.Steps_Customer_Group.linkCustomersToCustomerGroupStep/page.mdx","depth":1}]}} />
+<WorkflowDiagram workflow={{"name":"linkCustomersToCustomerGroupWorkflow","steps":[{"type":"step","name":"linkCustomersToCustomerGroupStep","description":"This step manages the customers in a customer group.","link":"../../../Steps_Customer_Group/functions/core_flows.Customer_Group.Steps_Customer_Group.linkCustomersToCustomerGroupStep/page.mdx","depth":1}]}} />
 
 ## Input
 
-<TypeList types={[{"name":"LinkWorkflowInput","type":"[LinkWorkflowInput](../../../../../types/CommonTypes/types/types.CommonTypes.LinkWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"id","type":"`string`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"add","type":"`string`[]","description":"","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"remove","type":"`string`[]","description":"","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="linkCustomersToCustomerGroupWorkflow"/>
+<TypeList types={[{"name":"LinkWorkflowInput","type":"[LinkWorkflowInput](../../../../../types/CommonTypes/types/types.CommonTypes.LinkWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"id","type":"`string`","description":"The ID of the data model to create links to or remove links from.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"add","type":"`string`[]","description":"The IDs of the other data models to create links to the record specified in `id`.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"remove","type":"`string`[]","description":"The IDs of the other data models to remove links from the record specified in `id`.","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="linkCustomersToCustomerGroupWorkflow"/>

@@ -3,7 +3,11 @@ import {
   IPromotionModuleService,
   PromotionDTO,
 } from "@medusajs/framework/types"
-import { isPresent, toMikroORMEntity } from "@medusajs/framework/utils"
+import {
+  isPresent,
+  PromotionStatus,
+  toMikroORMEntity,
+} from "@medusajs/framework/utils"
 import { SqlEntityManager } from "@mikro-orm/postgresql"
 import { Promotion } from "@models"
 import { defaultPromotionsData } from "./data"
@@ -51,6 +55,7 @@ export async function createDefaultPromotion(
   return await service.createPromotions({
     code: "PROMOTION_TEST",
     type: "standard",
+    status: PromotionStatus.ACTIVE,
     campaign_id: "campaign-id-1",
     ...promotion,
     application_method: {

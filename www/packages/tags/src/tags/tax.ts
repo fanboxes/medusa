@@ -8,12 +8,40 @@ export const tax = [
     "path": "/storefront-development/products/price/examples/tax-price"
   },
   {
+    "title": "addShippingMethodToCartWorkflow",
+    "path": "/references/medusa-workflows/addShippingMethodToCartWorkflow"
+  },
+  {
+    "title": "addToCartWorkflow",
+    "path": "/references/medusa-workflows/addToCartWorkflow"
+  },
+  {
     "title": "createCartWorkflow",
     "path": "/references/medusa-workflows/createCartWorkflow"
   },
   {
+    "title": "refreshCartItemsWorkflow",
+    "path": "/references/medusa-workflows/refreshCartItemsWorkflow"
+  },
+  {
+    "title": "transferCartCustomerWorkflow",
+    "path": "/references/medusa-workflows/transferCartCustomerWorkflow"
+  },
+  {
+    "title": "updateCartWorkflow",
+    "path": "/references/medusa-workflows/updateCartWorkflow"
+  },
+  {
+    "title": "updateLineItemInCartWorkflow",
+    "path": "/references/medusa-workflows/updateLineItemInCartWorkflow"
+  },
+  {
     "title": "updateTaxLinesWorkflow",
     "path": "/references/medusa-workflows/updateTaxLinesWorkflow"
+  },
+  {
+    "title": "deleteLineItemsWorkflow",
+    "path": "/references/medusa-workflows/deleteLineItemsWorkflow"
   },
   {
     "title": "createClaimShippingMethodWorkflow",

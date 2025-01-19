@@ -13,9 +13,13 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `deleteRegionsWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow deletes one or more regions.
+This workflow deletes one or more regions. It's used by the 
+[Delete Region Admin API Route](https://docs.medusajs.com/api/admin#regions\_deleteregionsid).
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/region/workflows/delete-regions.ts#L16" />
+You can use this workflow within your own customizations or custom workflows, allowing you
+to delete regions in your custom flows.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/region/workflows/delete-regions.ts#L32" />
 
 ## Examples
 
@@ -36,9 +40,7 @@ export async function POST(
   const { result } = await deleteRegionsWorkflow(req.scope)
     .run({
       input: {
-        "ids": [
-          "id_uPhJKGWkoj3"
-        ]
+        ids: ["reg_123"]
       }
     })
 
@@ -63,9 +65,7 @@ export default async function handleOrderPlaced({
   const { result } = await deleteRegionsWorkflow(container)
     .run({
       input: {
-        "ids": [
-          "id_uPhJKGWkoj3"
-        ]
+        ids: ["reg_123"]
       }
     })
 
@@ -90,9 +90,7 @@ export default async function myCustomJob(
   const { result } = await deleteRegionsWorkflow(container)
     .run({
       input: {
-        "ids": [
-          "id_uPhJKGWkoj3"
-        ]
+        ids: ["reg_123"]
       }
     })
 
@@ -118,9 +116,7 @@ const myWorkflow = createWorkflow(
     const result = deleteRegionsWorkflow
       .runAsStep({
         input: {
-          "ids": [
-            "id_uPhJKGWkoj3"
-          ]
+          ids: ["reg_123"]
         }
       })
   }
@@ -132,7 +128,7 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"deleteRegionsWorkflow","steps":[{"type":"step","name":"deleteRegionsStep","description":"This step deletes one or more regions.\n\n","link":"../../../Steps_Region/functions/core_flows.Region.Steps_Region.deleteRegionsStep/page.mdx","depth":1},{"type":"step","name":"emitEventStep","description":"Emit an event.\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":2}]}} />
+<WorkflowDiagram workflow={{"name":"deleteRegionsWorkflow","steps":[{"type":"step","name":"deleteRegionsStep","description":"This step deletes one or more regions.","link":"../../../Steps_Region/functions/core_flows.Region.Steps_Region.deleteRegionsStep/page.mdx","depth":1},{"type":"step","name":"emitEventStep","description":"Emit an event.","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":2}]}} />
 
 ## Input
 

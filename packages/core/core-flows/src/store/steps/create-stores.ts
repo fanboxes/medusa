@@ -5,6 +5,11 @@ import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 export const createStoresStepId = "create-stores"
 /**
  * This step creates one or more stores.
+ * 
+ * @example
+ * const data = createStoresStep([{
+ *   name: "Acme"
+ * }])
  */
 export const createStoresStep = createStep(
   createStoresStepId,

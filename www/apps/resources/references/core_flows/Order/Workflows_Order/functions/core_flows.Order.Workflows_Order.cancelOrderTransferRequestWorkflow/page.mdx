@@ -13,11 +13,14 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `cancelOrderTransferRequestWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow cancels a requested order transfer.
+This workflow cancels a requested order transfer. This operation is allowed only by admin users and the customer that requested the transfer.
+This workflow is used by the [Cancel Order Transfer Store API Route](https://docs.medusajs.com/api/store#orders\_postordersidtransfercancel),
+and the [Cancel Transfer Request Admin API Route](https://docs.medusajs.com/api/admin#orders\_postordersidtransfercancel).
 
-Customer that requested the transfer or a store admin are allowed to cancel the order transfer request.
+You can use this workflow within your customizations or your own custom workflows, allowing you to build a custom flow
+around canceling an order transfer.
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/order/workflows/transfer/cancel-order-transfer.ts#L65" />
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/order/workflows/transfer/cancel-order-transfer.ts#L122" />
 
 ## Examples
 
@@ -38,9 +41,9 @@ export async function POST(
   const { result } = await cancelOrderTransferRequestWorkflow(req.scope)
     .run({
       input: {
-        "order_id": "{value}",
-        "logged_in_user_id": "{value}",
-        "actor_type": "{value}"
+        order_id: "order_123",
+        logged_in_user_id: "cus_123",
+        actor_type: "customer"
       }
     })
 
@@ -65,9 +68,9 @@ export default async function handleOrderPlaced({
   const { result } = await cancelOrderTransferRequestWorkflow(container)
     .run({
       input: {
-        "order_id": "{value}",
-        "logged_in_user_id": "{value}",
-        "actor_type": "{value}"
+        order_id: "order_123",
+        logged_in_user_id: "cus_123",
+        actor_type: "customer"
       }
     })
 
@@ -92,9 +95,9 @@ export default async function myCustomJob(
   const { result } = await cancelOrderTransferRequestWorkflow(container)
     .run({
       input: {
-        "order_id": "{value}",
-        "logged_in_user_id": "{value}",
-        "actor_type": "{value}"
+        order_id: "order_123",
+        logged_in_user_id: "cus_123",
+        actor_type: "customer"
       }
     })
 
@@ -120,9 +123,9 @@ const myWorkflow = createWorkflow(
     const result = cancelOrderTransferRequestWorkflow
       .runAsStep({
         input: {
-          "order_id": "{value}",
-          "logged_in_user_id": "{value}",
-          "actor_type": "{value}"
+          order_id: "order_123",
+          logged_in_user_id: "cus_123",
+          actor_type: "customer"
         }
       })
   }
@@ -134,8 +137,8 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"cancelOrderTransferRequestWorkflow","steps":[{"type":"step","name":"useQueryGraphStep","description":"This step fetches data across modules using the Query.\n\nLearn more in the [Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx","depth":1},{"type":"step","name":"useQueryGraphStep","description":"This step fetches data across modules using the Query.\n\nLearn more in the [Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx","depth":2},{"type":"step","name":"cancelTransferOrderRequestValidationStep","description":"This step validates that a requested order transfer can be canceled.\n\n","link":"../core_flows.Order.Workflows_Order.cancelTransferOrderRequestValidationStep/page.mdx","depth":3},{"type":"step","name":"deleteOrderChangesStep","description":"This step deletes order changes.\n\n","link":"../../../Steps_Order/functions/core_flows.Order.Steps_Order.deleteOrderChangesStep/page.mdx","depth":4}]}} />
+<WorkflowDiagram workflow={{"name":"cancelOrderTransferRequestWorkflow","steps":[{"type":"step","name":"useQueryGraphStep","description":"This step fetches data across modules using the Query.\n\nLearn more in the [Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx","depth":1},{"type":"step","name":"useQueryGraphStep","description":"This step fetches data across modules using the Query.\n\nLearn more in the [Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx","depth":2},{"type":"step","name":"cancelTransferOrderRequestValidationStep","description":"This step validates that a requested order transfer can be canceled.\nIf the customer canceling the order transfer isn't the one that requested the transfer,\nthe step throws an error. Admin users can cancel any order transfer.\n\n:::note\n\nYou can retrieve an order and order change details using [Query](https://docs.medusajs.com/learn/fundamentals/module-links/query),\nor [useQueryGraphStep](https://docs.medusajs.com/resources/references/medusa-workflows/steps/useQueryGraphStep).\n\n:::","link":"../core_flows.Order.Workflows_Order.cancelTransferOrderRequestValidationStep/page.mdx","depth":3},{"type":"step","name":"deleteOrderChangesStep","description":"This step deletes order changes.","link":"../../../Steps_Order/functions/core_flows.Order.Steps_Order.deleteOrderChangesStep/page.mdx","depth":4}]}} />
 
 ## Input
 
-<TypeList types={[{"name":"CancelTransferOrderRequestWorkflowInput","type":"[CancelTransferOrderRequestWorkflowInput](../../../../../types/WorkflowTypes/OrderWorkflow/types/types.WorkflowTypes.OrderWorkflow.CancelTransferOrderRequestWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"order_id","type":"`string`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"logged_in_user_id","type":"`string`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"actor_type","type":"`\"customer\"` \\| `\"user\"`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="cancelOrderTransferRequestWorkflow"/>
+<TypeList types={[{"name":"CancelTransferOrderRequestWorkflowInput","type":"[CancelTransferOrderRequestWorkflowInput](../../../../../types/WorkflowTypes/OrderWorkflow/types/types.WorkflowTypes.OrderWorkflow.CancelTransferOrderRequestWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"order_id","type":"`string`","description":"The ID of the order to cancel the transfer for.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"logged_in_user_id","type":"`string`","description":"The ID of the authenticated user requesting to cancel the transfer.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"actor_type","type":"`\"customer\"` \\| `\"user\"`","description":"The actor type requesting to cancel the transfer.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="cancelOrderTransferRequestWorkflow"/>

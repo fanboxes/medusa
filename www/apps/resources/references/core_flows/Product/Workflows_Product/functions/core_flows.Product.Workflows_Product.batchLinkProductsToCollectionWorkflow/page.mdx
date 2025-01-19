@@ -12,9 +12,12 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `batchLinkProductsToCollectionWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow creates links between product and collection records.
+This workflow manages the links between a collection and products. It's used by the
+[Manage Products of Collection Admin API Route](https://docs.medusajs.com/api/admin#collections\_postcollectionsidproducts).
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/product/workflows/batch-link-products-collection.ts#L11" />
+You can use this workflow within your own customizations or custom workflows to manage the products in a collection.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/product/workflows/batch-link-products-collection.ts#L28" />
 
 ## Examples
 
@@ -35,7 +38,9 @@ export async function POST(
   const { result } = await batchLinkProductsToCollectionWorkflow(req.scope)
     .run({
       input: {
-        "id": "id_fZxN1tMnjIO28GEfA"
+        id: "pcol_123",
+        add: ["prod_123"],
+        remove: ["prod_456"],
       }
     })
 
@@ -60,7 +65,9 @@ export default async function handleOrderPlaced({
   const { result } = await batchLinkProductsToCollectionWorkflow(container)
     .run({
       input: {
-        "id": "id_fZxN1tMnjIO28GEfA"
+        id: "pcol_123",
+        add: ["prod_123"],
+        remove: ["prod_456"],
       }
     })
 
@@ -85,7 +92,9 @@ export default async function myCustomJob(
   const { result } = await batchLinkProductsToCollectionWorkflow(container)
     .run({
       input: {
-        "id": "id_fZxN1tMnjIO28GEfA"
+        id: "pcol_123",
+        add: ["prod_123"],
+        remove: ["prod_456"],
       }
     })
 
@@ -111,7 +120,9 @@ const myWorkflow = createWorkflow(
     const result = batchLinkProductsToCollectionWorkflow
       .runAsStep({
         input: {
-          "id": "id_fZxN1tMnjIO28GEfA"
+          id: "pcol_123",
+          add: ["prod_123"],
+          remove: ["prod_456"],
         }
       })
   }
@@ -123,8 +134,8 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"batchLinkProductsToCollectionWorkflow","steps":[{"type":"step","name":"batchLinkProductsToCollectionStep","description":"This step creates links between product and collection records.\n\n","link":"../../../Steps_Product/functions/core_flows.Product.Steps_Product.batchLinkProductsToCollectionStep/page.mdx","depth":1}]}} />
+<WorkflowDiagram workflow={{"name":"batchLinkProductsToCollectionWorkflow","steps":[{"type":"step","name":"batchLinkProductsToCollectionStep","description":"This step manages the links between a collection and products.","link":"../../../Steps_Product/functions/core_flows.Product.Steps_Product.batchLinkProductsToCollectionStep/page.mdx","depth":1}]}} />
 
 ## Input
 
-<TypeList types={[{"name":"LinkWorkflowInput","type":"[LinkWorkflowInput](../../../../../types/CommonTypes/types/types.CommonTypes.LinkWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"id","type":"`string`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"add","type":"`string`[]","description":"","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"remove","type":"`string`[]","description":"","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="batchLinkProductsToCollectionWorkflow"/>
+<TypeList types={[{"name":"LinkWorkflowInput","type":"[LinkWorkflowInput](../../../../../types/CommonTypes/types/types.CommonTypes.LinkWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"id","type":"`string`","description":"The ID of the data model to create links to or remove links from.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"add","type":"`string`[]","description":"The IDs of the other data models to create links to the record specified in `id`.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"remove","type":"`string`[]","description":"The IDs of the other data models to remove links from the record specified in `id`.","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="batchLinkProductsToCollectionWorkflow"/>

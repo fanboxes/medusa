@@ -12,9 +12,13 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `updatePricePreferencesWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow updates one or more price preferences.
+This workflow updates one or more price preferences. It's used by the
+[Update Price Preference Admin API Route](https://docs.medusajs.com/api/admin#price-preferences\_postpricepreferencesid).
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/pricing/workflows/update-price-preferences.ts#L13" />
+You can use this workflow within your customizations or your own custom workflows, allowing you to
+update price preferences in your custom flows.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/pricing/workflows/update-price-preferences.ts#L34" />
 
 ## Examples
 
@@ -35,8 +39,12 @@ export async function POST(
   const { result } = await updatePricePreferencesWorkflow(req.scope)
     .run({
       input: {
-        "selector": {},
-        "update": {}
+        selector: {
+          id: ["pp_123"]
+        },
+        update: {
+          is_tax_inclusive: true
+        }
       }
     })
 
@@ -61,8 +69,12 @@ export default async function handleOrderPlaced({
   const { result } = await updatePricePreferencesWorkflow(container)
     .run({
       input: {
-        "selector": {},
-        "update": {}
+        selector: {
+          id: ["pp_123"]
+        },
+        update: {
+          is_tax_inclusive: true
+        }
       }
     })
 
@@ -87,8 +99,12 @@ export default async function myCustomJob(
   const { result } = await updatePricePreferencesWorkflow(container)
     .run({
       input: {
-        "selector": {},
-        "update": {}
+        selector: {
+          id: ["pp_123"]
+        },
+        update: {
+          is_tax_inclusive: true
+        }
       }
     })
 
@@ -114,8 +130,12 @@ const myWorkflow = createWorkflow(
     const result = updatePricePreferencesWorkflow
       .runAsStep({
         input: {
-          "selector": {},
-          "update": {}
+          selector: {
+            id: ["pp_123"]
+          },
+          update: {
+            is_tax_inclusive: true
+          }
         }
       })
   }
@@ -127,7 +147,7 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"updatePricePreferencesWorkflow","steps":[{"type":"step","name":"updatePricePreferencesStep","description":"This step updates price preferences matching the specified filters.\n\n","link":"../../../Steps_Pricing/functions/core_flows.Pricing.Steps_Pricing.updatePricePreferencesStep/page.mdx","depth":1}]}} />
+<WorkflowDiagram workflow={{"name":"updatePricePreferencesWorkflow","steps":[{"type":"step","name":"updatePricePreferencesStep","description":"This step updates price preferences matching the specified filters.","link":"../../../Steps_Pricing/functions/core_flows.Pricing.Steps_Pricing.updatePricePreferencesStep/page.mdx","depth":1}]}} />
 
 ## Input
 

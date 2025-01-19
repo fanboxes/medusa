@@ -44,11 +44,6 @@ export interface BasePaymentCollection {
   currency_code: string
 
   /**
-   * The id of the associated region.
-   */
-  region_id: string
-
-  /**
    * The total amount to be authorized and captured.
    */
   amount: number
@@ -140,26 +135,6 @@ export interface BasePayment {
    * The ID of the associated payment provider.
    */
   provider_id: string
-
-  /**
-   * The ID of the associated cart.
-   */
-  cart_id?: string
-
-  /**
-   * The ID of the associated order.
-   */
-  order_id?: string
-
-  /**
-   * The ID of the associated order edit.
-   */
-  order_edit_id?: string
-
-  /**
-   * The ID of the associated customer.
-   */
-  customer_id?: string
 
   /**
    * The data relevant for the payment provider to process the payment.

@@ -38,7 +38,7 @@ export default MyPaymentProviderService
 
 ### constructor
 
-The constructor allows you to access resources from the [module's container](https://docs.medusajs.com/learn/fundamentals/modules/container) 
+The constructor allows you to access resources from the [module's container](https://docs.medusajs.com/learn/fundamentals/modules/container)
 using the first parameter, and the module's options using the second parameter.
 
 :::note
@@ -633,6 +633,63 @@ class MyPaymentProviderService extends AbstractPaymentProvider<
 #### Returns
 
 <TypeList types={[{"name":"Promise","type":"Promise&#60;PaymentProviderError \\| PaymentProviderSessionResponse&#62;","optional":false,"defaultValue":"","description":"An object whose `data` property is set in the updated payment session, or an error\nobject. Make sure to set in `data` anything useful to later retrieve the session.","expandable":false,"children":[{"name":"PaymentProviderError \\| PaymentProviderSessionResponse","type":"`PaymentProviderError` \\| `PaymentProviderSessionResponse`","optional":false,"defaultValue":"","description":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" sectionTitle="updatePayment"/>
+
+### listPaymentMethods
+
+List the payment methods associated with the context (eg. customer) of the payment provider, if any.
+
+#### Example
+
+```ts
+// other imports...
+import {
+  PaymentProviderContext,
+  PaymentProviderError,
+  PaymentMethodResponse
+  PaymentProviderSessionResponse,
+} from "@medusajs/framework/types"
+
+class MyPaymentProviderService extends AbstractPaymentProvider<
+  Options
+> {
+  async listPaymentMethods(
+    context: PaymentProviderContext
+  ): Promise<PaymentMethodResponse> {
+    const {
+      customer,
+    } = context
+    const externalCustomerId = customer.metadata.stripe_id
+
+    try {
+      // assuming you have a client that updates the payment
+      const response = await this.client.listPaymentMethods(
+        {customer: externalCustomerId}
+      )
+
+      return response.map((method) => ({
+        id: method.id,
+        data: method
+      }))
+    } catch (e) {
+      return {
+        error: e,
+        code: "unknown",
+        detail: e
+      }
+    }
+  }
+
+  // ...
+}
+```
+
+#### Parameters
+
+<TypeList types={[{"name":"context","type":"[PaymentProviderContext](../../../payment/interfaces/payment.PaymentProviderContext/page.mdx)","description":"The context for which the payment methods are listed. Usually the customer should be provided.","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"billing_address","type":"Partial&#60;[AddressDTO](../../../payment/types/payment.AddressDTO/page.mdx)&#62;","description":"The payment's billing address.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"email","type":"`string`","description":"The associated customer's email.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"session_id","type":"`string`","description":"The ID of payment session the provider payment is associated with.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"customer","type":"Partial&#60;[CustomerDTO](../../../payment/interfaces/payment.CustomerDTO/page.mdx)&#62;","description":"The customer associated with this payment.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"extra","type":"`Record<string, unknown>`","description":"The extra fields specific to the provider session.","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" sectionTitle="listPaymentMethods"/>
+
+#### Returns
+
+<TypeList types={[{"name":"Promise","type":"Promise&#60;PaymentMethodResponse[]&#62;","optional":false,"defaultValue":"","description":"An object whose `payment_methods` property is set to the data returned by the payment provider.","expandable":false,"children":[{"name":"PaymentMethodResponse[]","type":"`PaymentMethodResponse`[]","optional":false,"defaultValue":"","description":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" sectionTitle="listPaymentMethods"/>
 
 ### getWebhookActionAndData
 

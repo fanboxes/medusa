@@ -14,24 +14,19 @@ This documentation provides a reference to the `cancelOrderFulfillmentStep`. It 
 
 This step cancels an order's fulfillment.
 
-```ts title="src/workflows/my-workflow.ts"
-import { createWorkflow } from "@medusajs/framework/workflows-sdk"
-import { cancelOrderFulfillmentStep } from "@medusajs/medusa/core-flows"
+## Example
 
-const myWorkflow = createWorkflow(
-  "my-workflow",
-  () => {
-    const data = cancelOrderFulfillmentStep({
-      "order_id": "{value}",
-      "items": [{
-        "id": "id_GyTDdSqWuw",
-        "quantity": 46
-      }]
-    })
-  }
-)
+```ts
+const data = cancelOrderFulfillmentStep({
+  order_id: "order_123",
+  items: [
+    {
+      id: "item_123",
+      quantity: 1
+    }
+  ]
+})
 ```
-  
 
 ## Input
 

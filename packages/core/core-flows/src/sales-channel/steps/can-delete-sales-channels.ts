@@ -1,12 +1,32 @@
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
-
 import { MedusaError, Modules } from "@medusajs/framework/utils"
+
+/**
+ * The data to validate if sales channels can be deleted.
+ */
+export type CanDeleteSalesChannelsOrThrowStepInput = {
+  /**
+   * The IDs of the sales channels to validate.
+   */
+  ids: string | string[]
+}
+
 export const canDeleteSalesChannelsOrThrowStepId =
   "can-delete-sales-channels-or-throw-step"
 
+/**
+ * This step validates that the specified sales channels can be deleted.
+ * If any of the sales channels are default sales channels for a store, 
+ * the step will throw an error.
+ * 
+ * @example
+ * const data = canDeleteSalesChannelsOrThrowStep({
+ *   ids: ["sc_123"]
+ * })
+ */
 export const canDeleteSalesChannelsOrThrowStep = createStep(
   canDeleteSalesChannelsOrThrowStepId,
-  async ({ ids }: { ids: string | string[] }, { container }) => {
+  async ({ ids }: CanDeleteSalesChannelsOrThrowStepInput, { container }) => {
     const salesChannelIdsToDelete = Array.isArray(ids) ? ids : [ids]
 
     const storeModule = await container.resolve(Modules.STORE)

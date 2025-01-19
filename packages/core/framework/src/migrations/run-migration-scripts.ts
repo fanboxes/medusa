@@ -37,7 +37,7 @@ export class MigrationScriptsMigrator extends Migrator {
         const scriptName = basename(script)
 
         const err = await this.insertMigration([
-          { script_name: `'${scriptName}'` },
+          { script_name: scriptName },
         ]).catch((e) => e)
 
         /**
@@ -99,7 +99,7 @@ export class MigrationScriptsMigrator extends Migrator {
 
   #updateMigrationFinishedAt(scriptName: string) {
     return this.pgConnection.raw(
-      `UPDATE ${this.migration_table_name} SET finished_at = CURRENT_TIMESTAMP WHERE script_name = ?`,
+      `UPDATE ${this.migration_table_name} SET finished_at = NOW() WHERE script_name = ?`,
       [scriptName]
     )
   }

@@ -11427,8 +11427,9 @@ paths:
   /admin/customers/{id}/customer-groups:
     post:
       operationId: PostCustomersIdCustomerGroups
-      summary: Add Customer Group to Customer
-      description: Add a Customer Group to a customer
+      x-sidebar-summary: Manage Customer Groups
+      summary: Manage Customer Groups of Customer
+      description: Manage the customer groups of a customer, adding or removing the customer from those groups.
       x-authenticated: true
       parameters:
         - name: id
@@ -11463,18 +11464,18 @@ paths:
               properties:
                 add:
                   type: array
-                  description: The customer's add.
+                  description: The customer groups to add the customer to.
                   items:
                     type: string
                     title: add
-                    description: The add's details.
+                    description: The ID of the group to add the customer to.
                 remove:
                   type: array
-                  description: The customer's remove.
+                  description: The customer groups to remove the customer from.
                   items:
                     type: string
                     title: remove
-                    description: The remove's details.
+                    description: The ID of the group to remove the customer from.
       x-codeSamples:
         - lang: Shell
           label: cURL
@@ -16694,6 +16695,133 @@ paths:
         '500':
           $ref: '#/components/responses/500_error'
       x-workflow: createInventoryItemsWorkflow
+  /admin/inventory-items/location-levels/batch:
+    post:
+      operationId: PostInventoryItemsLocationLevelsBatch
+      summary: Manage Inventory Levels
+      description: Manage inventory levels to create, update, or delete them.
+      x-authenticated: true
+      parameters: []
+      security:
+        - api_token: []
+        - cookie_auth: []
+        - jwt_token: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              description: The inventory levels to manage.
+              properties:
+                create:
+                  type: array
+                  description: The inventory levels to create.
+                  items:
+                    type: object
+                    description: The details of an inventory level to create.
+                    required:
+                      - location_id
+                      - inventory_item_id
+                    properties:
+                      location_id:
+                        type: string
+                        title: location_id
+                        description: The ID of the associated stock location.
+                      inventory_item_id:
+                        type: string
+                        title: inventory_item_id
+                        description: The ID of the associated inventory item.
+                      stocked_quantity:
+                        type: number
+                        title: stocked_quantity
+                        description: The stocked quantity.
+                      incoming_quantity:
+                        type: number
+                        title: incoming_quantity
+                        description: The incoming quantity to be added to stock.
+                update:
+                  type: array
+                  description: The inventory levels to update.
+                  items:
+                    type: object
+                    description: The details of an inventory level to update.
+                    required:
+                      - location_id
+                      - inventory_item_id
+                    properties:
+                      location_id:
+                        type: string
+                        title: location_id
+                        description: The ID of the associated stock location.
+                      inventory_item_id:
+                        type: string
+                        title: inventory_item_id
+                        description: The ID of the associated inventory item.
+                      stocked_quantity:
+                        type: number
+                        title: stocked_quantity
+                        description: The stocked quantity.
+                      incoming_quantity:
+                        type: number
+                        title: incoming_quantity
+                        description: The incoming quantity to be added to stock.
+                delete:
+                  type: array
+                  description: The IDs of the inventory levels to delete.
+                  items:
+                    type: string
+                    title: delete
+                    description: The ID of the inventory level to delete.
+                force:
+                  type: boolean
+                  title: force
+                  description: Whether to delete specified inventory levels even if they have a non-zero stocked quantity.
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |-
+            curl -X POST '{backend_url}/admin/inventory-items/location-levels/batch' \
+            -H 'Authorization: Bearer {access_token}' \
+            -H 'Content-Type: application/json' \
+            --data-raw '{
+              "create": [
+                {
+                  "location_id": "sloc_123",
+                  "inventory_item_id": "iitem_123",
+                  "stocked_quantity": 100,
+                  "incoming_quantity": 50
+                }
+              ],
+              "update": [
+                {
+                  "location_id": "sloc_456",
+                  "inventory_item_id": "iitem_456",
+                  "stocked_quantity": 200,
+                  "incoming_quantity": 75
+                }
+              ],
+              "delete": [
+                "iilev_123"
+              ]
+            }'
+      tags:
+        - Inventory Items
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/400_error'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not_found_error'
+        '409':
+          $ref: '#/components/responses/invalid_state_error'
+        '422':
+          $ref: '#/components/responses/invalid_request_error'
+        '500':
+          $ref: '#/components/responses/500_error'
+      x-workflow: batchInventoryItemLevelsWorkflow
   /admin/inventory-items/{id}:
     get:
       operationId: GetInventoryItemsId
@@ -17174,52 +17302,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              description: The inventory levels to create or delete.
-              properties:
-                create:
-                  type: array
-                  description: The inventory levels to create.
-                  items:
-                    type: object
-                    description: The inventory level's details.
-                    required:
-                      - location_id
-                    properties:
-                      location_id:
-                        type: string
-                        title: location_id
-                        description: The ID of the associated location.
-                      stocked_quantity:
-                        type: number
-                        title: stocked_quantity
-                        description: The inventory level's stocked quantity.
-                      incoming_quantity:
-                        type: number
-                        title: incoming_quantity
-                        description: The inventory level's incoming quantity.
-                update:
-                  type: array
-                  description: The inventory levels to update.
-                  items:
-                    type: object
-                    description: The inventory level's details.
-                    properties:
-                      stocked_quantity:
-                        type: number
-                        title: stocked_quantity
-                        description: The inventory level's stocked quantity.
-                      incoming_quantity:
-                        type: number
-                        title: incoming_quantity
-                        description: The inventory level's incoming quantity.
-                delete:
-                  type: array
-                  description: The inventory levels to delete.
-                  items:
-                    type: string
-                    title: delete
-                    description: The ID of the inventory level to delete.
+              $ref: '#/components/schemas/AdminBatchInventoryItemLocationsLevel'
       x-codeSamples:
         - lang: Shell
           label: cURL
@@ -17229,19 +17312,6 @@ paths:
       tags:
         - Inventory Items
       responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                description: The inventory item's details.
-                required:
-                  - inventory_item
-                properties:
-                  inventory_item:
-                    type: object
-                    description: The inventory item's details.
         '400':
           $ref: '#/components/responses/400_error'
         '401':
@@ -17254,7 +17324,7 @@ paths:
           $ref: '#/components/responses/invalid_request_error'
         '500':
           $ref: '#/components/responses/500_error'
-      x-workflow: bulkCreateDeleteLevelsWorkflow
+      x-workflow: batchInventoryItemLevelsWorkflow
   /admin/inventory-items/{id}/location-levels/{location_id}:
     post:
       operationId: PostInventoryItemsIdLocationLevelsLocation_id
@@ -31201,7 +31271,7 @@ paths:
           $ref: '#/components/responses/invalid_request_error'
         '500':
           $ref: '#/components/responses/500_error'
-      x-workflow: deleteReturnReasonsWorkflow
+      x-workflow: deleteRefundReasonsWorkflow
   /admin/regions:
     get:
       operationId: GetRegions
@@ -43753,6 +43823,68 @@ components:
           type: number
           title: apply_to_quantity
           description: The quantity that results from matching the `buyget` promotion's condition. For example, if the promotion is a "Buy 2 shirts get 1 free", the value of this attribute is `1`.
+    AdminBatchInventoryItemLocationsLevel:
+      type: object
+      description: The inventory levels to create, update, or delete.
+      properties:
+        create:
+          type: array
+          description: The inventory levels to create.
+          items:
+            type: object
+            description: The inventory level's details.
+            required:
+              - location_id
+            properties:
+              location_id:
+                type: string
+                title: location_id
+                description: The ID of the associated location.
+              stocked_quantity:
+                type: number
+                title: stocked_quantity
+                description: The inventory level's stocked quantity.
+              incoming_quantity:
+                type: number
+                title: incoming_quantity
+                description: The inventory level's incoming quantity.
+        update:
+          type: array
+          description: The inventory levels to update.
+          items:
+            type: object
+            description: The inventory level's details.
+            properties:
+              stocked_quantity:
+                type: number
+                title: stocked_quantity
+                description: The inventory level's stocked quantity.
+              incoming_quantity:
+                type: number
+                title: incoming_quantity
+                description: The inventory level's incoming quantity.
+              location_id:
+                type: string
+                title: location_id
+                description: The associated stock location's ID.
+              id:
+                type: string
+                title: id
+                description: The ID of the location level.
+            required:
+              - location_id
+        delete:
+          type: array
+          description: The inventory levels to delete.
+          items:
+            type: string
+            title: delete
+            description: The ID of the inventory level to delete.
+        force:
+          type: boolean
+          title: force
+          description: Whether to delete specified inventory levels even if they have a non-zero stocked quantity.
+      x-schemaName: AdminBatchInventoryItemLocationsLevel
     AdminBatchProductRequest:
       type: object
       description: The products to create, update, or delete.
@@ -47586,7 +47718,7 @@ components:
               description: The number of products that will be updated by this import.
     AdminInventoryItem:
       type: object
-      description: The reservation's inventory item.
+      description: The inventory item's details.
       x-schemaName: AdminInventoryItem
       required:
         - id
@@ -47607,15 +47739,15 @@ components:
         hs_code:
           type: string
           title: hs_code
-          description: The inventory item's hs code.
+          description: The inventory item's HS code.
         requires_shipping:
           type: boolean
           title: requires_shipping
-          description: The inventory item's requires shipping.
+          description: Whether the inventory item requires shipping.
         mid_code:
           type: string
           title: mid_code
-          description: The inventory item's mid code.
+          description: The inventory item's MID code.
         material:
           type: string
           title: material
@@ -47647,10 +47779,10 @@ components:
         thumbnail:
           type: string
           title: thumbnail
-          description: The inventory item's thumbnail.
+          description: The thumbnail URL of the inventory item.
         metadata:
           type: object
-          description: The inventory item's metadata.
+          description: Custom key-value pairs, used to store additional information about the inventory item.
         location_levels:
           type: array
           description: The inventory item's location levels.
@@ -49626,22 +49758,6 @@ components:
           type: string
           title: provider_id
           description: The ID of the payment provider used to process this payment.
-        cart_id:
-          type: string
-          title: cart_id
-          description: The ID of the associated cart.
-        order_id:
-          type: string
-          title: order_id
-          description: The ID of the associated order.
-        order_edit_id:
-          type: string
-          title: order_edit_id
-          description: The ID of the associated order edit.
-        customer_id:
-          type: string
-          title: customer_id
-          description: ID of the associated customer.
         data:
           type: object
           description: The payment's data, useful for processing by the payment provider.
@@ -49697,7 +49813,6 @@ components:
         - payment_providers
         - id
         - currency_code
-        - region_id
         - amount
         - status
       properties:
@@ -49709,10 +49824,6 @@ components:
           type: string
           title: currency_code
           description: The payment collection's currency code.
-        region_id:
-          type: string
-          title: region_id
-          description: The ID of the region this payment collection is associated with.
         amount:
           type: number
           title: amount
@@ -51841,6 +51952,11 @@ components:
         metadata:
           type: object
           description: The variant's metadata, can hold custom key-value pairs.
+        inventory_items:
+          type: array
+          description: The variant's inventory items.
+          items:
+            $ref: '#/components/schemas/AdminProductVariantInventoryItemLink'
     AdminProductVariantDeleteResponse:
       type: object
       description: The details of the product variant's deletion.
@@ -51973,6 +52089,31 @@ components:
                         type: string
                         title: inventory_item_id
                         description: The ID of the inventory item.
+    AdminProductVariantInventoryItemLink:
+      type: object
+      description: An association between a product variant and an inventory item.
+      x-schemaName: AdminProductVariantInventoryItemLink
+      required:
+        - id
+        - variant_id
+        - inventory_item_id
+      properties:
+        id:
+          type: string
+          title: id
+          description: The ID of the association.
+        variant_id:
+          type: string
+          title: variant_id
+          description: The associated product variant's ID.
+        variant:
+          type: object
+        inventory_item_id:
+          type: string
+          title: inventory_item_id
+          description: The associated inventory item's ID.
+        inventory:
+          $ref: '#/components/schemas/AdminInventoryItem'
     AdminProductVariantInventoryLink:
       type: object
       description: The details of an association between a product variant and an inventory item.
@@ -52090,6 +52231,13 @@ components:
           format: date-time
           title: deleted_at
           description: The date the promotion was deleted.
+        status:
+          type: string
+          description: The promotion's status.
+          enum:
+            - draft
+            - active
+            - inactive
     AdminPromotionResponse:
       type: object
       description: The promotion's details.
@@ -57147,22 +57295,6 @@ components:
           type: string
           title: provider_id
           description: The ID of the payment provider used to process this payment.
-        cart_id:
-          type: string
-          title: cart_id
-          description: The ID of the associated cart.
-        order_id:
-          type: string
-          title: order_id
-          description: The ID of the associated order.
-        order_edit_id:
-          type: string
-          title: order_edit_id
-          description: The ID of the associated order edit.
-        customer_id:
-          type: string
-          title: customer_id
-          description: ID of the associated customer.
         data:
           type: object
           description: The payment's data, useful for processing by the payment provider.
@@ -57217,7 +57349,6 @@ components:
       required:
         - id
         - currency_code
-        - region_id
         - amount
         - status
         - payment_providers
@@ -57230,10 +57361,6 @@ components:
           type: string
           title: currency_code
           description: The payment collection's currency code.
-        region_id:
-          type: string
-          title: region_id
-          description: The ID of the region this payment collection is associated with.
         amount:
           type: number
           title: amount
@@ -68250,7 +68377,6 @@ components:
         - payment_providers
         - id
         - currency_code
-        - region_id
         - amount
         - status
       properties:
@@ -68262,10 +68388,6 @@ components:
           type: string
           title: currency_code
           description: The payment collection's currency code.
-        region_id:
-          type: string
-          title: region_id
-          description: The ID of the region this payment collection is associated with.
         amount:
           type: number
           title: amount

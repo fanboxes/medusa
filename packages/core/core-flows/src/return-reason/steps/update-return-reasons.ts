@@ -10,14 +10,33 @@ import {
 } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The data to update return reasons.
+ */
 type UpdateReturnReasonStepInput = {
+  /**
+   * The filters to select the return reasons to update.
+   */
   selector: FilterableOrderReturnReasonProps
+  /**
+   * The data to update in the return reasons.
+   */
   update: ReturnReasonUpdatableFields
 }
 
 export const updateReturnReasonStepId = "update-return-reasons"
 /**
  * This step updates return reasons matching the specified filters.
+ * 
+ * @example
+ * const data = updateReturnReasonsStep({
+ *   selector: {
+ *     id: "rr_123",
+ *   },
+ *   update: {
+ *     value: "damaged",
+ *   }
+ * })
  */
 export const updateReturnReasonsStep = createStep(
   updateReturnReasonStepId,

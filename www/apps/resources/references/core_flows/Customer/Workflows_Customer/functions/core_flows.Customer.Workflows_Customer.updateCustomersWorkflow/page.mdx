@@ -19,9 +19,9 @@ the [Update Customer Store API Route](https://docs.medusajs.com/api/store#custom
 This workflow has a hook that allows you to perform custom actions on the updated customer. For example, you can pass under `additional_data` custom data to update
 custom data models linked to the customers.
 
-You can also use this workflow within your own custom workflows, allowing you to wrap custom logic around updating customers.
+You can also use this workflow within your customizations or your own custom workflows, allowing you to wrap custom logic around updating customers.
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/customer/workflows/update-customers.ts#L60" />
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/customer/workflows/update-customers.ts#L60" />
 
 ## Examples
 
@@ -150,7 +150,7 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"updateCustomersWorkflow","steps":[{"type":"step","name":"updateCustomersStep","description":"This step updates one or more customers.\n\n","link":"../../../Steps_Customer/functions/core_flows.Customer.Steps_Customer.updateCustomersStep/page.mdx","depth":1},{"type":"hook","name":"customersUpdated","description":"This hook is executed after the customers are updated. You can consume this hook to perform custom actions on the updated customers.\n\n","link":"#customersUpdated","depth":2},{"type":"step","name":"emitEventStep","description":"Emit an event.\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":3}]}} />
+<WorkflowDiagram workflow={{"name":"updateCustomersWorkflow","steps":[{"type":"step","name":"updateCustomersStep","description":"This step updates one or more customers.","link":"../../../Steps_Customer/functions/core_flows.Customer.Steps_Customer.updateCustomersStep/page.mdx","depth":1},{"type":"hook","name":"customersUpdated","description":"This hook is executed after the customers are updated. You can consume this hook to perform custom actions on the updated customers.","link":"#customersUpdated","depth":2},{"type":"step","name":"emitEventStep","description":"Emit an event.","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":3}]}} />
 
 ## Input
 

@@ -2,13 +2,18 @@ import { IPromotionModuleService } from "@medusajs/framework/types"
 import { Modules } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The IDs of the promotions to delete.
+ */
+export type DeletePromotionsStepInput = string[]
+
 export const deletePromotionsStepId = "delete-promotions"
 /**
  * This step deletes one or more promotions.
  */
 export const deletePromotionsStep = createStep(
   deletePromotionsStepId,
-  async (ids: string[], { container }) => {
+  async (ids: DeletePromotionsStepInput, { container }) => {
     const promotionModule = container.resolve<IPromotionModuleService>(
       Modules.PROMOTION
     )

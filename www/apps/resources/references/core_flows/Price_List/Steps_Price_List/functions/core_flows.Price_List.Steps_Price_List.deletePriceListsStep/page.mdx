@@ -21,9 +21,7 @@ import { deletePriceListsStep } from "@medusajs/medusa/core-flows"
 const myWorkflow = createWorkflow(
   "my-workflow",
   () => {
-    const data = deletePriceListsStep([
-      "{value}"
-    ])
+    const data = deletePriceListsStep({})
   }
 )
 ```
@@ -31,4 +29,4 @@ const myWorkflow = createWorkflow(
 
 ## Input
 
-<TypeList types={[{"name":"string[]","type":"`string`[]","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"string","type":"`string`","optional":false,"defaultValue":"","description":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deletePriceListsStep"/>
+<TypeList types={[{"name":"DeletePriceListsStepInput","type":"[DeletePriceListsStepInput](../../../../types/core_flows.DeletePriceListsStepInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"DeletePriceListsStepInput","type":"`string`[]","description":"The IDs of price lists to delete.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deletePriceListsStep"/>

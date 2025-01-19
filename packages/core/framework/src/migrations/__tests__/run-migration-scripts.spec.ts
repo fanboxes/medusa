@@ -45,9 +45,6 @@ describe("MigrationScriptsMigrator", () => {
         .spyOn(migrator as any, "getPendingMigrations")
         .mockResolvedValue([scriptPath])
       jest
-        .spyOn(migrator as any, "insertMigration")
-        .mockResolvedValue(undefined)
-      jest
         .spyOn(migrator as any, "trackDuration")
         .mockReturnValue({ getSeconds: () => 1 })
 
@@ -63,13 +60,18 @@ describe("MigrationScriptsMigrator", () => {
 
       expect(mockScript).toHaveBeenCalled()
 
-      expect(mockPgConnection.raw).toHaveBeenCalledWith(
+      expect(mockPgConnection.raw).toHaveBeenNthCalledWith(
+        1,
+        expect.stringContaining(
+          "INSERT INTO script_migrations (script_name) VALUES (?)"
+        ),
+        [path.basename(scriptPath)]
+      )
+      expect(mockPgConnection.raw).toHaveBeenNthCalledWith(
+        2,
         expect.stringContaining("UPDATE script_migrations"),
         [path.basename(scriptPath)]
       )
-      expect(migrator["insertMigration"]).toHaveBeenCalledWith([
-        { script_name: `'${path.basename(scriptPath)}'` },
-      ])
     })
 
     it("should handle failed migrations by cleaning up", async () => {

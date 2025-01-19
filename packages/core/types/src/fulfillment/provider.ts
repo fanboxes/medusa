@@ -26,6 +26,9 @@ export type FulfillmentOption = {
   [k: string]: unknown
 }
 
+/**
+ * A calculated shipping option price.
+ */
 export type CalculatedShippingOptionPrice = {
   /**
    * The calculated price.
@@ -39,6 +42,9 @@ export type CalculatedShippingOptionPrice = {
   is_calculated_price_tax_inclusive: boolean
 }
 
+/**
+ * The context for validating fulfillment data.
+ */
 export type ValidateFulfillmentDataContext = CartPropsForFulfillment & {
   /**
    * Details about the location that items are being shipped from.

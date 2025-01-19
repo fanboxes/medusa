@@ -5,13 +5,30 @@ import {
 import { Modules } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The data to create API keys.
+ */
 export type CreateApiKeysStepInput = {
+  /**
+   * The API keys to create.
+   */
   api_keys: CreateApiKeyDTO[]
 }
 
 export const createApiKeysStepId = "create-api-keys"
 /**
  * This step creates one or more API keys.
+ * 
+ * @example
+ * const data = createApiKeysStep({
+ *   api_keys: [
+ *     {
+ *       type: "publishable",
+ *       title: "Storefront",
+ *       created_by: "user_123"
+ *     }
+ *   ]
+ * })
  */
 export const createApiKeysStep = createStep(
   createApiKeysStepId,

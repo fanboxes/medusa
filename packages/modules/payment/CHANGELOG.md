@@ -1,5 +1,11 @@
 # @medusajs/payment
 
+## 2.3.0
+
+### Minor Changes
+
+- [`5faf48b8c236007cd9b229219d466681c9c884c0`](https://github.com/medusajs/medusa/commit/5faf48b8c236007cd9b229219d466681c9c884c0) Thanks [@olivermrbl](https://github.com/olivermrbl)! - fix(payment): If someone was using region_id from the payment collection entity, or cart_id, order_id, customer_id from the payment entity, they will no longer exist. Similarly, any code that was passing region_Id to createPaymentCollections would be recommended to remove the field.
+
 ## 2.2.0
 
 ## 2.1.3

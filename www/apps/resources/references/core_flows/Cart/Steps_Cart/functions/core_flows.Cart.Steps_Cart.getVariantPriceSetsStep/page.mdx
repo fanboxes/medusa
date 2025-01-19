@@ -11,23 +11,31 @@ This documentation provides a reference to the `getVariantPriceSetsStep`. It bel
 
 This step retrieves the calculated price sets of the specified variants.
 
-```ts title="src/workflows/my-workflow.ts"
-import { createWorkflow } from "@medusajs/framework/workflows-sdk"
-import { getVariantPriceSetsStep } from "@medusajs/medusa/core-flows"
+## Example
 
-const myWorkflow = createWorkflow(
-  "my-workflow",
-  () => {
-    const data = getVariantPriceSetsStep({
-      "variantIds": [
-        "{value}"
-      ]
-    })
-  }
-)
+To retrieve a variant's price sets:
+
+```ts
+const data = getVariantPriceSetsStep({
+  variantIds: ["variant_123"],
+})
 ```
-  
+
+To retrieve the calculated price sets of a variant:
+
+```ts
+const data = getVariantPriceSetsStep({
+  variantIds: ["variant_123"],
+  context: {
+    currency_code: "usd"
+  }
+})
+```
 
 ## Input
 
-<TypeList types={[{"name":"GetVariantPriceSetsStepInput","type":"[GetVariantPriceSetsStepInput](../../../../interfaces/core_flows.GetVariantPriceSetsStepInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"variantIds","type":"`string`[]","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"context","type":"`Record<string, unknown>`","description":"","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="getVariantPriceSetsStep"/>
+<TypeList types={[{"name":"GetVariantPriceSetsStepInput","type":"[GetVariantPriceSetsStepInput](../../../../interfaces/core_flows.GetVariantPriceSetsStepInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"variantIds","type":"`string`[]","description":"The IDs of the variants to get price sets for.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"context","type":"`Record<string, unknown>`","description":"The context to use when calculating the price sets.\n\nLearn more in [this documentation](https://docs.medusajs.com/resources/commerce-modules/product/guides/price#retrieve-calculated-price-for-a-context).","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="getVariantPriceSetsStep"/>
+
+## Output
+
+<TypeList types={[{"name":"WorkflowDataProperties","type":"[WorkflowDataProperties](../../../../../workflows/types/workflows.WorkflowDataProperties/page.mdx)&#60;object&#62;","optional":false,"defaultValue":"","description":"","expandable":false,"children":[]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="getVariantPriceSetsStep"/>

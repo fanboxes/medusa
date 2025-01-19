@@ -14,7 +14,25 @@ import { setRegionsPaymentProvidersStep } from "../steps/set-regions-payment-pro
 
 export const createRegionsWorkflowId = "create-regions"
 /**
- * This workflow creates one or more regions.
+ * This workflow creates one or more regions. It's used by the
+ * [Create Region Admin API Route](https://docs.medusajs.com/api/admin#regions_postregions).
+ * 
+ * You can use this workflow within your own customizations or custom workflows, allowing you
+ * to create regions in your custom flows.
+ * 
+ * @example
+ * const { result } = await createRegionsWorkflow(container)
+ * .run({
+ *   input: {
+ *     regions: [
+ *       {
+ *         currency_code: "usd",
+ *         name: "United States",
+ *         countries: ["us"],
+ *       }
+ *     ]
+ *   }
+ * })
  */
 export const createRegionsWorkflow = createWorkflow(
   createRegionsWorkflowId,

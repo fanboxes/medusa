@@ -12,6 +12,13 @@ import {
 export const addCampaignPromotionsStepId = "add-campaign-promotions"
 /**
  * This step adds promotions to a campaign.
+ * 
+ * @example
+ * const data = addCampaignPromotionsStep({
+ *   id: "camp_123",
+ *   add: ["promo_123"],
+ *   remove: ["promo_321"],
+ * })
  */
 export const addCampaignPromotionsStep = createStep(
   addCampaignPromotionsStepId,

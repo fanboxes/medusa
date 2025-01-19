@@ -1,5 +1,13 @@
 export const logger = [
   {
+    "title": "addShippingMethodToCartWorkflow",
+    "path": "/references/medusa-workflows/addShippingMethodToCartWorkflow"
+  },
+  {
+    "title": "addToCartWorkflow",
+    "path": "/references/medusa-workflows/addToCartWorkflow"
+  },
+  {
     "title": "completeCartWorkflow",
     "path": "/references/medusa-workflows/completeCartWorkflow"
   },
@@ -8,8 +16,28 @@ export const logger = [
     "path": "/references/medusa-workflows/createCartWorkflow"
   },
   {
+    "title": "refreshCartItemsWorkflow",
+    "path": "/references/medusa-workflows/refreshCartItemsWorkflow"
+  },
+  {
     "title": "refreshPaymentCollectionForCartWorkflow",
     "path": "/references/medusa-workflows/refreshPaymentCollectionForCartWorkflow"
+  },
+  {
+    "title": "transferCartCustomerWorkflow",
+    "path": "/references/medusa-workflows/transferCartCustomerWorkflow"
+  },
+  {
+    "title": "updateCartWorkflow",
+    "path": "/references/medusa-workflows/updateCartWorkflow"
+  },
+  {
+    "title": "updateLineItemInCartWorkflow",
+    "path": "/references/medusa-workflows/updateLineItemInCartWorkflow"
+  },
+  {
+    "title": "deleteLineItemsWorkflow",
+    "path": "/references/medusa-workflows/deleteLineItemsWorkflow"
   },
   {
     "title": "cancelOrderWorkflow",

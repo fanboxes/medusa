@@ -10,6 +10,15 @@ import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 export const removeRulesFromPromotionsStepId = "remove-rules-from-promotions"
 /**
  * This step removes rules from a promotion.
+ * 
+ * @example
+ * const data = removeRulesFromPromotionsStep({
+ *   rule_type: RuleType.RULES,
+ *   data: {
+ *     id: "promo_123",
+ *     rule_ids: ["prule_123"]
+ *   }
+ * })
  */
 export const removeRulesFromPromotionsStep = createStep(
   removeRulesFromPromotionsStepId,

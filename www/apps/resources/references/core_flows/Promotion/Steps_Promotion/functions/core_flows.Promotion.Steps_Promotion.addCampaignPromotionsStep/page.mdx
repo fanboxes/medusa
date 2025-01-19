@@ -14,18 +14,15 @@ This documentation provides a reference to the `addCampaignPromotionsStep`. It b
 
 This step adds promotions to a campaign.
 
-```ts title="src/workflows/my-workflow.ts"
-import { createWorkflow } from "@medusajs/framework/workflows-sdk"
-import { addCampaignPromotionsStep } from "@medusajs/medusa/core-flows"
+## Example
 
-const myWorkflow = createWorkflow(
-  "my-workflow",
-  () => {
-    const data = addCampaignPromotionsStep("{value}")
-  }
-)
+```ts
+const data = addCampaignPromotionsStep({
+  id: "camp_123",
+  add: ["promo_123"],
+  remove: ["promo_321"],
+})
 ```
-  
 
 ## Input
 

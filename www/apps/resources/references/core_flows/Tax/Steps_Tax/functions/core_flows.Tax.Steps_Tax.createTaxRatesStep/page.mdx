@@ -14,21 +14,16 @@ This documentation provides a reference to the `createTaxRatesStep`. It belongs 
 
 This step creates one or more tax rates.
 
-```ts title="src/workflows/my-workflow.ts"
-import { createWorkflow } from "@medusajs/framework/workflows-sdk"
-import { createTaxRatesStep } from "@medusajs/medusa/core-flows"
+## Example
 
-const myWorkflow = createWorkflow(
-  "my-workflow",
-  () => {
-    const data = createTaxRatesStep([{
-      "tax_region_id": "{value}",
-      "name": "Kenyon"
-    }])
+```ts
+const data = createTaxRatesStep([
+  {
+    name: "Default",
+    tax_region_id: "txreg_123",
   }
-)
+])
 ```
-  
 
 ## Input
 

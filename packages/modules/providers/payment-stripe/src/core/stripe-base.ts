@@ -1,9 +1,9 @@
-import { EOL } from "os"
-
 import Stripe from "stripe"
 
 import {
   CreatePaymentProviderSession,
+  PaymentMethodResponse,
+  PaymentProviderContext,
   PaymentProviderError,
   PaymentProviderSessionResponse,
   ProviderWebhookPayload,
@@ -13,9 +13,7 @@ import {
 import {
   AbstractPaymentProvider,
   isDefined,
-  isPaymentProviderError,
   isPresent,
-  MedusaError,
   PaymentActions,
   PaymentSessionStatus,
 } from "@medusajs/framework/utils"
@@ -60,23 +58,39 @@ abstract class StripeBase extends AbstractPaymentProvider<StripeOptions> {
     return this.options_
   }
 
-  getPaymentIntentOptions(): PaymentIntentOptions {
-    const options: PaymentIntentOptions = {}
+  normalizePaymentIntentParameters(
+    extra?: Record<string, unknown>
+  ): Partial<Stripe.PaymentIntentCreateParams> {
+    const res = {} as Partial<Stripe.PaymentIntentCreateParams>
 
-    if (this?.paymentIntentOptions?.capture_method) {
-      options.capture_method = this.paymentIntentOptions.capture_method
-    }
+    res.description = (extra?.payment_description ??
+      this.options_?.paymentDescription) as string
 
-    if (this?.paymentIntentOptions?.setup_future_usage) {
-      options.setup_future_usage = this.paymentIntentOptions.setup_future_usage
-    }
+    res.capture_method =
+      (extra?.capture_method as "automatic" | "manual") ??
+      this.paymentIntentOptions.capture_method ??
+      (this.options_.capture ? "automatic" : "manual")
 
-    if (this?.paymentIntentOptions?.payment_method_types) {
-      options.payment_method_types =
-        this.paymentIntentOptions.payment_method_types
-    }
+    res.setup_future_usage =
+      (extra?.setup_future_usage as "off_session" | "on_session" | undefined) ??
+      this.paymentIntentOptions.setup_future_usage
 
-    return options
+    res.payment_method_types = this.paymentIntentOptions
+      .payment_method_types as string[]
+
+    res.automatic_payment_methods =
+      (extra?.automatic_payment_methods as { enabled: true } | undefined) ??
+      (this.options_?.automaticPaymentMethods ? { enabled: true } : undefined)
+
+    res.off_session = extra?.off_session as boolean | undefined
+
+    res.confirm = extra?.confirm as boolean | undefined
+
+    res.payment_method = extra?.payment_method as string | undefined
+
+    res.return_url = extra?.return_url as string | undefined
+
+    return res
   }
 
   async getPaymentStatus(
@@ -106,24 +120,16 @@ abstract class StripeBase extends AbstractPaymentProvider<StripeOptions> {
   async initiatePayment(
     input: CreatePaymentProviderSession
   ): Promise<PaymentProviderError | PaymentProviderSessionResponse> {
-    const intentRequestData = this.getPaymentIntentOptions()
     const { email, extra, session_id, customer } = input.context
     const { currency_code, amount } = input
 
-    const description = (extra?.payment_description ??
-      this.options_?.paymentDescription) as string
+    const additionalParameters = this.normalizePaymentIntentParameters(extra)
 
     const intentRequest: Stripe.PaymentIntentCreateParams = {
-      description,
       amount: getSmallestUnit(amount, currency_code),
       currency: currency_code,
       metadata: { session_id: session_id! },
-      capture_method: this.options_.capture ? "automatic" : "manual",
-      ...intentRequestData,
-    }
-
-    if (this.options_?.automaticPaymentMethods) {
-      intentRequest.automatic_payment_methods = { enabled: true }
+      ...additionalParameters,
     }
 
     if (customer?.metadata?.stripe_id) {
@@ -273,15 +279,7 @@ abstract class StripeBase extends AbstractPaymentProvider<StripeOptions> {
     const stripeId = context.customer?.metadata?.stripe_id
 
     if (stripeId !== data.customer) {
-      const result = await this.initiatePayment(input)
-      if (isPaymentProviderError(result)) {
-        return this.buildError(
-          "An error occurred in updatePayment during the initiate of the new payment for the new customer",
-          result
-        )
-      }
-
-      return result
+      return await this.initiatePayment(input)
     } else {
       if (isPresent(amount) && data.amount === amountNumeric) {
         return { data }
@@ -300,23 +298,25 @@ abstract class StripeBase extends AbstractPaymentProvider<StripeOptions> {
     }
   }
 
-  async updatePaymentData(sessionId: string, data: Record<string, unknown>) {
-    try {
-      // Prevent from updating the amount from here as it should go through
-      // the updatePayment method to perform the correct logic
-      if (isPresent(data.amount)) {
-        throw new MedusaError(
-          MedusaError.Types.INVALID_DATA,
-          "Cannot update amount, use updatePayment instead"
-        )
-      }
-
-      return (await this.stripe_.paymentIntents.update(sessionId, {
-        ...data,
-      })) as unknown as PaymentProviderSessionResponse["data"]
-    } catch (e) {
-      return this.buildError("An error occurred in updatePaymentData", e)
+  async listPaymentMethods(
+    context: PaymentProviderContext
+  ): Promise<PaymentMethodResponse[]> {
+    const customerId = context.customer?.metadata?.stripe_id
+    if (!customerId) {
+      return []
     }
+
+    const paymentMethods = await this.stripe_.customers.listPaymentMethods(
+      customerId as string,
+      // In order to keep the interface simple, we just list the maximum payment methods, which should be enough in almost all cases.
+      // We can always extend the interface to allow additional filtering, if necessary.
+      { limit: 100 }
+    )
+
+    return paymentMethods.data.map((method) => ({
+      id: method.id,
+      data: method as unknown as Record<string, unknown>,
+    }))
   }
 
   async getWebhookActionAndData(
@@ -374,18 +374,17 @@ abstract class StripeBase extends AbstractPaymentProvider<StripeOptions> {
       this.options_.webhookSecret
     )
   }
-  protected buildError(
-    message: string,
-    error: Stripe.StripeRawError | PaymentProviderError | Error
-  ): PaymentProviderError {
+  protected buildError(message: string, error: Error): PaymentProviderError {
+    const errorDetails =
+      "raw" in error ? (error.raw as Stripe.StripeRawError) : error
+
     return {
-      error: message,
-      code: "code" in error ? error.code : "unknown",
-      detail: isPaymentProviderError(error)
-        ? `${error.error}${EOL}${error.detail ?? ""}`
-        : "detail" in error
-        ? error.detail
-        : error.message ?? "",
+      error: `${message}: ${error.message}`,
+      code: "code" in errorDetails ? errorDetails.code : "unknown",
+      detail:
+        "detail" in errorDetails
+          ? `${error.message}: ${errorDetails.detail}`
+          : error.message,
     }
   }
 }

@@ -15,9 +15,20 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `removeCustomerAccountWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow deletes a user and remove the association in the auth identity.
+This workflow deletes a customer and remove its association to its auth identity. It's used by the
+[Delete Customer Admin API Route](https://docs.medusajs.com/api/admin#customers\_deletecustomersid).
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/customer/workflows/remove-customer-account.ts#L20" />
+You can use this workflow within your customizations or your own custom workflows, allowing you to
+delete customer accounts within your custom flows.
+
+:::note
+
+This workflow uses the [deleteCustomersWorkflow](../core_flows.Customer.Workflows_Customer.deleteCustomersWorkflow/page.mdx) which has a hook that allows you to perform 
+custom actions after the customers are deleted.
+
+:::
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/customer/workflows/remove-customer-account.ts#L43" />
 
 ## Examples
 
@@ -38,7 +49,7 @@ export async function POST(
   const { result } = await removeCustomerAccountWorkflow(req.scope)
     .run({
       input: {
-        "customerId": "{value}"
+        customerId: "cus_123"
       }
     })
 
@@ -63,7 +74,7 @@ export default async function handleOrderPlaced({
   const { result } = await removeCustomerAccountWorkflow(container)
     .run({
       input: {
-        "customerId": "{value}"
+        customerId: "cus_123"
       }
     })
 
@@ -88,7 +99,7 @@ export default async function myCustomJob(
   const { result } = await removeCustomerAccountWorkflow(container)
     .run({
       input: {
-        "customerId": "{value}"
+        customerId: "cus_123"
       }
     })
 
@@ -114,7 +125,7 @@ const myWorkflow = createWorkflow(
     const result = removeCustomerAccountWorkflow
       .runAsStep({
         input: {
-          "customerId": "{value}"
+          customerId: "cus_123"
         }
       })
   }
@@ -126,7 +137,7 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"removeCustomerAccountWorkflow","steps":[{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":1},{"type":"workflow","name":"deleteCustomersWorkflow","description":"This workflow deletes one or more customers.\n\n","link":"../core_flows.Customer.Workflows_Customer.deleteCustomersWorkflow/page.mdx","depth":2},{"type":"when","condition":"{\n      return !!customers[0]?.has_account\n    }","depth":"3","steps":[{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":3},{"type":"step","name":"setAuthAppMetadataStep","description":"This step sets the `app_metadata` property of an auth identity.\n\n","link":"../../../../Auth/Steps_Auth/functions/core_flows.Auth.Steps_Auth.setAuthAppMetadataStep/page.mdx","depth":3}]}]}} />
+<WorkflowDiagram workflow={{"name":"removeCustomerAccountWorkflow","steps":[{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":1},{"type":"workflow","name":"deleteCustomersWorkflow","description":"This workflow deletes one or more customers. It's used by the \n[removeCustomerAccountWorkflow](./page.mdx).\n\nYou can use this workflow within your customizations or your own custom workflows, allowing you to \ndelete customers in your custom flows.","link":"../core_flows.Customer.Workflows_Customer.deleteCustomersWorkflow/page.mdx","depth":2},{"type":"when","condition":"{\n      return !!customers[0]?.has_account\n    }","depth":"3","steps":[{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":3},{"type":"step","name":"setAuthAppMetadataStep","description":"This step sets the `app_metadata` property of an auth identity. This is useful to\nassociate a user (whether it's an admin user or customer) with an auth identity\nthat allows them to authenticate into Medusa.\n\nYou can learn more about auth identites in \n[this documentation](https://docs.medusajs.com/resources/commerce-modules/auth/auth-identity-and-actor-types).\n\nTo use this for a custom actor type, check out [this guide](https://docs.medusajs.com/resources/commerce-modules/auth/create-actor-type)\nthat explains how to create a custom `manager` actor type and manage its users.","link":"../../../../Auth/Steps_Auth/functions/core_flows.Auth.Steps_Auth.setAuthAppMetadataStep/page.mdx","depth":3}]}]}} />
 
 ## Input
 

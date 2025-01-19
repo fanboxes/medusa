@@ -3,13 +3,18 @@ import { IFulfillmentModuleService } from "@medusajs/framework/types"
 import { Modules } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The IDs of the shipping options to delete.
+ */
+export type DeleteShippingOptionsStepInput = string[]
+
 export const deleteShippingOptionsStepId = "delete-shipping-options-step"
 /**
  * This step deletes one or more shipping options.
  */
 export const deleteShippingOptionsStep = createStep(
   deleteShippingOptionsStepId,
-  async (ids: string[], { container }) => {
+  async (ids: DeleteShippingOptionsStepInput, { container }) => {
     if (!ids?.length) {
       return
     }

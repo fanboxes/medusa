@@ -11,6 +11,16 @@ import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 export const updatePricePreferencesStepId = "update-price-preferences"
 /**
  * This step updates price preferences matching the specified filters.
+ * 
+ * @example
+ * const data = updatePricePreferencesStep({
+ *   selector: {
+ *     id: ["pp_123"]
+ *   },
+ *   update: {
+ *     is_tax_inclusive: true
+ *   }
+ * })
  */
 export const updatePricePreferencesStep = createStep(
   updatePricePreferencesStepId,

@@ -115,6 +115,9 @@ export type CreateFulfillmentLabelWorkflowDTO = {
 
 export type CreateFulfillmentOrderWorkflowDTO = Record<string, any>
 
+/**
+ * The details of a fulfillment to create.
+ */
 export type CreateFulfillmentWorkflowInput = {
   /**
    * The associated location's ID.

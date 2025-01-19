@@ -21,9 +21,7 @@ import { deleteStockLocationsStep } from "@medusajs/medusa/core-flows"
 const myWorkflow = createWorkflow(
   "my-workflow",
   () => {
-    const data = deleteStockLocationsStep([
-      "{value}"
-    ])
+    const data = deleteStockLocationsStep({})
   }
 )
 ```
@@ -31,7 +29,7 @@ const myWorkflow = createWorkflow(
 
 ## Input
 
-<TypeList types={[{"name":"string[]","type":"`string`[]","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"string","type":"`string`","optional":false,"defaultValue":"","description":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteStockLocationsStep"/>
+<TypeList types={[{"name":"DeleteStockLocationsStepInput","type":"[DeleteStockLocationsStepInput](../../../../types/core_flows.DeleteStockLocationsStepInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"DeleteStockLocationsStepInput","type":"`string`[]","description":"The IDs of stock locations to delete.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteStockLocationsStep"/>
 
 ## Output
 

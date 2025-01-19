@@ -12,6 +12,12 @@ import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 export const updateCampaignsStepId = "update-campaigns"
 /**
  * This step updates one or more campaigns.
+ * 
+ * @example
+ * const data = updateCampaignsStep([{
+ *   id: "camp_123",
+ *   campaign_identifier: "GA-123456"
+ * }])
  */
 export const updateCampaignsStep = createStep(
   updateCampaignsStepId,

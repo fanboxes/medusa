@@ -388,7 +388,7 @@ export const CodeBlock = ({
           >
             {({
               className: preClassName,
-              style: { backgroundColor, ...style },
+              style: { backgroundColor: _, ...style },
               tokens,
               ...rest
             }) => (

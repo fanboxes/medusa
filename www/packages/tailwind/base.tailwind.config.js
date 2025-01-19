@@ -837,13 +837,13 @@ module.exports = {
           },
           ".code-block-highlight": {
             "*::selection": {
-              "background-color": "var(--docs-contrast-fg-secondary)",
+              "background-color": "var(--docs-contrast-fg-secondary) !important",
               color: "var(--docs-contrast-bg-base)",
             },
           },
           ".code-block-highlight-light": {
             "*::selection": {
-              "background-color": "var(--docs-bg-highlight)",
+              "background-color": "var(--docs-bg-highlight) !important",
             },
           },
           ".badge": {

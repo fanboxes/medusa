@@ -7,13 +7,26 @@ import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
 import { Modules } from "@medusajs/framework/utils"
 
+/**
+ * The data to update reservation items.
+ */
+export type UpdateReservationsStepInput = InventoryTypes.UpdateReservationItemInput[]
+
 export const updateReservationsStepId = "update-reservations-step"
 /**
  * This step updates one or more reservations.
+ * 
+ * @example
+ * const data = updateReservationsStep([
+ *   {
+ *     id: "res_123",
+ *     quantity: 1,
+ *   }
+ * ])
  */
 export const updateReservationsStep = createStep(
   updateReservationsStepId,
-  async (data: InventoryTypes.UpdateReservationItemInput[], { container }) => {
+  async (data: UpdateReservationsStepInput, { container }) => {
     const inventoryModuleService = container.resolve<IInventoryService>(
       Modules.INVENTORY
     )

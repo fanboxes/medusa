@@ -1,5 +1,11 @@
 # @medusajs/index
 
+## 2.3.0
+
+### Patch Changes
+
+- [#10899](https://github.com/medusajs/medusa/pull/10899) [`8792d0c062d9da15da3ff3cbb92c6c06ec4102c0`](https://github.com/medusajs/medusa/commit/8792d0c062d9da15da3ff3cbb92c6c06ec4102c0) Thanks [@adrien2p](https://github.com/adrien2p)! - fix(index): cast order by
+
 ## 2.2.0
 
 ## 2.1.3

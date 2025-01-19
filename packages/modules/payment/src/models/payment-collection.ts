@@ -11,7 +11,6 @@ const PaymentCollection = model
     authorized_amount: model.bigNumber().nullable(),
     captured_amount: model.bigNumber().nullable(),
     refunded_amount: model.bigNumber().nullable(),
-    region_id: model.text(),
     completed_at: model.dateTime().nullable(),
     status: model
       .enum(PaymentCollectionStatus)
@@ -30,11 +29,5 @@ const PaymentCollection = model
   .cascades({
     delete: ["payment_sessions", "payments"],
   })
-  .indexes([
-    {
-      name: "IDX_payment_collection_region_id",
-      on: ["region_id"],
-    },
-  ])
 
 export default PaymentCollection

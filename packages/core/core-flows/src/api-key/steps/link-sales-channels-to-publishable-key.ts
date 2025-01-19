@@ -6,13 +6,29 @@ import {
 } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The data to manage the sales channels of a publishable API key.
+ * 
+ * @property id - The ID of the publishable API key.
+ * @property add - The sales channel IDs to add to the publishable API key.
+ * @property remove - The sales channel IDs to remove from the publishable API key.
+ */
+export type LinkSalesChannelsToApiKeyStepInput = LinkWorkflowInput
+
 export const linkSalesChannelsToApiKeyStepId = "link-sales-channels-to-api-key"
 /**
- * This step links sales channels to API keys.
+ * This step manages the sales channels of a publishable API key.
+ * 
+ * @example
+ * const data = linkSalesChannelsToApiKeyStep({
+ *   id: "apk_123",
+ *   add: ["sc_123"],
+ *   remove: ["sc_456"]
+ * })
  */
 export const linkSalesChannelsToApiKeyStep = createStep(
   linkSalesChannelsToApiKeyStepId,
-  async (input: LinkWorkflowInput, { container }) => {
+  async (input: LinkSalesChannelsToApiKeyStepInput, { container }) => {
     const remoteLink = container.resolve(ContainerRegistrationKeys.LINK)
     if (!input || (!input.add?.length && !input.remove?.length)) {
       return

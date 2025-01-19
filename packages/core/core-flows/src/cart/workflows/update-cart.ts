@@ -28,6 +28,7 @@ import {
   updateCartsStep,
 } from "../steps"
 import { refreshCartItemsWorkflow } from "./refresh-cart-items"
+import { validateSalesChannelStep } from "../steps/validate-sales-channel"
 
 /**
  * The data to update the cart, along with custom data that's passed to the workflow's hooks.
@@ -76,7 +77,7 @@ export const updateCartWorkflowId = "update-cart"
  *
  * Update a cart's details, such as region, address, and more.
  *
- * @property hooks.validate - This hook is executed before all operations. You can consume this hook to perform any custom validation.
+ * @property hooks.validate - This hook is executed before all operations. You can consume this hook to perform any custom validation. If validation fails, you can throw an error to stop the workflow execution.
  * @property hooks.cartUpdated - This hook is executed after a cart is update. You can consume this hook to perform custom actions on the updated cart.
  */
 export const updateCartWorkflow = createWorkflow(
@@ -89,6 +90,7 @@ export const updateCartWorkflow = createWorkflow(
         "id",
         "email",
         "customer_id",
+        "sales_channel_id",
         "shipping_address.*",
         "region.*",
         "region.countries.*",
@@ -97,8 +99,10 @@ export const updateCartWorkflow = createWorkflow(
       throw_if_key_not_found: true,
     }).config({ name: "get-cart" })
 
-    const customerDataInput = transform({ input, cartToUpdate }, (data) => {
+    const cartDataInput = transform({ input, cartToUpdate }, (data) => {
       return {
+        sales_channel_id:
+          data.input.sales_channel_id ?? data.cartToUpdate.sales_channel_id,
         customer_id: data.cartToUpdate.customer_id,
         email: data.input.email ?? data.cartToUpdate.email,
       }
@@ -106,13 +110,15 @@ export const updateCartWorkflow = createWorkflow(
 
     const [salesChannel, customer] = parallelize(
       findSalesChannelStep({
-        salesChannelId: input.sales_channel_id,
+        salesChannelId: cartDataInput.sales_channel_id,
       }),
       findOrCreateCustomerStep({
-        customerId: customerDataInput.customer_id,
-        email: customerDataInput.email,
+        customerId: cartDataInput.customer_id,
+        email: cartDataInput.email,
       })
     )
+
+    validateSalesChannelStep({ salesChannel })
 
     const newRegion = when({ input }, (data) => {
       return !!data.input.region_id
@@ -200,7 +206,7 @@ export const updateCartWorkflow = createWorkflow(
         }
 
         if (isDefined(updateCartData.sales_channel_id)) {
-          data_.sales_channel_id = data.salesChannel?.id || null
+          data_.sales_channel_id = data.salesChannel!.id
         }
 
         return data_

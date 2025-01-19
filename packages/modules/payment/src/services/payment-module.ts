@@ -8,6 +8,7 @@ import {
   CreateRefundDTO,
   DAL,
   FilterablePaymentCollectionProps,
+  FilterablePaymentMethodProps,
   FilterablePaymentProviderProps,
   FilterablePaymentSessionProps,
   FindConfig,
@@ -20,6 +21,7 @@ import {
   PaymentCollectionDTO,
   PaymentCollectionUpdatableFields,
   PaymentDTO,
+  PaymentMethodDTO,
   PaymentProviderDTO,
   PaymentSessionDTO,
   ProviderWebhookPayload,
@@ -904,6 +906,33 @@ export default class PaymentModuleService
       }),
       count,
     ]
+  }
+
+  @InjectManager()
+  async listPaymentMethods(
+    filters: FilterablePaymentMethodProps,
+    config: FindConfig<PaymentMethodDTO> = {},
+    @MedusaContext() sharedContext?: Context
+  ): Promise<PaymentMethodDTO[]> {
+    return await this.paymentProviderService_.listPaymentMethods(
+      filters.provider_id,
+      filters.context
+    )
+  }
+
+  @InjectManager()
+  async listAndCountPaymentMethods(
+    filters: FilterablePaymentMethodProps,
+    config: FindConfig<PaymentMethodDTO> = {},
+    @MedusaContext() sharedContext?: Context
+  ): Promise<[PaymentMethodDTO[], number]> {
+    const paymentMethods =
+      await this.paymentProviderService_.listPaymentMethods(
+        filters.provider_id,
+        filters.context
+      )
+
+    return [paymentMethods, paymentMethods.length]
   }
 
   @InjectManager()

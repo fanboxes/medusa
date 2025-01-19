@@ -21,9 +21,7 @@ import { deleteProductCategoriesStep } from "@medusajs/medusa/core-flows"
 const myWorkflow = createWorkflow(
   "my-workflow",
   () => {
-    const data = deleteProductCategoriesStep([
-      "{value}"
-    ])
+    const data = deleteProductCategoriesStep({})
   }
 )
 ```
@@ -31,4 +29,4 @@ const myWorkflow = createWorkflow(
 
 ## Input
 
-<TypeList types={[{"name":"string[]","type":"`string`[]","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"string","type":"`string`","optional":false,"defaultValue":"","description":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteProductCategoriesStep"/>
+<TypeList types={[{"name":"DeleteProductCategoriesStepInput","type":"[DeleteProductCategoriesStepInput](../../../../types/core_flows.DeleteProductCategoriesStepInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"DeleteProductCategoriesStepInput","type":"`string`[]","description":"The IDs of the product categories to delete.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteProductCategoriesStep"/>

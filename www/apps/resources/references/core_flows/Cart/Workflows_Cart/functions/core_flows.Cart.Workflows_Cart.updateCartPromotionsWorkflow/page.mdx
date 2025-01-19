@@ -15,9 +15,13 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `updateCartPromotionsWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow updates a cart's promotions.
+This workflow updates a cart's promotions, applying or removing promotion codes from the cart. It also computes the adjustments
+that need to be applied to the cart's line items and shipping methods based on the promotions applied. This workflow is used by
+[Add Promotions Store API Route](https://docs.medusajs.com/api/store#carts\_postcartsidpromotions).
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/cart/workflows/update-cart-promotions.ts#L34" />
+You can use this workflow within your own customizations or custom workflows, allowing you to update a cart's promotions within your custom flows.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/cart/workflows/update-cart-promotions.ts#L70" />
 
 ## Examples
 
@@ -38,7 +42,10 @@ export async function POST(
   const { result } = await updateCartPromotionsWorkflow(req.scope)
     .run({
       input: {
-        "cart_id": "{value}"
+        cart_id: "cart_123",
+        promo_codes: ["10OFF"],
+        // imported from @medusajs/framework/utils
+        action: PromotionActions.ADD,
       }
     })
 
@@ -63,7 +70,10 @@ export default async function handleOrderPlaced({
   const { result } = await updateCartPromotionsWorkflow(container)
     .run({
       input: {
-        "cart_id": "{value}"
+        cart_id: "cart_123",
+        promo_codes: ["10OFF"],
+        // imported from @medusajs/framework/utils
+        action: PromotionActions.ADD,
       }
     })
 
@@ -88,7 +98,10 @@ export default async function myCustomJob(
   const { result } = await updateCartPromotionsWorkflow(container)
     .run({
       input: {
-        "cart_id": "{value}"
+        cart_id: "cart_123",
+        promo_codes: ["10OFF"],
+        // imported from @medusajs/framework/utils
+        action: PromotionActions.ADD,
       }
     })
 
@@ -114,7 +127,10 @@ const myWorkflow = createWorkflow(
     const result = updateCartPromotionsWorkflow
       .runAsStep({
         input: {
-          "cart_id": "{value}"
+          cart_id: "cart_123",
+          promo_codes: ["10OFF"],
+          // imported from @medusajs/framework/utils
+          action: PromotionActions.ADD,
         }
       })
   }
@@ -126,8 +142,40 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"updateCartPromotionsWorkflow","steps":[{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":1},{"type":"step","name":"getPromotionCodesToApply","description":"This step retrieves the promotion codes to apply on a cart.\n\n","link":"../../../Steps_Cart/functions/core_flows.Cart.Steps_Cart.getPromotionCodesToApply/page.mdx","depth":2},{"type":"step","name":"getActionsToComputeFromPromotionsStep","description":"This step retrieves the actions to compute based on the promotions\napplied on a cart.\n\n","link":"../../../Steps_Cart/functions/core_flows.Cart.Steps_Cart.getActionsToComputeFromPromotionsStep/page.mdx","depth":3},{"type":"step","name":"prepareAdjustmentsFromPromotionActionsStep","description":"This step prepares the line item or shipping method adjustments using\nactions computed by the Promotion Module.\n\n","link":"../../../Steps_Cart/functions/core_flows.Cart.Steps_Cart.prepareAdjustmentsFromPromotionActionsStep/page.mdx","depth":4},{"type":"step","name":"removeLineItemAdjustmentsStep","description":"This step removes line item adjustments from a cart.\n\n","link":"../../../Steps_Cart/functions/core_flows.Cart.Steps_Cart.removeLineItemAdjustmentsStep/page.mdx","depth":5},{"type":"step","name":"removeShippingMethodAdjustmentsStep","description":"This step removes shipping method adjustments from a cart.\n\n","link":"../../../Steps_Cart/functions/core_flows.Cart.Steps_Cart.removeShippingMethodAdjustmentsStep/page.mdx","depth":5},{"type":"step","name":"createLineItemAdjustmentsStep","description":"This step creates line item adjustments in a cart.\n\n","link":"../../../Steps_Cart/functions/core_flows.Cart.Steps_Cart.createLineItemAdjustmentsStep/page.mdx","depth":5},{"type":"step","name":"createShippingMethodAdjustmentsStep","description":"This step creates shipping method adjustments for a cart.\n\n","link":"../../../Steps_Cart/functions/core_flows.Cart.Steps_Cart.createShippingMethodAdjustmentsStep/page.mdx","depth":5},{"type":"step","name":"updateCartPromotionsStep","description":"This step updates the promotions applied on a cart.\n\n","link":"../../../Steps_Cart/functions/core_flows.Cart.Steps_Cart.updateCartPromotionsStep/page.mdx","depth":5}]}} />
+<WorkflowDiagram workflow={{"name":"updateCartPromotionsWorkflow","steps":[{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":1},{"type":"hook","name":"validate","description":"This hook is executed before all operations. You can consume this hook to perform any custom validation. If validation fails, you can throw an error to stop the workflow execution.","link":"#validate","depth":2},{"type":"step","name":"getPromotionCodesToApply","description":"This step retrieves the promotion codes to apply on a cart.","link":"../../../Steps_Cart/functions/core_flows.Cart.Steps_Cart.getPromotionCodesToApply/page.mdx","depth":3},{"type":"step","name":"getActionsToComputeFromPromotionsStep","description":"This step retrieves the actions to compute based on the promotions\napplied on a cart.\n\n:::tip\n\nYou can use the [retrieveCartStep](../../../Steps_Cart/functions/core_flows.Cart.Steps_Cart.retrieveCartStep/page.mdx) to retrieve a cart's details.\n\n:::","link":"../../../Steps_Cart/functions/core_flows.Cart.Steps_Cart.getActionsToComputeFromPromotionsStep/page.mdx","depth":4},{"type":"step","name":"prepareAdjustmentsFromPromotionActionsStep","description":"This step prepares the line item or shipping method adjustments using\nactions computed by the Promotion Module.","link":"../../../Steps_Cart/functions/core_flows.Cart.Steps_Cart.prepareAdjustmentsFromPromotionActionsStep/page.mdx","depth":5},{"type":"step","name":"removeLineItemAdjustmentsStep","description":"This step removes line item adjustments from a cart.","link":"../../../Steps_Cart/functions/core_flows.Cart.Steps_Cart.removeLineItemAdjustmentsStep/page.mdx","depth":6},{"type":"step","name":"removeShippingMethodAdjustmentsStep","description":"This step removes shipping method adjustments from a cart.","link":"../../../Steps_Cart/functions/core_flows.Cart.Steps_Cart.removeShippingMethodAdjustmentsStep/page.mdx","depth":6},{"type":"step","name":"createLineItemAdjustmentsStep","description":"This step creates line item adjustments in a cart, such as when a promotion is applied.","link":"../../../Steps_Cart/functions/core_flows.Cart.Steps_Cart.createLineItemAdjustmentsStep/page.mdx","depth":6},{"type":"step","name":"createShippingMethodAdjustmentsStep","description":"This step creates shipping method adjustments for a cart.","link":"../../../Steps_Cart/functions/core_flows.Cart.Steps_Cart.createShippingMethodAdjustmentsStep/page.mdx","depth":6},{"type":"step","name":"updateCartPromotionsStep","description":"This step updates the promotions applied on a cart.","link":"../../../Steps_Cart/functions/core_flows.Cart.Steps_Cart.updateCartPromotionsStep/page.mdx","depth":6}]}} />
 
 ## Input
 
-<TypeList types={[{"name":"UpdateCartPromotionsWorkflowInput","type":"[UpdateCartPromotionsWorkflowInput](../../../../types/core_flows.UpdateCartPromotionsWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"cart_id","type":"`string`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"promo_codes","type":"`string`[]","description":"","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"action","type":"[ADD](../../../../../utils/PromotionUtils/enums/utils.PromotionUtils.PromotionActions/page.mdx#add) \\| [REMOVE](../../../../../utils/PromotionUtils/enums/utils.PromotionUtils.PromotionActions/page.mdx#remove) \\| [REPLACE](../../../../../utils/PromotionUtils/enums/utils.PromotionUtils.PromotionActions/page.mdx#replace)","description":"","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="updateCartPromotionsWorkflow"/>
+<TypeList types={[{"name":"UpdateCartPromotionsWorkflowInput","type":"[UpdateCartPromotionsWorkflowInput](../../../../types/core_flows.UpdateCartPromotionsWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"The details of the promotion updates on a cart.","expandable":false,"children":[{"name":"cart_id","type":"`string`","description":"The cart's ID.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"promo_codes","type":"`string`[]","description":"The promotion codes to add to the cart, remove from the cart,\nor replace all existing promotions in the cart.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"action","type":"[ADD](../../../../../utils/PromotionUtils/enums/utils.PromotionUtils.PromotionActions/page.mdx#add) \\| [REMOVE](../../../../../utils/PromotionUtils/enums/utils.PromotionUtils.PromotionActions/page.mdx#remove) \\| [REPLACE](../../../../../utils/PromotionUtils/enums/utils.PromotionUtils.PromotionActions/page.mdx#replace)","description":"The action to perform with the specified promotion codes.","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="updateCartPromotionsWorkflow"/>
+
+## Output
+
+<TypeList types={[{"name":"undefined","type":"`undefined`","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"undefined","type":"`undefined`","optional":false,"defaultValue":"","description":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="updateCartPromotionsWorkflow"/>
+
+## Hooks
+
+Hooks allow you to inject custom functionalities into the workflow. You'll receive data from the workflow, as well as additional data sent through an HTTP request.
+
+Learn more about [Hooks](https://docs.medusajs.com/learn/fundamentals/workflows/workflow-hooks) and [Additional Data](https://docs.medusajs.com/learn/fundamentals/api-routes/additional-data).
+
+### validate
+
+This hook is executed before all operations. You can consume this hook to perform any custom validation. If validation fails, you can throw an error to stop the workflow execution.
+
+#### Example
+
+```ts
+import { addShippingMethodToCartWorkflow } from "@medusajs/medusa/core-flows"
+
+addShippingMethodToCartWorkflow.hooks.validate(
+  (async ({ input, cart }, { container }) => {
+    //TODO
+  })
+)
+```
+
+#### Input
+
+Handlers consuming this hook accept the following input.
+
+<TypeList types={[{"name":"input","type":"object","description":"The input data for the hook.","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"input","type":"[AddShippingMethodToCartWorkflowInput](../../../../interfaces/core_flows.AddShippingMethodToCartWorkflowInput/page.mdx)","description":"The data to add a shipping method to a cart.","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"cart_id","type":"`string`","description":"The ID of the cart to add the shipping method to.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"options","type":"`object`[]","description":"The shipping options to create the shipping methods from and add to the cart.","optional":false,"defaultValue":"","expandable":false,"children":[]}]},{"name":"cart","type":"`any`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="validate"/>

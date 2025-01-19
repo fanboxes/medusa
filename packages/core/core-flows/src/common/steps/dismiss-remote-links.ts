@@ -14,29 +14,14 @@ export const dismissRemoteLinkStepId = "dismiss-remote-links"
  * Learn more in the [Remote Link documentation.](https://docs.medusajs.com/learn/fundamentals/module-links/remote-link#dismiss-link).
  *
  * @example
- * import {
- *   createWorkflow
- * } from "@medusajs/framework/workflows-sdk"
- * import {
- *   dismissRemoteLinkStep
- * } from "@medusajs/medusa/core-flows"
- * import {
- *   Modules
- * } from "@medusajs/framework/utils"
- *
- * const helloWorldWorkflow = createWorkflow(
- *   "hello-world",
- *   () => {
- *     dismissRemoteLinkStep([{
- *       [Modules.PRODUCT]: {
- *         product_id: "prod_123",
- *       },
- *       "helloModuleService": {
- *         my_custom_id: "mc_123",
- *       },
- *     }])
- *   }
- * )
+ * dismissRemoteLinkStep([{
+ *   [Modules.PRODUCT]: {
+ *     product_id: "prod_123",
+ *   },
+ *   "helloModuleService": {
+ *     my_custom_id: "mc_123",
+ *   },
+ * }])
  */
 export const dismissRemoteLinkStep = createStep(
   dismissRemoteLinkStepId,

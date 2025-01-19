@@ -2,13 +2,20 @@ import { IFulfillmentModuleService } from "@medusajs/framework/types"
 import { MedusaError, Modules } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The ID of the shipment to validate.
+ */
+export type ValidateShipmentStepInput = string
+
 export const validateShipmentStepId = "validate-shipment"
 /**
  * This step validates that a shipment can be created for a fulfillment.
+ * If the shipment has already been created, the fulfillment has been canceled,
+ * or the fulfillment does not have a shipping option, the step throws an error.
  */
 export const validateShipmentStep = createStep(
   validateShipmentStepId,
-  async (id: string, { container }) => {
+  async (id: ValidateShipmentStepInput, { container }) => {
     const service = container.resolve<IFulfillmentModuleService>(
       Modules.FULFILLMENT
     )

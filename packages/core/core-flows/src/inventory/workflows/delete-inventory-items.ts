@@ -9,13 +9,39 @@ import { deleteInventoryItemStep, validateInventoryDeleteStep } from "../steps"
 import { removeRemoteLinkStep } from "../../common/steps/remove-remote-links"
 import { useQueryGraphStep } from "../../common"
 
+/**
+ * The IDs of the inventory items to delete.
+ */
+export type DeleteInventoryItemWorkflowInput = string[]
+
+/**
+ * The IDs of deleted inventory items.
+ */
+export type DeleteInventoryItemWorkflowOutput = string[]
+
 export const deleteInventoryItemWorkflowId = "delete-inventory-item-workflow"
 /**
- * This workflow deletes one or more inventory items.
+ * This workflow deletes one or more inventory items. It's used by the
+ * [Delete Inventory Item Admin API Route](https://docs.medusajs.com/api/admin#inventory-items_deleteinventoryitemsid).
+ * 
+ * You can use this workflow within your own customizations or custom workflows, allowing you
+ * to delete inventory items in your custom flows.
+ * 
+ * @example
+ * const { result } = await deleteInventoryItemWorkflow(container)
+ * .run({
+ *   input: ["iitem_123"]
+ * })
+ * 
+ * @summary
+ * 
+ * Delete one or more inventory items.
  */
 export const deleteInventoryItemWorkflow = createWorkflow(
   deleteInventoryItemWorkflowId,
-  (input: WorkflowData<string[]>): WorkflowResponse<string[]> => {
+  (input: WorkflowData<DeleteInventoryItemWorkflowInput>): WorkflowResponse<
+    DeleteInventoryItemWorkflowOutput
+  > => {
     const { data: inventoryItemsToDelete } = useQueryGraphStep({
       entity: "inventory",
       fields: ["id", "reserved_quantity"],

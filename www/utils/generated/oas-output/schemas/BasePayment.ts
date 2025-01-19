@@ -29,22 +29,6 @@
  *     type: string
  *     title: provider_id
  *     description: The ID of the payment provider used to process this payment.
- *   cart_id:
- *     type: string
- *     title: cart_id
- *     description: The ID of the associated cart.
- *   order_id:
- *     type: string
- *     title: order_id
- *     description: The ID of the associated order.
- *   order_edit_id:
- *     type: string
- *     title: order_edit_id
- *     description: The ID of the associated order edit.
- *   customer_id:
- *     type: string
- *     title: customer_id
- *     description: ID of the associated customer.
  *   data:
  *     type: object
  *     description: The payment's data, useful for processing by the payment provider.

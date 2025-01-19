@@ -13,9 +13,13 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `deleteShippingProfileWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow deletes one or more shipping profiles.
+This workflow deletes one or more shipping profiles. It's used by the
+[Delete Shipping Profile Admin API Route](https://docs.medusajs.com/api/admin#shipping-profiles\_deleteshippingprofilesid).
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/shipping-profile/workflows/delete-shipping-profile.ts#L12" />
+You can use this workflow within your customizations or your own custom workflows, allowing you to
+delete shipping profiles within your custom flows.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/shipping-profile/workflows/delete-shipping-profile.ts#L38" />
 
 ## Examples
 
@@ -36,9 +40,7 @@ export async function POST(
   const { result } = await deleteShippingProfileWorkflow(req.scope)
     .run({
       input: {
-        "ids": [
-          "id_UaRiLX2hoPKFhKwY"
-        ]
+        ids: ["sp_123"]
       }
     })
 
@@ -63,9 +65,7 @@ export default async function handleOrderPlaced({
   const { result } = await deleteShippingProfileWorkflow(container)
     .run({
       input: {
-        "ids": [
-          "id_UaRiLX2hoPKFhKwY"
-        ]
+        ids: ["sp_123"]
       }
     })
 
@@ -90,9 +90,7 @@ export default async function myCustomJob(
   const { result } = await deleteShippingProfileWorkflow(container)
     .run({
       input: {
-        "ids": [
-          "id_UaRiLX2hoPKFhKwY"
-        ]
+        ids: ["sp_123"]
       }
     })
 
@@ -118,9 +116,7 @@ const myWorkflow = createWorkflow(
     const result = deleteShippingProfileWorkflow
       .runAsStep({
         input: {
-          "ids": [
-            "id_UaRiLX2hoPKFhKwY"
-          ]
+          ids: ["sp_123"]
         }
       })
   }
@@ -132,8 +128,8 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"deleteShippingProfileWorkflow","steps":[{"type":"step","name":"deleteShippingProfilesStep","description":"This step deletes one or more shipping profiles.\n\n","link":"../../../Steps_Shipping_Profile/functions/core_flows.Shipping_Profile.Steps_Shipping_Profile.deleteShippingProfilesStep/page.mdx","depth":1},{"type":"step","name":"removeRemoteLinkStep","description":"This step deletes linked records of a record.\n\nLearn more in the [Remote Link documentation](https://docs.medusajs.com/learn/fundamentals/module-links/remote-link#cascade-delete-linked-records)\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.removeRemoteLinkStep/page.mdx","depth":2}]}} />
+<WorkflowDiagram workflow={{"name":"deleteShippingProfileWorkflow","steps":[{"type":"step","name":"deleteShippingProfilesStep","description":"This step deletes one or more shipping profiles.","link":"../../../Steps_Shipping_Profile/functions/core_flows.Shipping_Profile.Steps_Shipping_Profile.deleteShippingProfilesStep/page.mdx","depth":1},{"type":"step","name":"removeRemoteLinkStep","description":"This step deletes linked records of a record.\n\nLearn more in the [Remote Link documentation](https://docs.medusajs.com/learn/fundamentals/module-links/remote-link#cascade-delete-linked-records)","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.removeRemoteLinkStep/page.mdx","depth":2}]}} />
 
 ## Input
 
-<TypeList types={[{"name":"ids","type":"`string`[]","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteShippingProfileWorkflow"/>
+<TypeList types={[{"name":"DeleteShippingProfilesWorkflowInput","type":"[DeleteShippingProfilesWorkflowInput](../../../../types/core_flows.DeleteShippingProfilesWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"The data to delete shipping profiles.","expandable":false,"children":[{"name":"ids","type":"`string`[]","description":"The IDs of the shipping profiles to delete.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteShippingProfileWorkflow"/>

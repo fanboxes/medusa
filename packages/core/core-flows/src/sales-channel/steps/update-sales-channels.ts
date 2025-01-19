@@ -9,14 +9,33 @@ import {
 } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The data to update sales channels.
+ */
 export type UpdateSalesChannelsStepInput = {
+  /**
+   * The filters to select the sales channels to update.
+   */
   selector: FilterableSalesChannelProps
+  /**
+   * The data to update the sales channels.
+   */
   update: UpdateSalesChannelDTO
 }
 
 export const updateSalesChannelsStepId = "update-sales-channels"
 /**
  * This step updates sales channels matching the specified filters.
+ * 
+ * @example
+ * const data = updateSalesChannelsStep({
+ *   selector: {
+ *     id: "sc_123"
+ *   },
+ *   update: {
+ *     name: "Webshop"
+ *   }
+ * })
  */
 export const updateSalesChannelsStep = createStep(
   updateSalesChannelsStepId,

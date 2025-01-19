@@ -52,7 +52,6 @@ const createPaymentCollectionStep = createStep(
     const paymentModuleService = container.resolve(Modules.PAYMENT)
 
     const paymentCollection = await paymentModuleService.createPaymentCollections({
-      region_id: "reg_123",
       currency_code: "usd",
       amount: 5000,
     })

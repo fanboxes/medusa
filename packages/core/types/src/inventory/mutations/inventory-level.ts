@@ -59,6 +59,8 @@ export type BulkAdjustInventoryLevelInput = {
 
   /**
    * The quantity to adjust the inventory level by.
+   * If positive, the quantity will be added to the stocked quantity.
+   * If negative, the quantity will be subtracted from the stocked quantity.
    */
   adjustment: BigNumberInput
 }

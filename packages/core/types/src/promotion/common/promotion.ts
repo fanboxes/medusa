@@ -5,13 +5,18 @@ import {
   CreateApplicationMethodDTO,
   UpdateApplicationMethodDTO,
 } from "./application-method"
-import { CampaignDTO } from "./campaign"
+import { CampaignDTO, FilterableCampaignProps } from "./campaign"
 import { CreatePromotionRuleDTO, PromotionRuleDTO } from "./promotion-rule"
 
 /**
  * The promotion's possible types.
  */
 export type PromotionTypeValues = "standard" | "buyget"
+
+/**
+ * The promotion's possible types.
+ */
+export type PromotionStatusValues = "draft" | "active" | "inactive"
 
 /**
  * The promotion's possible rule types.
@@ -40,6 +45,15 @@ export interface PromotionDTO {
    *
    */
   type?: PromotionTypeValues
+
+  /**
+   * The status of the promotion:
+   *
+   * - `active` promotion is available for user to consume
+   * - `inactive` promotion is no longer available to the user
+   * - `draft` promotion is currently being prepared
+   */
+  status?: PromotionStatusValues
 
   /**
    * Whether the promotion is applied automatically.
@@ -84,6 +98,15 @@ export interface CreatePromotionDTO {
    *
    */
   type: PromotionTypeValues
+
+  /**
+   * The status of the promotion:
+   *
+   * - `draft` indicates that a promotion is currently being prepared
+   * - `active` indicates that a promotion is active
+   * - `inactive` indicates that a promotion is no longer active
+   */
+  status: PromotionStatusValues
 
   /**
    * Whether the promotion is applied automatically.
@@ -136,6 +159,15 @@ export interface UpdatePromotionDTO {
   type?: PromotionTypeValues
 
   /**
+   * The status of the promotion:
+   *
+   * - `draft` indicates that a promotion is currently being prepared
+   * - `active` indicates that a promotion is active
+   * - `inactive` indicates that a promotion is no longer active
+   */
+  status?: PromotionStatusValues
+
+  /**
    * The associated application method.
    */
   application_method?: Omit<UpdateApplicationMethodDTO, "id">
@@ -180,4 +212,14 @@ export interface FilterablePromotionProps
    * Filter promotions by their type.
    */
   type?: PromotionTypeValues[]
+
+  /**
+   * Filter promotions by their status.
+   */
+  status?: PromotionStatusValues[]
+
+  /**
+   * Filter promotions by their campaign
+   */
+  campaign?: FilterableCampaignProps
 }

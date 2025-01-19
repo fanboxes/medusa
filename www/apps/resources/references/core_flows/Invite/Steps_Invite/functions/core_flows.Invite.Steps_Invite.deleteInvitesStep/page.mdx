@@ -21,9 +21,7 @@ import { deleteInvitesStep } from "@medusajs/medusa/core-flows"
 const myWorkflow = createWorkflow(
   "my-workflow",
   () => {
-    const data = deleteInvitesStep([
-      "{value}"
-    ])
+    const data = deleteInvitesStep({})
   }
 )
 ```
@@ -31,4 +29,4 @@ const myWorkflow = createWorkflow(
 
 ## Input
 
-<TypeList types={[{"name":"string[]","type":"`string`[]","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"string","type":"`string`","optional":false,"defaultValue":"","description":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteInvitesStep"/>
+<TypeList types={[{"name":"DeleteInvitesStepInput","type":"[DeleteInvitesStepInput](../../../../types/core_flows.DeleteInvitesStepInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"DeleteInvitesStepInput","type":"`string`[]","description":"The IDs of the invites to delete.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteInvitesStep"/>

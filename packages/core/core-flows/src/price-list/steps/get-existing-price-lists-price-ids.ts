@@ -2,6 +2,21 @@ import { IPricingModuleService } from "@medusajs/framework/types"
 import { Modules } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The data to retrieve the prices of price lists.
+ */
+export type GetExistingPriceListsPriceIdsStepInput = {
+  /**
+   * The IDs of the price lists to retrieve the prices for.
+   */
+  price_list_ids: string[]
+}
+
+/**
+ * An object whose keys are price list IDs and values are arrays of its price IDs.
+ */
+export type GetExistingPriceListsPriceIdsStepOutput = Record<string, string[]>
+
 export const getExistingPriceListsPriceIdsStepId =
   "get-existing-price-lists-prices"
 /**
@@ -9,9 +24,10 @@ export const getExistingPriceListsPriceIdsStepId =
  */
 export const getExistingPriceListsPriceIdsStep = createStep(
   getExistingPriceListsPriceIdsStepId,
-  async (data: { price_list_ids: string[] }, { container }) => {
+  async (data: GetExistingPriceListsPriceIdsStepInput, { container }) => {
     const { price_list_ids: priceListIds = [] } = data
-    const priceListPriceIdsMap: Record<string, string[]> = {}
+    const priceListPriceIdsMap: 
+      GetExistingPriceListsPriceIdsStepOutput = {}
     const pricingModule = container.resolve<IPricingModuleService>(
       Modules.PRICING
     )

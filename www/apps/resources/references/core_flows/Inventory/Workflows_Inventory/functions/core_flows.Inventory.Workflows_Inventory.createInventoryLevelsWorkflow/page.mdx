@@ -13,9 +13,13 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `createInventoryLevelsWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow creates one or more inventory levels.
+This workflow creates one or more inventory levels. It's used by the
+[Create Inventory Level API Route](https://docs.medusajs.com/api/admin#inventory-items\_postinventoryitemsidlocationlevels).
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/inventory/workflows/create-inventory-levels.ts#L20" />
+You can use this workflow within your own customizations or custom workflows, allowing you
+to create inventory levels in your custom flows.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/inventory/workflows/create-inventory-levels.ts#L47" />
 
 ## Examples
 
@@ -36,9 +40,9 @@ export async function POST(
   const { result } = await createInventoryLevelsWorkflow(req.scope)
     .run({
       input: {
-        "inventory_levels": [{
-          "inventory_item_id": "{value}",
-          "location_id": "{value}"
+        inventory_levels: [{
+          inventory_item_id: "iitem_123",
+          location_id: "sloc_123",
         }]
       }
     })
@@ -64,9 +68,9 @@ export default async function handleOrderPlaced({
   const { result } = await createInventoryLevelsWorkflow(container)
     .run({
       input: {
-        "inventory_levels": [{
-          "inventory_item_id": "{value}",
-          "location_id": "{value}"
+        inventory_levels: [{
+          inventory_item_id: "iitem_123",
+          location_id: "sloc_123",
         }]
       }
     })
@@ -92,9 +96,9 @@ export default async function myCustomJob(
   const { result } = await createInventoryLevelsWorkflow(container)
     .run({
       input: {
-        "inventory_levels": [{
-          "inventory_item_id": "{value}",
-          "location_id": "{value}"
+        inventory_levels: [{
+          inventory_item_id: "iitem_123",
+          location_id: "sloc_123",
         }]
       }
     })
@@ -121,9 +125,9 @@ const myWorkflow = createWorkflow(
     const result = createInventoryLevelsWorkflow
       .runAsStep({
         input: {
-          "inventory_levels": [{
-            "inventory_item_id": "{value}",
-            "location_id": "{value}"
+          inventory_levels: [{
+            inventory_item_id: "iitem_123",
+            location_id: "sloc_123",
           }]
         }
       })
@@ -136,11 +140,11 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"createInventoryLevelsWorkflow","steps":[{"type":"step","name":"validateInventoryLocationsStep","description":"This step ensures that the inventory levels exist for each specified pair of inventory item and location.\n\n","link":"../../../Steps_Inventory/functions/core_flows.Inventory.Steps_Inventory.validateInventoryLocationsStep/page.mdx","depth":1},{"type":"step","name":"createInventoryLevelsStep","description":"This step creates one or more inventory levels.\n\n","link":"../../../Steps_Inventory/functions/core_flows.Inventory.Steps_Inventory.createInventoryLevelsStep/page.mdx","depth":2}]}} />
+<WorkflowDiagram workflow={{"name":"createInventoryLevelsWorkflow","steps":[{"type":"step","name":"validateInventoryLocationsStep","description":"This step ensures that the inventory levels exist for each \nspecified pair of inventory item and location. If not,\nthe step will throw an error.","link":"../../../Steps_Inventory/functions/core_flows.Inventory.Steps_Inventory.validateInventoryLocationsStep/page.mdx","depth":1},{"type":"step","name":"createInventoryLevelsStep","description":"This step creates one or more inventory levels.","link":"../../../Steps_Inventory/functions/core_flows.Inventory.Steps_Inventory.createInventoryLevelsStep/page.mdx","depth":2}]}} />
 
 ## Input
 
-<TypeList types={[{"name":"CreateInventoryLevelsWorkflowInput","type":"[CreateInventoryLevelsWorkflowInput](../../../../interfaces/core_flows.CreateInventoryLevelsWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"inventory_levels","type":"[CreateInventoryLevelInput](../../../../../types/InventoryTypes/interfaces/types.InventoryTypes.CreateInventoryLevelInput/page.mdx)[]","description":"","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"inventory_item_id","type":"`string`","description":"The ID of the associated inventory item.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"location_id","type":"`string`","description":"The ID of the associated location.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"stocked_quantity","type":"`number`","description":"The stocked quantity of the associated inventory item in the associated location.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"incoming_quantity","type":"`number`","description":"The incoming quantity of the associated inventory item in the associated location.","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="createInventoryLevelsWorkflow"/>
+<TypeList types={[{"name":"CreateInventoryLevelsWorkflowInput","type":"[CreateInventoryLevelsWorkflowInput](../../../../interfaces/core_flows.CreateInventoryLevelsWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"The data to create the inventory levels.","expandable":false,"children":[{"name":"inventory_levels","type":"[CreateInventoryLevelInput](../../../../../types/InventoryTypes/interfaces/types.InventoryTypes.CreateInventoryLevelInput/page.mdx)[]","description":"The inventory levels to create.","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"inventory_item_id","type":"`string`","description":"The ID of the associated inventory item.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"location_id","type":"`string`","description":"The ID of the associated location.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"stocked_quantity","type":"`number`","description":"The stocked quantity of the associated inventory item in the associated location.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"incoming_quantity","type":"`number`","description":"The incoming quantity of the associated inventory item in the associated location.","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="createInventoryLevelsWorkflow"/>
 
 ## Output
 

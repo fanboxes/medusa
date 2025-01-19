@@ -1933,7 +1933,19 @@
         }
       },
       "status": {
-        "title": "Status"
+        "label": "Status",
+        "draft": {
+          "title": "Draft",
+          "description": "Customers will not be able to use the code yet"
+        },
+        "active": {
+          "title": "Active",
+          "description": "Customers will be able to use the code"
+        },
+        "inactive": {
+          "title": "Inactive",
+          "description": "Customers will no longer be able to use the code"
+        }
       },
       "method": {
         "label": "Method",
@@ -2231,6 +2243,7 @@
       "member": "Member"
     },
     "deleteUserWarning": "You are about to delete the user {{name}}. This action cannot be undone.",
+    "deleteUserSuccess": "User {{name}} deleted successfully",
     "invite": "Invite"
   },
   "store": {
@@ -2676,6 +2689,8 @@
     "scheduled": "Scheduled",
     "expired": "Expired",
     "active": "Active",
+    "inactive": "Inactive",
+    "draft": "Draft",
     "enabled": "Enabled",
     "disabled": "Disabled"
   },

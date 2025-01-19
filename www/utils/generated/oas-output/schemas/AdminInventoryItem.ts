@@ -1,7 +1,7 @@
 /**
  * @schema AdminInventoryItem
  * type: object
- * description: The reservation's inventory item.
+ * description: The inventory item's details.
  * x-schemaName: AdminInventoryItem
  * required:
  *   - id
@@ -22,15 +22,15 @@
  *   hs_code:
  *     type: string
  *     title: hs_code
- *     description: The inventory item's hs code.
+ *     description: The inventory item's HS code.
  *   requires_shipping:
  *     type: boolean
  *     title: requires_shipping
- *     description: The inventory item's requires shipping.
+ *     description: Whether the inventory item requires shipping.
  *   mid_code:
  *     type: string
  *     title: mid_code
- *     description: The inventory item's mid code.
+ *     description: The inventory item's MID code.
  *   material:
  *     type: string
  *     title: material
@@ -62,10 +62,10 @@
  *   thumbnail:
  *     type: string
  *     title: thumbnail
- *     description: The inventory item's thumbnail.
+ *     description: The thumbnail URL of the inventory item.
  *   metadata:
  *     type: object
- *     description: The inventory item's metadata.
+ *     description: Custom key-value pairs, used to store additional information about the inventory item.
  *   location_levels:
  *     type: array
  *     description: The inventory item's location levels.

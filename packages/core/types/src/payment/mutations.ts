@@ -7,11 +7,6 @@ import { PaymentProviderContext } from "./provider"
  */
 export interface CreatePaymentCollectionDTO {
   /**
-   * The associated region's ID.
-   */
-  region_id: string
-
-  /**
    * The ISO 3 character currency code of the payment collection.
    */
   currency_code: string
@@ -48,11 +43,6 @@ export interface UpsertPaymentCollectionDTO {
   id?: string
 
   /**
-   * The associated region's ID.
-   */
-  region_id?: string
-
-  /**
    * The ISO 3 character currency code of the payment collection.
    */
   currency_code?: string
@@ -72,11 +62,6 @@ export interface UpsertPaymentCollectionDTO {
  * The attributes to update in the payment collection.
  */
 export interface PaymentCollectionUpdatableFields {
-  /**
-   * The associated region's ID.
-   */
-  region_id?: string
-
   /**
    * The ISO 3 character currency code of the payment collection.
    */
@@ -131,26 +116,6 @@ export interface CreatePaymentDTO {
    * The associated payment collection's ID.
    */
   payment_collection_id: string
-
-  /**
-   * The associated cart's ID.
-   */
-  cart_id?: string
-
-  /**
-   * The associated order's ID.
-   */
-  order_id?: string
-
-  /**
-   * The associated order edit's ID.
-   */
-  order_edit_id?: string
-
-  /**
-   * The associated customer's ID.
-   */
-  customer_id?: string
 }
 
 /**
@@ -161,26 +126,6 @@ export interface UpdatePaymentDTO {
    * The ID of the payment.
    */
   id: string
-
-  /**
-   * The associated cart's ID.
-   */
-  cart_id?: string
-
-  /**
-   * The associated order's ID.
-   */
-  order_id?: string
-
-  /**
-   * The associated order edit's ID.
-   */
-  order_edit_id?: string
-
-  /**
-   * The associated customer's ID.
-   */
-  customer_id?: string
 }
 
 /**

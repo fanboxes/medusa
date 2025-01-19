@@ -10,14 +10,33 @@ import {
 } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The data to update a payment collection.
+ */
 export interface UpdatePaymentCollectionStepInput {
+  /**
+   * The filters to select the payment collections to update.
+   */
   selector: FilterablePaymentCollectionProps
+  /**
+   * The data to update in the selected payment collections.
+   */
   update: PaymentCollectionUpdatableFields
 }
 
 export const updatePaymentCollectionStepId = "update-payment-collection"
 /**
  * This step updates payment collections matching the specified filters.
+ * 
+ * @example
+ * const data = updatePaymentCollectionStep({
+ *   selector: {
+ *     id: "paycol_123",
+ *   },
+ *   update: {
+ *     amount: 10,
+ *   }
+ * })
  */
 export const updatePaymentCollectionStep = createStep(
   updatePaymentCollectionStepId,

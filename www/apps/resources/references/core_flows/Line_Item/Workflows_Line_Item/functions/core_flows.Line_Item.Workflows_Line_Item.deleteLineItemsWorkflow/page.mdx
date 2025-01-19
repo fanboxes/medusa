@@ -4,6 +4,14 @@ sidebar_label: deleteLineItemsWorkflow
 tags:
   - cart
   - workflow
+  - remote query
+  - query
+  - fulfillment
+  - tax
+  - promotion
+  - link
+  - payment
+  - logger
 ---
 
 import { TypeList, WorkflowDiagram } from "docs-ui"
@@ -12,9 +20,13 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `deleteLineItemsWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow deletes line items from a cart.
+This workflow deletes line items from a cart. It's used by the
+[Delete Line Item Store API Route](https://docs.medusajs.com/api/store#carts\_deletecartsidlineitemsline\_id).
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/line-item/workflows/delete-line-items.ts#L11" />
+You can use this workflow within your customizations or your own custom workflows, allowing you to
+delete line items from a cart within your custom flows.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/line-item/workflows/delete-line-items.ts#L40" />
 
 ## Examples
 
@@ -35,10 +47,8 @@ export async function POST(
   const { result } = await deleteLineItemsWorkflow(req.scope)
     .run({
       input: {
-        "cart_id": "{value}",
-        "ids": [
-          "id_gDNTwNY3kSbLvilH9Z2z"
-        ]
+        cart_id: "cart_123",
+        ids: ["li_123"]
       }
     })
 
@@ -63,10 +73,8 @@ export default async function handleOrderPlaced({
   const { result } = await deleteLineItemsWorkflow(container)
     .run({
       input: {
-        "cart_id": "{value}",
-        "ids": [
-          "id_gDNTwNY3kSbLvilH9Z2z"
-        ]
+        cart_id: "cart_123",
+        ids: ["li_123"]
       }
     })
 
@@ -91,10 +99,8 @@ export default async function myCustomJob(
   const { result } = await deleteLineItemsWorkflow(container)
     .run({
       input: {
-        "cart_id": "{value}",
-        "ids": [
-          "id_gDNTwNY3kSbLvilH9Z2z"
-        ]
+        cart_id: "cart_123",
+        ids: ["li_123"]
       }
     })
 
@@ -120,10 +126,8 @@ const myWorkflow = createWorkflow(
     const result = deleteLineItemsWorkflow
       .runAsStep({
         input: {
-          "cart_id": "{value}",
-          "ids": [
-            "id_gDNTwNY3kSbLvilH9Z2z"
-          ]
+          cart_id: "cart_123",
+          ids: ["li_123"]
         }
       })
   }
@@ -135,8 +139,8 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"deleteLineItemsWorkflow","steps":[{"type":"step","name":"deleteLineItemsStep","description":"This step deletes line items.\n\n","link":"../../../Steps_Line_Item/functions/core_flows.Line_Item.Steps_Line_Item.deleteLineItemsStep/page.mdx","depth":1}]}} />
+<WorkflowDiagram workflow={{"name":"deleteLineItemsWorkflow","steps":[{"type":"step","name":"deleteLineItemsStep","description":"This step deletes line items.","link":"../../../Steps_Line_Item/functions/core_flows.Line_Item.Steps_Line_Item.deleteLineItemsStep/page.mdx","depth":1},{"type":"workflow","name":"refreshCartItemsWorkflow","description":"This workflow refreshes a cart to ensure its prices, promotion codes, taxes, and other details are applied correctly. It's useful\nafter making a chnge to a cart, such as after adding an item to the cart or adding a promotion code.\n\nThis workflow is used by other cart-related workflows, such as the [addToCartWorkflow](../../../../Cart/Workflows_Cart/functions/core_flows.Cart.Workflows_Cart.addToCartWorkflow/page.mdx) after an item\nis added to the cart.\n\nYou can use this workflow within your own customizations or custom workflows, allowing you to refresh the cart after making updates to it in your\ncustom flows.","link":"../../../../Cart/Workflows_Cart/functions/core_flows.Cart.Workflows_Cart.refreshCartItemsWorkflow/page.mdx","depth":2}]}} />
 
 ## Input
 
-<TypeList types={[{"name":"DeleteLineItemsWorkflowInput","type":"[DeleteLineItemsWorkflowInput](../../../../types/core_flows.DeleteLineItemsWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"cart_id","type":"`string`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"ids","type":"`string`[]","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteLineItemsWorkflow"/>
+<TypeList types={[{"name":"DeleteLineItemsWorkflowInput","type":"[DeleteLineItemsWorkflowInput](../../../../types/core_flows.DeleteLineItemsWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"The data to delete line items from a cart.","expandable":false,"children":[{"name":"cart_id","type":"`string`","description":"The cart's ID.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"ids","type":"`string`[]","description":"The IDs of the line items to delete.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteLineItemsWorkflow"/>

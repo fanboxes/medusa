@@ -11,9 +11,13 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `createOrderChangeActionsWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow creates order change actions.
+This workflow creates order change actions. It's used by other order-related workflows,
+such as [requestItemReturnWorkflow](../core_flows.Order.Workflows_Order.requestItemReturnWorkflow/page.mdx) to create an order change action based on changes made to the order.
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/order/workflows/create-order-change-actions.ts#L17" />
+You can use this workflow within your customizations or your own custom workflows, allowing you to wrap custom logic around 
+creating an order change action.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/order/workflows/create-order-change-actions.ts#L25" />
 
 ## Examples
 
@@ -34,7 +38,7 @@ export async function POST(
   const { result } = await createOrderChangeActionsWorkflow(req.scope)
     .run({
       input: [{
-        "action": "DELIVER_ITEM"
+        "action": "ITEM_UPDATE"
       }]
     })
 
@@ -59,7 +63,7 @@ export default async function handleOrderPlaced({
   const { result } = await createOrderChangeActionsWorkflow(container)
     .run({
       input: [{
-        "action": "DELIVER_ITEM"
+        "action": "ITEM_UPDATE"
       }]
     })
 
@@ -84,7 +88,7 @@ export default async function myCustomJob(
   const { result } = await createOrderChangeActionsWorkflow(container)
     .run({
       input: [{
-        "action": "DELIVER_ITEM"
+        "action": "ITEM_UPDATE"
       }]
     })
 
@@ -110,7 +114,7 @@ const myWorkflow = createWorkflow(
     const result = createOrderChangeActionsWorkflow
       .runAsStep({
         input: [{
-          "action": "DELIVER_ITEM"
+          "action": "ITEM_UPDATE"
         }]
       })
   }

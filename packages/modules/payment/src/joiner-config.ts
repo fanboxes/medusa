@@ -23,4 +23,13 @@ export const joinerConfig = defineJoinerConfig(Modules.PAYMENT, {
     payment_provider_id: PaymentProvider.name,
     refund_reason_id: RefundReason.name,
   },
+  alias: [
+    {
+      name: ["payment_method", "payment_methods"],
+      entity: "PaymentMethod",
+      args: {
+        methodSuffix: "PaymentMethods",
+      },
+    },
+  ],
 })

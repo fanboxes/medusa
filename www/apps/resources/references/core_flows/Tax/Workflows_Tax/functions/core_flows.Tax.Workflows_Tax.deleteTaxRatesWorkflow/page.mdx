@@ -12,9 +12,13 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `deleteTaxRatesWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow deletes one or more tax rates.
+This workflow deletes one or more tax rates. It's used by the
+[Delete Tax Rates Admin API Route](https://docs.medusajs.com/api/admin#tax-rates\_deletetaxratesid).
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/tax/workflows/delete-tax-rates.ts#L14" />
+You can use this workflow within your own customizations or custom workflows, allowing you
+to delete tax rates in your custom flows.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/tax/workflows/delete-tax-rates.ts#L38" />
 
 ## Examples
 
@@ -35,9 +39,7 @@ export async function POST(
   const { result } = await deleteTaxRatesWorkflow(req.scope)
     .run({
       input: {
-        "ids": [
-          "id_4LbAHjLoizaC9kyF9Q60"
-        ]
+        ids: ["txr_123"]
       }
     })
 
@@ -62,9 +64,7 @@ export default async function handleOrderPlaced({
   const { result } = await deleteTaxRatesWorkflow(container)
     .run({
       input: {
-        "ids": [
-          "id_4LbAHjLoizaC9kyF9Q60"
-        ]
+        ids: ["txr_123"]
       }
     })
 
@@ -89,9 +89,7 @@ export default async function myCustomJob(
   const { result } = await deleteTaxRatesWorkflow(container)
     .run({
       input: {
-        "ids": [
-          "id_4LbAHjLoizaC9kyF9Q60"
-        ]
+        ids: ["txr_123"]
       }
     })
 
@@ -117,9 +115,7 @@ const myWorkflow = createWorkflow(
     const result = deleteTaxRatesWorkflow
       .runAsStep({
         input: {
-          "ids": [
-            "id_4LbAHjLoizaC9kyF9Q60"
-          ]
+          ids: ["txr_123"]
         }
       })
   }
@@ -131,8 +127,8 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"deleteTaxRatesWorkflow","steps":[{"type":"step","name":"deleteTaxRatesStep","description":"This step deletes one or more tax rates.\n\n","link":"../../../Steps_Tax/functions/core_flows.Tax.Steps_Tax.deleteTaxRatesStep/page.mdx","depth":1}]}} />
+<WorkflowDiagram workflow={{"name":"deleteTaxRatesWorkflow","steps":[{"type":"step","name":"deleteTaxRatesStep","description":"This step deletes one or more tax rates.","link":"../../../Steps_Tax/functions/core_flows.Tax.Steps_Tax.deleteTaxRatesStep/page.mdx","depth":1}]}} />
 
 ## Input
 
-<TypeList types={[{"name":"DeleteTaxRatesWorkflowInput","type":"[DeleteTaxRatesWorkflowInput](../../../../types/core_flows.DeleteTaxRatesWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"ids","type":"`string`[]","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteTaxRatesWorkflow"/>
+<TypeList types={[{"name":"DeleteTaxRatesWorkflowInput","type":"[DeleteTaxRatesWorkflowInput](../../../../types/core_flows.DeleteTaxRatesWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"The data to delete tax rates.","expandable":false,"children":[{"name":"ids","type":"`string`[]","description":"The IDs of the tax rates to delete.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteTaxRatesWorkflow"/>

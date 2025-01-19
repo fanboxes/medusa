@@ -14,18 +14,18 @@ This documentation provides a reference to the `updateStockLocationsStep`. It be
 
 This step updates stock locations matching the specified filters.
 
-```ts title="src/workflows/my-workflow.ts"
-import { createWorkflow } from "@medusajs/framework/workflows-sdk"
-import { updateStockLocationsStep } from "@medusajs/medusa/core-flows"
+## Example
 
-const myWorkflow = createWorkflow(
-  "my-workflow",
-  () => {
-    const data = updateStockLocationsStep("{value}")
+```ts
+const data = updateStockLocationsStep({
+  selector: {
+    id: "sloc_123"
+  },
+  update: {
+    name: "European Warehouse"
   }
-)
+})
 ```
-  
 
 ## Input
 

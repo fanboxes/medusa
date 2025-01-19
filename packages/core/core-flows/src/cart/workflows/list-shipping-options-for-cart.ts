@@ -7,21 +7,41 @@ import {
 import { useQueryGraphStep, validatePresenceOfStep } from "../../common"
 import { useRemoteQueryStep } from "../../common/steps/use-remote-query"
 import { cartFieldsForPricingContext } from "../utils/fields"
+import { ListShippingOptionsForCartWorkflowInput } from "@medusajs/types"
 
 export const listShippingOptionsForCartWorkflowId =
   "list-shipping-options-for-cart"
 /**
- * This workflow lists the shipping options of a cart.
+ * This workflow lists the shipping options of a cart. It's executed by the 
+ * [List Shipping Options Store API Route](https://docs.medusajs.com/api/store#shipping-options_getshippingoptions).
+ * 
+ * :::note
+ * 
+ * This workflow doesn't retrieve the calculated prices of the shipping options. If you need to retrieve the prices of the shipping options,
+ * use the {@link listShippingOptionsForCartWithPricingWorkflow} workflow.
+ * 
+ * :::
+ * 
+ * You can use this workflow within your own customizations or custom workflows, allowing you to wrap custom logic around to retrieve the shipping options of a cart  
+ * in your custom flows.
+ * 
+ * @example
+ * const { result } = await listShippingOptionsForCartWorkflow(container)
+ * .run({
+ *   input: {
+ *     cart_id: "cart_123",
+ *     option_ids: ["so_123"]
+ *   }
+ * })
+ * 
+ * @summary
+ * 
+ * List a cart's shipping options.
  */
 export const listShippingOptionsForCartWorkflow = createWorkflow(
   listShippingOptionsForCartWorkflowId,
   (
-    input: WorkflowData<{
-      cart_id: string
-      option_ids?: string[]
-      is_return?: boolean
-      enabled_in_store?: boolean
-    }>
+    input: WorkflowData<ListShippingOptionsForCartWorkflowInput>
   ) => {
     const cartQuery = useQueryGraphStep({
       entity: "cart",

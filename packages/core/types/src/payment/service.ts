@@ -50,12 +50,10 @@ export interface IPaymentModuleService extends IModuleService {
    * const paymentCollections =
    *   await paymentModuleService.createPaymentCollections([
    *     {
-   *       region_id: "reg_123",
    *       currency_code: "usd",
    *       amount: 3000,
    *     },
    *     {
-   *       region_id: "reg_321",
    *       currency_code: "eur",
    *       amount: 2000,
    *     },
@@ -76,7 +74,6 @@ export interface IPaymentModuleService extends IModuleService {
    * @example
    * const paymentCollection =
    *   await paymentModuleService.createPaymentCollections({
-   *     region_id: "reg_123",
    *     currency_code: "usd",
    *     amount: 3000,
    *   })
@@ -300,10 +297,8 @@ export interface IPaymentModuleService extends IModuleService {
    *   await paymentModuleService.upsertPaymentCollections([
    *     {
    *       id: "pay_col_123",
-   *       region_id: "reg_123",
    *     },
    *     {
-   *       region_id: "reg_123",
    *       currency_code: "usd",
    *       amount: 3000,
    *     },
@@ -326,7 +321,6 @@ export interface IPaymentModuleService extends IModuleService {
    * const paymentCollection =
    *   await paymentModuleService.upsertPaymentCollections({
    *     id: "pay_col_123",
-   *     region_id: "reg_123",
    *   })
    */
   upsertPaymentCollections(
@@ -652,7 +646,6 @@ export interface IPaymentModuleService extends IModuleService {
    * @example
    * const payment = await paymentModuleService.updatePayment({
    *   id: "pay_123",
-   *   customer_id: "cus_123",
    * })
    */
   updatePayment(
@@ -1077,7 +1070,9 @@ export interface IPaymentModuleService extends IModuleService {
    * })
    * ```
    */
-  getWebhookActionAndData(data: ProviderWebhookPayload): Promise<WebhookActionResult>
+  getWebhookActionAndData(
+    data: ProviderWebhookPayload
+  ): Promise<WebhookActionResult>
 }
 
 /**

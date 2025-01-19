@@ -63,7 +63,6 @@ export const createOrderPaymentCollectionWorkflow = createWorkflow(
         return {
           currency_code: order.currency_code,
           amount: input.amount,
-          region_id: order.region_id,
         }
       }
     )

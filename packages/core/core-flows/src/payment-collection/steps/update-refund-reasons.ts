@@ -9,13 +9,18 @@ import {
 } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The refund reasons to update.
+ */
+export type UpdateRefundReasonStepInput = UpdateRefundReasonDTO[]
+
 export const updateRefundReasonStepId = "update-refund-reasons"
 /**
  * This step updates one or more refund reasons.
  */
 export const updateRefundReasonsStep = createStep(
   updateRefundReasonStepId,
-  async (data: UpdateRefundReasonDTO[], { container }) => {
+  async (data: UpdateRefundReasonStepInput, { container }) => {
     const ids = data.map((d) => d.id)
     const { selects, relations } = getSelectsAndRelationsFromObjectArray(data)
     const service = container.resolve<IPaymentModuleService>(Modules.PAYMENT)

@@ -21,9 +21,9 @@ import { createShippingProfilesStep } from "@medusajs/medusa/core-flows"
 const myWorkflow = createWorkflow(
   "my-workflow",
   () => {
-    const data = createShippingProfilesStep([{
-      "name": "Hadley"
-    }])
+    const data = createShippingProfilesStep({
+      "name": "Brain"
+    })
   }
 )
 ```
@@ -31,7 +31,7 @@ const myWorkflow = createWorkflow(
 
 ## Input
 
-<TypeList types={[{"name":"CreateShippingProfileDTO[]","type":"[CreateShippingProfileDTO](../../../../../fulfillment/interfaces/fulfillment.CreateShippingProfileDTO/page.mdx)[]","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"CreateShippingProfileDTO","type":"[CreateShippingProfileDTO](../../../../../fulfillment/interfaces/fulfillment.CreateShippingProfileDTO/page.mdx)","optional":false,"defaultValue":"","description":"The shipping profile to be created.","expandable":false,"children":[{"name":"name","type":"`string`","description":"The name of the shipping profile.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"type","type":"`string`","description":"The type of the shipping profile.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"metadata","type":"`null` \\| `Record<string, unknown>`","description":"Holds custom data in key-value pairs.","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="createShippingProfilesStep"/>
+<TypeList types={[{"name":"CreateShippingProfilesStepInput","type":"[CreateShippingProfilesStepInput](../../../../types/core_flows.CreateShippingProfilesStepInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"name","type":"`string`","description":"The name of the shipping profile.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"type","type":"`string`","description":"The type of the shipping profile.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"metadata","type":"`null` \\| `Record<string, unknown>`","description":"Holds custom data in key-value pairs.","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="createShippingProfilesStep"/>
 
 ## Output
 

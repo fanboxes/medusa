@@ -9,13 +9,25 @@ import {
 } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The price preferences to update.
+ */
 export type UpdatePricePreferencesAsArrayStepInput =
   PricingWorkflow.UpdatePricePreferencesWorkflowInput["update"][]
 
 export const updatePricePreferencesAsArrayStepId =
   "update-price-preferences-as-array"
 /**
- * This step updates price preferences.
+ * This step creates or updates price preferences.
+ * 
+ * @example
+ * const data = updatePricePreferencesAsArrayStep([
+ *   {
+ *     attribute: "region_id",
+ *     value: "reg_123",
+ *     is_tax_inclusive: true
+ *   }
+ * ])
  */
 export const updatePricePreferencesAsArrayStep = createStep(
   updatePricePreferencesAsArrayStepId,

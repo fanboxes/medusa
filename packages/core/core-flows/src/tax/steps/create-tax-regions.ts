@@ -8,6 +8,13 @@ import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 export const createTaxRegionsStepId = "create-tax-regions"
 /**
  * This step creates one or more tax regions.
+ * 
+ * @example
+ * const data = createTaxRegionsStep([
+ *   {
+ *     country_code: "us",
+ *   }
+ * ])
  */
 export const createTaxRegionsStep = createStep(
   createTaxRegionsStepId,

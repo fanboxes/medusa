@@ -5,13 +5,19 @@ import {
 } from "@medusajs/framework/utils"
 import { createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The IDs of the inventory items to validate.
+ */
+export type ValidateInventoryItemsStepInput = string[]
+
 export const validateInventoryItemsId = "validate-inventory-items-step"
 /**
  * This step ensures that the inventory items with the specified IDs exist.
+ * If not valid, the step will throw an error.
  */
 export const validateInventoryItems = createStep(
   validateInventoryItemsId,
-  async (id: string[], { container }) => {
+  async (id: ValidateInventoryItemsStepInput, { container }) => {
     const remoteQuery = container.resolve(
       ContainerRegistrationKeys.REMOTE_QUERY
     )

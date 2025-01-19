@@ -13,9 +13,15 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `beginReceiveReturnWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow requests return receival.
+This workflow requests return receival. It's used by the
+[Start Return Receival Admin API Route](https://docs.medusajs.com/api/admin#returns\_postreturnsidreceive).
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/order/workflows/return/begin-receive-return.ts#L42" />
+You can confirm the return receival using the [confirmReturnRequestWorkflow](../core_flows.Order.Workflows_Order.confirmReturnRequestWorkflow/page.mdx).
+
+You can use this workflow within your customizations or your own custom workflows, allowing you
+to receive a return in your custom flows.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/order/workflows/return/begin-receive-return.ts#L91" />
 
 ## Examples
 
@@ -36,7 +42,7 @@ export async function POST(
   const { result } = await beginReceiveReturnWorkflow(req.scope)
     .run({
       input: {
-        "return_id": "{value}"
+        return_id: "return_123",
       }
     })
 
@@ -61,7 +67,7 @@ export default async function handleOrderPlaced({
   const { result } = await beginReceiveReturnWorkflow(container)
     .run({
       input: {
-        "return_id": "{value}"
+        return_id: "return_123",
       }
     })
 
@@ -86,7 +92,7 @@ export default async function myCustomJob(
   const { result } = await beginReceiveReturnWorkflow(container)
     .run({
       input: {
-        "return_id": "{value}"
+        return_id: "return_123",
       }
     })
 
@@ -112,7 +118,7 @@ const myWorkflow = createWorkflow(
     const result = beginReceiveReturnWorkflow
       .runAsStep({
         input: {
-          "return_id": "{value}"
+          return_id: "return_123",
         }
       })
   }
@@ -124,11 +130,11 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"beginReceiveReturnWorkflow","steps":[{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":1},{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":2},{"type":"step","name":"beginReceiveReturnValidationStep","description":"This step validates that a return can be received.\n\n","link":"../core_flows.Order.Workflows_Order.beginReceiveReturnValidationStep/page.mdx","depth":3},{"type":"step","name":"createOrderChangeStep","description":"This step creates an order change.\n\n","link":"../../../Steps_Order/functions/core_flows.Order.Steps_Order.createOrderChangeStep/page.mdx","depth":4}]}} />
+<WorkflowDiagram workflow={{"name":"beginReceiveReturnWorkflow","steps":[{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":1},{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":2},{"type":"step","name":"beginReceiveReturnValidationStep","description":"This step validates that a return can be received.\nIf the order or return is canceled, the step will throw an error.\n\n:::note\n\nYou can retrieve an order and return details using [Query](https://docs.medusajs.com/learn/fundamentals/module-links/query),\nor [useQueryGraphStep](https://docs.medusajs.com/resources/references/medusa-workflows/steps/useQueryGraphStep).\n\n:::","link":"../core_flows.Order.Workflows_Order.beginReceiveReturnValidationStep/page.mdx","depth":3},{"type":"step","name":"createOrderChangeStep","description":"This step creates an order change.","link":"../../../Steps_Order/functions/core_flows.Order.Steps_Order.createOrderChangeStep/page.mdx","depth":4}]}} />
 
 ## Input
 
-<TypeList types={[{"name":"BeginReceiveOrderReturnWorkflowInput","type":"[BeginReceiveOrderReturnWorkflowInput](../../../../../types/WorkflowTypes/OrderWorkflow/interfaces/types.WorkflowTypes.OrderWorkflow.BeginReceiveOrderReturnWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"return_id","type":"`string`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"created_by","type":"`string`","description":"","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"description","type":"`string`","description":"","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"internal_note","type":"`string`","description":"","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"metadata","type":"`null` \\| `Record<string, any>`","description":"","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="beginReceiveReturnWorkflow"/>
+<TypeList types={[{"name":"BeginReceiveOrderReturnWorkflowInput","type":"[BeginReceiveOrderReturnWorkflowInput](../../../../../types/WorkflowTypes/OrderWorkflow/interfaces/types.WorkflowTypes.OrderWorkflow.BeginReceiveOrderReturnWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"return_id","type":"`string`","description":"The ID of the return to receive.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"created_by","type":"`string`","description":"The ID of the user that's requesting the return receival.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"description","type":"`string`","description":"Description of the return receival.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"internal_note","type":"`string`","description":"A note viewed by admins only related to the return receival.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"metadata","type":"`null` \\| `Record<string, any>`","description":"Custom key-value pairs of data to store in the return receival.","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="beginReceiveReturnWorkflow"/>
 
 ## Output
 

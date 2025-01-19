@@ -5,6 +5,7 @@ import {
   PriceListType,
   ProductStatus,
   PromotionRuleOperator,
+  PromotionStatus,
   PromotionType,
 } from "@medusajs/utils"
 import {
@@ -176,6 +177,7 @@ medusaIntegrationTestRunner({
             {
               code: "PROMOTION_APPLIED",
               type: PromotionType.STANDARD,
+              status: PromotionStatus.ACTIVE,
               application_method: {
                 type: "fixed",
                 target_type: "items",
@@ -482,6 +484,65 @@ medusaIntegrationTestRunner({
                       amount: 100,
                     },
                   ],
+                }),
+              ]),
+            })
+          )
+        })
+
+        it("should remove promotions when promotion is no longer in active state", async () => {
+          let responseBeforePromotionUpdate = await api.post(
+            `/store/carts/${cart.id}/line-items`,
+            {
+              variant_id: product.variants[0].id,
+              quantity: 1,
+            },
+            storeHeaders
+          )
+
+          expect(responseBeforePromotionUpdate.data.cart).toEqual(
+            expect.objectContaining({
+              id: cart.id,
+              items: expect.arrayContaining([
+                expect.objectContaining({
+                  adjustments: [
+                    {
+                      id: expect.any(String),
+                      code: "PROMOTION_APPLIED",
+                      promotion_id: promotion.id,
+                      amount: 100,
+                    },
+                  ],
+                }),
+              ]),
+            })
+          )
+
+          await api.post(
+            `/admin/promotions/${promotion.id}`,
+            { status: PromotionStatus.INACTIVE },
+            adminHeaders
+          )
+
+          let responseAfterPromotionUpdate = await api.post(
+            `/store/carts/${cart.id}/line-items`,
+            {
+              variant_id: product.variants[0].id,
+              quantity: 1,
+            },
+            storeHeaders
+          )
+
+          expect(responseAfterPromotionUpdate.status).toEqual(200)
+          expect(responseAfterPromotionUpdate.data.cart).toEqual(
+            expect.objectContaining({
+              id: cart.id,
+              items: expect.arrayContaining([
+                expect.objectContaining({
+                  adjustments: [],
+                }),
+                expect.objectContaining({
+                  adjustments: [],
                 }),
               ]),
             })
@@ -1205,6 +1266,7 @@ medusaIntegrationTestRunner({
               {
                 code: "PROMOTION_TEST",
                 type: PromotionType.STANDARD,
+                status: PromotionStatus.ACTIVE,
                 application_method: {
                   type: "fixed",
                   target_type: "items",

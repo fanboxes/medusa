@@ -14,27 +14,22 @@ This documentation provides a reference to the `associateProductsWithSalesChanne
 
 This step creates links between products and sales channel records.
 
-```ts title="src/workflows/my-workflow.ts"
-import { createWorkflow } from "@medusajs/framework/workflows-sdk"
-import { associateProductsWithSalesChannelsStep } from "@medusajs/medusa/core-flows"
+## Example
 
-const myWorkflow = createWorkflow(
-  "my-workflow",
-  () => {
-    const data = associateProductsWithSalesChannelsStep({
-      "links": [{
-        "sales_channel_id": "{value}",
-        "product_id": "{value}"
-      }]
-    })
-  }
-)
+```ts
+const data = associateProductsWithSalesChannelsStep({
+  links: [
+    {
+      sales_channel_id: "sc_123",
+      product_id: "prod_123"
+    }
+  ]
+})
 ```
-  
 
 ## Input
 
-<TypeList types={[{"name":"AssociateProductsWithSalesChannelsStepInput","type":"[AssociateProductsWithSalesChannelsStepInput](../../../../interfaces/core_flows.AssociateProductsWithSalesChannelsStepInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"links","type":"`object`[]","description":"","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"sales_channel_id","type":"`string`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"product_id","type":"`string`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="associateProductsWithSalesChannelsStep"/>
+<TypeList types={[{"name":"AssociateProductsWithSalesChannelsStepInput","type":"[AssociateProductsWithSalesChannelsStepInput](../../../../interfaces/core_flows.AssociateProductsWithSalesChannelsStepInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"links","type":"`object`[]","description":"The links to create between products and sales channels.","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"sales_channel_id","type":"`string`","description":"The ID of the sales channel.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"product_id","type":"`string`","description":"The ID of the product.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="associateProductsWithSalesChannelsStep"/>
 
 ## Output
 

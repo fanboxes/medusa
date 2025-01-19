@@ -13,9 +13,12 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `markFulfillmentAsDeliveredWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow marks fulfillment as delivered.
+This workflow marks a fulfillment as delivered. It's used by the markOrderFulfillmentAsDeliveredWorkflow.
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/fulfillment/workflows/mark-fulfillment-as-delivered.ts#L45" />
+You can use this workflow within your customizations or your own custom workflows, allowing you 
+to mark a fulfillment as delivered in your custom flows.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/fulfillment/workflows/mark-fulfillment-as-delivered.ts#L84" />
 
 ## Examples
 
@@ -36,7 +39,7 @@ export async function POST(
   const { result } = await markFulfillmentAsDeliveredWorkflow(req.scope)
     .run({
       input: {
-        "id": "id_mQNF81yXUvvj4"
+        id: "ful_123",
       }
     })
 
@@ -61,7 +64,7 @@ export default async function handleOrderPlaced({
   const { result } = await markFulfillmentAsDeliveredWorkflow(container)
     .run({
       input: {
-        "id": "id_mQNF81yXUvvj4"
+        id: "ful_123",
       }
     })
 
@@ -86,7 +89,7 @@ export default async function myCustomJob(
   const { result } = await markFulfillmentAsDeliveredWorkflow(container)
     .run({
       input: {
-        "id": "id_mQNF81yXUvvj4"
+        id: "ful_123",
       }
     })
 
@@ -112,7 +115,7 @@ const myWorkflow = createWorkflow(
     const result = markFulfillmentAsDeliveredWorkflow
       .runAsStep({
         input: {
-          "id": "id_mQNF81yXUvvj4"
+          id: "ful_123",
         }
       })
   }
@@ -124,11 +127,11 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"markFulfillmentAsDeliveredWorkflow","steps":[{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":1},{"type":"step","name":"validateFulfillmentDeliverabilityStep","description":"This step validates that if a fulfillment can be marked delivered\n\n","link":"../core_flows.Fulfillment.Workflows_Fulfillment.validateFulfillmentDeliverabilityStep/page.mdx","depth":2},{"type":"workflow","name":"updateFulfillmentWorkflow","description":"This workflow updates a fulfillment.\n\n","link":"../core_flows.Fulfillment.Workflows_Fulfillment.updateFulfillmentWorkflow/page.mdx","depth":3}]}} />
+<WorkflowDiagram workflow={{"name":"markFulfillmentAsDeliveredWorkflow","steps":[{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":1},{"type":"step","name":"validateFulfillmentDeliverabilityStep","description":"This step validates that a fulfillment can be marked delivered.\nIf the fulfillment has already been canceled or delivered, the step will throw an error.\n\n:::note\n\nYou can retrieve a fulfillment's details using [Query](https://docs.medusajs.com/learn/fundamentals/module-links/query),\nor [useQueryGraphStep](https://docs.medusajs.com/resources/references/medusa-workflows/steps/useQueryGraphStep).\n\n:::","link":"../core_flows.Fulfillment.Workflows_Fulfillment.validateFulfillmentDeliverabilityStep/page.mdx","depth":2},{"type":"workflow","name":"updateFulfillmentWorkflow","description":"This workflow updates a fulfillment. It's used by other workflows that update a \nfulfillment, such as [markFulfillmentAsDeliveredWorkflow](./page.mdx).\n\nYou can use this workflow within your own customizations or custom workflows, allowing you to\nupdate a fulfillment within your custom flows.","link":"../core_flows.Fulfillment.Workflows_Fulfillment.updateFulfillmentWorkflow/page.mdx","depth":3}]}} />
 
 ## Input
 
-<TypeList types={[{"name":"id","type":"`string`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="markFulfillmentAsDeliveredWorkflow"/>
+<TypeList types={[{"name":"MarkFulfillmentAsDeliveredInput","type":"[MarkFulfillmentAsDeliveredInput](../../../../types/core_flows.MarkFulfillmentAsDeliveredInput/page.mdx)","optional":false,"defaultValue":"","description":"The data to mark a fulfillment as delivered.","expandable":false,"children":[{"name":"id","type":"`string`","description":"The fulfillment's ID.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="markFulfillmentAsDeliveredWorkflow"/>
 
 ## Output
 

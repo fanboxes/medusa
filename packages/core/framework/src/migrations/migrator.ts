@@ -97,8 +97,13 @@ export abstract class Migrator {
       await this.pgConnection.raw(
         `INSERT INTO ${this.migration_table_name} (${columns.join(
           ", "
-        )}) VALUES (${new Array(values.length).fill("?").join(",")})`,
-        values
+        )}) VALUES ${values
+          .map(
+            (itemValues) =>
+              `(${new Array(itemValues.length).fill("?").join(",")})`
+          )
+          .join(",")}`,
+        values.flat()
       )
     } catch (error) {
       logger.error(
@@ -130,7 +135,7 @@ export abstract class Migrator {
       }
 
       try {
-        const scriptFiles = glob.sync("*.{js,ts}", {
+        const scriptFiles = glob.sync("*.{js,(!d.)ts}", {
           cwd: basePath,
           ignore: ["**/index.{js,ts}"],
         })

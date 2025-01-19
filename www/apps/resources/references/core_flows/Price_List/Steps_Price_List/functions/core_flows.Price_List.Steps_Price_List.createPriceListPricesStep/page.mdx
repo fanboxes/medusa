@@ -14,28 +14,29 @@ This documentation provides a reference to the `createPriceListPricesStep`. It b
 
 This step creates prices for a price list.
 
-```ts title="src/workflows/my-workflow.ts"
-import { createWorkflow } from "@medusajs/framework/workflows-sdk"
-import { createPriceListPricesStep } from "@medusajs/medusa/core-flows"
+## Example
 
-const myWorkflow = createWorkflow(
-  "my-workflow",
-  () => {
-    const data = createPriceListPricesStep({
-      "data": [{
-        "data": "{value}",
-        "id": "id_HdzlBpHUS24GjBbyImWt"
-      }],
-      "variant_price_map": "{value}"
-    })
+```ts
+const data = createPriceListPricesStep({
+  data: [{
+    id: "plist_123",
+    prices: [
+      {
+        currency_code: "USD",
+        amount: 1000,
+        variant_id: "variant_123",
+      }
+    ]
+  }],
+  variant_price_map: {
+    "variant_123": "pset_123"
   }
-)
+})
 ```
-  
 
 ## Input
 
-<TypeList types={[{"name":"CreatePriceListPricesWorkflowStepDTO","type":"[CreatePriceListPricesWorkflowStepDTO](../../../../../types/interfaces/types.CreatePriceListPricesWorkflowStepDTO/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"data","type":"Pick&#60;[CreatePriceListWorkflowInputDTO](../../../../../types/interfaces/types.CreatePriceListWorkflowInputDTO/page.mdx), \"prices\"&#62; & `object`[]","description":"","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"id","type":"`string`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]}]},{"name":"variant_price_map","type":"`Record<string, string>`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="createPriceListPricesStep"/>
+<TypeList types={[{"name":"CreatePriceListPricesWorkflowStepDTO","type":"[CreatePriceListPricesWorkflowStepDTO](../../../../../types/interfaces/types.CreatePriceListPricesWorkflowStepDTO/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"data","type":"Pick&#60;[CreatePriceListWorkflowInputDTO](../../../../../types/interfaces/types.CreatePriceListWorkflowInputDTO/page.mdx), \"prices\"&#62; & `object`[]","description":"The prices to create.","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"id","type":"`string`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]}]},{"name":"variant_price_map","type":"`Record<string, string>`","description":"An object whose keys are variant IDs and values are price set IDs.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="createPriceListPricesStep"/>
 
 ## Output
 

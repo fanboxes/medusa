@@ -10,7 +10,13 @@ import {
 } from "@medusajs/framework/utils"
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The data to delete payment sessions.
+ */
 export interface DeletePaymentSessionStepInput {
+  /**
+   * The IDs of the payment sessions to delete.
+   */
   ids: string[]
 }
 
@@ -19,7 +25,7 @@ export const deletePaymentSessionsStepId = "delete-payment-sessions"
  * This step deletes one or more payment sessions.
  *
  * Note: This step should not be used alone as it doesn't consider a revert
- * Use deletePaymentSessionsWorkflow instead that uses this step
+ * Use {@link deletePaymentSessionsWorkflow} instead, which uses this step.
  */
 export const deletePaymentSessionsStep = createStep(
   deletePaymentSessionsStepId,

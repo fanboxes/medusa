@@ -60,15 +60,6 @@
           "nullable": true,
           "mappedType": "decimal"
         },
-        "region_id": {
-          "name": "region_id",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "text"
-        },
         "completed_at": {
           "name": "completed_at",
           "type": "timestamptz",
@@ -184,14 +175,6 @@
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_payment_collection_deleted_at\" ON \"payment_collection\" (deleted_at) WHERE deleted_at IS NULL"
-        },
-        {
-          "keyName": "IDX_payment_collection_region_id",
-          "columnNames": [],
-          "composite": false,
-          "primary": false,
-          "unique": false,
-          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_payment_collection_region_id\" ON \"payment_collection\" (region_id) WHERE deleted_at IS NULL"
         },
         {
           "keyName": "payment_collection_pkey",
@@ -698,33 +681,6 @@
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "text"
-        },
-        "cart_id": {
-          "name": "cart_id",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "text"
-        },
-        "order_id": {
-          "name": "order_id",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "text"
-        },
-        "customer_id": {
-          "name": "customer_id",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
           "mappedType": "text"
         },
         "data": {

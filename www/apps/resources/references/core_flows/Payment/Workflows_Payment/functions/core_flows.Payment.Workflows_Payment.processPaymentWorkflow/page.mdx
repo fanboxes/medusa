@@ -17,7 +17,14 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `processPaymentWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/payment/workflows/process-payment.ts#L12" />
+This workflow processes a payment to either complete its associated cart,
+capture the payment, or authorize the payment session. It's used when a
+[Webhook Event is received](https://docs.medusajs.com/resources/commerce-modules/payment/webhook-events).
+
+You can use this workflow within your own customizations or custom workflows, allowing you
+to process a payment in your custom flows based on a webhook action.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/payment/workflows/process-payment.ts#L39" />
 
 ## Examples
 
@@ -37,7 +44,13 @@ export async function POST(
 ) {
   const { result } = await processPaymentWorkflow(req.scope)
     .run({
-      input: "{value}"
+      input: {
+        action: "captured",
+        data: {
+          session_id: "payses_123",
+          amount: 10
+        }
+      }
     })
 
   res.send(result)
@@ -60,7 +73,13 @@ export default async function handleOrderPlaced({
 }: SubscriberArgs < { id: string } > ) {
   const { result } = await processPaymentWorkflow(container)
     .run({
-      input: "{value}"
+      input: {
+        action: "captured",
+        data: {
+          session_id: "payses_123",
+          amount: 10
+        }
+      }
     })
 
   console.log(result)
@@ -83,7 +102,13 @@ export default async function myCustomJob(
 ) {
   const { result } = await processPaymentWorkflow(container)
     .run({
-      input: "{value}"
+      input: {
+        action: "captured",
+        data: {
+          session_id: "payses_123",
+          amount: 10
+        }
+      }
     })
 
   console.log(result)
@@ -107,7 +132,13 @@ const myWorkflow = createWorkflow(
   () => {
     const result = processPaymentWorkflow
       .runAsStep({
-        input: "{value}"
+        input: {
+          action: "captured",
+          data: {
+            session_id: "payses_123",
+            amount: 10
+          }
+        }
       })
   }
 )
@@ -118,7 +149,7 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"processPaymentWorkflow","steps":[{"type":"step","name":"useQueryGraphStep","description":"This step fetches data across modules using the Query.\n\nLearn more in the [Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx","depth":1},{"type":"step","name":"useQueryGraphStep","description":"This step fetches data across modules using the Query.\n\nLearn more in the [Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx","depth":2},{"type":"step","name":"useQueryGraphStep","description":"This step fetches data across modules using the Query.\n\nLearn more in the [Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx","depth":3},{"type":"when","condition":"{\n      return (\n        input.action === PaymentActions.SUCCESSFUL && !!paymentData.data.length\n      )\n    }","depth":"5","steps":[{"type":"workflow","name":"capturePaymentWorkflow","description":"This workflow captures a payment.\n\n","link":"../core_flows.Payment.Workflows_Payment.capturePaymentWorkflow/page.mdx","depth":5}]},{"type":"when","condition":"{\n      // Authorize payment session if no Cart is linked to the payment\n      // When associated with a Cart, the complete cart workflow will handle the authorization\n      return (\n        !cartPaymentCollection.data.length &&\n        input.action === PaymentActions.AUTHORIZED &&\n        !!input.data?.session_id\n      )\n    }","depth":"6","steps":[{"type":"step","name":"authorizePaymentSessionStep","description":"This step authorizes a payment session.\n\n","link":"../../../Steps_Payment/functions/core_flows.Payment.Steps_Payment.authorizePaymentSessionStep/page.mdx","depth":6}]}]}} />
+<WorkflowDiagram workflow={{"name":"processPaymentWorkflow","steps":[{"type":"step","name":"useQueryGraphStep","description":"This step fetches data across modules using the Query.\n\nLearn more in the [Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx","depth":1},{"type":"step","name":"useQueryGraphStep","description":"This step fetches data across modules using the Query.\n\nLearn more in the [Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx","depth":2},{"type":"step","name":"useQueryGraphStep","description":"This step fetches data across modules using the Query.\n\nLearn more in the [Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx","depth":3},{"type":"when","condition":"{\n      return (\n        input.action === PaymentActions.SUCCESSFUL && !!paymentData.data.length\n      )\n    }","depth":"5","steps":[{"type":"workflow","name":"capturePaymentWorkflow","description":"This workflow captures a payment. It's used by the \n[Capture Payment Admin API Route](https://docs.medusajs.com/api/admin#payments\\_postpaymentsidcapture).\n\nYou can use this workflow within your own customizations or custom workflows, allowing you\nto capture a payment in your custom flows.","link":"../core_flows.Payment.Workflows_Payment.capturePaymentWorkflow/page.mdx","depth":5}]},{"type":"when","condition":"{\n        // Authorize payment session if no Cart is linked to the payment\n        // When associated with a Cart, the complete cart workflow will handle the authorization\n        return (\n          !cartPaymentCollection.data.length &&\n          input.action === PaymentActions.AUTHORIZED &&\n          !!input.data?.session_id\n        )\n      }","depth":"6","steps":[{"type":"step","name":"authorizePaymentSessionStep","description":"This step authorizes a payment session.","link":"../../../Steps_Payment/functions/core_flows.Payment.Steps_Payment.authorizePaymentSessionStep/page.mdx","depth":6}]}]}} />
 
 ## Input
 

@@ -2,13 +2,18 @@ import { IPricingModuleService } from "@medusajs/framework/types"
 import { Modules } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The IDs of price lists to remove their prices.
+ */
+export type RemovePriceListPricesStepInput = string[]
+
 export const removePriceListPricesStepId = "remove-price-list-prices"
 /**
  * This step removes prices from a price list.
  */
 export const removePriceListPricesStep = createStep(
   removePriceListPricesStepId,
-  async (ids: string[], { container }) => {
+  async (ids: RemovePriceListPricesStepInput, { container }) => {
     if (!ids.length) {
       return new StepResponse([], [])
     }

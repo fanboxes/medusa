@@ -2,13 +2,18 @@ import { IStoreModuleService } from "@medusajs/framework/types"
 import { Modules } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The IDs of the stores to delete.
+ */
+export type DeleteStoresStepInput = string[]
+
 export const deleteStoresStepId = "delete-stores"
 /**
  * This step deletes one or more stores.
  */
 export const deleteStoresStep = createStep(
   deleteStoresStepId,
-  async (ids: string[], { container }) => {
+  async (ids: DeleteStoresStepInput, { container }) => {
     const storeModule = container.resolve<IStoreModuleService>(Modules.STORE)
 
     await storeModule.softDeleteStores(ids)

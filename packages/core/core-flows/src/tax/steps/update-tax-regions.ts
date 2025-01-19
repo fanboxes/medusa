@@ -9,9 +9,22 @@ import {
 } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The tax regions to update.
+ */
+export type UpdateTaxRegionsStepInput = UpdateTaxRegionDTO[]
+
 export const updateTaxRegionsStepId = "update-tax-regions"
 /**
- * This step updates tax regions
+ * This step updates tax regions.
+ * 
+ * @example
+ * const data = updateTaxRegionsStep([
+ *   {
+ *     id: "txreg_123",
+ *     province_code: "CA",
+ *   }
+ * ])
  */
 export const updateTaxRegionsStep = createStep(
   updateTaxRegionsStepId,

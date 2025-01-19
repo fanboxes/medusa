@@ -13,9 +13,13 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `deleteFulfillmentSetsWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow deletes one or more fulfillment sets.
+This workflow deletes one or more fulfillment sets. It's used by the
+[Delete Fulfillment Sets Admin API Route](https://docs.medusajs.com/api/admin#fulfillment-sets\_deletefulfillmentsetsid).
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/fulfillment/workflows/delete-fulfillment-sets.ts#L11" />
+You can use this workflow within your own customizations or custom workflows, allowing you to
+delete fulfillment sets within your custom flows.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/fulfillment/workflows/delete-fulfillment-sets.ts#L37" />
 
 ## Examples
 
@@ -36,9 +40,7 @@ export async function POST(
   const { result } = await deleteFulfillmentSetsWorkflow(req.scope)
     .run({
       input: {
-        "ids": [
-          "id_9LYG9saNaInAMo2jl"
-        ]
+        ids: ["fulset_123"]
       }
     })
 
@@ -63,9 +65,7 @@ export default async function handleOrderPlaced({
   const { result } = await deleteFulfillmentSetsWorkflow(container)
     .run({
       input: {
-        "ids": [
-          "id_9LYG9saNaInAMo2jl"
-        ]
+        ids: ["fulset_123"]
       }
     })
 
@@ -90,9 +90,7 @@ export default async function myCustomJob(
   const { result } = await deleteFulfillmentSetsWorkflow(container)
     .run({
       input: {
-        "ids": [
-          "id_9LYG9saNaInAMo2jl"
-        ]
+        ids: ["fulset_123"]
       }
     })
 
@@ -118,9 +116,7 @@ const myWorkflow = createWorkflow(
     const result = deleteFulfillmentSetsWorkflow
       .runAsStep({
         input: {
-          "ids": [
-            "id_9LYG9saNaInAMo2jl"
-          ]
+          ids: ["fulset_123"]
         }
       })
   }
@@ -132,8 +128,8 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"deleteFulfillmentSetsWorkflow","steps":[{"type":"step","name":"deleteFulfillmentSetsStep","description":"This step deletes one or more fulfillment sets.\n\n","link":"../../../Steps_Fulfillment/functions/core_flows.Fulfillment.Steps_Fulfillment.deleteFulfillmentSetsStep/page.mdx","depth":1},{"type":"step","name":"removeRemoteLinkStep","description":"This step deletes linked records of a record.\n\nLearn more in the [Remote Link documentation](https://docs.medusajs.com/learn/fundamentals/module-links/remote-link#cascade-delete-linked-records)\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.removeRemoteLinkStep/page.mdx","depth":2}]}} />
+<WorkflowDiagram workflow={{"name":"deleteFulfillmentSetsWorkflow","steps":[{"type":"step","name":"deleteFulfillmentSetsStep","description":"This step deletes one or more fulfillment sets.","link":"../../../Steps_Fulfillment/functions/core_flows.Fulfillment.Steps_Fulfillment.deleteFulfillmentSetsStep/page.mdx","depth":1},{"type":"step","name":"removeRemoteLinkStep","description":"This step deletes linked records of a record.\n\nLearn more in the [Remote Link documentation](https://docs.medusajs.com/learn/fundamentals/module-links/remote-link#cascade-delete-linked-records)","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.removeRemoteLinkStep/page.mdx","depth":2}]}} />
 
 ## Input
 
-<TypeList types={[{"name":"ids","type":"`string`[]","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteFulfillmentSetsWorkflow"/>
+<TypeList types={[{"name":"DeleteFulfillmentSetsWorkflowInput","type":"[DeleteFulfillmentSetsWorkflowInput](../../../../types/core_flows.DeleteFulfillmentSetsWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"The data to delete one or more fulfillment sets.","expandable":false,"children":[{"name":"ids","type":"`string`[]","description":"The IDs of the fulfillment sets to delete.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteFulfillmentSetsWorkflow"/>

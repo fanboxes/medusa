@@ -56,6 +56,13 @@
  *     format: date-time
  *     title: deleted_at
  *     description: The date the promotion was deleted.
+ *   status:
+ *     type: string
+ *     description: The promotion's status.
+ *     enum:
+ *       - draft
+ *       - active
+ *       - inactive
  * 
 */
 

@@ -14,20 +14,14 @@ This documentation provides a reference to the `updateFulfillmentStep`. It belon
 
 This step updates a fulfillment.
 
-```ts title="src/workflows/my-workflow.ts"
-import { createWorkflow } from "@medusajs/framework/workflows-sdk"
-import { updateFulfillmentStep } from "@medusajs/medusa/core-flows"
+## Example
 
-const myWorkflow = createWorkflow(
-  "my-workflow",
-  () => {
-    const data = updateFulfillmentStep({
-      "id": "id_xAPf9V54mmocvHiLKCdO"
-    })
-  }
-)
+```ts
+const data = updateFulfillmentStep({
+  id: "ful_123",
+  delivered_at: new Date(),
+})
 ```
-  
 
 ## Input
 

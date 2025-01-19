@@ -4,7 +4,17 @@ import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
 export const createUsersStepId = "create-users-step"
 /**
- * This step creates one or more users.
+ * This step creates one or more users. To allow these users to log in, 
+ * you must attach an auth identity to each user using the {@link setAuthAppMetadataStep}.
+ * 
+ * @example
+ * const data = createUsersStep([
+ *   {
+ *     email: "example@gmail.com",
+ *     first_name: "John",
+ *     last_name: "Doe",
+ *   }
+ * ])
  */
 export const createUsersStep = createStep(
   createUsersStepId,

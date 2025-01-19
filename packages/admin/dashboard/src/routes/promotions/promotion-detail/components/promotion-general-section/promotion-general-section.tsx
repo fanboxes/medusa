@@ -16,10 +16,7 @@ import { ActionMenu } from "../../../../../components/common/action-menu"
 import { useDeletePromotion } from "../../../../../hooks/api/promotions"
 import { formatCurrency } from "../../../../../lib/format-currency"
 import { formatPercentage } from "../../../../../lib/percentage-helpers"
-import {
-  getPromotionStatus,
-  PromotionStatus,
-} from "../../../../../lib/promotions"
+import { getPromotionStatus } from "../../../../../lib/promotions"
 
 type PromotionGeneralSectionProps = {
   promotion: HttpTypes.AdminPromotion
@@ -78,16 +75,7 @@ export const PromotionGeneralSection = ({
     })
   }
 
-  const [color, text] = {
-    [PromotionStatus.DISABLED]: ["grey", t("statuses.disabled")],
-    [PromotionStatus.ACTIVE]: ["green", t("statuses.active")],
-    [PromotionStatus.SCHEDULED]: ["orange", t("statuses.scheduled")],
-    [PromotionStatus.EXPIRED]: ["red", t("statuses.expired")],
-  }[getPromotionStatus(promotion)] as [
-    "grey" | "orange" | "green" | "red",
-    string
-  ]
-
+  const [color, text] = getPromotionStatus(promotion)
   const displayValue = getDisplayValue(promotion)
 
   return (

@@ -14,7 +14,10 @@ This documentation provides a reference to the `updateOrderChangesWorkflow`. It 
 
 This workflow updates one or more order changes.
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/order/workflows/update-order-changes.ts#L16" />
+You can use this workflow within your customizations or your own custom workflows, allowing you to wrap custom logic around
+updating order changes.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/order/workflows/update-order-changes.ts#L23" />
 
 ## Examples
 
@@ -35,7 +38,7 @@ export async function POST(
   const { result } = await updateOrderChangesWorkflow(req.scope)
     .run({
       input: [{
-        "id": "id_ZKWCX4HR5XYnczr09"
+        "id": "id_3lt8ssOzNZxx7XcGo4eo"
       }]
     })
 
@@ -60,7 +63,7 @@ export default async function handleOrderPlaced({
   const { result } = await updateOrderChangesWorkflow(container)
     .run({
       input: [{
-        "id": "id_ZKWCX4HR5XYnczr09"
+        "id": "id_3lt8ssOzNZxx7XcGo4eo"
       }]
     })
 
@@ -85,7 +88,7 @@ export default async function myCustomJob(
   const { result } = await updateOrderChangesWorkflow(container)
     .run({
       input: [{
-        "id": "id_ZKWCX4HR5XYnczr09"
+        "id": "id_3lt8ssOzNZxx7XcGo4eo"
       }]
     })
 
@@ -111,7 +114,7 @@ const myWorkflow = createWorkflow(
     const result = updateOrderChangesWorkflow
       .runAsStep({
         input: [{
-          "id": "id_ZKWCX4HR5XYnczr09"
+          "id": "id_3lt8ssOzNZxx7XcGo4eo"
         }]
       })
   }
@@ -123,7 +126,7 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"updateOrderChangesWorkflow","steps":[{"type":"step","name":"updateOrderChangesStep","description":"This step updates order change.\n\n","link":"../../../Steps_Order/functions/core_flows.Order.Steps_Order.updateOrderChangesStep/page.mdx","depth":1}]}} />
+<WorkflowDiagram workflow={{"name":"updateOrderChangesWorkflow","steps":[{"type":"step","name":"updateOrderChangesStep","description":"This step updates order change.","link":"../../../Steps_Order/functions/core_flows.Order.Steps_Order.updateOrderChangesStep/page.mdx","depth":1}]}} />
 
 ## Input
 

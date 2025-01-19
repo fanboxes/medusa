@@ -10,14 +10,33 @@ import {
 } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The data to update one or more customer addresses.
+ */
 export type UpdateCustomerAddresseStepInput = {
+  /**
+   * The filters to select the customer addresses to update.
+   */
   selector: FilterableCustomerAddressProps
+  /**
+   * The data to update the customer addresses with.
+   */
   update: UpdateCustomerAddressDTO
 }
 
 export const updateCustomerAddresseStepId = "update-customer-addresses"
 /**
  * This step updates one or more customer addresses.
+ * 
+ * @example
+ * const data = updateCustomerAddressesStep({
+ *   selector: {
+ *     customer_id: "cus_123"
+ *   },
+ *   update: {
+ *     country_code: "us"
+ *   }
+ * })
  */
 export const updateCustomerAddressesStep = createStep(
   updateCustomerAddresseStepId,

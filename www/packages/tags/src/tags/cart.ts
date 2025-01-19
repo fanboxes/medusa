@@ -92,6 +92,10 @@ export const cart = [
     "path": "/references/medusa-workflows/steps/updateLineItemsStep"
   },
   {
+    "title": "updateShippingMethodsStep",
+    "path": "/references/medusa-workflows/steps/updateShippingMethodsStep"
+  },
+  {
     "title": "addShippingMethodToCartWorkflow",
     "path": "/references/medusa-workflows/addShippingMethodToCartWorkflow"
   },
@@ -106,6 +110,14 @@ export const cart = [
   {
     "title": "createCartWorkflow",
     "path": "/references/medusa-workflows/createCartWorkflow"
+  },
+  {
+    "title": "refreshCartItemsWorkflow",
+    "path": "/references/medusa-workflows/refreshCartItemsWorkflow"
+  },
+  {
+    "title": "refreshCartShippingMethodsWorkflow",
+    "path": "/references/medusa-workflows/refreshCartShippingMethodsWorkflow"
   },
   {
     "title": "transferCartCustomerWorkflow",

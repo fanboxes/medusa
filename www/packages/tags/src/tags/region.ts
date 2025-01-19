@@ -20,6 +20,18 @@ export const region = [
     "path": "/references/medusa-workflows/createCartWorkflow"
   },
   {
+    "title": "validateShippingOptionPricesStep",
+    "path": "/references/medusa-workflows/steps/validateShippingOptionPricesStep"
+  },
+  {
+    "title": "createShippingOptionsWorkflow",
+    "path": "/references/medusa-workflows/createShippingOptionsWorkflow"
+  },
+  {
+    "title": "updateShippingOptionsWorkflow",
+    "path": "/references/medusa-workflows/updateShippingOptionsWorkflow"
+  },
+  {
     "title": "addOrderLineItemsWorkflow",
     "path": "/references/medusa-workflows/addOrderLineItemsWorkflow"
   },

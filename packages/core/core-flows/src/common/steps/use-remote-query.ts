@@ -63,86 +63,50 @@ export const useRemoteQueryStepId = "use-remote-query"
  * To retrieve a list of records of a data model:
  *
  * ```ts
- * import {
- *   createWorkflow
- * } from "@medusajs/framework/workflows-sdk"
- * import {
- *   useRemoteQueryStep
- * } from "@medusajs/medusa/core-flows"
- *
- * const helloWorldWorkflow = createWorkflow(
- *   "hello-world",
- *   () => {
- *     const products = useRemoteQueryStep({
- *       entry_point: "product",
- *       fields: [
- *         "*",
- *         "variants.*"
- *       ]
- *     })
- *   }
- * )
+ * const products = useRemoteQueryStep({
+ *   entry_point: "product",
+ *   fields: [
+ *     "*",
+ *     "variants.*"
+ *   ]
+ * })
  * ```
  *
  * To retrieve a single item instead of a an array:
  *
  * ```ts
- * import {
- *   createWorkflow
- * } from "@medusajs/framework/workflows-sdk"
- * import {
- *   useRemoteQueryStep
- * } from "@medusajs/core-flows"
- *
- * const helloWorldWorkflow = createWorkflow(
- *   "hello-world",
- *   () => {
- *     const product = useRemoteQueryStep({
- *       entry_point: "product",
- *       fields: [
- *         "*",
- *         "variants.*"
- *       ],
- *       variables: {
- *         filters: {
- *           id: "123"
- *         }
- *       },
- *       list: false
- *     })
- *   }
- * )
+ * const product = useRemoteQueryStep({
+ *   entry_point: "product",
+ *   fields: [
+ *     "*",
+ *     "variants.*"
+ *   ],
+ *   variables: {
+ *     filters: {
+ *       id: "123"
+ *     }
+ *   },
+ *   list: false
+ * })
  * ```
  *
  * To throw an error if a record isn't found matching the specified ID:
  *
  * ```ts
- * import {
- *   createWorkflow
- * } from "@medusajs/framework/workflows-sdk"
- * import {
- *   useRemoteQueryStep
- * } from "@medusajs/core-flows"
- *
- * const helloWorldWorkflow = createWorkflow(
- *   "hello-world",
- *   () => {
- *     const product = useRemoteQueryStep({
- *       entry_point: "product",
- *       fields: [
- *         "*",
- *         "variants.*"
- *       ],
- *       variables: {
- *         filters: {
- *           id: "123"
- *         }
- *       },
- *       list: false,
- *       throw_if_key_not_found: true
- *     })
- *   }
- * )
+ * const product = useRemoteQueryStep({
+ *   entry_point: "product",
+ *   fields: [
+ *     "*",
+ *     "variants.*"
+ *   ],
+ *   variables: {
+ *     filters: {
+ *       id: "123"
+ *     }
+ *   },
+ *   list: false,
+ *   throw_if_key_not_found: true
+ * })
  * ```
  */
 export const useRemoteQueryStep = createStep(

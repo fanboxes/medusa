@@ -26,13 +26,18 @@ export const validateInventoryDeleteStep = createStep(
   }
 )
 
+/**
+ * The IDs of the inventory items to delete.
+ */
+export type DeleteInventoryItemStepInput = string[]
+
 export const deleteInventoryItemStepId = "delete-inventory-item-step"
 /**
  * This step deletes one or more inventory items.
  */
 export const deleteInventoryItemStep = createStep(
   deleteInventoryItemStepId,
-  async (ids: string[], { container }) => {
+  async (ids: DeleteInventoryItemStepInput, { container }) => {
     const inventoryService = container.resolve(Modules.INVENTORY)
 
     await inventoryService.softDeleteInventoryItems(ids)

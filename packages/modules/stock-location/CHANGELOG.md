@@ -1,5 +1,7 @@
 # @medusajs/stock-location
 
+## 2.3.0
+
 ## 2.2.0
 
 ### Patch Changes

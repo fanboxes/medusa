@@ -2,13 +2,21 @@ import { IOrderModuleService } from "@medusajs/framework/types"
 import { Modules } from "@medusajs/framework/utils"
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The IDs of the return reasons to delete.
+ */
+export type DeleteReturnReasonStepInput = string[]
+
 export const deleteReturnReasonStepId = "delete-return-reasons"
 /**
  * This step deletes one or more return reasons.
+ * 
+ * @example
+ * const data = deleteReturnReasonStep(["rr_123"])
  */
 export const deleteReturnReasonStep = createStep(
   deleteReturnReasonStepId,
-  async (ids: string[], { container }) => {
+  async (ids: DeleteReturnReasonStepInput, { container }) => {
     const service = container.resolve<IOrderModuleService>(Modules.ORDER)
 
     await service.softDeleteReturnReasons(ids)

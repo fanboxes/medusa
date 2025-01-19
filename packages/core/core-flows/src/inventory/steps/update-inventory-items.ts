@@ -7,13 +7,18 @@ import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
 import { Modules } from "@medusajs/framework/utils"
 
+/**
+ * The data to update the inventory items.
+ */
+export type UpdateInventoryItemsStepInput = InventoryTypes.UpdateInventoryItemInput[]
+
 export const updateInventoryItemsStepId = "update-inventory-items-step"
 /**
  * This step updates one or more inventory items.
  */
 export const updateInventoryItemsStep = createStep(
   updateInventoryItemsStepId,
-  async (input: InventoryTypes.UpdateInventoryItemInput[], { container }) => {
+  async (input: UpdateInventoryItemsStepInput, { container }) => {
     const inventoryService = container.resolve<IInventoryService>(
       Modules.INVENTORY
     )

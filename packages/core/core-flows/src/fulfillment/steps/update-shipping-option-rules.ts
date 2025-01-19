@@ -9,6 +9,16 @@ import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 export const updateShippingOptionRulesStepId = "update-shipping-option-rules"
 /**
  * This step updates one or more shipping option rules.
+ * 
+ * @example
+ * const data = updateShippingOptionRulesStep({
+ *   data: [
+ *     {
+ *       id: "sor_123",
+ *       operator: "in"
+ *     }
+ *   ]
+ * })
  */
 export const updateShippingOptionRulesStep = createStep(
   updateShippingOptionRulesStepId,

@@ -9,9 +9,9 @@ export default async function localPublishPlugin({
   directory: string
 }) {
   await yalc.publishPackage({
-    push: true,
     workingDir: directory,
     changed: true,
     replace: true,
+    scripts: true,
   })
 }

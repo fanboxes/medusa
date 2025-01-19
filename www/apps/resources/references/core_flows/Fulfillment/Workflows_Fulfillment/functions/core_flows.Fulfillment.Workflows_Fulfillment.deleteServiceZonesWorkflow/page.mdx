@@ -12,9 +12,13 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `deleteServiceZonesWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow deletes one or more service zones.
+This workflow deletes one or more service zones. It's used by the
+[Remove Service Zones from Fulfillment Set Admin API Route](https://docs.medusajs.com/api/admin#fulfillment-sets\_deletefulfillmentsetsidservicezoneszone\_id).
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/fulfillment/workflows/delete-service-zones.ts#L8" />
+You can use this workflow within your own customizations or custom workflows, allowing you to
+delete service zones within your custom flows.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/fulfillment/workflows/delete-service-zones.ts#L34" />
 
 ## Examples
 
@@ -35,9 +39,7 @@ export async function POST(
   const { result } = await deleteServiceZonesWorkflow(req.scope)
     .run({
       input: {
-        "ids": [
-          "id_Knqn6UBPOVEcr5lujDNj"
-        ]
+        ids: ["serzo_123"]
       }
     })
 
@@ -62,9 +64,7 @@ export default async function handleOrderPlaced({
   const { result } = await deleteServiceZonesWorkflow(container)
     .run({
       input: {
-        "ids": [
-          "id_Knqn6UBPOVEcr5lujDNj"
-        ]
+        ids: ["serzo_123"]
       }
     })
 
@@ -89,9 +89,7 @@ export default async function myCustomJob(
   const { result } = await deleteServiceZonesWorkflow(container)
     .run({
       input: {
-        "ids": [
-          "id_Knqn6UBPOVEcr5lujDNj"
-        ]
+        ids: ["serzo_123"]
       }
     })
 
@@ -117,9 +115,7 @@ const myWorkflow = createWorkflow(
     const result = deleteServiceZonesWorkflow
       .runAsStep({
         input: {
-          "ids": [
-            "id_Knqn6UBPOVEcr5lujDNj"
-          ]
+          ids: ["serzo_123"]
         }
       })
   }
@@ -131,8 +127,8 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"deleteServiceZonesWorkflow","steps":[{"type":"step","name":"deleteServiceZonesStep","description":"This step deletes one or more service zones.\n\n","link":"../../../Steps_Fulfillment/functions/core_flows.Fulfillment.Steps_Fulfillment.deleteServiceZonesStep/page.mdx","depth":1}]}} />
+<WorkflowDiagram workflow={{"name":"deleteServiceZonesWorkflow","steps":[{"type":"step","name":"deleteServiceZonesStep","description":"This step deletes one or more service zones.","link":"../../../Steps_Fulfillment/functions/core_flows.Fulfillment.Steps_Fulfillment.deleteServiceZonesStep/page.mdx","depth":1}]}} />
 
 ## Input
 
-<TypeList types={[{"name":"ids","type":"`string`[]","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteServiceZonesWorkflow"/>
+<TypeList types={[{"name":"DeleteServiceZonesWorkflowInput","type":"[DeleteServiceZonesWorkflowInput](../../../../types/core_flows.DeleteServiceZonesWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"The data to delete one or more service zones.","expandable":false,"children":[{"name":"ids","type":"`string`[]","description":"The IDs of the service zones to delete.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteServiceZonesWorkflow"/>

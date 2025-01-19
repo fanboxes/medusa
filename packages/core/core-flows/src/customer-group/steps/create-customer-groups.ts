@@ -5,13 +5,18 @@ import {
 import { Modules } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The data to create customer groups.
+ */
+export type CreateCustomerGroupsStepInput = CreateCustomerGroupDTO[]
+
 export const createCustomerGroupsStepId = "create-customer-groups"
 /**
  * This step creates one or more customer groups.
  */
 export const createCustomerGroupsStep = createStep(
   createCustomerGroupsStepId,
-  async (data: CreateCustomerGroupDTO[], { container }) => {
+  async (data: CreateCustomerGroupsStepInput, { container }) => {
     const service = container.resolve<ICustomerModuleService>(Modules.CUSTOMER)
 
     const createdCustomerGroups = await service.createCustomerGroups(data)

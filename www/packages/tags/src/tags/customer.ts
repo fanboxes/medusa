@@ -80,6 +80,10 @@ export const customer = [
     "path": "/references/medusa-workflows/steps/updateCustomersStep"
   },
   {
+    "title": "validateCustomerAccountCreation",
+    "path": "/references/medusa-workflows/steps/validateCustomerAccountCreation"
+  },
+  {
     "title": "createCustomerAccountWorkflow",
     "path": "/references/medusa-workflows/createCustomerAccountWorkflow"
   },

@@ -5,6 +5,13 @@ import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 export const createInviteStepId = "create-invite-step"
 /**
  * This step creates one or more invites.
+ * 
+ * @example
+ * const data = createInviteStep([
+ *   {
+ *     email: "example@gmail.com"
+ *   }
+ * ])
  */
 export const createInviteStep = createStep(
   createInviteStepId,

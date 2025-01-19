@@ -1,5 +1,11 @@
 # @medusajs/promotion
 
+## 2.3.0
+
+### Patch Changes
+
+- [#10950](https://github.com/medusajs/medusa/pull/10950) [`5eab9e739919594ae7e7e416942ec93d84b699fd`](https://github.com/medusajs/medusa/commit/5eab9e739919594ae7e7e416942ec93d84b699fd) Thanks [@riqwan](https://github.com/riqwan)! - feat(promotion,dashboard,types,utils,medusa): Add statuses to promotions
+
 ## 2.2.0
 
 ### Patch Changes

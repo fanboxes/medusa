@@ -12,9 +12,13 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `createPromotionRulesWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow creates one or more promotion rules.
+This workflow creates one or more promotion rules. It's used by other workflows,
+such as [batchPromotionRulesWorkflow](../core_flows.Promotion.Workflows_Promotion.batchPromotionRulesWorkflow/page.mdx) that manages the rules of a promotion.
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/promotion/workflows/create-promotion-rules.ts#L16" />
+You can use this workflow within your own customizations or custom workflows, allowing you to
+create promotion rules within your custom flows.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/promotion/workflows/create-promotion-rules.ts#L39" />
 
 ## Examples
 
@@ -35,14 +39,15 @@ export async function POST(
   const { result } = await createPromotionRulesWorkflow(req.scope)
     .run({
       input: {
-        "rule_type": "{value}",
-        "data": {
-          "id": "id_dgeazdtUx23V",
-          "rules": [{
-            "attribute": "{value}",
-            "operator": "ne",
-            "values": "{value}"
-          }]
+        // import { RuleType } from "@medusajs/framework/utils"
+        rule_type: RuleType.RULES,
+        data: {
+          id: "promo_123",
+          rules: [{
+            attribute: "cusgrp_123",
+            operator: "eq",
+            values: ["cusgrp_123"],
+          }],
         }
       }
     })
@@ -68,14 +73,15 @@ export default async function handleOrderPlaced({
   const { result } = await createPromotionRulesWorkflow(container)
     .run({
       input: {
-        "rule_type": "{value}",
-        "data": {
-          "id": "id_dgeazdtUx23V",
-          "rules": [{
-            "attribute": "{value}",
-            "operator": "ne",
-            "values": "{value}"
-          }]
+        // import { RuleType } from "@medusajs/framework/utils"
+        rule_type: RuleType.RULES,
+        data: {
+          id: "promo_123",
+          rules: [{
+            attribute: "cusgrp_123",
+            operator: "eq",
+            values: ["cusgrp_123"],
+          }],
         }
       }
     })
@@ -101,14 +107,15 @@ export default async function myCustomJob(
   const { result } = await createPromotionRulesWorkflow(container)
     .run({
       input: {
-        "rule_type": "{value}",
-        "data": {
-          "id": "id_dgeazdtUx23V",
-          "rules": [{
-            "attribute": "{value}",
-            "operator": "ne",
-            "values": "{value}"
-          }]
+        // import { RuleType } from "@medusajs/framework/utils"
+        rule_type: RuleType.RULES,
+        data: {
+          id: "promo_123",
+          rules: [{
+            attribute: "cusgrp_123",
+            operator: "eq",
+            values: ["cusgrp_123"],
+          }],
         }
       }
     })
@@ -135,14 +142,15 @@ const myWorkflow = createWorkflow(
     const result = createPromotionRulesWorkflow
       .runAsStep({
         input: {
-          "rule_type": "{value}",
-          "data": {
-            "id": "id_dgeazdtUx23V",
-            "rules": [{
-              "attribute": "{value}",
-              "operator": "ne",
-              "values": "{value}"
-            }]
+          // import { RuleType } from "@medusajs/framework/utils"
+          rule_type: RuleType.RULES,
+          data: {
+            id: "promo_123",
+            rules: [{
+              attribute: "cusgrp_123",
+              operator: "eq",
+              values: ["cusgrp_123"],
+            }],
           }
         }
       })
@@ -155,11 +163,11 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"createPromotionRulesWorkflow","steps":[{"type":"step","name":"addRulesToPromotionsStep","description":"This step adds rules to a promotion.\n\n","link":"../../../Steps_Promotion/functions/core_flows.Promotion.Steps_Promotion.addRulesToPromotionsStep/page.mdx","depth":1}]}} />
+<WorkflowDiagram workflow={{"name":"createPromotionRulesWorkflow","steps":[{"type":"step","name":"addRulesToPromotionsStep","description":"This step adds rules to a promotion.","link":"../../../Steps_Promotion/functions/core_flows.Promotion.Steps_Promotion.addRulesToPromotionsStep/page.mdx","depth":1}]}} />
 
 ## Input
 
-<TypeList types={[{"name":"AddPromotionRulesWorkflowDTO","type":"[AddPromotionRulesWorkflowDTO](../../../../../types/types/types.AddPromotionRulesWorkflowDTO/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"rule_type","type":"`PromotionRuleTypes`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"data","type":"`object`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"id","type":"`string`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"rules","type":"[CreatePromotionRuleDTO](../../../../../promotion/interfaces/promotion.CreatePromotionRuleDTO/page.mdx)[]","description":"","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"attribute","type":"`string`","description":"The attribute of the promotion rule.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"operator","type":"[PromotionRuleOperatorValues](../../../../../promotion/types/promotion.PromotionRuleOperatorValues/page.mdx)","description":"The operator of the promotion rule.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"values","type":"`string` \\| `string`[]","description":"The values of the promotion rule.\nWhen provided, `PromotionRuleValue` records are\ncreated and associated with the promotion rule.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"description","type":"`null` \\| `string`","description":"The description of the promotion rule.","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="createPromotionRulesWorkflow"/>
+<TypeList types={[{"name":"AddPromotionRulesWorkflowDTO","type":"[AddPromotionRulesWorkflowDTO](../../../../../types/types/types.AddPromotionRulesWorkflowDTO/page.mdx)","optional":false,"defaultValue":"","description":"The data to create rules for a promotion.","expandable":false,"children":[{"name":"rule_type","type":"`PromotionRuleTypes`","description":"The type of rules to create.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"data","type":"`object`","description":"The data to create the rules.","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"id","type":"`string`","description":"The ID of the promotion to create the rules for.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"rules","type":"[CreatePromotionRuleDTO](../../../../../promotion/interfaces/promotion.CreatePromotionRuleDTO/page.mdx)[]","description":"The rules to create.","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"attribute","type":"`string`","description":"The attribute of the promotion rule.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"operator","type":"[PromotionRuleOperatorValues](../../../../../promotion/types/promotion.PromotionRuleOperatorValues/page.mdx)","description":"The operator of the promotion rule.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"values","type":"`string` \\| `string`[]","description":"The values of the promotion rule.\nWhen provided, `PromotionRuleValue` records are\ncreated and associated with the promotion rule.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"description","type":"`null` \\| `string`","description":"The description of the promotion rule.","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="createPromotionRulesWorkflow"/>
 
 ## Output
 

@@ -10,7 +10,27 @@ import { emitEventStep } from "../../common/steps/emit-event"
 import { createInviteStep } from "../steps"
 export const createInvitesWorkflowId = "create-invite-step"
 /**
- * This workflow creates one or more invites.
+ * This workflow creates one or more user invites. It's used by the
+ * [Create Invite Admin API Route](https://docs.medusajs.com/api/admin#invites_postinvites).
+ * 
+ * You can use this workflow within your customizations or your own custom workflows, allowing you to
+ * create invites within your custom flows.
+ * 
+ * @example
+ * const { result } = await createInvitesWorkflow(container)
+ * .run({
+ *   input: {
+ *     invites: [
+ *       {
+ *         email: "example@gmail.com"
+ *       }
+ *     ]
+ *   }
+ * })
+ * 
+ * @summary
+ * 
+ * Create one or more user invites.
  */
 export const createInvitesWorkflow = createWorkflow(
   createInvitesWorkflowId,

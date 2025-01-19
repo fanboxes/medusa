@@ -12,6 +12,24 @@ import {
 } from "@medusajs/framework/utils"
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The data to refund one or more payments.
+ */
+export type RefundPaymentsStepInput = {
+  /**
+   * The ID of the payment to refund.
+   */
+  payment_id: string
+  /**
+   * The amount to refund. 
+   */
+  amount: BigNumberInput
+  /**
+   * The ID of the user that refunded the payment.
+   */
+  created_by?: string
+}[]
+
 export const refundPaymentsStepId = "refund-payments-step"
 /**
  * This step refunds one or more payments.
@@ -19,11 +37,7 @@ export const refundPaymentsStepId = "refund-payments-step"
 export const refundPaymentsStep = createStep(
   refundPaymentsStepId,
   async (
-    input: {
-      payment_id: string
-      amount: BigNumberInput
-      created_by?: string
-    }[],
+    input: RefundPaymentsStepInput,
     { container }
   ) => {
     const logger = container.resolve<Logger>(ContainerRegistrationKeys.LOGGER)

@@ -14,21 +14,18 @@ This documentation provides a reference to the `updateLineItemsStepWithSelector`
 
 This step updates line items.
 
-```ts title="src/workflows/my-workflow.ts"
-import { createWorkflow } from "@medusajs/framework/workflows-sdk"
-import { updateLineItemsStepWithSelector } from "@medusajs/medusa/core-flows"
+## Example
 
-const myWorkflow = createWorkflow(
-  "my-workflow",
-  () => {
-    const data = updateLineItemsStepWithSelector({
-      "selector": "{value}",
-      "data": "{value}"
-    })
+```ts
+const data = updateLineItemsStepWithSelector({
+  selector: {
+    cart_id: "cart_123"
+  },
+  data: {
+    quantity: 1
   }
-)
+})
 ```
-  
 
 ## Input
 

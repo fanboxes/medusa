@@ -13,9 +13,15 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `createCollectionsWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow creates one or more collections.
+This workflow creates one or more collections. It's used by the 
+[Create Collection Admin API Route](https://docs.medusajs.com/api/admin#collections\_postcollections).
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/product/workflows/create-collections.ts#L21" />
+This workflow has a hook that allows you to perform custom actions on the created collections. For example, you can pass under `additional_data` custom data that 
+allows you to create custom data models linked to the product collections.
+
+You can also use this workflow within your own custom workflows, allowing you to wrap custom logic around product-collection creation.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/product/workflows/create-collections.ts#L54" />
 
 ## Examples
 
@@ -36,9 +42,12 @@ export async function POST(
   const { result } = await createCollectionsWorkflow(req.scope)
     .run({
       input: {
-        "collections": [{
-          "title": "amaritudo"
-        }]
+        collections: [{
+          title: "Summer Clothing"
+        }],
+        additional_data: {
+          erp_id: "123"
+        }
       }
     })
 
@@ -63,9 +72,12 @@ export default async function handleOrderPlaced({
   const { result } = await createCollectionsWorkflow(container)
     .run({
       input: {
-        "collections": [{
-          "title": "amaritudo"
-        }]
+        collections: [{
+          title: "Summer Clothing"
+        }],
+        additional_data: {
+          erp_id: "123"
+        }
       }
     })
 
@@ -90,9 +102,12 @@ export default async function myCustomJob(
   const { result } = await createCollectionsWorkflow(container)
     .run({
       input: {
-        "collections": [{
-          "title": "amaritudo"
-        }]
+        collections: [{
+          title: "Summer Clothing"
+        }],
+        additional_data: {
+          erp_id: "123"
+        }
       }
     })
 
@@ -118,9 +133,12 @@ const myWorkflow = createWorkflow(
     const result = createCollectionsWorkflow
       .runAsStep({
         input: {
-          "collections": [{
-            "title": "amaritudo"
-          }]
+          collections: [{
+            title: "Summer Clothing"
+          }],
+          additional_data: {
+            erp_id: "123"
+          }
         }
       })
   }
@@ -132,11 +150,11 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"createCollectionsWorkflow","steps":[{"type":"step","name":"createCollectionsStep","description":"This step creates one or more collection.\n\n","link":"../../../Steps_Product/functions/core_flows.Product.Steps_Product.createCollectionsStep/page.mdx","depth":1},{"type":"step","name":"emitEventStep","description":"Emit an event.\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":2},{"type":"hook","name":"collectionsCreated","description":"This step is a hook that you can inject custom functionality into.\n\n","link":"#collectionsCreated","depth":3}]}} />
+<WorkflowDiagram workflow={{"name":"createCollectionsWorkflow","steps":[{"type":"step","name":"createCollectionsStep","description":"This step creates one or more collection.","link":"../../../Steps_Product/functions/core_flows.Product.Steps_Product.createCollectionsStep/page.mdx","depth":1},{"type":"step","name":"emitEventStep","description":"Emit an event.","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":2},{"type":"hook","name":"collectionsCreated","description":"This hook is executed after the collections are created. You can consume this hook to perform custom actions on the created collections.","link":"#collectionsCreated","depth":3}]}} />
 
 ## Input
 
-<TypeList types={[{"name":"CreateCollectionsWorkflowInput","type":"[CreateCollectionsWorkflowInput](../../../../types/core_flows.CreateCollectionsWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"collections","type":"[CreateProductCollectionDTO](../../../../../product/interfaces/product.CreateProductCollectionDTO/page.mdx)[]","description":"","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"title","type":"`string`","description":"The product collection's title.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"handle","type":"`string`","description":"The product collection's handle. If not provided, the value of this attribute is set to the slug version of the title.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"product_ids","type":"`string`[]","description":"The products to associate with the collection.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"metadata","type":"[MetadataType](../../../../../product/types/product.MetadataType/page.mdx)","description":"Holds custom data in key-value pairs.","optional":true,"defaultValue":"","expandable":false,"children":[]}]},{"name":"additional_data","type":"`Record<string, unknown>`","description":"Additional data that can be passed through the `additional_data` property in HTTP requests.\n\nLearn more in [this documentation](https://docs.medusajs.com/learn/fundamentals/api-routes/additional-data).","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="createCollectionsWorkflow"/>
+<TypeList types={[{"name":"CreateCollectionsWorkflowInput","type":"[CreateCollectionsWorkflowInput](../../../../types/core_flows.CreateCollectionsWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"The details of the collection to create, along with custom data that's passed to the workflow's hooks.","expandable":false,"children":[{"name":"collections","type":"[CreateProductCollectionDTO](../../../../../product/interfaces/product.CreateProductCollectionDTO/page.mdx)[]","description":"The collections to create.","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"title","type":"`string`","description":"The product collection's title.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"handle","type":"`string`","description":"The product collection's handle. If not provided, the value of this attribute is set to the slug version of the title.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"product_ids","type":"`string`[]","description":"The products to associate with the collection.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"metadata","type":"[MetadataType](../../../../../product/types/product.MetadataType/page.mdx)","description":"Holds custom data in key-value pairs.","optional":true,"defaultValue":"","expandable":false,"children":[]}]},{"name":"additional_data","type":"`Record<string, unknown>`","description":"Additional data that can be passed through the `additional_data` property in HTTP requests.\n\nLearn more in [this documentation](https://docs.medusajs.com/learn/fundamentals/api-routes/additional-data).","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="createCollectionsWorkflow"/>
 
 ## Output
 
@@ -150,7 +168,7 @@ Learn more about [Hooks](https://docs.medusajs.com/learn/fundamentals/workflows/
 
 ### collectionsCreated
 
-This step is a hook that you can inject custom functionality into.
+This hook is executed after the collections are created. You can consume this hook to perform custom actions on the created collections.
 
 #### Example
 

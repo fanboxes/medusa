@@ -5,13 +5,26 @@ import {
 import { Modules } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The data to create sales channels.
+ */
 export interface CreateSalesChannelsStepInput {
+  /**
+   * The sales channels to create.
+   */
   data: CreateSalesChannelDTO[]
 }
 
 export const createSalesChannelsStepId = "create-sales-channels"
 /**
  * This step creates one or more sales channels.
+ * 
+ * @example
+ * const data = createSalesChannelsStep({
+ *   data: [{
+ *     name: "Webshop",
+ *   }]
+ * })
  */
 export const createSalesChannelsStep = createStep(
   createSalesChannelsStepId,

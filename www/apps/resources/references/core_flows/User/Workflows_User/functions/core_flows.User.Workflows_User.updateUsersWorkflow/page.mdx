@@ -13,9 +13,13 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `updateUsersWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow updates one or more users.
+This workflow updates one or more users. It's used by the
+[Update User Admin API Route](https://docs.medusajs.com/api/admin#users\_postusersid).
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/user/workflows/update-users.ts#L16" />
+You can use this workflow within your customizations or your own custom workflows, allowing you to
+update users within your custom flows.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/user/workflows/update-users.ts#L37" />
 
 ## Examples
 
@@ -36,8 +40,9 @@ export async function POST(
   const { result } = await updateUsersWorkflow(req.scope)
     .run({
       input: {
-        "updates": [{
-          "id": "id_Ps27IEZ6hUFL8v"
+        updates: [{
+          id: "user_123",
+          first_name: "John"
         }]
       }
     })
@@ -63,8 +68,9 @@ export default async function handleOrderPlaced({
   const { result } = await updateUsersWorkflow(container)
     .run({
       input: {
-        "updates": [{
-          "id": "id_Ps27IEZ6hUFL8v"
+        updates: [{
+          id: "user_123",
+          first_name: "John"
         }]
       }
     })
@@ -90,8 +96,9 @@ export default async function myCustomJob(
   const { result } = await updateUsersWorkflow(container)
     .run({
       input: {
-        "updates": [{
-          "id": "id_Ps27IEZ6hUFL8v"
+        updates: [{
+          id: "user_123",
+          first_name: "John"
         }]
       }
     })
@@ -118,8 +125,9 @@ const myWorkflow = createWorkflow(
     const result = updateUsersWorkflow
       .runAsStep({
         input: {
-          "updates": [{
-            "id": "id_Ps27IEZ6hUFL8v"
+          updates: [{
+            id: "user_123",
+            first_name: "John"
           }]
         }
       })
@@ -132,11 +140,11 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"updateUsersWorkflow","steps":[{"type":"step","name":"updateUsersStep","description":"This step updates one or more stores.\n\n","link":"../../../Steps_User/functions/core_flows.User.Steps_User.updateUsersStep/page.mdx","depth":1},{"type":"step","name":"emitEventStep","description":"Emit an event.\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":2}]}} />
+<WorkflowDiagram workflow={{"name":"updateUsersWorkflow","steps":[{"type":"step","name":"updateUsersStep","description":"This step updates one or more users.","link":"../../../Steps_User/functions/core_flows.User.Steps_User.updateUsersStep/page.mdx","depth":1},{"type":"step","name":"emitEventStep","description":"Emit an event.","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":2}]}} />
 
 ## Input
 
-<TypeList types={[{"name":"UpdateUsersWorkflowInputDTO","type":"[UpdateUsersWorkflowInputDTO](../../../../../types/WorkflowTypes/UserWorkflow/interfaces/types.WorkflowTypes.UserWorkflow.UpdateUsersWorkflowInputDTO/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"updates","type":"[UpdateUserDTO](../../../../../user/interfaces/user.UpdateUserDTO/page.mdx)[]","description":"","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"id","type":"`string`","description":"The ID of the user.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"first_name","type":"`null` \\| `string`","description":"The first name of the user.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"last_name","type":"`null` \\| `string`","description":"The last name of the user.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"avatar_url","type":"`null` \\| `string`","description":"The avatar URL of the user.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"metadata","type":"`null` \\| `Record<string, unknown>`","description":"Holds custom data in key-value pairs.","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="updateUsersWorkflow"/>
+<TypeList types={[{"name":"UpdateUsersWorkflowInputDTO","type":"[UpdateUsersWorkflowInputDTO](../../../../../types/WorkflowTypes/UserWorkflow/interfaces/types.WorkflowTypes.UserWorkflow.UpdateUsersWorkflowInputDTO/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"updates","type":"[UpdateUserDTO](../../../../../user/interfaces/user.UpdateUserDTO/page.mdx)[]","description":"The users to update.","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"id","type":"`string`","description":"The ID of the user.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"first_name","type":"`null` \\| `string`","description":"The first name of the user.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"last_name","type":"`null` \\| `string`","description":"The last name of the user.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"avatar_url","type":"`null` \\| `string`","description":"The avatar URL of the user.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"metadata","type":"`null` \\| `Record<string, unknown>`","description":"Holds custom data in key-value pairs.","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="updateUsersWorkflow"/>
 
 ## Output
 

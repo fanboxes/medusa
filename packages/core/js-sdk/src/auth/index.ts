@@ -113,7 +113,8 @@ export class Auth {
    *
    * @param actor - The actor type. For example, `user` for admin user, or `customer` for customer.
    * @param method - The authentication provider to use. For example, `google`.
-   * @param query - The query parameters from the Oauth callback, which should be passed to the API route.
+   * @param query - The query parameters from the Oauth callback, which should be passed to the API route. This includes query parameters like
+   * `code` and `state`.
    * @returns The authentication JWT token
    * 
    * @tags auth
@@ -124,6 +125,7 @@ export class Auth {
    *   "google",
    *   {
    *     code: "123",
+   *     state: "456"  
    *   }
    * ).then((token) => {
    *   console.log(token)

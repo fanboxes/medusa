@@ -22,8 +22,8 @@ const myWorkflow = createWorkflow(
   "my-workflow",
   () => {
     const data = createOrderClaimsStep([{
-      "order_id": "{value}",
-      "type": "refund"
+      "order_id": "order_123",
+      "type": "replace"
     }])
   }
 )

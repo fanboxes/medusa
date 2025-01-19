@@ -28,17 +28,50 @@ import { refreshPaymentCollectionForCartWorkflow } from "./refresh-payment-colle
 import { updateCartPromotionsWorkflow } from "./update-cart-promotions"
 import { updateTaxLinesWorkflow } from "./update-tax-lines"
 
+/**
+ * The details of the cart to refresh.
+ */
+export type RefreshCartItemsWorkflowInput = {
+  /**
+   * The cart's ID.
+   */
+  cart_id: string
+  /**
+   * The promotion codes applied on the cart.
+   * These promotion codes will replace previously applied codes.
+   */
+  promo_codes?: string[]
+}
+
 export const refreshCartItemsWorkflowId = "refresh-cart-items"
 /**
- * This workflow refreshes a cart's items
+ * This workflow refreshes a cart to ensure its prices, promotion codes, taxes, and other details are applied correctly. It's useful
+ * after making a chnge to a cart, such as after adding an item to the cart or adding a promotion code.
+ * 
+ * This workflow is used by other cart-related workflows, such as the {@link addToCartWorkflow} after an item
+ * is added to the cart.
+ * 
+ * You can use this workflow within your own customizations or custom workflows, allowing you to refresh the cart after making updates to it in your
+ * custom flows.
+ * 
+ * @example
+ * const { result } = await refreshCartItemsWorkflow(container)
+ * .run({
+ *   input: {
+ *     cart_id: "cart_123",
+ *   }
+ * })
+ * 
+ * @summary
+ * 
+ * Refresh a cart's details after an update.
+ * 
+ * @property hooks.validate - This hook is executed before all operations. You can consume this hook to perform any custom validation. If validation fails, you can throw an error to stop the workflow execution.
  */
 export const refreshCartItemsWorkflow = createWorkflow(
   refreshCartItemsWorkflowId,
   (
-    input: WorkflowData<{
-      cart_id: string
-      promo_codes?: string[]
-    }>
+    input: WorkflowData<RefreshCartItemsWorkflowInput>
   ) => {
     const cart = useRemoteQueryStep({
       entry_point: "cart",

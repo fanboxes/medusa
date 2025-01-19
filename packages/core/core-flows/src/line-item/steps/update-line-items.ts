@@ -14,6 +14,16 @@ export const updateLineItemsStepWithSelectorId =
   "update-line-items-with-selector"
 /**
  * This step updates line items.
+ * 
+ * @example
+ * const data = updateLineItemsStepWithSelector({
+ *   selector: {
+ *     cart_id: "cart_123"
+ *   },
+ *   data: {
+ *     quantity: 1
+ *   }
+ * })
  */
 export const updateLineItemsStepWithSelector = createStep(
   updateLineItemsStepWithSelectorId,

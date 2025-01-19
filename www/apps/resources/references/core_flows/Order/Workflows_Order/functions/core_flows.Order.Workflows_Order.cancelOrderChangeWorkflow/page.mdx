@@ -14,7 +14,10 @@ This documentation provides a reference to the `cancelOrderChangeWorkflow`. It b
 
 This workflow cancels an order change.
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/order/workflows/cancel-order-change.ts#L9" />
+You can use this workflow within your customizations or your own custom workflows, allowing you to wrap custom logic around 
+canceling an order change.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/order/workflows/cancel-order-change.ts#L16" />
 
 ## Examples
 
@@ -35,7 +38,7 @@ export async function POST(
   const { result } = await cancelOrderChangeWorkflow(req.scope)
     .run({
       input: {
-        "id": "id_qYV9esxNsaaxcLlIF"
+        "id": "id_Wb1JOWfbv6E"
       }
     })
 
@@ -60,7 +63,7 @@ export default async function handleOrderPlaced({
   const { result } = await cancelOrderChangeWorkflow(container)
     .run({
       input: {
-        "id": "id_qYV9esxNsaaxcLlIF"
+        "id": "id_Wb1JOWfbv6E"
       }
     })
 
@@ -85,7 +88,7 @@ export default async function myCustomJob(
   const { result } = await cancelOrderChangeWorkflow(container)
     .run({
       input: {
-        "id": "id_qYV9esxNsaaxcLlIF"
+        "id": "id_Wb1JOWfbv6E"
       }
     })
 
@@ -111,7 +114,7 @@ const myWorkflow = createWorkflow(
     const result = cancelOrderChangeWorkflow
       .runAsStep({
         input: {
-          "id": "id_qYV9esxNsaaxcLlIF"
+          "id": "id_Wb1JOWfbv6E"
         }
       })
   }
@@ -123,7 +126,7 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"cancelOrderChangeWorkflow","steps":[{"type":"step","name":"cancelOrderChangeStep","description":"This step cancels an order change.\n\n","link":"../../../Steps_Order/functions/core_flows.Order.Steps_Order.cancelOrderChangeStep/page.mdx","depth":1}]}} />
+<WorkflowDiagram workflow={{"name":"cancelOrderChangeWorkflow","steps":[{"type":"step","name":"cancelOrderChangeStep","description":"This step cancels an order change.","link":"../../../Steps_Order/functions/core_flows.Order.Steps_Order.cancelOrderChangeStep/page.mdx","depth":1}]}} />
 
 ## Input
 

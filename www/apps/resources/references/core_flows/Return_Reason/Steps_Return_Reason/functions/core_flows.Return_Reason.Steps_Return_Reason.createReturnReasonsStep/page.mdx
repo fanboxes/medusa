@@ -14,21 +14,16 @@ This documentation provides a reference to the `createReturnReasonsStep`. It bel
 
 This step creates one or more return reasons.
 
-```ts title="src/workflows/my-workflow.ts"
-import { createWorkflow } from "@medusajs/framework/workflows-sdk"
-import { createReturnReasonsStep } from "@medusajs/medusa/core-flows"
+## Example
 
-const myWorkflow = createWorkflow(
-  "my-workflow",
-  () => {
-    const data = createReturnReasonsStep([{
-      "value": "{value}",
-      "label": "{value}"
-    }])
+```ts
+const data = createReturnReasonsStep([
+  {
+    label: "Damaged",
+    value: "damaged",
   }
-)
+])
 ```
-  
 
 ## Input
 

@@ -14,7 +14,7 @@ This documentation provides a reference to the `deleteReservationsByLineItemsWor
 
 This workflow deletes reservations by their associated line items.
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/reservation/workflows/delete-reservations-by-line-items.ts#L12" />
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/reservation/workflows/delete-reservations-by-line-items.ts#L12" />
 
 ## Examples
 
@@ -36,7 +36,7 @@ export async function POST(
     .run({
       input: {
         "ids": [
-          "id_5t6kG5KmiEN"
+          "id_Z52shmeQVtAbH0Nr"
         ]
       }
     })
@@ -63,7 +63,7 @@ export default async function handleOrderPlaced({
     .run({
       input: {
         "ids": [
-          "id_5t6kG5KmiEN"
+          "id_Z52shmeQVtAbH0Nr"
         ]
       }
     })
@@ -90,7 +90,7 @@ export default async function myCustomJob(
     .run({
       input: {
         "ids": [
-          "id_5t6kG5KmiEN"
+          "id_Z52shmeQVtAbH0Nr"
         ]
       }
     })
@@ -118,7 +118,7 @@ const myWorkflow = createWorkflow(
       .runAsStep({
         input: {
           "ids": [
-            "id_5t6kG5KmiEN"
+            "id_Z52shmeQVtAbH0Nr"
           ]
         }
       })
@@ -131,7 +131,7 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"deleteReservationsByLineItemsWorkflow","steps":[{"type":"step","name":"deleteReservationsByLineItemsStep","description":"This step deletes reservations by their associated line items.\n\n","link":"../../../Steps_Reservation/functions/core_flows.Reservation.Steps_Reservation.deleteReservationsByLineItemsStep/page.mdx","depth":1}]}} />
+<WorkflowDiagram workflow={{"name":"deleteReservationsByLineItemsWorkflow","steps":[{"type":"step","name":"deleteReservationsByLineItemsStep","description":"This step deletes reservations by their associated line items.","link":"../../../Steps_Reservation/functions/core_flows.Reservation.Steps_Reservation.deleteReservationsByLineItemsStep/page.mdx","depth":1}]}} />
 
 ## Input
 

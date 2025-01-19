@@ -2,13 +2,18 @@ import { ISalesChannelModuleService } from "@medusajs/framework/types"
 import { Modules } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The IDs of the sales channels to delete.
+ */
+export type DeleteSalesChannelsStepInput = string[]
+
 export const deleteSalesChannelsStepId = "delete-sales-channels"
 /**
  * This step deletes one or more sales channels.
  */
 export const deleteSalesChannelsStep = createStep(
   deleteSalesChannelsStepId,
-  async (ids: string[], { container }) => {
+  async (ids: DeleteSalesChannelsStepInput, { container }) => {
     const service = container.resolve<ISalesChannelModuleService>(
       Modules.SALES_CHANNEL
     )

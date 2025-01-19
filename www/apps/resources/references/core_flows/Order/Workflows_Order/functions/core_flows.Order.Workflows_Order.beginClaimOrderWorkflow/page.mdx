@@ -13,9 +13,13 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `beginClaimOrderWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow creates an order claim in requested state.
+This workflow creates an order claim in requested state. It's used by the 
+[Create Claim Admin API Route](https://docs.medusajs.com/api/admin#claims\_postclaims).
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/order/workflows/claim/begin-order-claim.ts#L32" />
+You can use this workflow within your customizations or your own custom workflows, allowing you to create a claim
+for an order in your custom flows.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/order/workflows/claim/begin-order-claim.ts#L75" />
 
 ## Examples
 
@@ -36,8 +40,8 @@ export async function POST(
   const { result } = await beginClaimOrderWorkflow(req.scope)
     .run({
       input: {
-        "type": "refund",
-        "order_id": "{value}"
+        order_id: "order_123",
+        type: "refund",
       }
     })
 
@@ -62,8 +66,8 @@ export default async function handleOrderPlaced({
   const { result } = await beginClaimOrderWorkflow(container)
     .run({
       input: {
-        "type": "refund",
-        "order_id": "{value}"
+        order_id: "order_123",
+        type: "refund",
       }
     })
 
@@ -88,8 +92,8 @@ export default async function myCustomJob(
   const { result } = await beginClaimOrderWorkflow(container)
     .run({
       input: {
-        "type": "refund",
-        "order_id": "{value}"
+        order_id: "order_123",
+        type: "refund",
       }
     })
 
@@ -115,8 +119,8 @@ const myWorkflow = createWorkflow(
     const result = beginClaimOrderWorkflow
       .runAsStep({
         input: {
-          "type": "refund",
-          "order_id": "{value}"
+          order_id: "order_123",
+          type: "refund",
         }
       })
   }
@@ -128,11 +132,11 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"beginClaimOrderWorkflow","steps":[{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":1},{"type":"step","name":"beginClaimOrderValidationStep","description":"This step validates that the order associated with the claim isn't canceled.\n\n","link":"../core_flows.Order.Workflows_Order.beginClaimOrderValidationStep/page.mdx","depth":2},{"type":"step","name":"createOrderClaimsStep","description":"This step creates one or more order claims.\n\n","link":"../../../Steps_Order/functions/core_flows.Order.Steps_Order.createOrderClaimsStep/page.mdx","depth":3},{"type":"step","name":"createOrderChangeStep","description":"This step creates an order change.\n\n","link":"../../../Steps_Order/functions/core_flows.Order.Steps_Order.createOrderChangeStep/page.mdx","depth":4}]}} />
+<WorkflowDiagram workflow={{"name":"beginClaimOrderWorkflow","steps":[{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":1},{"type":"step","name":"beginClaimOrderValidationStep","description":"This step validates that the order associated with the claim isn't canceled.\nIf not valid, the step will throw an error.\n\n:::note\n\nYou can retrieve an order's details using [Query](https://docs.medusajs.com/learn/fundamentals/module-links/query),\nor [useQueryGraphStep](https://docs.medusajs.com/resources/references/medusa-workflows/steps/useQueryGraphStep).\n\n:::","link":"../core_flows.Order.Workflows_Order.beginClaimOrderValidationStep/page.mdx","depth":2},{"type":"step","name":"createOrderClaimsStep","description":"This step creates one or more order claims.","link":"../../../Steps_Order/functions/core_flows.Order.Steps_Order.createOrderClaimsStep/page.mdx","depth":3},{"type":"step","name":"createOrderChangeStep","description":"This step creates an order change.","link":"../../../Steps_Order/functions/core_flows.Order.Steps_Order.createOrderChangeStep/page.mdx","depth":4}]}} />
 
 ## Input
 
-<TypeList types={[{"name":"BeginOrderClaimWorkflowInput","type":"[BeginOrderClaimWorkflowInput](../../../../../types/WorkflowTypes/OrderWorkflow/interfaces/types.WorkflowTypes.OrderWorkflow.BeginOrderClaimWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"type","type":"[OrderClaimType](../../../../../fulfillment/types/fulfillment.OrderClaimType/page.mdx)","description":"A claim's type.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"order_id","type":"`string`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"created_by","type":"`null` \\| `string`","description":"The id of the user that creates the order claim","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"internal_note","type":"`string`","description":"","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"description","type":"`string`","description":"","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"metadata","type":"`null` \\| `Record<string, unknown>`","description":"","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="beginClaimOrderWorkflow"/>
+<TypeList types={[{"name":"BeginOrderClaimWorkflowInput","type":"[BeginOrderClaimWorkflowInput](../../../../../types/WorkflowTypes/OrderWorkflow/interfaces/types.WorkflowTypes.OrderWorkflow.BeginOrderClaimWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"type","type":"[OrderClaimType](../../../../../fulfillment/types/fulfillment.OrderClaimType/page.mdx)","description":"The type of the order claim.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"order_id","type":"`string`","description":"The ID of the order to create the claim for.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"created_by","type":"`null` \\| `string`","description":"The ID of the user creating the order claim.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"internal_note","type":"`string`","description":"An internal note viewed by admin users only.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"description","type":"`string`","description":"A description of the order claim.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"metadata","type":"`null` \\| `Record<string, unknown>`","description":"Custom key-value pairs of data to store in the order claim.","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="beginClaimOrderWorkflow"/>
 
 ## Output
 

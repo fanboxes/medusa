@@ -45,7 +45,7 @@ export const upsertVariantPricesWorkflowId = "upsert-variant-prices"
  * This workflow creates, updates, or removes variants' prices. It's used by the {@link updateProductsWorkflow}
  * when updating a variant's prices.
  * 
- * You can use this workflow within your own custom workflows to manage the prices of a variant.
+ * You can use this workflow within your own customizations or custom workflows to manage the prices of a variant.
  * 
  * @example
  * const { result } = await upsertVariantPricesWorkflow(container)

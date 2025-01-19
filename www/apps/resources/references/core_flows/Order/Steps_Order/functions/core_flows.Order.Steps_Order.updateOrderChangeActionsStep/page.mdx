@@ -21,9 +21,9 @@ import { updateOrderChangeActionsStep } from "@medusajs/medusa/core-flows"
 const myWorkflow = createWorkflow(
   "my-workflow",
   () => {
-    const data = updateOrderChangeActionsStep([{
-      "id": "id_CGmiD6PVMH7"
-    }])
+    const data = updateOrderChangeActionsStep({
+      "id": "id_LwKCkU4bV2XBONF"
+    })
   }
 )
 ```
@@ -31,7 +31,7 @@ const myWorkflow = createWorkflow(
 
 ## Input
 
-<TypeList types={[{"name":"UpdateOrderChangeActionDTO[]","type":"[UpdateOrderChangeActionDTO](../../../../../order/interfaces/order.UpdateOrderChangeActionDTO/page.mdx)[]","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"UpdateOrderChangeActionDTO","type":"[UpdateOrderChangeActionDTO](../../../../../order/interfaces/order.UpdateOrderChangeActionDTO/page.mdx)","optional":false,"defaultValue":"","description":"The attributes to update in the order change action.","expandable":false,"children":[{"name":"id","type":"`string`","description":"The ID of the order change action.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"internal_note","type":"`null` \\| `string`","description":"The internal note of the order change action.","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="updateOrderChangeActionsStep"/>
+<TypeList types={[{"name":"UpdateOrderChangeActionsStepInput","type":"[UpdateOrderChangeActionsStepInput](../../../../types/core_flows.UpdateOrderChangeActionsStepInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"id","type":"`string`","description":"The ID of the order change action.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"internal_note","type":"`null` \\| `string`","description":"The internal note of the order change action.","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="updateOrderChangeActionsStep"/>
 
 ## Output
 

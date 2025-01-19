@@ -457,7 +457,14 @@ export type UpdateStockLocationAddressInput = StockLocationAddressInput & {
   id: string
 }
 
+/**
+ * The stock location address to create or update. If the `id` property isn't provided,
+ * the stock location address is created. In that case, the `address_1` property is required.
+ */
 export type UpsertStockLocationAddressInput = StockLocationAddressInput & {
+  /**
+   * The ID of the stock location address, if updating.
+   */
   id?: string
 }
 

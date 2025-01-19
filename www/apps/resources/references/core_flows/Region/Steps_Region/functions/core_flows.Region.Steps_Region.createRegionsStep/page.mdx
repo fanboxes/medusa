@@ -14,21 +14,17 @@ This documentation provides a reference to the `createRegionsStep`. It belongs t
 
 This step creates one or more regions.
 
-```ts title="src/workflows/my-workflow.ts"
-import { createWorkflow } from "@medusajs/framework/workflows-sdk"
-import { createRegionsStep } from "@medusajs/medusa/core-flows"
+## Example
 
-const myWorkflow = createWorkflow(
-  "my-workflow",
-  () => {
-    const data = createRegionsStep([{
-      "name": "Sylvan",
-      "currency_code": "{value}"
-    }])
+```ts
+const data = createRegionsStep([
+  {
+    currency_code: "usd",
+    name: "United States",
+    countries: ["us"],
   }
-)
+])
 ```
-  
 
 ## Input
 

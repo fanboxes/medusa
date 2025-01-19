@@ -13,9 +13,17 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `refreshInviteTokensWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow refreshes the token of one or more invites.
+This workflow refreshes the token of one or more user invites, updating the
+token and the expiry date. It's used by the
+[Refresh Invite Token Admin API Route](https://docs.medusajs.com/api/admin#invites\_postinvitesidresend).
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/invite/workflows/refresh-invite-tokens.ts#L17" />
+This workflow is useful to trigger resending invite tokens. It emits the `invite.resent` event,
+which you can listen to in a [Subscriber](https://docs.medusajs.com/learn/fundamentals/events-and-subscribers).
+
+You can use this workflow within your customizations or your own custom workflows, allowing you to
+refresh invite tokens within your custom flows.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/invite/workflows/refresh-invite-tokens.ts#L37" />
 
 ## Examples
 
@@ -36,9 +44,7 @@ export async function POST(
   const { result } = await refreshInviteTokensWorkflow(req.scope)
     .run({
       input: {
-        "invite_ids": [
-          "{value}"
-        ]
+        invite_ids: ["invite_123"]
       }
     })
 
@@ -63,9 +69,7 @@ export default async function handleOrderPlaced({
   const { result } = await refreshInviteTokensWorkflow(container)
     .run({
       input: {
-        "invite_ids": [
-          "{value}"
-        ]
+        invite_ids: ["invite_123"]
       }
     })
 
@@ -90,9 +94,7 @@ export default async function myCustomJob(
   const { result } = await refreshInviteTokensWorkflow(container)
     .run({
       input: {
-        "invite_ids": [
-          "{value}"
-        ]
+        invite_ids: ["invite_123"]
       }
     })
 
@@ -118,9 +120,7 @@ const myWorkflow = createWorkflow(
     const result = refreshInviteTokensWorkflow
       .runAsStep({
         input: {
-          "invite_ids": [
-            "{value}"
-          ]
+          invite_ids: ["invite_123"]
         }
       })
   }
@@ -132,11 +132,11 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"refreshInviteTokensWorkflow","steps":[{"type":"step","name":"refreshInviteTokensStep","description":"This step refreshes the tokens of one or more invites.\n\n","link":"../../../Steps_Invite/functions/core_flows.Invite.Steps_Invite.refreshInviteTokensStep/page.mdx","depth":1},{"type":"step","name":"emitEventStep","description":"Emit an event.\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":2}]}} />
+<WorkflowDiagram workflow={{"name":"refreshInviteTokensWorkflow","steps":[{"type":"step","name":"refreshInviteTokensStep","description":"This step refreshes the tokens of one or more invites.","link":"../../../Steps_Invite/functions/core_flows.Invite.Steps_Invite.refreshInviteTokensStep/page.mdx","depth":1},{"type":"step","name":"emitEventStep","description":"Emit an event.","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":2}]}} />
 
 ## Input
 
-<TypeList types={[{"name":"ResendInvitesWorkflowInputDTO","type":"[ResendInvitesWorkflowInputDTO](../../../../../types/WorkflowTypes/InviteWorkflow/interfaces/types.WorkflowTypes.InviteWorkflow.ResendInvitesWorkflowInputDTO/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"invite_ids","type":"`string`[]","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="refreshInviteTokensWorkflow"/>
+<TypeList types={[{"name":"ResendInvitesWorkflowInputDTO","type":"[ResendInvitesWorkflowInputDTO](../../../../../types/WorkflowTypes/InviteWorkflow/interfaces/types.WorkflowTypes.InviteWorkflow.ResendInvitesWorkflowInputDTO/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"invite_ids","type":"`string`[]","description":"The IDs of the invites to refresh.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="refreshInviteTokensWorkflow"/>
 
 ## Output
 

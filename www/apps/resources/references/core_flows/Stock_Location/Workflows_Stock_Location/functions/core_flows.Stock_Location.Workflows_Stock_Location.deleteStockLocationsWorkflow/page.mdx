@@ -13,9 +13,13 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `deleteStockLocationsWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow deletes one or more stock locations.
+This workflow deletes one or more stock locations. It's used by the
+[Delete Stock Location Admin API Route](https://docs.medusajs.com/api/admin#stock-locations\_deletestocklocationsid).
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/stock-location/workflows/delete-stock-locations.ts#L14" />
+You can use this workflow within your own customizations or custom workflows, allowing you
+to delete stock locations in your custom flows.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/stock-location/workflows/delete-stock-locations.ts#L36" />
 
 ## Examples
 
@@ -36,9 +40,7 @@ export async function POST(
   const { result } = await deleteStockLocationsWorkflow(req.scope)
     .run({
       input: {
-        "ids": [
-          "id_6RqCuCxIQHywGiW0mm"
-        ]
+        ids: ["sloc_123"]
       }
     })
 
@@ -63,9 +65,7 @@ export default async function handleOrderPlaced({
   const { result } = await deleteStockLocationsWorkflow(container)
     .run({
       input: {
-        "ids": [
-          "id_6RqCuCxIQHywGiW0mm"
-        ]
+        ids: ["sloc_123"]
       }
     })
 
@@ -90,9 +90,7 @@ export default async function myCustomJob(
   const { result } = await deleteStockLocationsWorkflow(container)
     .run({
       input: {
-        "ids": [
-          "id_6RqCuCxIQHywGiW0mm"
-        ]
+        ids: ["sloc_123"]
       }
     })
 
@@ -118,9 +116,7 @@ const myWorkflow = createWorkflow(
     const result = deleteStockLocationsWorkflow
       .runAsStep({
         input: {
-          "ids": [
-            "id_6RqCuCxIQHywGiW0mm"
-          ]
+          ids: ["sloc_123"]
         }
       })
   }
@@ -132,8 +128,8 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"deleteStockLocationsWorkflow","steps":[{"type":"step","name":"deleteStockLocationsStep","description":"This step deletes one or more stock locations.\n\n","link":"../../../Steps_Stock_Location/functions/core_flows.Stock_Location.Steps_Stock_Location.deleteStockLocationsStep/page.mdx","depth":1},{"type":"step","name":"removeRemoteLinkStep","description":"This step deletes linked records of a record.\n\nLearn more in the [Remote Link documentation](https://docs.medusajs.com/learn/fundamentals/module-links/remote-link#cascade-delete-linked-records)\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.removeRemoteLinkStep/page.mdx","depth":2}]}} />
+<WorkflowDiagram workflow={{"name":"deleteStockLocationsWorkflow","steps":[{"type":"step","name":"deleteStockLocationsStep","description":"This step deletes one or more stock locations.","link":"../../../Steps_Stock_Location/functions/core_flows.Stock_Location.Steps_Stock_Location.deleteStockLocationsStep/page.mdx","depth":1},{"type":"step","name":"removeRemoteLinkStep","description":"This step deletes linked records of a record.\n\nLearn more in the [Remote Link documentation](https://docs.medusajs.com/learn/fundamentals/module-links/remote-link#cascade-delete-linked-records)","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.removeRemoteLinkStep/page.mdx","depth":2}]}} />
 
 ## Input
 
-<TypeList types={[{"name":"DeleteStockLocationWorkflowInput","type":"[DeleteStockLocationWorkflowInput](../../../../interfaces/core_flows.DeleteStockLocationWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"ids","type":"`string`[]","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteStockLocationsWorkflow"/>
+<TypeList types={[{"name":"DeleteStockLocationWorkflowInput","type":"[DeleteStockLocationWorkflowInput](../../../../interfaces/core_flows.DeleteStockLocationWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"The data to delete stock locations.","expandable":false,"children":[{"name":"ids","type":"`string`[]","description":"The IDs of the stock locations to delete.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteStockLocationsWorkflow"/>

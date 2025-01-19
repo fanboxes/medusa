@@ -72,6 +72,10 @@ export const product = [
     "path": "/storefront-development/products/variants"
   },
   {
+    "title": "batchLinkProductsToCategoryStep",
+    "path": "/references/medusa-workflows/steps/batchLinkProductsToCategoryStep"
+  },
+  {
     "title": "batchLinkProductsToCollectionStep",
     "path": "/references/medusa-workflows/steps/batchLinkProductsToCollectionStep"
   },
@@ -158,6 +162,10 @@ export const product = [
   {
     "title": "updateProductsStep",
     "path": "/references/medusa-workflows/steps/updateProductsStep"
+  },
+  {
+    "title": "batchLinkProductsToCategoryWorkflow",
+    "path": "/references/medusa-workflows/batchLinkProductsToCategoryWorkflow"
   },
   {
     "title": "batchLinkProductsToCollectionWorkflow",

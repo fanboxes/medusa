@@ -36,8 +36,20 @@ export const remoteQuery = [
     "path": "/references/medusa-workflows/listShippingOptionsForCartWorkflow"
   },
   {
+    "title": "refreshCartItemsWorkflow",
+    "path": "/references/medusa-workflows/refreshCartItemsWorkflow"
+  },
+  {
+    "title": "refreshCartShippingMethodsWorkflow",
+    "path": "/references/medusa-workflows/refreshCartShippingMethodsWorkflow"
+  },
+  {
     "title": "refreshPaymentCollectionForCartWorkflow",
     "path": "/references/medusa-workflows/refreshPaymentCollectionForCartWorkflow"
+  },
+  {
+    "title": "transferCartCustomerWorkflow",
+    "path": "/references/medusa-workflows/transferCartCustomerWorkflow"
   },
   {
     "title": "updateCartPromotionsWorkflow",
@@ -88,6 +100,10 @@ export const remoteQuery = [
     "path": "/references/medusa-workflows/steps/validateInventoryLocationsStep"
   },
   {
+    "title": "batchInventoryItemLevelsWorkflow",
+    "path": "/references/medusa-workflows/batchInventoryItemLevelsWorkflow"
+  },
+  {
     "title": "bulkCreateDeleteLevelsWorkflow",
     "path": "/references/medusa-workflows/bulkCreateDeleteLevelsWorkflow"
   },
@@ -102,6 +118,10 @@ export const remoteQuery = [
   {
     "title": "deleteInventoryLevelsWorkflow",
     "path": "/references/medusa-workflows/deleteInventoryLevelsWorkflow"
+  },
+  {
+    "title": "deleteLineItemsWorkflow",
+    "path": "/references/medusa-workflows/deleteLineItemsWorkflow"
   },
   {
     "title": "addOrderLineItemsWorkflow",
@@ -194,6 +214,10 @@ export const remoteQuery = [
   {
     "title": "createExchangeShippingMethodWorkflow",
     "path": "/references/medusa-workflows/createExchangeShippingMethodWorkflow"
+  },
+  {
+    "title": "createOrUpdateOrderPaymentCollectionWorkflow",
+    "path": "/references/medusa-workflows/createOrUpdateOrderPaymentCollectionWorkflow"
   },
   {
     "title": "createOrderEditShippingMethodWorkflow",
@@ -450,6 +474,22 @@ export const remoteQuery = [
   {
     "title": "upsertVariantPricesWorkflow",
     "path": "/references/medusa-workflows/upsertVariantPricesWorkflow"
+  },
+  {
+    "title": "updatePromotionsWorkflow",
+    "path": "/references/medusa-workflows/updatePromotionsWorkflow"
+  },
+  {
+    "title": "setRegionsPaymentProvidersStep",
+    "path": "/references/medusa-workflows/steps/setRegionsPaymentProvidersStep"
+  },
+  {
+    "title": "createRegionsWorkflow",
+    "path": "/references/medusa-workflows/createRegionsWorkflow"
+  },
+  {
+    "title": "updateRegionsWorkflow",
+    "path": "/references/medusa-workflows/updateRegionsWorkflow"
   },
   {
     "title": "removeUserAccountWorkflow",

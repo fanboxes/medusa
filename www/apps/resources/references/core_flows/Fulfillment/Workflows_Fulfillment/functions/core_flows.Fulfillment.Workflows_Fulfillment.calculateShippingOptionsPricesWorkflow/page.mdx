@@ -13,9 +13,20 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `calculateShippingOptionsPricesWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow calculates the prices for one or more shipping options.
+This workflow calculates the prices for one or more shipping options in a cart. It's used by the
+[Calculate Shipping Option Price Store API Route](https://docs.medusajs.com/api/store#shipping-options\_postshippingoptionsidcalculate).
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/fulfillment/workflows/calculate-shipping-options-prices.ts#L17" />
+:::note
+
+Calculating shipping option prices may require sending requests to third-party fulfillment services.
+This depends on the implementation of the fulfillment provider associated with the shipping option.
+
+:::
+
+You can use this workflow within your own customizations or custom workflows, allowing you to
+calculate the prices of shipping options within your custom flows.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/fulfillment/workflows/calculate-shipping-options-prices.ts#L49" />
 
 ## Examples
 
@@ -36,9 +47,13 @@ export async function POST(
   const { result } = await calculateShippingOptionsPricesWorkflow(req.scope)
     .run({
       input: {
-        "cart_id": "{value}",
-        "shipping_options": [{
-          "id": "id_8GxyUDoXJE"
+        cart_id: "cart_123",
+        shipping_options: [{
+          id: "so_123",
+          data: {
+            // custom data relevant for the fulfillment provider
+            carrier_code: "ups",
+          }
         }]
       }
     })
@@ -64,9 +79,13 @@ export default async function handleOrderPlaced({
   const { result } = await calculateShippingOptionsPricesWorkflow(container)
     .run({
       input: {
-        "cart_id": "{value}",
-        "shipping_options": [{
-          "id": "id_8GxyUDoXJE"
+        cart_id: "cart_123",
+        shipping_options: [{
+          id: "so_123",
+          data: {
+            // custom data relevant for the fulfillment provider
+            carrier_code: "ups",
+          }
         }]
       }
     })
@@ -92,9 +111,13 @@ export default async function myCustomJob(
   const { result } = await calculateShippingOptionsPricesWorkflow(container)
     .run({
       input: {
-        "cart_id": "{value}",
-        "shipping_options": [{
-          "id": "id_8GxyUDoXJE"
+        cart_id: "cart_123",
+        shipping_options: [{
+          id: "so_123",
+          data: {
+            // custom data relevant for the fulfillment provider
+            carrier_code: "ups",
+          }
         }]
       }
     })
@@ -121,9 +144,13 @@ const myWorkflow = createWorkflow(
     const result = calculateShippingOptionsPricesWorkflow
       .runAsStep({
         input: {
-          "cart_id": "{value}",
-          "shipping_options": [{
-            "id": "id_8GxyUDoXJE"
+          cart_id: "cart_123",
+          shipping_options: [{
+            id: "so_123",
+            data: {
+              // custom data relevant for the fulfillment provider
+              carrier_code: "ups",
+            }
           }]
         }
       })
@@ -136,11 +163,11 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"calculateShippingOptionsPricesWorkflow","steps":[{"type":"step","name":"useQueryGraphStep","description":"This step fetches data across modules using the Query.\n\nLearn more in the [Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx","depth":1},{"type":"step","name":"useQueryGraphStep","description":"This step fetches data across modules using the Query.\n\nLearn more in the [Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx","depth":2},{"type":"step","name":"useQueryGraphStep","description":"This step fetches data across modules using the Query.\n\nLearn more in the [Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx","depth":3},{"type":"step","name":"useQueryGraphStep","description":"This step fetches data across modules using the Query.\n\nLearn more in the [Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx","depth":4},{"type":"step","name":"calculateShippingOptionsPricesStep","description":"This step calculates the prices for one or more shipping options.\n\n","link":"../../../Steps_Fulfillment/functions/core_flows.Fulfillment.Steps_Fulfillment.calculateShippingOptionsPricesStep/page.mdx","depth":5}]}} />
+<WorkflowDiagram workflow={{"name":"calculateShippingOptionsPricesWorkflow","steps":[{"type":"step","name":"useQueryGraphStep","description":"This step fetches data across modules using the Query.\n\nLearn more in the [Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx","depth":1},{"type":"step","name":"useQueryGraphStep","description":"This step fetches data across modules using the Query.\n\nLearn more in the [Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx","depth":2},{"type":"step","name":"useQueryGraphStep","description":"This step fetches data across modules using the Query.\n\nLearn more in the [Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx","depth":3},{"type":"step","name":"useQueryGraphStep","description":"This step fetches data across modules using the Query.\n\nLearn more in the [Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx","depth":4},{"type":"step","name":"calculateShippingOptionsPricesStep","description":"This step calculates the prices for one or more shipping options.","link":"../../../Steps_Fulfillment/functions/core_flows.Fulfillment.Steps_Fulfillment.calculateShippingOptionsPricesStep/page.mdx","depth":5}]}} />
 
 ## Input
 
-<TypeList types={[{"name":"CalculateShippingOptionsPricesWorkflowInput","type":"[CalculateShippingOptionsPricesWorkflowInput](../../../../../types/WorkflowTypes/FulfillmentWorkflow/types/types.WorkflowTypes.FulfillmentWorkflow.CalculateShippingOptionsPricesWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"cart_id","type":"`string`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"shipping_options","type":"`object`[]","description":"","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"id","type":"`string`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"data","type":"`Record<string, unknown>`","description":"","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="calculateShippingOptionsPricesWorkflow"/>
+<TypeList types={[{"name":"CalculateShippingOptionsPricesWorkflowInput","type":"[CalculateShippingOptionsPricesWorkflowInput](../../../../../types/WorkflowTypes/FulfillmentWorkflow/types/types.WorkflowTypes.FulfillmentWorkflow.CalculateShippingOptionsPricesWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"cart_id","type":"`string`","description":"The ID of the cart to calculate the shipping options for.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"shipping_options","type":"`object`[]","description":"The shipping options to calculate the prices for.","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"id","type":"`string`","description":"The ID of the shipping option.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"data","type":"`Record<string, unknown>`","description":"Custom data that's necessary for the shipping option's fulfillment provider\nto calculate the price.\n\nLearn more about this property in [this documentation](https://docs.medusajs.com/resources/commerce-modules/fulfillment/shipping-option#data-property).","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="calculateShippingOptionsPricesWorkflow"/>
 
 ## Output
 

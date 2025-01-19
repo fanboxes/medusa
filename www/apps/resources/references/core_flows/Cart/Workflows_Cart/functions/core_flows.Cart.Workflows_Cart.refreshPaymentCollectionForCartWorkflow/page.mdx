@@ -14,9 +14,17 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `refreshPaymentCollectionForCartWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow refreshes the payment collections of a cart.
+This workflow refreshes a cart's payment collection, which is useful once the cart is created or when its details
+are updated. If the cart's total changes to the amount in its payment collection, the payment collection's payment sessions are 
+deleted. It also syncs the payment collection's amount, currency code, and other details with the details in the cart.
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/cart/workflows/refresh-payment-collection.ts#L22" />
+This workflow is used by other cart-related workflows, such as the [refreshCartItemsWorkflow](../core_flows.Cart.Workflows_Cart.refreshCartItemsWorkflow/page.mdx) to refresh the cart's
+payment collection after an update.
+
+You can use this workflow within your own customizations or custom workflows, allowing you to refresh the cart's payment collection after making updates to it in your
+custom flows.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/cart/workflows/refresh-payment-collection.ts#L52" />
 
 ## Examples
 
@@ -37,7 +45,7 @@ export async function POST(
   const { result } = await refreshPaymentCollectionForCartWorkflow(req.scope)
     .run({
       input: {
-        "cart_id": "{value}"
+        cart_id: "cart_123",
       }
     })
 
@@ -62,7 +70,7 @@ export default async function handleOrderPlaced({
   const { result } = await refreshPaymentCollectionForCartWorkflow(container)
     .run({
       input: {
-        "cart_id": "{value}"
+        cart_id: "cart_123",
       }
     })
 
@@ -87,7 +95,7 @@ export default async function myCustomJob(
   const { result } = await refreshPaymentCollectionForCartWorkflow(container)
     .run({
       input: {
-        "cart_id": "{value}"
+        cart_id: "cart_123",
       }
     })
 
@@ -113,7 +121,7 @@ const myWorkflow = createWorkflow(
     const result = refreshPaymentCollectionForCartWorkflow
       .runAsStep({
         input: {
-          "cart_id": "{value}"
+          cart_id: "cart_123",
         }
       })
   }
@@ -125,8 +133,40 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"refreshPaymentCollectionForCartWorkflow","steps":[{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":1},{"type":"when","condition":"{\n      const valueIsEqual = MathBN.eq(\n        cart.payment_collection?.raw_amount ?? -1,\n        cart.raw_total\n      )\n\n      if (valueIsEqual) {\n        return cart.payment_collection.currency_code !== cart.currency_code\n      }\n\n      return true\n    }","depth":"2","steps":[{"type":"workflow","name":"deletePaymentSessionsWorkflow","description":"This workflow deletes one or more payment sessions.\n\n","link":"../../../../Payment_Collection/Workflows_Payment_Collection/functions/core_flows.Payment_Collection.Workflows_Payment_Collection.deletePaymentSessionsWorkflow/page.mdx","depth":2},{"type":"step","name":"updatePaymentCollectionStep","description":"This step updates payment collections matching the specified filters.\n\n","link":"../../../../Payment_Collection/Steps_Payment_Collection/functions/core_flows.Payment_Collection.Steps_Payment_Collection.updatePaymentCollectionStep/page.mdx","depth":2}]}]}} />
+<WorkflowDiagram workflow={{"name":"refreshPaymentCollectionForCartWorkflow","steps":[{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":1},{"type":"hook","name":"validate","description":"This hook is executed before all operations. You can consume this hook to perform any custom validation. If validation fails, you can throw an error to stop the workflow execution.","link":"#validate","depth":2},{"type":"when","condition":"{\n      const valueIsEqual = MathBN.eq(\n        cart.payment_collection?.raw_amount ?? -1,\n        cart.raw_total\n      )\n\n      if (valueIsEqual) {\n        return cart.payment_collection.currency_code !== cart.currency_code\n      }\n\n      return true\n    }","depth":"3","steps":[{"type":"workflow","name":"deletePaymentSessionsWorkflow","description":"This workflow deletes one or more payment sessions. It's used by other workflows, like\nrefreshPaymentCollectionForCartWorkflow to delete payment sessions when the cart's total changes.\n\nYou can use this workflow within your own customizations or custom workflows, allowing you\nto delete payment sessions in your custom flows.","link":"../../../../Payment_Collection/Workflows_Payment_Collection/functions/core_flows.Payment_Collection.Workflows_Payment_Collection.deletePaymentSessionsWorkflow/page.mdx","depth":3},{"type":"step","name":"updatePaymentCollectionStep","description":"This step updates payment collections matching the specified filters.","link":"../../../../Payment_Collection/Steps_Payment_Collection/functions/core_flows.Payment_Collection.Steps_Payment_Collection.updatePaymentCollectionStep/page.mdx","depth":3}]}]}} />
 
 ## Input
 
-<TypeList types={[{"name":"RefreshPaymentCollectionForCartWorklowInput","type":"[RefreshPaymentCollectionForCartWorklowInput](../../../../types/core_flows.RefreshPaymentCollectionForCartWorklowInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"cart_id","type":"`string`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="refreshPaymentCollectionForCartWorkflow"/>
+<TypeList types={[{"name":"RefreshPaymentCollectionForCartWorklowInput","type":"[RefreshPaymentCollectionForCartWorklowInput](../../../../types/core_flows.RefreshPaymentCollectionForCartWorklowInput/page.mdx)","optional":false,"defaultValue":"","description":"The details of the cart to refresh.","expandable":false,"children":[{"name":"cart_id","type":"`string`","description":"The cart's ID.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="refreshPaymentCollectionForCartWorkflow"/>
+
+## Output
+
+<TypeList types={[{"name":"undefined","type":"`undefined`","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"undefined","type":"`undefined`","optional":false,"defaultValue":"","description":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="refreshPaymentCollectionForCartWorkflow"/>
+
+## Hooks
+
+Hooks allow you to inject custom functionalities into the workflow. You'll receive data from the workflow, as well as additional data sent through an HTTP request.
+
+Learn more about [Hooks](https://docs.medusajs.com/learn/fundamentals/workflows/workflow-hooks) and [Additional Data](https://docs.medusajs.com/learn/fundamentals/api-routes/additional-data).
+
+### validate
+
+This hook is executed before all operations. You can consume this hook to perform any custom validation. If validation fails, you can throw an error to stop the workflow execution.
+
+#### Example
+
+```ts
+import { addShippingMethodToCartWorkflow } from "@medusajs/medusa/core-flows"
+
+addShippingMethodToCartWorkflow.hooks.validate(
+  (async ({ input, cart }, { container }) => {
+    //TODO
+  })
+)
+```
+
+#### Input
+
+Handlers consuming this hook accept the following input.
+
+<TypeList types={[{"name":"input","type":"object","description":"The input data for the hook.","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"input","type":"[AddShippingMethodToCartWorkflowInput](../../../../interfaces/core_flows.AddShippingMethodToCartWorkflowInput/page.mdx)","description":"The data to add a shipping method to a cart.","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"cart_id","type":"`string`","description":"The ID of the cart to add the shipping method to.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"options","type":"`object`[]","description":"The shipping options to create the shipping methods from and add to the cart.","optional":false,"defaultValue":"","expandable":false,"children":[]}]},{"name":"cart","type":"`any`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="validate"/>

@@ -7,7 +7,7 @@ import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
 export const registerUsageStepId = "register-usage"
 /**
- * This step registers usage for promotion campaigns
+ * This step registers usage for a promotion.
  */
 export const registerUsageStep = createStep(
   registerUsageStepId,

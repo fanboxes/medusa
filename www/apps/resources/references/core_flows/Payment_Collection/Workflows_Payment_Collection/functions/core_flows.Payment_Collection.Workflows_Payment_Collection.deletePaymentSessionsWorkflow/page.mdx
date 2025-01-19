@@ -13,9 +13,13 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `deletePaymentSessionsWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow deletes one or more payment sessions.
+This workflow deletes one or more payment sessions. It's used by other workflows, like
+refreshPaymentCollectionForCartWorkflow to delete payment sessions when the cart's total changes.
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/payment-collection/workflows/delete-payment-sessions.ts#L19" />
+You can use this workflow within your own customizations or custom workflows, allowing you
+to delete payment sessions in your custom flows.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/payment-collection/workflows/delete-payment-sessions.ts#L41" />
 
 ## Examples
 
@@ -36,9 +40,7 @@ export async function POST(
   const { result } = await deletePaymentSessionsWorkflow(req.scope)
     .run({
       input: {
-        "ids": [
-          "id_g3yXlIZ216xQAswr"
-        ]
+        ids: ["payses_123"]
       }
     })
 
@@ -63,9 +65,7 @@ export default async function handleOrderPlaced({
   const { result } = await deletePaymentSessionsWorkflow(container)
     .run({
       input: {
-        "ids": [
-          "id_g3yXlIZ216xQAswr"
-        ]
+        ids: ["payses_123"]
       }
     })
 
@@ -90,9 +90,7 @@ export default async function myCustomJob(
   const { result } = await deletePaymentSessionsWorkflow(container)
     .run({
       input: {
-        "ids": [
-          "id_g3yXlIZ216xQAswr"
-        ]
+        ids: ["payses_123"]
       }
     })
 
@@ -118,9 +116,7 @@ const myWorkflow = createWorkflow(
     const result = deletePaymentSessionsWorkflow
       .runAsStep({
         input: {
-          "ids": [
-            "id_g3yXlIZ216xQAswr"
-          ]
+          ids: ["payses_123"]
         }
       })
   }
@@ -132,11 +128,11 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"deletePaymentSessionsWorkflow","steps":[{"type":"step","name":"deletePaymentSessionsStep","description":"This step deletes one or more payment sessions.\n\nNote: This step should not be used alone as it doesn't consider a revert\nUse deletePaymentSessionsWorkflow instead that uses this step\n\n","link":"../../../Steps_Payment_Collection/functions/core_flows.Payment_Collection.Steps_Payment_Collection.deletePaymentSessionsStep/page.mdx","depth":1},{"type":"step","name":"validateDeletedPaymentSessionsStep","description":"This step validates that the specified payment session IDs were deleted.\n\n","link":"../../../Steps_Payment_Collection/functions/core_flows.Payment_Collection.Steps_Payment_Collection.validateDeletedPaymentSessionsStep/page.mdx","depth":2}]}} />
+<WorkflowDiagram workflow={{"name":"deletePaymentSessionsWorkflow","steps":[{"type":"step","name":"deletePaymentSessionsStep","description":"This step deletes one or more payment sessions.\n\nNote: This step should not be used alone as it doesn't consider a revert\nUse deletePaymentSessionsWorkflow instead, which uses this step.","link":"../../../Steps_Payment_Collection/functions/core_flows.Payment_Collection.Steps_Payment_Collection.deletePaymentSessionsStep/page.mdx","depth":1},{"type":"step","name":"validateDeletedPaymentSessionsStep","description":"This step validates that the specified payment session IDs were deleted.\nIf not all payment sessions were deleted, the step throws an error.","link":"../../../Steps_Payment_Collection/functions/core_flows.Payment_Collection.Steps_Payment_Collection.validateDeletedPaymentSessionsStep/page.mdx","depth":2}]}} />
 
 ## Input
 
-<TypeList types={[{"name":"DeletePaymentSessionsWorkflowInput","type":"[DeletePaymentSessionsWorkflowInput](../../../../interfaces/core_flows.DeletePaymentSessionsWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"ids","type":"`string`[]","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deletePaymentSessionsWorkflow"/>
+<TypeList types={[{"name":"DeletePaymentSessionsWorkflowInput","type":"[DeletePaymentSessionsWorkflowInput](../../../../interfaces/core_flows.DeletePaymentSessionsWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"The data to delete payment sessions.","expandable":false,"children":[{"name":"ids","type":"`string`[]","description":"The IDs of the payment sessions to delete.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deletePaymentSessionsWorkflow"/>
 
 ## Output
 

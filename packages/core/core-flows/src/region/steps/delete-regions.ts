@@ -2,13 +2,18 @@ import { IRegionModuleService } from "@medusajs/framework/types"
 import { Modules } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The IDs of the regions to delete.
+ */
+export type DeleteRegionsStepInput = string[]
+
 export const deleteRegionsStepId = "delete-regions"
 /**
  * This step deletes one or more regions.
  */
 export const deleteRegionsStep = createStep(
   deleteRegionsStepId,
-  async (ids: string[], { container }) => {
+  async (ids: DeleteRegionsStepInput, { container }) => {
     const service = container.resolve<IRegionModuleService>(Modules.REGION)
 
     await service.softDeleteRegions(ids)

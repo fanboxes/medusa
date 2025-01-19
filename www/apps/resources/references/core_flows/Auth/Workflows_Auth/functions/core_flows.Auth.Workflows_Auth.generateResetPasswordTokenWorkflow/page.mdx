@@ -13,7 +13,20 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `generateResetPasswordTokenWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/auth/workflows/generate-reset-password-token.ts#L13" />
+This workflow generates a reset password token for a user. It's used by the
+[Generate Reset Password Token for Admin](https://docs.medusajs.com/api/admin#auth\_postactor\_typeauth\_providerresetpassword)
+and [Generate Reset Password Token for Customer](https://docs.medusajs.com/api/store#auth\_postactor\_typeauth\_providerresetpassword)
+API Routes.
+
+The workflow emits the `auth.password_reset` event, which you can listen to in
+a [subscriber](https://docs.medusajs.com/learn/fundamentals/events-and-subscribers). Follow
+[this guide](https://docs.medusajs.com/resources/commerce-modules/auth/reset-password) to learn
+how to handle this event.
+
+You can use this workflow within your customizations or your own custom workflows, allowing you to
+generate reset password tokens within your custom flows.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/auth/workflows/generate-reset-password-token.ts#L42" />
 
 ## Examples
 
@@ -34,10 +47,10 @@ export async function POST(
   const { result } = await generateResetPasswordTokenWorkflow(req.scope)
     .run({
       input: {
-        "entityId": "{value}",
-        "actorType": "{value}",
-        "provider": "{value}",
-        "secret": "{value}"
+        entityId: "example@gmail.com",
+        actorType: "customer",
+        provider: "emailpass",
+        secret: "jwt_123" // jwt secret
       }
     })
 
@@ -62,10 +75,10 @@ export default async function handleOrderPlaced({
   const { result } = await generateResetPasswordTokenWorkflow(container)
     .run({
       input: {
-        "entityId": "{value}",
-        "actorType": "{value}",
-        "provider": "{value}",
-        "secret": "{value}"
+        entityId: "example@gmail.com",
+        actorType: "customer",
+        provider: "emailpass",
+        secret: "jwt_123" // jwt secret
       }
     })
 
@@ -90,10 +103,10 @@ export default async function myCustomJob(
   const { result } = await generateResetPasswordTokenWorkflow(container)
     .run({
       input: {
-        "entityId": "{value}",
-        "actorType": "{value}",
-        "provider": "{value}",
-        "secret": "{value}"
+        entityId: "example@gmail.com",
+        actorType: "customer",
+        provider: "emailpass",
+        secret: "jwt_123" // jwt secret
       }
     })
 
@@ -119,10 +132,10 @@ const myWorkflow = createWorkflow(
     const result = generateResetPasswordTokenWorkflow
       .runAsStep({
         input: {
-          "entityId": "{value}",
-          "actorType": "{value}",
-          "provider": "{value}",
-          "secret": "{value}"
+          entityId: "example@gmail.com",
+          actorType: "customer",
+          provider: "emailpass",
+          secret: "jwt_123" // jwt secret
         }
       })
   }
@@ -134,7 +147,7 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"generateResetPasswordTokenWorkflow","steps":[{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":1},{"type":"step","name":"emitEventStep","description":"Emit an event.\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":2}]}} />
+<WorkflowDiagram workflow={{"name":"generateResetPasswordTokenWorkflow","steps":[{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":1},{"type":"step","name":"emitEventStep","description":"Emit an event.","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":2}]}} />
 
 ## Input
 

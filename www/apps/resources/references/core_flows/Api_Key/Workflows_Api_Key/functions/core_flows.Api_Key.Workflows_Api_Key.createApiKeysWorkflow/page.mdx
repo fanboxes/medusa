@@ -12,9 +12,13 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `createApiKeysWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow creates one or more API keys.
+This workflow creates one or more API keys, which can be secret or publishable. It's used by the 
+[Create API Key Admin API Route](https://docs.medusajs.com/api/admin#api-keys\_postapikeys).
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/api-key/workflows/create-api-keys.ts#L15" />
+You can use this workflow within your customizations or your own custom workflows, allowing you to
+create API keys within your custom flows.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/api-key/workflows/create-api-keys.ts#L50" />
 
 ## Examples
 
@@ -35,10 +39,10 @@ export async function POST(
   const { result } = await createApiKeysWorkflow(req.scope)
     .run({
       input: {
-        "api_keys": [{
-          "title": "suscipio",
-          "type": "publishable",
-          "created_by": "user_svZrl7Ubex"
+        api_keys: [{
+          type: "publishable",
+          title: "Storefront",
+          created_by: "user_123"
         }]
       }
     })
@@ -64,10 +68,10 @@ export default async function handleOrderPlaced({
   const { result } = await createApiKeysWorkflow(container)
     .run({
       input: {
-        "api_keys": [{
-          "title": "suscipio",
-          "type": "publishable",
-          "created_by": "user_svZrl7Ubex"
+        api_keys: [{
+          type: "publishable",
+          title: "Storefront",
+          created_by: "user_123"
         }]
       }
     })
@@ -93,10 +97,10 @@ export default async function myCustomJob(
   const { result } = await createApiKeysWorkflow(container)
     .run({
       input: {
-        "api_keys": [{
-          "title": "suscipio",
-          "type": "publishable",
-          "created_by": "user_svZrl7Ubex"
+        api_keys: [{
+          type: "publishable",
+          title: "Storefront",
+          created_by: "user_123"
         }]
       }
     })
@@ -123,10 +127,10 @@ const myWorkflow = createWorkflow(
     const result = createApiKeysWorkflow
       .runAsStep({
         input: {
-          "api_keys": [{
-            "title": "suscipio",
-            "type": "publishable",
-            "created_by": "user_svZrl7Ubex"
+          api_keys: [{
+            type: "publishable",
+            title: "Storefront",
+            created_by: "user_123"
           }]
         }
       })
@@ -139,12 +143,12 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"createApiKeysWorkflow","steps":[{"type":"step","name":"createApiKeysStep","description":"This step creates one or more API keys.\n\n","link":"../../../Steps_Api_Key/functions/core_flows.Api_Key.Steps_Api_Key.createApiKeysStep/page.mdx","depth":1}]}} />
+<WorkflowDiagram workflow={{"name":"createApiKeysWorkflow","steps":[{"type":"step","name":"createApiKeysStep","description":"This step creates one or more API keys.","link":"../../../Steps_Api_Key/functions/core_flows.Api_Key.Steps_Api_Key.createApiKeysStep/page.mdx","depth":1}]}} />
 
 ## Input
 
-<TypeList types={[{"name":"CreateApiKeysWorkflowInput","type":"[CreateApiKeysWorkflowInput](../../../../types/core_flows.CreateApiKeysWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"api_keys","type":"[CreateApiKeyDTO](../../../../../api_key/interfaces/api_key.CreateApiKeyDTO/page.mdx)[]","description":"","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"title","type":"`string`","description":"The title of the API key.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"type","type":"[ApiKeyType](../../../../../api_key/types/api_key.ApiKeyType/page.mdx)","description":"The type of the API key.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"created_by","type":"`string`","description":"Who created the API key.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="createApiKeysWorkflow"/>
+<TypeList types={[{"name":"CreateApiKeysWorkflowInput","type":"[CreateApiKeysWorkflowInput](../../../../types/core_flows.CreateApiKeysWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"The data to create API keys.","expandable":false,"children":[{"name":"api_keys","type":"[CreateApiKeyDTO](../../../../../api_key/interfaces/api_key.CreateApiKeyDTO/page.mdx)[]","description":"The API keys to create.","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"title","type":"`string`","description":"The title of the API key.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"type","type":"[ApiKeyType](../../../../../api_key/types/api_key.ApiKeyType/page.mdx)","description":"The type of the API key.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"created_by","type":"`string`","description":"Who created the API key.\nIf the API key type is `secret`, the user can use the created API key's token to authenticate\nas explained in the [API Reference](https://docs.medusajs.com/api/admin#2-api-token).","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="createApiKeysWorkflow"/>
 
 ## Output
 
-<TypeList types={[{"name":"ApiKeyDTO[]","type":"[ApiKeyDTO](../../../../../api_key/interfaces/api_key.ApiKeyDTO/page.mdx)[]","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"ApiKeyDTO","type":"[ApiKeyDTO](../../../../../api_key/interfaces/api_key.ApiKeyDTO/page.mdx)","optional":false,"defaultValue":"","description":"The API key details.","expandable":false,"children":[{"name":"id","type":"`string`","description":"The ID of the API key.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"token","type":"`string`","description":"The token of the API key.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"redacted","type":"`string`","description":"The redacted form of the API key's token. This is useful\nwhen showing portion of the token. For example `sk_...123`.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"title","type":"`string`","description":"The title of the API key.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"type","type":"[ApiKeyType](../../../../../api_key/types/api_key.ApiKeyType/page.mdx)","description":"The type of the API key.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"last_used_at","type":"`null` \\| `Date`","description":"The date the API key was last used.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"created_by","type":"`string`","description":"Who created the API key.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"created_at","type":"`Date`","description":"The date the API key was created.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"updated_at","type":"`Date`","description":"The date the API key was updated.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"deleted_at","type":"`null` \\| `Date`","description":"The date the API key was deleted.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"revoked_by","type":"`null` \\| `string`","description":"Who revoked the API key. For example,\nthe ID of the user that revoked it.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"revoked_at","type":"`null` \\| `Date`","description":"The date the API key was revoked.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="createApiKeysWorkflow"/>
+<TypeList types={[{"name":"CreateApiKeysWorkflowOutput","type":"[CreateApiKeysWorkflowOutput](../../../../types/core_flows.CreateApiKeysWorkflowOutput/page.mdx)","optional":false,"defaultValue":"","description":"The created API keys.","expandable":false,"children":[{"name":"id","type":"`string`","description":"The ID of the API key.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"token","type":"`string`","description":"The token of the API key.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"redacted","type":"`string`","description":"The redacted form of the API key's token. This is useful\nwhen showing portion of the token. For example `sk_...123`.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"title","type":"`string`","description":"The title of the API key.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"type","type":"[ApiKeyType](../../../../../api_key/types/api_key.ApiKeyType/page.mdx)","description":"The type of the API key.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"last_used_at","type":"`null` \\| `Date`","description":"The date the API key was last used.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"created_by","type":"`string`","description":"Who created the API key.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"created_at","type":"`Date`","description":"The date the API key was created.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"updated_at","type":"`Date`","description":"The date the API key was updated.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"deleted_at","type":"`null` \\| `Date`","description":"The date the API key was deleted.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"revoked_by","type":"`null` \\| `string`","description":"Who revoked the API key. For example,\nthe ID of the user that revoked it.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"revoked_at","type":"`null` \\| `Date`","description":"The date the API key was revoked.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="createApiKeysWorkflow"/>

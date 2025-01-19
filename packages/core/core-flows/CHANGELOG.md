@@ -1,5 +1,21 @@
 # @medusajs/core-flows
 
+## 2.3.0
+
+### Patch Changes
+
+- [#10888](https://github.com/medusajs/medusa/pull/10888) [`1758bfb8d042fa9fc82f23c36ccd61e4a439448e`](https://github.com/medusajs/medusa/commit/1758bfb8d042fa9fc82f23c36ccd61e4a439448e) Thanks [@riqwan](https://github.com/riqwan)! - fix(dashboard, core-flows): improvements to order page on canceled orders
+
+- [#11012](https://github.com/medusajs/medusa/pull/11012) [`7be47354e1eb95141f420ef9c74f98b3e2bd8315`](https://github.com/medusajs/medusa/commit/7be47354e1eb95141f420ef9c74f98b3e2bd8315) Thanks [@shahednasser](https://github.com/shahednasser)! - fix(core-flows,medusa): use deleteRefundReasonsWorkflow in delete /admin/refund-reasons/:id
+
+- [#10958](https://github.com/medusajs/medusa/pull/10958) [`c5a207144e2f04f232a1beb3586422fc93047ed2`](https://github.com/medusajs/medusa/commit/c5a207144e2f04f232a1beb3586422fc93047ed2) Thanks [@carlos-r-l-rodrigues](https://github.com/carlos-r-l-rodrigues)! - fix(core-flows): process payment capture condition
+
+- [#10967](https://github.com/medusajs/medusa/pull/10967) [`11f98f374cb0b77b1c80e72328fc68b5e22d5b87`](https://github.com/medusajs/medusa/commit/11f98f374cb0b77b1c80e72328fc68b5e22d5b87) Thanks [@carlos-r-l-rodrigues](https://github.com/carlos-r-l-rodrigues)! - feat(core-flows): validation hook on cart mutations
+
+- [#10923](https://github.com/medusajs/medusa/pull/10923) [`7232a8a93053adedd964659c1f370aa9fddc0e44`](https://github.com/medusajs/medusa/commit/7232a8a93053adedd964659c1f370aa9fddc0e44) Thanks [@riqwan](https://github.com/riqwan)! - fix(core-flows): return refunded when all captured payments have been refunded
+
+- [#10630](https://github.com/medusajs/medusa/pull/10630) [`bc22b81cdf9591912744f448c74d45bcb0f11e0c`](https://github.com/medusajs/medusa/commit/bc22b81cdf9591912744f448c74d45bcb0f11e0c) Thanks [@kasperkristensen](https://github.com/kasperkristensen)! - feat(inventory,dashboard,core-flows,js-sdk,types,medusa): Improve inventory management UX
+
 ## 2.2.0
 
 ### Patch Changes

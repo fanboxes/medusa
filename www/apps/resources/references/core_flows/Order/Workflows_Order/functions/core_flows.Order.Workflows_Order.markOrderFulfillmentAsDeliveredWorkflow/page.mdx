@@ -14,9 +14,13 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `markOrderFulfillmentAsDeliveredWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow marks a fulfillment in an order as delivered.
+This workflow marks a fulfillment in an order as delivered. It's used by the
+[Mark Fulfillment as Delivered Admin API Route](https://docs.medusajs.com/api/admin#orders\_postordersidfulfillmentsfulfillment\_idmarkasdelivered).
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/order/workflows/mark-order-fulfillment-as-delivered.ts#L88" />
+You can use this workflow within your customizations or your own custom workflows, allowing you to wrap custom logic around
+marking a fulfillment as delivered.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/order/workflows/mark-order-fulfillment-as-delivered.ts#L165" />
 
 ## Examples
 
@@ -37,8 +41,8 @@ export async function POST(
   const { result } = await markOrderFulfillmentAsDeliveredWorkflow(req.scope)
     .run({
       input: {
-        "orderId": "{value}",
-        "fulfillmentId": "{value}"
+        orderId: "order_123",
+        fulfillmentId: "ful_123",
       }
     })
 
@@ -63,8 +67,8 @@ export default async function handleOrderPlaced({
   const { result } = await markOrderFulfillmentAsDeliveredWorkflow(container)
     .run({
       input: {
-        "orderId": "{value}",
-        "fulfillmentId": "{value}"
+        orderId: "order_123",
+        fulfillmentId: "ful_123",
       }
     })
 
@@ -89,8 +93,8 @@ export default async function myCustomJob(
   const { result } = await markOrderFulfillmentAsDeliveredWorkflow(container)
     .run({
       input: {
-        "orderId": "{value}",
-        "fulfillmentId": "{value}"
+        orderId: "order_123",
+        fulfillmentId: "ful_123",
       }
     })
 
@@ -116,8 +120,8 @@ const myWorkflow = createWorkflow(
     const result = markOrderFulfillmentAsDeliveredWorkflow
       .runAsStep({
         input: {
-          "orderId": "{value}",
-          "fulfillmentId": "{value}"
+          orderId: "order_123",
+          fulfillmentId: "ful_123",
         }
       })
   }
@@ -129,11 +133,11 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"markOrderFulfillmentAsDeliveredWorkflow","steps":[{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":1},{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":2},{"type":"step","name":"orderFulfillmentDeliverablilityValidationStep","description":"This step validates that order & fulfillment are valid\n\n","link":"../core_flows.Order.Workflows_Order.orderFulfillmentDeliverablilityValidationStep/page.mdx","depth":3},{"type":"workflow","name":"markFulfillmentAsDeliveredWorkflow","description":"This workflow marks fulfillment as delivered.\n\n","link":"../../../../Fulfillment/Workflows_Fulfillment/functions/core_flows.Fulfillment.Workflows_Fulfillment.markFulfillmentAsDeliveredWorkflow/page.mdx","depth":4},{"type":"step","name":"emitEventStep","description":"Emit an event.\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":5}]}} />
+<WorkflowDiagram workflow={{"name":"markOrderFulfillmentAsDeliveredWorkflow","steps":[{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":1},{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":2},{"type":"step","name":"orderFulfillmentDeliverablilityValidationStep","description":"This step validates that the order fulfillment can be delivered. If the order is cancelled,\nthe items to mark as delivered don't exist in the order, or the fulfillment doesn't exist in the order,\nthe step will throw an error.\n\n:::note\n\nYou can retrieve an order and fulfillment's details using [Query](https://docs.medusajs.com/learn/fundamentals/module-links/query),\nor [useQueryGraphStep](https://docs.medusajs.com/resources/references/medusa-workflows/steps/useQueryGraphStep).\n\n:::","link":"../core_flows.Order.Workflows_Order.orderFulfillmentDeliverablilityValidationStep/page.mdx","depth":3},{"type":"workflow","name":"markFulfillmentAsDeliveredWorkflow","description":"This workflow marks a fulfillment as delivered. It's used by the markOrderFulfillmentAsDeliveredWorkflow.\n\nYou can use this workflow within your customizations or your own custom workflows, allowing you \nto mark a fulfillment as delivered in your custom flows.","link":"../../../../Fulfillment/Workflows_Fulfillment/functions/core_flows.Fulfillment.Workflows_Fulfillment.markFulfillmentAsDeliveredWorkflow/page.mdx","depth":4},{"type":"step","name":"emitEventStep","description":"Emit an event.","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":5}]}} />
 
 ## Input
 
-<TypeList types={[{"name":"orderId","type":"`string`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"fulfillmentId","type":"`string`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="markOrderFulfillmentAsDeliveredWorkflow"/>
+<TypeList types={[{"name":"MarkOrderFulfillmentAsDeliveredWorkflowInput","type":"[MarkOrderFulfillmentAsDeliveredWorkflowInput](../../../../types/core_flows.MarkOrderFulfillmentAsDeliveredWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"The details to mark a fulfillment in an order as delivered.","expandable":false,"children":[{"name":"orderId","type":"`string`","description":"The ID of the order to mark the fulfillment as delivered in.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"fulfillmentId","type":"`string`","description":"The ID of the fulfillment to mark as delivered.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="markOrderFulfillmentAsDeliveredWorkflow"/>
 
 ## Output
 

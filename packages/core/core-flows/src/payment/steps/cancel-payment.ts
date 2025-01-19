@@ -6,7 +6,13 @@ import {
 } from "@medusajs/framework/utils"
 import { createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The data to cancel one or more payments.
+ */
 export type CancelPaymentStepInput = {
+  /**
+   * The ID(s) of the payment(s) to cancel.
+   */
   paymentIds: string | string[]
 }
 

@@ -9,14 +9,33 @@ import {
 } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The data to update the product categories.
+ */
 export type UpdateProductCategoriesStepInput = {
+  /**
+   * The filters to select the product categories to update.
+   */
   selector: FilterableProductCategoryProps
+  /**
+   * The data to update in the product categories.
+   */
   update: UpdateProductCategoryDTO
 }
 
 export const updateProductCategoriesStepId = "update-product-categories"
 /**
  * This step updates product categories matching specified filters.
+ * 
+ * @example
+ * const data = updateProductCategoriesStep({
+ *   selector: {
+ *     id: "pcat_123",
+ *   },
+ *   update: {
+ *     name: "Shoes",
+ *   }
+ * })
  */
 export const updateProductCategoriesStep = createStep(
   updateProductCategoriesStepId,

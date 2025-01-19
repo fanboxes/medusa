@@ -41,24 +41,12 @@ export const emitEventStepId = "emit-event-step"
  * Emit an event.
  *
  * @example
- * import {
- *   createWorkflow
- * } from "@medusajs/framework/workflows-sdk"
- * import {
- *   emitEventStep
- * } from "@medusajs/medusa/core-flows"
- *
- * const helloWorldWorkflow = createWorkflow(
- *   "hello-world",
- *   () => {
- *     emitEventStep({
- *       eventName: "custom.created",
- *       data: {
- *         id: "123"
- *       }
- *     })
+ * emitEventStep({
+ *   eventName: "custom.created",
+ *   data: {
+ *     id: "123"
  *   }
- * )
+ * })
  */
 export const emitEventStep = createStep(
   emitEventStepId,

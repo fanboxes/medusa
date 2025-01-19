@@ -14,23 +14,14 @@ This documentation provides a reference to the `createProductOptionsStep`. It be
 
 This step creates one or more product options.
 
-```ts title="src/workflows/my-workflow.ts"
-import { createWorkflow } from "@medusajs/framework/workflows-sdk"
-import { createProductOptionsStep } from "@medusajs/medusa/core-flows"
+## Example
 
-const myWorkflow = createWorkflow(
-  "my-workflow",
-  () => {
-    const data = createProductOptionsStep([{
-      "title": "arguo",
-      "values": [
-        "{value}"
-      ]
-    }])
-  }
-)
+```ts
+const data = createProductOptionsStep([{
+  title: "Size",
+  values: ["S", "M", "L"]
+}])
 ```
-  
 
 ## Input
 

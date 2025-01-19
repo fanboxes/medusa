@@ -1,5 +1,5 @@
 import {
-  deleteReturnReasonsWorkflow,
+  deleteRefundReasonsWorkflow,
   updateRefundReasonsWorkflow,
 } from "@medusajs/core-flows"
 import { HttpTypes, RefundReasonResponse } from "@medusajs/framework/types"
@@ -56,7 +56,7 @@ export const DELETE = async (
   const { id } = req.params
   const input = { ids: [id] }
 
-  await deleteReturnReasonsWorkflow(req.scope).run({ input })
+  await deleteRefundReasonsWorkflow(req.scope).run({ input })
 
   res.json({
     id,

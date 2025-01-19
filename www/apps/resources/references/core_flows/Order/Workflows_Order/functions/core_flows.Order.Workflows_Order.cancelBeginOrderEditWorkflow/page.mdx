@@ -13,9 +13,13 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `cancelBeginOrderEditWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow cancels a requested order edit.
+This workflow cancels a requested edit for an order. It's used by the
+[Cancel Order Edit Admin API Route](https://docs.medusajs.com/api/admin#order-edits\_deleteordereditsid).
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/order/workflows/order-edit/cancel-begin-order-edit.ts#L42" />
+You can use this workflow within your customizations or your own custom workflows, allowing you to cancel an order edit
+in your custom flow.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/order/workflows/order-edit/cancel-begin-order-edit.ts#L95" />
 
 ## Examples
 
@@ -36,7 +40,7 @@ export async function POST(
   const { result } = await cancelBeginOrderEditWorkflow(req.scope)
     .run({
       input: {
-        "order_id": "{value}"
+        order_id: "order_123",
       }
     })
 
@@ -61,7 +65,7 @@ export default async function handleOrderPlaced({
   const { result } = await cancelBeginOrderEditWorkflow(container)
     .run({
       input: {
-        "order_id": "{value}"
+        order_id: "order_123",
       }
     })
 
@@ -86,7 +90,7 @@ export default async function myCustomJob(
   const { result } = await cancelBeginOrderEditWorkflow(container)
     .run({
       input: {
-        "order_id": "{value}"
+        order_id: "order_123",
       }
     })
 
@@ -112,7 +116,7 @@ const myWorkflow = createWorkflow(
     const result = cancelBeginOrderEditWorkflow
       .runAsStep({
         input: {
-          "order_id": "{value}"
+          order_id: "order_123",
         }
       })
   }
@@ -124,8 +128,8 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"cancelBeginOrderEditWorkflow","steps":[{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":1},{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":2},{"type":"step","name":"cancelBeginOrderEditValidationStep","description":"This step validates that a requested order edit can be canceled.\n\n","link":"../core_flows.Order.Workflows_Order.cancelBeginOrderEditValidationStep/page.mdx","depth":3},{"type":"step","name":"deleteOrderChangesStep","description":"This step deletes order changes.\n\n","link":"../../../Steps_Order/functions/core_flows.Order.Steps_Order.deleteOrderChangesStep/page.mdx","depth":4},{"type":"step","name":"deleteOrderShippingMethods","description":"This step deletes order shipping methods.\n\n","link":"../../../Steps_Order/functions/core_flows.Order.Steps_Order.deleteOrderShippingMethods/page.mdx","depth":4}]}} />
+<WorkflowDiagram workflow={{"name":"cancelBeginOrderEditWorkflow","steps":[{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":1},{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":2},{"type":"step","name":"cancelBeginOrderEditValidationStep","description":"This step validates that a requested order edit can be canceled.\nIf the order is canceled or the order change is not active, the step will throw an error.\n\n:::note\n\nYou can retrieve an order and order change details using [Query](https://docs.medusajs.com/learn/fundamentals/module-links/query),\nor [useQueryGraphStep](https://docs.medusajs.com/resources/references/medusa-workflows/steps/useQueryGraphStep).\n\n:::","link":"../core_flows.Order.Workflows_Order.cancelBeginOrderEditValidationStep/page.mdx","depth":3},{"type":"step","name":"deleteOrderChangesStep","description":"This step deletes order changes.","link":"../../../Steps_Order/functions/core_flows.Order.Steps_Order.deleteOrderChangesStep/page.mdx","depth":4},{"type":"step","name":"deleteOrderShippingMethods","description":"This step deletes order shipping methods.","link":"../../../Steps_Order/functions/core_flows.Order.Steps_Order.deleteOrderShippingMethods/page.mdx","depth":4}]}} />
 
 ## Input
 
-<TypeList types={[{"name":"CancelBeginOrderEditWorkflowInput","type":"[CancelBeginOrderEditWorkflowInput](../../../../types/core_flows.CancelBeginOrderEditWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"order_id","type":"`string`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="cancelBeginOrderEditWorkflow"/>
+<TypeList types={[{"name":"CancelBeginOrderEditWorkflowInput","type":"[CancelBeginOrderEditWorkflowInput](../../../../types/core_flows.CancelBeginOrderEditWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"The data to cancel a requested order edit.","expandable":false,"children":[{"name":"order_id","type":"`string`","description":"The ID of the order to cancel the edit for.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="cancelBeginOrderEditWorkflow"/>

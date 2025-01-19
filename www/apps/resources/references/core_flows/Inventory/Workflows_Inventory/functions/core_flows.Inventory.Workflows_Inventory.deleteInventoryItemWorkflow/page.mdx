@@ -14,9 +14,13 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `deleteInventoryItemWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow deletes one or more inventory items.
+This workflow deletes one or more inventory items. It's used by the
+[Delete Inventory Item Admin API Route](https://docs.medusajs.com/api/admin#inventory-items\_deleteinventoryitemsid).
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/inventory/workflows/delete-inventory-items.ts#L16" />
+You can use this workflow within your own customizations or custom workflows, allowing you
+to delete inventory items in your custom flows.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/inventory/workflows/delete-inventory-items.ts#L40" />
 
 ## Examples
 
@@ -36,9 +40,7 @@ export async function POST(
 ) {
   const { result } = await deleteInventoryItemWorkflow(req.scope)
     .run({
-      input: [
-        "{value}"
-      ]
+      input: ["iitem_123"]
     })
 
   res.send(result)
@@ -61,9 +63,7 @@ export default async function handleOrderPlaced({
 }: SubscriberArgs < { id: string } > ) {
   const { result } = await deleteInventoryItemWorkflow(container)
     .run({
-      input: [
-        "{value}"
-      ]
+      input: ["iitem_123"]
     })
 
   console.log(result)
@@ -86,9 +86,7 @@ export default async function myCustomJob(
 ) {
   const { result } = await deleteInventoryItemWorkflow(container)
     .run({
-      input: [
-        "{value}"
-      ]
+      input: ["iitem_123"]
     })
 
   console.log(result)
@@ -112,9 +110,7 @@ const myWorkflow = createWorkflow(
   () => {
     const result = deleteInventoryItemWorkflow
       .runAsStep({
-        input: [
-          "{value}"
-        ]
+        input: ["iitem_123"]
       })
   }
 )
@@ -125,12 +121,12 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"deleteInventoryItemWorkflow","steps":[{"type":"step","name":"useQueryGraphStep","description":"This step fetches data across modules using the Query.\n\nLearn more in the [Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx","depth":1},{"type":"step","name":"validateInventoryDeleteStep","description":"\n\n","link":"../../../Steps_Inventory/functions/core_flows.Inventory.Steps_Inventory.validateInventoryDeleteStep/page.mdx","depth":2},{"type":"step","name":"deleteInventoryItemStep","description":"This step deletes one or more inventory items.\n\n","link":"../../../Steps_Inventory/functions/core_flows.Inventory.Steps_Inventory.deleteInventoryItemStep/page.mdx","depth":3},{"type":"step","name":"removeRemoteLinkStep","description":"This step deletes linked records of a record.\n\nLearn more in the [Remote Link documentation](https://docs.medusajs.com/learn/fundamentals/module-links/remote-link#cascade-delete-linked-records)\n\n","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.removeRemoteLinkStep/page.mdx","depth":4}]}} />
+<WorkflowDiagram workflow={{"name":"deleteInventoryItemWorkflow","steps":[{"type":"step","name":"useQueryGraphStep","description":"This step fetches data across modules using the Query.\n\nLearn more in the [Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx","depth":1},{"type":"step","name":"validateInventoryDeleteStep","description":"","link":"../../../Steps_Inventory/functions/core_flows.Inventory.Steps_Inventory.validateInventoryDeleteStep/page.mdx","depth":2},{"type":"step","name":"deleteInventoryItemStep","description":"This step deletes one or more inventory items.","link":"../../../Steps_Inventory/functions/core_flows.Inventory.Steps_Inventory.deleteInventoryItemStep/page.mdx","depth":3},{"type":"step","name":"removeRemoteLinkStep","description":"This step deletes linked records of a record.\n\nLearn more in the [Remote Link documentation](https://docs.medusajs.com/learn/fundamentals/module-links/remote-link#cascade-delete-linked-records)","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.removeRemoteLinkStep/page.mdx","depth":4}]}} />
 
 ## Input
 
-<TypeList types={[{"name":"string[]","type":"`string`[]","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"string","type":"`string`","optional":false,"defaultValue":"","description":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteInventoryItemWorkflow"/>
+<TypeList types={[{"name":"DeleteInventoryItemWorkflowInput","type":"[DeleteInventoryItemWorkflowInput](../../../../types/core_flows.DeleteInventoryItemWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"The IDs of the inventory items to delete.","expandable":false,"children":[{"name":"DeleteInventoryItemWorkflowInput","type":"`string`[]","description":"The IDs of the inventory items to delete.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteInventoryItemWorkflow"/>
 
 ## Output
 
-<TypeList types={[{"name":"string[]","type":"`string`[]","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"string","type":"`string`","optional":false,"defaultValue":"","description":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteInventoryItemWorkflow"/>
+<TypeList types={[{"name":"DeleteInventoryItemWorkflowOutput","type":"[DeleteInventoryItemWorkflowOutput](../../../../types/core_flows.DeleteInventoryItemWorkflowOutput/page.mdx)","optional":false,"defaultValue":"","description":"The IDs of deleted inventory items.","expandable":false,"children":[{"name":"DeleteInventoryItemWorkflowOutput","type":"`string`[]","description":"The IDs of deleted inventory items.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteInventoryItemWorkflow"/>

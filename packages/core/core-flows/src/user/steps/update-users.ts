@@ -4,7 +4,15 @@ import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
 export const updateUsersStepId = "update-users-step"
 /**
- * This step updates one or more stores.
+ * This step updates one or more users.
+ * 
+ * @example
+ * const data = updateUsersStep([
+ *   {
+ *     id: "user_123",
+ *     last_name: "Doe",
+ *   }
+ * ])
  */
 export const updateUsersStep = createStep(
   updateUsersStepId,

@@ -2,6 +2,7 @@
 slug: /references/medusa-workflows/batchLinkProductsToCategoryWorkflow
 sidebar_label: batchLinkProductsToCategoryWorkflow
 tags:
+  - product
   - workflow
 ---
 
@@ -11,9 +12,12 @@ import { TypeList, WorkflowDiagram } from "docs-ui"
 
 This documentation provides a reference to the `batchLinkProductsToCategoryWorkflow`. It belongs to the `@medusajs/medusa/core-flows` package.
 
-This workflow creates links between product and category records.
+This workflow manages the links between a category and products. It's used by the
+[Manage Products of Category Admin API Route](https://docs.medusajs.com/api/admin#product-categories\_postproductcategoriesidproducts).
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/1b86c17b7293f3b810c062d78ec6ef563f968366/packages/core/core-flows/src/product/workflows/batch-products-in-category.ts#L10" />
+You can use this workflow within your own customizations or custom workflows to manage the products in a category.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/product/workflows/batch-products-in-category.ts#L27" />
 
 ## Examples
 
@@ -34,7 +38,9 @@ export async function POST(
   const { result } = await batchLinkProductsToCategoryWorkflow(req.scope)
     .run({
       input: {
-        "id": "id_CF7CqwJw4Kl5y5C2TYFF"
+        id: "pcat_123",
+        add: ["prod_123"],
+        remove: ["prod_321"]
       }
     })
 
@@ -59,7 +65,9 @@ export default async function handleOrderPlaced({
   const { result } = await batchLinkProductsToCategoryWorkflow(container)
     .run({
       input: {
-        "id": "id_CF7CqwJw4Kl5y5C2TYFF"
+        id: "pcat_123",
+        add: ["prod_123"],
+        remove: ["prod_321"]
       }
     })
 
@@ -84,7 +92,9 @@ export default async function myCustomJob(
   const { result } = await batchLinkProductsToCategoryWorkflow(container)
     .run({
       input: {
-        "id": "id_CF7CqwJw4Kl5y5C2TYFF"
+        id: "pcat_123",
+        add: ["prod_123"],
+        remove: ["prod_321"]
       }
     })
 
@@ -110,7 +120,9 @@ const myWorkflow = createWorkflow(
     const result = batchLinkProductsToCategoryWorkflow
       .runAsStep({
         input: {
-          "id": "id_CF7CqwJw4Kl5y5C2TYFF"
+          id: "pcat_123",
+          add: ["prod_123"],
+          remove: ["prod_321"]
         }
       })
   }
@@ -120,6 +132,10 @@ const myWorkflow = createWorkflow(
     </CodeTab>
   </CodeTabs>
 
+## Steps
+
+<WorkflowDiagram workflow={{"name":"batchLinkProductsToCategoryWorkflow","steps":[{"type":"step","name":"batchLinkProductsToCategoryStep","description":"This step manages the links between a category and products.","link":"../../../Steps_Product/functions/core_flows.Product.Steps_Product.batchLinkProductsToCategoryStep/page.mdx","depth":1}]}} />
+
 ## Input
 
-<TypeList types={[{"name":"BatchUpdateProductsOnCategoryWorkflowInput","type":"[BatchUpdateProductsOnCategoryWorkflowInput](../../../../../types/WorkflowTypes/ProductCategoryWorkflow/interfaces/types.WorkflowTypes.ProductCategoryWorkflow.BatchUpdateProductsOnCategoryWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"id","type":"`string`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"add","type":"`string`[]","description":"","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"remove","type":"`string`[]","description":"","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="batchLinkProductsToCategoryWorkflow"/>
+<TypeList types={[{"name":"BatchUpdateProductsOnCategoryWorkflowInput","type":"[BatchUpdateProductsOnCategoryWorkflowInput](../../../../../types/WorkflowTypes/ProductCategoryWorkflow/interfaces/types.WorkflowTypes.ProductCategoryWorkflow.BatchUpdateProductsOnCategoryWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"id","type":"`string`","description":"The ID of the data model to create links to or remove links from.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"add","type":"`string`[]","description":"The IDs of the other data models to create links to the record specified in `id`.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"remove","type":"`string`[]","description":"The IDs of the other data models to remove links from the record specified in `id`.","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="batchLinkProductsToCategoryWorkflow"/>

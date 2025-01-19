@@ -1,6 +1,6 @@
 import { PencilSquare, Trash } from "@medusajs/icons"
 import { HttpTypes } from "@medusajs/types"
-import { Container, Heading, Text, usePrompt } from "@medusajs/ui"
+import { Container, Heading, Text, toast, usePrompt } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router-dom"
 import { ActionMenu } from "../../../../../components/common/action-menu"
@@ -37,7 +37,11 @@ export const UserGeneralSection = ({ user }: UserGeneralSectionProps) => {
 
     await mutateAsync(undefined, {
       onSuccess: () => {
+        toast.success(t("users.deleteUserSuccess", { name: user.email }))
         navigate("..")
+      },
+      onError: (error) => {
+        toast.error(error.message)
       },
     })
   }

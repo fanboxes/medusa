@@ -1,5 +1,31 @@
 # @medusajs/framework
 
+## 2.3.0
+
+### Patch Changes
+
+- [#10935](https://github.com/medusajs/medusa/pull/10935) [`b0f581cc7cb9f173666502d9ed2ea2c128b517be`](https://github.com/medusajs/medusa/commit/b0f581cc7cb9f173666502d9ed2ea2c128b517be) Thanks [@thetutlage](https://github.com/thetutlage)! - feat: add plugin build command
+
+- [#10941](https://github.com/medusajs/medusa/pull/10941) [`4bc3f5b845f832959bed3d5f2bd320b55a8fb50f`](https://github.com/medusajs/medusa/commit/4bc3f5b845f832959bed3d5f2bd320b55a8fb50f) Thanks [@kasperkristensen](https://github.com/kasperkristensen)! - feat(medusa,admin-bundler,cli,framework): Integrate admin extensions into plugin build
+
+- [#10926](https://github.com/medusajs/medusa/pull/10926) [`69e2a6d6951c133295947d00fa1f99547da467d2`](https://github.com/medusajs/medusa/commit/69e2a6d6951c133295947d00fa1f99547da467d2) Thanks [@thetutlage](https://github.com/thetutlage)! - Feat/plugin develop
+
+- [#10975](https://github.com/medusajs/medusa/pull/10975) [`c75678d6d41d3b88d07681ad7e24472d6cbde672`](https://github.com/medusajs/medusa/commit/c75678d6d41d3b88d07681ad7e24472d6cbde672) Thanks [@thetutlage](https://github.com/thetutlage)! - feat: add support for loading admin extensions from the source
+
+- [#10960](https://github.com/medusajs/medusa/pull/10960) [`0924164e86ecc256e2fa56a4e8c504abf7663131`](https://github.com/medusajs/medusa/commit/0924164e86ecc256e2fa56a4e8c504abf7663131) Thanks [@adrien2p](https://github.com/adrien2p)! - feat(core, medusa, cli): Enable migration scripts
+
+- [#10990](https://github.com/medusajs/medusa/pull/10990) [`9a742911feaa2274743b0edca5d649fcbbf8b6e3`](https://github.com/medusajs/medusa/commit/9a742911feaa2274743b0edca5d649fcbbf8b6e3) Thanks [@adrien2p](https://github.com/adrien2p)! - fix(framework): Exclude .d.ts files from the glob search and Properly generate the insert query string
+
+- [#10904](https://github.com/medusajs/medusa/pull/10904) [`428fce53134bd0b224f636a9a15d369d1f03cde8`](https://github.com/medusajs/medusa/commit/428fce53134bd0b224f636a9a15d369d1f03cde8) Thanks [@thetutlage](https://github.com/thetutlage)! - chore: move build utilities to Compiler class
+
+- Updated dependencies [[`67782350a9da278457c3280c300ebec65bdc6326`](https://github.com/medusajs/medusa/commit/67782350a9da278457c3280c300ebec65bdc6326), [`ff725090bb4ec848cb82c5411bdc25c4b72252ab`](https://github.com/medusajs/medusa/commit/ff725090bb4ec848cb82c5411bdc25c4b72252ab), [`01acf9e7009300c01544f022c2a97d4d3f0fdb65`](https://github.com/medusajs/medusa/commit/01acf9e7009300c01544f022c2a97d4d3f0fdb65), [`5eab9e739919594ae7e7e416942ec93d84b699fd`](https://github.com/medusajs/medusa/commit/5eab9e739919594ae7e7e416942ec93d84b699fd), [`c75678d6d41d3b88d07681ad7e24472d6cbde672`](https://github.com/medusajs/medusa/commit/c75678d6d41d3b88d07681ad7e24472d6cbde672), [`c1930bd6568043d145e34d8360015e7207e18e4a`](https://github.com/medusajs/medusa/commit/c1930bd6568043d145e34d8360015e7207e18e4a), [`28febfc6438351fddb5b214b86f96aff89db688e`](https://github.com/medusajs/medusa/commit/28febfc6438351fddb5b214b86f96aff89db688e), [`bc22b81cdf9591912744f448c74d45bcb0f11e0c`](https://github.com/medusajs/medusa/commit/bc22b81cdf9591912744f448c74d45bcb0f11e0c)]:
+  - @medusajs/utils@2.3.0
+  - @medusajs/types@2.3.0
+  - @medusajs/orchestration@2.3.0
+  - @medusajs/modules-sdk@2.3.0
+  - @medusajs/workflows-sdk@2.3.0
+  - @medusajs/telemetry@2.3.0
+
 ## 2.2.0
 
 ### Patch Changes

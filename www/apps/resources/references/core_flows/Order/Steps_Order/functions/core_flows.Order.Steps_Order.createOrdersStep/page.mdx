@@ -14,20 +14,22 @@ This documentation provides a reference to the `createOrdersStep`. It belongs to
 
 This step creates one or more orders.
 
-```ts title="src/workflows/my-workflow.ts"
-import { createWorkflow } from "@medusajs/framework/workflows-sdk"
-import { createOrdersStep } from "@medusajs/medusa/core-flows"
+## Example
 
-const myWorkflow = createWorkflow(
-  "my-workflow",
-  () => {
-    const data = createOrdersStep([
-      {}
-    ])
-  }
-)
+```ts
+const data = createOrdersStep([{
+  region_id: "region_123",
+  customer_id: "customer_123",
+  items: [
+    {
+      variant_id: "variant_123",
+      quantity: 1,
+      title: "Shirt",
+      unit_price: 10,
+    }
+  ]
+}])
 ```
-  
 
 ## Input
 

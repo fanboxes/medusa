@@ -21,9 +21,7 @@ import { deleteApiKeysStep } from "@medusajs/medusa/core-flows"
 const myWorkflow = createWorkflow(
   "my-workflow",
   () => {
-    const data = deleteApiKeysStep([
-      "{value}"
-    ])
+    const data = deleteApiKeysStep({})
   }
 )
 ```
@@ -31,4 +29,4 @@ const myWorkflow = createWorkflow(
 
 ## Input
 
-<TypeList types={[{"name":"string[]","type":"`string`[]","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"string","type":"`string`","optional":false,"defaultValue":"","description":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteApiKeysStep"/>
+<TypeList types={[{"name":"DeleteApiKeysStepInput","type":"[DeleteApiKeysStepInput](../../../../types/core_flows.DeleteApiKeysStepInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"DeleteApiKeysStepInput","type":"`string`[]","description":"The IDs of the API keys to delete.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteApiKeysStep"/>

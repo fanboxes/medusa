@@ -56,6 +56,14 @@ export const workflow = [
     "path": "/references/medusa-workflows/listShippingOptionsForCartWorkflow"
   },
   {
+    "title": "refreshCartItemsWorkflow",
+    "path": "/references/medusa-workflows/refreshCartItemsWorkflow"
+  },
+  {
+    "title": "refreshCartShippingMethodsWorkflow",
+    "path": "/references/medusa-workflows/refreshCartShippingMethodsWorkflow"
+  },
+  {
     "title": "refreshPaymentCollectionForCartWorkflow",
     "path": "/references/medusa-workflows/refreshPaymentCollectionForCartWorkflow"
   },
@@ -228,6 +236,10 @@ export const workflow = [
     "path": "/references/medusa-workflows/updateShippingProfilesWorkflow"
   },
   {
+    "title": "batchInventoryItemLevelsWorkflow",
+    "path": "/references/medusa-workflows/batchInventoryItemLevelsWorkflow"
+  },
+  {
     "title": "bulkCreateDeleteLevelsWorkflow",
     "path": "/references/medusa-workflows/bulkCreateDeleteLevelsWorkflow"
   },
@@ -390,6 +402,10 @@ export const workflow = [
   {
     "title": "createExchangeShippingMethodWorkflow",
     "path": "/references/medusa-workflows/createExchangeShippingMethodWorkflow"
+  },
+  {
+    "title": "createOrUpdateOrderPaymentCollectionWorkflow",
+    "path": "/references/medusa-workflows/createOrUpdateOrderPaymentCollectionWorkflow"
   },
   {
     "title": "createOrderChangeActionsWorkflow",
@@ -644,6 +660,10 @@ export const workflow = [
     "path": "/references/medusa-workflows/deletePaymentSessionsWorkflow"
   },
   {
+    "title": "deleteRefundReasonsWorkflow",
+    "path": "/references/medusa-workflows/deleteRefundReasonsWorkflow"
+  },
+  {
     "title": "updateRefundReasonsWorkflow",
     "path": "/references/medusa-workflows/updateRefundReasonsWorkflow"
   },
@@ -838,6 +858,10 @@ export const workflow = [
   {
     "title": "updatePromotionRulesWorkflow",
     "path": "/references/medusa-workflows/updatePromotionRulesWorkflow"
+  },
+  {
+    "title": "updatePromotionsStatusWorkflow",
+    "path": "/references/medusa-workflows/updatePromotionsStatusWorkflow"
   },
   {
     "title": "updatePromotionsWorkflow",
