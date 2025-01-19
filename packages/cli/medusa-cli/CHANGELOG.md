@@ -1,5 +1,15 @@
 # Change Log
 
+## 2.3.1
+
+### Patch Changes
+
+- [#11022](https://github.com/medusajs/medusa/pull/11022) [`2a5f2a53879ad7e203a736cf2a54420fc43de454`](https://github.com/medusajs/medusa/commit/2a5f2a53879ad7e203a736cf2a54420fc43de454) Thanks [@shahednasser](https://github.com/shahednasser)! - fix(cli): fix command description for plugin:db:generate
+
+- Updated dependencies []:
+  - @medusajs/utils@2.3.1
+  - @medusajs/telemetry@2.3.1
+
 ## 2.3.0
 
 ### Patch Changes
