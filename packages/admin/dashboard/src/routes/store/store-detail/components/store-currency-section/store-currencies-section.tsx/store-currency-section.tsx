@@ -14,7 +14,7 @@ import { useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
 
 import { ActionMenu } from "../../../../../../components/common/action-menu"
-import { DataTable } from "../../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../../components/table/data-table"
 import { StatusCell } from "../../../../../../components/table/table-cells/common/status-cell"
 import { useCurrencies } from "../../../../../../hooks/api/currencies"
 import { usePricePreferences } from "../../../../../../hooks/api/price-preferences"
@@ -164,7 +164,7 @@ export const StoreCurrencySection = ({ store }: StoreCurrencySectionProps) => {
           ]}
         />
       </div>
-      <DataTable
+      <_DataTable
         orderBy={[
           { key: "name", label: t("fields.name") },
           { key: "code", label: t("fields.code") },

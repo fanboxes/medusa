@@ -49,7 +49,7 @@ const Cell = React.forwardRef<
   HTMLTableCellElement,
   React.HTMLAttributes<HTMLTableCellElement>
 >(({ className, ...props }, ref) => (
-  <td ref={ref} className={clx("h-12 pr-6", className)} {...props} />
+  <td ref={ref} className={clx("h-12 py-0 pl-0 pr-6", className)} {...props} />
 ))
 Cell.displayName = "Table.Cell"
 
@@ -60,7 +60,7 @@ const Header = React.forwardRef<
   <thead
     ref={ref}
     className={clx(
-      "border-ui-border-base txt-compact-small-plus [&_tr:hover]:bg-ui-bg-base border-y",
+      "border-ui-border-base txt-compact-small-plus [&_tr]:bg-ui-bg-subtle [&_tr]:hover:bg-ui-bg-subtle border-y",
       className
     )}
     {...props}
@@ -74,7 +74,10 @@ const HeaderCell = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <th
     ref={ref}
-    className={clx("txt-compact-small-plus h-12 pr-6 text-left", className)}
+    className={clx(
+      "txt-compact-small-plus h-12 py-0 pl-0 pr-6 text-left",
+      className
+    )}
     {...props}
   />
 ))

@@ -105,6 +105,10 @@ export const cancelReturnWorkflowId = "cancel-return"
  *     return_id: "return_123",
  *   }
  * })
+ * 
+ * @summary
+ * 
+ * Cancel a return.
  */
 export const cancelReturnWorkflow = createWorkflow(
   cancelReturnWorkflowId,

@@ -120,11 +120,11 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "number",
+          "type": "serial",
           "unsigned": true,
           "autoincrement": true,
           "primary": true,
-          "nullable": false,
+          "nullable": true,
           "mappedType": "integer"
         },
         "pivot": {
@@ -145,8 +145,8 @@
           "nullable": false,
           "mappedType": "text"
         },
-        "child_name": {
-          "name": "child_name",
+        "parent_id": {
+          "name": "parent_id",
           "type": "text",
           "unsigned": false,
           "autoincrement": false,
@@ -154,8 +154,8 @@
           "nullable": false,
           "mappedType": "text"
         },
-        "parent_id": {
-          "name": "parent_id",
+        "child_name": {
+          "name": "child_name",
           "type": "text",
           "unsigned": false,
           "autoincrement": false,

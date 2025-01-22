@@ -12,7 +12,7 @@ import {
   RouteFocusModal,
   useRouteModal,
 } from "../../../../../components/modals"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { useUpdateProduct } from "../../../../../hooks/api/products"
 import { useSalesChannels } from "../../../../../hooks/api/sales-channels"
 import { useSalesChannelTableColumns } from "../../../../../hooks/table/columns/use-sales-channel-table-columns"
@@ -123,7 +123,7 @@ export const EditSalesChannelsForm = ({
       <div className="flex h-full flex-col overflow-hidden">
         <RouteFocusModal.Header />
         <RouteFocusModal.Body className="flex-1 overflow-hidden">
-          <DataTable
+          <_DataTable
             table={table}
             columns={columns}
             pageSize={PAGE_SIZE}

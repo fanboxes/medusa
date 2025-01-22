@@ -15,7 +15,7 @@ import {
   StackedFocusModal,
   useStackedModal,
 } from "../../../../../components/modals"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { useDataTable } from "../../../../../hooks/use-data-table"
 import {
   StaticCountry,
@@ -238,7 +238,7 @@ const AreaStackedModal = <TForm extends UseFormReturn<any>>({
         </StackedFocusModal.Description>
       </StackedFocusModal.Header>
       <StackedFocusModal.Body className="flex-1 overflow-hidden">
-        <DataTable
+        <_DataTable
           table={table}
           columns={columns}
           pageSize={PAGE_SIZE}

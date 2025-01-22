@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next"
 import { Link, useLoaderData } from "react-router-dom"
 
 import { ActionMenu } from "../../../../../components/common/action-menu"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { useProductTags } from "../../../../../hooks/api"
 import { useProductTagTableColumns } from "../../../../../hooks/table/columns"
 import { useProductTagTableFilters } from "../../../../../hooks/table/filters"
@@ -60,7 +60,7 @@ export const ProductTagListTable = () => {
           <Link to="create">{t("actions.create")}</Link>
         </Button>
       </div>
-      <DataTable
+      <_DataTable
         table={table}
         filters={filters}
         queryObject={raw}

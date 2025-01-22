@@ -3,17 +3,17 @@ import {
   updateRequestItemReturnWorkflow,
 } from "@medusajs/core-flows"
 import {
-  ContainerRegistrationKeys,
-  remoteQueryObjectFromString,
-} from "@medusajs/framework/utils"
-import {
   AuthenticatedMedusaRequest,
   MedusaResponse,
   refetchEntity,
 } from "@medusajs/framework/http"
+import { HttpTypes } from "@medusajs/framework/types"
+import {
+  ContainerRegistrationKeys,
+  remoteQueryObjectFromString,
+} from "@medusajs/framework/utils"
 import { defaultAdminDetailsReturnFields } from "../../../../../returns/query-config"
 import { AdminPostReturnsRequestItemsActionReqSchemaType } from "../../../../../returns/validators"
-import { HttpTypes } from "@medusajs/framework/types"
 
 export const POST = async (
   req: AuthenticatedMedusaRequest<AdminPostReturnsRequestItemsActionReqSchemaType>,
@@ -29,7 +29,7 @@ export const POST = async (
       variables: {
         id,
       },
-      fields: ["return_id"],
+      fields: ["id", "return_id"],
     }),
     {
       throwIfKeyNotFound: true,
@@ -67,7 +67,10 @@ export const DELETE = async (
 ) => {
   const { id, action_id } = req.params
 
-  const claim = await refetchEntity("order_claim", id, req.scope, ["return_id"])
+  const claim = await refetchEntity("order_claim", id, req.scope, [
+    "id",
+    "return_id",
+  ])
 
   const { result: orderPreview } = await removeItemReturnActionWorkflow(
     req.scope

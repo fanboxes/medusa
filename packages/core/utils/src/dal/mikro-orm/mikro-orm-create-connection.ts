@@ -45,34 +45,38 @@ export async function mikroOrmCreateConnection(
     schema = database.connection.context?.client?.config?.searchPath
   }
 
-  const { MikroORM } = await import("@mikro-orm/postgresql")
-  return await MikroORM.init({
-    discovery: { disableDynamicFileAccess: true, warnWhenNoEntities: false },
-    entities,
-    debug: database.debug ?? process.env.NODE_ENV?.startsWith("dev") ?? false,
-    baseDir: process.cwd(),
-    clientUrl,
-    schema,
-    driverOptions,
-    tsNode: process.env.APP_ENV === "development",
-    type: "postgresql",
-    filters: database.filters ?? {},
-    migrations: {
-      disableForeignKeys: false,
-      path: pathToMigrations,
-      generator: CustomTsMigrationGenerator,
-      silent: !(
-        database.debug ??
-        process.env.NODE_ENV?.startsWith("dev") ??
-        false
-      ),
-    },
-    schemaGenerator: {
-      disableForeignKeys: false,
-    },
-    pool: {
-      min: 2,
-      ...database.pool,
-    },
-  })
+  const { MikroORM, defineConfig } = await import("@mikro-orm/postgresql")
+  return await MikroORM.init(
+    defineConfig({
+      discovery: { disableDynamicFileAccess: true, warnWhenNoEntities: false },
+      entities,
+      debug: database.debug ?? process.env.NODE_ENV?.startsWith("dev") ?? false,
+      baseDir: process.cwd(),
+      clientUrl,
+      schema,
+      driverOptions,
+      tsNode: process.env.APP_ENV === "development",
+      filters: database.filters ?? {},
+      assign: {
+        convertCustomTypes: true,
+      },
+      migrations: {
+        disableForeignKeys: false,
+        path: pathToMigrations,
+        generator: CustomTsMigrationGenerator,
+        silent: !(
+          database.debug ??
+          process.env.NODE_ENV?.startsWith("dev") ??
+          false
+        ),
+      },
+      schemaGenerator: {
+        disableForeignKeys: false,
+      },
+      pool: {
+        min: 2,
+        ...database.pool,
+      },
+    })
+  )
 }

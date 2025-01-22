@@ -74,16 +74,22 @@ export function generateEntity(
       },
       ...fields,
       created_at: {
-        type: "Date",
+        columnType: "timestamptz",
+        type: "date",
         nullable: false,
         defaultRaw: "CURRENT_TIMESTAMP",
       },
       updated_at: {
-        type: "Date",
+        columnType: "timestamptz",
+        type: "date",
         nullable: false,
         defaultRaw: "CURRENT_TIMESTAMP",
       },
-      deleted_at: { type: "Date", nullable: true },
+      deleted_at: {
+        columnType: "timestamptz",
+        type: "date",
+        nullable: true,
+      },
     },
     filters: {
       [SoftDeletableFilterKey]: mikroOrmSoftDeletableFilterOptions,

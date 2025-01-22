@@ -6,7 +6,7 @@ import { RowSelectionState, createColumnHelper } from "@tanstack/react-table"
 import { useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { ActionMenu } from "../../../../../components/common/action-menu"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { useBatchRemoveSalesChannelsFromApiKey } from "../../../../../hooks/api/api-keys"
 import { useSalesChannels } from "../../../../../hooks/api/sales-channels"
 import { useSalesChannelTableColumns } from "../../../../../hooks/table/columns/use-sales-channel-table-columns"
@@ -109,7 +109,7 @@ export const ApiKeySalesChannelSection = ({
           ]}
         />
       </div>
-      <DataTable
+      <_DataTable
         table={table}
         columns={columns}
         filters={filters}

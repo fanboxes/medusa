@@ -43,13 +43,13 @@ export class Migration20240719123015 extends Migration {
         ALTER TABLE "reservation_item" DROP COLUMN IF EXISTS "raw_quantity";
 
         ALTER TABLE "inventory_level" ALTER COLUMN "stocked_quantity" TYPE integer;
-        ALTER TABLE "inventory_level" DROP COLUMN IF NOT EXISTS "raw_stocked_quantity";
+        ALTER TABLE "inventory_level" DROP COLUMN IF EXISTS "raw_stocked_quantity";
 
         ALTER TABLE "inventory_level" ALTER COLUMN "reserved_quantity" TYPE integer;
-        ALTER TABLE "inventory_level" DROP COLUMN IF NOT EXISTS "raw_reserved_quantity";
+        ALTER TABLE "inventory_level" DROP COLUMN IF EXISTS "raw_reserved_quantity";
 
         ALTER TABLE "inventory_level" ALTER COLUMN "incoming_quantity" TYPE integer;
-        ALTER TABLE "inventory_level" DROP COLUMN IF NOT EXISTS "raw_incoming_quantity";
+        ALTER TABLE "inventory_level" DROP COLUMN IF EXISTS "raw_incoming_quantity";
 
 
         DROP INDEX IF EXISTS "IDX_inventory_item_sku_unique";

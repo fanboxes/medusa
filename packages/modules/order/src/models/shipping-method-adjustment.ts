@@ -1,42 +1,32 @@
-import {
-  createPsqlIndexStatementHelper,
-  generateEntityId,
-} from "@medusajs/framework/utils"
-import { BeforeCreate, Entity, ManyToOne, OnInit, Rel } from "@mikro-orm/core"
-import AdjustmentLine from "./adjustment-line"
-import OrderShippingMethod from "./shipping-method"
+import { model } from "@medusajs/framework/utils"
+import { OrderShippingMethod } from "./shipping-method"
 
-const ShippingMethodIdIdIndex = createPsqlIndexStatementHelper({
-  tableName: "order_shipping_method_adjustment",
-  columns: "shipping_method_id",
-})
+const _OrderShippingMethodAdjustment = model
+  .define(
+    {
+      tableName: "order_shipping_method_adjustment",
+    },
+    {
+      id: model.id({ prefix: "ordsmadj" }).primaryKey(),
+      description: model.text().nullable(),
+      promotion_id: model.text().nullable(),
+      code: model.text().nullable(),
+      amount: model.bigNumber(),
+      provider_id: model.text().nullable(),
+      shipping_method: model.belongsTo<() => typeof OrderShippingMethod>(
+        () => OrderShippingMethod,
+        {
+          mappedBy: "adjustments",
+        }
+      ),
+    }
+  )
+  .indexes([
+    {
+      name: "IDX_order_shipping_method_adjustment_shipping_method_id",
+      on: ["shipping_method_id"],
+      unique: false,
+    },
+  ])
 
-@Entity({ tableName: "order_shipping_method_adjustment" })
-export default class OrderShippingMethodAdjustment extends AdjustmentLine {
-  @ManyToOne(() => OrderShippingMethod, {
-    persist: false,
-  })
-  shipping_method: Rel<OrderShippingMethod>
-
-  @ManyToOne({
-    entity: () => OrderShippingMethod,
-    columnType: "text",
-    fieldName: "shipping_method_id",
-    mapToPk: true,
-    onDelete: "cascade",
-  })
-  @ShippingMethodIdIdIndex.MikroORMIndex()
-  shipping_method_id: string
-
-  @BeforeCreate()
-  onCreate() {
-    this.id = generateEntityId(this.id, "ordsmadj")
-    this.shipping_method_id ??= this.shipping_method?.id
-  }
-
-  @OnInit()
-  onInit() {
-    this.id = generateEntityId(this.id, "ordsmadj")
-    this.shipping_method_id ??= this.shipping_method?.id
-  }
-}
+export const OrderShippingMethodAdjustment = _OrderShippingMethodAdjustment

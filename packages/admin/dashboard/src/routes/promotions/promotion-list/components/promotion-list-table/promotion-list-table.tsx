@@ -8,7 +8,7 @@ import { Link, Outlet, useLoaderData, useNavigate } from "react-router-dom"
 
 import { keepPreviousData } from "@tanstack/react-query"
 import { ActionMenu } from "../../../../../components/common/action-menu"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import {
   useDeletePromotion,
   usePromotions,
@@ -62,7 +62,7 @@ export const PromotionListTable = () => {
         </Button>
       </div>
 
-      <DataTable
+      <_DataTable
         table={table}
         columns={columns}
         count={count}

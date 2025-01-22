@@ -2728,6 +2728,21 @@ export interface FilterableOrderChangeProps
   order_id?: string | string[] | OperatorMap<string>
 
   /**
+   * Filter the changes by their associated return's ID.
+   */
+  return_id?: string | string[] | OperatorMap<string>
+
+  /**
+   * Filter the changes by their associated claim's ID.
+   */
+  claim_id?: string | string[] | OperatorMap<string>
+
+  /**
+   * Filter the changes by their associated exchange's ID.
+   */
+  exchange_id?: string | string[] | OperatorMap<string>
+
+  /**
    * Filter the order changes by their status.
    */
   status?: string | string[] | OperatorMap<string>

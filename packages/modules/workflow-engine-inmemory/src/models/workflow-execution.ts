@@ -24,6 +24,11 @@ export const WorkflowExecution = model
       where: "deleted_at IS NULL",
     },
     {
+      on: ["workflow_id", "transaction_id"],
+      unique: true,
+      where: "deleted_at IS NULL",
+    },
+    {
       on: ["state"],
       where: "deleted_at IS NULL",
     },

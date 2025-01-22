@@ -21,7 +21,9 @@ import { deleteProductTagsStep } from "@medusajs/medusa/core-flows"
 const myWorkflow = createWorkflow(
   "my-workflow",
   () => {
-    const data = deleteProductTagsStep({})
+    const data = deleteProductTagsStep([
+      "{value}"
+    ])
   }
 )
 ```
@@ -29,4 +31,4 @@ const myWorkflow = createWorkflow(
 
 ## Input
 
-<TypeList types={[{"name":"DeleteProductTagsStepInput","type":"[DeleteProductTagsStepInput](../../../../types/core_flows.DeleteProductTagsStepInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"DeleteProductTagsStepInput","type":"`string`[]","description":"The IDs of the product tags to delete.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteProductTagsStep"/>
+<TypeList types={[{"name":"DeleteProductTagsStepInput","type":"[DeleteProductTagsStepInput](../../../../types/core_flows.DeleteProductTagsStepInput/page.mdx)","optional":false,"defaultValue":"","description":"The IDs of the product tags to delete.","expandable":false,"children":[{"name":"DeleteProductTagsStepInput","type":"`string`[]","description":"The IDs of the product tags to delete.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteProductTagsStep"/>

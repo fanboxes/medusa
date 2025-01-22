@@ -15,7 +15,7 @@ import {
   RouteFocusModal,
   useRouteModal,
 } from "../../../../../components/modals"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
 import { useAddCustomersToGroup } from "../../../../../hooks/api/customer-groups"
 import { useCustomers } from "../../../../../hooks/api/customers"
@@ -153,7 +153,7 @@ export const AddCustomersForm = ({
           </div>
         </RouteFocusModal.Header>
         <RouteFocusModal.Body className="size-full overflow-hidden">
-          <DataTable
+          <_DataTable
             table={table}
             columns={columns}
             pageSize={PAGE_SIZE}

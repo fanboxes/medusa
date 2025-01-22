@@ -3,6 +3,7 @@ import {
   createShippingOptionsWorkflow,
   orderClaimRequestItemReturnWorkflow,
 } from "@medusajs/core-flows"
+import { medusaIntegrationTestRunner } from "@medusajs/test-utils"
 import {
   FulfillmentWorkflow,
   IOrderModuleService,
@@ -19,7 +20,6 @@ import {
   RuleOperator,
   remoteQueryObjectFromString,
 } from "@medusajs/utils"
-import { medusaIntegrationTestRunner } from "@medusajs/test-utils"
 
 jest.setTimeout(500000)
 
@@ -186,7 +186,7 @@ async function prepareDataFixtures({ container }) {
         {
           attribute: "is_return",
           operator: RuleOperator.EQ,
-          value: '"true"',
+          value: "true",
         },
       ],
     }

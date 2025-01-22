@@ -15,6 +15,9 @@ export type AdminInventoryLevelListResponse = PaginatedResponse<{
   inventory_levels: InventoryLevel[]
 }>
 
+/**
+ * The result of creating, updating or deleting inventory levels.
+ */
 export interface AdminBatchInventoryItemLocationLevelsResponse {
   /**
    * The created inventory levels.
@@ -30,5 +33,8 @@ export interface AdminBatchInventoryItemLocationLevelsResponse {
   deleted?: string[]
 }
 
+/**
+ * The result of creating, updating or deleting inventory levels.
+ */
 export interface AdminBatchInventoryItemsLocationLevelsResponse
   extends AdminBatchInventoryItemLocationLevelsResponse {}

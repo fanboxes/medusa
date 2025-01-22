@@ -8,9 +8,9 @@ import {
   AuthenticatedMedusaRequest,
   MedusaResponse,
 } from "@medusajs/framework/http"
+import { HttpTypes } from "@medusajs/framework/types"
 import { defaultAdminDetailsReturnFields } from "../../../../returns/query-config"
 import { AdminPostReturnsShippingReqSchemaType } from "../../../../returns/validators"
-import { HttpTypes } from "@medusajs/framework/types"
 
 export const POST = async (
   req: AuthenticatedMedusaRequest<AdminPostReturnsShippingReqSchemaType>,
@@ -26,7 +26,7 @@ export const POST = async (
       variables: {
         id,
       },
-      fields: ["return_id"],
+      fields: ["id", "return_id"],
     }),
     {
       throwIfKeyNotFound: true,
@@ -41,10 +41,11 @@ export const POST = async (
     },
   })
 
+  const returnId = result.order_change.return_id
   const queryObject = remoteQueryObjectFromString({
     entryPoint: "return",
     variables: {
-      id: exchange.return_id,
+      id: returnId,
     },
     fields: defaultAdminDetailsReturnFields,
   })

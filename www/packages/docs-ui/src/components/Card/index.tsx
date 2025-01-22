@@ -23,6 +23,7 @@ export type CardProps = {
   iconClassName?: string
   children?: React.ReactNode
   badge?: BadgeProps
+  highlightText?: string[]
 }
 
 export const Card = ({ type = "default", ...props }: CardProps) => {

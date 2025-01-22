@@ -40,7 +40,7 @@ export const useCustomerGroup = (
 }
 
 export const useCustomerGroups = (
-  query?: Record<string, any>,
+  query?: HttpTypes.AdminGetCustomerGroupsParams,
   options?: Omit<
     UseQueryOptions<
       HttpTypes.AdminGetCustomerGroupsParams,
@@ -119,6 +119,29 @@ export const useDeleteCustomerGroup = (
       })
       queryClient.invalidateQueries({
         queryKey: customerGroupsQueryKeys.detail(id),
+      })
+
+      options?.onSuccess?.(data, variables, context)
+    },
+    ...options,
+  })
+}
+
+export const useDeleteCustomerGroupLazy = (
+  options?: UseMutationOptions<
+    HttpTypes.AdminCustomerGroupDeleteResponse,
+    FetchError,
+    { id: string }
+  >
+) => {
+  return useMutation({
+    mutationFn: ({ id }) => sdk.admin.customerGroup.delete(id),
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries({
+        queryKey: customerGroupsQueryKeys.lists(),
+      })
+      queryClient.invalidateQueries({
+        queryKey: customerGroupsQueryKeys.detail(variables.id),
       })
 
       options?.onSuccess?.(data, variables, context)

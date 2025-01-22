@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
 
 import { ActionMenu } from "../../../../../components/common/action-menu"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { useReturnReasons } from "../../../../../hooks/api/return-reasons"
 import { useReturnReasonTableColumns } from "../../../../../hooks/table/columns"
 import { useReturnReasonTableQuery } from "../../../../../hooks/table/query"
@@ -57,7 +57,7 @@ export const ReturnReasonListTable = () => {
           <Link to="create">{t("actions.create")}</Link>
         </Button>
       </div>
-      <DataTable
+      <_DataTable
         table={table}
         queryObject={raw}
         count={count}

@@ -52,7 +52,7 @@ export const CreateSalesChannelForm = () => {
           toast.success(t("salesChannels.toast.create"))
           handleSuccess(`../${sales_channel.id}`)
         },
-        onError: (error) => toast.success(error.message),
+        onError: (error) => toast.error(error.message),
       }
     )
   })

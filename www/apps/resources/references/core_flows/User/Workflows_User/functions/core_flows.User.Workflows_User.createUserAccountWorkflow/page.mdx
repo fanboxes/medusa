@@ -1,6 +1,7 @@
 ---
 slug: /references/medusa-workflows/createUserAccountWorkflow
 sidebar_label: createUserAccountWorkflow
+sidebar_description: Create a user account and attach an auth identity.
 tags:
   - auth
   - workflow
@@ -22,7 +23,7 @@ Learn more about basic authentication flows in [this documentation](https://docs
 You can use this workflow within your customizations or your own custom workflows, allowing you to 
 register or create user accounts within your custom flows.
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/user/workflows/create-user-account.ts#L52" />
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/644c8b9d3022fb4bc4ec6760ee4fed93b92d1b96/packages/core/core-flows/src/user/workflows/create-user-account.ts#L52" />
 
 ## Examples
 
@@ -151,7 +152,7 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"createUserAccountWorkflow","steps":[{"type":"workflow","name":"createUsersWorkflow","description":"This workflow creates one or more users. It's used by other workflows, such\nas acceptInviteWorkflow to create a user for an invite.\n\nYou can attach an auth identity to each user to allow the user to log in using the \nsetAuthAppMetadataStep. Learn more about auth identities in\n[this documentation](https://docs.medusajs.com/resources/commerce-modules/auth/auth-identity-and-actor-types).\n\nYou can use this workflow within your customizations or your own custom workflows, allowing you to \ncreate users within your custom flows.","link":"../core_flows.User.Workflows_User.createUsersWorkflow/page.mdx","depth":1},{"type":"step","name":"setAuthAppMetadataStep","description":"This step sets the `app_metadata` property of an auth identity. This is useful to\nassociate a user (whether it's an admin user or customer) with an auth identity\nthat allows them to authenticate into Medusa.\n\nYou can learn more about auth identites in \n[this documentation](https://docs.medusajs.com/resources/commerce-modules/auth/auth-identity-and-actor-types).\n\nTo use this for a custom actor type, check out [this guide](https://docs.medusajs.com/resources/commerce-modules/auth/create-actor-type)\nthat explains how to create a custom `manager` actor type and manage its users.","link":"../../../../Auth/Steps_Auth/functions/core_flows.Auth.Steps_Auth.setAuthAppMetadataStep/page.mdx","depth":2}]}} />
+<WorkflowDiagram workflow={{"name":"createUserAccountWorkflow","steps":[{"type":"workflow","name":"createUsersWorkflow","description":"Create one or more users.","link":"../core_flows.User.Workflows_User.createUsersWorkflow/page.mdx","depth":1},{"type":"step","name":"setAuthAppMetadataStep","description":"This step sets the `app_metadata` property of an auth identity. This is useful to\nassociate a user (whether it's an admin user or customer) with an auth identity\nthat allows them to authenticate into Medusa.\n\nYou can learn more about auth identites in \n[this documentation](https://docs.medusajs.com/resources/commerce-modules/auth/auth-identity-and-actor-types).\n\nTo use this for a custom actor type, check out [this guide](https://docs.medusajs.com/resources/commerce-modules/auth/create-actor-type)\nthat explains how to create a custom `manager` actor type and manage its users.","link":"../../../../Auth/Steps_Auth/functions/core_flows.Auth.Steps_Auth.setAuthAppMetadataStep/page.mdx","depth":2}]}} />
 
 ## Input
 

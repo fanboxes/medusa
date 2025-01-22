@@ -1,6 +1,7 @@
 ---
 slug: /references/medusa-workflows/refreshCartShippingMethodsWorkflow
 sidebar_label: refreshCartShippingMethodsWorkflow
+sidebar_description: Refresh a cart's shipping methods after an update.
 tags:
   - query
   - cart
@@ -20,7 +21,7 @@ and retrieve their correct pricing after a cart update. This workflow is used by
 
 You can use this workflow within your own customizations or custom workflows, allowing you to refresh the cart's shipping method after making updates to the cart.
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/cart/workflows/refresh-cart-shipping-methods.ts#L48" />
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/644c8b9d3022fb4bc4ec6760ee4fed93b92d1b96/packages/core/core-flows/src/cart/workflows/refresh-cart-shipping-methods.ts#L48" />
 
 ## Examples
 
@@ -129,15 +130,11 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"refreshCartShippingMethodsWorkflow","steps":[{"type":"step","name":"useQueryGraphStep","description":"This step fetches data across modules using the Query.\n\nLearn more in the [Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx","depth":1},{"type":"hook","name":"validate","description":"This hook is executed before all operations. You can consume this hook to perform any custom validation. If validation fails, you can throw an error to stop the workflow execution.","link":"#validate","depth":2},{"type":"when","condition":"{\n      return !!listShippingOptionsInput?.length\n    }","depth":"3","steps":[{"type":"workflow","name":"listShippingOptionsForCartWithPricingWorkflow","description":"This workflow lists shipping options that can be used during checkout for a cart. It also retrieves the prices\nof these shipping options, including calculated prices that may be retrieved from third-party providers.\n\nThis workflow is executed in other cart-related workflows, such as [addShippingMethodToCartWorkflow](../core_flows.Cart.Workflows_Cart.addShippingMethodToCartWorkflow/page.mdx) to retrieve the\nprice of the shipping method being added to the cart.\n\nYou can use this workflow within your own customizations or custom workflows, allowing you to retrieve the shipping options of a cart and their prices \nin your custom flows.","link":"../core_flows.Cart.Workflows_Cart.listShippingOptionsForCartWithPricingWorkflow/page.mdx","depth":3},{"type":"step","name":"removeShippingMethodFromCartStep","description":"This step removes shipping methods from a cart.","link":"../../../Steps_Cart/functions/core_flows.Cart.Steps_Cart.removeShippingMethodFromCartStep/page.mdx","depth":3},{"type":"step","name":"updateShippingMethodsStep","description":"This step updates a cart's shipping methods.","link":"../../../Steps_Cart/functions/core_flows.Cart.Steps_Cart.updateShippingMethodsStep/page.mdx","depth":3}]}]}} />
+<WorkflowDiagram workflow={{"name":"refreshCartShippingMethodsWorkflow","steps":[{"type":"step","name":"useQueryGraphStep","description":"This step fetches data across modules using the Query.\n\nLearn more in the [Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx","depth":1},{"type":"hook","name":"validate","description":"This hook is executed before all operations. You can consume this hook to perform any custom validation. If validation fails, you can throw an error to stop the workflow execution.","link":"#validate","depth":2},{"type":"when","condition":"{\n      return !!listShippingOptionsInput?.length\n    }","depth":"3","steps":[{"type":"workflow","name":"listShippingOptionsForCartWithPricingWorkflow","description":"List a cart's shipping options with prices.","link":"../core_flows.Cart.Workflows_Cart.listShippingOptionsForCartWithPricingWorkflow/page.mdx","depth":3},{"type":"step","name":"removeShippingMethodFromCartStep","description":"This step removes shipping methods from a cart.","link":"../../../Steps_Cart/functions/core_flows.Cart.Steps_Cart.removeShippingMethodFromCartStep/page.mdx","depth":3},{"type":"step","name":"updateShippingMethodsStep","description":"This step updates a cart's shipping methods.","link":"../../../Steps_Cart/functions/core_flows.Cart.Steps_Cart.updateShippingMethodsStep/page.mdx","depth":3}]}]}} />
 
 ## Input
 
 <TypeList types={[{"name":"RefreshCartShippingMethodsWorkflowInput","type":"[RefreshCartShippingMethodsWorkflowInput](../../../../types/core_flows.RefreshCartShippingMethodsWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"The details of the cart to refresh.","expandable":false,"children":[{"name":"cart_id","type":"`string`","description":"The cart's ID.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="refreshCartShippingMethodsWorkflow"/>
-
-## Output
-
-<TypeList types={[{"name":"undefined","type":"`undefined`","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"undefined","type":"`undefined`","optional":false,"defaultValue":"","description":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="refreshCartShippingMethodsWorkflow"/>
 
 ## Hooks
 

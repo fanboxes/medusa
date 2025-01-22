@@ -2,9 +2,9 @@ import {
   BaseFilterable,
   Context,
   FilterQuery,
-  FilterQuery as InternalFilterQuery,
   FindConfig,
   InferEntityType,
+  FilterQuery as InternalFilterQuery,
   ModulesSdkTypes,
   PerformedActions,
   UpsertWithReplaceConfig,
@@ -18,7 +18,7 @@ import {
   lowerCaseFirst,
   MedusaError,
 } from "../common"
-import { FreeTextSearchFilterKey } from "../dal"
+import { FreeTextSearchFilterKeyPrefix } from "../dal"
 import { DmlEntity, toMikroORMEntity } from "../dml"
 import { buildQuery } from "./build-query"
 import {
@@ -67,7 +67,7 @@ export function MedusaInternalService<
     ): void {
       if (isDefined(filters?.q)) {
         config.filters ??= {}
-        config.filters[FreeTextSearchFilterKey] = {
+        config.filters[FreeTextSearchFilterKeyPrefix + model.name] = {
           value: filters.q,
           fromEntity: model.name,
         }

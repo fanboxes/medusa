@@ -1,4 +1,5 @@
 import { Entity, MikroORM, OnInit, Property } from "@mikro-orm/core"
+import { defineConfig } from "@mikro-orm/postgresql"
 import { BaseEntity } from "../base-entity"
 
 describe("BaseEntity", () => {
@@ -10,11 +11,15 @@ describe("BaseEntity", () => {
       }
     }
 
-    const orm = await MikroORM.init({
-      entities: [Entity1],
-      dbName: "test",
-      type: "postgresql",
-    })
+    const orm = await MikroORM.init(
+      defineConfig({
+        entities: [Entity1],
+        dbName: "test",
+        user: "postgres",
+        password: "",
+        connect: false,
+      })
+    )
 
     const manager = orm.em.fork()
     const entity1 = manager.create(Entity1, {})
@@ -28,11 +33,15 @@ describe("BaseEntity", () => {
     @Entity()
     class Entity1 extends BaseEntity {}
 
-    const orm = await MikroORM.init({
-      entities: [Entity1],
-      dbName: "test",
-      type: "postgresql",
-    })
+    const orm = await MikroORM.init(
+      defineConfig({
+        entities: [Entity1],
+        dbName: "test",
+        user: "postgres",
+        password: "",
+        connect: false,
+      })
+    )
 
     const manager = orm.em.fork()
     const entity1 = manager.create(Entity1, {})
@@ -52,11 +61,15 @@ describe("BaseEntity", () => {
     @Entity()
     class ProductOptionValue extends BaseEntity {}
 
-    const orm = await MikroORM.init({
-      entities: [ProductModel, ProductCategoryEntity, ProductOptionValue],
-      dbName: "test",
-      type: "postgresql",
-    })
+    const orm = await MikroORM.init(
+      defineConfig({
+        entities: [ProductModel, ProductCategoryEntity, ProductOptionValue],
+        dbName: "test",
+        user: "postgres",
+        password: "",
+        connect: false,
+      })
+    )
 
     const manager = orm.em.fork()
 
@@ -105,11 +118,15 @@ describe("BaseEntity", () => {
       }
     }
 
-    const orm = await MikroORM.init({
-      entities: [ProductModel, ProductCategoryEntity, ProductOptionValue],
-      dbName: "test",
-      type: "postgresql",
-    })
+    const orm = await MikroORM.init(
+      defineConfig({
+        entities: [ProductModel, ProductCategoryEntity, ProductOptionValue],
+        dbName: "test",
+        user: "postgres",
+        password: "",
+        connect: false,
+      })
+    )
 
     const manager = orm.em.fork()
 

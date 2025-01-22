@@ -4,3 +4,5 @@ export * from "./helpers/entity-builder/index"
 export * from "./helpers/create-mikro-orm-entity"
 export * from "./relations/index"
 export * from "./properties/index"
+
+export * from "./helpers/entity-builder/index"

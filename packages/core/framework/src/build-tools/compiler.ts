@@ -1,7 +1,7 @@
 import path from "path"
 import { getConfigFile } from "@medusajs/utils"
 import type { AdminOptions, ConfigModule, Logger } from "@medusajs/types"
-import { rm, access, constants, copyFile, writeFile } from "fs/promises"
+import { rm, access, constants, copyFile, writeFile, mkdir } from "fs/promises"
 import type tsStatic from "typescript"
 
 /**
@@ -138,6 +138,16 @@ export class Compiler {
    */
   async #clean(path: string) {
     await rm(path, { recursive: true }).catch(() => {})
+  }
+
+  /**
+   * Ensures a directory exists
+   */
+  async #ensureDir(path: string, clean?: boolean) {
+    if (clean) {
+      await this.#clean(path)
+    }
+    await mkdir(path, { recursive: true })
   }
 
   /**
@@ -463,6 +473,7 @@ export class Compiler {
    * a file has changed.
    */
   async developPluginBackend(onFileChange?: () => void) {
+    await this.#ensureDir(this.#pluginsDistFolder, true)
     await this.#createPluginOptionsFile()
     const ts = await this.#loadTSCompiler()
 

@@ -8,6 +8,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
+      "@/blocks": "/src/blocks",
       "@/components": "/src/components",
       "@/providers": "/src/providers",
       "@/hooks": "/src/hooks",

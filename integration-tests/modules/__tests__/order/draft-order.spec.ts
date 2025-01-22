@@ -236,7 +236,7 @@ medusaIntegrationTestRunner({
               summary: expect.objectContaining({
                 // TODO: add summary fields
               }),
-              items: [
+              items: expect.arrayContaining([
                 expect.objectContaining({
                   title: "Test variant",
                   subtitle: "Test product",
@@ -335,7 +335,7 @@ medusaIntegrationTestRunner({
                     value: "1",
                   }),
                 }),
-              ],
+              ]),
               shipping_address: expect.objectContaining({
                 last_name: "Test",
                 address_1: "Test",

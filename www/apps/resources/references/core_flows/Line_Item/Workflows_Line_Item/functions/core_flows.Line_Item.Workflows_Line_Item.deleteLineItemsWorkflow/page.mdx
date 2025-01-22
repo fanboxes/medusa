@@ -1,6 +1,7 @@
 ---
 slug: /references/medusa-workflows/deleteLineItemsWorkflow
 sidebar_label: deleteLineItemsWorkflow
+sidebar_description: Delete line items from a cart.
 tags:
   - cart
   - workflow
@@ -26,7 +27,7 @@ This workflow deletes line items from a cart. It's used by the
 You can use this workflow within your customizations or your own custom workflows, allowing you to
 delete line items from a cart within your custom flows.
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/line-item/workflows/delete-line-items.ts#L40" />
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/644c8b9d3022fb4bc4ec6760ee4fed93b92d1b96/packages/core/core-flows/src/line-item/workflows/delete-line-items.ts#L40" />
 
 ## Examples
 
@@ -139,7 +140,7 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"deleteLineItemsWorkflow","steps":[{"type":"step","name":"deleteLineItemsStep","description":"This step deletes line items.","link":"../../../Steps_Line_Item/functions/core_flows.Line_Item.Steps_Line_Item.deleteLineItemsStep/page.mdx","depth":1},{"type":"workflow","name":"refreshCartItemsWorkflow","description":"This workflow refreshes a cart to ensure its prices, promotion codes, taxes, and other details are applied correctly. It's useful\nafter making a chnge to a cart, such as after adding an item to the cart or adding a promotion code.\n\nThis workflow is used by other cart-related workflows, such as the [addToCartWorkflow](../../../../Cart/Workflows_Cart/functions/core_flows.Cart.Workflows_Cart.addToCartWorkflow/page.mdx) after an item\nis added to the cart.\n\nYou can use this workflow within your own customizations or custom workflows, allowing you to refresh the cart after making updates to it in your\ncustom flows.","link":"../../../../Cart/Workflows_Cart/functions/core_flows.Cart.Workflows_Cart.refreshCartItemsWorkflow/page.mdx","depth":2}]}} />
+<WorkflowDiagram workflow={{"name":"deleteLineItemsWorkflow","steps":[{"type":"step","name":"deleteLineItemsStep","description":"This step deletes line items.","link":"../../../Steps_Line_Item/functions/core_flows.Line_Item.Steps_Line_Item.deleteLineItemsStep/page.mdx","depth":1},{"type":"workflow","name":"refreshCartItemsWorkflow","description":"Refresh a cart's details after an update.","link":"../../../../Cart/Workflows_Cart/functions/core_flows.Cart.Workflows_Cart.refreshCartItemsWorkflow/page.mdx","depth":2}]}} />
 
 ## Input
 

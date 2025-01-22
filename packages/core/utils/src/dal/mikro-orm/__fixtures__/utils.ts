@@ -63,7 +63,7 @@ class ProductOptionValue {
     fieldName: "option_id",
     mapToPk: true,
     nullable: true,
-    onDelete: "cascade",
+    deleteRule: "cascade",
   })
   option_id: string | null
 
@@ -88,7 +88,7 @@ class ProductVariant {
   @ManyToOne(() => Product, {
     columnType: "text",
     nullable: true,
-    onDelete: "cascade",
+    deleteRule: "cascade",
     fieldName: "product_id",
     mapToPk: true,
   })

@@ -9,7 +9,7 @@ import {
 import { useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { ActionMenu } from "../../../../../components/common/action-menu"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { useUpdateRegion } from "../../../../../hooks/api/regions"
 import { useDataTable } from "../../../../../hooks/use-data-table"
 import { useCountries } from "../../../common/hooks/use-countries"
@@ -115,7 +115,7 @@ export const RegionCountrySection = ({ region }: RegionCountrySectionProps) => {
           ]}
         />
       </div>
-      <DataTable
+      <_DataTable
         table={table}
         columns={columns}
         pageSize={PAGE_SIZE}

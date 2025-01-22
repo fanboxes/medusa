@@ -11,17 +11,15 @@
  * small, we should be okay with managing this wrapper.
  */
 
-import { isAbsolute, join } from "path"
-import { ConfigurationLoader } from "@mikro-orm/core"
 import { CLIConfigurator, CLIHelper } from "@mikro-orm/cli"
+import { ConfigurationLoader } from "@mikro-orm/core"
+import { isAbsolute, join } from "path"
 
 /**
  * Monkey patching the TSNode registration of Mikro ORM to not use
  * hardcoded module system with TypeScript.
  */
-ConfigurationLoader.registerTsNode = async function (
-  configPath = "tsconfig.json"
-) {
+ConfigurationLoader.registerTsNode = function (configPath = "tsconfig.json") {
   const tsConfigPath = isAbsolute(configPath)
     ? configPath
     : join(process.cwd(), configPath)

@@ -33,6 +33,10 @@ export const deleteStoresWorkflowId = "delete-stores"
  *     ids: ["store_123"]
  *   }
  * })
+ * 
+ * @summary
+ * 
+ * Delete one or more stores.
  */
 export const deleteStoresWorkflow = createWorkflow(
   deleteStoresWorkflowId,

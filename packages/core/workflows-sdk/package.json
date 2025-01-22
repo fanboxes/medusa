@@ -1,6 +1,6 @@
 {
   "name": "@medusajs/workflows-sdk",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Set of workflows tooling for Medusa",
   "main": "dist/index.js",
   "exports": {
@@ -27,10 +27,10 @@
   "author": "Medusa",
   "license": "MIT",
   "devDependencies": {
-    "@mikro-orm/core": "5.9.7",
-    "@mikro-orm/knex": "5.9.7",
-    "@mikro-orm/migrations": "5.9.7",
-    "@mikro-orm/postgresql": "5.9.7",
+    "@mikro-orm/core": "6.4.3",
+    "@mikro-orm/knex": "6.4.3",
+    "@mikro-orm/migrations": "6.4.3",
+    "@mikro-orm/postgresql": "6.4.3",
     "@swc/core": "^1.7.28",
     "@swc/jest": "^0.2.36",
     "awilix": "^8.0.1",
@@ -40,17 +40,17 @@
     "typescript": "^5.6.2"
   },
   "dependencies": {
-    "@medusajs/modules-sdk": "^2.3.0",
-    "@medusajs/orchestration": "^2.3.0",
-    "@medusajs/types": "^2.3.0",
-    "@medusajs/utils": "^2.3.0",
+    "@medusajs/modules-sdk": "~2.3.1",
+    "@medusajs/orchestration": "~2.3.1",
+    "@medusajs/types": "~2.3.1",
+    "@medusajs/utils": "~2.3.1",
     "ulid": "^2.3.0"
   },
   "peerDependencies": {
-    "@mikro-orm/core": "5.9.7",
-    "@mikro-orm/knex": "5.9.7",
-    "@mikro-orm/migrations": "5.9.7",
-    "@mikro-orm/postgresql": "5.9.7",
+    "@mikro-orm/core": "6.4.3",
+    "@mikro-orm/knex": "6.4.3",
+    "@mikro-orm/migrations": "6.4.3",
+    "@mikro-orm/postgresql": "6.4.3",
     "awilix": "^8.0.1",
     "express": "^4.21.0",
     "pg": "^8.13.0"

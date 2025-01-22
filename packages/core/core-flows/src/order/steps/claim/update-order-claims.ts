@@ -20,10 +20,10 @@ export const updateOrderClaimsStep = createStep(
     const { selects, relations } = getSelectsAndRelationsFromObjectArray(data, {
       objectFields: ["metadata"],
     })
-    const dataBeforeUpdate = await service.listOrderClaims(
+    const dataBeforeUpdate = (await service.listOrderClaims(
       { id: data.map((d) => d.id) },
       { relations, select: selects }
-    )
+    )) as UpdateOrderClaimDTO[]
 
     const updated = await service.updateOrderClaims(
       data.map((dt) => {

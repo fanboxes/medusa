@@ -223,16 +223,10 @@ export const orderClaimRequestItemReturnWorkflow = createWorkflow(
     when({ orderClaim }, ({ orderClaim }) => {
       return !orderClaim.return_id
     }).then(() => {
-      const createdReturnId = transform(
-        { createdReturn },
-        ({ createdReturn }) => {
-          return createdReturn?.[0]!.id
-        }
-      )
       updateOrderClaimsStep([
         {
           id: orderClaim.id,
-          return_id: createdReturnId,
+          return: createdReturn?.[0]!.id,
         },
       ])
     })

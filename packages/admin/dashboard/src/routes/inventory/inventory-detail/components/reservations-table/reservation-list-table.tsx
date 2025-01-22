@@ -1,15 +1,15 @@
-import { useMemo } from "react"
 import { HttpTypes } from "@medusajs/types"
+import { useMemo } from "react"
 
-import { DataTable } from "../../../../../components/table/data-table"
-import { useDataTable } from "../../../../../hooks/use-data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
+import { useStockLocations } from "../../../../../hooks/api"
 import { useReservationItems } from "../../../../../hooks/api/reservations"
+import { useDataTable } from "../../../../../hooks/use-data-table"
 import {
   ExtendedReservationItem,
   useReservationTableColumn,
 } from "./use-reservation-list-table-columns"
 import { useReservationsTableQuery } from "./use-reservation-list-table-query"
-import { useStockLocations } from "../../../../../hooks/api"
 
 const PAGE_SIZE = 20
 
@@ -57,7 +57,7 @@ export const ReservationItemTable = ({
   }
 
   return (
-    <DataTable
+    <_DataTable
       table={table}
       columns={columns}
       pageSize={PAGE_SIZE}

@@ -25,10 +25,10 @@ import { updateShippingOptionRulesStep } from "../steps/update-shipping-option-r
  * @property update - The shipping option rules to update.
  * @property delete - The IDs of the shipping option rules to delete.
  */
-export type BatchShippingOptionRulesInput = BatchWorkflowInput<
+export interface BatchShippingOptionRulesInput extends BatchWorkflowInput<
   CreateShippingOptionRuleDTO,
   UpdateShippingOptionRuleDTO
->
+> {}
 
 /**
  * The result of managing the shipping option rules in bulk.
@@ -37,7 +37,7 @@ export type BatchShippingOptionRulesInput = BatchWorkflowInput<
  * @property updated - The shipping option rules that were updated.
  * @property deleted - The IDs of the shipping option rules that were deleted.
  */
-export type BatchShippingOptionRulesOutput = BatchWorkflowOutput<ShippingOptionRuleDTO>
+export interface BatchShippingOptionRulesOutput extends BatchWorkflowOutput<ShippingOptionRuleDTO> {}
 
 export const batchShippingOptionRulesWorkflowId = "batch-shipping-option-rules"
 /**

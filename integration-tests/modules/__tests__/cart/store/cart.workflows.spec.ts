@@ -968,6 +968,7 @@ medusaIntegrationTestRunner({
               sales_channel_id: expect.stringContaining("sc_"),
               currency_code: "usd",
               region_id: expect.stringContaining("reg_"),
+              shipping_address: null,
               item_total: 0,
               total: 0,
               email: null,
@@ -2543,7 +2544,6 @@ medusaIntegrationTestRunner({
             await paymentModule.createPaymentCollections({
               amount: 5001,
               currency_code: "dkk",
-              region_id: defaultRegion.id,
             })
 
           const paymentSession = await paymentModule.createPaymentSession(
@@ -2615,7 +2615,6 @@ medusaIntegrationTestRunner({
               await paymentModule.createPaymentCollections({
                 amount: 5000,
                 currency_code: "dkk",
-                region_id: defaultRegion.id,
               })
 
             const paymentSession = await paymentModule.createPaymentSession(

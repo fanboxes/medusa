@@ -1,15 +1,15 @@
 import { useTranslation } from "react-i18next"
 
 import { Buildings, Component } from "@medusajs/icons"
-import { Container, Heading } from "@medusajs/ui"
 import { HttpTypes } from "@medusajs/types"
+import { Container, Heading } from "@medusajs/ui"
 
 import { ActionMenu } from "../../../../../components/common/action-menu"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 
+import { LinkButton } from "../../../../../components/common/link-button"
 import { useDataTable } from "../../../../../hooks/use-data-table"
 import { useInventoryTableColumns } from "./use-inventory-table-columns"
-import { LinkButton } from "../../../../../components/common/link-button"
 
 const PAGE_SIZE = 20
 
@@ -62,7 +62,7 @@ export function VariantInventorySection({
         </div>
       </div>
 
-      <DataTable
+      <_DataTable
         table={table}
         columns={columns}
         pageSize={PAGE_SIZE}

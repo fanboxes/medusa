@@ -15,7 +15,7 @@ import { Link } from "react-router-dom"
 import { HttpTypes, SalesChannelDTO } from "@medusajs/types"
 import { keepPreviousData } from "@tanstack/react-query"
 import { ActionMenu } from "../../../../../components/common/action-menu"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { useProducts } from "../../../../../hooks/api/products"
 import { useSalesChannelRemoveProducts } from "../../../../../hooks/api/sales-channels"
 import { useProductTableColumns } from "../../../../../hooks/table/columns/use-product-table-columns"
@@ -118,7 +118,7 @@ export const SalesChannelProductSection = ({
           </Button>
         </Link>
       </div>
-      <DataTable
+      <_DataTable
         table={table}
         columns={columns}
         pageSize={PAGE_SIZE}

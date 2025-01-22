@@ -85,7 +85,7 @@ export async function receiveReturn(
     data.return_id,
     {
       select: ["id", "order_id"],
-      relations: ["items"],
+      relations: ["items", "items.item"],
     },
     sharedContext
   )

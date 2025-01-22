@@ -5,7 +5,7 @@ import { RowSelectionState } from "@tanstack/react-table"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Link, useNavigate } from "react-router-dom"
-import { DataTable } from "../../../../components/table/data-table"
+import { _DataTable } from "../../../../components/table/data-table"
 import { useInventoryItems } from "../../../../hooks/api/inventory"
 import { useDataTable } from "../../../../hooks/use-data-table"
 import { INVENTORY_ITEM_IDS_KEY } from "../../common/constants"
@@ -69,7 +69,7 @@ export const InventoryListTable = () => {
           <Link to="create">{t("actions.create")}</Link>
         </Button>
       </div>
-      <DataTable
+      <_DataTable
         table={table}
         columns={columns}
         pageSize={PAGE_SIZE}

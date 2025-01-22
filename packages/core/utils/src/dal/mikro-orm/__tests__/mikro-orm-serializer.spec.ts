@@ -1,4 +1,5 @@
 import { MikroORM } from "@mikro-orm/core"
+import { defineConfig } from "@mikro-orm/postgresql"
 import {
   Entity1WithUnDecoratedProp,
   Entity2WithUnDecoratedProp,
@@ -11,18 +12,22 @@ import { mikroOrmSerializer } from "../mikro-orm-serializer"
 
 describe("mikroOrmSerializer", () => {
   beforeEach(async () => {
-    await MikroORM.init({
-      entities: [
-        Entity1WithUnDecoratedProp,
-        Entity2WithUnDecoratedProp,
-        Product,
-        ProductOption,
-        ProductOptionValue,
-        ProductVariant,
-      ],
-      dbName: "test",
-      type: "postgresql",
-    })
+    await MikroORM.init(
+      defineConfig({
+        entities: [
+          Entity1WithUnDecoratedProp,
+          Entity2WithUnDecoratedProp,
+          Product,
+          ProductOption,
+          ProductOptionValue,
+          ProductVariant,
+        ],
+        user: "postgres",
+        password: "",
+        dbName: "test",
+        connect: false,
+      })
+    )
   })
 
   it("should serialize an entity", async () => {

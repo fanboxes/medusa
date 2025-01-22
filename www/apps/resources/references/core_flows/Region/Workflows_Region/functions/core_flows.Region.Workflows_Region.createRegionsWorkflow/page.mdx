@@ -1,6 +1,7 @@
 ---
 slug: /references/medusa-workflows/createRegionsWorkflow
 sidebar_label: createRegionsWorkflow
+sidebar_description: Create one or more regions.
 tags:
   - region
   - payment
@@ -23,7 +24,7 @@ This workflow creates one or more regions. It's used by the
 You can use this workflow within your own customizations or custom workflows, allowing you
 to create regions in your custom flows.
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/region/workflows/create-regions.ts#L37" />
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/644c8b9d3022fb4bc4ec6760ee4fed93b92d1b96/packages/core/core-flows/src/region/workflows/create-regions.ts#L41" />
 
 ## Examples
 
@@ -148,7 +149,7 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"createRegionsWorkflow","steps":[{"type":"step","name":"createRegionsStep","description":"This step creates one or more regions.","link":"../../../Steps_Region/functions/core_flows.Region.Steps_Region.createRegionsStep/page.mdx","depth":1},{"type":"step","name":"setRegionsPaymentProvidersStep","description":"This step sets the payment providers available in regions.","link":"../../../Steps_Region/functions/core_flows.Region.Steps_Region.setRegionsPaymentProvidersStep/page.mdx","depth":2},{"type":"workflow","name":"createPricePreferencesWorkflow","description":"This workflow creates one or more price preferences. It's used by the\n[Create Price Preferences Admin API Route](https://docs.medusajs.com/api/admin#price-preferences\\_postpricepreferences).\n\nYou can use this workflow within your customizations or your own custom workflows, allowing you to \ncreate price preferences in your custom flows.","link":"../../../../Pricing/Workflows_Pricing/functions/core_flows.Pricing.Workflows_Pricing.createPricePreferencesWorkflow/page.mdx","depth":2},{"type":"step","name":"emitEventStep","description":"Emit an event.","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":2}]}} />
+<WorkflowDiagram workflow={{"name":"createRegionsWorkflow","steps":[{"type":"step","name":"createRegionsStep","description":"This step creates one or more regions.","link":"../../../Steps_Region/functions/core_flows.Region.Steps_Region.createRegionsStep/page.mdx","depth":1},{"type":"step","name":"setRegionsPaymentProvidersStep","description":"This step sets the payment providers available in regions.","link":"../../../Steps_Region/functions/core_flows.Region.Steps_Region.setRegionsPaymentProvidersStep/page.mdx","depth":2},{"type":"workflow","name":"createPricePreferencesWorkflow","description":"Create one or more price preferences.","link":"../../../../Pricing/Workflows_Pricing/functions/core_flows.Pricing.Workflows_Pricing.createPricePreferencesWorkflow/page.mdx","depth":2},{"type":"step","name":"emitEventStep","description":"Emit an event.","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.emitEventStep/page.mdx","depth":2}]}} />
 
 ## Input
 

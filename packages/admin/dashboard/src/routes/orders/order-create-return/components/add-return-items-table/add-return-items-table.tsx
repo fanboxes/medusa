@@ -8,7 +8,7 @@ import {
 } from "@medusajs/types"
 
 import { useTranslation } from "react-i18next"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { useDataTable } from "../../../../../hooks/use-data-table"
 import { getStylizedAmount } from "../../../../../lib/money-amount-helpers"
 import { getReturnableQuantity } from "../../../../../lib/rma"
@@ -135,7 +135,7 @@ export const AddReturnItemsTable = ({
 
   return (
     <div className="flex size-full flex-col overflow-hidden">
-      <DataTable
+      <_DataTable
         table={table}
         columns={columns}
         pageSize={PAGE_SIZE}

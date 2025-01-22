@@ -1,6 +1,7 @@
 ---
 slug: /references/medusa-workflows/updatePromotionsWorkflow
 sidebar_label: updatePromotionsWorkflow
+sidebar_description: Update one or more promotions.
 tags:
   - remote query
   - promotion
@@ -20,7 +21,7 @@ allows you to update custom data models linked to the promotions.
 
 You can also use this workflow within your customizations or your own custom workflows, allowing you to wrap custom logic around updating promotions.
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/promotion/workflows/update-promotions.ts#L61" />
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/644c8b9d3022fb4bc4ec6760ee4fed93b92d1b96/packages/core/core-flows/src/promotion/workflows/update-promotions.ts#L61" />
 
 ## Examples
 
@@ -153,7 +154,7 @@ const myWorkflow = createWorkflow(
 
 ## Steps
 
-<WorkflowDiagram workflow={{"name":"updatePromotionsWorkflow","steps":[{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":1},{"type":"step","name":"updatePromotionsStep","description":"This step updates one or more promotions.","link":"../../../Steps_Promotion/functions/core_flows.Promotion.Steps_Promotion.updatePromotionsStep/page.mdx","depth":2},{"type":"when","condition":"{\n      return !!promotionInputs.promotionsStatusUpdateInput?.length\n    }","depth":"3","steps":[{"type":"workflow","name":"updatePromotionsStatusWorkflow","description":"This workflow updates the status of one or more promotions.\n\nThis workflow has a hook that allows you to perform custom actions on the updated promotions. For example, you can pass under `additional_data` custom data that\nallows you to create custom data models linked to the promotions.\n\nYou can also use this workflow within your customizations or your own custom workflows, allowing you to\nupdate the status of promotions within your custom flows.","link":"../core_flows.Promotion.Workflows_Promotion.updatePromotionsStatusWorkflow/page.mdx","depth":3}]},{"type":"hook","name":"promotionsUpdated","description":"This hook is executed after the promotions are updated. You can consume this hook to perform custom actions on the updated promotions.","link":"#promotionsUpdated","depth":4}]}} />
+<WorkflowDiagram workflow={{"name":"updatePromotionsWorkflow","steps":[{"type":"step","name":"useRemoteQueryStep","description":"This step fetches data across modules using the remote query.\n\nLearn more in the [Remote Query documentation](https://docs.medusajs.com/learn/fundamentals/module-links/query).\n\n:::note\n\nThis step is deprecated. Use [useQueryGraphStep](../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useQueryGraphStep/page.mdx) instead.\n\n:::","link":"../../../../Common/Steps_Common/functions/core_flows.Common.Steps_Common.useRemoteQueryStep/page.mdx","depth":1},{"type":"step","name":"updatePromotionsStep","description":"This step updates one or more promotions.","link":"../../../Steps_Promotion/functions/core_flows.Promotion.Steps_Promotion.updatePromotionsStep/page.mdx","depth":2},{"type":"when","condition":"{\n      return !!promotionInputs.promotionsStatusUpdateInput?.length\n    }","depth":"3","steps":[{"type":"workflow","name":"updatePromotionsStatusWorkflow","description":"Update the status of one or more promotions.","link":"../core_flows.Promotion.Workflows_Promotion.updatePromotionsStatusWorkflow/page.mdx","depth":3}]},{"type":"hook","name":"promotionsUpdated","description":"This hook is executed after the promotions are updated. You can consume this hook to perform custom actions on the updated promotions.","link":"#promotionsUpdated","depth":4}]}} />
 
 ## Input
 

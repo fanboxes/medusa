@@ -1,8 +1,8 @@
-import { DataTable } from "../../../../../components/table/data-table"
-import { useDataTable } from "../../../../../hooks/use-data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { useInventoryItemLevels } from "../../../../../hooks/api/inventory"
-import { useLocationLevelTableQuery } from "./use-location-list-table-query"
+import { useDataTable } from "../../../../../hooks/use-data-table"
 import { useLocationListTableColumns } from "./use-location-list-table-columns"
+import { useLocationLevelTableQuery } from "./use-location-list-table-query"
 
 const PAGE_SIZE = 20
 
@@ -42,7 +42,7 @@ export const ItemLocationListTable = ({
   }
 
   return (
-    <DataTable
+    <_DataTable
       table={table}
       columns={columns}
       pageSize={PAGE_SIZE}

@@ -57,6 +57,10 @@ export const createReturnFulfillmentWorkflowId =
  *     }
  *   }
  * })
+ * 
+ * @summary
+ * 
+ * Create a fulfillment for a return.
  */
 export const createReturnFulfillmentWorkflow = createWorkflow(
   createReturnFulfillmentWorkflowId,

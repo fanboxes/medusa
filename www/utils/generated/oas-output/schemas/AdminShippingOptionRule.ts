@@ -49,6 +49,5 @@
  *     format: date-time
  *     title: deleted_at
  *     description: The date the shipping option rule was deleted.
- * 
-*/
-
+ *
+ */

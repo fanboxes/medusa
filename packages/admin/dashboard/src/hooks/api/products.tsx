@@ -241,6 +241,32 @@ export const useDeleteVariant = (
   })
 }
 
+export const useDeleteVariantLazy = (
+  productId: string,
+  options?: UseMutationOptions<
+    HttpTypes.AdminProductVariantDeleteResponse,
+    FetchError,
+    { variantId: string }
+  >
+) => {
+  return useMutation({
+    mutationFn: ({ variantId }) =>
+      sdk.admin.product.deleteVariant(productId, variantId),
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries({ queryKey: variantsQueryKeys.lists() })
+      queryClient.invalidateQueries({
+        queryKey: variantsQueryKeys.detail(variables.variantId),
+      })
+      queryClient.invalidateQueries({
+        queryKey: productsQueryKeys.detail(productId),
+      })
+
+      options?.onSuccess?.(data, variables, context)
+    },
+    ...options,
+  })
+}
+
 export const useProduct = (
   id: string,
   query?: Record<string, any>,

@@ -785,15 +785,6 @@
       "schema": "public",
       "indexes": [
         {
-          "columnNames": [
-            "payment_session_id"
-          ],
-          "composite": false,
-          "keyName": "payment_payment_session_id_unique",
-          "primary": false,
-          "unique": true
-        },
-        {
           "keyName": "IDX_payment_payment_collection_id",
           "columnNames": [],
           "composite": false,
@@ -802,12 +793,12 @@
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_payment_payment_collection_id\" ON \"payment\" (payment_collection_id) WHERE deleted_at IS NULL"
         },
         {
-          "keyName": "IDX_payment_payment_session_id",
+          "keyName": "IDX_payment_payment_session_id_unique",
           "columnNames": [],
           "composite": false,
           "primary": false,
           "unique": false,
-          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_payment_payment_session_id\" ON \"payment\" (payment_session_id) WHERE deleted_at IS NULL"
+          "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"IDX_payment_payment_session_id_unique\" ON \"payment\" (payment_session_id) WHERE deleted_at IS NULL"
         },
         {
           "keyName": "IDX_payment_deleted_at",
@@ -824,6 +815,14 @@
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_payment_provider_id\" ON \"payment\" (provider_id) WHERE deleted_at IS NULL"
+        },
+        {
+          "keyName": "IDX_payment_payment_session_id",
+          "columnNames": [],
+          "composite": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_payment_payment_session_id\" ON \"payment\" (payment_session_id) WHERE deleted_at IS NULL"
         },
         {
           "keyName": "payment_pkey",

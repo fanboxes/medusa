@@ -13,10 +13,10 @@ import {
   ProductDTO,
 } from "@medusajs/framework/types"
 import {
+  kebabCase,
   Module,
   Modules,
   ProductStatus,
-  kebabCase,
   toMikroORMEntity,
 } from "@medusajs/framework/utils"
 import { moduleIntegrationTestRunner } from "@medusajs/test-utils"
@@ -577,7 +577,7 @@ moduleIntegrationTestRunner<Service>({
           })
 
           it("should filter by collection relation and scope fields", async () => {
-            const products = await service.list(
+            const products = await moduleService.listProducts(
               {
                 id: workingProduct.id,
                 collection_id: workingCollection.id,
@@ -593,10 +593,8 @@ moduleIntegrationTestRunner<Service>({
               }
             )
 
-            const serialized = JSON.parse(JSON.stringify(products))
-
-            expect(serialized.length).toEqual(1)
-            expect(serialized).toEqual([
+            expect(products.length).toEqual(1)
+            expect(products).toEqual([
               {
                 id: workingProduct.id,
                 title: workingProduct.title,
@@ -612,7 +610,7 @@ moduleIntegrationTestRunner<Service>({
           })
 
           it("should filter by collection when multiple collection ids are passed", async () => {
-            const products = await service.list(
+            const products = await moduleService.listProducts(
               {
                 collection_id: [workingCollection.id, workingCollectionTwo.id],
               },
@@ -627,10 +625,8 @@ moduleIntegrationTestRunner<Service>({
               }
             )
 
-            const serialized = JSON.parse(JSON.stringify(products))
-
-            expect(serialized.length).toEqual(2)
-            expect(serialized).toEqual([
+            expect(products.length).toEqual(2)
+            expect(products).toEqual([
               {
                 id: workingProduct.id,
                 title: workingProduct.title,

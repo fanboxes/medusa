@@ -318,3 +318,23 @@ export interface UpdateRefundReasonDTO {
    */
   metadata?: Record<string, unknown> | null
 }
+
+/**
+ * The payment method to be created.
+ */
+export interface CreatePaymentMethodDTO {
+  /**
+   * The provider's ID.
+   */
+  provider_id: string
+
+  /**
+   * Necessary data for the associated payment provider to process the payment.
+   */
+  data: Record<string, unknown>
+
+  /**
+   * Necessary context data for the associated payment provider.
+   */
+  context: PaymentProviderContext
+}

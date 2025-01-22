@@ -87,6 +87,11 @@ module.exports = {
           "./packages/admin/admin-bundler/tsconfig.json",
           "./packages/admin/admin-vite-plugin/tsconfig.json",
 
+          "./packages/design-system/ui/tsconfig.json",
+          "./packages/design-system/icons/tsconfig.json",
+          "./packages/design-system/ui-preset/tsconfig.json",
+          "./packages/design-system/toolbox/tsconfig.json",
+
           "./packages/cli/create-medusa-app/tsconfig.json",
           "./packages/cli/medusa-cli/tsconfig.spec.json",
           "./packages/cli/oas/medusa-oas-cli/tsconfig.spec.json",
@@ -167,7 +172,10 @@ module.exports = {
       },
     },
     {
-      files: ["packages/design-system/ui/**/*.{ts,tsx}"],
+      files: [
+        "./packages/design-system/ui/**/*.ts",
+        "./packages/design-system/ui/**/*.tsx",
+      ],
       extends: [
         "plugin:react/recommended",
         "plugin:storybook/recommended",
@@ -196,7 +204,10 @@ module.exports = {
       },
     },
     {
-      files: ["packages/design-system/icons/**/*.{ts,tsx}"],
+      files: [
+        "./packages/design-system/icons/**/*.ts",
+        "./packages/design-system/icons/**/*.tsx",
+      ],
       extends: [
         "plugin:react/recommended",
         "plugin:@typescript-eslint/recommended",
@@ -223,8 +234,8 @@ module.exports = {
     },
     {
       files: [
-        "packages/admin/dashboard/**/*.ts",
-        "packages/admin/dashboard/**/*.tsx",
+        "./packages/admin/dashboard/**/*.ts",
+        "./packages/admin/dashboard/**/*.tsx",
       ],
       plugins: ["unused-imports", "react-refresh"],
       extends: [

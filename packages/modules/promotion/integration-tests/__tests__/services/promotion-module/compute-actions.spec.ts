@@ -18,15 +18,6 @@ moduleIntegrationTestRunner({
     service,
   }: SuiteOptions<IPromotionModuleService>) => {
     describe("Promotion Service: computeActions", () => {
-      beforeAll(() => {
-        jest.useFakeTimers()
-        jest.setSystemTime(new Date("02/02/2023"))
-      })
-
-      afterAll(() => {
-        jest.useRealTimers()
-      })
-
       beforeEach(async () => {
         await createCampaigns(MikroOrmWrapper.forkManager())
       })

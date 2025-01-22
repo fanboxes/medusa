@@ -22,7 +22,7 @@ import * as zod from "zod"
 import { ActionMenu } from "../../../../../components/common/action-menu"
 import { Form } from "../../../../../components/common/form"
 import { RouteFocusModal } from "../../../../../components/modals/index.ts"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { KeyboundForm } from "../../../../../components/utilities/keybound-form/keybound-form.tsx"
 import {
   useCreateInvite,
@@ -159,7 +159,7 @@ export const InviteUserForm = () => {
               <div className="flex flex-col gap-y-4">
                 <Heading level="h2">{t("users.pendingInvites")}</Heading>
                 <Container className="overflow-hidden p-0">
-                  <DataTable
+                  <_DataTable
                     table={table}
                     columns={columns}
                     count={count}

@@ -2,7 +2,7 @@ import { Button, Container, Heading, Text } from "@medusajs/ui"
 import { keepPreviousData } from "@tanstack/react-query"
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { useApiKeys } from "../../../../../hooks/api/api-keys"
 import { useDataTable } from "../../../../../hooks/use-data-table"
 import { useApiKeyManagementTableColumns } from "./use-api-key-management-table-columns"
@@ -70,7 +70,7 @@ export const ApiKeyManagementListTable = ({
           </Button>
         </Link>
       </div>
-      <DataTable
+      <_DataTable
         table={table}
         filters={filters}
         columns={columns}

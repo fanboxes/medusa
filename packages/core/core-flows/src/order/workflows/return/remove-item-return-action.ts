@@ -186,7 +186,17 @@ export const removeItemReturnActionWorkflow = createWorkflow(
 
     const updatedOrderChange: OrderChangeDTO = useRemoteQueryStep({
       entry_point: "order_change",
-      fields: ["actions.action", "actions.return_id", "actions.id"],
+      fields: [
+        "actions.id",
+        "actions.action",
+        "actions.order_id",
+        "actions.return_id",
+        "actions.claim_id",
+        "actions.exchange_id",
+        "actions.reference",
+        "actions.reference_id",
+        "actions.order_change_id",
+      ],
       variables: {
         filters: {
           order_id: orderReturn.order_id,

@@ -15,7 +15,7 @@ import {
   RouteFocusModal,
   useRouteModal,
 } from "../../../../../components/modals"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
 import { useUpdateRegion } from "../../../../../hooks/api/regions"
 import { useDataTable } from "../../../../../hooks/use-data-table"
@@ -142,7 +142,7 @@ export const AddCountriesForm = ({ region }: AddCountriesFormProps) => {
           </div>
         </RouteFocusModal.Header>
         <RouteFocusModal.Body className="overflow-hidden">
-          <DataTable
+          <_DataTable
             table={table}
             columns={columns}
             pageSize={PAGE_SIZE}

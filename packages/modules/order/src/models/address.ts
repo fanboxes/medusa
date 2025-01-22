@@ -1,100 +1,27 @@
-import { DAL } from "@medusajs/framework/types"
-import {
-  createPsqlIndexStatementHelper,
-  generateEntityId,
-  Searchable,
-} from "@medusajs/framework/utils"
-import {
-  BeforeCreate,
-  Entity,
-  OnInit,
-  OptionalProps,
-  PrimaryKey,
-  Property,
-} from "@mikro-orm/core"
+import { model } from "@medusajs/framework/utils"
 
-type OptionalAddressProps = DAL.ModelDateColumns
-
-const CustomerIdIndex = createPsqlIndexStatementHelper({
-  tableName: "order_address",
-  columns: "customer_id",
-})
-
-@Entity({ tableName: "order_address" })
-export default class OrderAddress {
-  [OptionalProps]: OptionalAddressProps
-
-  @PrimaryKey({ columnType: "text" })
-  id!: string
-
-  @Property({ columnType: "text", nullable: true })
-  @CustomerIdIndex.MikroORMIndex()
-  customer_id: string | null = null
-
-  @Searchable()
-  @Property({ columnType: "text", nullable: true })
-  company: string | null = null
-
-  @Searchable()
-  @Property({ columnType: "text", nullable: true })
-  first_name: string | null = null
-
-  @Searchable()
-  @Property({ columnType: "text", nullable: true })
-  last_name: string | null = null
-
-  @Searchable()
-  @Property({ columnType: "text", nullable: true })
-  address_1: string | null = null
-
-  @Searchable()
-  @Property({ columnType: "text", nullable: true })
-  address_2: string | null = null
-
-  @Searchable()
-  @Property({ columnType: "text", nullable: true })
-  city: string | null = null
-
-  @Property({ columnType: "text", nullable: true })
-  country_code: string | null = null
-
-  @Searchable()
-  @Property({ columnType: "text", nullable: true })
-  province: string | null = null
-
-  @Searchable()
-  @Property({ columnType: "text", nullable: true })
-  postal_code: string | null = null
-
-  @Searchable()
-  @Property({ columnType: "text", nullable: true })
-  phone: string | null = null
-
-  @Property({ columnType: "jsonb", nullable: true })
-  metadata: Record<string, unknown> | null = null
-
-  @Property({
-    onCreate: () => new Date(),
-    columnType: "timestamptz",
-    defaultRaw: "now()",
+const _OrderAddress = model
+  .define("OrderAddress", {
+    id: model.id({ prefix: "ordaddr" }).primaryKey(),
+    customer_id: model.text().nullable(),
+    company: model.text().searchable().nullable(),
+    first_name: model.text().searchable().nullable(),
+    last_name: model.text().searchable().nullable(),
+    address_1: model.text().searchable().nullable(),
+    address_2: model.text().searchable().nullable(),
+    city: model.text().searchable().nullable(),
+    country_code: model.text().nullable(),
+    province: model.text().searchable().nullable(),
+    postal_code: model.text().searchable().nullable(),
+    phone: model.text().searchable().nullable(),
+    metadata: model.json().nullable(),
   })
-  created_at: Date
+  .indexes([
+    {
+      name: "IDX_order_address_customer_id",
+      on: ["customer_id"],
+      unique: false,
+    },
+  ])
 
-  @Property({
-    onCreate: () => new Date(),
-    onUpdate: () => new Date(),
-    columnType: "timestamptz",
-    defaultRaw: "now()",
-  })
-  updated_at: Date
-
-  @BeforeCreate()
-  onCreate() {
-    this.id = generateEntityId(this.id, "ordaddr")
-  }
-
-  @OnInit()
-  onInit() {
-    this.id = generateEntityId(this.id, "ordaddr")
-  }
-}
+export const OrderAddress = _OrderAddress

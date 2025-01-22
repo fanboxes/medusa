@@ -15,7 +15,7 @@ import {
   RouteFocusModal,
   useRouteModal,
 } from "../../../../../components/modals"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
 import { useUpdateProductCategoryProducts } from "../../../../../hooks/api/categories"
 import { useProducts } from "../../../../../hooks/api/products"
@@ -159,7 +159,7 @@ export const EditCategoryProductsForm = ({
           </div>
         </RouteFocusModal.Header>
         <RouteFocusModal.Body className="size-full overflow-hidden">
-          <DataTable
+          <_DataTable
             table={table}
             columns={columns}
             pageSize={PAGE_SIZE}

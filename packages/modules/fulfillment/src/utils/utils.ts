@@ -146,12 +146,12 @@ export function validateRule(rule: Record<string, unknown>): boolean {
 }
 
 export function normalizeRulesValue<T extends Partial<Rule>>(rules: T[]): void {
-  rules.forEach((rule) => {
+  rules.forEach((rule: any) => {
     /**
-     * If a string is provided, then we don't want jsonb to convert to the primitive value based on the RFC
+     * If a boolean is provided, then we convert to string
      */
-    if (rule.value === "true" || rule.value === "false") {
-      rule.value = rule.value === "true" ? '"true"' : '"false"'
+    if (rule.value === true || rule.value === false) {
+      rule.value = rule.value === true ? "true" : "false"
     }
 
     return rule

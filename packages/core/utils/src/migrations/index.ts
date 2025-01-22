@@ -4,7 +4,7 @@ import {
   MigrationResult,
   UmzugMigration,
 } from "@mikro-orm/migrations"
-import { PostgreSqlDriver } from "@mikro-orm/postgresql"
+import { defineConfig, PostgreSqlDriver } from "@mikro-orm/postgresql"
 import { EventEmitter } from "events"
 import { access, mkdir, writeFile } from "fs/promises"
 import { dirname } from "path"
@@ -42,13 +42,15 @@ export class Migrations extends EventEmitter<MigrationsEvents> {
       return this.#configOrConnection as MikroORM<PostgreSqlDriver>
     }
 
-    return await MikroORM.init({
-      ...this.#configOrConnection,
-      migrations: {
-        ...this.#configOrConnection.migrations,
-        silent: true,
-      },
-    })
+    return await MikroORM.init(
+      defineConfig({
+        ...(this.#configOrConnection as any),
+        migrations: {
+          ...this.#configOrConnection.migrations,
+          silent: true,
+        },
+      })
+    )
   }
 
   /**

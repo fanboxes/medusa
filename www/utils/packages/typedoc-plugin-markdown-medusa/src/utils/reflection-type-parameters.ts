@@ -98,7 +98,7 @@ export function getReflectionTypeParameters({
           : undefined
       if (
         typeArgs &&
-        !isOnlyVoid(typeArgs as unknown as SomeType[]) &&
+        !isEmpty(typeArgs as unknown as SomeType[]) &&
         canRetrieveChildren
       ) {
         typeArgs.forEach((typeArg) => {
@@ -237,6 +237,8 @@ export function getReflectionTypeParameters({
         ? componentItem[parentKey - 1].children?.push(childParameter)
         : componentItem.push(childParameter)
     })
+  } else if (isEmpty([reflectionType])) {
+    return []
   } else {
     const parentKey = wrapObject
       ? componentItem.push(formatParameter())
@@ -278,8 +280,12 @@ export function loadComment(
   return ""
 }
 
-export function isOnlyVoid(reflectionTypes: SomeType[]) {
+export function isEmpty(reflectionTypes: SomeType[]) {
   return reflectionTypes.every(
-    (type) => type.type === "intrinsic" && type.name === "void"
+    (type) =>
+      type.type === "intrinsic" &&
+      (type.name === "void" ||
+        type.name === "never" ||
+        type.name === "undefined")
   )
 }

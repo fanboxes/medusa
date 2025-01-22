@@ -13,7 +13,7 @@ import {
   StackedFocusModal,
   useStackedModal,
 } from "../../../../../../../components/modals"
-import { DataTable } from "../../../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../../../components/table/data-table"
 import { useSalesChannels } from "../../../../../../../hooks/api/sales-channels"
 import { useSalesChannelTableColumns } from "../../../../../../../hooks/table/columns/use-sales-channel-table-columns"
 import { useSalesChannelTableFilters } from "../../../../../../../hooks/table/filters/use-sales-channel-table-filters"
@@ -131,7 +131,7 @@ export const ProductCreateSalesChannelStackedModal = ({
     <StackedFocusModal.Content className="flex flex-col overflow-hidden">
       <StackedFocusModal.Header />
       <StackedFocusModal.Body className="flex-1 overflow-hidden">
-        <DataTable
+        <_DataTable
           table={table}
           columns={columns}
           pageSize={PAGE_SIZE}

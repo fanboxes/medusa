@@ -1,6 +1,5 @@
 import {
   CreatePaymentProviderSession,
-  PaymentMethodResponse,
   PaymentProviderError,
   PaymentProviderSessionResponse,
   ProviderWebhookPayload,
@@ -71,10 +70,6 @@ export class SystemProviderService extends AbstractPaymentProvider {
 
   async cancelPayment(_): Promise<Record<string, unknown>> {
     return {}
-  }
-
-  async listPaymentMethods(_): Promise<PaymentMethodResponse[]> {
-    return []
   }
 
   async getWebhookActionAndData(

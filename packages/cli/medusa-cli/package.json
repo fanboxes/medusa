@@ -1,6 +1,6 @@
 {
   "name": "@medusajs/cli",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Command Line interface for Medusa Commerce",
   "main": "dist/index.js",
   "bin": {
@@ -32,10 +32,10 @@
   "author": "Sebastian Rindom",
   "license": "MIT",
   "devDependencies": {
-    "@mikro-orm/core": "5.9.7",
-    "@mikro-orm/knex": "5.9.7",
-    "@mikro-orm/migrations": "5.9.7",
-    "@mikro-orm/postgresql": "5.9.7",
+    "@mikro-orm/core": "6.4.3",
+    "@mikro-orm/knex": "6.4.3",
+    "@mikro-orm/migrations": "6.4.3",
+    "@mikro-orm/postgresql": "6.4.3",
     "@swc/core": "^1.7.28",
     "@swc/jest": "^0.2.36",
     "@types/yargs": "^15.0.15",
@@ -46,8 +46,8 @@
     "typescript": "^5.6.2"
   },
   "dependencies": {
-    "@medusajs/telemetry": "^2.3.0",
-    "@medusajs/utils": "2.3.0",
+    "@medusajs/telemetry": "~2.3.1",
+    "@medusajs/utils": "2.3.1",
     "@types/express": "^4.17.17",
     "chalk": "^4.0.0",
     "configstore": "5.0.1",
@@ -72,10 +72,10 @@
     "yargs": "^15.3.1"
   },
   "peerDependencies": {
-    "@mikro-orm/core": "5.9.7",
-    "@mikro-orm/knex": "5.9.7",
-    "@mikro-orm/migrations": "5.9.7",
-    "@mikro-orm/postgresql": "5.9.7",
+    "@mikro-orm/core": "6.4.3",
+    "@mikro-orm/knex": "6.4.3",
+    "@mikro-orm/migrations": "6.4.3",
+    "@mikro-orm/postgresql": "6.4.3",
     "awilix": "^8.0.1",
     "pg": "^8.13.0"
   },

@@ -403,7 +403,9 @@ export class PostgresProvider implements IndexTypes.StorageProvider {
             child_name: entity,
             pivot: `${parentEntity}-${entity}`,
           })
-          indexRelationRepository.persist(parentIndexRelationEntry)
+          indexRelationRepository
+            .getEntityManager()
+            .persist(parentIndexRelationEntry)
         }
       }
     }
@@ -628,10 +630,9 @@ export class PostgresProvider implements IndexTypes.StorageProvider {
         pivot: `${entity}-${childEntityName}`,
       })
 
-      indexRelationRepository.persist([
-        parentIndexRelationEntry,
-        childIndexRelationEntry,
-      ])
+      indexRelationRepository
+        .getEntityManager()
+        .persist([parentIndexRelationEntry, childIndexRelationEntry])
     }
   }
 

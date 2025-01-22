@@ -2,16 +2,16 @@ import {
   removeItemReturnActionWorkflow,
   updateRequestItemReturnWorkflow,
 } from "@medusajs/core-flows"
-import { HttpTypes } from "@medusajs/framework/types"
-import {
-  ContainerRegistrationKeys,
-  remoteQueryObjectFromString,
-} from "@medusajs/framework/utils"
 import {
   AuthenticatedMedusaRequest,
   MedusaResponse,
   refetchEntity,
 } from "@medusajs/framework/http"
+import { HttpTypes } from "@medusajs/framework/types"
+import {
+  ContainerRegistrationKeys,
+  remoteQueryObjectFromString,
+} from "@medusajs/framework/utils"
 import { defaultAdminDetailsReturnFields } from "../../../../../returns/query-config"
 import { AdminPostExchangesRequestItemsReturnActionReqSchemaType } from "../../../../validators"
 
@@ -29,7 +29,7 @@ export const POST = async (
       variables: {
         id,
       },
-      fields: ["return_id"],
+      fields: ["id", "return_id"],
     }),
     {
       throwIfKeyNotFound: true,

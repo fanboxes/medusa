@@ -298,6 +298,9 @@
     }
   },
   "filters": {
+    "sortLabel": "Sort",
+    "filterLabel": "Filter",
+    "searchLabel": "Search",
     "date": {
       "today": "Today",
       "lastSevenDays": "Last 7 days",
@@ -306,7 +309,9 @@
       "lastTwelveMonths": "Last 12 months",
       "custom": "Custom",
       "from": "From",
-      "to": "To"
+      "to": "To",
+      "starting": "Starting",
+      "ending": "Ending"
     },
     "compare": {
       "lessThan": "Less than",
@@ -316,6 +321,18 @@
       "lessThanLabel": "less than {{value}}",
       "greaterThanLabel": "greater than {{value}}",
       "andLabel": "and"
+    },
+    "sorting": {
+      "alphabeticallyAsc": "A to Z",
+      "alphabeticallyDesc": "Z to A",
+      "dateAsc": "Newest first",
+      "dateDesc": "Oldest first"
+    },
+    "radio": {
+      "yes": "Yes",
+      "no": "No",
+      "true": "True",
+      "false": "False"
     },
     "addFilter": "Add filter"
   },
@@ -468,7 +485,17 @@
       }
     },
     "deleteWarning": "You are about to delete the product {{title}}. This action cannot be undone.",
-    "variants": "Variants",
+    "variants": {
+      "header": "Variants",
+      "empty": {
+        "heading": "No variants",
+        "description": "There are no variants to display."
+      },
+      "filtered": {
+        "heading": "No results",
+        "description": "No variants match the current filter criteria."
+      }
+    },
     "attributes": "Attributes",
     "editAttributes": "Edit Attributes",
     "editOptions": "Edit Options",
@@ -891,6 +918,16 @@
   "customerGroups": {
     "domain": "Customer Groups",
     "subtitle": "Organize customers into groups. Groups can have different promotions and prices.",
+    "list": {
+      "empty": {
+        "heading": "No customer groups",
+        "description": "There are no customer groups to display."
+      },
+      "filtered": {
+        "heading": "No results",
+        "description": "No customer groups match the current filter criteria."
+      }
+    },
     "create": {
       "header": "Create Customer Group",
       "hint": "Create a new customer group to segment your customers.",
@@ -2241,6 +2278,16 @@
       "admin": "Admin",
       "developer": "Developer",
       "member": "Member"
+    },
+    "list": {
+      "empty": {
+        "heading": "No users found",
+        "description": "Once a user has been invited, they will appear here."
+      },
+      "filtered": {
+        "heading": "No results",
+        "description": "No users match the current filter criteria."
+      }
     },
     "deleteUserWarning": "You are about to delete the user {{name}}. This action cannot be undone.",
     "deleteUserSuccess": "User {{name}} deleted successfully",

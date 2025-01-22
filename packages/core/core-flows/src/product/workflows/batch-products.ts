@@ -19,10 +19,10 @@ import { updateProductsWorkflow } from "./update-products"
 /**
  * The products to manage.
  */
-export type BatchProductWorkflowInput = BatchWorkflowInput<
+export interface BatchProductWorkflowInput extends BatchWorkflowInput<
   CreateProductWorkflowInputDTO,
   UpdateProductWorkflowInputDTO
->
+> {}
 
 export const batchProductsWorkflowId = "batch-products"
 /**

@@ -16,7 +16,7 @@ import {
   RouteFocusModal,
   useRouteModal,
 } from "../../../../../components/modals"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
 import { useFulfillmentProviders } from "../../../../../hooks/api/fulfillment-providers"
 import { useUpdateStockLocationFulfillmentProviders } from "../../../../../hooks/api/stock-locations"
@@ -132,7 +132,7 @@ export const LocationEditFulfillmentProvidersForm = ({
       <KeyboundForm onSubmit={handleSubmit} className="flex size-full flex-col">
         <RouteFocusModal.Header />
         <RouteFocusModal.Body className="flex flex-1 flex-col overflow-auto">
-          <DataTable
+          <_DataTable
             table={table}
             columns={columns}
             pageSize={PAGE_SIZE}

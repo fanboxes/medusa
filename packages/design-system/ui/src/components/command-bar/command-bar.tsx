@@ -167,7 +167,7 @@ const Command = React.forwardRef<HTMLButtonElement, CommandProps>(
   ) => {
     React.useEffect(() => {
       const handleKeyDown = (event: KeyboardEvent) => {
-        if (event.key === shortcut) {
+        if (event.key.toLowerCase() === shortcut.toLowerCase()) {
           event.preventDefault()
           event.stopPropagation()
           action()

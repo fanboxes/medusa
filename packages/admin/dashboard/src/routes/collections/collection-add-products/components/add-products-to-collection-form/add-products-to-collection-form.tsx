@@ -15,7 +15,7 @@ import {
   RouteFocusModal,
   useRouteModal,
 } from "../../../../../components/modals/index.ts"
-import { DataTable } from "../../../../../components/table/data-table/data-table.tsx"
+import { _DataTable } from "../../../../../components/table/data-table/data-table.tsx"
 import { KeyboundForm } from "../../../../../components/utilities/keybound-form/keybound-form.tsx"
 import { useUpdateCollectionProducts } from "../../../../../hooks/api/collections.tsx"
 import { useProducts } from "../../../../../hooks/api/products.tsx"
@@ -168,7 +168,7 @@ export const AddProductsToCollectionForm = ({
           </div>
         </RouteFocusModal.Header>
         <RouteFocusModal.Body className="size-full overflow-hidden">
-          <DataTable
+          <_DataTable
             table={table}
             columns={columns}
             pageSize={PAGE_SIZE}

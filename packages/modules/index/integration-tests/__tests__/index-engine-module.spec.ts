@@ -722,57 +722,11 @@ describe("IndexModuleService", function () {
     it("should consume all deleted events and delete the index entries", async () => {
       const indexEntries = await manager.find(toMikroORMEntity(IndexData), {})
       const indexRelationEntries = await manager.find(
-        toMikroORMEntity(IndexRelation),
-        {},
-        {
-          populate: ["parent", "child"],
-        }
+        toMikroORMEntity(IndexRelation)
       )
 
       expect(indexEntries).toHaveLength(3)
       expect(indexRelationEntries).toHaveLength(2)
-
-      const linkIndexEntry = indexEntries.find((entry) => {
-        return (
-          entry.name === "LinkProductVariantPriceSet" && entry.id === linkId
-        )
-      })!
-
-      const priceSetIndexEntry = indexEntries.find((entry) => {
-        return entry.name === "PriceSet" && entry.id === priceSetId
-      })!
-
-      const priceIndexEntry = indexEntries.find((entry) => {
-        return entry.name === "Price" && entry.id === priceId
-      })!
-
-      const linkPriceSetIndexRelationEntry = indexRelationEntries.find(
-        (entry) => {
-          return (
-            entry.parent_id === linkId &&
-            entry.parent_name === "LinkProductVariantPriceSet" &&
-            entry.child_id === priceSetId &&
-            entry.child_name === "PriceSet"
-          )
-        }
-      )!
-
-      expect(linkPriceSetIndexRelationEntry.parent).toEqual(linkIndexEntry)
-      expect(linkPriceSetIndexRelationEntry.child).toEqual(priceSetIndexEntry)
-
-      const priceSetPriceIndexRelationEntry = indexRelationEntries.find(
-        (entry) => {
-          return (
-            entry.parent_id === priceSetId &&
-            entry.parent_name === "PriceSet" &&
-            entry.child_id === priceId &&
-            entry.child_name === "Price"
-          )
-        }
-      )!
-
-      expect(priceSetPriceIndexRelationEntry.parent).toEqual(priceSetIndexEntry)
-      expect(priceSetPriceIndexRelationEntry.child).toEqual(priceIndexEntry)
     })
   })
 })

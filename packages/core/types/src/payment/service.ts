@@ -6,6 +6,7 @@ import {
   CaptureDTO,
   FilterableCaptureProps,
   FilterablePaymentCollectionProps,
+  FilterablePaymentMethodProps,
   FilterablePaymentProps,
   FilterablePaymentProviderProps,
   FilterablePaymentSessionProps,
@@ -13,6 +14,7 @@ import {
   FilterableRefundReasonProps,
   PaymentCollectionDTO,
   PaymentDTO,
+  PaymentMethodDTO,
   PaymentProviderDTO,
   PaymentSessionDTO,
   RefundDTO,
@@ -748,6 +750,74 @@ export interface IPaymentModuleService extends IModuleService {
     config?: FindConfig<PaymentProviderDTO>,
     sharedContext?: Context
   ): Promise<[PaymentProviderDTO[], number]>
+
+  /**
+   * This method retrieves all payment methods based on the context and configuration.
+   *
+   * @param {FilterablePaymentMethodProps} filters - The filters to apply on the retrieved payment methods.
+   * @param {FindConfig<PaymentMethodDTO>} config - The configurations determining how the payment method is retrieved. Its properties, such as `select` or `relations`, accept the
+   * attributes or relations associated with a payment method.
+   * @param {Context} sharedContext - A context used to share resources, such as transaction manager, between the application and the module.
+   * @returns {Promise<PaymentMethodDTO[]>} The list of payment methods.
+   *
+   * @example
+   * To retrieve a list of payment methods for a customer:
+   *
+   * ```ts
+   * const paymentMethods =
+   *   await paymentModuleService.listPaymentMethods({
+   *     provider_id: "pp_stripe_stripe",
+   *     context: {
+   *       customer: {
+   *         id: "cus_123",
+   *         metadata: {
+   *           pp_stripe_stripe_customer_id: "str_1234"
+   *         }
+   *       },
+   *     },
+   *   })
+   * ```
+   *
+   */
+  listPaymentMethods(
+    filters: FilterablePaymentMethodProps,
+    config: FindConfig<PaymentMethodDTO>,
+    sharedContext?: Context
+  ): Promise<PaymentMethodDTO[]>
+
+  /**
+   * This method retrieves all payment methods along with the total count of available payment methods, based on the context and configuration.
+   *
+   * @param {FilterablePaymentMethodProps} filters - The filters to apply on the retrieved payment methods.
+   * @param {FindConfig<PaymentMethodDTO>} config - The configurations determining how the payment method is retrieved. Its properties, such as `select` or `relations`, accept the
+   * attributes or relations associated with a payment method.
+   * @param {Context} sharedContext - A context used to share resources, such as transaction manager, between the application and the module.
+   * @returns {Promise<[PaymentMethodDTO[], number]>} The list of payment methods along with their total count.
+   *
+   * @example
+   * To retrieve a list of payment methods for a customer:
+   *
+   * ```ts
+   * const [paymentMethods, count] =
+   *   await paymentModuleService.listAndCountPaymentMethods({
+   *     provider_id: "pp_stripe_stripe",
+   *     context: {
+   *       customer: {
+   *         id: "cus_123",
+   *         metadata: {
+   *           pp_stripe_stripe_customer_id: "str_1234"
+   *         }
+   *       },
+   *     },
+   *   })
+   * ```
+   *
+   */
+  listAndCountPaymentMethods(
+    filters: FilterablePaymentMethodProps,
+    config: FindConfig<PaymentMethodDTO>,
+    sharedContext?: Context
+  ): Promise<[PaymentMethodDTO[], number]>
 
   /**
    * This method retrieves a paginated list of captures based on optional filters and configuration.

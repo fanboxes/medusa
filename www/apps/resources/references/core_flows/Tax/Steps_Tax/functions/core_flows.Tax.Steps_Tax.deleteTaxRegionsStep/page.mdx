@@ -21,7 +21,9 @@ import { deleteTaxRegionsStep } from "@medusajs/medusa/core-flows"
 const myWorkflow = createWorkflow(
   "my-workflow",
   () => {
-    const data = deleteTaxRegionsStep({})
+    const data = deleteTaxRegionsStep([
+      "{value}"
+    ])
   }
 )
 ```
@@ -29,4 +31,4 @@ const myWorkflow = createWorkflow(
 
 ## Input
 
-<TypeList types={[{"name":"DeleteTaxRegionsStepInput","type":"[DeleteTaxRegionsStepInput](../../../../types/core_flows.DeleteTaxRegionsStepInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"DeleteTaxRegionsStepInput","type":"`string`[]","description":"The IDs of the tax regions to delete.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteTaxRegionsStep"/>
+<TypeList types={[{"name":"DeleteTaxRegionsStepInput","type":"[DeleteTaxRegionsStepInput](../../../../types/core_flows.DeleteTaxRegionsStepInput/page.mdx)","optional":false,"defaultValue":"","description":"The IDs of the tax regions to delete.","expandable":false,"children":[{"name":"DeleteTaxRegionsStepInput","type":"`string`[]","description":"The IDs of the tax regions to delete.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteTaxRegionsStep"/>

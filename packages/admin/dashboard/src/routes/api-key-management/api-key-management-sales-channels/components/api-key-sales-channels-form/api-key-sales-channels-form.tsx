@@ -15,7 +15,7 @@ import {
   RouteFocusModal,
   useRouteModal,
 } from "../../../../../components/modals"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
 import { VisuallyHidden } from "../../../../../components/utilities/visually-hidden"
 import { useBatchAddSalesChannelsToApiKey } from "../../../../../hooks/api/api-keys"
@@ -139,7 +139,7 @@ export const ApiKeySalesChannelsForm = ({
           </div>
         </RouteFocusModal.Header>
         <RouteFocusModal.Body className="flex flex-1 flex-col overflow-auto">
-          <DataTable
+          <_DataTable
             table={table}
             columns={columns}
             count={count}

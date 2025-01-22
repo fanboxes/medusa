@@ -35,6 +35,10 @@ export const createPromotionRulesWorkflowId = "create-promotion-rules-workflow"
  *     }
  *   }
  * })
+ * 
+ * @summary
+ * 
+ * Create one or more promotion rules.
  */
 export const createPromotionRulesWorkflow = createWorkflow(
   createPromotionRulesWorkflowId,

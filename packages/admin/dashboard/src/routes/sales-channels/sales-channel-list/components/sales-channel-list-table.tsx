@@ -17,7 +17,7 @@ import {
   ActionGroup,
   ActionMenu,
 } from "../../../../components/common/action-menu"
-import { DataTable } from "../../../../components/table/data-table"
+import { _DataTable } from "../../../../components/table/data-table"
 import { useStore } from "../../../../hooks/api"
 import {
   useDeleteSalesChannel,
@@ -89,7 +89,7 @@ export const SalesChannelListTable = () => {
           </Button>
         </Link>
       </div>
-      <DataTable
+      <_DataTable
         table={table}
         columns={columns}
         count={count}

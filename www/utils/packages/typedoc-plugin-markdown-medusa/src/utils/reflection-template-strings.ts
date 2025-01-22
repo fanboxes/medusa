@@ -21,6 +21,13 @@ export function replaceTemplateVariables(
       reflection.parent?.parent?.name || ""
     )
     .replaceAll("{{kind}}", getKindAsText(reflection.kind))
+    .replaceAll(
+      "{{summary}}",
+      reflection.comment?.blockTags
+        .find((tag) => tag.tag === "@summary")
+        ?.content.map((content) => content.text)
+        .join(" ") || ""
+    )
 }
 
 export function getKindAsText(kind: ReflectionKind) {

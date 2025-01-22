@@ -1,6 +1,7 @@
 ---
 slug: /references/medusa-workflows/cancelOrderWorkflow
 sidebar_label: cancelOrderWorkflow
+sidebar_description: Cancel an order.
 tags:
   - query
   - inventory
@@ -28,7 +29,7 @@ make changes to custom models linked to the order.
 
 You can also use this workflow within your customizations or your own custom workflows, allowing you to wrap custom logic around canceling an order.
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/order/workflows/cancel-order.ts#L127" />
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/644c8b9d3022fb4bc4ec6760ee4fed93b92d1b96/packages/core/core-flows/src/order/workflows/cancel-order.ts#L127" />
 
 ## Examples
 
@@ -142,10 +143,6 @@ const myWorkflow = createWorkflow(
 ## Input
 
 <TypeList types={[{"name":"CancelOrderWorkflowInput","type":"[CancelOrderWorkflowInput](../../../../../types/WorkflowTypes/OrderWorkflow/interfaces/types.WorkflowTypes.OrderWorkflow.CancelOrderWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"order_id","type":"`string`","description":"The ID of the order to cancel.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"no_notification","type":"`boolean`","description":"Whether to notify the customer of the cancelation.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"canceled_by","type":"`string`","description":"The ID of the user that canceled the order.","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="cancelOrderWorkflow"/>
-
-## Output
-
-<TypeList types={[{"name":"undefined","type":"`undefined`","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"undefined","type":"`undefined`","optional":false,"defaultValue":"","description":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="cancelOrderWorkflow"/>
 
 ## Hooks
 

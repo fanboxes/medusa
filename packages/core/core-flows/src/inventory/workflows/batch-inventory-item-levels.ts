@@ -41,7 +41,7 @@ export interface BatchInventoryItemLevelsWorkflowInput
  * @property updated - The inventory levels that were updated.
  * @property deleted - The IDs of the inventory levels that were deleted.
  */
-export type BatchInventoryItemLevelsWorkflowOutput = BatchWorkflowOutput<InventoryLevelDTO>
+export interface BatchInventoryItemLevelsWorkflowOutput extends BatchWorkflowOutput<InventoryLevelDTO> {}
 
 export const batchInventoryItemLevelsWorkflowId =
   "batch-inventory-item-levels-workflow"

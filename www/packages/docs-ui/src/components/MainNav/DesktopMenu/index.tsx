@@ -2,13 +2,13 @@
 
 import {
   BarsThree,
+  Book,
   QuestionMarkCircle,
   SidebarLeft,
   TimelineVertical,
 } from "@medusajs/icons"
 import React, { useMemo, useRef, useState } from "react"
 import {
-  BookIcon,
   Button,
   getOsShortcut,
   Menu,
@@ -41,7 +41,7 @@ export const MainNavDesktopMenu = () => {
       },
       {
         type: "link",
-        icon: <BookIcon />,
+        icon: <Book />,
         title: "Medusa v1",
         link: "https://docs.medusajs.com/v1",
       },

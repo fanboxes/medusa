@@ -2,6 +2,7 @@ import {
   batchShippingOptionRulesWorkflow,
   createShippingOptionsWorkflow,
 } from "@medusajs/core-flows"
+import { medusaIntegrationTestRunner } from "@medusajs/test-utils"
 import {
   BatchWorkflowInput,
   CreateShippingOptionRuleDTO,
@@ -19,7 +20,6 @@ import {
   RuleOperator,
   remoteQueryObjectFromString,
 } from "@medusajs/utils"
-import { medusaIntegrationTestRunner } from "@medusajs/test-utils"
 
 jest.setTimeout(100000)
 
@@ -249,7 +249,7 @@ medusaIntegrationTestRunner({
           expect.objectContaining({
             attribute: "new_attribute",
             operator: "eq",
-            value: 100,
+            value: "100",
           })
         )
         expect(updatedRule).toEqual(
@@ -345,7 +345,7 @@ medusaIntegrationTestRunner({
             expect.objectContaining({
               attribute: "total",
               operator: "eq",
-              value: 100,
+              value: "100",
             }),
           ])
         )

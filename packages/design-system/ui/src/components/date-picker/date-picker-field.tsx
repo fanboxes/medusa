@@ -33,7 +33,6 @@ const datePickerFieldStyles = cva({
 const DatePickerField = ({ size = "base", ...props }: DatePickerFieldProps) => {
   const { locale } = useLocale()
 
-
   const state = useDateFieldState({
     ...props,
     locale,
@@ -44,7 +43,12 @@ const DatePickerField = ({ size = "base", ...props }: DatePickerFieldProps) => {
   const { fieldProps } = useDateField(props, state, ref)
 
   return (
-    <div ref={ref} aria-label="Date input" className={datePickerFieldStyles({ size })} {...fieldProps}>
+    <div
+      ref={ref}
+      aria-label="Date input"
+      className={datePickerFieldStyles({ size })}
+      {...fieldProps}
+    >
       {state.segments.map((segment, index) => {
         return <DateSegment key={index} segment={segment} state={state} />
       })}

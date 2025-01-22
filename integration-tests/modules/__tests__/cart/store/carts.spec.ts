@@ -1330,7 +1330,6 @@ medusaIntegrationTestRunner({
           ).data.shipping_option
 
           paymentCollection = await paymentService.createPaymentCollections({
-            region_id: region.id,
             amount: 1000,
             currency_code: "usd",
           })

@@ -105,7 +105,25 @@ export type RefundPaymentsWorkflowInput = {
 
 export const refundPaymentsWorkflowId = "refund-payments-workflow"
 /**
- * This workflow refunds a payment.
+ * This workflow refunds payments.
+ * 
+ * You can use this workflow within your customizations or your own custom workflows, allowing you to
+ * refund payments in your custom flow.
+ * 
+ * @example
+ * const { result } = await refundPaymentsWorkflow(container)
+ * .run({
+ *   input: [
+ *     {
+ *       payment_id: "pay_123",
+ *       amount: 10,
+ *     }
+ *   ]
+ * })
+ * 
+ * @summary
+ * 
+ * Refund one or more payments.
  */
 export const refundPaymentsWorkflow = createWorkflow(
   refundPaymentsWorkflowId,

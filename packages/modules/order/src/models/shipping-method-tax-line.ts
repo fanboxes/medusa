@@ -1,42 +1,32 @@
-import {
-  createPsqlIndexStatementHelper,
-  generateEntityId,
-} from "@medusajs/framework/utils"
-import { BeforeCreate, Entity, ManyToOne, OnInit, Rel } from "@mikro-orm/core"
-import OrderShippingMethod from "./shipping-method"
-import TaxLine from "./tax-line"
+import { model } from "@medusajs/framework/utils"
+import { OrderShippingMethod } from "./shipping-method"
 
-const ShippingMethodIdIdIndex = createPsqlIndexStatementHelper({
-  tableName: "order_shipping_method_tax_line",
-  columns: "shipping_method_id",
-})
+const _OrderShippingMethodTaxLine = model
+  .define(
+    {
+      tableName: "order_shipping_method_tax_line",
+    },
+    {
+      id: model.id({ prefix: "ordsmtxl" }).primaryKey(),
+      description: model.text().nullable(),
+      tax_rate_id: model.text().nullable(),
+      code: model.text(),
+      rate: model.bigNumber(),
+      provider_id: model.text().nullable(),
+      shipping_method: model.belongsTo<() => typeof OrderShippingMethod>(
+        () => OrderShippingMethod,
+        {
+          mappedBy: "tax_lines",
+        }
+      ),
+    }
+  )
+  .indexes([
+    {
+      name: "IDX_order_shipping_method_tax_line_shipping_method_id",
+      on: ["shipping_method_id"],
+      unique: false,
+    },
+  ])
 
-@Entity({ tableName: "order_shipping_method_tax_line" })
-export default class OrderShippingMethodTaxLine extends TaxLine {
-  @ManyToOne(() => OrderShippingMethod, {
-    persist: false,
-  })
-  shipping_method: Rel<OrderShippingMethod>
-
-  @ManyToOne({
-    entity: () => OrderShippingMethod,
-    fieldName: "shipping_method_id",
-    columnType: "text",
-    mapToPk: true,
-    onDelete: "cascade",
-  })
-  @ShippingMethodIdIdIndex.MikroORMIndex()
-  shipping_method_id: string
-
-  @BeforeCreate()
-  onCreate() {
-    this.id = generateEntityId(this.id, "ordsmtxl")
-    this.shipping_method_id ??= this.shipping_method?.id
-  }
-
-  @OnInit()
-  onInit() {
-    this.id = generateEntityId(this.id, "ordsmtxl")
-    this.shipping_method_id ??= this.shipping_method?.id
-  }
-}
+export const OrderShippingMethodTaxLine = _OrderShippingMethodTaxLine

@@ -1,3 +1,4 @@
+import { BigNumberRawValue } from "@medusajs/types"
 import {
   BeforeCreate,
   Collection,
@@ -13,11 +14,11 @@ import {
   Unique,
   wrap,
 } from "@mikro-orm/core"
-import { mikroOrmBaseRepositoryFactory } from "../../mikro-orm-repository"
+import { defineConfig } from "@mikro-orm/postgresql"
+import BigNumber from "bignumber.js"
 import { dropDatabase } from "pg-god"
 import { MikroOrmBigNumberProperty } from "../../big-number-field"
-import BigNumber from "bignumber.js"
-import { BigNumberRawValue } from "@medusajs/types"
+import { mikroOrmBaseRepositoryFactory } from "../../mikro-orm-repository"
 import { getDatabaseURL, pgGodCredentials } from "../__fixtures__/database"
 
 const dbName = "mikroorm-integration-1"
@@ -78,7 +79,7 @@ class Entity2 {
     nullable: true,
     mapToPk: true,
     fieldName: "entity1_id",
-    onDelete: "set null",
+    deleteRule: "set null",
   })
   entity1_id: string
 
@@ -143,11 +144,12 @@ describe("mikroOrmRepository", () => {
       pgGodCredentials
     )
 
-    orm = await MikroORM.init({
-      entities: [Entity1, Entity2],
-      clientUrl: getDatabaseURL(dbName),
-      type: "postgresql",
-    })
+    orm = await MikroORM.init(
+      defineConfig({
+        entities: [Entity1, Entity2],
+        clientUrl: getDatabaseURL(dbName),
+      })
+    )
 
     const generator = orm.getSchemaGenerator()
     await generator.ensureDatabase()

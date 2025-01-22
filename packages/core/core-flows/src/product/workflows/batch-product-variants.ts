@@ -19,15 +19,15 @@ import { deleteProductVariantsWorkflow } from "./delete-product-variants"
 /**
  * The product variants to manage.
  */
-export type BatchProductVariantsWorkflowInput = BatchWorkflowInput<
+export interface BatchProductVariantsWorkflowInput extends BatchWorkflowInput<
   CreateProductVariantWorkflowInputDTO,
   UpdateProductVariantWorkflowInputDTO
->
+> {}
 
 /**
  * The result of managing the product variants.
  */
-export type BatchProductVariantsWorkflowOutput = BatchWorkflowOutput<ProductTypes.ProductVariantDTO>
+export interface BatchProductVariantsWorkflowOutput extends BatchWorkflowOutput<ProductTypes.ProductVariantDTO> {}
 
 export const batchProductVariantsWorkflowId = "batch-product-variants"
 /**
@@ -65,6 +65,10 @@ export const batchProductVariantsWorkflowId = "batch-product-variants"
  *     delete: ["variant_321"]
  *   }
  * })
+ * 
+ * @summary
+ * 
+ * Create, update, and delete product variants.
  */
 export const batchProductVariantsWorkflow = createWorkflow(
   batchProductVariantsWorkflowId,

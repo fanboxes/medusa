@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
 
 import { ActionMenu } from "../../../../../components/common/action-menu"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { useAddOrRemoveCampaignPromotions } from "../../../../../hooks/api/campaigns"
 import { usePromotions } from "../../../../../hooks/api/promotions"
 import { usePromotionTableColumns } from "../../../../../hooks/table/columns/use-promotion-table-columns"
@@ -89,7 +89,7 @@ export const CampaignPromotionSection = ({
         </Link>
       </div>
 
-      <DataTable
+      <_DataTable
         table={table}
         columns={columns}
         pageSize={PAGE_SIZE}

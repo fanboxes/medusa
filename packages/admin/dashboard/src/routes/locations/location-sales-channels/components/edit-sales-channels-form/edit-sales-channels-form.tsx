@@ -12,7 +12,7 @@ import {
   RouteFocusModal,
   useRouteModal,
 } from "../../../../../components/modals"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { useSalesChannels } from "../../../../../hooks/api/sales-channels"
 import { useUpdateStockLocationSalesChannels } from "../../../../../hooks/api/stock-locations"
 import { useSalesChannelTableColumns } from "../../../../../hooks/table/columns/use-sales-channel-table-columns"
@@ -137,7 +137,7 @@ export const LocationEditSalesChannelsForm = ({
           </div>
         </RouteFocusModal.Header>
         <RouteFocusModal.Body>
-          <DataTable
+          <_DataTable
             table={table}
             columns={columns}
             pageSize={PAGE_SIZE}

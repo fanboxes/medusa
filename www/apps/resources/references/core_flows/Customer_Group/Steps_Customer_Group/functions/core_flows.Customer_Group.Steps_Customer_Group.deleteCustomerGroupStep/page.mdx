@@ -21,7 +21,9 @@ import { deleteCustomerGroupStep } from "@medusajs/medusa/core-flows"
 const myWorkflow = createWorkflow(
   "my-workflow",
   () => {
-    const data = deleteCustomerGroupStep({})
+    const data = deleteCustomerGroupStep([
+      "{value}"
+    ])
   }
 )
 ```
@@ -29,4 +31,4 @@ const myWorkflow = createWorkflow(
 
 ## Input
 
-<TypeList types={[{"name":"DeleteCustomerGroupsStepInput","type":"[DeleteCustomerGroupsStepInput](../../../../types/core_flows.DeleteCustomerGroupsStepInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"DeleteCustomerGroupsStepInput","type":"`string`[]","description":"The IDs of the customer groups to delete.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteCustomerGroupStep"/>
+<TypeList types={[{"name":"DeleteCustomerGroupsStepInput","type":"[DeleteCustomerGroupsStepInput](../../../../types/core_flows.DeleteCustomerGroupsStepInput/page.mdx)","optional":false,"defaultValue":"","description":"The IDs of the customer groups to delete.","expandable":false,"children":[{"name":"DeleteCustomerGroupsStepInput","type":"`string`[]","description":"The IDs of the customer groups to delete.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteCustomerGroupStep"/>

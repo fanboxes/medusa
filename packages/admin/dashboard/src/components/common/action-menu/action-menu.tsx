@@ -30,11 +30,16 @@ export type ActionGroup = {
 
 type ActionMenuProps = PropsWithChildren<{
   groups: ActionGroup[]
+  variant?: "transparent" | "primary"
 }>
 
-export const ActionMenu = ({ groups, children }: ActionMenuProps) => {
+export const ActionMenu = ({
+  groups,
+  variant = "transparent",
+  children,
+}: ActionMenuProps) => {
   const inner = children ?? (
-    <IconButton size="small" variant="transparent">
+    <IconButton size="small" variant={variant}>
       <EllipsisHorizontal />
     </IconButton>
   )

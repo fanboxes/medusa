@@ -1,7 +1,7 @@
 import { HttpTypes } from "@medusajs/types"
 import { Container, Heading } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { useProducts } from "../../../../../hooks/api"
 import { useProductTableColumns } from "../../../../../hooks/table/columns"
 import { useProductTableFilters } from "../../../../../hooks/table/filters"
@@ -51,7 +51,7 @@ export const ProductTagProductSection = ({
       <div className="px-6 py-4">
         <Heading level="h2">{t("products.domain")}</Heading>
       </div>
-      <DataTable
+      <_DataTable
         table={table}
         filters={filters}
         queryObject={raw}

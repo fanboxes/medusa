@@ -130,6 +130,15 @@ function getReflectionTypeFakeValue({
           })
         }
       }
+
+      // try to retrieve the type from the reflection
+      if (reflectionType.reflection.type) {
+        return getReflectionTypeFakeValue({
+          reflectionType: reflectionType.reflection.type,
+          name,
+          level: level + 1,
+        })
+      }
     }
 
     children.forEach((child) => {

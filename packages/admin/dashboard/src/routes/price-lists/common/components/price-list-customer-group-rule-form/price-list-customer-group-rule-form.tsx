@@ -10,7 +10,7 @@ import { useEffect, useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { StackedDrawer } from "../../../../../components/modals/stacked-drawer"
 import { StackedFocusModal } from "../../../../../components/modals/stacked-focus-modal"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { useCustomerGroups } from "../../../../../hooks/api/customer-groups"
 import { useCustomerGroupTableColumns } from "../../../../../hooks/table/columns/use-customer-group-table-columns"
 import { useCustomerGroupTableFilters } from "../../../../../hooks/table/filters/use-customer-group-table-filters"
@@ -119,7 +119,7 @@ export const PriceListCustomerGroupRuleForm = ({
   return (
     <div className="flex size-full flex-col overflow-hidden">
       <Component.Body className="min-h-0 p-0">
-        <DataTable
+        <_DataTable
           table={table}
           columns={columns}
           pageSize={PAGE_SIZE}

@@ -1,6 +1,7 @@
 ---
 slug: /references/medusa-workflows/updateCartPromotionsWorkflow
 sidebar_label: updateCartPromotionsWorkflow
+sidebar_description: Update a cart's applied promotions to add, replace, or remove them.
 tags:
   - remote query
   - promotion
@@ -21,7 +22,7 @@ that need to be applied to the cart's line items and shipping methods based on t
 
 You can use this workflow within your own customizations or custom workflows, allowing you to update a cart's promotions within your custom flows.
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/cart/workflows/update-cart-promotions.ts#L70" />
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/644c8b9d3022fb4bc4ec6760ee4fed93b92d1b96/packages/core/core-flows/src/cart/workflows/update-cart-promotions.ts#L70" />
 
 ## Examples
 
@@ -147,10 +148,6 @@ const myWorkflow = createWorkflow(
 ## Input
 
 <TypeList types={[{"name":"UpdateCartPromotionsWorkflowInput","type":"[UpdateCartPromotionsWorkflowInput](../../../../types/core_flows.UpdateCartPromotionsWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"The details of the promotion updates on a cart.","expandable":false,"children":[{"name":"cart_id","type":"`string`","description":"The cart's ID.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"promo_codes","type":"`string`[]","description":"The promotion codes to add to the cart, remove from the cart,\nor replace all existing promotions in the cart.","optional":true,"defaultValue":"","expandable":false,"children":[]},{"name":"action","type":"[ADD](../../../../../utils/PromotionUtils/enums/utils.PromotionUtils.PromotionActions/page.mdx#add) \\| [REMOVE](../../../../../utils/PromotionUtils/enums/utils.PromotionUtils.PromotionActions/page.mdx#remove) \\| [REPLACE](../../../../../utils/PromotionUtils/enums/utils.PromotionUtils.PromotionActions/page.mdx#replace)","description":"The action to perform with the specified promotion codes.","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="updateCartPromotionsWorkflow"/>
-
-## Output
-
-<TypeList types={[{"name":"undefined","type":"`undefined`","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"undefined","type":"`undefined`","optional":false,"defaultValue":"","description":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="updateCartPromotionsWorkflow"/>
 
 ## Hooks
 

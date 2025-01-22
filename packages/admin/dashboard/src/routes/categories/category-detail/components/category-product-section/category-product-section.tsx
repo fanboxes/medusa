@@ -14,7 +14,7 @@ import { useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
 
 import { ActionMenu } from "../../../../../components/common/action-menu"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { useUpdateProductCategoryProducts } from "../../../../../hooks/api/categories"
 import { useProducts } from "../../../../../hooks/api/products"
 import { useProductTableColumns } from "../../../../../hooks/table/columns/use-product-table-columns"
@@ -125,7 +125,7 @@ export const CategoryProductSection = ({
           ]}
         />
       </div>
-      <DataTable
+      <_DataTable
         table={table}
         filters={filters}
         columns={columns}

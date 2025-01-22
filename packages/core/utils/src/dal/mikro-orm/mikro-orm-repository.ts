@@ -20,7 +20,7 @@ import {
   LoadStrategy,
   FilterQuery as MikroFilterQuery,
   FindOptions as MikroOptions,
-  ReferenceType,
+  ReferenceKind,
 } from "@mikro-orm/core"
 import { SqlEntityManager } from "@mikro-orm/postgresql"
 import {
@@ -245,24 +245,6 @@ export class MikroOrmBaseRepository<const T extends object = object>
 
     return [entities, softDeletedEntitiesMap]
   }
-
-  applyFreeTextSearchFilters<T>(
-    findOptions: DAL.FindOptions<T & { q?: string }>,
-    retrieveConstraintsToApply: (q: string) => any[]
-  ): void {
-    if (!("q" in findOptions.where) || !findOptions.where.q) {
-      delete findOptions.where.q
-
-      return
-    }
-
-    const q = findOptions.where.q as string
-    delete findOptions.where.q
-
-    findOptions.where = {
-      $and: [findOptions.where, { $or: retrieveConstraintsToApply(q) }],
-    } as unknown as DAL.FindOptions<T & { q?: string }>["where"]
-  }
 }
 
 export class MikroOrmBaseTreeRepository<
@@ -391,7 +373,7 @@ export function mikroOrmBaseRepositoryFactory<const T extends object>(
           const relation = relations.find((relation) => relation.name === key)
           const shouldInit =
             relation &&
-            relation.reference === ReferenceType.MANY_TO_MANY &&
+            relation.kind === ReferenceKind.MANY_TO_MANY &&
             Array.isArray(update[key]) &&
             !update[key].length
 
@@ -434,7 +416,9 @@ export function mikroOrmBaseRepositoryFactory<const T extends object>(
       await this.initManyToManyToDetachAllItemsIfNeeded(data, context)
 
       data.map((_, index) => {
-        manager.assign(data[index].entity, data[index].update)
+        manager.assign(data[index].entity, data[index].update, {
+          mergeObjectProperties: true,
+        })
         manager.persist(data[index].entity)
       })
 
@@ -578,7 +562,7 @@ export function mikroOrmBaseRepositoryFactory<const T extends object>(
         const existingEntity = existingEntitiesMap.get(key)
         if (existingEntity) {
           const updatedType = manager.assign(existingEntity, data_)
-          updatedEntities.push(updatedType)
+          updatedEntities.push(updatedType as any)
         } else {
           const newEntity = manager.create(this.entity, data_)
           createdEntities.push(newEntity as InferRepositoryReturnType<T>)
@@ -698,8 +682,8 @@ export function mikroOrmBaseRepositoryFactory<const T extends object>(
               // TODO: Handle ONE_TO_ONE
               // One to one and Many to one are handled outside of the assignment as they need to happen before the main entity is created
               if (
-                relation.reference === ReferenceType.ONE_TO_ONE ||
-                relation.reference === ReferenceType.MANY_TO_ONE
+                relation.kind === ReferenceKind.ONE_TO_ONE ||
+                relation.kind === ReferenceKind.MANY_TO_ONE
               ) {
                 return
               }
@@ -765,7 +749,7 @@ export function mikroOrmBaseRepositoryFactory<const T extends object>(
         return this.getEntityWithId(manager, relation.type, normalizedItem)
       })
 
-      if (relation.reference === ReferenceType.MANY_TO_MANY) {
+      if (relation.kind === ReferenceKind.MANY_TO_MANY) {
         const currentPivotColumn = relation.inverseJoinColumns[0]
         const parentPivotColumn = relation.joinColumns[0]
 
@@ -805,7 +789,7 @@ export function mikroOrmBaseRepositoryFactory<const T extends object>(
         return { entities: normalizedData, performedActions }
       }
 
-      if (relation.reference === ReferenceType.ONE_TO_MANY) {
+      if (relation.kind === ReferenceKind.ONE_TO_MANY) {
         const joinColumns =
           relation.targetMeta?.properties[relation.mappedBy]?.joinColumns
 
@@ -815,7 +799,7 @@ export function mikroOrmBaseRepositoryFactory<const T extends object>(
           joinColumnsConstraints[joinColumn] = data[referencedColumnName]
         })
 
-        const toDeleteEntities = await manager.find<any>(
+        const toDeleteEntities = await manager.find<any, any, "id">(
           relation.type,
           {
             ...joinColumnsConstraints,
@@ -869,7 +853,7 @@ export function mikroOrmBaseRepositoryFactory<const T extends object>(
       }
 
       // If it is a many-to-one we ensure the ID is set for when we want to set/unset an association
-      if (relation.reference === ReferenceType.MANY_TO_ONE) {
+      if (relation.kind === ReferenceKind.MANY_TO_ONE) {
         if (originalData === null) {
           entryCopy[relation.joinColumns[0]] = null
           return null
@@ -927,7 +911,7 @@ export function mikroOrmBaseRepositoryFactory<const T extends object>(
         .filter(
           ([_, propDef]: any) =>
             propDef.persist === false &&
-            propDef.reference === ReferenceType.MANY_TO_ONE
+            propDef.kind === ReferenceKind.MANY_TO_ONE
         )
         .forEach(([key]) => {
           delete resp[key]

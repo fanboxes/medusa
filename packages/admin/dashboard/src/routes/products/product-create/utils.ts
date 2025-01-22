@@ -58,6 +58,7 @@ export const normalizeVariants = (
     sku: variant.sku || undefined,
     manage_inventory: !!variant.manage_inventory,
     allow_backorder: !!variant.allow_backorder,
+    variant_rank: variant.variant_rank,
     inventory_items: variant
       .inventory!.map((i) => {
         const quantity = i.required_quantity

@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
 
 import { ActionMenu } from "../../../../../components/common/action-menu"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { useDeleteRegion, useRegions } from "../../../../../hooks/api/regions"
 import { useRegionTableColumns } from "../../../../../hooks/table/columns/use-region-table-columns"
 import { useRegionTableFilters } from "../../../../../hooks/table/filters/use-region-table-filters"
@@ -76,7 +76,7 @@ export const RegionListTable = () => {
         </Link>
       </div>
 
-      <DataTable
+      <_DataTable
         table={table}
         columns={columns}
         count={count}

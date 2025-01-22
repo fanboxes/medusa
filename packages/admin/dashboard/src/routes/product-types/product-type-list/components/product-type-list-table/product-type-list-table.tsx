@@ -6,7 +6,7 @@ import { useMemo } from "react"
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
 
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { useProductTypes } from "../../../../../hooks/api/product-types"
 import { useProductTypeTableColumns } from "../../../../../hooks/table/columns/use-product-type-table-columns"
 import { useProductTypeTableFilters } from "../../../../../hooks/table/filters/use-product-type-table-filters"
@@ -57,7 +57,7 @@ export const ProductTypeListTable = () => {
           <Link to="create">{t("actions.create")}</Link>
         </Button>
       </div>
-      <DataTable
+      <_DataTable
         table={table}
         filters={filters}
         isLoading={isLoading}

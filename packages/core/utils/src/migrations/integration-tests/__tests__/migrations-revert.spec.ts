@@ -1,13 +1,13 @@
-import { join } from "path"
-import { MikroORM } from "@mikro-orm/postgresql"
 import { MetadataStorage } from "@mikro-orm/core"
-import { createDatabase, dropDatabase } from "pg-god"
 import { TSMigrationGenerator } from "@mikro-orm/migrations"
+import { MikroORM } from "@mikro-orm/postgresql"
+import { join } from "path"
+import { createDatabase, dropDatabase } from "pg-god"
 
-import { model } from "../../../dml"
 import { FileSystem } from "../../../common"
-import { Migrations, MigrationsEvents } from "../../index"
+import { model } from "../../../dml"
 import { defineMikroOrmCliConfig } from "../../../modules-sdk"
+import { Migrations, MigrationsEvents } from "../../index"
 
 const DB_HOST = process.env.DB_HOST ?? "localhost"
 const DB_USERNAME = process.env.DB_USERNAME ?? ""
@@ -22,8 +22,8 @@ const migrationFileNameGenerator = (_: string, name?: string) => {
 }
 
 const pgGodCredentials = {
-  user: DB_USERNAME,
-  password: DB_PASSWORD,
+  user: DB_USERNAME ?? "postgres",
+  password: DB_PASSWORD ?? "",
   host: DB_HOST,
 }
 

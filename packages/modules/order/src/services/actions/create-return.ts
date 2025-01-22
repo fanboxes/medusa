@@ -11,11 +11,12 @@ import {
   isDefined,
   isString,
   promiseAll,
+  toMikroORMEntity,
 } from "@medusajs/framework/utils"
 import { Return, ReturnItem } from "@models"
 
 function createReturnReference(em, data, order) {
-  return em.create(Return, {
+  return em.create(toMikroORMEntity(Return), {
     order_id: data.order_id,
     order_version: order.version,
     status: ReturnStatus.REQUESTED,
@@ -39,7 +40,7 @@ function createReturnItems(em, data, returnRef, actions) {
       },
     })
 
-    return em.create(ReturnItem, {
+    return em.create(toMikroORMEntity(ReturnItem), {
       reason_id: item.reason_id,
       return_id: returnRef.id,
       item_id: item.id,

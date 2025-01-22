@@ -9,7 +9,7 @@ import {
 import { useMemo, useState } from "react"
 import { UseFormReturn, useWatch } from "react-hook-form"
 import { useTranslation } from "react-i18next"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { useProducts } from "../../../../../hooks/api/products"
 import { useProductTableColumns } from "../../../../../hooks/table/columns/use-product-table-columns"
 import { useProductTableFilters } from "../../../../../hooks/table/filters/use-product-table-filters"
@@ -136,7 +136,7 @@ export const PriceListPricesAddProductIdsForm = ({
 
   return (
     <div className="flex size-full flex-col">
-      <DataTable
+      <_DataTable
         table={table}
         columns={columns}
         filters={filters}

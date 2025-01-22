@@ -10,7 +10,6 @@ import {
 import { AbstractEventBusModuleService } from "@medusajs/framework/utils"
 import { EventEmitter } from "events"
 import { setTimeout } from "timers/promises"
-import { ulid } from "ulid"
 
 type InjectedDependencies = {
   logger: Logger
@@ -133,13 +132,13 @@ export default class LocalEventBusService extends AbstractEventBusModuleService 
     this.groupedEventsMap_.delete(eventGroupId)
   }
 
-  subscribe(event: string | symbol, subscriber: Subscriber): this {
-    if (!this.isWorkerMode) {
-      return this
-    }
+  subscribe(
+    event: string | symbol,
+    subscriber: Subscriber,
+    context?: EventBusTypes.SubscriberContext
+  ): this {
+    super.subscribe(event, subscriber, context)
 
-    const randId = ulid()
-    this.storeSubscribers({ event, subscriberId: randId, subscriber })
     this.eventEmitter_.on(event, async (data: Event) => {
       try {
         await subscriber(data)
@@ -150,29 +149,16 @@ export default class LocalEventBusService extends AbstractEventBusModuleService 
         this.logger_?.error(err)
       }
     })
+
     return this
   }
 
   unsubscribe(
     event: string | symbol,
     subscriber: Subscriber,
-    context?: EventBusTypes.SubscriberContext
+    context: EventBusTypes.SubscriberContext
   ): this {
-    if (!this.isWorkerMode) {
-      return this
-    }
-
-    const existingSubscribers = this.eventToSubscribersMap_.get(event)
-
-    if (existingSubscribers?.length) {
-      const subIndex = existingSubscribers?.findIndex(
-        (sub) => sub.id === context?.subscriberId
-      )
-
-      if (subIndex !== -1) {
-        this.eventToSubscribersMap_.get(event)?.splice(subIndex as number, 1)
-      }
-    }
+    super.unsubscribe(event, subscriber, context)
 
     this.eventEmitter_.off(event, subscriber)
     return this

@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router-dom"
 
 import { ActionMenu } from "../../../../../components/common/action-menu"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { usePriceListLinkProducts } from "../../../../../hooks/api/price-lists"
 import { useProducts } from "../../../../../hooks/api/products"
 import { useProductTableColumns } from "../../../../../hooks/table/columns/use-product-table-columns"
@@ -133,7 +133,7 @@ export const PriceListProductSection = ({
           ]}
         />
       </div>
-      <DataTable
+      <_DataTable
         table={table}
         filters={filters}
         columns={columns}

@@ -62,7 +62,7 @@ async function getEntitiesForModule(path: string) {
   const entities = [] as any[]
 
   const entityPaths = glob.sync(join(path, "models", "*.ts"), {
-    ignore: ["**/index.{js,ts}"],
+    ignore: ["**/index.{js,ts}", "**/*.d.ts"],
   })
 
   for (const entityPath of entityPaths) {

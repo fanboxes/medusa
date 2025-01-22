@@ -1,6 +1,7 @@
 ---
 slug: /references/medusa-workflows/deleteReservationsByLineItemsWorkflow
 sidebar_label: deleteReservationsByLineItemsWorkflow
+sidebar_description: Delete reservations by their associated line items.
 tags:
   - inventory
   - workflow
@@ -14,7 +15,10 @@ This documentation provides a reference to the `deleteReservationsByLineItemsWor
 
 This workflow deletes reservations by their associated line items.
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/2f7ec55f2e37df2696c8c1d639f727fcdfd8d9e6/packages/core/core-flows/src/reservation/workflows/delete-reservations-by-line-items.ts#L12" />
+You can use this workflow within your own customizations or custom workflows, allowing you
+to delete reservations by their associated line items within your custom flows.
+
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/644c8b9d3022fb4bc4ec6760ee4fed93b92d1b96/packages/core/core-flows/src/reservation/workflows/delete-reservations-by-line-items.ts#L35" />
 
 ## Examples
 
@@ -35,9 +39,7 @@ export async function POST(
   const { result } = await deleteReservationsByLineItemsWorkflow(req.scope)
     .run({
       input: {
-        "ids": [
-          "id_Z52shmeQVtAbH0Nr"
-        ]
+        ids: ["orli_123"]
       }
     })
 
@@ -62,9 +64,7 @@ export default async function handleOrderPlaced({
   const { result } = await deleteReservationsByLineItemsWorkflow(container)
     .run({
       input: {
-        "ids": [
-          "id_Z52shmeQVtAbH0Nr"
-        ]
+        ids: ["orli_123"]
       }
     })
 
@@ -89,9 +89,7 @@ export default async function myCustomJob(
   const { result } = await deleteReservationsByLineItemsWorkflow(container)
     .run({
       input: {
-        "ids": [
-          "id_Z52shmeQVtAbH0Nr"
-        ]
+        ids: ["orli_123"]
       }
     })
 
@@ -117,9 +115,7 @@ const myWorkflow = createWorkflow(
     const result = deleteReservationsByLineItemsWorkflow
       .runAsStep({
         input: {
-          "ids": [
-            "id_Z52shmeQVtAbH0Nr"
-          ]
+          ids: ["orli_123"]
         }
       })
   }
@@ -135,4 +131,4 @@ const myWorkflow = createWorkflow(
 
 ## Input
 
-<TypeList types={[{"name":"DeleteReservationByLineItemsWorkflowInput","type":"[DeleteReservationByLineItemsWorkflowInput](../../../../types/core_flows.DeleteReservationByLineItemsWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"ids","type":"`string`[]","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteReservationsByLineItemsWorkflow"/>
+<TypeList types={[{"name":"DeleteReservationByLineItemsWorkflowInput","type":"[DeleteReservationByLineItemsWorkflowInput](../../../../types/core_flows.DeleteReservationByLineItemsWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"The data to delete reservations by their associated line items.","expandable":false,"children":[{"name":"ids","type":"`string`[]","description":"The IDs of the line items to delete reservations for.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteReservationsByLineItemsWorkflow"/>

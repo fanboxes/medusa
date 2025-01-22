@@ -21,7 +21,9 @@ import { deleteStockLocationsStep } from "@medusajs/medusa/core-flows"
 const myWorkflow = createWorkflow(
   "my-workflow",
   () => {
-    const data = deleteStockLocationsStep({})
+    const data = deleteStockLocationsStep([
+      "{value}"
+    ])
   }
 )
 ```
@@ -29,8 +31,8 @@ const myWorkflow = createWorkflow(
 
 ## Input
 
-<TypeList types={[{"name":"DeleteStockLocationsStepInput","type":"[DeleteStockLocationsStepInput](../../../../types/core_flows.DeleteStockLocationsStepInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"DeleteStockLocationsStepInput","type":"`string`[]","description":"The IDs of stock locations to delete.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteStockLocationsStep"/>
+<TypeList types={[{"name":"DeleteStockLocationsStepInput","type":"[DeleteStockLocationsStepInput](../../../../types/core_flows.DeleteStockLocationsStepInput/page.mdx)","optional":false,"defaultValue":"","description":"The IDs of stock locations to delete.","expandable":false,"children":[{"name":"DeleteStockLocationsStepInput","type":"`string`[]","description":"The IDs of stock locations to delete.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteStockLocationsStep"/>
 
 ## Output
 
-<TypeList types={[{"name":"DeleteEntityInput","type":"[DeleteEntityInput](../../../../../modules_sdk/types/modules_sdk.DeleteEntityInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"DeleteEntityInput","type":"`object`","description":"The details of a data model's record whose linked records should be deleted. Usually used after the\ndata model's record is deleted.\n\nThe key is the data model's name. Its value is an object that has the ID of the data model's record.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteStockLocationsStep"/>
+<TypeList types={[{"name":"DeleteEntityInput","type":"[DeleteEntityInput](../../../../../modules_sdk/types/modules_sdk.DeleteEntityInput/page.mdx)","optional":false,"defaultValue":"","description":"The details of a data model's record whose linked records should be deleted. Usually used after the\ndata model's record is deleted.\n\nThe key is the data model's name. Its value is an object that has the ID of the data model's record.","expandable":false,"children":[{"name":"DeleteEntityInput","type":"`object`","description":"The details of a data model's record whose linked records should be deleted. Usually used after the\ndata model's record is deleted.\n\nThe key is the data model's name. Its value is an object that has the ID of the data model's record.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="deleteStockLocationsStep"/>

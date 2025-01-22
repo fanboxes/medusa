@@ -49,6 +49,10 @@ export const createOrUpdateOrderPaymentCollectionWorkflowId =
  *     amount: 20
  *   }
  * })
+ * 
+ * @summary
+ * 
+ * Create or update payment collection for an order.
  */
 export const createOrUpdateOrderPaymentCollectionWorkflow = createWorkflow(
   createOrUpdateOrderPaymentCollectionWorkflowId,

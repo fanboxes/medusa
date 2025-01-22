@@ -3,16 +3,16 @@ import {
   updateReturnShippingMethodWorkflow,
 } from "@medusajs/core-flows"
 import {
-  ContainerRegistrationKeys,
-  remoteQueryObjectFromString,
-} from "@medusajs/framework/utils"
-import {
   AuthenticatedMedusaRequest,
   MedusaResponse,
 } from "@medusajs/framework/http"
+import { HttpTypes } from "@medusajs/framework/types"
+import {
+  ContainerRegistrationKeys,
+  remoteQueryObjectFromString,
+} from "@medusajs/framework/utils"
 import { defaultAdminDetailsReturnFields } from "../../../../../returns/query-config"
 import { AdminPostClaimsShippingActionReqSchemaType } from "../../../../validators"
-import { HttpTypes } from "@medusajs/framework/types"
 
 export const POST = async (
   req: AuthenticatedMedusaRequest<AdminPostClaimsShippingActionReqSchemaType>,
@@ -28,7 +28,7 @@ export const POST = async (
       variables: {
         id,
       },
-      fields: ["return_id"],
+      fields: ["id", "return_id"],
     }),
     {
       throwIfKeyNotFound: true,

@@ -1,7 +1,7 @@
 import { CustomTsMigrationGenerator } from "../mikro-orm-create-connection"
 
 function unwrapSql(sql: string) {
-  return sql.match(/this.addSql\('(.*?)'\)/)?.[1]
+  return sql.toString().match(/this.addSql\(`(.*?)`\)/)?.[1]
 }
 
 describe("CustomTsMigrationGenerator", () => {

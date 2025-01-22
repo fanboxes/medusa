@@ -23,6 +23,7 @@ export async function getSidebarItemLink({
         frontmatter.slug ||
         filePath.replace(basePath, "").replace(`/${fileBasename}`, ""),
       title: frontmatter.sidebar_label || findPageTitle(filePath) || "",
+      description: frontmatter.sidebar_description || "",
     },
   ])[0] as InteractiveSidebarItem
 

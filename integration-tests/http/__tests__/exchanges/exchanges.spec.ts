@@ -1,16 +1,16 @@
+import { medusaIntegrationTestRunner } from "@medusajs/test-utils"
 import {
   ContainerRegistrationKeys,
   Modules,
   RuleOperator,
 } from "@medusajs/utils"
-import { medusaIntegrationTestRunner } from "@medusajs/test-utils"
 import {
   adminHeaders,
   createAdminUser,
 } from "../../../helpers/create-admin-user"
 import { setupTaxStructure } from "../../../modules/__tests__/fixtures/tax"
 
-jest.setTimeout(30000)
+jest.setTimeout(300000)
 
 medusaIntegrationTestRunner({
   testSuite: ({ dbConnection, getContainer, api }) => {

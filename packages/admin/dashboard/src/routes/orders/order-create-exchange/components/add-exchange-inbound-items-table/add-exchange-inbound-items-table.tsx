@@ -3,7 +3,7 @@ import { OnChangeFn, RowSelectionState } from "@tanstack/react-table"
 import { useMemo, useState } from "react"
 
 import { useTranslation } from "react-i18next"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { useDataTable } from "../../../../../hooks/use-data-table"
 import { getReturnableQuantity } from "../../../../../lib/rma"
 import { useExchangeItemTableColumns } from "./use-exchange-item-table-columns"
@@ -102,7 +102,7 @@ export const AddExchangeInboundItemsTable = ({
 
   return (
     <div className="flex size-full flex-col overflow-hidden">
-      <DataTable
+      <_DataTable
         table={table}
         columns={columns}
         pageSize={PAGE_SIZE}

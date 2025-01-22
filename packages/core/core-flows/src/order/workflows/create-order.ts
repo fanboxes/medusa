@@ -228,7 +228,6 @@ export const createOrderWorkflow = createWorkflow(
 )
 
 /**
- * @deprecated
- * Instead use the singular name "createOrderWorkflow"
+ * @deprecated Instead use the singular name `createOrderWorkflow`.
  */
 export const createOrdersWorkflow = createOrderWorkflow

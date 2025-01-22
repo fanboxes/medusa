@@ -1,5 +1,19 @@
 # @medusajs/framework
 
+## 2.3.1
+
+### Patch Changes
+
+- [#11049](https://github.com/medusajs/medusa/pull/11049) [`171088b47a58929f1ffbc610855a0032b947c43c`](https://github.com/medusajs/medusa/commit/171088b47a58929f1ffbc610855a0032b947c43c) Thanks [@thetutlage](https://github.com/thetutlage)! - fix: missing dependencies in the framework package
+
+- Updated dependencies []:
+  - @medusajs/modules-sdk@2.3.1
+  - @medusajs/orchestration@2.3.1
+  - @medusajs/types@2.3.1
+  - @medusajs/utils@2.3.1
+  - @medusajs/workflows-sdk@2.3.1
+  - @medusajs/telemetry@2.3.1
+
 ## 2.3.0
 
 ### Patch Changes

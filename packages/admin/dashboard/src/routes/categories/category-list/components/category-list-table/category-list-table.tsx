@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next"
 
 import { Link } from "react-router-dom"
 import { ActionMenu } from "../../../../../components/common/action-menu"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { useProductCategories } from "../../../../../hooks/api/categories"
 import { useDataTable } from "../../../../../hooks/use-data-table"
 import { useDeleteProductCategoryAction } from "../../../common/hooks/use-delete-product-category-action"
@@ -84,7 +84,7 @@ export const CategoryListTable = () => {
           </Button>
         </div>
       </div>
-      <DataTable
+      <_DataTable
         table={table}
         columns={columns}
         count={count}

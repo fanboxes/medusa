@@ -21,7 +21,9 @@ import { removePriceListPricesStep } from "@medusajs/medusa/core-flows"
 const myWorkflow = createWorkflow(
   "my-workflow",
   () => {
-    const data = removePriceListPricesStep({})
+    const data = removePriceListPricesStep([
+      "{value}"
+    ])
   }
 )
 ```
@@ -29,7 +31,7 @@ const myWorkflow = createWorkflow(
 
 ## Input
 
-<TypeList types={[{"name":"RemovePriceListPricesStepInput","type":"[RemovePriceListPricesStepInput](../../../../types/core_flows.RemovePriceListPricesStepInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"RemovePriceListPricesStepInput","type":"`string`[]","description":"The IDs of price lists to remove their prices.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="removePriceListPricesStep"/>
+<TypeList types={[{"name":"RemovePriceListPricesStepInput","type":"[RemovePriceListPricesStepInput](../../../../types/core_flows.RemovePriceListPricesStepInput/page.mdx)","optional":false,"defaultValue":"","description":"The IDs of price lists to remove their prices.","expandable":false,"children":[{"name":"RemovePriceListPricesStepInput","type":"`string`[]","description":"The IDs of price lists to remove their prices.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="removePriceListPricesStep"/>
 
 ## Output
 

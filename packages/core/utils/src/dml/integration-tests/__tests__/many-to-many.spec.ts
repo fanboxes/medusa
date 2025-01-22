@@ -1,15 +1,16 @@
-import { join } from "path"
+import { EntityConstructor } from "@medusajs/types"
 import { MetadataStorage, MikroORM } from "@mikro-orm/core"
+import { defineConfig } from "@mikro-orm/postgresql"
+import { join } from "path"
+import { createDatabase, dropDatabase } from "pg-god"
+import { FileSystem } from "../../../common"
+import { CustomTsMigrationGenerator, mikroOrmSerializer } from "../../../dal"
 import { model } from "../../entity-builder"
 import {
   mikroORMEntityBuilder,
   toMikroOrmEntities,
 } from "../../helpers/create-mikro-orm-entity"
-import { createDatabase, dropDatabase } from "pg-god"
-import { CustomTsMigrationGenerator, mikroOrmSerializer } from "../../../dal"
-import { EntityConstructor } from "@medusajs/types"
 import { pgGodCredentials } from "../utils"
-import { FileSystem } from "../../../common"
 
 jest.setTimeout(30000)
 
@@ -62,19 +63,20 @@ describe("manyToMany - manyToMany", () => {
 
     await createDatabase({ databaseName: dbName }, pgGodCredentials)
 
-    orm = await MikroORM.init({
-      entities: [Team, User, Squad],
-      tsNode: true,
-      dbName,
-      password: pgGodCredentials.password,
-      host: pgGodCredentials.host,
-      user: pgGodCredentials.user,
-      type: "postgresql",
-      migrations: {
-        generator: CustomTsMigrationGenerator,
-        path: fileSystem.basePath,
-      },
-    })
+    orm = await MikroORM.init(
+      defineConfig({
+        entities: [Team, User, Squad],
+        tsNode: true,
+        dbName,
+        password: pgGodCredentials.password,
+        host: pgGodCredentials.host,
+        user: pgGodCredentials.user,
+        migrations: {
+          generator: CustomTsMigrationGenerator,
+          path: fileSystem.basePath,
+        },
+      })
+    )
 
     const migrator = orm.getMigrator()
     await migrator.createMigration()

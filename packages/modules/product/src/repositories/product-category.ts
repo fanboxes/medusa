@@ -527,7 +527,10 @@ export class ProductCategoryRepository extends DALUtils.MikroOrmBaseTreeReposito
               const newMpath = `${newBaseMpath}.${category.id}`
               category.mpath = newMpath
               for (let child of category.category_children) {
-                child = manager.getReference(ProductCategory.name, child.id)
+                child = manager.getReference(
+                  ProductCategory.name,
+                  child.id
+                ) as any
                 manager.assign(
                   child,
                   categoryDataChildrenMap.get(child.id) ?? {}

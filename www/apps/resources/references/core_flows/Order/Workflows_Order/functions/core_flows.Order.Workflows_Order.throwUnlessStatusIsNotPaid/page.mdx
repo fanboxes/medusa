@@ -1,6 +1,7 @@
 ---
 slug: /references/medusa-workflows/throwUnlessStatusIsNotPaid
 sidebar_label: throwUnlessStatusIsNotPaid
+sidebar_description: ""
 tags:
   - step
 ---
@@ -22,15 +23,15 @@ const myWorkflow = createWorkflow(
   () => {
     const data = throwUnlessStatusIsNotPaid({
       "paymentCollection": {
-        "id": "id_Rq0Bontd28jw0CTGx",
-        "currency_code": "lyd",
+        "id": "id_iq2k3xpLQD",
+        "currency_code": "mnt",
         "amount": {
-          "numeric": 1
+          "numeric": 25
         },
-        "status": "authorized",
+        "status": "partially_authorized",
         "payment_providers": [{
-          "id": "id_en43MQn0Ur",
-          "is_enabled": true
+          "id": "id_ScTxDSRo1ZTRJ",
+          "is_enabled": false
         }]
       }
     })

@@ -10,11 +10,12 @@ import {
   getShippingMethodsTotals,
   isString,
   promiseAll,
+  toMikroORMEntity,
 } from "@medusajs/framework/utils"
 import { OrderExchange, OrderExchangeItem, Return, ReturnItem } from "@models"
 
 function createExchangeAndReturnEntities(em, data, order) {
-  const exchangeReference = em.create(OrderExchange, {
+  const exchangeReference = em.create(toMikroORMEntity(OrderExchange), {
     order_id: data.order_id,
     order_version: order.version,
     no_notification: data.no_notification,
@@ -22,7 +23,7 @@ function createExchangeAndReturnEntities(em, data, order) {
     difference_due: data.difference_due,
   })
 
-  const returnReference = em.create(Return, {
+  const returnReference = em.create(toMikroORMEntity(Return), {
     order_id: data.order_id,
     order_version: order.version,
     status: ReturnStatus.REQUESTED,
@@ -30,7 +31,7 @@ function createExchangeAndReturnEntities(em, data, order) {
     refund_amount: (data.refund_amount as unknown) ?? null,
   })
 
-  exchangeReference.return_id = returnReference.id
+  exchangeReference.return = returnReference
 
   return { exchangeReference, returnReference }
 }
@@ -54,7 +55,7 @@ function createReturnItems(
       },
     })
 
-    return em.create(ReturnItem, {
+    return em.create(toMikroORMEntity(ReturnItem), {
       item_id: item.id,
       return_id: returnReference.id,
       reason: item.reason,
@@ -75,8 +76,8 @@ async function processAdditionalItems(
   sharedContext
 ) {
   const itemsToAdd: any[] = []
-  const additionalNewItems: OrderExchangeItem[] = []
-  const additionalItems: OrderExchangeItem[] = []
+  const additionalNewItems: any[] = []
+  const additionalItems: any[] = []
   data.additional_items?.forEach((item) => {
     const hasItem = item.id
       ? order.items.find((o) => o.item.id === item.id)
@@ -98,7 +99,7 @@ async function processAdditionalItems(
       })
 
       additionalItems.push(
-        em.create(OrderExchangeItem, {
+        em.create(toMikroORMEntity(OrderExchangeItem), {
           item_id: item.id,
           quantity: item.quantity,
           note: item.note,
@@ -110,7 +111,7 @@ async function processAdditionalItems(
       itemsToAdd.push(item)
 
       additionalNewItems.push(
-        em.create(OrderExchangeItem, {
+        em.create(toMikroORMEntity(OrderExchangeItem), {
           quantity: item.quantity,
           unit_price: item.unit_price,
           note: item.note,
@@ -313,6 +314,5 @@ export async function createExchange(
     this.createOrderExchanges([exchangeReference], sharedContext),
     this.confirmOrderChange(change[0].id, sharedContext),
   ])
-
   return exchangeReference
 }

@@ -15,7 +15,7 @@ properties:
     title: variant_id
     description: The associated product variant's ID.
   variant:
-    $ref: ./AdminProductVariant.yaml
+    type: object
   inventory_item_id:
     type: string
     title: inventory_item_id

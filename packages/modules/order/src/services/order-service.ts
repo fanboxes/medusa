@@ -2,6 +2,7 @@ import {
   Context,
   DAL,
   FindConfig,
+  InferEntityType,
   OrderTypes,
   RepositoryService,
 } from "@medusajs/framework/types"
@@ -19,9 +20,11 @@ type InjectedDependencies = {
 
 export default class OrderService extends ModulesSdkUtils.MedusaInternalService<
   InjectedDependencies,
-  Order
+  InferEntityType<typeof Order>
 >(Order) {
-  protected readonly orderRepository_: RepositoryService<Order>
+  protected readonly orderRepository_: RepositoryService<
+    InferEntityType<typeof Order>
+  >
 
   constructor(container: InjectedDependencies) {
     // @ts-ignore
@@ -35,10 +38,10 @@ export default class OrderService extends ModulesSdkUtils.MedusaInternalService<
     version: number,
     config: FindConfig<TEntityMethod> = {},
     @MedusaContext() sharedContext: Context = {}
-  ): Promise<Order> {
-    const queryConfig = ModulesSdkUtils.buildQuery<Order>(
+  ): Promise<typeof Order> {
+    const queryConfig = ModulesSdkUtils.buildQuery<typeof Order>(
       { id, items: { version } },
-      { ...config, take: 1 }
+      { ...config, take: 1 } as any
     )
     const [result] = await this.orderRepository_.find(
       queryConfig,

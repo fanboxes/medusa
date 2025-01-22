@@ -9,11 +9,11 @@ import {
   toast,
   usePrompt,
 } from "@medusajs/ui"
-import { format } from "date-fns"
 import { useTranslation } from "react-i18next"
 import { isPresent } from "../../../../../../../../core/utils/src/common/is-present"
 import { ActionMenu } from "../../../../../components/common/action-menu"
 import { useCancelOrder } from "../../../../../hooks/api/orders"
+import { useDate } from "../../../../../hooks/use-date"
 import {
   getCanceledOrderStatus,
   getOrderFulfillmentStatus,
@@ -27,6 +27,7 @@ type OrderGeneralSectionProps = {
 export const OrderGeneralSection = ({ order }: OrderGeneralSectionProps) => {
   const { t } = useTranslation()
   const prompt = usePrompt()
+  const { getFullDate } = useDate()
 
   const { mutateAsync: cancelOrder } = useCancelOrder(order.id)
 
@@ -63,7 +64,7 @@ export const OrderGeneralSection = ({ order }: OrderGeneralSectionProps) => {
         </div>
         <Text size="small" className="text-ui-fg-subtle">
           {t("orders.onDateFromSalesChannel", {
-            date: format(new Date(order.created_at), "dd MMM, yyyy, HH:mm:ss"),
+            date: getFullDate({ date: order.created_at, includeTime: true }),
             salesChannel: order.sales_channel?.name,
           })}
         </Text>

@@ -4,6 +4,7 @@ import {
   Context,
   CreateCaptureDTO,
   CreatePaymentCollectionDTO,
+  CreatePaymentMethodDTO,
   CreatePaymentSessionDTO,
   CreateRefundDTO,
   DAL,
@@ -914,10 +915,16 @@ export default class PaymentModuleService
     config: FindConfig<PaymentMethodDTO> = {},
     @MedusaContext() sharedContext?: Context
   ): Promise<PaymentMethodDTO[]> {
-    return await this.paymentProviderService_.listPaymentMethods(
+    const res = await this.paymentProviderService_.listPaymentMethods(
       filters.provider_id,
       filters.context
     )
+
+    return res.map((item) => ({
+      id: item.id,
+      data: item.data,
+      provider_id: filters.provider_id,
+    }))
   }
 
   @InjectManager()
@@ -932,7 +939,48 @@ export default class PaymentModuleService
         filters.context
       )
 
-    return [paymentMethods, paymentMethods.length]
+    const normalizedResponse = paymentMethods.map((item) => ({
+      id: item.id,
+      data: item.data,
+      provider_id: filters.provider_id,
+    }))
+
+    return [normalizedResponse, paymentMethods.length]
+  }
+
+  // @ts-ignore
+  createPaymentMethods(
+    data: CreatePaymentCollectionDTO,
+    sharedContext?: Context
+  ): Promise<PaymentCollectionDTO>
+
+  createPaymentMethods(
+    data: CreatePaymentMethodDTO[],
+    sharedContext?: Context
+  ): Promise<PaymentMethodDTO[]>
+  @InjectManager()
+  async createPaymentMethods(
+    data: CreatePaymentMethodDTO | CreatePaymentMethodDTO[],
+    @MedusaContext() sharedContext?: Context
+  ): Promise<PaymentMethodDTO | PaymentMethodDTO[]> {
+    const input = Array.isArray(data) ? data : [data]
+
+    const result = await promiseAll(
+      input.map((item) =>
+        this.paymentProviderService_.savePaymentMethod(item.provider_id, item)
+      ),
+      { aggregateErrors: true }
+    )
+
+    const normalizedResponse = result.map((item, i) => {
+      return {
+        id: item.id,
+        data: item.data,
+        provider_id: input[i].provider_id,
+      }
+    })
+
+    return Array.isArray(data) ? normalizedResponse : normalizedResponse[0]
   }
 
   @InjectManager()

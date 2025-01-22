@@ -627,7 +627,7 @@ moduleIntegrationTestRunner<IOrderModuleService>({
             "items.detail.return_received_quantity",
             "shipping_methods.id",
           ],
-          relations: ["items", "items.detail"],
+          relations: ["items", "items.detail", "shipping_methods"],
         })
 
         serializedOrder = JSON.parse(JSON.stringify(getOrder))

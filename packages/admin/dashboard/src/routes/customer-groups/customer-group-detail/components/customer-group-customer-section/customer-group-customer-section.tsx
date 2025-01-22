@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
 
 import { ActionMenu } from "../../../../../components/common/action-menu"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { useRemoveCustomersFromGroup } from "../../../../../hooks/api/customer-groups"
 import { useCustomers } from "../../../../../hooks/api/customers"
 import { useCustomerTableColumns } from "../../../../../hooks/table/columns/use-customer-table-columns"
@@ -95,7 +95,7 @@ export const CustomerGroupCustomerSection = ({
           </Button>
         </Link>
       </div>
-      <DataTable
+      <_DataTable
         table={table}
         columns={columns}
         pageSize={PAGE_SIZE}

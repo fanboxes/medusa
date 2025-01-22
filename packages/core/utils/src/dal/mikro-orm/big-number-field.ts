@@ -26,20 +26,24 @@ export function MikroOrmBigNumberProperty(
       set(value: BigNumberInput) {
         if (options?.nullable && !isPresent(value)) {
           this.__helper.__data[columnName] = null
-          this.__helper.__data[rawColumnName]
+          this.__helper.__data[rawColumnName] = null
           this[rawColumnName] = null
         } else {
           let bigNumber: BigNumber
 
-          if (value instanceof BigNumber) {
-            bigNumber = value
-          } else if (this[rawColumnName]) {
-            const precision = this[rawColumnName].precision
-            bigNumber = new BigNumber(value, {
-              precision,
-            })
-          } else {
-            bigNumber = new BigNumber(value)
+          try {
+            if (value instanceof BigNumber) {
+              bigNumber = value
+            } else if (this[rawColumnName]) {
+              const precision = this[rawColumnName].precision
+              bigNumber = new BigNumber(value, {
+                precision,
+              })
+            } else {
+              bigNumber = new BigNumber(value)
+            }
+          } catch (e) {
+            throw new Error(`Cannot set value ${value} for ${columnName}.`)
           }
 
           const raw = bigNumber.raw!
@@ -80,6 +84,7 @@ export function MikroOrmBigNumberProperty(
       type: "any",
       columnType: "numeric",
       trackChanges: false,
+      runtimeType: "any",
       ...options,
     })(target, columnName)
   }

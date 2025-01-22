@@ -6,7 +6,7 @@ import { createColumnHelper } from "@tanstack/react-table"
 import { useMemo } from "react"
 import { useTranslation } from "react-i18next"
 import { ActionMenu } from "../../../../../components/common/action-menu"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { useUpdateCollectionProducts } from "../../../../../hooks/api/collections"
 import { useProducts } from "../../../../../hooks/api/products"
 import { useProductTableColumns } from "../../../../../hooks/table/columns/use-product-table-columns"
@@ -114,7 +114,7 @@ export const CollectionProductSection = ({
           ]}
         />
       </div>
-      <DataTable
+      <_DataTable
         table={table}
         columns={columns}
         search

@@ -18,7 +18,10 @@ interface DataTableProps<TData>
 // const MemoizedDataTableRoot = memo(DataTableRoot) as typeof DataTableRoot
 const MemoizedDataTableQuery = memo(DataTableQuery) as typeof DataTableQuery
 
-export const DataTable = <TData,>({
+/**
+ * @deprecated Use the DataTable component from "/components/data-table" instead
+ */
+export const _DataTable = <TData,>({
   table,
   columns,
   pagination,

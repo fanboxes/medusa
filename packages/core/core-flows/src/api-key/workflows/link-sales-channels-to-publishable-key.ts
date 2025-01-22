@@ -32,6 +32,9 @@ export const linkSalesChannelsToApiKeyWorkflowId =
  *     remove: ["sc_321"]
  *   }
  * })
+ * 
+ * @summary
+ * Manage the sales channels of a publishable API key.
  */
 export const linkSalesChannelsToApiKeyWorkflow = createWorkflow(
   linkSalesChannelsToApiKeyWorkflowId,

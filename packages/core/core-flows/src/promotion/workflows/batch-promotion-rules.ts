@@ -26,10 +26,10 @@ import { updatePromotionRulesWorkflow } from "./update-promotion-rules"
  * @property update - The rules to update.
  * @property delete - The IDs of the rules to delete.
  */
-export type BatchPromotionRulesWorkflowInput = BatchWorkflowInput<
+export interface BatchPromotionRulesWorkflowInput extends BatchWorkflowInput<
   CreatePromotionRuleDTO,
   UpdatePromotionRuleDTO
-> & {
+> {
   id: string
   rule_type: RuleType
 }
@@ -41,7 +41,7 @@ export type BatchPromotionRulesWorkflowInput = BatchWorkflowInput<
  * @property updated - The updated rules.
  * @property deleted - The deleted rule IDs.
  */
-export type BatchPromotionRulesWorkflowOutput = BatchWorkflowOutput<PromotionRuleDTO>
+export interface BatchPromotionRulesWorkflowOutput extends BatchWorkflowOutput<PromotionRuleDTO> {}
 
 export const batchPromotionRulesWorkflowId = "batch-promotion-rules"
 /**

@@ -104,7 +104,7 @@ export class MedusaProjectCreator
   }
 
   private async setupDatabase(): Promise<void> {
-    const dbName = `medusa-${slugify(this.projectName)}`
+    let dbName = `medusa-${slugify(this.projectName)}`
     const { client, dbConnectionString, ...rest } =
       await getDbClientAndCredentials({
         dbName,
@@ -115,11 +115,12 @@ export class MedusaProjectCreator
     this.client = client
     this.dbConnectionString = dbConnectionString
     this.isDbInitialized = true
+    dbName = rest.dbName || dbName
 
     if (!this.options.dbUrl) {
       this.factBoxOptions.interval = displayFactBox({
         ...this.factBoxOptions,
-        title: "Creating database...",
+        message: "Creating database...",
       })
 
       this.client = await runCreateDb({

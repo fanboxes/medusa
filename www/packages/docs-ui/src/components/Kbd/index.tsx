@@ -1,9 +1,16 @@
 import React from "react"
 import clsx from "clsx"
 
-export type KbdProps = React.ComponentProps<"kbd">
+export type KbdProps = React.ComponentProps<"kbd"> & {
+  variant?: "default" | "small"
+}
 
-export const Kbd = ({ children, className, ...props }: KbdProps) => {
+export const Kbd = ({
+  children,
+  className,
+  variant = "default",
+  ...props
+}: KbdProps) => {
   return (
     <kbd
       className={clsx(
@@ -12,7 +19,10 @@ export const Kbd = ({ children, className, ...props }: KbdProps) => {
         "py-0 px-docs_0.25",
         "bg-medusa-bg-field",
         "text-medusa-fg-subtle",
-        "text-compact-x-small-plus font-base shadow-none",
+        "font-base shadow-none",
+        variant === "small"
+          ? "text-compact-x-small"
+          : "text-compact-x-small-plus",
         className
       )}
       {...props}

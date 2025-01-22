@@ -4,6 +4,7 @@ import {
   deduplicate,
   isDefined,
   isObject,
+  toMikroORMEntity,
 } from "@medusajs/framework/utils"
 
 // Reshape the order object to match the OrderDTO
@@ -20,8 +21,9 @@ export function formatOrder<T = any>(
 
   orders.map((order) => {
     let mainOrder = order
+    const entity = options?.entity ? toMikroORMEntity(options.entity) : null
 
-    const isRelatedEntity = options?.entity?.name !== "Order"
+    const isRelatedEntity = entity?.name !== "Order"
 
     // If the entity is a related entity, the original order is located in the order property
     if (isRelatedEntity) {

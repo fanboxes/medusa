@@ -225,16 +225,10 @@ export const orderExchangeRequestItemReturnWorkflow = createWorkflow(
     when({ orderExchange }, ({ orderExchange }) => {
       return !orderExchange.return_id
     }).then(() => {
-      const createdReturnId = transform(
-        { createdReturn },
-        ({ createdReturn }) => {
-          return createdReturn?.[0]!.id
-        }
-      )
       updateOrderExchangesStep([
         {
           id: orderExchange.id,
-          return_id: createdReturnId,
+          return: createdReturn?.[0]!.id,
         },
       ])
     })

@@ -1,4 +1,9 @@
-import { MikroORM, Options, SqlEntityManager } from "@mikro-orm/postgresql"
+import {
+  defineConfig,
+  MikroORM,
+  Options,
+  SqlEntityManager,
+} from "@mikro-orm/postgresql"
 import { createDatabase, dropDatabase } from "pg-god"
 
 const DB_HOST = process.env.DB_HOST ?? "localhost"
@@ -13,8 +18,8 @@ const pgGodCredentials = {
 
 export function getDatabaseURL(dbName?: string): string {
   const DB_HOST = process.env.DB_HOST ?? "localhost"
-  const DB_USERNAME = process.env.DB_USERNAME ?? ""
-  const DB_PASSWORD = process.env.DB_PASSWORD
+  const DB_USERNAME = process.env.DB_USERNAME ?? "postgres"
+  const DB_PASSWORD = process.env.DB_PASSWORD ?? ""
   const DB_NAME = dbName ?? process.env.DB_TEMP_NAME
 
   return `postgres://${DB_USERNAME}${
@@ -35,8 +40,7 @@ export function getMikroOrmConfig({
 }): Options {
   const DB_URL = clientUrl ?? getDatabaseURL()
 
-  return {
-    type: "postgresql",
+  return defineConfig({
     clientUrl: DB_URL,
     entities: Object.values(mikroOrmEntities),
     schema: schema ?? process.env.MEDUSA_DB_SCHEMA,
@@ -48,7 +52,7 @@ export function getMikroOrmConfig({
       pathTs: pathToMigrations,
       silent: true,
     },
-  }
+  })
 }
 
 export interface TestDatabase {

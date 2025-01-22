@@ -6,7 +6,7 @@ import { HttpTypes } from "@medusajs/types"
 import { keepPreviousData } from "@tanstack/react-query"
 import { createColumnHelper } from "@tanstack/react-table"
 import { useMemo } from "react"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { useCollections } from "../../../../../hooks/api/collections"
 import { useCollectionTableColumns } from "../../../../../hooks/table/columns/use-collection-table-columns"
 import { useCollectionTableFilters } from "../../../../../hooks/table/filters"
@@ -60,7 +60,7 @@ export const CollectionListTable = () => {
           </Button>
         </Link>
       </div>
-      <DataTable
+      <_DataTable
         table={table}
         columns={columns}
         pageSize={PAGE_SIZE}

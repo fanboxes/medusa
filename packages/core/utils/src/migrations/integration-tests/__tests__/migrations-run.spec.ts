@@ -23,8 +23,8 @@ const moduleName = "myTestServiceRun"
 const fs = new FileSystem(join(__dirname, "./migrations-run"))
 
 const pgGodCredentials = {
-  user: DB_USERNAME,
-  password: DB_PASSWORD,
+  user: DB_USERNAME ?? "postgres",
+  password: DB_PASSWORD ?? "",
   host: DB_HOST,
 }
 

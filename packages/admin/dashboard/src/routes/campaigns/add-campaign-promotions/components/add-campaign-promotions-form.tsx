@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form"
 import { useTranslation } from "react-i18next"
 import * as zod from "zod"
 import { RouteFocusModal, useRouteModal } from "../../../../components/modals"
-import { DataTable } from "../../../../components/table/data-table"
+import { _DataTable } from "../../../../components/table/data-table"
 import { KeyboundForm } from "../../../../components/utilities/keybound-form"
 import { useAddOrRemoveCampaignPromotions } from "../../../../hooks/api/campaigns"
 import { usePromotions } from "../../../../hooks/api/promotions"
@@ -124,7 +124,7 @@ export const AddCampaignPromotionsForm = ({
           </div>
         </RouteFocusModal.Header>
         <RouteFocusModal.Body className="flex size-full flex-col overflow-y-auto">
-          <DataTable
+          <_DataTable
             table={table}
             count={count}
             columns={columns}

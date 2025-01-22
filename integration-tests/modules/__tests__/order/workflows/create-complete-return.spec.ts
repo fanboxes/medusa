@@ -3,6 +3,7 @@ import {
   createShippingOptionsWorkflow,
 } from "@medusajs/core-flows"
 import { RemoteLink } from "@medusajs/modules-sdk"
+import { medusaIntegrationTestRunner } from "@medusajs/test-utils"
 import {
   FulfillmentSetDTO,
   FulfillmentWorkflow,
@@ -21,7 +22,6 @@ import {
   RuleOperator,
   remoteQueryObjectFromString,
 } from "@medusajs/utils"
-import { medusaIntegrationTestRunner } from "@medusajs/test-utils"
 
 jest.setTimeout(500000)
 
@@ -190,7 +190,7 @@ async function prepareDataFixtures({ container }) {
         {
           attribute: "is_return",
           operator: RuleOperator.EQ,
-          value: '"true"',
+          value: "true",
         },
       ],
     }

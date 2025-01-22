@@ -19,7 +19,7 @@ describe("defineMikroOrmCliConfig", () => {
 
     expect(config).toEqual({
       entities: [{}],
-      type: "postgresql",
+      driver: expect.any(Function),
       host: "127.0.0.1",
       user: "postgres",
       password: "",
@@ -37,7 +37,7 @@ describe("defineMikroOrmCliConfig", () => {
 
     expect(config).toEqual({
       entities: [{}],
-      type: "postgresql",
+      driver: expect.any(Function),
       dbName: "medusa-my-test",
       host: "127.0.0.1",
       user: "postgres",

@@ -585,18 +585,6 @@ export interface PaymentProviderDTO {
   is_enabled: boolean
 }
 
-export interface PaymentMethodDTO {
-  /**
-   * The ID of the payment method in the payment provider's system.
-   */
-  id: string
-
-  /**
-   * The data of the payment method, as returned by the payment provider.
-   */
-  data: Record<string, unknown>
-}
-
 /**
  * The filters to apply on the retrieved payment providers.
  */
@@ -656,4 +644,21 @@ export interface RefundReasonDTO {
    * When the refund reason was updated
    */
   updated_at: Date | string
+}
+
+export interface PaymentMethodDTO {
+  /**
+   * The ID of the payment method.
+   */
+  id: string
+
+  /**
+   * The data of the payment method, as returned by the payment provider.
+   */
+  data: Record<string, unknown>
+
+  /**
+   * The ID of the associated payment provider.
+   */
+  provider_id: string
 }

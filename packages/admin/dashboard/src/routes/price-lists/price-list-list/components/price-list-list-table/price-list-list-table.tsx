@@ -2,7 +2,7 @@ import { Button, Container, Heading, Text } from "@medusajs/ui"
 import { keepPreviousData } from "@tanstack/react-query"
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { usePriceLists } from "../../../../../hooks/api/price-lists"
 import { useDataTable } from "../../../../../hooks/use-data-table"
 import { usePricingTableColumns } from "./use-pricing-table-columns"
@@ -53,7 +53,7 @@ export const PriceListListTable = () => {
           <Link to="create">{t("actions.create")}</Link>
         </Button>
       </div>
-      <DataTable
+      <_DataTable
         table={table}
         columns={columns}
         count={count}

@@ -1,21 +1,21 @@
+import { EntityConstructor } from "@medusajs/types"
 import { MetadataStorage, MikroORM } from "@mikro-orm/core"
-import { model } from "../../entity-builder"
-import {
-  mikroORMEntityBuilder,
-  toMikroOrmEntities,
-} from "../../helpers/create-mikro-orm-entity"
+import { defineConfig, SqlEntityManager } from "@mikro-orm/postgresql"
+import { join } from "path"
 import { createDatabase, dropDatabase } from "pg-god"
+import { FileSystem } from "../../../common"
 import {
   CustomTsMigrationGenerator,
   mikroOrmSerializer,
   mikroOrmUpdateDeletedAtRecursively,
   SoftDeletableFilterKey,
 } from "../../../dal"
-import { EntityConstructor } from "@medusajs/types"
+import { model } from "../../entity-builder"
+import {
+  mikroORMEntityBuilder,
+  toMikroOrmEntities,
+} from "../../helpers/create-mikro-orm-entity"
 import { pgGodCredentials } from "../utils"
-import { FileSystem } from "../../../common"
-import { join } from "path"
-import { SqlEntityManager } from "@mikro-orm/postgresql"
 
 export const fileSystem = new FileSystem(
   join(__dirname, "../../integration-tests-migrations-many-to-one")
@@ -55,19 +55,20 @@ describe("manyToOne - belongTo", () => {
 
     await createDatabase({ databaseName: dbName }, pgGodCredentials)
 
-    orm = await MikroORM.init({
-      entities: [Team, User],
-      tsNode: true,
-      dbName,
-      password: pgGodCredentials.password,
-      host: pgGodCredentials.host,
-      user: pgGodCredentials.user,
-      type: "postgresql",
-      migrations: {
-        generator: CustomTsMigrationGenerator,
-        path: fileSystem.basePath,
-      },
-    })
+    orm = await MikroORM.init(
+      defineConfig({
+        entities: [Team, User],
+        tsNode: true,
+        dbName,
+        password: pgGodCredentials.password,
+        host: pgGodCredentials.host,
+        user: pgGodCredentials.user,
+        migrations: {
+          generator: CustomTsMigrationGenerator,
+          path: fileSystem.basePath,
+        },
+      })
+    )
 
     const migrator = orm.getMigrator()
     await migrator.createMigration()

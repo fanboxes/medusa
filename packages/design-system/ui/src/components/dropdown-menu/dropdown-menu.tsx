@@ -48,7 +48,7 @@ const SubMenuTrigger = React.forwardRef<
     className={clx(
       "bg-ui-bg-component text-ui-fg-base txt-compact-small relative flex cursor-pointer select-none items-center rounded-md px-2 py-1.5 outline-none transition-colors",
       "focus-visible:bg-ui-bg-component-hover focus:bg-ui-bg-component-hover",
-      "active:bg-ui-bg-component-pressed",
+      "active:bg-ui-bg-component-hover",
       "data-[disabled]:text-ui-fg-disabled data-[disabled]:pointer-events-none",
       "data-[state=open]:!bg-ui-bg-component-hover",
       className
@@ -56,7 +56,7 @@ const SubMenuTrigger = React.forwardRef<
     {...props}
   >
     {children}
-    <ChevronRightMini className="ml-auto text-ui-fg-muted" />
+    <ChevronRightMini className="text-ui-fg-muted ml-auto" />
   </Primitives.SubTrigger>
 ))
 SubMenuTrigger.displayName = "DropdownMenu.SubMenuTrigger"
@@ -130,7 +130,7 @@ const Item = React.forwardRef<
     className={clx(
       "bg-ui-bg-component text-ui-fg-base txt-compact-small relative flex cursor-pointer select-none items-center rounded-md px-2 py-1.5 outline-none transition-colors",
       "focus-visible:bg-ui-bg-component-hover focus:bg-ui-bg-component-hover",
-      "active:bg-ui-bg-component-pressed",
+      "active:bg-ui-bg-component-hover",
       "data-[disabled]:text-ui-fg-disabled data-[disabled]:pointer-events-none",
       className
     )}
@@ -149,9 +149,9 @@ const CheckboxItem = React.forwardRef<
   <Primitives.CheckboxItem
     ref={ref}
     className={clx(
-      "bg-ui-bg-component text-ui-fg-base relative flex cursor-pointer select-none items-center rounded-md py-1.5 pl-[31px] pr-2 txt-compact-small outline-none transition-colors",
-      "focus-visible:bg-ui-bg-component-pressed",
-      "active:bg-ui-bg-component-pressed",
+      "bg-ui-bg-component text-ui-fg-base txt-compact-small relative flex cursor-pointer select-none items-center rounded-md py-1.5 pl-[31px] pr-2 outline-none transition-colors",
+      "focus-visible:bg-ui-bg-component-hover focus:bg-ui-bg-component-hover",
+      "active:bg-ui-bg-component-hover",
       "data-[disabled]:text-ui-fg-disabled data-[disabled]:pointer-events-none",
       "data-[state=checked]:txt-compact-small-plus",
       className
@@ -180,8 +180,8 @@ const RadioItem = React.forwardRef<
     ref={ref}
     className={clx(
       "bg-ui-bg-component txt-compact-small relative flex cursor-pointer select-none items-center rounded-md py-1.5 pl-[31px] pr-2 outline-none transition-colors",
-      "focus-visible:bg-ui-bg-component-hover",
-      "active:bg-ui-bg-component-pressed",
+      "focus-visible:bg-ui-bg-component-hover focus:bg-ui-bg-component-hover",
+      "active:bg-ui-bg-component-hover",
       "data-[disabled]:text-ui-fg-disabled data-[disabled]:pointer-events-none",
       "data-[state=checked]:txt-compact-small-plus",
       className
@@ -222,7 +222,10 @@ const Separator = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <Primitives.Separator
     ref={ref}
-    className={clx("bg-ui-border-component -mx-1 my-1 h-0.5 border-t border-t-ui-border-menu-top border-b border-b-ui-border-menu-bot", className)}
+    className={clx(
+      "bg-ui-border-component border-t-ui-border-menu-top border-b-ui-border-menu-bot -mx-1 my-1 h-0.5 border-b border-t",
+      className
+    )}
     {...props}
   />
 ))

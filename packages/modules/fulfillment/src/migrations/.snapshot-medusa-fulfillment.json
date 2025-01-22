@@ -1,7 +1,5 @@
 {
-  "namespaces": [
-    "public"
-  ],
+  "namespaces": ["public"],
   "name": "public",
   "tables": [
     {
@@ -154,22 +152,23 @@
           "keyName": "IDX_fulfillment_address_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_fulfillment_address_deleted_at\" ON \"fulfillment_address\" (deleted_at) WHERE deleted_at IS NULL"
         },
         {
           "keyName": "fulfillment_address_pkey",
-          "columnNames": [
-            "id"
-          ],
+          "columnNames": ["id"],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
       ],
       "checks": [],
-      "foreignKeys": {}
+      "foreignKeys": {},
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -232,22 +231,23 @@
           "keyName": "IDX_fulfillment_provider_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_fulfillment_provider_deleted_at\" ON \"fulfillment_provider\" (deleted_at) WHERE deleted_at IS NULL"
         },
         {
           "keyName": "fulfillment_provider_pkey",
-          "columnNames": [
-            "id"
-          ],
+          "columnNames": ["id"],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
       ],
       "checks": [],
-      "foreignKeys": {}
+      "foreignKeys": {},
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -327,6 +327,7 @@
           "keyName": "IDX_fulfillment_set_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_fulfillment_set_deleted_at\" ON \"fulfillment_set\" (deleted_at) WHERE deleted_at IS NULL"
@@ -335,22 +336,23 @@
           "keyName": "IDX_fulfillment_set_name_unique",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"IDX_fulfillment_set_name_unique\" ON \"fulfillment_set\" (name) WHERE deleted_at IS NULL"
         },
         {
           "keyName": "fulfillment_set_pkey",
-          "columnNames": [
-            "id"
-          ],
+          "columnNames": ["id"],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
       ],
       "checks": [],
-      "foreignKeys": {}
+      "foreignKeys": {},
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -430,6 +432,7 @@
           "keyName": "IDX_service_zone_fulfillment_set_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_service_zone_fulfillment_set_id\" ON \"service_zone\" (fulfillment_set_id) WHERE deleted_at IS NULL"
@@ -438,6 +441,7 @@
           "keyName": "IDX_service_zone_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_service_zone_deleted_at\" ON \"service_zone\" (deleted_at) WHERE deleted_at IS NULL"
@@ -446,16 +450,16 @@
           "keyName": "IDX_service_zone_name_unique",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"IDX_service_zone_name_unique\" ON \"service_zone\" (name) WHERE deleted_at IS NULL"
         },
         {
           "keyName": "service_zone_pkey",
-          "columnNames": [
-            "id"
-          ],
+          "columnNames": ["id"],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
@@ -464,18 +468,15 @@
       "foreignKeys": {
         "service_zone_fulfillment_set_id_foreign": {
           "constraintName": "service_zone_fulfillment_set_id_foreign",
-          "columnNames": [
-            "fulfillment_set_id"
-          ],
+          "columnNames": ["fulfillment_set_id"],
           "localTableName": "public.service_zone",
-          "referencedColumnNames": [
-            "id"
-          ],
+          "referencedColumnNames": ["id"],
           "referencedTableName": "public.fulfillment_set",
           "deleteRule": "cascade",
           "updateRule": "cascade"
         }
-      }
+      },
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -496,12 +497,7 @@
           "primary": false,
           "nullable": false,
           "default": "'country'",
-          "enumItems": [
-            "country",
-            "province",
-            "city",
-            "zip"
-          ],
+          "enumItems": ["country", "province", "city", "zip"],
           "mappedType": "enum"
         },
         "country_code": {
@@ -598,6 +594,7 @@
           "keyName": "IDX_geo_zone_service_zone_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_geo_zone_service_zone_id\" ON \"geo_zone\" (service_zone_id) WHERE deleted_at IS NULL"
@@ -606,6 +603,7 @@
           "keyName": "IDX_geo_zone_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_geo_zone_deleted_at\" ON \"geo_zone\" (deleted_at) WHERE deleted_at IS NULL"
@@ -614,6 +612,7 @@
           "keyName": "IDX_geo_zone_country_code",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_geo_zone_country_code\" ON \"geo_zone\" (country_code) WHERE deleted_at IS NULL"
@@ -622,6 +621,7 @@
           "keyName": "IDX_geo_zone_province_code",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_geo_zone_province_code\" ON \"geo_zone\" (province_code) WHERE deleted_at IS NULL"
@@ -630,16 +630,16 @@
           "keyName": "IDX_geo_zone_city",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_geo_zone_city\" ON \"geo_zone\" (city) WHERE deleted_at IS NULL"
         },
         {
           "keyName": "geo_zone_pkey",
-          "columnNames": [
-            "id"
-          ],
+          "columnNames": ["id"],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
@@ -648,18 +648,15 @@
       "foreignKeys": {
         "geo_zone_service_zone_id_foreign": {
           "constraintName": "geo_zone_service_zone_id_foreign",
-          "columnNames": [
-            "service_zone_id"
-          ],
+          "columnNames": ["service_zone_id"],
           "localTableName": "public.geo_zone",
-          "referencedColumnNames": [
-            "id"
-          ],
+          "referencedColumnNames": ["id"],
           "referencedTableName": "public.service_zone",
           "deleteRule": "cascade",
           "updateRule": "cascade"
         }
-      }
+      },
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -739,22 +736,23 @@
           "keyName": "IDX_shipping_option_type_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_shipping_option_type_deleted_at\" ON \"shipping_option_type\" (deleted_at) WHERE deleted_at IS NULL"
         },
         {
           "keyName": "shipping_option_type_pkey",
-          "columnNames": [
-            "id"
-          ],
+          "columnNames": ["id"],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
       ],
       "checks": [],
-      "foreignKeys": {}
+      "foreignKeys": {},
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -834,6 +832,7 @@
           "keyName": "IDX_shipping_profile_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_shipping_profile_deleted_at\" ON \"shipping_profile\" (deleted_at) WHERE deleted_at IS NULL"
@@ -842,22 +841,23 @@
           "keyName": "IDX_shipping_profile_name_unique",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"IDX_shipping_profile_name_unique\" ON \"shipping_profile\" (name) WHERE deleted_at IS NULL"
         },
         {
           "keyName": "shipping_profile_pkey",
-          "columnNames": [
-            "id"
-          ],
+          "columnNames": ["id"],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
       ],
       "checks": [],
-      "foreignKeys": {}
+      "foreignKeys": {},
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -887,10 +887,7 @@
           "primary": false,
           "nullable": false,
           "default": "'flat'",
-          "enumItems": [
-            "calculated",
-            "flat"
-          ],
+          "enumItems": ["calculated", "flat"],
           "mappedType": "enum"
         },
         "data": {
@@ -984,9 +981,18 @@
       "schema": "public",
       "indexes": [
         {
+          "columnNames": ["shipping_option_type_id"],
+          "composite": false,
+          "keyName": "shipping_option_shipping_option_type_id_unique",
+          "constraint": true,
+          "primary": false,
+          "unique": true
+        },
+        {
           "keyName": "IDX_shipping_option_service_zone_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_shipping_option_service_zone_id\" ON \"shipping_option\" (service_zone_id) WHERE deleted_at IS NULL"
@@ -995,24 +1001,34 @@
           "keyName": "IDX_shipping_option_shipping_profile_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_shipping_option_shipping_profile_id\" ON \"shipping_option\" (shipping_profile_id) WHERE deleted_at IS NULL"
         },
         {
+          "keyName": "IDX_shipping_option_provider_id",
+          "columnNames": [],
+          "composite": false,
+          "constraint": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_shipping_option_provider_id\" ON \"shipping_option\" (provider_id) WHERE deleted_at IS NULL"
+        },
+        {
           "keyName": "IDX_shipping_option_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_shipping_option_deleted_at\" ON \"shipping_option\" (deleted_at) WHERE deleted_at IS NULL"
         },
         {
           "keyName": "shipping_option_pkey",
-          "columnNames": [
-            "id"
-          ],
+          "columnNames": ["id"],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
@@ -1021,31 +1037,41 @@
       "foreignKeys": {
         "shipping_option_service_zone_id_foreign": {
           "constraintName": "shipping_option_service_zone_id_foreign",
-          "columnNames": [
-            "service_zone_id"
-          ],
+          "columnNames": ["service_zone_id"],
           "localTableName": "public.shipping_option",
-          "referencedColumnNames": [
-            "id"
-          ],
+          "referencedColumnNames": ["id"],
           "referencedTableName": "public.service_zone",
           "deleteRule": "cascade",
           "updateRule": "cascade"
         },
         "shipping_option_shipping_profile_id_foreign": {
           "constraintName": "shipping_option_shipping_profile_id_foreign",
-          "columnNames": [
-            "shipping_profile_id"
-          ],
+          "columnNames": ["shipping_profile_id"],
           "localTableName": "public.shipping_option",
-          "referencedColumnNames": [
-            "id"
-          ],
+          "referencedColumnNames": ["id"],
           "referencedTableName": "public.shipping_profile",
           "deleteRule": "set null",
           "updateRule": "cascade"
+        },
+        "shipping_option_provider_id_foreign": {
+          "constraintName": "shipping_option_provider_id_foreign",
+          "columnNames": ["provider_id"],
+          "localTableName": "public.shipping_option",
+          "referencedColumnNames": ["id"],
+          "referencedTableName": "public.fulfillment_provider",
+          "deleteRule": "set null",
+          "updateRule": "cascade"
+        },
+        "shipping_option_shipping_option_type_id_foreign": {
+          "constraintName": "shipping_option_shipping_option_type_id_foreign",
+          "columnNames": ["shipping_option_type_id"],
+          "localTableName": "public.shipping_option",
+          "referencedColumnNames": ["id"],
+          "referencedTableName": "public.shipping_option_type",
+          "updateRule": "cascade"
         }
-      }
+      },
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -1074,16 +1100,7 @@
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "enumItems": [
-            "in",
-            "eq",
-            "ne",
-            "gt",
-            "gte",
-            "lt",
-            "lte",
-            "nin"
-          ],
+          "enumItems": ["in", "eq", "ne", "gt", "gte", "lt", "lte", "nin"],
           "mappedType": "enum"
         },
         "value": {
@@ -1144,6 +1161,7 @@
           "keyName": "IDX_shipping_option_rule_shipping_option_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_shipping_option_rule_shipping_option_id\" ON \"shipping_option_rule\" (shipping_option_id) WHERE deleted_at IS NULL"
@@ -1152,16 +1170,16 @@
           "keyName": "IDX_shipping_option_rule_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_shipping_option_rule_deleted_at\" ON \"shipping_option_rule\" (deleted_at) WHERE deleted_at IS NULL"
         },
         {
           "keyName": "shipping_option_rule_pkey",
-          "columnNames": [
-            "id"
-          ],
+          "columnNames": ["id"],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
@@ -1170,18 +1188,15 @@
       "foreignKeys": {
         "shipping_option_rule_shipping_option_id_foreign": {
           "constraintName": "shipping_option_rule_shipping_option_id_foreign",
-          "columnNames": [
-            "shipping_option_id"
-          ],
+          "columnNames": ["shipping_option_id"],
           "localTableName": "public.shipping_option_rule",
-          "referencedColumnNames": [
-            "id"
-          ],
+          "referencedColumnNames": ["id"],
           "referencedTableName": "public.shipping_option",
           "deleteRule": "cascade",
           "updateRule": "cascade"
         }
-      }
+      },
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -1353,9 +1368,26 @@
       "schema": "public",
       "indexes": [
         {
+          "columnNames": ["provider_id"],
+          "composite": false,
+          "keyName": "fulfillment_provider_id_unique",
+          "constraint": true,
+          "primary": false,
+          "unique": true
+        },
+        {
+          "columnNames": ["delivery_address_id"],
+          "composite": false,
+          "keyName": "fulfillment_delivery_address_id_unique",
+          "constraint": true,
+          "primary": false,
+          "unique": true
+        },
+        {
           "keyName": "IDX_fulfillment_shipping_option_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_fulfillment_shipping_option_id\" ON \"fulfillment\" (shipping_option_id) WHERE deleted_at IS NULL"
@@ -1364,6 +1396,7 @@
           "keyName": "IDX_fulfillment_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_fulfillment_deleted_at\" ON \"fulfillment\" (deleted_at) WHERE deleted_at IS NULL"
@@ -1372,36 +1405,51 @@
           "keyName": "IDX_fulfillment_location_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_fulfillment_location_id\" ON \"fulfillment\" (location_id) WHERE deleted_at IS NULL"
         },
         {
           "keyName": "fulfillment_pkey",
-          "columnNames": [
-            "id"
-          ],
+          "columnNames": ["id"],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
       ],
       "checks": [],
       "foreignKeys": {
+        "fulfillment_provider_id_foreign": {
+          "constraintName": "fulfillment_provider_id_foreign",
+          "columnNames": ["provider_id"],
+          "localTableName": "public.fulfillment",
+          "referencedColumnNames": ["id"],
+          "referencedTableName": "public.fulfillment_provider",
+          "deleteRule": "set null",
+          "updateRule": "cascade"
+        },
         "fulfillment_shipping_option_id_foreign": {
           "constraintName": "fulfillment_shipping_option_id_foreign",
-          "columnNames": [
-            "shipping_option_id"
-          ],
+          "columnNames": ["shipping_option_id"],
           "localTableName": "public.fulfillment",
-          "referencedColumnNames": [
-            "id"
-          ],
+          "referencedColumnNames": ["id"],
           "referencedTableName": "public.shipping_option",
           "deleteRule": "set null",
           "updateRule": "cascade"
+        },
+        "fulfillment_delivery_address_id_foreign": {
+          "constraintName": "fulfillment_delivery_address_id_foreign",
+          "columnNames": ["delivery_address_id"],
+          "localTableName": "public.fulfillment",
+          "referencedColumnNames": ["id"],
+          "referencedTableName": "public.fulfillment_address",
+          "deleteRule": "set null",
+          "updateRule": "cascade"
         }
-      }
+      },
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -1490,6 +1538,7 @@
           "keyName": "IDX_fulfillment_label_fulfillment_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_fulfillment_label_fulfillment_id\" ON \"fulfillment_label\" (fulfillment_id) WHERE deleted_at IS NULL"
@@ -1498,16 +1547,16 @@
           "keyName": "IDX_fulfillment_label_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_fulfillment_label_deleted_at\" ON \"fulfillment_label\" (deleted_at) WHERE deleted_at IS NULL"
         },
         {
           "keyName": "fulfillment_label_pkey",
-          "columnNames": [
-            "id"
-          ],
+          "columnNames": ["id"],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
@@ -1516,18 +1565,15 @@
       "foreignKeys": {
         "fulfillment_label_fulfillment_id_foreign": {
           "constraintName": "fulfillment_label_fulfillment_id_foreign",
-          "columnNames": [
-            "fulfillment_id"
-          ],
+          "columnNames": ["fulfillment_id"],
           "localTableName": "public.fulfillment_label",
-          "referencedColumnNames": [
-            "id"
-          ],
+          "referencedColumnNames": ["id"],
           "referencedTableName": "public.fulfillment",
           "deleteRule": "cascade",
           "updateRule": "cascade"
         }
-      }
+      },
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -1652,6 +1698,7 @@
           "keyName": "IDX_fulfillment_item_fulfillment_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_fulfillment_item_fulfillment_id\" ON \"fulfillment_item\" (fulfillment_id) WHERE deleted_at IS NULL"
@@ -1660,6 +1707,7 @@
           "keyName": "IDX_fulfillment_item_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_fulfillment_item_deleted_at\" ON \"fulfillment_item\" (deleted_at) WHERE deleted_at IS NULL"
@@ -1668,6 +1716,7 @@
           "keyName": "IDX_fulfillment_item_inventory_item_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_fulfillment_item_inventory_item_id\" ON \"fulfillment_item\" (inventory_item_id) WHERE deleted_at IS NULL"
@@ -1676,16 +1725,16 @@
           "keyName": "IDX_fulfillment_item_line_item_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_fulfillment_item_line_item_id\" ON \"fulfillment_item\" (line_item_id) WHERE deleted_at IS NULL"
         },
         {
           "keyName": "fulfillment_item_pkey",
-          "columnNames": [
-            "id"
-          ],
+          "columnNames": ["id"],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
@@ -1694,18 +1743,16 @@
       "foreignKeys": {
         "fulfillment_item_fulfillment_id_foreign": {
           "constraintName": "fulfillment_item_fulfillment_id_foreign",
-          "columnNames": [
-            "fulfillment_id"
-          ],
+          "columnNames": ["fulfillment_id"],
           "localTableName": "public.fulfillment_item",
-          "referencedColumnNames": [
-            "id"
-          ],
+          "referencedColumnNames": ["id"],
           "referencedTableName": "public.fulfillment",
           "deleteRule": "cascade",
           "updateRule": "cascade"
         }
-      }
+      },
+      "nativeEnums": {}
     }
-  ]
+  ],
+  "nativeEnums": {}
 }

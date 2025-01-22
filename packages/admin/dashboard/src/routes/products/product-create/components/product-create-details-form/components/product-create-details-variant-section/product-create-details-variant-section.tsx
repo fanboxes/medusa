@@ -453,6 +453,7 @@ export const ProductCreateVariantsSection = ({
                   >
                     <div>
                       <Checkbox
+                        className="relative"
                         checked={getCheckboxState(watchedVariants)}
                         onCheckedChange={onCheckboxChange}
                       />
@@ -493,6 +494,7 @@ export const ProductCreateVariantsSection = ({
                                   <Form.Item>
                                     <Form.Control>
                                       <Checkbox
+                                        className="relative"
                                         {...field}
                                         checked={value}
                                         onCheckedChange={onChange}

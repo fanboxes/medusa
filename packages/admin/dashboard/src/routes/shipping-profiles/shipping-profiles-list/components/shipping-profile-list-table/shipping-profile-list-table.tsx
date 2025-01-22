@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 
 import { keepPreviousData } from "@tanstack/react-query"
 import { useTranslation } from "react-i18next"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { useShippingProfiles } from "../../../../../hooks/api/shipping-profiles"
 import { useDataTable } from "../../../../../hooks/use-data-table"
 import { useShippingProfileTableColumns } from "./use-shipping-profile-table-columns"
@@ -55,7 +55,7 @@ export const ShippingProfileListTable = () => {
           </Button>
         </div>
       </div>
-      <DataTable
+      <_DataTable
         table={table}
         pageSize={PAGE_SIZE}
         count={count}

@@ -27,7 +27,7 @@ import {
   useRouteModal,
   useStackedModal,
 } from "../../../../../components/modals"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
 import { useCreateRegion } from "../../../../../hooks/api/regions"
 import { useDataTable } from "../../../../../hooks/use-data-table"
@@ -359,7 +359,7 @@ export const CreateRegionForm = ({
                         </StackedFocusModal.Title>
                       </StackedFocusModal.Header>
                       <StackedFocusModal.Body className="overflow-hidden">
-                        <DataTable
+                        <_DataTable
                           table={table}
                           columns={columns}
                           count={count}

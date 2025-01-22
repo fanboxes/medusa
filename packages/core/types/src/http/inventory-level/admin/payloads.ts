@@ -104,9 +104,25 @@ export interface AdminBatchUpdateInventoryItemsLocationLevels
   id?: string
 }
 
+/**
+ * A list of inventory levels to create, update, or delete.
+ */
 export interface AdminBatchInventoryItemsLocationLevels {
+  /**
+   * The inventory levels to create.
+   */
   create: AdminBatchCreateInventoryItemsLocationLevels[]
+  /**
+   * The inventory levels to update.
+   */
   update: AdminBatchUpdateInventoryItemsLocationLevels[]
+  /**
+   * The IDs of the inventory levels to delete.
+   */
   delete: string[]
+  /**
+   * If enabled, the inventory levels will be deleted
+   * even if they have stocked quantity.
+   */
   force?: boolean
 }

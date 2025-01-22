@@ -69,7 +69,6 @@ medusaIntegrationTestRunner({
         await api
           .post("/admin/customer-groups", payload, adminHeaders)
           .catch((err) => {
-            console.log(err)
             // BREAKING: Duplicate error is now 400
             expect(err.response.status).toEqual(400)
             expect(err.response.data.type).toEqual("invalid_data")

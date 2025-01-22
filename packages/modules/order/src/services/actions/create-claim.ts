@@ -11,11 +11,12 @@ import {
   getShippingMethodsTotals,
   isString,
   promiseAll,
+  toMikroORMEntity,
 } from "@medusajs/framework/utils"
 import { OrderClaim, OrderClaimItem, Return, ReturnItem } from "@models"
 
 function createClaimAndReturnEntities(em, data, order) {
-  const claimReference = em.create(OrderClaim, {
+  const claimReference = em.create(toMikroORMEntity(OrderClaim), {
     order_id: data.order_id,
     order_version: order.version,
     type: data.type as ClaimType,
@@ -25,16 +26,16 @@ function createClaimAndReturnEntities(em, data, order) {
 
   const returnReference =
     data.type === ClaimType.REPLACE
-      ? em.create(Return, {
+      ? em.create(toMikroORMEntity(Return), {
           order_id: data.order_id,
           order_version: order.version,
           status: ReturnStatus.REQUESTED,
-          claim_id: claimReference.id,
+          claim: claimReference.id,
           refund_amount: (data.refund_amount as unknown) ?? null,
         })
       : undefined
 
-  claimReference.return_id = returnReference?.id
+  claimReference.return = returnReference?.id
 
   return { claimReference, returnReference }
 }
@@ -51,7 +52,7 @@ function createReturnItem(em, item, claimReference, returnReference, actions) {
     },
   })
 
-  return em.create(ReturnItem, {
+  return em.create(toMikroORMEntity(ReturnItem), {
     item_id: item.id,
     return_id: returnReference.id,
     quantity: item.quantity,
@@ -67,7 +68,7 @@ function createClaimAndReturnItems(
   returnReference,
   actions
 ) {
-  const returnItems: ReturnItem[] = []
+  const returnItems: (typeof ReturnItem)[] = []
   const claimItems = data.claim_items?.map((item) => {
     actions.push({
       action: ChangeActionType.WRITE_OFF_ITEM,
@@ -86,7 +87,7 @@ function createClaimAndReturnItems(
         : undefined
     )
 
-    return em.create(OrderClaimItem, {
+    return em.create(toMikroORMEntity(OrderClaimItem), {
       item_id: item.id,
       reason: item.reason,
       quantity: item.quantity,
@@ -108,8 +109,8 @@ async function processAdditionalItems(
   sharedContext
 ) {
   const itemsToAdd: any[] = []
-  const additionalNewItems: OrderClaimItem[] = []
-  const additionalItems: OrderClaimItem[] = []
+  const additionalNewItems: any[] = []
+  const additionalItems: any[] = []
   data.additional_items?.forEach((item) => {
     const hasItem = item.id
       ? order.items.find((o) => o.item.id === item.id)
@@ -131,7 +132,7 @@ async function processAdditionalItems(
       })
 
       additionalItems.push(
-        em.create(OrderClaimItem, {
+        em.create(toMikroORMEntity(OrderClaimItem), {
           item_id: item.id,
           quantity: item.quantity,
           note: item.note,
@@ -143,7 +144,7 @@ async function processAdditionalItems(
       itemsToAdd.push(item)
 
       additionalNewItems.push(
-        em.create(OrderClaimItem, {
+        em.create(toMikroORMEntity(OrderClaimItem), {
           quantity: item.quantity,
           unit_price: item.unit_price,
           note: item.note,

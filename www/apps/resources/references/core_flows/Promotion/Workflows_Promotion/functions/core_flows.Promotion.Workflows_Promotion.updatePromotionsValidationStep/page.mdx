@@ -1,6 +1,7 @@
 ---
 slug: /references/medusa-workflows/updatePromotionsValidationStep
 sidebar_label: updatePromotionsValidationStep
+sidebar_description: ""
 tags:
   - step
 ---
@@ -20,8 +21,8 @@ const myWorkflow = createWorkflow(
   () => {
     const data = updatePromotionsValidationStep({
       "promotionsData": [{
-        "id": "id_NZOY3OMuR6Zd3",
-        "status": "draft"
+        "id": "id_ue8AihkSaN",
+        "status": "inactive"
       }]
     })
   }
@@ -31,4 +32,4 @@ const myWorkflow = createWorkflow(
 
 ## Input
 
-<TypeList types={[{"name":"UpdatePromotionsStatusWorkflowInput","type":"[UpdatePromotionsStatusWorkflowInput](../../../../types/core_flows.UpdatePromotionsStatusWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"promotionsData","type":"`object`[]","description":"The promotions to update their status.","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"id","type":"`string`","description":"The ID of the promotion.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"status","type":"[PromotionStatusValues](../../../../../promotion/types/promotion.PromotionStatusValues/page.mdx)","description":"The new status of the promotion.","optional":false,"defaultValue":"","expandable":false,"children":[]}]},{"name":"additional_data","type":"`Record<string, unknown>`","description":"Additional data that can be passed through the `additional_data` property in HTTP requests.\n\nLearn more in [this documentation](https://docs.medusajs.com/learn/fundamentals/api-routes/additional-data).","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="updatePromotionsValidationStep"/>
+<TypeList types={[{"name":"UpdatePromotionsStatusWorkflowInput","type":"[UpdatePromotionsStatusWorkflowInput](../../../../types/core_flows.UpdatePromotionsStatusWorkflowInput/page.mdx)","optional":false,"defaultValue":"","description":"The data to update the status of one or more promotions.","expandable":false,"children":[{"name":"promotionsData","type":"`object`[]","description":"The promotions to update their status.","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"id","type":"`string`","description":"The ID of the promotion.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"status","type":"[PromotionStatusValues](../../../../../promotion/types/promotion.PromotionStatusValues/page.mdx)","description":"The new status of the promotion.","optional":false,"defaultValue":"","expandable":false,"children":[]}]},{"name":"additional_data","type":"`Record<string, unknown>`","description":"Additional data that can be passed through the `additional_data` property in HTTP requests.\n\nLearn more in [this documentation](https://docs.medusajs.com/learn/fundamentals/api-routes/additional-data).","optional":true,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="updatePromotionsValidationStep"/>

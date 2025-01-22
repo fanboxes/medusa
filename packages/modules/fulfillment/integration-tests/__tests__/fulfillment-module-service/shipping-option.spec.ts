@@ -137,7 +137,7 @@ moduleIntegrationTestRunner<IFulfillmentModuleService>({
                   {
                     attribute: "test-attribute",
                     operator: "in",
-                    value: ["test"],
+                    value: ["true"],
                   },
                 ],
               }),
@@ -161,7 +161,7 @@ moduleIntegrationTestRunner<IFulfillmentModuleService>({
                   {
                     attribute: "test-attribute",
                     operator: "eq",
-                    value: "test",
+                    value: "true",
                   },
                   {
                     attribute: "test-attribute2.options",
@@ -174,7 +174,7 @@ moduleIntegrationTestRunner<IFulfillmentModuleService>({
 
           let listedOptions = await service.listShippingOptionsForContext({
             context: {
-              "test-attribute": "test",
+              "test-attribute": "true",
               "test-attribute2": {
                 options: "test2",
               },
@@ -774,7 +774,7 @@ moduleIntegrationTestRunner<IFulfillmentModuleService>({
                 rules: expect.arrayContaining([
                   expect.objectContaining({
                     id: existingRule.id,
-                    value: '"false"',
+                    value: "false",
                   }),
                   expect.objectContaining({
                     id: expect.any(String),

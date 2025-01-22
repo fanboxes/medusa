@@ -16,7 +16,7 @@ import {
   RouteFocusModal,
   useRouteModal,
 } from "../../../../../components/modals"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
 import { useCurrencies } from "../../../../../hooks/api/currencies"
 import { pricePreferencesQueryKeys } from "../../../../../hooks/api/price-preferences"
@@ -186,7 +186,7 @@ export const AddCurrenciesForm = ({
           </div>
         </RouteFocusModal.Header>
         <RouteFocusModal.Body className="flex flex-1 flex-col overflow-hidden">
-          <DataTable
+          <_DataTable
             table={table}
             pageSize={PAGE_SIZE}
             count={count}

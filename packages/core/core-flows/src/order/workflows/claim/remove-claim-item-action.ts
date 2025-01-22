@@ -128,6 +128,10 @@ export const removeItemClaimActionWorkflowId = "remove-item-claim-action"
  *     action_id: "orchact_123",
  *   }
  * })
+ * 
+ * @summary
+ * 
+ * Remove order items from a claim.
  */
 export const removeItemClaimActionWorkflow = createWorkflow(
   removeItemClaimActionWorkflowId,

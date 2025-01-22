@@ -1143,6 +1143,15 @@
     "filters": {
       "type": "object",
       "properties": {
+        "sortLabel": {
+          "type": "string"
+        },
+        "filterLabel": {
+          "type": "string"
+        },
+        "searchLabel": {
+          "type": "string"
+        },
         "date": {
           "type": "object",
           "properties": {
@@ -1169,6 +1178,12 @@
             },
             "to": {
               "type": "string"
+            },
+            "starting": {
+              "type": "string"
+            },
+            "ending": {
+              "type": "string"
             }
           },
           "required": [
@@ -1179,7 +1194,9 @@
             "lastTwelveMonths",
             "custom",
             "from",
-            "to"
+            "to",
+            "starting",
+            "ending"
           ],
           "additionalProperties": false
         },
@@ -1219,11 +1236,63 @@
           ],
           "additionalProperties": false
         },
+        "sorting": {
+          "type": "object",
+          "properties": {
+            "alphabeticallyAsc": {
+              "type": "string"
+            },
+            "alphabeticallyDesc": {
+              "type": "string"
+            },
+            "dateAsc": {
+              "type": "string"
+            },
+            "dateDesc": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "alphabeticallyAsc",
+            "alphabeticallyDesc",
+            "dateAsc",
+            "dateDesc"
+          ],
+          "additionalProperties": false
+        },
+        "radio": {
+          "type": "object",
+          "properties": {
+            "yes": {
+              "type": "string"
+            },
+            "no": {
+              "type": "string"
+            },
+            "true": {
+              "type": "string"
+            },
+            "false": {
+              "type": "string"
+            }
+          },
+          "required": ["yes", "no", "true", "false"],
+          "additionalProperties": false
+        },
         "addFilter": {
           "type": "string"
         }
       },
-      "required": ["date", "compare", "addFilter"],
+      "required": [
+        "sortLabel",
+        "filterLabel",
+        "searchLabel",
+        "date",
+        "compare",
+        "sorting",
+        "radio",
+        "addFilter"
+      ],
       "additionalProperties": false
     },
     "errorBoundary": {
@@ -1775,7 +1844,40 @@
           "type": "string"
         },
         "variants": {
-          "type": "string"
+          "type": "object",
+          "properties": {
+            "header": {
+              "type": "string"
+            },
+            "empty": {
+              "type": "object",
+              "properties": {
+                "heading": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              },
+              "required": ["heading", "description"],
+              "additionalProperties": false
+            },
+            "filtered": {
+              "type": "object",
+              "properties": {
+                "heading": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              },
+              "required": ["heading", "description"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["header", "empty", "filtered"],
+          "additionalProperties": false
         },
         "attributes": {
           "type": "string"
@@ -2442,19 +2544,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "alreadyManaged",
-                "alreadyManagedWithSku"
-              ],
+              "required": ["alreadyManaged", "alreadyManagedWithSku"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "heading",
-            "description",
-            "loading",
-            "tooltips"
-          ],
+          "required": ["heading", "description", "loading", "tooltips"],
           "additionalProperties": false
         },
         "toasts": {
@@ -3360,6 +3454,39 @@
         "subtitle": {
           "type": "string"
         },
+        "list": {
+          "type": "object",
+          "properties": {
+            "empty": {
+              "type": "object",
+              "properties": {
+                "heading": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              },
+              "required": ["heading", "description"],
+              "additionalProperties": false
+            },
+            "filtered": {
+              "type": "object",
+              "properties": {
+                "heading": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              },
+              "required": ["heading", "description"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["empty", "filtered"],
+          "additionalProperties": false
+        },
         "create": {
           "type": "object",
           "properties": {
@@ -3476,6 +3603,7 @@
       "required": [
         "domain",
         "subtitle",
+        "list",
         "create",
         "edit",
         "delete",
@@ -7266,14 +7394,7 @@
                   "additionalProperties": false
                 }
               },
-              "required": [
-                "label",
-                "draft",
-                "active",
-                "inactive",
-                "enabled",
-                "disabled"
-              ],
+              "required": ["label", "draft", "active", "inactive"],
               "additionalProperties": false
             },
             "method": {
@@ -8343,6 +8464,39 @@
           "required": ["admin", "developer", "member"],
           "additionalProperties": false
         },
+        "list": {
+          "type": "object",
+          "properties": {
+            "empty": {
+              "type": "object",
+              "properties": {
+                "heading": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              },
+              "required": ["heading", "description"],
+              "additionalProperties": false
+            },
+            "filtered": {
+              "type": "object",
+              "properties": {
+                "heading": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              },
+              "required": ["heading", "description"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["empty", "filtered"],
+          "additionalProperties": false
+        },
         "deleteUserWarning": {
           "type": "string"
         },
@@ -8368,6 +8522,7 @@
         "acceptedOnDate",
         "inviteStatus",
         "roles",
+        "list",
         "deleteUserWarning",
         "deleteUserSuccess",
         "invite"
@@ -10034,10 +10189,10 @@
         "active": {
           "type": "string"
         },
-        "draft": {
+        "inactive": {
           "type": "string"
         },
-        "inactive": {
+        "draft": {
           "type": "string"
         },
         "enabled": {
@@ -10047,7 +10202,15 @@
           "type": "string"
         }
       },
-      "required": ["draft", "inactive", "active", "scheduled", "expired"],
+      "required": [
+        "scheduled",
+        "expired",
+        "active",
+        "inactive",
+        "draft",
+        "enabled",
+        "disabled"
+      ],
       "additionalProperties": false
     },
     "labels": {

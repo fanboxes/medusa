@@ -12,7 +12,6 @@ import {
   PrimaryKey,
   Property,
   Utils,
-  t as mikroOrmType,
 } from "@mikro-orm/core"
 import { generateEntityId, isDefined } from "../../../common"
 import { MikroOrmBigNumberProperty } from "../../../dal"
@@ -122,7 +121,8 @@ export function defineProperty(
 ) {
   const field = property.parse(propertyName)
   /**
-   * Here we initialize nullable properties with a null value
+   * Here we initialize all properties with their default values on before create
+   * which means when persist is called but not necessarely flush
    */
   if (isDefined(field.defaultValue) || field.nullable) {
     const defaultValueSetterHookName = `${field.fieldName}_setDefaultValueOnBeforeCreate`
@@ -274,11 +274,12 @@ export function defineProperty(
       : Property
 
     Prop({
-      columnType: "serial",
-      type: mikroOrmType.integer,
-      nullable: true,
+      autoincrement: true,
+      type: "number",
+      runtimeType: "number",
+      nullable: field.nullable,
       fieldName: field.fieldName,
-      serializer: Number,
+      serializer: (value) => (value == null ? value : Number(value)),
     })(MikroORMEntity.prototype, field.fieldName)
     return
   }
@@ -290,13 +291,14 @@ export function defineProperty(
     Property({
       columnType: "real",
       type: "number",
+      runtimeType: "number",
       nullable: field.nullable,
       fieldName: field.fieldName,
       /**
        * Applying number serializer to convert value back to a
        * JavaScript number
        */
-      serializer: Number,
+      serializer: (value) => (value == null ? value : Number(value)),
       /**
        * MikroORM does not ignore undefined values for default when generating
        * the database schema SQL. Conditionally add it here to prevent undefined

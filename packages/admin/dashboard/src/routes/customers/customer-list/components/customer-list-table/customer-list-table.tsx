@@ -8,7 +8,7 @@ import { Link } from "react-router-dom"
 
 import { HttpTypes } from "@medusajs/types"
 import { ActionMenu } from "../../../../../components/common/action-menu"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { useCustomers } from "../../../../../hooks/api/customers"
 import { useCustomerTableColumns } from "../../../../../hooks/table/columns/use-customer-table-columns"
 import { useCustomerTableFilters } from "../../../../../hooks/table/filters/use-customer-table-filters"
@@ -56,7 +56,7 @@ export const CustomerListTable = () => {
           </Button>
         </Link>
       </div>
-      <DataTable
+      <_DataTable
         table={table}
         columns={columns}
         pageSize={PAGE_SIZE}

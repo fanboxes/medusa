@@ -85,12 +85,14 @@ export abstract class AbstractEventBusModuleService
      * otherwise we generate a random using a ulid
      */
 
-    const randId = ulid()
     const event = eventName.toString()
+    const subscriberId = context?.subscriberId ?? `${event}-${ulid()}`
+
+    ;(subscriber as any).subscriberId = subscriberId
 
     this.storeSubscribers({
       event,
-      subscriberId: context?.subscriberId ?? `${event}-${randId}`,
+      subscriberId,
       subscriber,
     })
 
@@ -100,21 +102,19 @@ export abstract class AbstractEventBusModuleService
   unsubscribe(
     eventName: string | symbol,
     subscriber: EventBusTypes.Subscriber,
-    context: EventBusTypes.SubscriberContext
+    context?: EventBusTypes.SubscriberContext
   ): this {
     if (!this.isWorkerMode) {
       return this
     }
 
-    if (typeof subscriber !== `function`) {
-      throw new Error("Subscriber must be a function")
-    }
-
     const existingSubscribers = this.eventToSubscribersMap_.get(eventName)
+    const subscriberId =
+      context?.subscriberId ?? (subscriber as any).subscriberId
 
     if (existingSubscribers?.length) {
       const subIndex = existingSubscribers?.findIndex(
-        (sub) => sub.id === context?.subscriberId
+        (sub) => sub.id === subscriberId
       )
 
       if (subIndex !== -1) {

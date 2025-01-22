@@ -1,172 +1,223 @@
 import { PencilSquare, Trash } from "@medusajs/icons"
+import { HttpTypes } from "@medusajs/types"
 import {
-  Button,
   Container,
-  Heading,
-  Text,
+  createDataTableColumnHelper,
   toast,
   usePrompt,
 } from "@medusajs/ui"
-import { createColumnHelper } from "@tanstack/react-table"
-import { useMemo } from "react"
+import { keepPreviousData } from "@tanstack/react-query"
+import { useCallback, useMemo } from "react"
 import { useTranslation } from "react-i18next"
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
-import { HttpTypes } from "@medusajs/types"
-import { ActionMenu } from "../../../../../components/common/action-menu"
-import { DataTable } from "../../../../../components/table/data-table"
+import { DataTable } from "../../../../../components/data-table"
+import { useDataTableDateFilters } from "../../../../../components/data-table/hooks/general/use-data-table-date-filters"
+import { SingleColumnPage } from "../../../../../components/layout/pages"
+import { useDashboardExtension } from "../../../../../extensions"
 import {
   useCustomerGroups,
-  useDeleteCustomerGroup,
-} from "../../../../../hooks/api/customer-groups"
-import { useCustomerGroupTableColumns } from "../../../../../hooks/table/columns/use-customer-group-table-columns"
-import { useCustomerGroupTableFilters } from "../../../../../hooks/table/filters/use-customer-group-table-filters"
-import { useCustomerGroupTableQuery } from "../../../../../hooks/table/query/use-customer-group-table-query"
-import { useDataTable } from "../../../../../hooks/use-data-table"
+  useDeleteCustomerGroupLazy,
+} from "../../../../../hooks/api"
+import { useDate } from "../../../../../hooks/use-date"
+import { useQueryParams } from "../../../../../hooks/use-query-params"
 
-const PAGE_SIZE = 20
+const PAGE_SIZE = 10
 
 export const CustomerGroupListTable = () => {
   const { t } = useTranslation()
+  const { getWidgets } = useDashboardExtension()
 
-  const { searchParams, raw } = useCustomerGroupTableQuery({
-    pageSize: PAGE_SIZE,
-  })
-  const { customer_groups, count, isLoading, isError, error } =
-    useCustomerGroups({
-      ...searchParams,
-      fields: "id,name,customers.id",
-    })
+  const { q, order, offset, created_at, updated_at } = useQueryParams([
+    "q",
+    "order",
+    "offset",
+    "created_at",
+    "updated_at",
+  ])
 
-  const filters = useCustomerGroupTableFilters()
   const columns = useColumns()
+  const filters = useFilters()
 
-  const { table } = useDataTable({
-    data: customer_groups ?? [],
-    columns,
-    enablePagination: true,
-    count,
-    getRowId: (row) => row.id,
-    pageSize: PAGE_SIZE,
-  })
+  const { customer_groups, count, isPending, isError, error } =
+    useCustomerGroups(
+      {
+        q,
+        order,
+        offset: offset ? parseInt(offset) : undefined,
+        limit: PAGE_SIZE,
+        created_at: created_at ? JSON.parse(created_at) : undefined,
+        updated_at: updated_at ? JSON.parse(updated_at) : undefined,
+        fields: "id,name,created_at,updated_at,customers.id",
+      },
+      {
+        placeholderData: keepPreviousData,
+      }
+    )
 
   if (isError) {
     throw error
   }
 
   return (
-    <Container className="divide-y p-0">
-      <div className="flex items-center justify-between px-6 py-4">
-        <div>
-          <Heading level="h2">{t("customerGroups.domain")}</Heading>
-          <Text className="text-ui-fg-subtle" size="small">
-            {t("customerGroups.subtitle")}
-          </Text>
-        </div>
-        <Link to="/customer-groups/create">
-          <Button size="small" variant="secondary">
-            {t("actions.create")}
-          </Button>
-        </Link>
-      </div>
-      <DataTable
-        table={table}
-        columns={columns}
-        pageSize={PAGE_SIZE}
-        count={count}
-        filters={filters}
-        search
-        pagination
-        navigateTo={(row) => `/customer-groups/${row.original.id}`}
-        orderBy={[
-          { key: "name", label: t("fields.name") },
-          { key: "created_at", label: t("fields.createdAt") },
-          { key: "updated_at", label: t("fields.updatedAt") },
-        ]}
-        queryObject={raw}
-        isLoading={isLoading}
-      />
-    </Container>
+    <SingleColumnPage
+      widgets={{
+        before: getWidgets("customer_group.list.before"),
+        after: getWidgets("customer_group.list.after"),
+      }}
+    >
+      <Container className="overflow-hidden p-0">
+        <DataTable
+          data={customer_groups}
+          columns={columns}
+          filters={filters}
+          heading={t("customerGroups.domain")}
+          rowCount={count}
+          getRowId={(row) => row.id}
+          rowHref={(row) => `/customer-groups/${row.id}`}
+          action={{
+            label: t("actions.create"),
+            to: "/customer-groups/create",
+          }}
+          emptyState={{
+            empty: {
+              heading: t("customerGroups.list.empty.heading"),
+              description: t("customerGroups.list.empty.description"),
+            },
+            filtered: {
+              heading: t("customerGroups.list.filtered.heading"),
+              description: t("customerGroups.list.filtered.description"),
+            },
+          }}
+          pageSize={PAGE_SIZE}
+          isLoading={isPending}
+        />
+      </Container>
+    </SingleColumnPage>
   )
 }
 
-const CustomerGroupRowActions = ({
-  group,
-}: {
-  group: HttpTypes.AdminCustomerGroup
-}) => {
-  const { t } = useTranslation()
-  const prompt = usePrompt()
-
-  const { mutateAsync } = useDeleteCustomerGroup(group.id)
-
-  const handleDelete = async () => {
-    const res = await prompt({
-      title: t("customerGroups.delete.title"),
-      description: t("customerGroups.delete.description", {
-        name: group.name,
-      }),
-      confirmText: t("actions.delete"),
-      cancelText: t("actions.cancel"),
-    })
-
-    if (!res) {
-      return
-    }
-
-    await mutateAsync(undefined, {
-      onSuccess: () => {
-        toast.success(
-          t("customerGroups.delete.successToast", {
-            name: group.name,
-          })
-        )
-      },
-      onError: (error) => {
-        toast.error(error.message)
-      },
-    })
-  }
-
-  return (
-    <ActionMenu
-      groups={[
-        {
-          actions: [
-            {
-              label: t("actions.edit"),
-              to: `/customer-groups/${group.id}/edit`,
-              icon: <PencilSquare />,
-            },
-          ],
-        },
-        {
-          actions: [
-            {
-              label: t("actions.delete"),
-              onClick: handleDelete,
-              icon: <Trash />,
-            },
-          ],
-        },
-      ]}
-    />
-  )
-}
-
-const columnHelper = createColumnHelper<HttpTypes.AdminCustomerGroup>()
+const columnHelper = createDataTableColumnHelper<HttpTypes.AdminCustomerGroup>()
 
 const useColumns = () => {
-  const columns = useCustomerGroupTableColumns()
+  const { t } = useTranslation()
+  const { getFullDate } = useDate()
+  const navigate = useNavigate()
+  const prompt = usePrompt()
 
-  return useMemo(
-    () => [
-      ...columns,
-      columnHelper.display({
-        id: "actions",
-        cell: ({ row }) => <CustomerGroupRowActions group={row.original} />,
-      }),
-    ],
-    [columns]
+  const { mutateAsync: deleteCustomerGroup } = useDeleteCustomerGroupLazy()
+
+  const handleDeleteCustomerGroup = useCallback(
+    async ({ id, name }: { id: string; name: string }) => {
+      const res = await prompt({
+        title: t("customerGroups.delete.title"),
+        description: t("customerGroups.delete.description", {
+          name,
+        }),
+        verificationText: name,
+        verificationInstruction: t("general.typeToConfirm"),
+        confirmText: t("actions.delete"),
+        cancelText: t("actions.cancel"),
+      })
+
+      if (!res) {
+        return
+      }
+
+      await deleteCustomerGroup(
+        { id },
+        {
+          onSuccess: () => {
+            toast.success(t("customerGroups.delete.successToast", { name }))
+          },
+          onError: (e) => {
+            toast.error(e.message)
+          },
+        }
+      )
+    },
+    [t, prompt, deleteCustomerGroup]
   )
+
+  return useMemo(() => {
+    return [
+      columnHelper.accessor("name", {
+        header: t("fields.name"),
+        enableSorting: true,
+        sortAscLabel: t("filters.sorting.alphabeticallyAsc"),
+        sortDescLabel: t("filters.sorting.alphabeticallyDesc"),
+      }),
+      columnHelper.accessor("customers", {
+        header: t("customers.domain"),
+        cell: ({ row }) => {
+          return <span>{row.original.customers?.length ?? 0}</span>
+        },
+      }),
+      columnHelper.accessor("created_at", {
+        header: t("fields.createdAt"),
+        cell: ({ row }) => {
+          return (
+            <span>
+              {getFullDate({
+                date: row.original.created_at,
+                includeTime: true,
+              })}
+            </span>
+          )
+        },
+        enableSorting: true,
+        sortAscLabel: t("filters.sorting.dateAsc"),
+        sortDescLabel: t("filters.sorting.dateDesc"),
+      }),
+      columnHelper.accessor("updated_at", {
+        header: t("fields.updatedAt"),
+        cell: ({ row }) => {
+          return (
+            <span>
+              {getFullDate({
+                date: row.original.updated_at,
+                includeTime: true,
+              })}
+            </span>
+          )
+        },
+        enableSorting: true,
+        sortAscLabel: t("filters.sorting.dateAsc"),
+        sortDescLabel: t("filters.sorting.dateDesc"),
+      }),
+      columnHelper.action({
+        actions: [
+          [
+            {
+              icon: <PencilSquare />,
+              label: t("actions.edit"),
+              onClick: (row) => {
+                navigate(`/customer-groups/${row.row.original.id}/edit`)
+              },
+            },
+          ],
+          [
+            {
+              icon: <Trash />,
+              label: t("actions.delete"),
+              onClick: (row) => {
+                handleDeleteCustomerGroup({
+                  id: row.row.original.id,
+                  name: row.row.original.name ?? "",
+                })
+              },
+            },
+          ],
+        ],
+      }),
+    ]
+  }, [t, navigate, getFullDate, handleDeleteCustomerGroup])
+}
+
+const useFilters = () => {
+  const dateFilters = useDataTableDateFilters()
+
+  return useMemo(() => {
+    return dateFilters
+  }, [dateFilters])
 }

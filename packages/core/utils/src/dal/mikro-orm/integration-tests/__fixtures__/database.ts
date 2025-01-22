@@ -1,5 +1,5 @@
 const DB_HOST = process.env.DB_HOST ?? "localhost"
-const DB_USERNAME = process.env.DB_USERNAME ?? ""
+const DB_USERNAME = process.env.DB_USERNAME ?? "postgres"
 const DB_PASSWORD = process.env.DB_PASSWORD
 
 export const pgGodCredentials = {

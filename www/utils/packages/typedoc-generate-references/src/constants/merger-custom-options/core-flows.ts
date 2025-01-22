@@ -47,6 +47,7 @@ const coreFlowsOptions: FormattingOptionsType = {
     frontmatterData: {
       slug: "/references/medusa-workflows/{{alias}}",
       sidebar_label: "{{alias}}",
+      sidebar_description: "{{summary}}",
     },
     reflectionTitle: {
       kind: false,

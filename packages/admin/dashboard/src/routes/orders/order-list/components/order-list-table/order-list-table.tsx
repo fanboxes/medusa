@@ -2,7 +2,7 @@ import { Container, Heading } from "@medusajs/ui"
 import { keepPreviousData } from "@tanstack/react-query"
 import { useTranslation } from "react-i18next"
 
-import { DataTable } from "../../../../../components/table/data-table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table/data-table"
 import { useOrders } from "../../../../../hooks/api/orders"
 import { useOrderTableColumns } from "../../../../../hooks/table/columns/use-order-table-columns"
 import { useOrderTableFilters } from "../../../../../hooks/table/filters/use-order-table-filters"
@@ -49,7 +49,7 @@ export const OrderListTable = () => {
       <div className="flex items-center justify-between px-6 py-4">
         <Heading>{t("orders.domain")}</Heading>
       </div>
-      <DataTable
+      <_DataTable
         columns={columns}
         table={table}
         pagination

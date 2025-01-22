@@ -7,8 +7,8 @@ import { useTranslation } from "react-i18next"
 
 import { useSelectedParams } from "../hooks"
 import { useDataTableFilterContext } from "./context"
-import { IFilter } from "./types"
 import FilterChip from "./filter-chip"
+import { IFilter } from "./types"
 
 interface SelectFilterProps extends IFilter {
   options: { label: string; value: unknown }[]
@@ -41,7 +41,9 @@ export const SelectFilter = ({
     .map((v) => options.find((o) => o.value === v)?.label)
     .filter(Boolean) as string[]
 
-  const [previousValue, setPreviousValue] = useState<string | string[] | undefined>(labelValues)
+  const [previousValue, setPreviousValue] = useState<
+    string | string[] | undefined
+  >(labelValues)
 
   const handleRemove = () => {
     selectedParams.delete()
@@ -84,8 +86,16 @@ export const SelectFilter = ({
     }
   }
 
-  const normalizedValues = labelValues ? (Array.isArray(labelValues) ? labelValues : [labelValues]) : null
-  const normalizedPrev = previousValue ? (Array.isArray(previousValue) ? previousValue : [previousValue]) : null
+  const normalizedValues = labelValues
+    ? Array.isArray(labelValues)
+      ? labelValues
+      : [labelValues]
+    : null
+  const normalizedPrev = previousValue
+    ? Array.isArray(previousValue)
+      ? previousValue
+      : [previousValue]
+    : null
 
   return (
     <Popover.Root modal open={open} onOpenChange={handleOpenChange}>

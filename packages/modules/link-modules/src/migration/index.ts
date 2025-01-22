@@ -233,6 +233,28 @@ export class MigrationsExecutionPlanner implements ILinkMigrationsPlanner {
     }))
   }
 
+  private pickTableRelatedCommands(tableName: string, sqlCommand: string) {
+    const ignoreColumns = ["created_at", "updated_at", "deleted_at"]
+    const commands = sqlCommand.split(";")
+    const returnedCommands = commands
+      .filter((command) => {
+        const cmd = command.trim()
+        return (
+          cmd.length &&
+          cmd !== "set names 'utf8'" &&
+          cmd.includes(`"${tableName}"`) &&
+          !ignoreColumns.some((column) => cmd.includes(`column "${column}"`))
+        )
+      })
+      .map((cmd) => cmd.trim())
+
+    if (returnedCommands.length > 0) {
+      // adds ; at the end of each command
+      returnedCommands.push("")
+    }
+
+    return returnedCommands.join(";")
+  }
   /**
    * Returns the migration plan for a specific link entity.
    */
@@ -282,11 +304,13 @@ export class MigrationsExecutionPlanner implements ILinkMigrationsPlanner {
           },
         ])
 
-      const updateSQL = normalizeMigrationSQL(
+      let updateSQL = normalizeMigrationSQL(
         await generator.getUpdateSchemaSQL({
           fromSchema: dbSchema,
         })
       )
+
+      updateSQL = this.pickTableRelatedCommands(tableName, updateSQL)
 
       /**
        * Entity is upto-date and hence we do not have to perform

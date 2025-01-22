@@ -2,7 +2,7 @@ import { OnChangeFn, RowSelectionState } from "@tanstack/react-table"
 import { useState } from "react"
 
 import { useTranslation } from "react-i18next"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { useVariants } from "../../../../../hooks/api"
 import { useDataTable } from "../../../../../hooks/use-data-table"
 import { useOrderEditItemsTableColumns } from "./use-order-edit-item-table-columns"
@@ -65,7 +65,7 @@ export const AddOrderEditItemsTable = ({
 
   return (
     <div className="flex size-full flex-col overflow-hidden">
-      <DataTable
+      <_DataTable
         table={table}
         columns={columns}
         pageSize={PAGE_SIZE}

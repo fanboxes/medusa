@@ -26,6 +26,10 @@ export const deletePriceListsWorkflowId = "delete-price-lists"
  *     ids: ["plist_123"]
  *   }
  * })
+ * 
+ * @summary
+ * 
+ * Delete one or more price lists.
  */
 export const deletePriceListsWorkflow = createWorkflow(
   deletePriceListsWorkflowId,

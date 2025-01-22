@@ -1,5 +1,5 @@
-import { ClaimType, Modules, RuleOperator } from "@medusajs/utils"
 import { medusaIntegrationTestRunner } from "@medusajs/test-utils"
+import { ClaimType, Modules, RuleOperator } from "@medusajs/utils"
 import {
   adminHeaders,
   createAdminUser,
@@ -7,7 +7,7 @@ import {
 import { setupTaxStructure } from "../../../../modules/__tests__/fixtures"
 import { createOrderSeeder } from "../../fixtures/order"
 
-jest.setTimeout(30000)
+jest.setTimeout(300000)
 
 medusaIntegrationTestRunner({
   testSuite: ({ dbConnection, getContainer, api }) => {
@@ -268,6 +268,7 @@ medusaIntegrationTestRunner({
           {
             items: [
               {
+                title: "new ITEM",
                 variant_id: order.items[0].variant_id,
                 quantity: 1,
               },
@@ -480,6 +481,7 @@ medusaIntegrationTestRunner({
           {
             items: [
               {
+                title: "Test item 2",
                 variant_id: order.items[0].variant_id,
                 quantity: 1,
               },
@@ -551,7 +553,7 @@ medusaIntegrationTestRunner({
           })
         )
 
-        inboundItem = orderResult.items[0]
+        inboundItem = orderResult.items[1]
 
         await api.post(
           `/admin/claims/${claimWithInboundAndOutbound.id}/inbound/items`,

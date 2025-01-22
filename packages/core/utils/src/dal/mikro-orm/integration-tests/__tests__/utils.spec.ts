@@ -1,6 +1,8 @@
-import { mikroOrmUpdateDeletedAtRecursively } from "../../utils"
 import { MikroORM } from "@mikro-orm/core"
-import { SqlEntityManager } from "@mikro-orm/postgresql"
+import { defineConfig, SqlEntityManager } from "@mikro-orm/postgresql"
+import { dropDatabase } from "pg-god"
+import { mikroOrmUpdateDeletedAtRecursively } from "../../utils"
+import { getDatabaseURL, pgGodCredentials } from "../__fixtures__/database"
 import {
   DeepRecursiveEntity1,
   DeepRecursiveEntity2,
@@ -12,8 +14,6 @@ import {
   RecursiveEntity1,
   RecursiveEntity2,
 } from "../__fixtures__/utils"
-import { dropDatabase } from "pg-god"
-import { getDatabaseURL, pgGodCredentials } from "../__fixtures__/database"
 
 const dbName = "mikroorm-utils-integration-1"
 
@@ -38,21 +38,22 @@ describe("mikroOrmUpdateDeletedAtRecursively", () => {
         pgGodCredentials
       )
 
-      orm = await MikroORM.init({
-        entities: [
-          Entity1,
-          Entity2,
-          RecursiveEntity1,
-          RecursiveEntity2,
-          DeepRecursiveEntity1,
-          DeepRecursiveEntity2,
-          DeepRecursiveEntity3,
-          DeepRecursiveEntity4,
-          InternalCircularDependencyEntity1,
-        ],
-        clientUrl: getDatabaseURL(dbName),
-        type: "postgresql",
-      })
+      orm = await MikroORM.init(
+        defineConfig({
+          entities: [
+            Entity1,
+            Entity2,
+            RecursiveEntity1,
+            RecursiveEntity2,
+            DeepRecursiveEntity1,
+            DeepRecursiveEntity2,
+            DeepRecursiveEntity3,
+            DeepRecursiveEntity4,
+            InternalCircularDependencyEntity1,
+          ],
+          clientUrl: getDatabaseURL(dbName),
+        })
+      )
 
       const generator = orm.getSchemaGenerator()
       await generator.ensureDatabase()

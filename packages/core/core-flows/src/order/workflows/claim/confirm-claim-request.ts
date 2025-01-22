@@ -327,6 +327,8 @@ export const confirmClaimRequestWorkflow = createWorkflow(
       fields: [
         "id",
         "status",
+        "claim_id",
+        "return_id",
         "actions.id",
         "actions.claim_id",
         "actions.return_id",

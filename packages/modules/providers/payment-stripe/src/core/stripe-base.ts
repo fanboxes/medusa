@@ -7,6 +7,8 @@ import {
   PaymentProviderError,
   PaymentProviderSessionResponse,
   ProviderWebhookPayload,
+  SavePaymentMethod,
+  SavePaymentMethodResponse,
   UpdatePaymentProviderSession,
   WebhookActionResult,
 } from "@medusajs/framework/types"
@@ -317,6 +319,27 @@ abstract class StripeBase extends AbstractPaymentProvider<StripeOptions> {
       id: method.id,
       data: method as unknown as Record<string, unknown>,
     }))
+  }
+
+  async savePaymentMethod(
+    input: SavePaymentMethod
+  ): Promise<PaymentProviderError | SavePaymentMethodResponse> {
+    const { context, data } = input
+    const customer = context?.customer
+
+    if (!customer?.metadata?.stripe_id) {
+      return this.buildError(
+        "Account holder not set while saving a payment method",
+        new Error("Missing account holder")
+      )
+    }
+
+    const resp = await this.stripe_.setupIntents.create({
+      customer: customer.metadata.stripe_id as string,
+      ...data,
+    })
+
+    return { id: resp.id, data: resp as unknown as Record<string, unknown> }
   }
 
   async getWebhookActionAndData(

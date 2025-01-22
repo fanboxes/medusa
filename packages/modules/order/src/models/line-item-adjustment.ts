@@ -1,42 +1,24 @@
-import {
-  createPsqlIndexStatementHelper,
-  generateEntityId,
-} from "@medusajs/framework/utils"
-import { BeforeCreate, Entity, ManyToOne, OnInit, Rel } from "@mikro-orm/core"
-import AdjustmentLine from "./adjustment-line"
-import OrderLineItem from "./line-item"
+import { model } from "@medusajs/framework/utils"
+import { OrderLineItem } from "./line-item"
 
-const ItemIdIndex = createPsqlIndexStatementHelper({
-  tableName: "order_line_item_adjustment",
-  columns: "item_id",
-})
-
-@Entity({ tableName: "order_line_item_adjustment" })
-export default class OrderLineItemAdjustment extends AdjustmentLine {
-  @ManyToOne(() => OrderLineItem, {
-    persist: false,
+const _OrderLineItemAdjustment = model
+  .define("OrderLineItemAdjustment", {
+    id: model.id({ prefix: "ordliadj" }).primaryKey(),
+    description: model.text().nullable(),
+    promotion_id: model.text().nullable(),
+    code: model.text().nullable(),
+    amount: model.bigNumber(),
+    provider_id: model.text().nullable(),
+    item: model.belongsTo<() => typeof OrderLineItem>(() => OrderLineItem, {
+      mappedBy: "adjustments",
+    }),
   })
-  item: Rel<OrderLineItem>
+  .indexes([
+    {
+      name: "IDX_order_order_line_item_adjustment_item_id",
+      on: ["item_id"],
+      unique: false,
+    },
+  ])
 
-  @ManyToOne({
-    entity: () => OrderLineItem,
-    columnType: "text",
-    fieldName: "item_id",
-    onDelete: "cascade",
-    mapToPk: true,
-  })
-  @ItemIdIndex.MikroORMIndex()
-  item_id: string
-
-  @BeforeCreate()
-  onCreate() {
-    this.id = generateEntityId(this.id, "ordliadj")
-    this.item_id ??= this.item?.id
-  }
-
-  @OnInit()
-  onInit() {
-    this.id = generateEntityId(this.id, "ordliadj")
-    this.item_id ??= this.item?.id
-  }
-}
+export const OrderLineItemAdjustment = _OrderLineItemAdjustment

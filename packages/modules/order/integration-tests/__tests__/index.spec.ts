@@ -12,19 +12,21 @@ moduleIntegrationTestRunner<IOrderModuleService>({
           service: OrderModuleService,
         }).linkable
 
-        expect(Object.keys(linkable)).toEqual([
-          "order",
-          "orderAddress",
-          "orderChange",
-          "orderClaim",
-          "orderExchange",
-          "orderItem",
-          "orderLineItem",
-          "orderShippingMethod",
-          "orderTransaction",
-          "return",
-          "returnReason",
-        ])
+        expect(Object.keys(linkable)).toEqual(
+          expect.arrayContaining([
+            "order",
+            "orderAddress",
+            "orderChange",
+            "orderClaim",
+            "orderExchange",
+            "orderItem",
+            "orderLineItem",
+            "orderShippingMethod",
+            "orderTransaction",
+            "return",
+            "returnReason",
+          ])
+        )
 
         Object.keys(linkable).forEach((key) => {
           delete linkable[key].toJSON

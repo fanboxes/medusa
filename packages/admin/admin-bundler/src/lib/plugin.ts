@@ -1,9 +1,8 @@
-import react from "@vitejs/plugin-react"
 import { readFileSync } from "fs"
 import { rm } from "fs/promises"
 import { glob } from "glob"
 import path from "path"
-import { UserConfig } from "vite"
+import type { UserConfig } from "vite"
 
 interface PluginOptions {
   root: string
@@ -12,6 +11,7 @@ interface PluginOptions {
 
 export async function plugin(options: PluginOptions) {
   const vite = await import("vite")
+  const react = (await import("@vitejs/plugin-react")).default
   const entries = await glob(`${options.root}/src/admin/**/*.{ts,tsx,js,jsx}`)
 
   /**

@@ -7,36 +7,45 @@ import {
   Loaded,
   Platform,
   Reference,
-  ReferenceType,
+  ReferenceKind,
   SerializationContext,
   SerializeOptions,
   Utils,
 } from "@mikro-orm/core"
 
+type CustomSerializeOptions<T, P = any> = SerializeOptions<T, P & string> & {
+  preventCircularRef?: boolean
+  populate?: [keyof T][] | boolean
+}
+
 function isVisible<T extends object>(
   meta: EntityMetadata<T>,
   propName: string,
-  options: SerializeOptions<T, any> & { preventCircularRef?: boolean } = {}
+  options: CustomSerializeOptions<T> = {}
 ): boolean {
   if (options.populate === true) {
-    return options.populate
+    return true
   }
 
   if (
     Array.isArray(options.populate) &&
-    options.populate?.find(
+    options.exclude?.find((item) => item === propName)
+  ) {
+    return false
+  }
+
+  if (
+    Array.isArray(options.populate) &&
+    (options.populate?.find(
       (item) => item === propName || item.startsWith(propName + ".")
-    )
+    ) ||
+      options.populate.includes("*"))
   ) {
     return true
   }
 
-  if (options.exclude?.find((item) => item === propName)) {
-    return false
-  }
-
   const prop = meta.properties[propName]
-  const visible = prop && !prop.hidden
+  const visible = (prop && !prop.hidden) || prop === undefined // allow unknown properties
   const prefixed = prop && !prop.primary && propName.startsWith("_") // ignore prefixed properties, if it's not a PK
 
   return visible && !prefixed
@@ -45,13 +54,14 @@ function isVisible<T extends object>(
 function isPopulated<T extends object>(
   entity: T,
   propName: string,
-  options: SerializeOptions<T, any>
+  options: CustomSerializeOptions<T>
 ): boolean {
   if (
-    typeof options.populate !== "boolean" &&
-    options.populate?.find(
+    Array.isArray(options.populate) &&
+    (options.populate?.find(
       (item) => item === propName || item.startsWith(propName + ".")
-    )
+    ) ||
+      options.populate.includes("*"))
   ) {
     return true
   }
@@ -78,9 +88,7 @@ function filterEntityPropToSerialize({
 }: {
   propName: string
   meta: EntityMetadata
-  options: SerializeOptions<object, any> & {
-    preventCircularRef?: boolean
-  }
+  options: CustomSerializeOptions<any>
   parents?: string[]
 }): boolean {
   parents ??= []
@@ -92,7 +100,7 @@ function filterEntityPropToSerialize({
     prop &&
     options.preventCircularRef &&
     isVisibleRes &&
-    prop.reference !== ReferenceType.SCALAR
+    prop.kind !== ReferenceKind.SCALAR
   ) {
     // mapToPk would represent a foreign key and we want to keep them
     if (!!prop.mapToPk) {
@@ -108,7 +116,7 @@ function filterEntityPropToSerialize({
 export class EntitySerializer {
   static serialize<T extends object, P extends string = never>(
     entity: T,
-    options: SerializeOptions<T, P> & { preventCircularRef?: boolean } = {},
+    options: CustomSerializeOptions<T, P> = {},
     parents: string[] = []
   ): EntityDTO<Loaded<T, P>> {
     const parents_ = Array.from(new Set(parents))
@@ -118,12 +126,11 @@ export class EntitySerializer {
     let contextCreated = false
 
     if (!wrapped.__serializationContext.root) {
-      const root = new SerializationContext<T>()
+      const root = new SerializationContext<T>({} as any)
       SerializationContext.propagate(
         root,
         entity,
-        (meta, prop) =>
-          meta.properties[prop]?.reference !== ReferenceType.SCALAR
+        (meta, prop) => meta.properties[prop]?.kind !== ReferenceKind.SCALAR
       )
       contextCreated = true
     }
@@ -238,25 +245,25 @@ export class EntitySerializer {
 
   private static propertyName<T>(
     meta: EntityMetadata<T>,
-    prop: keyof T & string,
+    prop: string,
     platform?: Platform
   ): string {
     /* istanbul ignore next */
     if (meta.properties[prop]?.serializedName) {
-      return meta.properties[prop].serializedName as keyof T & string
+      return meta.properties[prop].serializedName as string
     }
 
     if (meta.properties[prop]?.primary && platform) {
-      return platform.getSerializedPrimaryKeyField(prop) as keyof T & string
+      return platform.getSerializedPrimaryKeyField(prop) as string
     }
 
     return prop
   }
 
   private static processProperty<T extends object>(
-    prop: keyof T & string,
+    prop: string,
     entity: T,
-    options: SerializeOptions<T, any>,
+    options: CustomSerializeOptions<T>,
     parents: string[] = []
   ): T[keyof T] | undefined {
     const parents_ = [...parents, entity.constructor.name]
@@ -284,12 +291,17 @@ export class EntitySerializer {
     }
 
     if (Utils.isCollection(entity[prop])) {
-      return this.processCollection(prop, entity, options, parents_)
+      return this.processCollection(
+        prop as keyof T & string,
+        entity,
+        options,
+        parents_
+      )
     }
 
     if (Utils.isEntity(entity[prop], true)) {
       return this.processEntity(
-        prop,
+        prop as keyof T & string,
         entity,
         wrapped.__platform,
         options,
@@ -298,7 +310,7 @@ export class EntitySerializer {
     }
 
     /* istanbul ignore next */
-    if (property?.reference === ReferenceType.EMBEDDED) {
+    if (property?.reference === ReferenceKind.EMBEDDED) {
       if (Array.isArray(entity[prop])) {
         return (entity[prop] as object[]).map((item) =>
           helper(item).toJSON()
@@ -322,9 +334,9 @@ export class EntitySerializer {
   }
 
   private static extractChildOptions<T extends object, U extends object>(
-    options: SerializeOptions<T, any>,
+    options: CustomSerializeOptions<T>,
     prop: keyof T & string
-  ): SerializeOptions<U, any> {
+  ): CustomSerializeOptions<U> {
     const extractChildElements = (items: string[]) => {
       return items
         .filter((field) => field.startsWith(`${prop}.`))
@@ -333,20 +345,22 @@ export class EntitySerializer {
 
     return {
       ...options,
-      populate: Array.isArray(options.populate)
-        ? extractChildElements(options.populate)
-        : options.populate,
-      exclude: Array.isArray(options.exclude)
-        ? extractChildElements(options.exclude)
-        : options.exclude,
-    } as SerializeOptions<U, any>
+      populate:
+        Array.isArray(options.populate) && !options.populate.includes("*")
+          ? extractChildElements(options.populate as unknown as string[])
+          : options.populate,
+      exclude:
+        Array.isArray(options.exclude) && !options.exclude.includes("*")
+          ? extractChildElements(options.exclude)
+          : options.exclude,
+    } as CustomSerializeOptions<U>
   }
 
   private static processEntity<T extends object>(
     prop: keyof T & string,
     entity: T,
     platform: Platform,
-    options: SerializeOptions<T, any>,
+    options: CustomSerializeOptions<T>,
     parents: string[] = []
   ): T[keyof T] | undefined {
     const parents_ = [...parents, entity.constructor.name]
@@ -373,7 +387,7 @@ export class EntitySerializer {
   private static processCollection<T extends object>(
     prop: keyof T & string,
     entity: T,
-    options: SerializeOptions<T, any>,
+    options: CustomSerializeOptions<T>,
     parents: string[] = []
   ): T[keyof T] | undefined {
     const parents_ = [...parents, entity.constructor.name]
@@ -401,6 +415,7 @@ export const mikroOrmSerializer = <TOutput extends object>(
   data: any,
   options?: Parameters<typeof EntitySerializer.serialize>[1] & {
     preventCircularRef?: boolean
+    populate?: string[] | boolean
   }
 ): Promise<TOutput> => {
   return new Promise<TOutput>((resolve) => {
@@ -422,10 +437,11 @@ export const mikroOrmSerializer = <TOutput extends object>(
     let result: any = forSerialization.map((entity) =>
       EntitySerializer.serialize(entity, {
         forceObject: true,
-        populate: true,
+        populate: ["*"],
+
         preventCircularRef: true,
         ...options,
-      } as SerializeOptions<any, any>)
+      } as CustomSerializeOptions<any>)
     ) as TOutput[]
 
     if (notForSerialization.length) {

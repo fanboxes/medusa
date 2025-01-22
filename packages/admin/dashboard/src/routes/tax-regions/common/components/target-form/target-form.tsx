@@ -14,7 +14,7 @@ import {
   StackedDrawer,
   StackedFocusModal,
 } from "../../../../../components/modals"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import {
   useCollections,
   useCustomerGroups,
@@ -201,7 +201,7 @@ const CustomerGroupTable = ({
   }
 
   return (
-    <DataTable
+    <_DataTable
       table={table}
       columns={columns}
       pageSize={PAGE_SIZE}
@@ -337,7 +337,7 @@ const ProductTable = ({
   }
 
   return (
-    <DataTable
+    <_DataTable
       table={table}
       columns={columns}
       pageSize={PAGE_SIZE}
@@ -473,7 +473,7 @@ const ProductCollectionTable = ({
   }
 
   return (
-    <DataTable
+    <_DataTable
       table={table}
       columns={columns}
       pageSize={PAGE_SIZE}
@@ -609,7 +609,7 @@ const ProductTypeTable = ({
   }
 
   return (
-    <DataTable
+    <_DataTable
       table={table}
       columns={columns}
       pageSize={PAGE_SIZE}
@@ -745,7 +745,7 @@ const ProductTagTable = ({
   }
 
   return (
-    <DataTable
+    <_DataTable
       table={table}
       columns={columns}
       pageSize={PAGE_SIZE}

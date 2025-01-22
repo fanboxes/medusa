@@ -4,7 +4,6 @@
  * summary: Manage Inventory Levels
  * description: Manage inventory levels to create, update, or delete them.
  * x-authenticated: true
- * parameters: []
  * security:
  *   - api_token: []
  *   - cookie_auth: []
@@ -110,8 +109,6 @@
  * tags:
  *   - Inventory Items
  * responses:
- *   "200":
- *     description: OK
  *   "400":
  *     $ref: "#/components/responses/400_error"
  *   "401":

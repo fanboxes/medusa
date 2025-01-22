@@ -33,6 +33,10 @@ export const createRegionsWorkflowId = "create-regions"
  *     ]
  *   }
  * })
+ * 
+ * @summary
+ * 
+ * Create one or more regions.
  */
 export const createRegionsWorkflow = createWorkflow(
   createRegionsWorkflowId,

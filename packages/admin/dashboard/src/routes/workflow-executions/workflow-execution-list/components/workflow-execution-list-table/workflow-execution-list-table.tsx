@@ -1,7 +1,7 @@
 import { Container, Heading, Text } from "@medusajs/ui"
 import { keepPreviousData } from "@tanstack/react-query"
 import { useTranslation } from "react-i18next"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { useWorkflowExecutions } from "../../../../../hooks/api/workflow-executions"
 import { useDataTable } from "../../../../../hooks/use-data-table"
 import { useWorkflowExecutionTableColumns } from "./use-workflow-execution-table-columns"
@@ -50,7 +50,7 @@ export const WorkflowExecutionListTable = () => {
           </Text>
         </div>
       </div>
-      <DataTable
+      <_DataTable
         table={table}
         columns={columns}
         count={count}

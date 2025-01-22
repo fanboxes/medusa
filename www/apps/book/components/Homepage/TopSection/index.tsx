@@ -1,5 +1,6 @@
 import clsx from "clsx"
-import { BookIcon, Card, IconHeadline, WindowPaintbrushIcon } from "docs-ui"
+import { Card, IconHeadline, WindowPaintbrushIcon } from "docs-ui"
+import { Book } from "@medusajs/icons"
 import { basePathUrl } from "../../../utils/base-path-url"
 import HomepageCodeTabs from "../CodeTabs"
 
@@ -35,7 +36,7 @@ const HomepageTopSection = () => {
       >
         <div className="flex flex-col gap-1.5 pt-1 xs:pt-4 lg:py-4">
           <div className="flex flex-col gap-[10px]">
-            <IconHeadline title="Documentation" icon={<BookIcon />} />
+            <IconHeadline title="Documentation" icon={<Book />} />
             <h2 className="text-medusa-fg-base text-h1 text-pretty w-full md:w-2/3 lg:w-full">
               Learn how to build Medusa projects. Explore our guides.
             </h2>

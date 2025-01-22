@@ -310,24 +310,6 @@
       "schema": "public",
       "indexes": [
         {
-          "columnNames": [
-            "shipping_address_id"
-          ],
-          "composite": false,
-          "keyName": "cart_shipping_address_id_unique",
-          "primary": false,
-          "unique": true
-        },
-        {
-          "columnNames": [
-            "billing_address_id"
-          ],
-          "composite": false,
-          "keyName": "cart_billing_address_id_unique",
-          "primary": false,
-          "unique": true
-        },
-        {
           "keyName": "IDX_cart_deleted_at",
           "columnNames": [],
           "composite": false,

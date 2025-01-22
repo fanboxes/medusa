@@ -224,6 +224,7 @@ export async function getDbClientAndCredentials({
   client: pg.Client
   dbConnectionString: string
   verbose?: boolean
+  dbName?: string
 }> {
   if (dbName) {
     return await getForDbName({
