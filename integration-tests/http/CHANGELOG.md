@@ -1,5 +1,37 @@
 # integration-tests-http
 
+## 1.1.0
+
+### Minor Changes
+
+- [#10292](https://github.com/medusajs/medusa/pull/10292) [`cc73802ab3821d2c667942bd887efb7476205547`](https://github.com/medusajs/medusa/commit/cc73802ab3821d2c667942bd887efb7476205547) Thanks [@carlos-r-l-rodrigues](https://github.com/carlos-r-l-rodrigues)! - chore: upgrade to mikro-orm 6
+
+### Patch Changes
+
+- Updated dependencies [[`2d0e50624fa37af5f74e46048a83ce3b39b210aa`](https://github.com/medusajs/medusa/commit/2d0e50624fa37af5f74e46048a83ce3b39b210aa), [`cc73802ab3821d2c667942bd887efb7476205547`](https://github.com/medusajs/medusa/commit/cc73802ab3821d2c667942bd887efb7476205547), [`8119d9964b1617ef2a8b06998f02ce4486484344`](https://github.com/medusajs/medusa/commit/8119d9964b1617ef2a8b06998f02ce4486484344), [`ecc8efcb049f5c77cb7e38c2b6a273860590a5f4`](https://github.com/medusajs/medusa/commit/ecc8efcb049f5c77cb7e38c2b6a273860590a5f4), [`13fe2f6776b22c401d131f184fc3600ef4008383`](https://github.com/medusajs/medusa/commit/13fe2f6776b22c401d131f184fc3600ef4008383), [`45b47bf8136d05b1b9939b81cd892d4426b569f2`](https://github.com/medusajs/medusa/commit/45b47bf8136d05b1b9939b81cd892d4426b569f2), [`da3906efa42ee729c11696e2d3255a60ac3fa958`](https://github.com/medusajs/medusa/commit/da3906efa42ee729c11696e2d3255a60ac3fa958), [`e53b8b0a9708d2eb46258ca417b6ff6abbd5f3d9`](https://github.com/medusajs/medusa/commit/e53b8b0a9708d2eb46258ca417b6ff6abbd5f3d9)]:
+  - @medusajs/core-flows@2.4.0
+  - @medusajs/workflow-engine-inmemory@2.4.0
+  - @medusajs/stock-location@2.4.0
+  - @medusajs/fulfillment@2.4.0
+  - @medusajs/test-utils@2.4.0
+  - @medusajs/inventory@2.4.0
+  - @medusajs/promotion@2.4.0
+  - @medusajs/modules-sdk@2.4.0
+  - @medusajs/customer@2.4.0
+  - @medusajs/api-key@2.4.0
+  - @medusajs/pricing@2.4.0
+  - @medusajs/product@2.4.0
+  - @medusajs/region@2.4.0
+  - @medusajs/store@2.4.0
+  - @medusajs/auth@2.4.0
+  - @medusajs/user@2.4.0
+  - @medusajs/tax@2.4.0
+  - @medusajs/utils@2.4.0
+  - @medusajs/medusa@2.4.0
+  - @medusajs/event-bus-local@2.4.0
+  - @medusajs/cache-inmemory@2.4.0
+  - @medusajs/fulfillment-manual@2.4.0
+
 ## 1.0.7
 
 ### Patch Changes

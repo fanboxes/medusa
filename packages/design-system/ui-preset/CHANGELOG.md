@@ -1,5 +1,11 @@
 # @medusajs/ui-preset
 
+## 2.4.0
+
+### Minor Changes
+
+- [#11041](https://github.com/medusajs/medusa/pull/11041) [`909b685961ec43b35d74db2b158769d6ef33d5cf`](https://github.com/medusajs/medusa/commit/909b685961ec43b35d74db2b158769d6ef33d5cf) Thanks [@pnodet](https://github.com/pnodet)! - Remove tailwindcss/defaultTheme import
+
 ## 2.3.1
 
 ## 2.3.0
