@@ -1,0 +1,28 @@
+{
+  "description": "",
+  "methods": [],
+  "displayName": "DataTableContextProvider",
+  "props": {
+    "instance": {
+      "required": true,
+      "tsType": {
+        "name": "UseDataTableReturn",
+        "elements": [
+          {
+            "name": "TData"
+          }
+        ],
+        "raw": "UseDataTableReturn<TData>"
+      },
+      "description": ""
+    },
+    "children": {
+      "required": true,
+      "tsType": {
+        "name": "ReactReactNode",
+        "raw": "React.ReactNode"
+      },
+      "description": ""
+    }
+  }
+}

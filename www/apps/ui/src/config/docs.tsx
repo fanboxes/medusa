@@ -153,6 +153,13 @@ export const docsConfig: DocsConfig = {
           },
           {
             type: "link",
+            title: "Data Table",
+            path: "/components/data-table",
+            isPathHref: true,
+            loaded: true,
+          },
+          {
+            type: "link",
             title: "Date Picker",
             path: "/components/date-picker",
             isPathHref: true,

@@ -58,14 +58,14 @@ export type CreateFulfillmentValidateOrderStepInput = {
  * This step validates that a fulfillment can be created for an order. If the order
  * is canceled, the items don't exist in the order, or the items aren't grouped by
  * shipping requirement, the step throws an error.
- * 
+ *
  * :::note
- * 
+ *
  * You can retrieve an order's details using [Query](https://docs.medusajs.com/learn/fundamentals/module-links/query),
  * or [useQueryGraphStep](https://docs.medusajs.com/resources/references/medusa-workflows/steps/useQueryGraphStep).
- * 
+ *
  * :::
- * 
+ *
  * @example
  * const data = createFulfillmentValidateOrder({
  *   order: {
@@ -82,10 +82,7 @@ export type CreateFulfillmentValidateOrderStepInput = {
  */
 export const createFulfillmentValidateOrder = createStep(
   "create-fulfillment-validate-order",
-  ({
-    order,
-    inputItems,
-  }: CreateFulfillmentValidateOrderStepInput) => {
+  ({ order, inputItems }: CreateFulfillmentValidateOrderStepInput) => {
     throwIfOrderIsCancelled({ order })
     throwIfItemsDoesNotExistsInOrder({ order, inputItems })
     throwIfItemsAreNotGroupedByShippingRequirement({ order, inputItems })
@@ -128,6 +125,7 @@ function prepareFulfillmentData({
     id: string
     provider_id: string
     service_zone: { fulfillment_set: { location?: { id: string } } }
+    shipping_profile_id: string
   }
   shippingMethod: { data?: Record<string, unknown> | null }
   reservations: ReservationItemDTO[]
@@ -155,6 +153,18 @@ function prepareFulfillmentData({
   const fulfillmentItems = fulfillableItems.map((i) => {
     const orderItem = orderItemsMap.get(i.id)!
     const reservation = reservationItemMap.get(i.id)!
+
+    if (
+      orderItem.requires_shipping &&
+      (orderItem as any).variant?.product &&
+      (orderItem as any).variant?.product.shipping_profile?.id !==
+        shippingOption.shipping_profile_id
+    ) {
+      throw new MedusaError(
+        MedusaError.Types.INVALID_DATA,
+        `Shipping profile ${shippingOption.shipping_profile_id} does not match the shipping profile of the order item ${orderItem.id}`
+      )
+    }
 
     return {
       line_item_id: i.id,
@@ -273,17 +283,18 @@ function prepareInventoryUpdate({
 /**
  * The details of the fulfillment to create, along with custom data that's passed to the workflow's hooks.
  */
-export type CreateOrderFulfillmentWorkflowInput = OrderWorkflow.CreateOrderFulfillmentWorkflowInput & AdditionalData
+export type CreateOrderFulfillmentWorkflowInput =
+  OrderWorkflow.CreateOrderFulfillmentWorkflowInput & AdditionalData
 
 export const createOrderFulfillmentWorkflowId = "create-order-fulfillment"
 /**
  * This workflow creates a fulfillment for an order. It's used by the [Create Order Fulfillment Admin API Route](https://docs.medusajs.com/api/admin#orders_postordersidfulfillments).
- * 
- * This workflow has a hook that allows you to perform custom actions on the created fulfillment. For example, you can pass under `additional_data` custom data that 
+ *
+ * This workflow has a hook that allows you to perform custom actions on the created fulfillment. For example, you can pass under `additional_data` custom data that
  * allows you to create custom data models linked to the fulfillment.
- * 
+ *
  * You can also use this workflow within your customizations or your own custom workflows, allowing you to wrap custom logic around creating a fulfillment.
- * 
+ *
  * @example
  * const { result } = await createOrderFulfillmentWorkflow(container)
  * .run({
@@ -300,18 +311,16 @@ export const createOrderFulfillmentWorkflowId = "create-order-fulfillment"
  *     }
  *   }
  * })
- * 
+ *
  * @summary
- * 
+ *
  * Creates a fulfillment for an order.
- * 
+ *
  * @property hooks.fulfillmentCreated - This hook is executed after the fulfillment is created. You can consume this hook to perform custom actions on the created fulfillment.
  */
 export const createOrderFulfillmentWorkflow = createWorkflow(
   createOrderFulfillmentWorkflowId,
-  (
-    input: WorkflowData<CreateOrderFulfillmentWorkflowInput>
-  ) => {
+  (input: WorkflowData<CreateOrderFulfillmentWorkflowInput>) => {
     const order: OrderDTO = useRemoteQueryStep({
       entry_point: "orders",
       fields: [
@@ -323,12 +332,14 @@ export const createOrderFulfillmentWorkflow = createWorkflow(
         "items.variant.manage_inventory",
         "items.variant.allow_backorder",
         "items.variant.product.id",
+        "items.variant.product.shipping_profile.id",
         "items.variant.weight",
         "items.variant.length",
         "items.variant.height",
         "items.variant.width",
         "items.variant.material",
         "shipping_address.*",
+        "shipping_methods.id",
         "shipping_methods.shipping_option_id",
         "shipping_methods.data",
       ],
@@ -346,22 +357,33 @@ export const createOrderFulfillmentWorkflow = createWorkflow(
       }, {})
     })
 
-    const shippingMethod = transform(order, (data) => {
-      return { data: data.shipping_methods?.[0]?.data }
+    const shippingOptionId = transform({ order, input }, (data) => {
+      return (
+        data.input.shipping_option_id ??
+        data.order.shipping_methods?.[0]?.shipping_option_id
+      )
     })
 
-    const shippingOptionId = transform(order, (data) => {
-      return data.shipping_methods?.[0]?.shipping_option_id
+    const shippingMethod = transform({ order, shippingOptionId }, (data) => {
+      return {
+        data: data.order.shipping_methods?.find(
+          (sm) => sm.shipping_option_id === data.shippingOptionId
+        )?.data,
+      }
     })
 
     const shippingOption = useRemoteQueryStep({
       entry_point: "shipping_options",
-      fields: ["id", "provider_id", "service_zone.fulfillment_set.location.id"],
+      fields: [
+        "id",
+        "provider_id",
+        "service_zone.fulfillment_set.location.id",
+        "shipping_profile_id",
+      ],
       variables: {
         id: shippingOptionId,
       },
       list: false,
-      throw_if_key_not_found: true,
     }).config({ name: "get-shipping-option" })
 
     const lineItemIds = transform(

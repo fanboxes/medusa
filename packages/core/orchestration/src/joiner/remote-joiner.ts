@@ -37,6 +37,15 @@ type InternalImplodeMapping = {
   isList?: boolean
 }
 
+type InternalParseExpandsParams = {
+  initialService: RemoteExpandProperty
+  query: RemoteJoinerQuery
+  serviceConfig: InternalJoinerServiceConfig
+  expands: RemoteJoinerQuery["expands"]
+  implodeMapping: InternalImplodeMapping[]
+  options?: RemoteJoinerOptions
+}
+
 export class RemoteJoiner {
   private serviceConfigCache: Map<string, InternalJoinerServiceConfig> =
     new Map()
@@ -831,14 +840,9 @@ export class RemoteJoiner {
     })
   }
 
-  private parseExpands(params: {
-    initialService: RemoteExpandProperty
-    query: RemoteJoinerQuery
-    serviceConfig: InternalJoinerServiceConfig
-    expands: RemoteJoinerQuery["expands"]
-    implodeMapping: InternalImplodeMapping[]
-    options?: RemoteJoinerOptions
-  }): Map<string, RemoteExpandProperty> {
+  private parseExpands(
+    params: InternalParseExpandsParams
+  ): Map<string, RemoteExpandProperty> {
     const { initialService, query, serviceConfig, expands, implodeMapping } =
       params
 
@@ -1203,8 +1207,30 @@ export class RemoteJoiner {
       queryObj,
     })
 
+    if (options?.throwIfKeyNotFound) {
+      if (primaryKeyArg?.value == undefined) {
+        if (!primaryKeyArg) {
+          throw new MedusaError(
+            MedusaError.Types.NOT_FOUND,
+            `${
+              serviceConfig.entity ?? serviceConfig.serviceName
+            }: Primary key(s) [${serviceConfig.primaryKeys.join(
+              ", "
+            )}] not found in filters`
+          )
+        }
+
+        throw new MedusaError(
+          MedusaError.Types.NOT_FOUND,
+          `${
+            serviceConfig.entity ?? serviceConfig.serviceName
+          }: Value for primary key ${primaryKeyArg.name} not found in filters`
+        )
+      }
+    }
+
     const implodeMapping: InternalImplodeMapping[] = []
-    const parseExpandsConfig: Parameters<typeof this.parseExpands>[0] = {
+    const parseExpandsConfig: InternalParseExpandsParams = {
       initialService: {
         property: "",
         parent: "",

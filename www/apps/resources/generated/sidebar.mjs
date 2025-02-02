@@ -8025,7 +8025,7 @@ export const generatedSidebar = [
                     "type": "category",
                     "title": "Data Models",
                     "hasTitleStyling": true,
-                    "autogenerate_path": "/references/order_models/classes",
+                    "autogenerate_path": "/references/order_models/variables",
                     "children": [
                       {
                         "loaded": true,
@@ -8996,6 +8996,15 @@ export const generatedSidebar = [
                         "loaded": true,
                         "isPathHref": true,
                         "type": "link",
+                        "path": "/references/payment/listAndCountPaymentMethods",
+                        "title": "listAndCountPaymentMethods",
+                        "description": "",
+                        "children": []
+                      },
+                      {
+                        "loaded": true,
+                        "isPathHref": true,
+                        "type": "link",
                         "path": "/references/payment/listAndCountPaymentProviders",
                         "title": "listAndCountPaymentProviders",
                         "description": "",
@@ -9016,6 +9025,15 @@ export const generatedSidebar = [
                         "type": "link",
                         "path": "/references/payment/listPaymentCollections",
                         "title": "listPaymentCollections",
+                        "description": "",
+                        "children": []
+                      },
+                      {
+                        "loaded": true,
+                        "isPathHref": true,
+                        "type": "link",
+                        "path": "/references/payment/listPaymentMethods",
+                        "title": "listPaymentMethods",
                         "description": "",
                         "children": []
                       },
@@ -15945,6 +15963,41 @@ export const generatedSidebar = [
   {
     "loaded": true,
     "isPathHref": true,
+    "type": "ref",
+    "path": "/plugins",
+    "title": "Plugins",
+    "isChildSidebar": true,
+    "children": [
+      {
+        "loaded": true,
+        "isPathHref": true,
+        "type": "link",
+        "title": "Overview",
+        "path": "/plugins",
+        "children": []
+      },
+      {
+        "loaded": true,
+        "isPathHref": true,
+        "type": "category",
+        "title": "Guides",
+        "children": [
+          {
+            "loaded": true,
+            "isPathHref": true,
+            "type": "link",
+            "title": "Wishlist",
+            "path": "/plugins/guides/wishlist",
+            "description": "Learn how to build a wishlist plugin.",
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "loaded": true,
+    "isPathHref": true,
     "type": "link",
     "path": "/storefront-development",
     "title": "Storefront Development",
@@ -16453,6 +16506,15 @@ export const generatedSidebar = [
                 "type": "link",
                 "path": "/medusa-cli/commands/db",
                 "title": "db",
+                "description": "",
+                "children": []
+              },
+              {
+                "loaded": true,
+                "isPathHref": true,
+                "type": "link",
+                "path": "/medusa-cli/commands/plugin",
+                "title": "plugin",
                 "description": "",
                 "children": []
               },
@@ -17231,6 +17293,14 @@ export const generatedSidebar = [
                 "path": "/troubleshooting/workflow-errors",
                 "title": "Workflow Errors",
                 "children": []
+              },
+              {
+                "loaded": true,
+                "isPathHref": true,
+                "type": "link",
+                "path": "/troubleshooting/test-errors",
+                "title": "Test Errors",
+                "children": []
               }
             ]
           },
@@ -17374,6 +17444,15 @@ export const generatedSidebar = [
                 "type": "link",
                 "path": "/admin-components/components/container",
                 "title": "Container",
+                "description": "",
+                "children": []
+              },
+              {
+                "loaded": true,
+                "isPathHref": true,
+                "type": "link",
+                "path": "/admin-components/components/data-table",
+                "title": "Data Table",
                 "description": "",
                 "children": []
               },
@@ -20972,15 +21051,6 @@ export const generatedSidebar = [
                     "type": "link",
                     "path": "/references/medusa-workflows/steps/updateOrderChangesStep",
                     "title": "updateOrderChangesStep",
-                    "description": "",
-                    "children": []
-                  },
-                  {
-                    "loaded": true,
-                    "isPathHref": true,
-                    "type": "link",
-                    "path": "/references/medusa-workflows/steps/updateOrderExchangesStep",
-                    "title": "updateOrderExchangesStep",
                     "description": "",
                     "children": []
                   },

@@ -18,6 +18,7 @@ medusaIntegrationTestRunner({
     let region1
     let product1
     let customerGroup1
+    let shippingProfile
 
     beforeEach(async () => {
       const container = getContainer()
@@ -34,10 +35,21 @@ medusaIntegrationTestRunner({
         )
       ).data.region
 
+      shippingProfile = (
+        await api.post(
+          `/admin/shipping-profiles`,
+          { name: "Test", type: "default" },
+          adminHeaders
+        )
+      ).data.shipping_profile
+
       product1 = (
         await api.post(
           "/admin/products",
-          getProductFixture({ title: "Test product" }),
+          getProductFixture({
+            title: "Test product",
+            shipping_profile_id: shippingProfile.id,
+          }),
           adminHeaders
         )
       ).data.product

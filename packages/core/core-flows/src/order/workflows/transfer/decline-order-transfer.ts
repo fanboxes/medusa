@@ -42,16 +42,16 @@ export type DeclineTransferOrderRequestValidationStepInput = {
 
 /**
  * This step validates that a requested order transfer can be declineed.
- * If the provided token doesn't match the token of the transfer request, 
+ * If the provided token doesn't match the token of the transfer request,
  * the step throws an error.
- * 
+ *
  * :::note
- * 
+ *
  * You can retrieve an order and order change details using [Query](https://docs.medusajs.com/learn/fundamentals/module-links/query),
  * or [useQueryGraphStep](https://docs.medusajs.com/resources/references/medusa-workflows/steps/useQueryGraphStep).
- * 
+ *
  * :::
- * 
+ *
  * @example
  * const data = declineTransferOrderRequestValidationStep({
  *   order: {
@@ -93,9 +93,9 @@ export const declineTransferOrderRequestWorkflowId =
 /**
  * This workflow declines a requested order transfer by its token. It's used by the
  * [Decline Order Transfer Store API Route](https://docs.medusajs.com/api/store#orders_postordersidtransferdecline).
- * 
+ *
  * You can use this workflow within your customizations or your own custom workflows, allowing you to wrap custom logic around declining an order transfer request.
- * 
+ *
  * @example
  * const { result } = await declineOrderTransferRequestWorkflow(container)
  * .run({
@@ -104,9 +104,9 @@ export const declineTransferOrderRequestWorkflowId =
  *     order_id: "order_123",
  *   }
  * })
- * 
+ *
  * @summary
- * 
+ *
  * Decline a requested order transfer.
  */
 export const declineOrderTransferRequestWorkflow = createWorkflow(
@@ -133,7 +133,6 @@ export const declineOrderTransferRequestWorkflow = createWorkflow(
         order_id: input.order_id,
         status: [OrderChangeStatus.PENDING, OrderChangeStatus.REQUESTED],
       },
-      options: { throwIfKeyNotFound: true },
     }).config({ name: "order-change-query" })
 
     const orderChange = transform(

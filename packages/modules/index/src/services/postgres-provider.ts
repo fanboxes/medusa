@@ -14,7 +14,11 @@ import {
   MedusaContext,
   toMikroORMEntity,
 } from "@medusajs/framework/utils"
-import { EntityManager, SqlEntityManager } from "@mikro-orm/postgresql"
+import {
+  EntityManager,
+  EntityRepository,
+  SqlEntityManager,
+} from "@mikro-orm/postgresql"
 import { IndexData, IndexRelation } from "@models"
 import { createPartitions, QueryBuilder } from "../utils"
 import { flattenObjectKeys } from "../utils/flatten-object-keys"
@@ -204,13 +208,14 @@ export class PostgresProvider implements IndexTypes.StorageProvider {
       }
 
       const { fields, alias } = schemaEntityObjectRepresentation
-      const { data: entityData } = await this.query_.graph({
+      const graphResult = await this.query_.graph({
         entity: alias,
         filters: {
           id: ids,
         },
         fields: [...new Set(["id", ...fields])],
       })
+      const { data: entityData } = graphResult
 
       const argument = {
         entity: schemaEntityObjectRepresentation.entity,
@@ -340,7 +345,7 @@ export class PostgresProvider implements IndexTypes.StorageProvider {
       transactionManager: SqlEntityManager
     }
     const indexRepository = em.getRepository(toMikroORMEntity(IndexData))
-    const indexRelationRepository = em.getRepository(
+    const indexRelationRepository: EntityRepository<any> = em.getRepository(
       toMikroORMEntity(IndexRelation)
     )
 
@@ -369,6 +374,7 @@ export class PostgresProvider implements IndexTypes.StorageProvider {
         id: cleanedEntityData.id,
         name: entity,
         data: cleanedEntityData,
+        // stale: false,
       })
 
       /**
@@ -394,18 +400,29 @@ export class PostgresProvider implements IndexTypes.StorageProvider {
             id: (parentData_ as any).id,
             name: parentEntity,
             data: parentData_,
+            // stale: false,
           })
 
-          const parentIndexRelationEntry = indexRelationRepository.create({
-            parent_id: (parentData_ as any).id,
-            parent_name: parentEntity,
-            child_id: cleanedEntityData.id,
-            child_name: entity,
-            pivot: `${parentEntity}-${entity}`,
-          })
-          indexRelationRepository
-            .getEntityManager()
-            .persist(parentIndexRelationEntry)
+          await indexRelationRepository.upsert(
+            {
+              parent_id: (parentData_ as any).id,
+              parent_name: parentEntity,
+              child_id: cleanedEntityData.id,
+              child_name: entity,
+              pivot: `${parentEntity}-${entity}`,
+              // stale: false,
+            },
+            {
+              onConflictAction: "merge",
+              onConflictFields: [
+                "pivot",
+                "parent_id",
+                "child_id",
+                "parent_name",
+                "child_name",
+              ],
+            }
+          )
         }
       }
     }
@@ -453,6 +470,7 @@ export class PostgresProvider implements IndexTypes.StorageProvider {
             acc[property] = entityData[property]
             return acc
           }, {}),
+          // stale: false,
         }
       })
     )
@@ -608,6 +626,7 @@ export class PostgresProvider implements IndexTypes.StorageProvider {
         id: cleanedEntityData.id,
         name: entity,
         data: cleanedEntityData,
+        // stale: false,
       })
 
       /**
@@ -620,6 +639,7 @@ export class PostgresProvider implements IndexTypes.StorageProvider {
         child_id: cleanedEntityData.id,
         child_name: entity,
         pivot: `${parentEntityName}-${entity}`,
+        // stale: false,
       })
 
       const childIndexRelationEntry = indexRelationRepository.create({
@@ -628,6 +648,7 @@ export class PostgresProvider implements IndexTypes.StorageProvider {
         child_id: entityData[childPropertyId] as string,
         child_name: childEntityName,
         pivot: `${entity}-${childEntityName}`,
+        // stale: false,
       })
 
       indexRelationRepository

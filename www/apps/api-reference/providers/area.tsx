@@ -1,12 +1,13 @@
 "use client"
 
 import type { Area } from "@/types/openapi"
-import { usePrevious, useSearch } from "docs-ui"
-import { createContext, useContext, useEffect, useState } from "react"
+import { capitalize, usePrevious, useSearch } from "docs-ui"
+import { createContext, useContext, useEffect, useMemo, useState } from "react"
 
 type AreaContextType = {
   area: Area
   prevArea: Area | undefined
+  displayedArea: string
   setArea: (value: Area) => void
 }
 
@@ -22,6 +23,10 @@ const AreaProvider = ({ area: passedArea, children }: AreaProviderProps) => {
   const prevArea = usePrevious(area)
   const { defaultFilters, setDefaultFilters } = useSearch()
 
+  const displayedArea = useMemo(() => {
+    return capitalize(area)
+  }, [area])
+
   useEffect(() => {
     if (!defaultFilters.includes(`${area}-v2`)) {
       setDefaultFilters([`${area}-v2`])
@@ -34,6 +39,7 @@ const AreaProvider = ({ area: passedArea, children }: AreaProviderProps) => {
         area,
         prevArea,
         setArea,
+        displayedArea,
       }}
     >
       {children}

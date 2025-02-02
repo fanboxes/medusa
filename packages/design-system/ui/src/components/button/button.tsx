@@ -1,5 +1,5 @@
-import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "cva"
+import { Slot } from "radix-ui"
 import * as React from "react"
 
 import { clx } from "@/utils/clx"
@@ -90,7 +90,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     }: ButtonProps,
     ref
   ) => {
-    const Component = asChild ? Slot : "button"
+    const Component = asChild ? Slot.Root : "button"
 
     /**
      * In the case of a button where asChild is true, and isLoading is true, we ensure that

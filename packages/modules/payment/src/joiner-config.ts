@@ -5,6 +5,7 @@ import {
   PaymentProvider,
   PaymentSession,
   RefundReason,
+  AccountHolder,
 } from "@models"
 import { default as schema } from "./schema"
 
@@ -16,12 +17,14 @@ export const joinerConfig = defineJoinerConfig(Modules.PAYMENT, {
     PaymentProvider,
     PaymentSession,
     RefundReason,
+    AccountHolder,
   ],
   linkableKeys: {
     payment_id: Payment.name,
     payment_collection_id: PaymentCollection.name,
     payment_provider_id: PaymentProvider.name,
     refund_reason_id: RefundReason.name,
+    account_holder_id: AccountHolder.name,
   },
   alias: [
     {

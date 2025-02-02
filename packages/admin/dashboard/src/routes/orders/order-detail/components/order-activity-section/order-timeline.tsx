@@ -1,5 +1,5 @@
 import { Button, Text, Tooltip, clx, usePrompt } from "@medusajs/ui"
-import * as Collapsible from "@radix-ui/react-collapsible"
+import { Collapsible as RadixCollapsible } from "radix-ui"
 
 import { PropsWithChildren, ReactNode, useMemo, useState } from "react"
 
@@ -628,14 +628,14 @@ const OrderActivityCollapsible = ({
   }
 
   return (
-    <Collapsible.Root open={open} onOpenChange={setOpen}>
+    <RadixCollapsible.Root open={open} onOpenChange={setOpen}>
       {!open && (
         <div className="grid grid-cols-[20px_1fr] items-start gap-2">
           <div className="flex size-full flex-col items-center">
             <div className="border-ui-border-strong w-px flex-1 bg-[linear-gradient(var(--border-strong)_33%,rgba(255,255,255,0)_0%)] bg-[length:1px_3px] bg-right bg-repeat-y" />
           </div>
           <div className="pb-4">
-            <Collapsible.Trigger className="text-left">
+            <RadixCollapsible.Trigger className="text-left">
               <Text
                 size="small"
                 leading="compact"
@@ -646,11 +646,11 @@ const OrderActivityCollapsible = ({
                   count: activities.length,
                 })}
               </Text>
-            </Collapsible.Trigger>
+            </RadixCollapsible.Trigger>
           </div>
         </div>
       )}
-      <Collapsible.Content>
+      <RadixCollapsible.Content>
         <div className="flex flex-col gap-y-0.5">
           {activities.map((item, index) => {
             return (
@@ -667,8 +667,8 @@ const OrderActivityCollapsible = ({
             )
           })}
         </div>
-      </Collapsible.Content>
-    </Collapsible.Root>
+      </RadixCollapsible.Content>
+    </RadixCollapsible.Root>
   )
 }
 

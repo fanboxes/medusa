@@ -6,10 +6,12 @@ import { useTranslation } from "react-i18next"
 import { z } from "zod"
 
 import { Form } from "../../../../../components/common/form"
+import { Combobox } from "../../../../../components/inputs/combobox"
 import { RouteDrawer, useRouteModal } from "../../../../../components/modals"
 import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
-import { useRegions } from "../../../../../hooks/api/regions"
 import { useUpdateStore } from "../../../../../hooks/api/store"
+import { useComboboxData } from "../../../../../hooks/use-combobox-data"
+import { sdk } from "../../../../../lib/client"
 
 type EditStoreFormProps = {
   store: HttpTypes.AdminStore
@@ -19,7 +21,8 @@ const EditStoreSchema = z.object({
   name: z.string().min(1),
   default_currency_code: z.string().optional(),
   default_region_id: z.string().optional(),
-  // default_location_id: z.string().optional(),
+  default_sales_channel_id: z.string().optional(),
+  default_location_id: z.string().optional(),
 })
 
 export const EditStoreForm = ({ store }: EditStoreFormProps) => {
@@ -33,21 +36,49 @@ export const EditStoreForm = ({ store }: EditStoreFormProps) => {
       default_currency_code:
         store.supported_currencies?.find((c) => c.is_default)?.currency_code ||
         undefined,
+      default_sales_channel_id: store.default_sales_channel_id || undefined,
+      default_location_id: store.default_location_id || undefined,
     },
     resolver: zodResolver(EditStoreSchema),
   })
 
   const { mutateAsync, isPending } = useUpdateStore(store.id)
 
-  const { regions, isPending: isRegionsLoading } = useRegions({ limit: 999 })
+  const regionsCombobox = useComboboxData({
+    queryKey: ["regions", "default_region_id"],
+    queryFn: (params) =>
+      sdk.admin.region.list({ ...params, fields: "id,name" }),
+    defaultValue: store.default_region_id || undefined,
+    getOptions: (data) =>
+      data.regions.map((r) => ({ label: r.name, value: r.id })),
+  })
+
+  const salesChannelsCombobox = useComboboxData({
+    queryFn: (params) =>
+      sdk.admin.salesChannel.list({ ...params, fields: "id,name" }),
+    getOptions: (data) =>
+      data.sales_channels.map((sc) => ({ label: sc.name, value: sc.id })),
+    queryKey: ["sales_channels", "default_sales_channel_id"],
+    defaultValue: store.default_sales_channel_id || undefined,
+  })
+
+  const locationsCombobox = useComboboxData({
+    queryFn: (params) =>
+      sdk.admin.stockLocation.list({ ...params, fields: "id,name" }),
+    getOptions: (data) =>
+      data.stock_locations.map((l) => ({ label: l.name, value: l.id })),
+    queryKey: ["stock_locations", "default_location_id"],
+    defaultValue: store.default_location_id || undefined,
+  })
 
   const handleSubmit = form.handleSubmit(async (values) => {
-    const normalizedMutation = {
-      ...values,
-      default_currency_code: undefined,
+    const { default_currency_code, ...rest } = values
+
+    const normalizedMutation: HttpTypes.AdminUpdateStore = {
+      ...rest,
       supported_currencies: store.supported_currencies?.map((c) => ({
         ...c,
-        is_default: c.currency_code === values.default_currency_code,
+        is_default: c.currency_code === default_currency_code,
       })),
     }
     await mutateAsync(normalizedMutation, {
@@ -79,7 +110,6 @@ export const EditStoreForm = ({ store }: EditStoreFormProps) => {
                 </Form.Item>
               )}
             />
-            {/* TODO: Add comboboxes for default sales channel and location */}
             <Form.Field
               control={form.control}
               name="default_currency_code"
@@ -111,27 +141,64 @@ export const EditStoreForm = ({ store }: EditStoreFormProps) => {
             <Form.Field
               control={form.control}
               name="default_region_id"
-              render={({ field: { onChange, ...field } }) => {
+              render={({ field }) => {
                 return (
                   <Form.Item>
                     <Form.Label>{t("store.defaultRegion")}</Form.Label>
                     <Form.Control>
-                      <Select
+                      <Combobox
                         {...field}
-                        onValueChange={onChange}
-                        disabled={isRegionsLoading}
-                      >
-                        <Select.Trigger ref={field.ref}>
-                          <Select.Value />
-                        </Select.Trigger>
-                        <Select.Content>
-                          {(regions || []).map((region) => (
-                            <Select.Item key={region.id} value={region.id}>
-                              {region.name}
-                            </Select.Item>
-                          ))}
-                        </Select.Content>
-                      </Select>
+                        options={regionsCombobox.options}
+                        searchValue={regionsCombobox.searchValue}
+                        onSearchValueChange={
+                          regionsCombobox.onSearchValueChange
+                        }
+                        disabled={regionsCombobox.disabled}
+                      />
+                    </Form.Control>
+                  </Form.Item>
+                )
+              }}
+            />
+            <Form.Field
+              control={form.control}
+              name="default_sales_channel_id"
+              render={({ field }) => {
+                return (
+                  <Form.Item>
+                    <Form.Label>{t("store.defaultSalesChannel")}</Form.Label>
+                    <Form.Control>
+                      <Combobox
+                        {...field}
+                        options={salesChannelsCombobox.options}
+                        searchValue={salesChannelsCombobox.searchValue}
+                        onSearchValueChange={
+                          salesChannelsCombobox.onSearchValueChange
+                        }
+                        disabled={salesChannelsCombobox.disabled}
+                      />
+                    </Form.Control>
+                  </Form.Item>
+                )
+              }}
+            />
+            <Form.Field
+              control={form.control}
+              name="default_location_id"
+              render={({ field }) => {
+                return (
+                  <Form.Item>
+                    <Form.Label>{t("store.defaultLocation")}</Form.Label>
+                    <Form.Control>
+                      <Combobox
+                        {...field}
+                        options={locationsCombobox.options}
+                        searchValue={locationsCombobox.searchValue}
+                        onSearchValueChange={
+                          locationsCombobox.onSearchValueChange
+                        }
+                        disabled={locationsCombobox.disabled}
+                      />
                     </Form.Control>
                   </Form.Item>
                 )

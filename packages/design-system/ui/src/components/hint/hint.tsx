@@ -2,7 +2,7 @@ import { ExclamationCircleSolid } from "@medusajs/icons"
 import { VariantProps, cva } from "cva"
 import * as React from "react"
 
-import { clx } from "../../utils/clx"
+import { clx } from "@/utils/clx"
 
 const hintVariants = cva({
   base: "txt-small",

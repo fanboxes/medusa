@@ -24,6 +24,7 @@ medusaIntegrationTestRunner({
       let region
       let product
       let cart
+      let shippingProfile
 
       beforeEach(async () => {
         region = (
@@ -34,12 +35,21 @@ medusaIntegrationTestRunner({
           )
         ).data.region
 
+        shippingProfile = (
+          await api.post(
+            `/admin/shipping-profiles`,
+            { name: "Test", type: "default" },
+            adminHeaders
+          )
+        ).data.shipping_profile
+
         product = (
           await api.post(
             "/admin/products",
             getProductFixture({
               title: "test",
               status: "published",
+              shipping_profile_id: shippingProfile.id,
               variants: [
                 {
                   title: "Test variant",

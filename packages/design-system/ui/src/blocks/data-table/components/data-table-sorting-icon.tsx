@@ -40,6 +40,7 @@ const DataTableSortingIcon = (props: SortingIconProps) => {
     </svg>
   )
 }
+DataTableSortingIcon.displayName = "DataTable.SortingIcon"
 
 export { DataTableSortingIcon }
 export type { SortingIconProps }

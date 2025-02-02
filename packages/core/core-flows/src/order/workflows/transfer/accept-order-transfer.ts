@@ -18,9 +18,9 @@ import {
 } from "@medusajs/utils"
 
 import { useQueryGraphStep } from "../../../common"
-import { throwIfOrderIsCancelled } from "../../utils/order-validation"
 import { previewOrderChangeStep } from "../../steps"
 import { confirmOrderChanges } from "../../steps/confirm-order-changes"
+import { throwIfOrderIsCancelled } from "../../utils/order-validation"
 
 /**
  * The details of the order transfer acceptance to validate.
@@ -43,14 +43,14 @@ export type AcceptOrderTransferValidationStepInput = {
 /**
  * This step validates that an order transfer can be accepted. If the
  * order doesn't have an existing transfer request, the step throws an error.
- * 
+ *
  * :::note
- * 
+ *
  * You can retrieve an order and order change details using [Query](https://docs.medusajs.com/learn/fundamentals/module-links/query),
  * or [useQueryGraphStep](https://docs.medusajs.com/resources/references/medusa-workflows/steps/useQueryGraphStep).
- * 
+ *
  * :::
- * 
+ *
  * @example
  * const data = acceptOrderTransferValidationStep({
  *   token: "sk_123456",
@@ -95,12 +95,12 @@ export const acceptOrderTransferValidationStep = createStep(
 
 export const acceptOrderTransferWorkflowId = "accept-order-transfer-workflow"
 /**
- * This workflow accepts an order transfer, requested previously by the {@link requestOrderTransferWorkflow}. This workflow is used by the 
+ * This workflow accepts an order transfer, requested previously by the {@link requestOrderTransferWorkflow}. This workflow is used by the
  * [Accept Order Transfer Store API Route](https://docs.medusajs.com/api/store#orders_postordersidtransferaccept).
- * 
+ *
  * You can use this workflow within your customizations or your own custom workflows, allowing you to build a custom flow
  * around accepting an order transfer.
- * 
+ *
  * @example
  * const { result } = await acceptOrderTransferWorkflow(container)
  * .run({
@@ -109,9 +109,9 @@ export const acceptOrderTransferWorkflowId = "accept-order-transfer-workflow"
  *     order_id: "order_123",
  *   }
  * })
- * 
+ *
  * @summary
- * 
+ *
  * Accept an order transfer request.
  */
 export const acceptOrderTransferWorkflow = createWorkflow(
@@ -149,7 +149,6 @@ export const acceptOrderTransferWorkflow = createWorkflow(
         order_id: input.order_id,
         status: [OrderChangeStatus.REQUESTED],
       },
-      options: { throwIfKeyNotFound: true },
     }).config({ name: "order-change-query" })
 
     const orderChange = transform(

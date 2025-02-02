@@ -1,25 +1,36 @@
 import {
-  BigNumberInput,
-  CreatePaymentProviderSession,
+  AuthorizePaymentInput,
+  AuthorizePaymentOutput,
+  CancelPaymentInput,
+  CancelPaymentOutput,
+  CapturePaymentInput,
+  CapturePaymentOutput,
+  CreateAccountHolderInput,
+  CreateAccountHolderOutput,
   DAL,
+  DeleteAccountHolderInput,
+  DeleteAccountHolderOutput,
+  DeletePaymentInput,
+  DeletePaymentOutput,
+  GetPaymentStatusInput,
+  GetPaymentStatusOutput,
+  InitiatePaymentInput,
+  InitiatePaymentOutput,
   IPaymentProvider,
+  ListPaymentMethodsInput,
+  ListPaymentMethodsOutput,
   Logger,
-  PaymentMethodResponse,
-  PaymentProviderAuthorizeResponse,
-  PaymentProviderContext,
-  PaymentProviderDataInput,
-  PaymentProviderError,
-  PaymentProviderSessionResponse,
-  PaymentSessionStatus,
   ProviderWebhookPayload,
-  SavePaymentMethod,
-  SavePaymentMethodResponse,
-  UpdatePaymentProviderSession,
+  RefundPaymentInput,
+  RefundPaymentOutput,
+  SavePaymentMethodInput,
+  SavePaymentMethodOutput,
+  UpdatePaymentInput,
+  UpdatePaymentOutput,
   WebhookActionResult,
 } from "@medusajs/framework/types"
-import { MedusaError, ModulesSdkUtils } from "@medusajs/framework/utils"
+import { ModulesSdkUtils } from "@medusajs/framework/utils"
 import { PaymentProvider } from "@models"
-import { EOL } from "os"
 
 type InjectedDependencies = {
   logger?: Logger
@@ -59,135 +70,128 @@ Please make sure that the provider is registered in the container and it is conf
 
   async createSession(
     providerId: string,
-    sessionInput: CreatePaymentProviderSession
-  ): Promise<PaymentProviderSessionResponse["data"]> {
+    sessionInput: InitiatePaymentInput
+  ): Promise<InitiatePaymentOutput> {
     const provider = this.retrieveProvider(providerId)
 
-    const paymentResponse = await provider.initiatePayment(sessionInput)
-
-    if (isPaymentProviderError(paymentResponse)) {
-      this.throwPaymentProviderError(paymentResponse)
-    }
-
-    return (paymentResponse as PaymentProviderSessionResponse).data
+    return await provider.initiatePayment(sessionInput)
   }
 
   async updateSession(
     providerId: string,
-    sessionInput: UpdatePaymentProviderSession
-  ): Promise<PaymentProviderSessionResponse["data"]> {
+    sessionInput: UpdatePaymentInput
+  ): Promise<UpdatePaymentOutput> {
     const provider = this.retrieveProvider(providerId)
 
-    const paymentResponse = await provider.updatePayment(sessionInput)
-
-    if (isPaymentProviderError(paymentResponse)) {
-      this.throwPaymentProviderError(paymentResponse)
-    }
-
-    return (paymentResponse as PaymentProviderSessionResponse)?.data
+    return await provider.updatePayment(sessionInput)
   }
 
-  async deleteSession(input: PaymentProviderDataInput): Promise<void> {
-    const provider = this.retrieveProvider(input.provider_id)
-
-    const error = await provider.deletePayment(input.data)
-    if (isPaymentProviderError(error)) {
-      this.throwPaymentProviderError(error)
-    }
+  async deleteSession(
+    providerId: string,
+    input: DeletePaymentInput
+  ): Promise<DeletePaymentOutput> {
+    const provider = this.retrieveProvider(providerId)
+    return await provider.deletePayment(input)
   }
 
   async authorizePayment(
-    input: PaymentProviderDataInput,
-    context: Record<string, unknown>
-  ): Promise<{ data: Record<string, unknown>; status: PaymentSessionStatus }> {
-    const provider = this.retrieveProvider(input.provider_id)
-
-    const res = await provider.authorizePayment(input.data, context)
-    if (isPaymentProviderError(res)) {
-      this.throwPaymentProviderError(res)
-    }
-
-    const { data, status } = res as PaymentProviderAuthorizeResponse
-    return { data, status }
+    providerId: string,
+    input: AuthorizePaymentInput
+  ): Promise<AuthorizePaymentOutput> {
+    const provider = this.retrieveProvider(providerId)
+    return await provider.authorizePayment(input)
   }
 
   async getStatus(
-    input: PaymentProviderDataInput
-  ): Promise<PaymentSessionStatus> {
-    const provider = this.retrieveProvider(input.provider_id)
-    return await provider.getPaymentStatus(input.data)
+    providerId: string,
+    input: GetPaymentStatusInput
+  ): Promise<GetPaymentStatusOutput> {
+    const provider = this.retrieveProvider(providerId)
+    return await provider.getPaymentStatus(input)
   }
 
   async capturePayment(
-    input: PaymentProviderDataInput
-  ): Promise<Record<string, unknown>> {
-    const provider = this.retrieveProvider(input.provider_id)
-
-    const res = await provider.capturePayment(input.data)
-    if (isPaymentProviderError(res)) {
-      this.throwPaymentProviderError(res)
-    }
-
-    return res as Record<string, unknown>
+    providerId: string,
+    input: CapturePaymentInput
+  ): Promise<CapturePaymentOutput> {
+    const provider = this.retrieveProvider(providerId)
+    return await provider.capturePayment(input)
   }
 
-  async cancelPayment(input: PaymentProviderDataInput): Promise<void> {
-    const provider = this.retrieveProvider(input.provider_id)
-
-    const error = await provider.cancelPayment(input.data)
-    if (isPaymentProviderError(error)) {
-      this.throwPaymentProviderError(error)
-    }
+  async cancelPayment(
+    providerId: string,
+    input: CancelPaymentInput
+  ): Promise<CancelPaymentOutput> {
+    const provider = this.retrieveProvider(providerId)
+    return await provider.cancelPayment(input)
   }
 
   async refundPayment(
-    input: PaymentProviderDataInput,
-    amount: BigNumberInput
-  ): Promise<Record<string, unknown>> {
-    const provider = this.retrieveProvider(input.provider_id)
+    providerId: string,
+    input: RefundPaymentInput
+  ): Promise<RefundPaymentOutput> {
+    const provider = this.retrieveProvider(providerId)
+    return await provider.refundPayment(input)
+  }
 
-    const res = await provider.refundPayment(input.data, amount)
-    if (isPaymentProviderError(res)) {
-      this.throwPaymentProviderError(res)
+  async createAccountHolder(
+    providerId: string,
+    input: CreateAccountHolderInput
+  ): Promise<CreateAccountHolderOutput> {
+    const provider = this.retrieveProvider(providerId)
+    if (!provider.createAccountHolder) {
+      this.#logger.warn(
+        `Provider ${providerId} does not support creating account holders`
+      )
+      return {} as unknown as CreateAccountHolderOutput
     }
 
-    return res as Record<string, unknown>
+    return await provider.createAccountHolder(input)
+  }
+
+  async deleteAccountHolder(
+    providerId: string,
+    input: DeleteAccountHolderInput
+  ): Promise<DeleteAccountHolderOutput> {
+    const provider = this.retrieveProvider(providerId)
+    if (!provider.deleteAccountHolder) {
+      this.#logger.warn(
+        `Provider ${providerId} does not support deleting account holders`
+      )
+      return {}
+    }
+
+    return await provider.deleteAccountHolder(input)
   }
 
   async listPaymentMethods(
     providerId: string,
-    context: PaymentProviderContext
-  ): Promise<PaymentMethodResponse[]> {
+    input: ListPaymentMethodsInput
+  ): Promise<ListPaymentMethodsOutput> {
     const provider = this.retrieveProvider(providerId)
     if (!provider.listPaymentMethods) {
-      throw new MedusaError(
-        MedusaError.Types.INVALID_DATA,
+      this.#logger.warn(
         `Provider ${providerId} does not support listing payment methods`
       )
+      return []
     }
 
-    return await provider.listPaymentMethods(context)
+    return await provider.listPaymentMethods(input)
   }
 
   async savePaymentMethod(
     providerId: string,
-    input: SavePaymentMethod
-  ): Promise<SavePaymentMethodResponse> {
+    input: SavePaymentMethodInput
+  ): Promise<SavePaymentMethodOutput> {
     const provider = this.retrieveProvider(providerId)
     if (!provider.savePaymentMethod) {
-      throw new MedusaError(
-        MedusaError.Types.INVALID_DATA,
+      this.#logger.warn(
         `Provider ${providerId} does not support saving payment methods`
       )
+      return {} as unknown as SavePaymentMethodOutput
     }
 
-    const res = await provider.savePaymentMethod(input)
-
-    if (isPaymentProviderError(res)) {
-      this.throwPaymentProviderError(res)
-    }
-
-    return res as SavePaymentMethodResponse
+    return await provider.savePaymentMethod(input)
   }
 
   async getWebhookActionAndData(
@@ -198,22 +202,4 @@ Please make sure that the provider is registered in the container and it is conf
 
     return await provider.getWebhookActionAndData(data)
   }
-
-  private throwPaymentProviderError(errObj: PaymentProviderError) {
-    throw new MedusaError(
-      MedusaError.Types.INVALID_DATA,
-      `${errObj.error}${errObj.detail ? `:${EOL}${errObj.detail}` : ""}`,
-      errObj.code
-    )
-  }
-}
-
-function isPaymentProviderError(obj: any): obj is PaymentProviderError {
-  return (
-    obj &&
-    typeof obj === "object" &&
-    "error" in obj &&
-    "code" in obj &&
-    "detail" in obj
-  )
 }

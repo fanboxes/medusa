@@ -4,6 +4,7 @@ import {
   WorkflowResponse,
   createWorkflow,
   transform,
+  createHook
 } from "@medusajs/framework/workflows-sdk"
 import { emitEventStep } from "../../common"
 import { deleteProductCategoriesStep } from "../steps"
@@ -47,6 +48,12 @@ export const deleteProductCategoriesWorkflow = createWorkflow(
       data: productCategoryIdEvents,
     })
 
-    return new WorkflowResponse(deleted)
+    const categoriesDeleted = createHook("categoriesDeleted", {
+      ids: input,
+    })
+
+    return new WorkflowResponse(deleted, {
+      hooks: [categoriesDeleted]
+    })
   }
 )

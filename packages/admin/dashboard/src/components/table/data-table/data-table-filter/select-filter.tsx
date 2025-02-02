@@ -1,7 +1,7 @@
 import { CheckMini, EllipseMiniSolid, XMarkMini } from "@medusajs/icons"
 import { clx } from "@medusajs/ui"
-import * as Popover from "@radix-ui/react-popover"
 import { Command } from "cmdk"
+import { Popover as RadixPopover } from "radix-ui"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 
@@ -98,7 +98,7 @@ export const SelectFilter = ({
     : null
 
   return (
-    <Popover.Root modal open={open} onOpenChange={handleOpenChange}>
+    <RadixPopover.Root modal open={open} onOpenChange={handleOpenChange}>
       <FilterChip
         hasOperator
         hadPreviousValue={!!normalizedPrev?.length}
@@ -108,8 +108,8 @@ export const SelectFilter = ({
         onRemove={handleRemove}
       />
       {!readonly && (
-        <Popover.Portal>
-          <Popover.Content
+        <RadixPopover.Portal>
+          <RadixPopover.Content
             hideWhenDetached
             align="start"
             sideOffset={8}
@@ -193,9 +193,9 @@ export const SelectFilter = ({
                 })}
               </Command.List>
             </Command>
-          </Popover.Content>
-        </Popover.Portal>
+          </RadixPopover.Content>
+        </RadixPopover.Portal>
       )}
-    </Popover.Root>
+    </RadixPopover.Root>
   )
 }

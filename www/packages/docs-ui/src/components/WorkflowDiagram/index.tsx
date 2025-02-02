@@ -6,9 +6,13 @@ import { Loading } from "../.."
 import { WorkflowDiagramCanvas } from "./Canvas"
 import { WorkflowDiagramList } from "./List"
 
+export type WorkflowDiagramCommonOptionsProps = {
+  hideLegend?: boolean
+}
+
 export type WorkflowDiagramCommonProps = {
   workflow: Workflow
-}
+} & WorkflowDiagramCommonOptionsProps
 
 export type WorkflowDiagramType = "canvas" | "list"
 

@@ -17,6 +17,8 @@ export type SidebarItemCommon = {
   description?: string
 }
 
+export type SidebarItemTypes = "category" | "sub-category" | "link" | "ref"
+
 export type SidebarItemLink = SidebarItemCommon & {
   type: "link" | "ref"
   path: string

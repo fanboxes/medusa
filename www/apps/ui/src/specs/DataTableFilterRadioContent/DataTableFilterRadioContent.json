@@ -1,0 +1,40 @@
+{
+  "description": "",
+  "methods": [],
+  "displayName": "DataTableFilterRadioContent",
+  "props": {
+    "id": {
+      "required": true,
+      "tsType": {
+        "name": "string"
+      },
+      "description": ""
+    },
+    "filter": {
+      "required": true,
+      "tsType": {
+        "name": "unknown"
+      },
+      "description": ""
+    },
+    "options": {
+      "required": true,
+      "tsType": {
+        "name": "Array",
+        "elements": [
+          {
+            "name": "DataTableFilterOption",
+            "elements": [
+              {
+                "name": "string"
+              }
+            ],
+            "raw": "DataTableFilterOption<string>"
+          }
+        ],
+        "raw": "DataTableFilterOption<string>[]"
+      },
+      "description": ""
+    }
+  }
+}

@@ -122,6 +122,12 @@ tags:
         https://docs.medusajs.com/v2/resources/storefront-development/products/categories/list
     x-associatedSchema:
       $ref: ./components/schemas/StoreProductCategory.yaml
+  - name: Product Tags
+    x-associatedSchema:
+      $ref: ./components/schemas/StoreProductTag.yaml
+  - name: Product Types
+    x-associatedSchema:
+      $ref: ./components/schemas/StoreProductType.yaml
   - name: Products
     description: >
       Customers browse products for their purchase.
@@ -259,6 +265,14 @@ paths:
     $ref: paths/store_product-categories.yaml
   /store/product-categories/{id}:
     $ref: paths/store_product-categories_{id}.yaml
+  /store/product-tags:
+    $ref: paths/store_product-tags.yaml
+  /store/product-tags/{id}:
+    $ref: paths/store_product-tags_{id}.yaml
+  /store/product-types:
+    $ref: paths/store_product-types.yaml
+  /store/product-types/{id}:
+    $ref: paths/store_product-types_{id}.yaml
   /store/products:
     $ref: paths/store_products.yaml
   /store/products/{id}:

@@ -1,4 +1,5 @@
 import S3BucketAcl from "../../../troubleshooting/_sections/s3/aws-bucket-acl.mdx"
+import CloudflareChecksum from "../../../troubleshooting/_sections/s3/cloudflare-checksum.mdx"
 
 import { Table, Tabs, TabsList, TabsContent, TabsContentWrapper, TabsTrigger, DetailsList } from "docs-ui"
 
@@ -20,6 +21,7 @@ The S3 File Module Provider integrates Amazon S3 and services following a compat
     <TabsTrigger value="minio">MinIO</TabsTrigger>
     <TabsTrigger value="spaces">DigitalOcean Spaces</TabsTrigger>
     <TabsTrigger value="supabase">Supabase S3 Storage</TabsTrigger>
+    <TabsTrigger value="cloudflare">Cloudflare R2</TabsTrigger>
   </TabsList>
   <TabsContentWrapper>
     <TabsContent value="aws">
@@ -46,9 +48,13 @@ The S3 File Module Provider integrates Amazon S3 and services following a compat
 
     - [Install MinIO](https://min.io/docs/minio/linux/index.html).
     - Change port to `9001` using the [console address](https://min.io/docs/minio/linux/reference/minio-server/minio-server.html#minio.server.-console-address) and [address](https://min.io/docs/minio/linux/reference/minio-server/minio-server.html#minio.server.-address) CLI options.
-    - Create [MinIO access and secret access key](https://min.io/docs/minio/linux/administration/console/security-and-access.html#id1).
-    - Create a [MinIO bucket](https://min.io/docs/minio/linux/administration/console/managing-objects.html#creating-buckets) with public access policy:
-        - Go to the bucket's dashboard.
+    - Create MinIO access and secret access key:
+        - Go to User -> Access Keys
+        - Click on the Create Access Keys button.
+        - Click on the Create button.
+        - Copy the keys of the pop-up. Make sure to copy the secret key as it won't be shown again.
+    - Create a [MinIO bucket](https://min.io/docs/minio/linux/administration/console/managing-objects.html#creating-buckets) with public access policy. To add the policy:
+        - Go to the bucket's dashboard from Administrator -> Buckets.
         - Under the Summary section, click on the pencil icon next to Access Policy.
         - In the pop-up, choose Custom from the dropdown.
         - In the editor, enter the following:
@@ -97,7 +103,7 @@ The S3 File Module Provider integrates Amazon S3 and services following a compat
       4. Click ALL for "Allowed Operations", click the "Review" button, then the "Save policy" button.
 
     </TabsContent>
-    <TabsContent value="Cloudflare R2">
+    <TabsContent value="cloudflare">
     1. Create a [Cloudflare account](https://dash.cloudflare.com/sign-up).
     2. Set up your R2 bucket:
        - Navigate to R2 Object Storage in your dashboard. You may need to provide your credit-card information.
@@ -169,6 +175,37 @@ module.exports = {
 }
 ```
 
+### Additional Configuration for MinIO and Supabase
+
+If you're using MinIO or Supabase, set `forcePathStyle` to `true` in the `additional_client_config` object.
+
+For example:
+
+```ts title="medusa-config.ts"
+module.exports = defineConfig({
+  // ...
+  modules: [
+    {
+      resolve: "@medusajs/medusa/file",
+      options: {
+        providers: [
+          {
+            resolve: "@medusajs/medusa/file-s3",
+            id: "s3",
+            options: {
+              // ...
+              additional_client_config: {
+                forcePathStyle: true,
+              },
+            },
+          },
+        ],
+      },
+    },
+  ],
+})
+```
+
 ### S3 File Module Options
 
 <Table>
@@ -191,7 +228,7 @@ module.exports = {
       The base URL to upload files to.
 
       - For AWS S3, the endpoint is of the format `https://{bucket}.s3.{region}.amazonaws.com`
-      - For MinIO, it's the URL to the MinIO server with the bucket's name. For example, `https://{server-domain}/{bucket}`.
+      - For MinIO, it's the URL to the MinIO server with the bucket's name. For example, `https://{server-domain}/{bucket}`. Locally, it may be something like `http://192.168.0.123:9001/{bucket}`.
       - For DigitalOcean Spaces, it's either the Origin Endpoint or the CDN endpoint of your Spaces Object Storage bucket.
       - for Supabase, it's `https://{uniqueID}.supabase.co/storage/v1/object/public/{bucket}`. You can retrieve the `uniqueID` from [Storage Settings](https://supabase.com/docs/guides/storage/s3/authentication?queryGroups=language&language=javascript#s3-access-keys) page in the Endpoint URL.
       - For Cloudflare R2, it's `Public R2.dev Bucket URL`.
@@ -286,7 +323,7 @@ module.exports = {
       The URL to the AWS S3 (or compatible S3 API) server.
 
       - For AWS S3, the endpoint is of the format `https://s3.{region}.amazonaws.com`
-      - For MinIO, it's the URL to the MinIO server.
+      - For MinIO, it's the URL to the MinIO server. For example, locally, it may be something like `http://192.168.0.123:9001`.
       - For DigitalOcean Spaces, it's the Spaces Origin Endpoint of the format `https://{region}.digitaloceanspaces.com`.
       - For Supabase, it's the Endpoint URL in the [Storage Settings](https://supabase.com/docs/guides/storage/s3/authentication?queryGroups=language&language=javascript#s3-access-keys).
       - For Cloudflare, it's `https://{your-account-id}.r2.cloudflarestorage.com`.
@@ -371,36 +408,6 @@ module.exports = {
   </Table.Body>
 </Table>
 
-## Additional Configuration for MinIO and Supabase
-
-If you're using MinIO or Supabase, set `forcePathStyle` to `true` in the `additional_client_config` object.
-
-For example:
-
-```ts title="medusa-config.ts"
-module.exports = defineConfig({
-  // ...
-  modules: [
-    {
-      resolve: "@medusajs/medusa/file",
-      options: {
-        providers: [
-          {
-            resolve: "@medusajs/medusa/file-s3",
-            id: "s3",
-            options: {
-              // ...
-              additional_client_config: {
-                forcePathStyle: true,
-              },
-            },
-          },
-        ],
-      },
-    },
-  ],
-})
-```
 ---
 
 
@@ -411,6 +418,10 @@ module.exports = defineConfig({
     {
       title: "AWS: The bucket does not allow ACLs (Enabling public access to bucket)",
       content: <S3BucketAcl />
+    },
+    {
+      title: "Cloudflare: Checksum error",
+      content: <CloudflareChecksum />
     }
   ]}
 />

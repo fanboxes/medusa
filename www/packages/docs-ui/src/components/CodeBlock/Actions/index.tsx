@@ -6,6 +6,7 @@ import { Link, Tooltip } from "@/components"
 import { ExclamationCircle, PlaySolid } from "@medusajs/icons"
 import { GITHUB_ISSUES_LINK } from "@/constants"
 import { CodeBlockCopyAction } from "./Copy"
+import { CodeBlockAskAiAction } from "./AskAi"
 
 export type CodeBlockActionsProps = {
   source: string
@@ -74,6 +75,7 @@ export const CodeBlockActions = ({
           ]
         )}
       >
+        <CodeBlockAskAiAction source={source} inHeader={inHeader} />
         {canShowApiTesting && (
           <Tooltip
             text="Test API"

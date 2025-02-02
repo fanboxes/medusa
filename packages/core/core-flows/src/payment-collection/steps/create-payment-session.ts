@@ -24,7 +24,7 @@ export interface CreatePaymentSessionStepInput {
   amount: BigNumberInput
   /**
    * The currency code of the payment session.
-   * 
+   *
    * @example
    * usd
    */
@@ -42,7 +42,7 @@ export interface CreatePaymentSessionStepInput {
 
 export const createPaymentSessionStepId = "create-payment-session"
 /**
- * This step creates a payment session. 
+ * This step creates a payment session.
  */
 export const createPaymentSessionStep = createStep(
   createPaymentSessionStepId,

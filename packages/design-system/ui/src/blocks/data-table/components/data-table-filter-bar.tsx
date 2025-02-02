@@ -51,6 +51,7 @@ const DataTableFilterBar = ({
     </div>
   )
 }
+DataTableFilterBar.displayName = "DataTable.FilterBar"
 
 const DataTableFilterBarSkeleton = ({
   filterCount,

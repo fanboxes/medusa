@@ -1,7 +1,7 @@
 "use client"
 
 import { XMark } from "@medusajs/icons"
-import * as DrawerPrimitives from "@radix-ui/react-dialog"
+import { Dialog as RadixDialog } from "radix-ui"
 import * as React from "react"
 
 import { IconButton } from "@/components/icon-button"
@@ -9,7 +9,7 @@ import { Kbd } from "@/components/kbd"
 import { Text } from "@/components/text"
 import { clx } from "@/utils/clx"
 
-interface DrawerRootProps extends React.ComponentPropsWithoutRef<typeof DrawerPrimitives.Root> {}
+interface DrawerRootProps extends React.ComponentPropsWithoutRef<typeof RadixDialog.Root> {}
 
 /**
  * This component is based on the [Radix UI Dialog](https://www.radix-ui.com/primitives/docs/components/dialog) primitives.
@@ -17,65 +17,65 @@ interface DrawerRootProps extends React.ComponentPropsWithoutRef<typeof DrawerPr
 const DrawerRoot = (
   props: DrawerRootProps
 ) => {
-  return <DrawerPrimitives.Root {...props} />
+  return <RadixDialog.Root {...props} />
 }
 DrawerRoot.displayName = "Drawer"
 
-interface DrawerTriggerProps extends React.ComponentPropsWithoutRef<typeof DrawerPrimitives.Trigger> {}
+interface DrawerTriggerProps extends React.ComponentPropsWithoutRef<typeof RadixDialog.Trigger> {}
 
 /**
  * This component is used to create the trigger button that opens the drawer.
  * It accepts props from the [Radix UI Dialog Trigger](https://www.radix-ui.com/primitives/docs/components/dialog#trigger) component.
  */
 const DrawerTrigger = React.forwardRef<
-  React.ElementRef<typeof DrawerPrimitives.Trigger>,
+  React.ElementRef<typeof RadixDialog.Trigger>,
   DrawerTriggerProps
 >(({ className, ...props }: DrawerTriggerProps, ref) => {
   return (
-    <DrawerPrimitives.Trigger ref={ref} className={clx(className)} {...props} />
+    <RadixDialog.Trigger ref={ref} className={clx(className)} {...props} />
   )
 })
 DrawerTrigger.displayName = "Drawer.Trigger"
 
-interface DrawerCloseProps extends React.ComponentPropsWithoutRef<typeof DrawerPrimitives.Close> {}
+interface DrawerCloseProps extends React.ComponentPropsWithoutRef<typeof RadixDialog.Close> {}
 
 /**
  * This component is used to create the close button for the drawer.
  * It accepts props from the [Radix UI Dialog Close](https://www.radix-ui.com/primitives/docs/components/dialog#close) component.
  */
 const DrawerClose = React.forwardRef<
-  React.ElementRef<typeof DrawerPrimitives.Close>,
+  React.ElementRef<typeof RadixDialog.Close>,
   DrawerCloseProps
 >(({ className, ...props }: DrawerCloseProps, ref) => {
   return (
-    <DrawerPrimitives.Close ref={ref} className={clx(className)} {...props} />
+    <RadixDialog.Close ref={ref} className={clx(className)} {...props} />
   )
 })
 DrawerClose.displayName = "Drawer.Close"
 
-interface DrawerPortalProps extends DrawerPrimitives.DialogPortalProps {}
+interface DrawerPortalProps extends RadixDialog.DialogPortalProps {}
 
 /**
  * The `Drawer.Content` component uses this component to wrap the drawer content.
  * It accepts props from the [Radix UI Dialog Portal](https://www.radix-ui.com/primitives/docs/components/dialog#portal) component.
  */
 const DrawerPortal = (props: DrawerPortalProps) => {
-  return <DrawerPrimitives.DialogPortal {...props} />
+  return <RadixDialog.DialogPortal {...props} />
 }
 DrawerPortal.displayName = "Drawer.Portal"
 
-interface DrawerOverlayProps extends React.ComponentPropsWithoutRef<typeof DrawerPrimitives.Overlay> {}
+interface DrawerOverlayProps extends React.ComponentPropsWithoutRef<typeof RadixDialog.Overlay> {}
 
 /**
  * This component is used to create the overlay for the drawer.
  * It accepts props from the [Radix UI Dialog Overlay](https://www.radix-ui.com/primitives/docs/components/dialog#overlay) component.
  */
 const DrawerOverlay = React.forwardRef<
-  React.ElementRef<typeof DrawerPrimitives.Overlay>,
+  React.ElementRef<typeof RadixDialog.Overlay>,
   DrawerOverlayProps
 >(({ className, ...props }: DrawerOverlayProps, ref) => {
   return (
-    <DrawerPrimitives.Overlay
+    <RadixDialog.Overlay
       ref={ref}
       className={clx(
         "bg-ui-bg-overlay fixed inset-0",
@@ -88,7 +88,7 @@ const DrawerOverlay = React.forwardRef<
 })
 DrawerOverlay.displayName = "Drawer.Overlay"
 
-interface DrawerContentProps extends React.ComponentPropsWithoutRef<typeof DrawerPrimitives.Content> {
+interface DrawerContentProps extends React.ComponentPropsWithoutRef<typeof RadixDialog.Content> {
   /**
    * Props for the overlay component.
    * It accepts props from the [Radix UI Dialog Overlay](https://www.radix-ui.com/primitives/docs/components/dialog#overlay) component.
@@ -106,13 +106,13 @@ interface DrawerContentProps extends React.ComponentPropsWithoutRef<typeof Drawe
  * It accepts props from the [Radix UI Dialog Content](https://www.radix-ui.com/primitives/docs/components/dialog#content) component.
  */
 const DrawerContent = React.forwardRef<
-  React.ElementRef<typeof DrawerPrimitives.Content>,
+  React.ElementRef<typeof RadixDialog.Content>,
   DrawerContentProps
 >(({ className, overlayProps, portalProps, ...props }: DrawerContentProps, ref) => {
   return (
     <DrawerPortal {...portalProps}>
       <DrawerOverlay {...overlayProps} />
-      <DrawerPrimitives.Content
+      <RadixDialog.Content
         ref={ref}
         className={clx(
           "bg-ui-bg-base shadow-elevation-modal border-ui-border-base fixed inset-y-2 flex w-full flex-1 flex-col rounded-lg border outline-none max-sm:inset-x-2 max-sm:w-[calc(100%-16px)] sm:right-2 sm:max-w-[560px]",
@@ -145,11 +145,11 @@ const DrawerHeader = React.forwardRef<
       <div className={clx("flex flex-col gap-y-1", className)}>{children}</div>
       <div className="flex items-center gap-x-2">
         <Kbd>esc</Kbd>
-        <DrawerPrimitives.Close asChild>
+        <RadixDialog.Close asChild>
           <IconButton size="small" type="button" variant="transparent">
             <XMark />
           </IconButton>
-        </DrawerPrimitives.Close>
+        </RadixDialog.Close>
       </div>
     </div>
   )
@@ -198,27 +198,27 @@ DrawerFooter.displayName = "Drawer.Footer"
  * This component adds an accessible title to the drawer.
  * It accepts props from the [Radix UI Dialog Title](https://www.radix-ui.com/primitives/docs/components/dialog#title) component.
  */
-const DrawerTitle = DrawerPrimitives.Title
+const DrawerTitle = RadixDialog.Title
 DrawerTitle.displayName = "Drawer.Title"
 
-interface DrawerDescriptionProps extends React.ComponentPropsWithoutRef<typeof DrawerPrimitives.Description> {}
+interface DrawerDescriptionProps extends React.ComponentPropsWithoutRef<typeof RadixDialog.Description> {}
 
 /**
  * This component adds accessible description to the drawer.
  * It accepts props from the [Radix UI Dialog Description](https://www.radix-ui.com/primitives/docs/components/dialog#description) component.
  */
 const DrawerDescription = React.forwardRef<
-  React.ElementRef<typeof DrawerPrimitives.Description>,
+  React.ElementRef<typeof RadixDialog.Description>,
   DrawerDescriptionProps
 >(({ className, children, ...props }: DrawerDescriptionProps, ref) => (
-  <DrawerPrimitives.Description
+  <RadixDialog.Description
     ref={ref}
     className={clx(className)}
     asChild
     {...props}
   >
     <Text>{children}</Text>
-  </DrawerPrimitives.Description>
+  </RadixDialog.Description>
 ))
 DrawerDescription.displayName = "Drawer.Description"
 

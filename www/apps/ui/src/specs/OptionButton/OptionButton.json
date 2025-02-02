@@ -1,0 +1,95 @@
+{
+  "description": "",
+  "methods": [],
+  "displayName": "OptionButton",
+  "props": {
+    "index": {
+      "required": true,
+      "tsType": {
+        "name": "number"
+      },
+      "description": ""
+    },
+    "option": {
+      "required": true,
+      "tsType": {
+        "name": "DataTableFilterOption",
+        "elements": [
+          {
+            "name": "union",
+            "raw": "string | DataTableDateComparisonOperator",
+            "elements": [
+              {
+                "name": "string"
+              },
+              {
+                "name": "DataTableDateComparisonOperator"
+              }
+            ]
+          }
+        ],
+        "raw": "DataTableFilterOption<string | DataTableDateComparisonOperator>"
+      },
+      "description": ""
+    },
+    "isSelected": {
+      "required": true,
+      "tsType": {
+        "name": "boolean"
+      },
+      "description": ""
+    },
+    "isFocused": {
+      "required": true,
+      "tsType": {
+        "name": "boolean"
+      },
+      "description": ""
+    },
+    "onClick": {
+      "required": true,
+      "tsType": {
+        "name": "signature",
+        "type": "function",
+        "raw": "() => void",
+        "signature": {
+          "arguments": [],
+          "return": {
+            "name": "void"
+          }
+        }
+      },
+      "description": ""
+    },
+    "onMouseEvent": {
+      "required": true,
+      "tsType": {
+        "name": "signature",
+        "type": "function",
+        "raw": "(idx: number) => void",
+        "signature": {
+          "arguments": [
+            {
+              "type": {
+                "name": "number"
+              },
+              "name": "idx"
+            }
+          ],
+          "return": {
+            "name": "void"
+          }
+        }
+      },
+      "description": ""
+    },
+    "icon": {
+      "required": true,
+      "tsType": {
+        "name": "ReactElementType",
+        "raw": "React.ElementType"
+      },
+      "description": ""
+    }
+  }
+}

@@ -15,7 +15,7 @@ import {
   Users,
 } from "@medusajs/icons"
 import { Avatar, DropdownMenu, Text, clx } from "@medusajs/ui"
-import * as Collapsible from "@radix-ui/react-collapsible"
+import { Collapsible as RadixCollapsible } from "radix-ui"
 import { useTranslation } from "react-i18next"
 
 import { useStore } from "../../../hooks/api/store"
@@ -323,9 +323,9 @@ const ExtensionRouteSection = () => {
         <Divider variant="dashed" />
       </div>
       <div className="flex flex-col gap-y-1 py-3">
-        <Collapsible.Root defaultOpen>
+        <RadixCollapsible.Root defaultOpen>
           <div className="px-4">
-            <Collapsible.Trigger asChild className="group/trigger">
+            <RadixCollapsible.Trigger asChild className="group/trigger">
               <button className="text-ui-fg-subtle flex w-full items-center justify-between px-2">
                 <Text size="xsmall" weight="plus" leading="compact">
                   {t("app.nav.common.extensions")}
@@ -335,9 +335,9 @@ const ExtensionRouteSection = () => {
                   <MinusMini className="group-data-[state=closed]/trigger:hidden" />
                 </div>
               </button>
-            </Collapsible.Trigger>
+            </RadixCollapsible.Trigger>
           </div>
-          <Collapsible.Content>
+          <RadixCollapsible.Content>
             <nav className="flex flex-col gap-y-0.5 py-1 pb-4">
               {menuItems.map((item, i) => {
                 return (
@@ -352,8 +352,8 @@ const ExtensionRouteSection = () => {
                 )
               })}
             </nav>
-          </Collapsible.Content>
-        </Collapsible.Root>
+          </RadixCollapsible.Content>
+        </RadixCollapsible.Root>
       </div>
     </div>
   )

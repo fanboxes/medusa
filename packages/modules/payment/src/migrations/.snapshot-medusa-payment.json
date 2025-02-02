@@ -15,6 +15,132 @@
           "nullable": false,
           "mappedType": "text"
         },
+        "provider_id": {
+          "name": "provider_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "external_id": {
+          "name": "external_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "data": {
+          "name": "data",
+          "type": "jsonb",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "'{}'",
+          "mappedType": "json"
+        },
+        "metadata": {
+          "name": "metadata",
+          "type": "jsonb",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "json"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "default": "now()",
+          "mappedType": "datetime"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "default": "now()",
+          "mappedType": "datetime"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 6,
+          "mappedType": "datetime"
+        }
+      },
+      "name": "account_holder",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "IDX_account_holder_deleted_at",
+          "columnNames": [],
+          "composite": false,
+          "constraint": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_account_holder_deleted_at\" ON \"account_holder\" (deleted_at) WHERE deleted_at IS NULL"
+        },
+        {
+          "keyName": "IDX_account_holder_provider_id_external_id_unique",
+          "columnNames": [],
+          "composite": false,
+          "constraint": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"IDX_account_holder_provider_id_external_id_unique\" ON \"account_holder\" (provider_id, external_id) WHERE deleted_at IS NULL"
+        },
+        {
+          "keyName": "account_holder_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {},
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
         "currency_code": {
           "name": "currency_code",
           "type": "text",
@@ -172,6 +298,7 @@
           "keyName": "IDX_payment_collection_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_payment_collection_deleted_at\" ON \"payment_collection\" (deleted_at) WHERE deleted_at IS NULL"
@@ -182,12 +309,14 @@
             "id"
           ],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
       ],
       "checks": [],
-      "foreignKeys": {}
+      "foreignKeys": {},
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -294,6 +423,7 @@
           "keyName": "IDX_payment_method_token_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_payment_method_token_deleted_at\" ON \"payment_method_token\" (deleted_at) WHERE deleted_at IS NULL"
@@ -304,12 +434,14 @@
             "id"
           ],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
       ],
       "checks": [],
-      "foreignKeys": {}
+      "foreignKeys": {},
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -372,6 +504,7 @@
           "keyName": "IDX_payment_provider_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_payment_provider_deleted_at\" ON \"payment_provider\" (deleted_at) WHERE deleted_at IS NULL"
@@ -382,12 +515,14 @@
             "id"
           ],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
       ],
       "checks": [],
-      "foreignKeys": {}
+      "foreignKeys": {},
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -420,14 +555,15 @@
             "payment_provider_id"
           ],
           "composite": true,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
       ],
       "checks": [],
       "foreignKeys": {
-        "payment_collection_payment_providers_payment_coll_aa276_foreign": {
-          "constraintName": "payment_collection_payment_providers_payment_coll_aa276_foreign",
+        "payment_collection_payment_providers_payment_col_aa276_foreign": {
+          "constraintName": "payment_collection_payment_providers_payment_col_aa276_foreign",
           "columnNames": [
             "payment_collection_id"
           ],
@@ -439,8 +575,8 @@
           "deleteRule": "cascade",
           "updateRule": "cascade"
         },
-        "payment_collection_payment_providers_payment_provider_id_foreign": {
-          "constraintName": "payment_collection_payment_providers_payment_provider_id_foreign",
+        "payment_collection_payment_providers_payment_pro_2d555_foreign": {
+          "constraintName": "payment_collection_payment_providers_payment_pro_2d555_foreign",
           "columnNames": [
             "payment_provider_id"
           ],
@@ -452,7 +588,8 @@
           "deleteRule": "cascade",
           "updateRule": "cascade"
         }
-      }
+      },
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -606,6 +743,7 @@
           "keyName": "IDX_payment_session_payment_collection_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_payment_session_payment_collection_id\" ON \"payment_session\" (payment_collection_id) WHERE deleted_at IS NULL"
@@ -614,6 +752,7 @@
           "keyName": "IDX_payment_session_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_payment_session_deleted_at\" ON \"payment_session\" (deleted_at) WHERE deleted_at IS NULL"
@@ -624,6 +763,7 @@
             "id"
           ],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
@@ -643,7 +783,8 @@
           "deleteRule": "cascade",
           "updateRule": "cascade"
         }
-      }
+      },
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -788,6 +929,7 @@
           "keyName": "IDX_payment_payment_collection_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_payment_payment_collection_id\" ON \"payment\" (payment_collection_id) WHERE deleted_at IS NULL"
@@ -796,6 +938,7 @@
           "keyName": "IDX_payment_payment_session_id_unique",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"IDX_payment_payment_session_id_unique\" ON \"payment\" (payment_session_id) WHERE deleted_at IS NULL"
@@ -804,6 +947,7 @@
           "keyName": "IDX_payment_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_payment_deleted_at\" ON \"payment\" (deleted_at) WHERE deleted_at IS NULL"
@@ -812,6 +956,7 @@
           "keyName": "IDX_payment_provider_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_payment_provider_id\" ON \"payment\" (provider_id) WHERE deleted_at IS NULL"
@@ -820,6 +965,7 @@
           "keyName": "IDX_payment_payment_session_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_payment_payment_session_id\" ON \"payment\" (payment_session_id) WHERE deleted_at IS NULL"
@@ -830,6 +976,7 @@
             "id"
           ],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
@@ -861,7 +1008,8 @@
           "referencedTableName": "public.payment_session",
           "updateRule": "cascade"
         }
-      }
+      },
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -959,6 +1107,7 @@
           "keyName": "IDX_capture_payment_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_capture_payment_id\" ON \"capture\" (payment_id) WHERE deleted_at IS NULL"
@@ -967,6 +1116,7 @@
           "keyName": "IDX_capture_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_capture_deleted_at\" ON \"capture\" (deleted_at) WHERE deleted_at IS NULL"
@@ -977,6 +1127,7 @@
             "id"
           ],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
@@ -996,7 +1147,8 @@
           "deleteRule": "cascade",
           "updateRule": "cascade"
         }
-      }
+      },
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -1076,6 +1228,7 @@
           "keyName": "IDX_refund_reason_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_refund_reason_deleted_at\" ON \"refund_reason\" (deleted_at) WHERE deleted_at IS NULL"
@@ -1086,12 +1239,14 @@
             "id"
           ],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
       ],
       "checks": [],
-      "foreignKeys": {}
+      "foreignKeys": {},
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -1207,6 +1362,7 @@
           "keyName": "IDX_refund_payment_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_refund_payment_id\" ON \"refund\" (payment_id) WHERE deleted_at IS NULL"
@@ -1215,6 +1371,7 @@
           "keyName": "IDX_refund_refund_reason_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_refund_refund_reason_id\" ON \"refund\" (refund_reason_id) WHERE deleted_at IS NULL"
@@ -1223,6 +1380,7 @@
           "keyName": "IDX_refund_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_refund_deleted_at\" ON \"refund\" (deleted_at) WHERE deleted_at IS NULL"
@@ -1233,6 +1391,7 @@
             "id"
           ],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
@@ -1265,7 +1424,9 @@
           "deleteRule": "set null",
           "updateRule": "cascade"
         }
-      }
+      },
+      "nativeEnums": {}
     }
-  ]
+  ],
+  "nativeEnums": {}
 }

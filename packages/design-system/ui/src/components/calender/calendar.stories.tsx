@@ -1,8 +1,8 @@
+import { Button } from "@/components/button"
+import { Calendar } from "@/components/calender/calendar"
 import type { Meta, StoryObj } from "@storybook/react"
 import * as React from "react"
 import { ComponentPropsWithoutRef } from "react"
-import { Button } from "../button"
-import { Calendar } from "./calendar"
 
 const meta: Meta<typeof Calendar> = {
   title: "Components/CalendarNew",

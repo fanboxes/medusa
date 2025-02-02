@@ -282,6 +282,12 @@ You use this step in another workflow that changes the status of an async step i
 
 To access the status and result of a long-running workflow execution, use the `subscribe` and `unsubscribe` methods of the Workflow Engine Module's main service.
 
+<Note title="Tip">
+
+To retrieve the workflow execution's details at a later point, you must enable [storing the workflow's executions](../store-executions/page.mdx).
+
+</Note>
+
 For example:
 
 export const highlights = [

@@ -379,10 +379,10 @@ export const useChildDocs = ({
         {!searchResult.length && (
           <div className="flex flex-col justify-center items-center gap-docs_0.75">
             <ExclamationCircle className="text-medusa-fg-subtle" />
-            <span className="text-compact-small-plus text-medusa-fg-subtle text-center">
+            <span className="text-compact-small-plus text-medusa-fg-base text-center">
               No results found matching your query.
             </span>
-            <span className="text-compact-small text-medusa-fg-muted text-center">
+            <span className="text-compact-small text-medusa-fg-subtle text-center">
               Try searching with another term or clearing the search.
             </span>
           </div>

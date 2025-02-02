@@ -18,7 +18,7 @@ import {
   Text,
   clx,
 } from "@medusajs/ui"
-import * as Dialog from "@radix-ui/react-dialog"
+import { Dialog as RadixDialog } from "radix-ui"
 import { useTranslation } from "react-i18next"
 
 import { Skeleton } from "../../common/skeleton"
@@ -231,25 +231,25 @@ const GlobalKeybindsModal = (props: {
     : globalShortcuts
 
   return (
-    <Dialog.Root {...props}>
-      <Dialog.Portal>
-        <Dialog.Overlay className="bg-ui-bg-overlay fixed inset-0" />
-        <Dialog.Content className="bg-ui-bg-subtle shadow-elevation-modal fixed left-[50%] top-[50%] flex h-full max-h-[612px] w-full max-w-[560px] translate-x-[-50%] translate-y-[-50%] flex-col divide-y overflow-hidden rounded-lg">
+    <RadixDialog.Root {...props}>
+      <RadixDialog.Portal>
+        <RadixDialog.Overlay className="bg-ui-bg-overlay fixed inset-0" />
+        <RadixDialog.Content className="bg-ui-bg-subtle shadow-elevation-modal fixed left-[50%] top-[50%] flex h-full max-h-[612px] w-full max-w-[560px] translate-x-[-50%] translate-y-[-50%] flex-col divide-y overflow-hidden rounded-lg">
           <div className="flex flex-col gap-y-3 px-6 py-4">
             <div className="flex items-center justify-between">
               <div>
-                <Dialog.Title asChild>
+                <RadixDialog.Title asChild>
                   <Heading>{t("app.menus.user.shortcuts")}</Heading>
-                </Dialog.Title>
-                <Dialog.Description className="sr-only"></Dialog.Description>
+                </RadixDialog.Title>
+                <RadixDialog.Description className="sr-only"></RadixDialog.Description>
               </div>
               <div className="flex items-center gap-x-2">
                 <Kbd>esc</Kbd>
-                <Dialog.Close asChild>
+                <RadixDialog.Close asChild>
                   <IconButton variant="transparent" size="small">
                     <XMark />
                   </IconButton>
-                </Dialog.Close>
+                </RadixDialog.Close>
               </div>
             </div>
             <div>
@@ -286,9 +286,9 @@ const GlobalKeybindsModal = (props: {
               )
             })}
           </div>
-        </Dialog.Content>
-      </Dialog.Portal>
-    </Dialog.Root>
+        </RadixDialog.Content>
+      </RadixDialog.Portal>
+    </RadixDialog.Root>
   )
 }
 

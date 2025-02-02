@@ -1,0 +1,98 @@
+{
+  "description": "This component renders the table in a data table, supporting advanced features.",
+  "methods": [],
+  "displayName": "DataTable.Table",
+  "props": {
+    "emptyState": {
+      "required": false,
+      "tsType": {
+        "name": "signature",
+        "type": "object",
+        "raw": "{\n  /**\n   * The empty state to display when the table is filtered, but no rows are found.\n   */\n  filtered?: DataTableEmptyStateContent\n  /**\n   * The empty state to display when the table is empty.\n   */\n  empty?: DataTableEmptyStateContent\n}",
+        "signature": {
+          "properties": [
+            {
+              "key": "filtered",
+              "value": {
+                "name": "signature",
+                "type": "object",
+                "raw": "{\n  /**\n   * The heading to display in the empty state.\n   */\n  heading?: string\n  /**\n   * The description to display in the empty state.\n   */\n  description?: string\n  /**\n   * A custom component to display in the empty state, if provided it will override the heading and description.\n   */\n  custom?: React.ReactNode\n}",
+                "signature": {
+                  "properties": [
+                    {
+                      "key": "heading",
+                      "value": {
+                        "name": "string",
+                        "required": false
+                      },
+                      "description": "The heading to display in the empty state."
+                    },
+                    {
+                      "key": "description",
+                      "value": {
+                        "name": "string",
+                        "required": false
+                      },
+                      "description": "The description to display in the empty state."
+                    },
+                    {
+                      "key": "custom",
+                      "value": {
+                        "name": "ReactReactNode",
+                        "raw": "React.ReactNode",
+                        "required": false
+                      },
+                      "description": "A custom component to display in the empty state, if provided it will override the heading and description."
+                    }
+                  ]
+                },
+                "required": false
+              },
+              "description": "The empty state to display when the table is filtered, but no rows are found."
+            },
+            {
+              "key": "empty",
+              "value": {
+                "name": "signature",
+                "type": "object",
+                "raw": "{\n  /**\n   * The heading to display in the empty state.\n   */\n  heading?: string\n  /**\n   * The description to display in the empty state.\n   */\n  description?: string\n  /**\n   * A custom component to display in the empty state, if provided it will override the heading and description.\n   */\n  custom?: React.ReactNode\n}",
+                "signature": {
+                  "properties": [
+                    {
+                      "key": "heading",
+                      "value": {
+                        "name": "string",
+                        "required": false
+                      },
+                      "description": "The heading to display in the empty state."
+                    },
+                    {
+                      "key": "description",
+                      "value": {
+                        "name": "string",
+                        "required": false
+                      },
+                      "description": "The description to display in the empty state."
+                    },
+                    {
+                      "key": "custom",
+                      "value": {
+                        "name": "ReactReactNode",
+                        "raw": "React.ReactNode",
+                        "required": false
+                      },
+                      "description": "A custom component to display in the empty state, if provided it will override the heading and description."
+                    }
+                  ]
+                },
+                "required": false
+              },
+              "description": "The empty state to display when the table is empty."
+            }
+          ]
+        }
+      },
+      "description": "The empty state to display when the table is empty."
+    }
+  }
+}

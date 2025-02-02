@@ -1,8 +1,9 @@
 import path from "path"
-import { getConfigFile } from "@medusajs/utils"
-import type { AdminOptions, ConfigModule, Logger } from "@medusajs/types"
-import { rm, access, constants, copyFile, writeFile, mkdir } from "fs/promises"
+import chokidar from "chokidar"
 import type tsStatic from "typescript"
+import { FileSystem, getConfigFile } from "@medusajs/utils"
+import { rm, access, constants, copyFile } from "fs/promises"
+import type { AdminOptions, ConfigModule, Logger } from "@medusajs/types"
 
 /**
  * The compiler exposes the opinionated APIs for compiling Medusa
@@ -27,7 +28,6 @@ export class Compiler {
   #adminSourceFolder: string
   #pluginsDistFolder: string
   #backendIgnoreFiles: string[]
-  #pluginOptionsPath: string
   #adminOnlyDistFolder: string
   #tsCompiler?: typeof tsStatic
 
@@ -38,10 +38,6 @@ export class Compiler {
     this.#adminSourceFolder = path.join(this.#projectRoot, "src/admin")
     this.#adminOnlyDistFolder = path.join(this.#projectRoot, ".medusa/admin")
     this.#pluginsDistFolder = path.join(this.#projectRoot, ".medusa/server")
-    this.#pluginOptionsPath = path.join(
-      this.#projectRoot,
-      ".medusa/server/medusa-plugin-options.json"
-    )
     this.#backendIgnoreFiles = [
       "integration-tests",
       "test",
@@ -141,13 +137,14 @@ export class Compiler {
   }
 
   /**
-   * Ensures a directory exists
+   * Returns a boolean indicating if a file extension belongs
+   * to a JavaScript or TypeScript file
    */
-  async #ensureDir(path: string, clean?: boolean) {
-    if (clean) {
-      await this.#clean(path)
+  #isScriptFile(filePath: string) {
+    if (filePath.endsWith(".ts") && !filePath.endsWith(".d.ts")) {
+      return true
     }
-    await mkdir(path, { recursive: true })
+    return filePath.endsWith(".js")
   }
 
   /**
@@ -165,24 +162,6 @@ export class Compiler {
     }
 
     return { configFilePath, configModule }
-  }
-
-  /**
-   * Creates medusa-plugin-options.json file that contains some
-   * metadata related to the plugin, which could be helpful
-   * for MedusaJS loaders during development
-   */
-  async #createPluginOptionsFile() {
-    await writeFile(
-      this.#pluginOptionsPath,
-      JSON.stringify(
-        {
-          srcDir: path.join(this.#projectRoot, "src"),
-        },
-        null,
-        2
-      )
-    )
   }
 
   /**
@@ -336,12 +315,12 @@ export class Compiler {
       this.#logger.warn(
         `Backend build completed with errors (${tracker.getSeconds()}s)`
       )
-    } else {
-      this.#logger.info(
-        `Backend build completed successfully (${tracker.getSeconds()}s)`
-      )
+      return false
     }
 
+    this.#logger.info(
+      `Backend build completed successfully (${tracker.getSeconds()}s)`
+    )
     return true
   }
 
@@ -380,7 +359,7 @@ export class Compiler {
       this.#logger.info(
         "Skipping admin build, since its disabled inside the medusa-config file"
       )
-      return false
+      return true
     }
 
     /**
@@ -437,7 +416,7 @@ export class Compiler {
      */
     const { emitResult, diagnostics } = await this.#emitBuildOutput(
       tsConfig,
-      ["integration-tests", "test", "unit-tests", "src/admin"],
+      this.#backendIgnoreFiles,
       dist
     )
 
@@ -456,12 +435,12 @@ export class Compiler {
       this.#logger.warn(
         `Plugin build completed with errors (${tracker.getSeconds()}s)`
       )
-    } else {
-      this.#logger.info(
-        `Plugin build completed successfully (${tracker.getSeconds()}s)`
-      )
+      return false
     }
 
+    this.#logger.info(
+      `Plugin build completed successfully (${tracker.getSeconds()}s)`
+    )
     return true
   }
 
@@ -472,54 +451,71 @@ export class Compiler {
    * The "onFileChange" argument can be used to get notified when
    * a file has changed.
    */
-  async developPluginBackend(onFileChange?: () => void) {
-    await this.#ensureDir(this.#pluginsDistFolder, true)
-    await this.#createPluginOptionsFile()
-    const ts = await this.#loadTSCompiler()
+  async developPluginBackend(
+    transformer: (filePath: string) => Promise<string>,
+    onFileChange?: (
+      filePath: string,
+      action: "add" | "change" | "unlink"
+    ) => void
+  ) {
+    const fs = new FileSystem(this.#pluginsDistFolder)
+    await fs.createJson("medusa-plugin-options.json", {
+      srcDir: path.join(this.#projectRoot, "src"),
+    })
 
-    /**
-     * Format host is needed to print diagnostic messages
-     */
-    const formatHost: tsStatic.FormatDiagnosticsHost = {
-      getCanonicalFileName: (path) => path,
-      getCurrentDirectory: ts.sys.getCurrentDirectory,
-      getNewLine: () => ts.sys.newLine,
-    }
+    const watcher = chokidar.watch(["."], {
+      ignoreInitial: true,
+      cwd: this.#projectRoot,
+      ignored: [
+        /(^|[\\/\\])\../,
+        "node_modules",
+        "dist",
+        "static",
+        "private",
+        ".medusa/**/*",
+        ...this.#backendIgnoreFiles,
+      ],
+    })
 
-    /**
-     * Creating a watcher compiler host to watch files and recompile
-     * them as they are changed
-     */
-    const host = ts.createWatchCompilerHost(
-      this.#tsConfigPath,
-      {
-        outDir: this.#pluginsDistFolder,
-        noCheck: true,
-      },
-      ts.sys,
-      ts.createEmitAndSemanticDiagnosticsBuilderProgram,
-      (diagnostic) => this.#printDiagnostics(ts, [diagnostic]),
-      (diagnostic) => {
-        if (typeof diagnostic.messageText === "string") {
-          this.#logger.info(diagnostic.messageText)
-        } else {
-          this.#logger.info(
-            ts.formatDiagnosticsWithColorAndContext([diagnostic], formatHost)
-          )
-        }
-      },
-      {
-        excludeDirectories: this.#backendIgnoreFiles,
+    watcher.on("add", async (file) => {
+      if (!this.#isScriptFile(file)) {
+        return
       }
-    )
+      const relativePath = path.relative(this.#projectRoot, file)
+      const outputPath = relativePath.replace(/\.ts$/, ".js")
 
-    const origPostProgramCreate = host.afterProgramCreate
-    host.afterProgramCreate = (program) => {
-      origPostProgramCreate!(program)
-      onFileChange?.()
-    }
+      this.#logger.info(`${relativePath} updated: Republishing changes`)
+      await fs.create(outputPath, await transformer(file))
 
-    ts.createWatchProgram(host)
+      onFileChange?.(file, "add")
+    })
+    watcher.on("change", async (file) => {
+      if (!this.#isScriptFile(file)) {
+        return
+      }
+      const relativePath = path.relative(this.#projectRoot, file)
+      const outputPath = relativePath.replace(/\.ts$/, ".js")
+
+      this.#logger.info(`${relativePath} updated: Republishing changes`)
+      await fs.create(outputPath, await transformer(file))
+
+      onFileChange?.(file, "change")
+    })
+    watcher.on("unlink", async (file) => {
+      if (!this.#isScriptFile(file)) {
+        return
+      }
+      const relativePath = path.relative(this.#projectRoot, file)
+      const outputPath = relativePath.replace(/\.ts$/, ".js")
+
+      this.#logger.info(`${relativePath} removed: Republishing changes`)
+      await fs.remove(outputPath)
+      onFileChange?.(file, "unlink")
+    })
+
+    watcher.on("ready", () => {
+      this.#logger.info("watching for file changes")
+    })
   }
 
   async buildPluginAdminExtensions(bundler: {

@@ -6,6 +6,7 @@ import { currencySidebar } from "./sidebars/currency.mjs"
 import { customerSidebar } from "./sidebars/customer.mjs"
 import { fulfillmentSidebar } from "./sidebars/fulfillment.mjs"
 import { integrationsSidebar } from "./sidebars/integrations.mjs"
+import { pluginsSidebar } from "./sidebars/plugins.mjs"
 import { inventorySidebar } from "./sidebars/inventory.mjs"
 import { orderSidebar } from "./sidebars/order-module.mjs"
 import { paymentSidebar } from "./sidebars/payment.mjs"
@@ -86,6 +87,13 @@ export const sidebar = sidebarAttachHrefCommonOptions([
     title: "Integrations",
     isChildSidebar: true,
     children: integrationsSidebar,
+  },
+  {
+    type: "ref",
+    path: "/plugins",
+    title: "Plugins",
+    isChildSidebar: true,
+    children: pluginsSidebar,
   },
   {
     type: "link",

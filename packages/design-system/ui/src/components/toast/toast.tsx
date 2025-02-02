@@ -7,11 +7,11 @@ import {
   XMark,
 } from "@medusajs/icons"
 import * as React from "react"
+import { toast } from "sonner"
 
+import { IconButton } from "@/components/icon-button"
 import type { ToastAction, ToastVariant } from "@/types"
 import { clx } from "@/utils/clx"
-import { toast } from "sonner"
-import { IconButton } from "../icon-button"
 
 interface ToastComponentProps {
   id: string | number

@@ -1,4 +1,4 @@
-import * as Primitives from "@radix-ui/react-popover"
+import { Popover as RadixPopover } from "radix-ui"
 import * as React from "react"
 
 import { clx } from "@/utils/clx"
@@ -7,44 +7,44 @@ import { clx } from "@/utils/clx"
  * This component is based on the [Radix UI Popover](https://www.radix-ui.com/primitives/docs/components/popover) primitves.
  */
 const Root = (
-  props: React.ComponentPropsWithoutRef<typeof Primitives.Root>
+  props: React.ComponentPropsWithoutRef<typeof RadixPopover.Root>
 ) => {
-  return <Primitives.Root {...props} />
+  return <RadixPopover.Root {...props} />
 }
 Root.displayName = "Popover"
 
 const Trigger = React.forwardRef<
-  React.ElementRef<typeof Primitives.Trigger>,
-  React.ComponentPropsWithoutRef<typeof Primitives.Trigger>
+  React.ElementRef<typeof RadixPopover.Trigger>,
+  React.ComponentPropsWithoutRef<typeof RadixPopover.Trigger>
 >((props, ref) => {
-  return <Primitives.Trigger ref={ref} {...props} />
+  return <RadixPopover.Trigger ref={ref} {...props} />
 })
 Trigger.displayName = "Popover.Trigger"
 
 const Anchor = React.forwardRef<
-  React.ElementRef<typeof Primitives.Anchor>,
-  React.ComponentPropsWithoutRef<typeof Primitives.Anchor>
+  React.ElementRef<typeof RadixPopover.Anchor>,
+  React.ComponentPropsWithoutRef<typeof RadixPopover.Anchor>
 >((props, ref) => {
-  return <Primitives.Anchor ref={ref} {...props} />
+  return <RadixPopover.Anchor ref={ref} {...props} />
 })
 Anchor.displayName = "Popover.Anchor"
 
 const Close = React.forwardRef<
-  React.ElementRef<typeof Primitives.Close>,
-  React.ComponentPropsWithoutRef<typeof Primitives.Close>
+  React.ElementRef<typeof RadixPopover.Close>,
+  React.ComponentPropsWithoutRef<typeof RadixPopover.Close>
 >((props, ref) => {
-  return <Primitives.Close ref={ref} {...props} />
+  return <RadixPopover.Close ref={ref} {...props} />
 })
 Close.displayName = "Popover.Close"
 
 interface ContentProps
-  extends React.ComponentPropsWithoutRef<typeof Primitives.Content> {}
+  extends React.ComponentPropsWithoutRef<typeof RadixPopover.Content> {}
 
 /**
  * @excludeExternal
  */
 const Content = React.forwardRef<
-  React.ElementRef<typeof Primitives.Content>,
+  React.ElementRef<typeof RadixPopover.Content>,
   ContentProps
 >(
   (
@@ -69,8 +69,8 @@ const Content = React.forwardRef<
     ref
   ) => {
     return (
-      <Primitives.Portal>
-        <Primitives.Content
+      <RadixPopover.Portal>
+        <RadixPopover.Content
           ref={ref}
           sideOffset={sideOffset}
           side={side}
@@ -83,7 +83,7 @@ const Content = React.forwardRef<
           )}
           {...props}
         />
-      </Primitives.Portal>
+      </RadixPopover.Portal>
     )
   }
 )

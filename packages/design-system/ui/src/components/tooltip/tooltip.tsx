@@ -1,14 +1,14 @@
 "use client"
 
-import * as Primitives from "@radix-ui/react-tooltip"
+import { Tooltip as RadixTooltip } from "radix-ui"
 import * as React from "react"
 
 import { clx } from "@/utils/clx"
 
 interface TooltipProps
-  extends Omit<Primitives.TooltipContentProps, "content" | "onClick">,
+  extends Omit<RadixTooltip.TooltipContentProps, "content" | "onClick">,
     Pick<
-      Primitives.TooltipProps,
+      RadixTooltip.TooltipProps,
       "open" | "defaultOpen" | "onOpenChange" | "delayDuration"
     > {
   content: React.ReactNode
@@ -40,17 +40,17 @@ const Tooltip = ({
   ...props
 }: TooltipProps) => {
   return (
-      <Primitives.Root
+      <RadixTooltip.Root
         open={open}
         defaultOpen={defaultOpen}
         onOpenChange={onOpenChange}
         delayDuration={delayDuration}
       >
-        <Primitives.Trigger onClick={onClick} asChild>
+        <RadixTooltip.Trigger onClick={onClick} asChild>
           {children}
-        </Primitives.Trigger>
-        <Primitives.Portal>
-          <Primitives.Content
+        </RadixTooltip.Trigger>
+        <RadixTooltip.Portal>
+          <RadixTooltip.Content
             side={side}
             sideOffset={sideOffset}
             align="center"
@@ -63,19 +63,19 @@ const Tooltip = ({
             style={{ ...props.style, maxWidth }}
           >
             {content}
-          </Primitives.Content>
-        </Primitives.Portal>
-      </Primitives.Root>
+          </RadixTooltip.Content>
+        </RadixTooltip.Portal>
+      </RadixTooltip.Root>
   )
 }
 
-interface TooltipProviderProps extends Primitives.TooltipProviderProps {}
+interface TooltipProviderProps extends RadixTooltip.TooltipProviderProps {}
 
 const TooltipProvider = ({ children, delayDuration = 100, skipDelayDuration = 300, ...props }: TooltipProviderProps) => {
   return (
-    <Primitives.TooltipProvider delayDuration={delayDuration} skipDelayDuration={skipDelayDuration} {...props}>
+    <RadixTooltip.TooltipProvider delayDuration={delayDuration} skipDelayDuration={skipDelayDuration} {...props}>
       {children}
-    </Primitives.TooltipProvider>
+    </RadixTooltip.TooltipProvider>
   )
 }
 

@@ -1,6 +1,8 @@
 "use client"
 
 import {
+  AiAssistantProvider,
+  AiAssistantProviderProps,
   AnalyticsProvider,
   HooksLoader,
   LearningPathProvider,
@@ -16,9 +18,10 @@ import { MainNavProvider } from "./main-nav"
 
 type ProvidersProps = {
   children?: React.ReactNode
+  aiAssistantProps?: Partial<Omit<AiAssistantProviderProps, "children">>
 }
 
-const Providers = ({ children }: ProvidersProps) => {
+const Providers = ({ children, aiAssistantProps = {} }: ProvidersProps) => {
   return (
     <AnalyticsProvider writeKey={process.env.NEXT_PUBLIC_SEGMENT_API_KEY}>
       <SiteConfigProvider config={config}>
@@ -29,14 +32,29 @@ const Providers = ({ children }: ProvidersProps) => {
                 <PaginationProvider>
                   <MainNavProvider>
                     <SearchProvider>
-                      <HooksLoader
-                        options={{
-                          pageScrollManager: true,
-                          currentLearningPath: false,
-                        }}
+                      <AiAssistantProvider
+                        {...aiAssistantProps}
+                        apiUrl={
+                          process.env.NEXT_PUBLIC_AI_ASSISTANT_URL || "temp"
+                        }
+                        websiteId={
+                          process.env.NEXT_PUBLIC_AI_WEBSITE_ID || "temp"
+                        }
+                        recaptchaSiteKey={
+                          process.env
+                            .NEXT_PUBLIC_AI_API_ASSISTANT_RECAPTCHA_SITE_KEY ||
+                          "temp"
+                        }
                       >
-                        {children}
-                      </HooksLoader>
+                        <HooksLoader
+                          options={{
+                            pageScrollManager: true,
+                            currentLearningPath: false,
+                          }}
+                        >
+                          {children}
+                        </HooksLoader>
+                      </AiAssistantProvider>
                     </SearchProvider>
                   </MainNavProvider>
                 </PaginationProvider>

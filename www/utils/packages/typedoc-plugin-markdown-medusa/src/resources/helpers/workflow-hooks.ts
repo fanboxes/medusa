@@ -1,6 +1,6 @@
 import { MarkdownTheme } from "../../theme.js"
 import Handlebars from "handlebars"
-import { SignatureReflection } from "typedoc"
+import { DeclarationReflection, SignatureReflection } from "typedoc"
 import { cleanUpHookInput, getProjectChild } from "utils"
 import beautifyCode from "../../utils/beautify-code.js"
 
@@ -25,10 +25,23 @@ export default function (theme: MarkdownTheme) {
       Handlebars.helpers.incrementCurrentTitleLevel()
 
       const hooksTitleLevel = Handlebars.helpers.titleLevel()
+      const hookChildrenProperty = this.parent?.getChildByName("hooks")
+      const hookChildren =
+        hookChildrenProperty instanceof DeclarationReflection &&
+        hookChildrenProperty.type?.type === "reflection"
+          ? hookChildrenProperty.type.declaration.children || []
+          : []
 
       hooks.forEach((hook) => {
-        // show the hook's input
-        const hookReflection = getProjectChild(theme.project!, hook.name)
+        const hookReflection =
+          hookChildren.find(
+            (child) => child.name === hook.name && child.signatures?.length
+          ) ||
+          ((this.parent.getChildByName(hook.name) ||
+            getProjectChild(
+              theme.project!,
+              hook.name
+            )) as DeclarationReflection)
 
         if (
           !hookReflection ||

@@ -204,7 +204,9 @@ export const uiRouteHighlights = [
 ```tsx title="src/admin/routes/brands/page.tsx" highlights={uiRouteHighlights}
 import { defineRouteConfig } from "@medusajs/admin-sdk"
 import { TagSolid } from "@medusajs/icons"
-import { Container, Heading } from "@medusajs/ui"
+import { 
+  Container,
+} from "@medusajs/ui"
 import { useQuery } from "@tanstack/react-query"
 import { sdk } from "../../lib/sdk"
 import { useMemo, useState } from "react"
@@ -214,11 +216,6 @@ const BrandsPage = () => {
 
   return (
     <Container className="divide-y p-0">
-      <div className="flex items-center justify-between px-6 py-4">
-        <div>
-          <Heading level="h2">Brands</Heading>
-        </div>
-      </div>
       {/* TODO show brands */}
     </Container>
   )
@@ -234,123 +231,7 @@ export default BrandsPage
 
 A route's file must export the React component that will be rendered in the new page. It must be the default export of the file. You can also export configurations that add a link in the sidebar for the UI route. You create these configurations using `defineRouteConfig` from the Admin Extension SDK.
 
-So far, you only show a "Brands" header. In admin customizations, use components from the [Medusa UI package](!ui!) to maintain a consistent user interface and design in the dashboard.
-
-### Add Table Component
-
-To show the brands with pagination functionalities, you'll create a new `Table` component that uses the UI package's [Table](!ui!/components/table) component with some alterations to match the design of the Medusa Admin. This new component is taken from the [Admin Components guide](!resources!/admin-components/components/table).
-
-Create the `Table` component in the file `src/admin/components/table.tsx`:
-
-![Directory structure of the Medusa application after adding the table component.](https://res.cloudinary.com/dza7lstvk/image/upload/v1733472527/Medusa%20Book/brands-admin-dir-overview-4_avosrf.jpg)
-
-```tsx title="src/admin/components/table.tsx"
-import { useMemo } from "react"
-import { Table as UiTable } from "@medusajs/ui"
-
-export type TableProps = {
-  columns: {
-    key: string
-    label?: string
-    render?: (value: unknown) => React.ReactNode
-  }[]
-  data: Record<string, unknown>[]
-  pageSize: number
-  count: number
-  currentPage: number
-  setCurrentPage: (value: number) => void
-}
-
-export const Table = ({
-  columns,
-  data,
-  pageSize,
-  count,
-  currentPage,
-  setCurrentPage,
-}: TableProps) => {
-  const pageCount = useMemo(() => {
-    return Math.ceil(count / pageSize)
-  }, [count, pageSize])
-
-  const canNextPage = useMemo(() => {
-    return currentPage < pageCount - 1
-  }, [currentPage, pageCount])
-  const canPreviousPage = useMemo(() => {
-    return currentPage - 1 >= 0
-  }, [currentPage])
-
-  const nextPage = () => {
-    if (canNextPage) {
-      setCurrentPage(currentPage + 1)
-    }
-  }
-
-  const previousPage = () => {
-    if (canPreviousPage) {
-      setCurrentPage(currentPage - 1)
-    }
-  }
-
-  return (
-    <div className="flex h-full flex-col overflow-hidden !border-t-0">
-      <UiTable>
-        <UiTable.Header>
-          <UiTable.Row>
-            {columns.map((column, index) => (
-              <UiTable.HeaderCell key={index}>
-                {column.label || column.key}
-              </UiTable.HeaderCell>
-            ))}
-          </UiTable.Row>
-        </UiTable.Header>
-        <UiTable.Body>
-          {data.map((item, index) => {
-            const rowIndex = "id" in item ? item.id as string : index
-            return (
-              <UiTable.Row key={rowIndex}>
-                {columns.map((column, index) => (
-                  <UiTable.Cell key={`${rowIndex}-${index}`}>
-                    <>
-                      {column.render && column.render(item[column.key])}
-                      {!column.render && (
-                        <>{item[column.key] as string}</>
-                      )}
-                    </>
-                  </UiTable.Cell>
-                ))}
-              </UiTable.Row>
-            )
-          })}
-        </UiTable.Body>
-      </UiTable>
-      <UiTable.Pagination
-        count={count}
-        pageSize={pageSize}
-        pageIndex={currentPage}
-        pageCount={pageCount}
-        canPreviousPage={canPreviousPage}
-        canNextPage={canNextPage}
-        previousPage={previousPage}
-        nextPage={nextPage}
-      />
-    </div>
-  )
-}
-```
-
-This component accepts the following props:
-
-- `columns`: An array of the table's columns.
-- `data`: The rows in the table.
-- `pageSize`: The maximum number of items shown in a page.
-- `count`: The total number of items.
-- `currentPage`: A zero-based index of the current page.
-- `setCurrentPage`: A function to change the current page.
-
-In the component, you use the UI package's [Table](!ui!/components/table) component to display the data received as a prop in a table that supports pagination.
-
-You can learn more about this component's implementation and how it works in the [Admin Components guide](!resources!/admin-components), which provides more examples of how to build common components in the Medusa Admin dashboard.
+So far, you only show a container. In admin customizations, use components from the [Medusa UI package](!ui!) to maintain a consistent user interface and design in the dashboard.
 
 ### Retrieve Brands From API Route
 
@@ -359,39 +240,81 @@ You'll now update the UI route to retrieve the brands from the API route you add
 First, add the following type in `src/admin/routes/brands/page.tsx`:
 
 ```tsx title="src/admin/routes/brands/page.tsx"
+type Brand = {
+  id: string
+  name: string
+}
 type BrandsResponse = {
-  brands: {
-    id: string
-    name: string
-  }[]
+  brands: Brand[]
   count: number
   limit: number
   offset: number
 }
 ```
 
-This is the type of expected response from the `GET /admin/brands` API route.
+You define the type for a brand, and the type of expected response from the `GET /admin/brands` API route.
+
+To display the brands, you'll use Medusa UI's [DataTable](!ui!/components/data-table) component. So, add the following imports in `src/admin/routes/brands/page.tsx`:
+
+```tsx title="src/admin/routes/brands/page.tsx"
+import { 
+  // ...
+  Heading,
+  createDataTableColumnHelper,
+  DataTable,
+  DataTablePaginationState,
+  useDataTable,
+} from "@medusajs/ui"
+```
+
+You import the `DataTable` component and the following utilities:
+
+- `createDataTableColumnHelper`: A utility to create columns for the data table.
+- `DataTablePaginationState`: A type that holds the pagination state of the data table.
+- `useDataTable`: A hook to initialize and configure the data table.
+
+You also import the `Heading` component to show a heading above the data table.
+
+Next, you'll define the table's columns. Add the following before the `BrandsPage` component:
+
+```tsx title="src/admin/routes/brands/page.tsx"
+const columnHelper = createDataTableColumnHelper<Brand>()
+
+const columns = [
+  columnHelper.accessor("id", {
+    header: "ID",
+  }),
+  columnHelper.accessor("name", {
+    header: "Name",
+  })
+]
+```
+
+You use the `createDataTableColumnHelper` utility to create columns for the data table. You define two columns for the ID and name of the brands.
 
 Then, replace the `// TODO retrieve brands` in the component with the following:
 
 export const queryHighlights = [
-  ["1", "currentPage", "A zero-based index of the current page of items."],
-  ["2", "limit", "The maximum number of items per page."],
-  ["3", "offset", "The number of items to skip before retrieving the page's items."],
-  ["7", "useQuery", "Retrieve brands using Tanstack Query"],
-  ["8", "fetch", "Send a request to a custom API route."],
-  ["8", "`/admin/brands`", "The API route's path."],
-  ["9", "query", "Query parameters to pass in the request"]
+  ["1", "limit", "The maximum number of items per page."],
+  ["2", "pagination", "Define a pagination state to be passed to the data table."],
+  ["6", "offset", "The number of items to skip before retrieving the page's items."],
+  ["10", "useQuery", "Retrieve brands using Tanstack Query"],
+  ["11", "fetch", "Send a request to a custom API route."],
+  ["11", "`/admin/brands`", "The API route's path."],
+  ["12", "query", "Query parameters to pass in the request"]
 ]
 
 ```tsx title="src/admin/routes/brands/page.tsx" highlights={queryHighlights}
-const [currentPage, setCurrentPage] = useState(0)
 const limit = 15
+const [pagination, setPagination] = useState<DataTablePaginationState>({
+  pageSize: limit,
+  pageIndex: 0,
+})
 const offset = useMemo(() => {
-  return currentPage * limit
-}, [currentPage])
+  return pagination.pageIndex * limit
+}, [pagination])
 
-const { data } = useQuery<BrandsResponse>({
+const { data, isLoading } = useQuery<BrandsResponse>({
   queryFn: () => sdk.client.fetch(`/admin/brands`, {
     query: {
       limit,
@@ -400,15 +323,24 @@ const { data } = useQuery<BrandsResponse>({
   }),
   queryKey: [["brands", limit, offset]],
 })
+
+// TODO configure data table
 ```
 
-You first define pagination-related variables:
+To enable pagination in the `DataTable` component, you need to define a state variable of type `DataTablePaginationState`. It's an object having the following properties:
 
-- `currentPage`: A zero-based index of the current page of items.
-- `limit`: The maximum number of items per page.
-- `offset`: The number of items to skip before retrieving the page's items. This is calculated from the `currentPage` and `limit` variables.
+- `pageSize`: The maximum number of items per page. You set it to `15`.
+- `pageIndex`: A zero-based index of the current page of items.
+
+You also define a memoized `offset` value that indicates the number of items to skip before retrieving the current page's items.
 
 Then, you use `useQuery` from [Tanstack (React) Query](https://tanstack.com/query/latest) to query the Medusa server. Tanstack Query provides features like asynchronous state management and optimized caching.
+
+<Note type="warning">
+
+Do not install Tanstack Query as that will cause unexpected errors in your development. If you prefer installing it for better auto-completion in your code editor, make sure to install `v5.64.2` as a development dependency.
+
+</Note>
 
 In the `queryFn` function that executes the query, you use the JS SDK's `client.fetch` method to send a request to your custom API route. The first parameter is the route's path, and the second is an object of request configuration and data. You pass the query parameters in the `query` property.
 
@@ -416,35 +348,46 @@ This sends a request to the [Get Brands API route](#1-get-brands-api-route), pas
 
 ### Display Brands Table
 
-Finally, you'll display the brands in a table using the component you created earlier. Import the component at the top of `src/admin/routes/brands/page.tsx`:
+Finally, you'll display the brands in a  data table. Replace the `// TODO configure data table` in the component with the following:
 
 ```tsx title="src/admin/routes/brands/page.tsx"
-import { Table } from "../../components/table"
+const table = useDataTable({
+  columns,
+  data: data?.brands || [],
+  getRowId: (row) => row.id,
+  rowCount: data?.count || 0,
+  isLoading,
+  pagination: {
+    state: pagination,
+    onPaginationChange: setPagination,
+  },
+})
 ```
+
+You use the `useDataTable` hook to initialize and configure the data table. It accepts an object with the following properties:
+
+- `columns`: The columns of the data table. You created them using the `createDataTableColumnHelper` utility.
+- `data`: The brands to display in the table.
+- `getRowId`: A function that returns a unique identifier for a row.
+- `rowCount`: The total count of items. This is used to determine the number of pages.
+- `isLoading`: A boolean indicating whether the data is loading.
+- `pagination`: An object to configure pagination. It accepts the following properties:
+    - `state`: The pagination state of the data table.
+    - `onPaginationChange`: A function to update the pagination state.
 
 Then, replace the `{/* TODO show brands */}` in the return statement with the following:
 
 ```tsx title="src/admin/routes/brands/page.tsx"
-<Table
-  columns={[
-    {
-      key: "id",
-      label: "#",
-    },
-    {
-      key: "name",
-      label: "Name",
-    },
-  ]}
-  data={data?.brands || []}
-  pageSize={data?.limit || limit}
-  count={data?.count || 0}
-  currentPage={currentPage}
-  setCurrentPage={setCurrentPage}
-/>
+<DataTable instance={table}>
+  <DataTable.Toolbar className="flex flex-col items-start justify-between gap-2 md:flex-row md:items-center">
+    <Heading>Brands</Heading>
+  </DataTable.Toolbar>
+  <DataTable.Table />
+  <DataTable.Pagination />
+</DataTable>
 ```
 
-This renders a table that shows the ID and name of the brands.
+This renders the data table that shows the brands with pagination. The `DataTable` component accepts the `instance` prop, which is the object returned by the `useDataTable` hook.
 
 ---
 

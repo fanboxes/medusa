@@ -31,12 +31,12 @@ export type CapturePaymentWorkflowInput = {
 
 export const capturePaymentWorkflowId = "capture-payment-workflow"
 /**
- * This workflow captures a payment. It's used by the 
+ * This workflow captures a payment. It's used by the
  * [Capture Payment Admin API Route](https://docs.medusajs.com/api/admin#payments_postpaymentsidcapture).
- * 
+ *
  * You can use this workflow within your own customizations or custom workflows, allowing you
  * to capture a payment in your custom flows.
- * 
+ *
  * @example
  * const { result } = await capturePaymentWorkflow(container)
  * .run({
@@ -44,9 +44,9 @@ export const capturePaymentWorkflowId = "capture-payment-workflow"
  *     payment_id: "pay_123"
  *   }
  * })
- * 
+ *
  * @summary
- * 
+ *
  * Capture a payment.
  */
 export const capturePaymentWorkflow = createWorkflow(

@@ -30,11 +30,20 @@ medusaIntegrationTestRunner({
       beforeEach(async () => {
         await createAdminUser(dbConnection, adminHeaders, getContainer())
 
+        const shippingProfile = (
+          await api.post(
+            `/admin/shipping-profiles`,
+            { name: "Test", type: "default" },
+            adminHeaders
+          )
+        ).data.shipping_profile
+
         product = (
           await api.post(
             "/admin/products",
             {
               title: "product 1",
+              shipping_profile_id: shippingProfile.id,
               options: [{ title: "size", values: ["x", "l"] }],
               variants: [
                 {

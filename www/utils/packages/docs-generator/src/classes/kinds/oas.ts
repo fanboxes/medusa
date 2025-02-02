@@ -2398,7 +2398,11 @@ class OasKindGenerator extends FunctionKindGenerator {
 
         const workflowName = childImport.name.getText()
 
-        if (fnText.includes(workflowName)) {
+        if (
+          fnText.includes(`${workflowName}(`) ||
+          fnText.includes(`${workflowName} (`) ||
+          fnText.includes(`${workflowName}.`)
+        ) {
           workflow = workflowName
         }
       })

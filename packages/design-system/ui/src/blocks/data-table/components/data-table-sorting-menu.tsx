@@ -10,9 +10,16 @@ import { ArrowDownMini, ArrowUpMini, DescendingSorting } from "@medusajs/icons"
 import * as React from "react"
 
 interface DataTableSortingMenuProps {
+  /**
+   * The tooltip to show when hovering over the sorting menu.
+   */
   tooltip?: string
 }
 
+/**
+ * This component adds a sorting menu to the data table, allowing users
+ * to sort the table's data.
+ */
 const DataTableSortingMenu = (props: DataTableSortingMenuProps) => {
   const { instance } = useDataTableContext()
 
@@ -114,6 +121,7 @@ const DataTableSortingMenu = (props: DataTableSortingMenuProps) => {
     </DropdownMenu>
   )
 }
+DataTableSortingMenu.displayName = "DataTable.SortingMenu"
 
 function getSortLabel(column: DataTableColumn<any, unknown>) {
   const meta = column.columnDef.meta as DataTableSortableColumnDefMeta | undefined

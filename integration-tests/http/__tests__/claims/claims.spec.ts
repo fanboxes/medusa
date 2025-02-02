@@ -34,6 +34,17 @@ medusaIntegrationTestRunner({
       const container = getContainer()
       await createAdminUser(dbConnection, adminHeaders, container)
 
+      shippingProfile = (
+        await api.post(
+          `/admin/shipping-profiles`,
+          {
+            name: "Test",
+            type: "default",
+          },
+          adminHeaders
+        )
+      ).data.shipping_profile
+
       const region = (
         await api.post(
           "/admin/regions",
@@ -72,6 +83,7 @@ medusaIntegrationTestRunner({
           {
             title: "Test product",
             options: [{ title: "size", values: ["large", "small"] }],
+            shipping_profile_id: shippingProfile.id,
             variants: [
               {
                 title: "Test variant",
@@ -96,6 +108,7 @@ medusaIntegrationTestRunner({
           {
             title: "Extra product",
             options: [{ title: "size", values: ["large", "small"] }],
+            shipping_profile_id: shippingProfile.id,
             variants: [
               {
                 title: "my variant",
@@ -212,17 +225,6 @@ medusaIntegrationTestRunner({
         currency_code: "usd",
         customer_id: customer.id,
       })
-
-      shippingProfile = (
-        await api.post(
-          `/admin/shipping-profiles`,
-          {
-            name: "Test",
-            type: "default",
-          },
-          adminHeaders
-        )
-      ).data.shipping_profile
 
       location = (
         await api.post(

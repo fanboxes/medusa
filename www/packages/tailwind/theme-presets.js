@@ -22,8 +22,8 @@ const light = {
 
   "--docs-fg-base": "rgba(24, 24, 27, 1)",
   "--docs-fg-subtle": "rgba(82, 82, 91, 1)",
-  "--docs-fg-muted": "rgba(161, 161, 170, 1)",
-  "--docs-fg-disabled": "rgba(212, 212, 216, 1)",
+  "--docs-fg-muted": "rgba(113, 113, 122, 1)",
+  "--docs-fg-disabled": "rgba(161, 161, 170, 1)",
   "--docs-fg-on-color": "rgba(255, 255, 255, 1)",
   "--docs-fg-on-inverted": "rgba(255, 255, 255, 1)",
   "--docs-fg-interactive": "rgba(59, 130, 246, 1)",

@@ -6,6 +6,7 @@ import { ReturnReason } from "./return-reason"
 const _ReturnItem = model
   .define(
     {
+      name: "ReturnItem",
       tableName: "return_item",
     },
     {

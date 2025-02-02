@@ -698,6 +698,10 @@ export interface FilterableProductProps
    */
   handle?: string | string[]
   /**
+   * The skus to filter products by.
+   */
+  sku?: string | string[]
+  /**
    * The IDs to filter products by.
    */
   id?: string | string[]
@@ -1239,7 +1243,7 @@ export interface UpdateProductOptionValueDTO {
 
 /**
  * @interface
- * 
+ *
  * Inventory kit for creating a product variant.
  */
 export interface CreateProductVariantInventoryKit {

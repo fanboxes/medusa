@@ -2,7 +2,9 @@ import React from "react"
 import {
   CodeBlock,
   CodeBlockMetaFields,
+  CodeBlockProps,
   InlineCode,
+  InlineCodeProps,
   MermaidDiagram,
 } from "@/components"
 import { Npm2YarnCode } from "../Npm2YarnCode"
@@ -10,13 +12,21 @@ import { Npm2YarnCode } from "../Npm2YarnCode"
 export type CodeMdxProps = {
   className?: string
   children?: React.ReactNode
+  inlineCodeProps?: Partial<InlineCodeProps>
+  codeBlockProps?: Partial<CodeBlockProps>
 } & CodeBlockMetaFields
 
 // due to how mdx handles code blocks
 // it is required that a code block specify a language
 // to be considered a block. Otherwise, it will be
 // considered as inline code
-export const CodeMdx = ({ className, children, ...rest }: CodeMdxProps) => {
+export const CodeMdx = ({
+  className,
+  children,
+  inlineCodeProps = {},
+  codeBlockProps = {},
+  ...rest
+}: CodeMdxProps) => {
   if (!children) {
     return <></>
   }
@@ -33,8 +43,15 @@ export const CodeMdx = ({ className, children, ...rest }: CodeMdxProps) => {
     } else if (match[1] === "mermaid") {
       return <MermaidDiagram diagramContent={codeContent} />
     }
-    return <CodeBlock source={codeContent} lang={match[1]} {...rest} />
+    return (
+      <CodeBlock
+        source={codeContent}
+        lang={match[1]}
+        {...codeBlockProps}
+        {...rest}
+      />
+    )
   }
 
-  return <InlineCode>{codeContent}</InlineCode>
+  return <InlineCode {...inlineCodeProps}>{codeContent}</InlineCode>
 }

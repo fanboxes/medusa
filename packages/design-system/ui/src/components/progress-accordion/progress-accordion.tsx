@@ -6,7 +6,7 @@ import {
   CircleHalfSolid,
   Plus,
 } from "@medusajs/icons"
-import * as Primitves from "@radix-ui/react-accordion"
+import { Accordion as RadixAccordion } from "radix-ui"
 import * as React from "react"
 
 import { ProgressStatus } from "@/types"
@@ -16,17 +16,17 @@ import { IconButton } from "../icon-button"
 /**
  * This component is based on the [Radix UI Accordion](https://radix-ui.com/primitives/docs/components/accordion) primitves.
  */
-const Root = (props: React.ComponentPropsWithoutRef<typeof Primitves.Root>) => {
-  return <Primitves.Root {...props} />
+const Root = (props: React.ComponentPropsWithoutRef<typeof RadixAccordion.Root>) => {
+  return <RadixAccordion.Root {...props} />
 }
 Root.displayName = "ProgressAccordion"
 
 const Item = React.forwardRef<
-  React.ElementRef<typeof Primitves.Item>,
-  React.ComponentPropsWithoutRef<typeof Primitves.Item>
+  React.ElementRef<typeof RadixAccordion.Item>,
+  React.ComponentPropsWithoutRef<typeof RadixAccordion.Item>
 >(({ className, ...props }, ref) => {
   return (
-    <Primitves.Item
+    <RadixAccordion.Item
       ref={ref}
       className={clx(
         "border-ui-border-base border-b last-of-type:border-b-0",
@@ -39,7 +39,7 @@ const Item = React.forwardRef<
 Item.displayName = "ProgressAccordion.Item"
 
 interface HeaderProps
-  extends React.ComponentPropsWithoutRef<typeof Primitves.Header> {
+  extends React.ComponentPropsWithoutRef<typeof RadixAccordion.Header> {
   status?: ProgressStatus
 }
 
@@ -79,7 +79,7 @@ const ProgressIndicator = ({
 ProgressIndicator.displayName = "ProgressAccordion.ProgressIndicator"
 
 const Header = React.forwardRef<
-  React.ElementRef<typeof Primitves.Header>,
+  React.ElementRef<typeof RadixAccordion.Header>,
   HeaderProps
 >(
   (
@@ -95,7 +95,7 @@ const Header = React.forwardRef<
     ref
   ) => {
     return (
-      <Primitves.Header
+      <RadixAccordion.Header
         ref={ref}
         className={clx(
           "h3-core text-ui-fg-base group flex w-full flex-1 items-center gap-4 px-6",
@@ -105,23 +105,23 @@ const Header = React.forwardRef<
       >
         <ProgressIndicator status={status} />
         {children}
-        <Primitves.Trigger asChild className="ml-auto">
+        <RadixAccordion.Trigger asChild className="ml-auto">
           <IconButton variant="transparent">
             <Plus className="transform transition-transform group-data-[state=open]:rotate-45" />
           </IconButton>
-        </Primitves.Trigger>
-      </Primitves.Header>
+        </RadixAccordion.Trigger>
+      </RadixAccordion.Header>
     )
   }
 )
 Header.displayName = "ProgressAccordion.Header"
 
 const Content = React.forwardRef<
-  React.ElementRef<typeof Primitves.Content>,
-  React.ComponentPropsWithoutRef<typeof Primitves.Content>
+  React.ElementRef<typeof RadixAccordion.Content>,
+  React.ComponentPropsWithoutRef<typeof RadixAccordion.Content>
 >(({ className, ...props }, ref) => {
   return (
-    <Primitves.Content
+    <RadixAccordion.Content
       ref={ref}
       className={clx(
         "overflow-hidden",

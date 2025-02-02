@@ -1,19 +1,17 @@
 import React, { useState } from "react"
-import { ThreadType } from "../.."
 import clsx from "clsx"
-import { Button, type ButtonProps } from "@/components"
-import { Check, SquareTwoStackMini, ThumbDown, ThumbUp } from "@medusajs/icons"
-import { useCopy } from "@/hooks"
+import { Badge, Button, Link, type ButtonProps } from "@/components"
+import { ThumbDown, ThumbUp } from "@medusajs/icons"
 import { AiAssistantFeedbackType, useAiAssistant } from "@/providers"
+import { AiAssistantThread } from "../../../../providers/AiAssistant/Chat"
 
 export type AiAssistantThreadItemActionsProps = {
-  item: ThreadType
+  item: AiAssistantThread
 }
 
 export const AiAssistantThreadItemActions = ({
   item,
 }: AiAssistantThreadItemActionsProps) => {
-  const { isCopied, handleCopy } = useCopy(item.content)
   const [feedback, setFeedback] = useState<AiAssistantFeedbackType | null>(null)
   const { sendFeedback } = useAiAssistant()
 
@@ -37,28 +35,36 @@ export const AiAssistantThreadItemActions = ({
   }
 
   return (
-    <div
-      className={clsx("hidden md:flex gap-docs_0.25", "text-medusa-fg-muted")}
-    >
-      <ActionButton onClick={handleCopy}>
-        {isCopied ? <Check /> : <SquareTwoStackMini />}
-      </ActionButton>
-      {(feedback === null || feedback === "upvote") && (
-        <ActionButton
-          onClick={async () => handleFeedback("upvote", item.question_id)}
-          className={clsx(feedback === "upvote" && "!text-medusa-fg-subtle")}
-        >
-          <ThumbUp />
-        </ActionButton>
+    <div className={clsx("flex gap-docs_0.75 justify-between items-center")}>
+      {item.sources !== undefined && item.sources.length > 0 && (
+        <div className="flex gap-[6px] items-center flex-wrap">
+          {item.sources.map((source) => (
+            <Badge key={source.source_url} variant="neutral">
+              <Link href={source.source_url} className="!text-inherit">
+                {source.title}
+              </Link>
+            </Badge>
+          ))}
+        </div>
       )}
-      {(feedback === null || feedback === "downvote") && (
-        <ActionButton
-          onClick={async () => handleFeedback("downvote", item.question_id)}
-          className={clsx(feedback === "downvote" && "!text-medusa-fg-subtle")}
-        >
-          <ThumbDown />
-        </ActionButton>
-      )}
+      <div className="flex gap-docs_0.25 items-center text-medusa-fg-muted">
+        {(feedback === null || feedback === "upvote") && (
+          <ActionButton
+            onClick={async () => handleFeedback("upvote", item.question_id)}
+            className={clsx(feedback === "upvote" && "!text-medusa-fg-muted")}
+          >
+            <ThumbUp />
+          </ActionButton>
+        )}
+        {(feedback === null || feedback === "downvote") && (
+          <ActionButton
+            onClick={async () => handleFeedback("downvote", item.question_id)}
+            className={clsx(feedback === "downvote" && "!text-medusa-fg-muted")}
+          >
+            <ThumbDown />
+          </ActionButton>
+        )}
+      </div>
     </div>
   )
 }
@@ -68,7 +74,7 @@ const ActionButton = ({ children, className, ...props }: ButtonProps) => {
     <Button
       variant="transparent"
       className={clsx(
-        "text-medusa-fg-muted hover:text-medusa-fg-subtle",
+        "text-medusa-fg-muted hover:text-medusa-fg-muted",
         "hover:bg-medusa-bg-subtle-hover",
         "!p-[4.5px] rounded-docs_sm",
         className

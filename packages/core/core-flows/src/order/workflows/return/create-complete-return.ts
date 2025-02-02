@@ -225,17 +225,17 @@ export type CreateCompleteReturnValidationStepInput = {
 
 /**
  * This step validates that a return can be created and completed for an order.
- * If the order is canceled, the items do not exist in the order, 
- * the return reasons are invalid, or the refund amount is greater than the order total, 
+ * If the order is canceled, the items do not exist in the order,
+ * the return reasons are invalid, or the refund amount is greater than the order total,
  * the step will throw an error.
- * 
+ *
  * :::note
- * 
+ *
  * You can retrieve an order details using [Query](https://docs.medusajs.com/learn/fundamentals/module-links/query),
  * or [useQueryGraphStep](https://docs.medusajs.com/resources/references/medusa-workflows/steps/useQueryGraphStep).
- * 
+ *
  * :::
- * 
+ *
  * @example
  * const data = createCompleteReturnValidationStep({
  *   order: {
@@ -256,10 +256,7 @@ export type CreateCompleteReturnValidationStepInput = {
 export const createCompleteReturnValidationStep = createStep(
   "create-return-order-validation",
   async function (
-    {
-      order,
-      input,
-    }: CreateCompleteReturnValidationStepInput,
+    { order, input }: CreateCompleteReturnValidationStepInput,
     context
   ) {
     if (!input.items) {
@@ -282,13 +279,13 @@ export const createCompleteReturnValidationStep = createStep(
 export const createAndCompleteReturnOrderWorkflowId =
   "create-complete-return-order"
 /**
- * This workflow creates and completes a return from the storefront. The admin would receive the return and 
- * process it from the dashboard. This workflow is used by the 
+ * This workflow creates and completes a return from the storefront. The admin would receive the return and
+ * process it from the dashboard. This workflow is used by the
  * [Create Return Store API Route](https://docs.medusajs.com/api/store#return_postreturn).
- * 
+ *
  * You can use this workflow within your customizations or your own custom workflows, allowing you to create a return
  * for an order in your custom flow.
- * 
+ *
  * @example
  * const { result } = await createAndCompleteReturnOrderWorkflow(container)
  * .run({
@@ -302,9 +299,9 @@ export const createAndCompleteReturnOrderWorkflowId =
  *     ]
  *   }
  * })
- * 
+ *
  * @summary
- * 
+ *
  * Create and complete a return for an order.
  */
 export const createAndCompleteReturnOrderWorkflow = createWorkflow(
@@ -348,7 +345,6 @@ export const createAndCompleteReturnOrderWorkflow = createWorkflow(
       ],
       variables: returnShippingOptionsVariables,
       list: false,
-      throw_if_key_not_found: true,
     }).config({ name: "return-shipping-option" })
 
     const shippingMethodData = transform(

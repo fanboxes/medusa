@@ -36,7 +36,7 @@ const Product = model
     }),
     type: model
       .belongsTo(() => ProductType, {
-        mappedBy: "product",
+        mappedBy: "products",
       })
       .nullable(),
     tags: model.manyToMany(() => ProductTag, {

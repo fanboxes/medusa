@@ -21,6 +21,7 @@ import {
   InteractiveSidebarItem,
   SidebarItemCategory,
   SidebarItemLinkWithParent,
+  SidebarItemTypes,
 } from "types"
 import { useIsBrowser } from "../BrowserProvider"
 
@@ -70,6 +71,7 @@ export const SidebarContext = createContext<SidebarContextType | null>(null)
 export type ActionOptionsType = {
   section?: SidebarItemSections
   parent?: {
+    type: SidebarItemTypes
     path: string
     title: string
     changeLoaded?: boolean
@@ -105,34 +107,42 @@ export const isSidebarItemLink = (
   )
 }
 
-const areItemsEqual = (itemA: SidebarItem, itemB: SidebarItem): boolean => {
-  if (itemA.type === "separator" || itemB.type === "separator") {
+const areItemsEqual = (
+  itemA: SidebarItem,
+  itemB: SidebarItem,
+  compareTitles = true
+): boolean => {
+  if (
+    itemA.type === "separator" ||
+    itemB.type === "separator" ||
+    itemA.type !== itemB.type
+  ) {
     return false
   }
-  const hasSameTitle = itemA.title === itemB.title
+  const hasSameTitle = !compareTitles || itemA.title === itemB.title
   const hasSamePath =
-    isSidebarItemLink(itemA) &&
-    isSidebarItemLink(itemB) &&
-    itemA.type === itemB.type &&
+    !isSidebarItemLink(itemA) ||
+    !isSidebarItemLink(itemB) ||
     itemA.path === itemB.path
 
-  return hasSameTitle || hasSamePath
+  return hasSameTitle && hasSamePath
 }
 
 const findItem = (
   section: SidebarItem[],
   item: Partial<SidebarItem>,
-  checkChildren = true
+  checkChildren = true,
+  compareTitles = true
 ): SidebarItemLinkWithParent | undefined => {
   let foundItem: SidebarItemLinkWithParent | undefined
   section.some((i) => {
     if (i.type === "separator") {
       return false
     }
-    if (areItemsEqual(item as SidebarItem, i)) {
+    if (areItemsEqual(item as SidebarItem, i, compareTitles)) {
       foundItem = i as SidebarItemLink
     } else if (checkChildren && i.children) {
-      foundItem = findItem(i.children, item)
+      foundItem = findItem(i.children, item, checkChildren, compareTitles)
       if (foundItem && !foundItem.parentItem) {
         foundItem.parentItem = i
       }
@@ -423,10 +433,15 @@ export const SidebarProvider = ({
         const childSidebar =
           getCurrentSidebar(item.children) ||
           (activePath
-            ? findItem(item.children, {
-                path: activePath,
-                type: "link",
-              })
+            ? findItem(
+                item.children,
+                {
+                  path: activePath,
+                  type: "link",
+                },
+                true,
+                false
+              )
             : undefined)
 
         currentSidebar = childSidebar

@@ -8,9 +8,16 @@ import { Tooltip } from "@/components/tooltip"
 import { Funnel } from "@medusajs/icons"
 
 interface DataTableFilterMenuProps {
+  /**
+   * The tooltip to show when hovering over the filter menu.
+   */
   tooltip?: string
 }
 
+/**
+ * This component adds a filter menu to the data table, allowing users
+ * to filter the table's data.
+ */
 const DataTableFilterMenu = (props: DataTableFilterMenuProps) => {
   const { instance } = useDataTableContext()
 
@@ -56,6 +63,7 @@ const DataTableFilterMenu = (props: DataTableFilterMenuProps) => {
     </DropdownMenu>
   )
 }
+DataTableFilterMenu.displayName = "DataTable.FilterMenu"
 
 const DataTableFilterMenuSkeleton = () => {
   return <Skeleton className="size-7" />

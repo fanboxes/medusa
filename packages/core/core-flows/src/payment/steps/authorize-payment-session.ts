@@ -23,13 +23,13 @@ export type AuthorizePaymentSessionStepInput = {
    * The context to authorize the payment session with.
    * This context is passed to the payment provider associated with the payment session.
    */
-  context: Record<string, unknown>
+  context?: Record<string, unknown>
 }
 
 export const authorizePaymentSessionStepId = "authorize-payment-session-step"
 /**
  * This step authorizes a payment session.
- * 
+ *
  * @example
  * const data = authorizePaymentSessionStep({
  *   id: "payses_123",

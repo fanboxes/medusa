@@ -58,6 +58,14 @@ medusaIntegrationTestRunner({
           )
         ).data.region
 
+        shippingProfile = (
+          await api.post(
+            `/admin/shipping-profiles`,
+            { name: "Test", type: "default" },
+            adminHeaders
+          )
+        ).data.shipping_profile
+
         salesChannel = (
           await api.post(
             "/admin/sales-channels",
@@ -71,6 +79,7 @@ medusaIntegrationTestRunner({
             "/admin/products",
             {
               title: "Test fixture",
+              shipping_profile_id: shippingProfile.id,
               options: [
                 { title: "size", values: ["large", "small"] },
                 { title: "color", values: ["green"] },
@@ -113,14 +122,6 @@ medusaIntegrationTestRunner({
           { add: [salesChannel.id] },
           adminHeaders
         )
-
-        shippingProfile = (
-          await api.post(
-            `/admin/shipping-profiles`,
-            { name: "Test", type: "default" },
-            adminHeaders
-          )
-        ).data.shipping_profile
 
         const fulfillmentSets = (
           await api.post(

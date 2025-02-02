@@ -5,6 +5,7 @@ import {
   WorkflowResponse,
   createWorkflow,
   transform,
+  createHook,
 } from "@medusajs/framework/workflows-sdk"
 import { emitEventStep } from "../../common"
 import { updateProductCategoriesStep } from "../steps"
@@ -43,7 +44,7 @@ export const updateProductCategoriesWorkflow = createWorkflow(
   updateProductCategoriesWorkflowId,
   (
     input: WorkflowData<ProductCategoryWorkflow.UpdateProductCategoriesWorkflowInput>
-  ): WorkflowResponse<UpdateProductCategoriesWorkflowOutput> => {
+  )  => {
     const updatedCategories = updateProductCategoriesStep(input)
 
     const productCategoryIdEvents = transform(
@@ -64,6 +65,12 @@ export const updateProductCategoriesWorkflow = createWorkflow(
       data: productCategoryIdEvents,
     })
 
-    return new WorkflowResponse(updatedCategories)
+    const categoriesUpdated = createHook("categoriesUpdated", {
+      categories: updatedCategories
+    })
+
+    return new WorkflowResponse(updatedCategories, {
+      hooks: [categoriesUpdated]
+    })
   }
 )

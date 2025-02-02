@@ -50,7 +50,7 @@ export type RemoteQueryInput<TEntry extends string> = {
     /**
      * The number of items to skip before retrieving the returned items.
      */
-    skip: number
+    skip?: number
     /**
      * The maximum number of items to return.
      */

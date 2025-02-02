@@ -163,7 +163,7 @@ export const Feedback = ({
                 )}
                 ref={inlineFeedbackRef}
               >
-                <Label className={"text-compact-small text-medusa-fg-subtle"}>
+                <Label className={"text-compact-small text-medusa-fg-base"}>
                   {question}
                 </Label>
                 <div

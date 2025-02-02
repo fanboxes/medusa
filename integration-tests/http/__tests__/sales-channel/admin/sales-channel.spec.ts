@@ -354,11 +354,20 @@ medusaIntegrationTestRunner({
       // to: /admin/sales-channels/:id/products
       let product
       beforeEach(async () => {
+        const shippingProfile = (
+          await api.post(
+            `/admin/shipping-profiles`,
+            { name: "Test", type: "default" },
+            adminHeaders
+          )
+        ).data.shipping_profile
+
         product = (
           await api.post(
             "/admin/products",
             {
               title: "test name",
+              shipping_profile_id: shippingProfile.id,
               options: [{ title: "size", values: ["large"] }],
             },
             adminHeaders

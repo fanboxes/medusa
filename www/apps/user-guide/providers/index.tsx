@@ -1,6 +1,7 @@
 "use client"
 
 import {
+  AiAssistantProvider,
   AnalyticsProvider,
   ColorModeProvider,
   HooksLoader,
@@ -35,13 +36,28 @@ const Providers = ({ children }: ProvidersProps) => {
                       <PaginationProvider>
                         <MainNavProvider>
                           <SearchProvider>
-                            <HooksLoader
-                              options={{
-                                pageScrollManager: true,
-                              }}
+                            <AiAssistantProvider
+                              apiUrl={
+                                process.env.NEXT_PUBLIC_AI_ASSISTANT_URL ||
+                                "temp"
+                              }
+                              websiteId={
+                                process.env.NEXT_PUBLIC_AI_WEBSITE_ID || "temp"
+                              }
+                              recaptchaSiteKey={
+                                // eslint-disable-next-line prettier/prettier, max-len
+                                process.env.NEXT_PUBLIC_AI_API_ASSISTANT_RECAPTCHA_SITE_KEY ||
+                                "temp"
+                              }
                             >
-                              {children}
-                            </HooksLoader>
+                              <HooksLoader
+                                options={{
+                                  pageScrollManager: true,
+                                }}
+                              >
+                                {children}
+                              </HooksLoader>
+                            </AiAssistantProvider>
                           </SearchProvider>
                         </MainNavProvider>
                       </PaginationProvider>

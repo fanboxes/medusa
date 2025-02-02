@@ -1,6 +1,6 @@
 "use client"
 
-import * as Primitives from "@radix-ui/react-alert-dialog"
+import { AlertDialog as RadixAlertDialog } from "radix-ui"
 import * as React from "react"
 
 import { Button } from "@/components/button"
@@ -42,31 +42,31 @@ const Root = ({
    */
   variant = "danger",
   ...props
-}: React.ComponentPropsWithoutRef<typeof Primitives.Root> & {
+}: React.ComponentPropsWithoutRef<typeof RadixAlertDialog.Root> & {
   variant?: PromptVariant
 }) => {
   return (
     <PromptProvider variant={variant}>
-      <Primitives.Root {...props} />
+      <RadixAlertDialog.Root {...props} />
     </PromptProvider>
   )
 }
 Root.displayName = "Prompt"
 
-const Trigger = Primitives.Trigger
+const Trigger = RadixAlertDialog.Trigger
 Trigger.displayName = "Prompt.Trigger"
 
-const Portal = (props: Primitives.AlertDialogPortalProps) => {
-  return <Primitives.AlertDialogPortal {...props} />
+const Portal = (props: RadixAlertDialog.AlertDialogPortalProps) => {
+  return <RadixAlertDialog.AlertDialogPortal {...props} />
 }
 Portal.displayName = "Prompt.Portal"
 
 const Overlay = React.forwardRef<
-  React.ElementRef<typeof Primitives.Overlay>,
-  React.ComponentPropsWithoutRef<typeof Primitives.Overlay>
+  React.ElementRef<typeof RadixAlertDialog.Overlay>,
+  React.ComponentPropsWithoutRef<typeof RadixAlertDialog.Overlay>
 >(({ className, ...props }, ref) => {
   return (
-    <Primitives.Overlay
+    <RadixAlertDialog.Overlay
       ref={ref}
       className={clx(
         "bg-ui-bg-overlay fixed inset-0",
@@ -80,27 +80,27 @@ const Overlay = React.forwardRef<
 Overlay.displayName = "Prompt.Overlay"
 
 const Title = React.forwardRef<
-  React.ElementRef<typeof Primitives.Title>,
-  Omit<React.ComponentPropsWithoutRef<typeof Primitives.Title>, "asChild">
+  React.ElementRef<typeof RadixAlertDialog.Title>,
+  Omit<React.ComponentPropsWithoutRef<typeof RadixAlertDialog.Title>, "asChild">
 >(({ className, children, ...props }, ref) => {
   return (
-    <Primitives.Title ref={ref} className={clx(className)} {...props} asChild>
+    <RadixAlertDialog.Title ref={ref} className={clx(className)} {...props} asChild>
       <Heading level="h2" className="text-ui-fg-base">
         {children}
       </Heading>
-    </Primitives.Title>
+    </RadixAlertDialog.Title>
   )
 })
 Title.displayName = "Prompt.Title"
 
 const Content = React.forwardRef<
-  React.ElementRef<typeof Primitives.Content>,
-  React.ComponentPropsWithoutRef<typeof Primitives.Content>
+  React.ElementRef<typeof RadixAlertDialog.Content>,
+  React.ComponentPropsWithoutRef<typeof RadixAlertDialog.Content>
 >(({ className, ...props }, ref) => {
   return (
     <Portal>
       <Overlay />
-      <Primitives.Content
+      <RadixAlertDialog.Content
         ref={ref}
         className={clx(
           "bg-ui-bg-base shadow-elevation-flyout fixed left-[50%] top-[50%] flex w-full max-w-[400px] translate-x-[-50%] translate-y-[-50%] flex-col rounded-lg border focus-visible:outline-none",
@@ -115,11 +115,11 @@ const Content = React.forwardRef<
 Content.displayName = "Prompt.Content"
 
 const Description = React.forwardRef<
-  React.ElementRef<typeof Primitives.Description>,
-  React.ComponentPropsWithoutRef<typeof Primitives.Description>
+  React.ElementRef<typeof RadixAlertDialog.Description>,
+  React.ComponentPropsWithoutRef<typeof RadixAlertDialog.Description>
 >(({ className, ...props }, ref) => {
   return (
-    <Primitives.Description
+    <RadixAlertDialog.Description
       ref={ref}
       className={clx("text-ui-fg-subtle txt-compact-medium", className)}
       {...props}
@@ -129,13 +129,13 @@ const Description = React.forwardRef<
 Description.displayName = "Prompt.Description"
 
 const Action = React.forwardRef<
-  React.ElementRef<typeof Primitives.Action>,
-  Omit<React.ComponentPropsWithoutRef<typeof Primitives.Action>, "asChild">
+  React.ElementRef<typeof RadixAlertDialog.Action>,
+  Omit<React.ComponentPropsWithoutRef<typeof RadixAlertDialog.Action>, "asChild">
 >(({ className, children, type, ...props }, ref) => {
   const { variant } = usePromptContext()
 
   return (
-    <Primitives.Action ref={ref} className={className} {...props} asChild>
+    <RadixAlertDialog.Action ref={ref} className={className} {...props} asChild>
       <Button
         size="small"
         type={type}
@@ -143,21 +143,21 @@ const Action = React.forwardRef<
       >
         {children}
       </Button>
-    </Primitives.Action>
+    </RadixAlertDialog.Action>
   )
 })
 Action.displayName = "Prompt.Action"
 
 const Cancel = React.forwardRef<
-  React.ElementRef<typeof Primitives.Cancel>,
-  Omit<React.ComponentPropsWithoutRef<typeof Primitives.Cancel>, "asChild">
+  React.ElementRef<typeof RadixAlertDialog.Cancel>,
+  Omit<React.ComponentPropsWithoutRef<typeof RadixAlertDialog.Cancel>, "asChild">
 >(({ className, children, ...props }, ref) => {
   return (
-    <Primitives.Cancel ref={ref} className={clx(className)} {...props} asChild>
+    <RadixAlertDialog.Cancel ref={ref} className={clx(className)} {...props} asChild>
       <Button size="small" variant="secondary">
         {children}
       </Button>
-    </Primitives.Cancel>
+    </RadixAlertDialog.Cancel>
   )
 })
 Cancel.displayName = "Prompt.Cancel"

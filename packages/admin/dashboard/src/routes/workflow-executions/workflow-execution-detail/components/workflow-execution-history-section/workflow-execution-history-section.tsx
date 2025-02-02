@@ -1,4 +1,5 @@
 import { Spinner, TriangleDownMini } from "@medusajs/icons"
+import { HttpTypes } from "@medusajs/types"
 import {
   clx,
   CodeBlock,
@@ -7,8 +8,8 @@ import {
   IconButton,
   Text,
 } from "@medusajs/ui"
-import * as Collapsible from "@radix-ui/react-collapsible"
 import { format } from "date-fns"
+import { Collapsible as RadixCollapsible } from "radix-ui"
 import { useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useLocation } from "react-router-dom"
@@ -20,7 +21,6 @@ import {
   STEP_SKIPPED_STATES,
 } from "../../../constants"
 import { TransactionStepState, TransactionStepStatus } from "../../../types"
-import { HttpTypes } from "@medusajs/types"
 
 type WorkflowExecutionHistorySectionProps = {
   execution: HttpTypes.AdminWorkflowExecution
@@ -154,8 +154,8 @@ const Event = ({
           />
         </div>
       </div>
-      <Collapsible.Root open={open} onOpenChange={setOpen}>
-        <Collapsible.Trigger asChild>
+      <RadixCollapsible.Root open={open} onOpenChange={setOpen}>
+        <RadixCollapsible.Trigger asChild>
           <div className="group flex cursor-pointer items-start justify-between outline-none">
             <Text size="small" leading="compact" weight="plus">
               {identifier}
@@ -171,8 +171,8 @@ const Event = ({
               </IconButton>
             </div>
           </div>
-        </Collapsible.Trigger>
-        <Collapsible.Content ref={ref}>
+        </RadixCollapsible.Trigger>
+        <RadixCollapsible.Content ref={ref}>
           <div className="flex flex-col gap-y-2 pb-4 pt-2">
             <div className="text-ui-fg-subtle flex flex-col gap-y-2">
               <Text size="small" leading="compact">
@@ -269,8 +269,8 @@ const Event = ({
               </div>
             )}
           </div>
-        </Collapsible.Content>
-      </Collapsible.Root>
+        </RadixCollapsible.Content>
+      </RadixCollapsible.Root>
     </div>
   )
 }

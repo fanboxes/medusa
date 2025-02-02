@@ -13,8 +13,18 @@ medusaIntegrationTestRunner({
     let stockLocation1
     let stockLocation2
     let stockLocation3
+
+    let shippingProfile
     beforeEach(async () => {
       await createAdminUser(dbConnection, adminHeaders, getContainer())
+
+      shippingProfile = (
+        await api.post(
+          `/admin/shipping-profiles`,
+          { name: "Test", type: "default" },
+          adminHeaders
+        )
+      ).data.shipping_profile
 
       stockLocation1 = (
         await api.post(`/admin/stock-locations`, { name: "loc1" }, adminHeaders)
@@ -990,6 +1000,7 @@ medusaIntegrationTestRunner({
               {
                 title: "product 1",
                 options: [{ title: "size", values: ["large"] }],
+                shipping_profile_id: shippingProfile.id,
                 variants: [
                   {
                     title: "variant 1",

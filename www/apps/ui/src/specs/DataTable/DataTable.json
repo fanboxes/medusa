@@ -1,0 +1,35 @@
+{
+  "description": "This component creates a data table with filters, pagination, sorting, and more.\nIt's built on top of the `Table` component while expanding its functionality.\nThe `DataTable` is useful to create tables similar to those in the Medusa Admin dashboard.",
+  "methods": [],
+  "displayName": "DataTable",
+  "props": {
+    "instance": {
+      "required": true,
+      "tsType": {
+        "name": "UseDataTableReturn",
+        "elements": [
+          {
+            "name": "TData"
+          }
+        ],
+        "raw": "UseDataTableReturn<TData>"
+      },
+      "description": "The instance returned by the `useDataTable` hook."
+    },
+    "children": {
+      "required": false,
+      "tsType": {
+        "name": "ReactReactNode",
+        "raw": "React.ReactNode"
+      },
+      "description": "The children of the component."
+    },
+    "className": {
+      "required": false,
+      "tsType": {
+        "name": "string"
+      },
+      "description": "Additional classes to pass to the wrapper `div` of the component."
+    }
+  }
+}

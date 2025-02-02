@@ -57,13 +57,13 @@ export const THREE_DAYS = 60 * 60 * 24 * 3
 
 export const completeCartWorkflowId = "complete-cart"
 /**
- * This workflow completes a cart and places an order for the customer. It's executed by the 
+ * This workflow completes a cart and places an order for the customer. It's executed by the
  * [Complete Cart Store API Route](https://docs.medusajs.com/api/store#carts_postcartsidcomplete).
- * 
+ *
  * You can use this workflow within your own customizations or custom workflows, allowing you to wrap custom logic around completing a cart.
- * For example, in the [Subscriptions recipe](https://docs.medusajs.com/resources/recipes/subscriptions/examples/standard#create-workflow), 
+ * For example, in the [Subscriptions recipe](https://docs.medusajs.com/resources/recipes/subscriptions/examples/standard#create-workflow),
  * this workflow is used within another workflow that creates a subscription order.
- * 
+ *
  * @example
  * const { result } = await completeCartWorkflow(container)
  * .run({
@@ -71,11 +71,11 @@ export const completeCartWorkflowId = "complete-cart"
  *     id: "cart_123"
  *   }
  * })
- * 
+ *
  * @summary
- * 
+ *
  * Complete a cart and place an order.
- * 
+ *
  * @property hooks.validate - This hook is executed before all operations. You can consume this hook to perform any custom validation. If validation fails, you can throw an error to stop the workflow execution.
  */
 export const completeCartWorkflow = createWorkflow(
@@ -118,7 +118,6 @@ export const completeCartWorkflow = createWorkflow(
         // We choose the first payment session, as there will only be one active payment session
         // This might change in the future.
         id: paymentSessions[0].id,
-        context: { cart_id: cart.id },
       })
 
       const { variants, sales_channel_id } = transform({ cart }, (data) => {

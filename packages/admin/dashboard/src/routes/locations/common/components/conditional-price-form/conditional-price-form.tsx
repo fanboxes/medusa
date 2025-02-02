@@ -17,7 +17,7 @@ import {
   Text,
   Tooltip,
 } from "@medusajs/ui"
-import * as Accordion from "@radix-ui/react-accordion"
+import { Accordion as RadixAccordion } from "radix-ui"
 import React, { Fragment, ReactNode, useRef, useState } from "react"
 import {
   Control,
@@ -235,7 +235,7 @@ const ConditionalPriceList = ({
   onValueChange,
 }: ConditionalPriceListProps) => {
   return (
-    <Accordion.Root
+    <RadixAccordion.Root
       type="multiple"
       defaultValue={[getRuleValue(0)]}
       value={value}
@@ -243,7 +243,7 @@ const ConditionalPriceList = ({
       className="flex flex-col gap-y-3"
     >
       {children}
-    </Accordion.Root>
+    </RadixAccordion.Root>
   )
 }
 
@@ -268,13 +268,13 @@ const ConditionalPriceItem = ({
   }
 
   return (
-    <Accordion.Item
+    <RadixAccordion.Item
       value={getRuleValue(index)}
       className={clx(
         "bg-ui-bg-component shadow-elevation-card-rest rounded-lg"
       )}
     >
-      <Accordion.Trigger asChild>
+      <RadixAccordion.Trigger asChild>
         <div className="group/trigger flex w-full cursor-pointer items-start justify-between gap-x-2 p-3">
           <div className="flex flex-1 flex-wrap items-center justify-between gap-2">
             <div className="flex h-7 items-center">
@@ -310,8 +310,8 @@ const ConditionalPriceItem = ({
             </IconButton>
           </div>
         </div>
-      </Accordion.Trigger>
-      <Accordion.Content className="text-ui-fg-subtle">
+      </RadixAccordion.Trigger>
+      <RadixAccordion.Content className="text-ui-fg-subtle">
         <Divider variant="dashed" />
         <Form.Field
           control={control}
@@ -392,8 +392,8 @@ const ConditionalPriceItem = ({
           control={control}
           currency={currency}
         />
-      </Accordion.Content>
-    </Accordion.Item>
+      </RadixAccordion.Content>
+    </RadixAccordion.Item>
   )
 }
 

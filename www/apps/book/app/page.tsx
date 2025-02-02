@@ -1,5 +1,5 @@
 import clsx from "clsx"
-import { MainNav, RootProviders } from "docs-ui"
+import { AiAssistantChatWindow, MainNav, RootProviders } from "docs-ui"
 import HomepageTopSection from "../components/Homepage/TopSection"
 import Providers from "../providers"
 import HomepageLinksSection from "../components/Homepage/LinksSection"
@@ -12,12 +12,20 @@ const Homepage = () => {
     <body
       className={clsx(
         "bg-medusa-bg-subtle font-base text-medium w-full",
-        "text-medusa-fg-subtle px-0.25 pt-0.25",
+        "text-medusa-fg-base px-0.25 pt-0.25",
         "h-screen overflow-hidden"
       )}
     >
-      <RootProviders>
-        <Providers>
+      <RootProviders
+        layoutProviderProps={{
+          disableResizeObserver: true,
+        }}
+      >
+        <Providers
+          aiAssistantProps={{
+            chatType: "popover",
+          }}
+        >
           <div
             className={clsx(
               "rounded-t bg-medusa-bg-base",
@@ -40,6 +48,7 @@ const Homepage = () => {
             <HomepageModulesSection />
             <HomepageFooter />
           </div>
+          <AiAssistantChatWindow />
         </Providers>
       </RootProviders>
     </body>

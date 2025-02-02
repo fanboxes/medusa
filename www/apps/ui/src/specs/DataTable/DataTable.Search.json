@@ -1,0 +1,28 @@
+{
+  "description": "This component adds a search input to the data table, allowing users\nto search through the table's data.",
+  "methods": [],
+  "displayName": "DataTable.Search",
+  "props": {
+    "autoFocus": {
+      "required": false,
+      "tsType": {
+        "name": "boolean"
+      },
+      "description": "If true, the search input will be focused on mount."
+    },
+    "className": {
+      "required": false,
+      "tsType": {
+        "name": "string"
+      },
+      "description": "Additional classes to pass to the search input."
+    },
+    "placeholder": {
+      "required": false,
+      "tsType": {
+        "name": "string"
+      },
+      "description": "The placeholder text to show in the search input."
+    }
+  }
+}

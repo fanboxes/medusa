@@ -1,0 +1,32 @@
+export const metadata = {
+  title: `Test Errors`,
+}
+
+# {metadata.title}
+
+## Loaders for module Workflows failed
+
+If you get the following error when running your tests:
+
+```bash
+Loaders for module Workflows failed: Method Map.prototype.set called on incompatible receiver #<Map>
+```
+
+This may occur if you have multiple test files and you don't configure your Jest environment correctly. To resolve this, add the following configuration to your `jest.config.js` file:
+
+```js title="jest.config.js"
+module.exports = {
+  // ...
+  setupFiles: ["./integration-tests/setup.js"],
+}
+```
+
+Then, create the `integration-tests/setup.js` file with the following content:
+
+```js title="integration-tests/setup.js"
+const { MetadataStorage } = require("@mikro-orm/core")
+
+MetadataStorage.clear()
+```
+
+Learn more about configuring test tools in [this documentation](!docs!/learn/debugging-and-testing/testing-tools)

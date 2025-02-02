@@ -2079,6 +2079,19 @@
               "required": ["label", "hint"],
               "additionalProperties": false
             },
+            "shipping_profile": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string"
+                },
+                "hint": {
+                  "type": "string"
+                }
+              },
+              "required": ["label", "hint"],
+              "additionalProperties": false
+            },
             "type": {
               "type": "object",
               "properties": {
@@ -2268,6 +2281,7 @@
             "handle",
             "description",
             "discountable",
+            "shipping_profile",
             "type",
             "collection",
             "categories",
@@ -2551,6 +2565,53 @@
           "required": ["heading", "description", "loading", "tooltips"],
           "additionalProperties": false
         },
+        "shippingProfile": {
+          "type": "object",
+          "properties": {
+            "header": {
+              "type": "string"
+            },
+            "edit": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "string"
+                },
+                "toasts": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["success"],
+                  "additionalProperties": false
+                }
+              },
+              "required": ["header", "toasts"],
+              "additionalProperties": false
+            },
+            "create": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "object",
+                  "properties": {
+                    "required": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["required"],
+                  "additionalProperties": false
+                }
+              },
+              "required": ["errors"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["header", "edit", "create"],
+          "additionalProperties": false
+        },
         "toasts": {
           "type": "object",
           "properties": {
@@ -2614,6 +2675,7 @@
         "options",
         "organization",
         "stock",
+        "shippingProfile",
         "toasts"
       ],
       "additionalProperties": false
@@ -4702,6 +4764,12 @@
             "markAsDeliveredWarning": {
               "type": "string"
             },
+            "differentOptionSelected": {
+              "type": "string"
+            },
+            "disabledItemTooltip": {
+              "type": "string"
+            },
             "unfulfilledItems": {
               "type": "string"
             },
@@ -4764,9 +4832,21 @@
                 },
                 "noItems": {
                   "type": "string"
+                },
+                "noShippingOption": {
+                  "type": "string"
+                },
+                "noLocation": {
+                  "type": "string"
                 }
               },
-              "required": ["wrongQuantity", "wrongQuantity_other", "noItems"],
+              "required": [
+                "wrongQuantity",
+                "wrongQuantity_other",
+                "noItems",
+                "noShippingOption",
+                "noLocation"
+              ],
               "additionalProperties": false
             },
             "status": {
@@ -4858,6 +4938,8 @@
           "required": [
             "cancelWarning",
             "markAsDeliveredWarning",
+            "differentOptionSelected",
+            "disabledItemTooltip",
             "unfulfilledItems",
             "statusLabel",
             "statusTitle",
@@ -8547,6 +8629,12 @@
         "defaultRegion": {
           "type": "string"
         },
+        "defaultSalesChannel": {
+          "type": "string"
+        },
+        "defaultLocation": {
+          "type": "string"
+        },
         "swapLinkTemplate": {
           "type": "string"
         },
@@ -8618,6 +8706,8 @@
         "editStore",
         "defaultCurrency",
         "defaultRegion",
+        "defaultSalesChannel",
+        "defaultLocation",
         "swapLinkTemplate",
         "paymentLinkTemplate",
         "inviteLinkTemplate",
@@ -10239,6 +10329,12 @@
         },
         "to": {
           "type": "string"
+        },
+        "beaware": {
+          "type": "string"
+        },
+        "loading": {
+          "type": "string"
         }
       },
       "required": [
@@ -10249,7 +10345,9 @@
         "added",
         "removed",
         "from",
-        "to"
+        "to",
+        "beaware",
+        "loading"
       ],
       "additionalProperties": false
     },

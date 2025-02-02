@@ -37,6 +37,7 @@ const TagPaths = ({ tag, className, paths }: TagPathsProps) => {
         addItems(pathItems, {
           section: SidebarItemSections.DEFAULT,
           parent: {
+            type: "category",
             title: tag.name,
             path: "",
             changeLoaded: true,

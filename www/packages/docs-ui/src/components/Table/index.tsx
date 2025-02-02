@@ -42,7 +42,7 @@ const HeaderCell = ({ className, ...props }: HeaderCellProps) => {
     <UiTable.HeaderCell
       className={clsx(
         className,
-        "text-left px-docs_0.75 py-docs_0.5 break-words",
+        "text-left !px-docs_0.75 py-docs_0.5 break-words",
         "!text-compact-small-plus text-medusa-fg-subtle",
         "first:rounded-tl-docs_DEFAULT last:rounded-tr-docs_DEFAULT"
       )}
@@ -58,7 +58,7 @@ const Cell = ({ className, ...props }: CellProps) => {
     <UiTable.Cell
       className={clsx(
         className,
-        "px-docs_0.75 py-docs_0.5 break-words align-top"
+        "!px-docs_0.75 py-docs_0.5 break-words align-top"
       )}
       {...props}
     />

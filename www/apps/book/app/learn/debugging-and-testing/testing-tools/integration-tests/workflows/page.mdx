@@ -93,3 +93,52 @@ If you don't have a `test:integration` script in `package.json`, refer to the [M
 </Note>
 
 This runs your Medusa application and runs the tests available under the `integrations/http` directory.
+
+---
+
+## Test That a Workflow Throws an Error
+
+You might want to test that a workflow throws an error in certain cases. To test this:
+
+- Disable the `throwOnError` option when executing the workflow.
+- Use the returned `errors` property to check what errors were thrown.
+
+For example, if you have a step that throws this error:
+
+```ts title="src/workflows/hello-world.ts"
+import { MedusaError } from "@medusajs/framework/utils"
+import { createStep } from "@medusajs/framework/workflows-sdk"
+
+const step1 = createStep("step-1", () => {
+  throw new MedusaError(MedusaError.Types.NOT_FOUND, "Item doesn't exist")
+})
+```
+
+You can write the following test to ensure that the workflow throws that error:
+
+```ts title="integration-tests/http/workflow.spec.ts"
+import { medusaIntegrationTestRunner } from "@medusajs/test-utils"
+import { helloWorldWorkflow } from "../../src/workflows/hello-world"
+
+medusaIntegrationTestRunner({
+  testSuite: ({ getContainer }) => {
+    describe("Test hello-world workflow", () => {
+      it("returns message", async () => {
+        const { errors } = await helloWorldWorkflow(getContainer())
+          .run({
+            throwOnError: false
+          })
+
+        expect(errors.length).toBeGreaterThan(0)
+        expect(errors[0].error.message).toBe("Item doesn't exist")
+      })
+    })
+  },
+})
+
+jest.setTimeout(60 * 1000)
+```
+
+The `errors` property contains an array of errors thrown during the execution of the workflow. Each error item has an `error` object, being the error thrown.
+
+If you threw a `MedusaError`, then you can check the error message in `errors[0].error.message`.

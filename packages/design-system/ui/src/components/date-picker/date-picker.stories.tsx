@@ -1,9 +1,9 @@
+import { Button } from "@/components/button"
+import { Drawer } from "@/components/drawer"
+import { Label } from "@/components/label"
 import type { Meta, StoryObj } from "@storybook/react"
 import * as React from "react"
 import { ComponentPropsWithoutRef } from "react"
-import { Button } from "../button"
-import { Drawer } from "../drawer"
-import { Label } from "../label"
 import { DatePicker } from "./date-picker"
 
 const meta: Meta<typeof DatePicker> = {

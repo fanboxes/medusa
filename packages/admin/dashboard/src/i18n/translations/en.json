@@ -554,6 +554,10 @@
         "label": "Discountable",
         "hint": "When unchecked, discounts will not be applied to this product"
       },
+      "shipping_profile": {
+        "label": "Shipping profile",
+        "hint": "Connect the product to a shipping profile"
+      },
       "type": {
         "label": "Type"
       },
@@ -679,6 +683,20 @@
       "tooltips": {
         "alreadyManaged": "This inventory item is already editable under {{title}}.",
         "alreadyManagedWithSku": "This inventory item is already editable under {{title}} ({{sku}})."
+      }
+    },
+    "shippingProfile": {
+      "header": "Shipping configuration",
+      "edit": {
+        "header": "Shipping Configuration",
+        "toasts": {
+          "success": "Successfully updated the shipping profile for {{title}}."
+        }
+      },
+      "create": {
+        "errors": {
+          "required": "Shipping profile is required"
+        }
       }
     },
     "toasts": {
@@ -1249,6 +1267,8 @@
     "fulfillment": {
       "cancelWarning": "You are about to cancel a fulfillment. This action cannot be undone.",
       "markAsDeliveredWarning": "You are about to mark fulfillment as delivered. This action cannot be undone.",
+      "differentOptionSelected": "The selected shipping option is different from the one selected by the customer.",
+      "disabledItemTooltip": "The shipping option you have selected don’t allow fulfillment of this item",
       "unfulfilledItems": "Unfulfilled Items",
       "statusLabel": "Fulfillment status",
       "statusTitle": "Fulfillment Status",
@@ -1269,7 +1289,9 @@
       "error": {
         "wrongQuantity": "Only one item is available for fulfillment",
         "wrongQuantity_other": "Quantity should be a number between 1 and {{number}}",
-        "noItems": "No items to fulfill."
+        "noItems": "No items to fulfill.",
+        "noShippingOption": "Shipping option is required",
+        "noLocation": "Location is required"
       },
       "status": {
         "notFulfilled": "Not fulfilled",
@@ -2299,6 +2321,8 @@
     "editStore": "Edit store",
     "defaultCurrency": "Default currency",
     "defaultRegion": "Default region",
+    "defaultSalesChannel": "Default sales channel",
+    "defaultLocation": "Default location",
     "swapLinkTemplate": "Swap link template",
     "paymentLinkTemplate": "Payment link template",
     "inviteLinkTemplate": "Invite link template",
@@ -2749,7 +2773,9 @@
     "added": "Added",
     "removed": "Removed",
     "from": "From",
-    "to": "To"
+    "to": "To",
+    "beaware": "Be aware",
+    "loading": "Loading"
   },
   "fields": {
     "amount": "Amount",

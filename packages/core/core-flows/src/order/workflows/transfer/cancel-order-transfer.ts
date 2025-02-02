@@ -43,14 +43,14 @@ export type CancelTransferOrderRequestValidationStep = {
  * This step validates that a requested order transfer can be canceled.
  * If the customer canceling the order transfer isn't the one that requested the transfer,
  * the step throws an error. Admin users can cancel any order transfer.
- * 
+ *
  * :::note
- * 
+ *
  * You can retrieve an order and order change details using [Query](https://docs.medusajs.com/learn/fundamentals/module-links/query),
  * or [useQueryGraphStep](https://docs.medusajs.com/resources/references/medusa-workflows/steps/useQueryGraphStep).
- * 
+ *
  * :::
- * 
+ *
  * @example
  * const data = cancelTransferOrderRequestValidationStep({
  *   order: {
@@ -101,10 +101,10 @@ export const cancelTransferOrderRequestWorkflowId =
  * This workflow cancels a requested order transfer. This operation is allowed only by admin users and the customer that requested the transfer.
  * This workflow is used by the [Cancel Order Transfer Store API Route](https://docs.medusajs.com/api/store#orders_postordersidtransfercancel),
  * and the [Cancel Transfer Request Admin API Route](https://docs.medusajs.com/api/admin#orders_postordersidtransfercancel).
- * 
+ *
  * You can use this workflow within your customizations or your own custom workflows, allowing you to build a custom flow
  * around canceling an order transfer.
- * 
+ *
  * @example
  * const { result } = await cancelOrderTransferRequestWorkflow(container)
  * .run({
@@ -114,9 +114,9 @@ export const cancelTransferOrderRequestWorkflowId =
  *     actor_type: "customer"
  *   }
  * })
- * 
+ *
  * @summary
- * 
+ *
  * Cancel an order transfer request.
  */
 export const cancelOrderTransferRequestWorkflow = createWorkflow(
@@ -143,7 +143,6 @@ export const cancelOrderTransferRequestWorkflow = createWorkflow(
         order_id: input.order_id,
         status: [OrderChangeStatus.PENDING, OrderChangeStatus.REQUESTED],
       },
-      options: { throwIfKeyNotFound: true },
     }).config({ name: "order-change-query" })
 
     const orderChange = transform(

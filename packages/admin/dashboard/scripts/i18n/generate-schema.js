@@ -1,5 +1,6 @@
-const fs = require("fs")
+const fs = require("fs/promises")
 const path = require("path")
+const prettier = require("prettier")
 
 const translationsDir = path.join(__dirname, "../../src/i18n/translations")
 const enPath = path.join(translationsDir, "en.json")
@@ -33,17 +34,31 @@ function generateSchemaFromObject(obj) {
   }
 }
 
-try {
-  const enJson = JSON.parse(fs.readFileSync(enPath, "utf-8"))
+async function outputSchema() {
+  const enContent = await fs.readFile(enPath, "utf-8")
+  const enJson = JSON.parse(enContent)
 
   const schema = {
     $schema: "http://json-schema.org/draft-07/schema#",
     ...generateSchemaFromObject(enJson),
   }
 
-  fs.writeFileSync(schemaPath, JSON.stringify(schema, null, 2))
-  console.log("Schema generated successfully at:", schemaPath)
-} catch (error) {
-  console.error("Error generating schema:", error.message)
-  process.exit(1)
+  const formattedSchema = await prettier.format(
+    JSON.stringify(schema, null, 2),
+    {
+      parser: "json",
+    }
+  )
+
+  await fs
+    .writeFile(schemaPath, formattedSchema)
+    .then(() => {
+      console.log("Schema generated successfully at:", schemaPath)
+    })
+    .catch((error) => {
+      console.error("Error generating schema:", error.message)
+      process.exit(1)
+    })
 }
+
+outputSchema()

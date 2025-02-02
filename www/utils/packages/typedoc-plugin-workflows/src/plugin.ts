@@ -296,6 +296,7 @@ class WorkflowsPlugin {
           inputSymbol: initializer.arguments[1].symbol as ts.Symbol,
           workflowName: workflowVarName,
           workflowComments,
+          workflowReflection: workflowReflection.parent,
         })
       } else {
         const initializerReflection = findReflectionInNamespaces(
@@ -483,12 +484,14 @@ class WorkflowsPlugin {
     inputSymbol,
     workflowName,
     workflowComments,
+    workflowReflection,
   }: {
     stepId: string
     context: Context
     inputSymbol: ts.Symbol
     workflowName: string
     workflowComments?: CommentTag[]
+    workflowReflection: DeclarationReflection
   }): DeclarationReflection {
     const declarationReflection = context.createDeclarationReflection(
       ReflectionKind.Function,
@@ -575,6 +578,14 @@ class WorkflowsPlugin {
         },
       ])
     )
+
+    const hooksProperty = workflowReflection.getChildByName("hooks")
+    if (
+      hooksProperty?.isDeclaration() &&
+      hooksProperty.type?.type === "reflection"
+    ) {
+      hooksProperty.type.declaration.addChild(declarationReflection)
+    }
 
     return declarationReflection
   }

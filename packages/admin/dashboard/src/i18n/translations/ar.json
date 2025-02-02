@@ -4,7 +4,7 @@
     "ascending": "تصاعدي",
     "descending": "تنازلي",
     "add": "إضافة",
-    "start": "بداية",
+    "start": "ابدأ",
     "end": "نهاية",
     "open": "فتح",
     "close": "إغلاق",
@@ -22,40 +22,40 @@
     "warning": "تحذير",
     "tip": "نصيحة",
     "error": "خطأ",
-    "select": "حدد",
+    "select": "اختر",
     "selected": "محدد",
-    "enabled": "ممّكن",
+    "enabled": "ممكّن",
     "disabled": "معطل",
-    "expired": "منتهية الصلاحية",
+    "expired": "منتهي الصلاحية",
     "active": "نشط",
-    "revoked": "ملغي",
+    "revoked": "ملغى",
     "new": "جديد",
-    "modified": "تم التعديل",
+    "modified": "معدل",
     "added": "مضاف",
-    "removed": "مُزال",
+    "removed": "محذوف",
     "admin": "مسؤول",
-    "store": "المتجر",
-    "details": "التفاصيل",
+    "store": "متجر",
+    "details": "تفاصيل",
     "items_one": "{{count}} عنصر",
     "items_other": "{{count}} عناصر",
     "countSelected": "{{count}} محدد",
-    "countOfTotalSelected": "{{count}} من أصل {{total}} محدد",
+    "countOfTotalSelected": "{{count}} من {{total}} محدد",
     "plusCount": "+ {{count}}",
     "plusCountMore": "+ {{count}} أكثر",
     "areYouSure": "هل أنت متأكد؟",
-    "noRecordsFound": "لا توجد سجلات",
-    "typeToConfirm": "الرجاء كتابة {val} للتأكيد:",
+    "noRecordsFound": "لم يتم العثور على سجلات",
+    "typeToConfirm": "يرجى كتابة {val} للتأكيد:",
     "noResultsTitle": "لا توجد نتائج",
-    "noResultsMessage": "حاول تغيير المرشحات أو استعلام البحث",
+    "noResultsMessage": "حاول تغيير الفلاتر أو استعلام البحث",
     "noSearchResults": "لا توجد نتائج بحث",
-    "noSearchResultsFor": "لا توجد نتائج بحث عن <0>'{{query}}'</0>",
+    "noSearchResultsFor": "لا توجد نتائج بحث لـ <0>'{{query}}'</0>",
     "noRecordsTitle": "لا توجد سجلات",
-    "noRecordsMessage": "لا توجد سجلات للعرض",
-    "unsavedChangesTitle": "هل أنت متأكد من مغادرة هذا النموذج؟",
-    "unsavedChangesDescription": "لديك تغييرات لم يتم حفظها وسيتم فقدانها إذا خرجت من هذا النموذج.",
-    "includesTaxTooltip": "الأسعار في هذا العمود شاملة الضريبة.",
-    "excludesTaxTooltip": "الأسعار في هذا العمود لا تشمل الضريبة.",
-    "noMoreData": "لا توجد المزيد من البيانات"
+    "noRecordsMessage": "لا توجد سجلات لعرضها",
+    "unsavedChangesTitle": "هل أنت متأكد أنك تريد مغادرة هذا النموذج؟",
+    "unsavedChangesDescription": "لديك تغييرات غير محفوظة ستفقد إذا خرجت من هذا النموذج.",
+    "includesTaxTooltip": "الأسعار في هذا العمود تشمل الضرائب.",
+    "excludesTaxTooltip": "الأسعار في هذا العمود لا تشمل الضرائب.",
+    "noMoreData": "لا توجد بيانات أخرى"
   },
   "json": {
     "header": "JSON",
@@ -72,22 +72,22 @@
     "numberOfKeys_one": "{{count}} مفتاح",
     "numberOfKeys_other": "{{count}} مفاتيح",
     "edit": {
-      "header": "تعديل البيانات الوصفية",
-      "description": "تعديل البيانات الوصفية لهذا الكائن.",
+      "header": "تحرير البيانات الوصفية",
+      "description": "تحرير البيانات الوصفية لهذا الكائن.",
       "successToast": "تم تحديث البيانات الوصفية بنجاح.",
       "actions": {
         "insertRowAbove": "إدراج صف أعلاه",
         "insertRowBelow": "إدراج صف أدناه",
-        "deleteRow": "حذف صف"
+        "deleteRow": "حذف الصف"
       },
       "labels": {
-        "key": "المفتاح",
-        "value": "القيمة"
+        "key": "مفتاح",
+        "value": "قيمة"
       },
       "complexRow": {
-        "label": "بعض الصفوف مُعطّلة",
-        "description": "يحتوي هذا الكائن على بيانات وصفية غير أولية، مثل المصفوفات أو الكائنات، التي لا يمكن تعديلها هنا. لتعديل الصفوف المُعطّلة، استخدم واجهة برمجة التطبيقات مباشرةً.",
-        "tooltip": "هذا الصف مُعطّل لأنه يحتوي على بيانات غير أولية."
+        "label": "بعض الصفوف معطلة",
+        "description": "يحتوي هذا الكائن على بيانات وصفية غير بدائية، مثل المصفوفات أو الكائنات، التي لا يمكن تحريرها هنا. لتحرير الصفوف المعطلة، استخدم API مباشرة.",
+        "tooltip": "تم تعطيل هذا الصف لأنه يحتوي على بيانات غير بدائية."
       }
     }
   },
@@ -105,10 +105,10 @@
     "create": "إنشاء",
     "delete": "حذف",
     "remove": "إزالة",
-    "revoke": "إبطال",
+    "revoke": "إلغاء",
     "cancel": "إلغاء",
-    "forceConfirm": "تأكيد إجباري",
-    "continueEdit": "متابعة التعديل",
+    "forceConfirm": "تأكيد بالقوة",
+    "continueEdit": "متابعة التحرير",
     "enable": "تمكين",
     "disable": "تعطيل",
     "undo": "تراجع",
@@ -118,21 +118,21 @@
     "close": "إغلاق",
     "showMore": "عرض المزيد",
     "continue": "متابعة",
-    "continueWithEmail": "المتابعة باستخدام البريد الإلكتروني",
-    "idCopiedToClipboard": "تم نسخ المعرّف إلى الحافظة",
+    "continueWithEmail": "متابعة بالبريد الإلكتروني",
+    "idCopiedToClipboard": "تم نسخ المعرف إلى الحافظة",
     "addReason": "إضافة سبب",
     "addNote": "إضافة ملاحظة",
     "reset": "إعادة تعيين",
     "confirm": "تأكيد",
-    "edit": "تعديل",
+    "edit": "تحرير",
     "addItems": "إضافة عناصر",
     "download": "تنزيل",
     "clear": "مسح",
     "clearAll": "مسح الكل",
     "apply": "تطبيق",
     "add": "إضافة",
-    "select": "تحديد",
-    "browse": "استعراض",
+    "select": "اختر",
+    "browse": "تصفح",
     "logout": "تسجيل الخروج",
     "hide": "إخفاء",
     "export": "تصدير",
@@ -146,48 +146,48 @@
     "search": {
       "label": "بحث",
       "title": "بحث",
-      "description": "ابحث في متجرك بالكامل، بما في ذلك الطلبات والمنتجات والعملاء والمزيد.",
-      "allAreas": "جميع المجالات",
+      "description": "ابحث في متجرك بالكامل، بما في ذلك الطلبات، المنتجات، العملاء، والمزيد.",
+      "allAreas": "جميع المناطق",
       "navigation": "التنقل",
       "openResult": "فتح النتيجة",
       "showMore": "عرض المزيد",
-      "placeholder": "الانتقال إلى أو العثور على أي شيء...",
+      "placeholder": "انتقل إلى أو ابحث عن أي شيء...",
       "noResultsTitle": "لم يتم العثور على نتائج",
       "noResultsMessage": "لم نتمكن من العثور على أي شيء يطابق بحثك.",
       "emptySearchTitle": "اكتب للبحث",
-      "emptySearchMessage": "أدخل كلمة رئيسية أو عبارة للاستكشاف.",
+      "emptySearchMessage": "أدخل كلمة أو عبارة لاستكشاف.",
       "loadMore": "تحميل {{count}} المزيد",
       "groups": {
-        "all": "جميع المجالات",
+        "all": "جميع المناطق",
         "customer": "العملاء",
         "customerGroup": "مجموعات العملاء",
         "product": "المنتجات",
-        "productVariant": "خيارات المنتج",
+        "productVariant": "متغيرات المنتجات",
         "inventory": "المخزون",
         "reservation": "الحجوزات",
-        "category": "التصنيفات",
+        "category": "الفئات",
         "collection": "المجموعات",
         "order": "الطلبات",
         "promotion": "العروض الترويجية",
         "campaign": "الحملات",
         "priceList": "قوائم الأسعار",
-        "user": "المستخدمون",
+        "user": "المستخدمين",
         "region": "المناطق",
-        "taxRegion": "المناطق الضريبية",
+        "taxRegion": "مناطق الضرائب",
         "returnReason": "أسباب الإرجاع",
-        "salesChannel": "قنوات البيع",
+        "salesChannel": "قنوات المبيعات",
         "productType": "أنواع المنتجات",
-        "productTag": "وسوم المنتجات",
+        "productTag": "علامات المنتجات",
         "location": "المواقع",
-        "shippingProfile": "ملفات تعريف الشحن",
-        "publishableApiKey": "مفاتيح API قابلة للنشر",
-        "secretApiKey": "مفاتيح API سرية",
+        "shippingProfile": "ملفات الشحن",
+        "publishableApiKey": "مفاتيح API القابلة للنشر",
+        "secretApiKey": "مفاتيح API السرية",
         "command": "الأوامر",
         "navigation": "التنقل"
       }
     },
     "keyboardShortcuts": {
-      "pageShortcut": "الانتقال إلى",
+      "pageShortcut": "انتقل إلى",
       "settingShortcut": "الإعدادات",
       "commandShortcut": "الأوامر",
       "then": "ثم",
@@ -195,7 +195,7 @@
         "goToOrders": "الطلبات",
         "goToProducts": "المنتجات",
         "goToCollections": "المجموعات",
-        "goToCategories": "التصنيفات",
+        "goToCategories": "الفئات",
         "goToCustomers": "العملاء",
         "goToCustomerGroups": "مجموعات العملاء",
         "goToInventory": "المخزون",
@@ -207,14 +207,14 @@
       "settings": {
         "goToSettings": "الإعدادات",
         "goToStore": "المتجر",
-        "goToUsers": "المستخدمون",
+        "goToUsers": "المستخدمين",
         "goToRegions": "المناطق",
-        "goToTaxRegions": "المناطق الضريبية",
-        "goToSalesChannels": "قنوات البيع",
+        "goToTaxRegions": "مناطق الضرائب",
+        "goToSalesChannels": "قنوات المبيعات",
         "goToProductTypes": "أنواع المنتجات",
         "goToLocations": "المواقع",
-        "goToPublishableApiKeys": "مفاتيح API قابلة للنشر",
-        "goToSecretApiKeys": "مفاتيح API سرية",
+        "goToPublishableApiKeys": "مفاتيح API القابلة للنشر",
+        "goToSecretApiKeys": "مفاتيح API السرية",
         "goToWorkflows": "سير العمل",
         "goToProfile": "الملف الشخصي",
         "goToReturnReasons": "أسباب الإرجاع"
@@ -222,7 +222,7 @@
     },
     "menus": {
       "user": {
-        "documentation": "الوثائق",
+        "documentation": "التوثيق",
         "changelog": "سجل التغييرات",
         "shortcuts": "الاختصارات",
         "profileSettings": "إعدادات الملف الشخصي",
@@ -247,7 +247,7 @@
         "description": "قائمة التنقل للوحة التحكم."
       },
       "common": {
-        "extensions": "الامتدادات"
+        "extensions": "الملحقات"
       },
       "main": {
         "store": "المتجر",
@@ -264,8 +264,8 @@
   "dataGrid": {
     "columns": {
       "view": "عرض",
-      "resetToDefault": "إعادة إلى الوضع الافتراضي",
-      "disabled": "تغيير الأعمدة المعروضة مُعطّل."
+      "resetToDefault": "إعادة التعيين إلى الافتراضي",
+      "disabled": "تغيير الأعمدة المرئية معطل."
     },
     "shortcuts": {
       "label": "الاختصارات",
@@ -274,21 +274,21 @@
         "redo": "إعادة",
         "copy": "نسخ",
         "paste": "لصق",
-        "edit": "تعديل",
+        "edit": "تحرير",
         "delete": "حذف",
         "clear": "مسح",
-        "moveUp": "نقل للأعلى",
-        "moveDown": "نقل للأسفل",
-        "moveLeft": "نقل لليسار",
-        "moveRight": "نقل لليمين",
-        "moveTop": "نقل إلى الأعلى",
-        "moveBottom": "نقل إلى الأسفل",
-        "selectDown": "تحديد للأسفل",
-        "selectUp": "تحديد للأعلى",
-        "selectColumnDown": "تحديد عمود للأسفل",
-        "selectColumnUp": "تحديد عمود للأعلى",
-        "focusToolbar": "التركيز على شريط الأدوات",
-        "focusCancel": "التركيز على الإلغاء"
+        "moveUp": "تحريك لأعلى",
+        "moveDown": "تحريك لأسفل",
+        "moveLeft": "تحريك لليسار",
+        "moveRight": "تحريك لليمين",
+        "moveTop": "تحريك إلى الأعلى",
+        "moveBottom": "تحريك إلى الأسفل",
+        "selectDown": "تحديد لأسفل",
+        "selectUp": "تحديد لأعلى",
+        "selectColumnDown": "تحديد عمود لأسفل",
+        "selectColumnUp": "تحديد عمود لأعلى",
+        "focusToolbar": "تركيز على شريط الأدوات",
+        "focusCancel": "تركيز على إلغاء"
       }
     },
     "errors": {
@@ -299,21 +299,23 @@
   },
   "filters": {
     "sortLabel": "الترتيب",
-    "filterLabel": "تصفية",
-    "searchLabel": "بحث",
+    "filterLabel": "الفلاتر",
+    "searchLabel": "البحث",
     "sorting": {
-      "alphabeticallyAsc": "أبجدياً (أ-ي)",
-      "alphabeticallyDesc": "أبجدياً (ي-أ)",
-      "dateAsc": "التاريخ (الأقدم أولاً)",
-      "dateDesc": "التاريخ (الأحدث أولاً)"
+      "alphabeticallyAsc": "الترتيب الأبجدي تصاعدي",
+      "alphabeticallyDesc": "الترتيب الأبجدي تنازلي",
+      "dateAsc": "التاريخ تصاعدي",
+      "dateDesc": "التاريخ تنازلي"
     },
     "radio": {
-      "true": "نعم",
-      "false": "لا",
-      "yes": "نعم",
-      "no": "لا"
+      "false": "غير مفعل",
+      "true": "مفعل",
+      "no": "لا",
+      "yes": "نعم"
     },
     "date": {
+      "ending": "منتهي",
+      "starting": "بدأ",
       "today": "اليوم",
       "lastSevenDays": "آخر 7 أيام",
       "lastThirtyDays": "آخر 30 يومًا",
@@ -321,9 +323,7 @@
       "lastTwelveMonths": "آخر 12 شهرًا",
       "custom": "مخصص",
       "from": "من",
-      "to": "إلى",
-      "starting": "تاريخ البدء",
-      "ending": "تاريخ الانتهاء"
+      "to": "إلى"
     },
     "compare": {
       "lessThan": "أقل من",
@@ -338,11 +338,11 @@
   },
   "errorBoundary": {
     "badRequestTitle": "400 - طلب غير صالح",
-    "badRequestMessage": "لا يمكن فهم الطلب من قبل الخادم بسبب وجود خطأ في بناء الجملة.",
-    "notFoundTitle": "404 - لا توجد صفحة بهذا العنوان",
-    "notFoundMessage": "يرجى التحقق من عنوان URL أو استخدام شريط البحث للعثور على ما تبحث عنه.",
-    "internalServerErrorTitle": "500 - خطأ داخلي في الخادم",
-    "internalServerErrorMessage": "حدث خطأ غير متوقع على الخادم. يرجى المحاولة مرة أخرى لاحقًا.",
+    "badRequestMessage": "لم يتمكن الخادم من فهم الطلب بسبب صيغة غير صحيحة.",
+    "notFoundTitle": "404 - لا توجد صفحة في هذا العنوان",
+    "notFoundMessage": "تحقق من عنوان URL وحاول مرة أخرى، أو استخدم شريط البحث للعثور على ما تبحث عنه.",
+    "internalServerErrorTitle": "500 - خطأ في الخادم الداخلي",
+    "internalServerErrorMessage": "حدث خطأ غير متوقع في الخادم. يرجى المحاولة مرة أخرى لاحقًا.",
     "defaultTitle": "حدث خطأ",
     "defaultMessage": "حدث خطأ غير متوقع أثناء عرض هذه الصفحة.",
     "noMatchMessage": "الصفحة التي تبحث عنها غير موجودة.",
@@ -351,22 +351,22 @@
   "addresses": {
     "shippingAddress": {
       "header": "عنوان الشحن",
-      "editHeader": "تعديل عنوان الشحن",
+      "editHeader": "تحرير عنوان الشحن",
       "editLabel": "عنوان الشحن",
       "label": "عنوان الشحن"
     },
     "billingAddress": {
-      "header": "عنوان الفوترة",
-      "editHeader": "تعديل عنوان الفوترة",
-      "editLabel": "عنوان الفوترة",
-      "label": "عنوان الفوترة",
+      "header": "عنوان الفواتير",
+      "editHeader": "تحرير عنوان الفواتير",
+      "editLabel": "عنوان الفواتير",
+      "label": "عنوان الفواتير",
       "sameAsShipping": "نفس عنوان الشحن"
     },
-    "contactHeading": "جهة الاتصال",
+    "contactHeading": "الاتصال",
     "locationHeading": "الموقع"
   },
   "email": {
-    "editHeader": "تعديل البريد الإلكتروني",
+    "editHeader": "تحرير البريد الإلكتروني",
     "editLabel": "البريد الإلكتروني",
     "label": "البريد الإلكتروني"
   },
@@ -383,7 +383,7 @@
     },
     "newOwner": {
       "label": "المالك الجديد",
-      "hint": "المالك الجديد الذي سيتم نقل الطلب إليه."
+      "hint": "المالك الجديد لنقل الطلب إليه."
     },
     "validation": {
       "mustBeDifferent": "يجب أن يكون المالك الجديد مختلفًا عن المالك الحالي.",
@@ -394,13 +394,36 @@
     "availableIn": "متاح في <0>{{x}}</0> من <1>{{y}}</1> قنوات البيع"
   },
   "products": {
+    "stock": {
+      "description": "إضافة عناصر المخزون إلى مجموعة المخزون الخاصة بالبديل.",
+      "heading": "مجموعات المخزون",
+      "loading": "جاري التحميل...",
+      "tooltips": {
+        "alreadyManaged": "هذا العنصر مدار بالفعل.",
+        "alreadyManagedWithSku": "هذا العنصر مدار بالفعل بالمعرف {{sku}}."
+      }
+    },
+    "shippingProfile": {
+      "create": {
+        "errors": {
+          "required": "يرجى إدخال عنوان المنتج."
+        }
+      },
+      "edit": {
+        "header": "تحرير عنوان الشحن",
+        "toasts": {
+          "success": "تم تحديث عنوان الشحن بنجاح."
+        }
+      },
+      "header": "تحرير عنوان الشحن"
+    },
     "domain": "المنتجات",
     "list": {
       "noRecordsMessage": "أنشئ منتجك الأول لبدء البيع."
     },
     "edit": {
-      "header": "تعديل المنتج",
-      "description": "تعديل تفاصيل المنتج.",
+      "header": "تحرير المنتج",
+      "description": "تحرير تفاصيل المنتج.",
       "successToast": "تم تحديث المنتج {{title}} بنجاح."
     },
     "create": {
@@ -409,25 +432,25 @@
       "header": "عام",
       "tabs": {
         "details": "التفاصيل",
-        "organize": "التنظيم",
-        "variants": "الخيارات",
+        "organize": "تنظيم",
+        "variants": "البدائل",
         "inventory": "مجموعات المخزون"
       },
       "errors": {
-        "variants": "الرجاء تحديد خيار واحد على الأقل.",
-        "options": "الرجاء إنشاء خيار واحد على الأقل.",
-        "uniqueSku": "يجب أن يكون رمز التخزين التعريفي فريدًا."
+        "variants": "يرجى تحديد بديل واحد على الأقل.",
+        "options": "يرجى إنشاء خيار واحد على الأقل.",
+        "uniqueSku": "يجب أن يكون SKU فريدًا."
       },
       "inventory": {
         "heading": "مجموعات المخزون",
-        "label": "إضافة عناصر مخزون إلى مجموعة مخزون الخيار.",
-        "itemPlaceholder": "حدد عنصر مخزون",
+        "label": "أضف عناصر المخزون إلى مجموعة المخزون الخاصة بالبديل.",
+        "itemPlaceholder": "اختر عنصر المخزون",
         "quantityPlaceholder": "كم عدد هذه العناصر المطلوبة للمجموعة؟"
       },
       "variants": {
-        "header": "الخيارات",
-        "subHeadingTitle": "نعم، هذا منتج مع خيارات",
-        "subHeadingDescription": "عند إلغاء التحديد، سنقوم بإنشاء خيار افتراضي لك",
+        "header": "البدائل",
+        "subHeadingTitle": "نعم، هذا منتج ببدائل",
+        "subHeadingDescription": "عند عدم التحديد، سنقوم بإنشاء بديل افتراضي لك",
         "optionTitle": {
           "placeholder": "الحجم"
         },
@@ -435,14 +458,14 @@
           "placeholder": "صغير، متوسط، كبير"
         },
         "productVariants": {
-          "label": "خيارات المنتج",
-          "hint": "سيؤثر هذا الترتيب على ترتيب الخيارات في واجهة متجرك.",
-          "alert": "أضف خيارات لإنشاء خيارات.",
-          "tip": "لن يتم إنشاء الخيارات التي تُترك بدون تحديد. يمكنك دائمًا إنشاء وتعديل الخيارات لاحقًا، لكن هذه القائمة تناسب الاختلافات في خيارات منتجك."
+          "label": "بدائل المنتج",
+          "hint": "سيؤثر هذا الترتيب على ترتيب البدائل في واجهة متجرك.",
+          "alert": "أضف الخيارات لإنشاء البدائل.",
+          "tip": "لن يتم إنشاء البدائل غير المحددة. يمكنك دائمًا إنشاء وتحرير البدائل لاحقًا ولكن هذه القائمة تناسب التباينات في خيارات منتجك."
         },
         "productOptions": {
           "label": "خيارات المنتج",
-          "hint": "حدد خيارات المنتج، مثل اللون والحجم وما إلى ذلك."
+          "hint": "حدد الخيارات للمنتج، مثل اللون، الحجم، إلخ."
         }
       },
       "successToast": "تم إنشاء المنتج {{title}} بنجاح."
@@ -451,83 +474,83 @@
       "header": "تصدير قائمة المنتجات",
       "description": "تصدير قائمة المنتجات إلى ملف CSV.",
       "success": {
-        "title": "نقوم بمعالجة عملية التصدير",
+        "title": "نحن نعالج تصديرك",
         "description": "قد يستغرق تصدير البيانات بضع دقائق. سنقوم بإعلامك عند الانتهاء."
       },
       "filters": {
         "title": "الفلاتر",
-        "description": "طبّق فلاتر في نظرة عامة على الجدول لضبط هذا العرض"
+        "description": "تطبيق الفلاتر في نظرة عامة على الجدول لضبط هذا العرض"
       },
       "columns": {
         "title": "الأعمدة",
-        "description": "خصص البيانات المُصدّرة لتلبية احتياجات محددة"
+        "description": "تخصيص البيانات المصدرة لتلبية الاحتياجات المحددة"
       }
     },
     "import": {
       "header": "استيراد قائمة المنتجات",
       "uploadLabel": "استيراد المنتجات",
       "uploadHint": "اسحب وأفلت ملف CSV أو انقر للتحميل",
-      "description": "استيراد المنتجات عن طريق توفير ملف CSV بتنسيق مُعرّف مسبقًا",
+      "description": "استيراد المنتجات عن طريق تقديم ملف CSV بتنسيق محدد مسبقًا",
       "template": {
         "title": "غير متأكد من كيفية ترتيب قائمتك؟",
-        "description": "نزّل القالب أدناه للتأكد من اتباعك للتنسيق الصحيح."
+        "description": "قم بتنزيل القالب أدناه للتأكد من أنك تتبع التنسيق الصحيح."
       },
       "upload": {
         "title": "تحميل ملف CSV",
-        "description": "من خلال عمليات الاستيراد، يمكنك إضافة أو تحديث المنتجات. لتحديث المنتجات الحالية، يجب عليك استخدام المُعرّف ومعرّف المنتج الحاليين، لتحديث الخيارات الحالية، يجب عليك استخدام المعرّف الحالي. سيُطلب منك التأكيد قبل استيراد المنتجات.",
-        "preprocessing": "جاري المعالجة المسبقة...",
+        "description": "من خلال الاستيرادات يمكنك إضافة أو تحديث المنتجات. لتحديث المنتجات الحالية يجب استخدام المعرف والمعرف الفريد الحالي، لتحديث البدائل الحالية يجب استخدام المعرف الحالي. سيتم طلب التأكيد قبل استيراد المنتجات.",
+        "preprocessing": "معالجة مسبقة...",
         "productsToCreate": "سيتم إنشاء المنتجات",
         "productsToUpdate": "سيتم تحديث المنتجات"
       },
       "success": {
-        "title": "نقوم بمعالجة عملية الاستيراد",
+        "title": "نحن نعالج استيرادك",
         "description": "قد يستغرق استيراد البيانات بعض الوقت. سنقوم بإعلامك عند الانتهاء."
       }
     },
     "deleteWarning": "أنت على وشك حذف المنتج {{title}}. لا يمكن التراجع عن هذا الإجراء.",
     "variants": {
-      "header": "الاختيارات",
       "empty": {
-        "heading": "لا توجد اختيارات",
-        "description": "لا توجد اختيارات لعرضها."
+        "description": "لا يوجد بدائل لهذا المنتج.",
+        "heading": "لا يوجد بدائل"
       },
       "filtered": {
-        "heading": "لا توجد نتائج",
-        "description": "لا توجد اختيارات تطابق معايير الفلترة الحالية."
-      }
+        "description": "هذا المنتج لديه {{count}} بديلات معروفة.",
+        "heading": "بدائل معروفة"
+      },
+      "header": "البدائل"
     },
     "attributes": "السمات",
-    "editAttributes": "تعديل السمات",
-    "editOptions": "تعديل الخيارات",
-    "editPrices": "تعديل الأسعار",
+    "editAttributes": "تحرير السمات",
+    "editOptions": "تحرير الخيارات",
+    "editPrices": "تحرير الأسعار",
     "media": {
       "label": "الوسائط",
-      "editHint": "أضف وسائط إلى المنتج لعرضه في واجهة متجرك.",
-      "makeThumbnail": "جعل صورة مصغرة",
+      "editHint": "أضف وسائط إلى المنتج لعرضها في واجهة متجرك.",
+      "makeThumbnail": "جعل الصورة المصغرة",
       "uploadImagesLabel": "تحميل الصور",
       "uploadImagesHint": "اسحب وأفلت الصور هنا أو انقر للتحميل.",
-      "invalidFileType": "'{{name}}' ليس نوع ملف مدعوم. أنواع الملفات المدعومة هي: {{types}}.",
-      "failedToUpload": "فشل تحميل الوسائط المضافة. يرجى المحاولة مرة أخرى.",
+      "invalidFileType": "'{{name}}' ليس نوع ملف مدعوم. الأنواع المدعومة هي: {{types}}.",
+      "failedToUpload": "فشل في تحميل الوسائط المضافة. يرجى المحاولة مرة أخرى.",
       "deleteWarning_one": "أنت على وشك حذف {{count}} صورة. لا يمكن التراجع عن هذا الإجراء.",
       "deleteWarning_other": "أنت على وشك حذف {{count}} صور. لا يمكن التراجع عن هذا الإجراء.",
       "deleteWarningWithThumbnail_one": "أنت على وشك حذف {{count}} صورة بما في ذلك الصورة المصغرة. لا يمكن التراجع عن هذا الإجراء.",
       "deleteWarningWithThumbnail_other": "أنت على وشك حذف {{count}} صور بما في ذلك الصورة المصغرة. لا يمكن التراجع عن هذا الإجراء.",
-      "thumbnailTooltip": "صورة مصغرة",
-      "galleryLabel": "معرض",
-      "downloadImageLabel": "تنزيل الصورة الحالية",
+      "thumbnailTooltip": "الصورة المصغرة",
+      "galleryLabel": "المعرض",
+      "downloadImageLabel": "تحميل الصورة الحالية",
       "deleteImageLabel": "حذف الصورة الحالية",
       "emptyState": {
-        "header": "لا توجد وسائط حتى الآن",
-        "description": "أضف وسائط إلى المنتج لعرضه في واجهة متجرك.",
+        "header": "لا توجد وسائط بعد",
+        "description": "أضف وسائط إلى المنتج لعرضها في واجهة متجرك.",
         "action": "إضافة وسائط"
       },
       "successToast": "تم تحديث الوسائط بنجاح."
     },
-    "discountableHint": "عند إلغاء التحديد، لن يتم تطبيق الخصومات على هذا المنتج.",
-    "noSalesChannels": "غير متوفر في أي قنوات بيع",
-    "variantCount_one": "{{count}} خيار",
-    "variantCount_other": "{{count}} خيارات",
-    "deleteVariantWarning": "أنت على وشك حذف الخيار {{title}}. لا يمكن التراجع عن هذا الإجراء.",
+    "discountableHint": "عند عدم التحديد، لن يتم تطبيق الخصومات على هذا المنتج.",
+    "noSalesChannels": "غير متاح في أي قنوات بيع",
+    "variantCount_one": "{{count}} بديل",
+    "variantCount_other": "{{count}} بدائل",
+    "deleteVariantWarning": "أنت على وشك حذف البديل {{title}}. لا يمكن التراجع عن هذا الإجراء.",
     "productStatus": {
       "draft": "مسودة",
       "published": "منشور",
@@ -535,24 +558,28 @@
       "rejected": "مرفوض"
     },
     "fields": {
+      "shipping_profile": {
+        "hint": "اختر عنوان الشحن لهذا المنتج.",
+        "label": "عنوان الشحن"
+      },
       "title": {
         "label": "العنوان",
-        "hint": "أعطِ منتجك عنوانًا قصيرًا وواضحًا.<0/>الطول الموصى به لمحركات البحث هو 50-60 حرفًا."
+        "hint": "امنح منتجك عنوانًا قصيرًا وواضحًا.<0/>50-60 حرفًا هو الطول الموصى به لمحركات البحث."
       },
       "subtitle": {
         "label": "العنوان الفرعي"
       },
       "handle": {
-        "label": "المُعرّف",
-        "tooltip": "يُستخدم المُعرّف للإشارة إلى المنتج في واجهة متجرك. إذا لم يتم تحديده، فسيتم إنشاء المُعرّف من عنوان المنتج."
+        "label": "المقبض",
+        "tooltip": "يستخدم المقبض للإشارة إلى المنتج في واجهة متجرك. إذا لم يتم تحديده، سيتم إنشاء المقبض من عنوان المنتج."
       },
       "description": {
         "label": "الوصف",
-        "hint": "أعطِ منتجك وصفًا قصيرًا وواضحًا.<0/>الطول الموصى به لمحركات البحث هو 120-160 حرفًا."
+        "hint": "امنح منتجك وصفًا قصيرًا وواضحًا.<0/>120-160 حرفًا هو الطول الموصى به لمحركات البحث."
       },
       "discountable": {
         "label": "قابل للخصم",
-        "hint": "عند إلغاء التحديد، لن يتم تطبيق الخصومات على هذا المنتج"
+        "hint": "عند عدم التحديد، لن يتم تطبيق الخصومات على هذا المنتج"
       },
       "type": {
         "label": "النوع"
@@ -561,14 +588,14 @@
         "label": "المجموعة"
       },
       "categories": {
-        "label": "التصنيفات"
+        "label": "الفئات"
       },
       "tags": {
-        "label": "الوسوم"
+        "label": "العلامات"
       },
       "sales_channels": {
         "label": "قنوات البيع",
-        "hint": "سيكون هذا المنتج متاحًا فقط في قناة البيع الافتراضية إذا تُرك دون تغيير."
+        "hint": "سيكون هذا المنتج متاحًا فقط في قناة البيع الافتراضية إذا تركت دون تغيير."
       },
       "countryOrigin": {
         "label": "بلد المنشأ"
@@ -590,41 +617,41 @@
       },
       "options": {
         "label": "خيارات المنتج",
-        "hint": "تُستخدم الخيارات لتحديد لون المنتج وحجمه وما إلى ذلك",
+        "hint": "تستخدم الخيارات لتحديد اللون، الحجم، إلخ. للمنتج",
         "add": "إضافة خيار",
         "optionTitle": "عنوان الخيار",
         "optionTitlePlaceholder": "اللون",
-        "variations": "الاختلافات (مفصولة بفواصل)",
+        "variations": "التباينات (مفصولة بفواصل)",
         "variantionsPlaceholder": "أحمر، أزرق، أخضر"
       },
       "variants": {
-        "label": "خيارات المنتج",
-        "hint": "لن يتم إنشاء الخيارات التي تُترك بدون تحديد. سيؤثر هذا الترتيب على كيفية ترتيب الخيارات في واجهتك الأمامية."
+        "label": "بدائل المنتج",
+        "hint": "لن يتم إنشاء البدائل غير المحددة، سيؤثر هذا الترتيب على كيفية ترتيب البدائل في واجهة متجرك."
       },
       "mid_code": {
         "label": "رمز MID"
       },
       "hs_code": {
-        "label": "رمز النظام المنسق"
+        "label": "رمز HS"
       }
     },
     "variant": {
       "edit": {
-        "header": "تعديل الخيار",
-        "success": "تم تعديل خيار المنتج بنجاح"
+        "header": "تحرير البديل",
+        "success": "تم تحرير بديل المنتج بنجاح"
       },
       "create": {
-        "header": "تفاصيل الخيار"
+        "header": "تفاصيل البديل"
       },
-      "deleteWarning": "هل أنت متأكد أنك تريد حذف هذا الخيار؟",
-      "pricesPagination": "1 - {{current}} من {{total}} سعر",
+      "deleteWarning": "هل أنت متأكد أنك تريد حذف هذا البديل؟",
+      "pricesPagination": "1 - {{current}} من {{total}} أسعار",
       "tableItemAvailable": "{{availableCount}} متاح",
       "tableItem_one": "{{availableCount}} متاح في {{locationCount}} موقع",
       "tableItem_other": "{{availableCount}} متاح في {{locationCount}} مواقع",
       "inventory": {
         "notManaged": "غير مُدار",
         "manageItems": "إدارة عناصر المخزون",
-        "notManagedDesc": "لا تتم إدارة المخزون لهذا الخيار. شغّل 'إدارة المخزون' لتتبع مخزون الخيار.",
+        "notManagedDesc": "لا يتم إدارة المخزون لهذا البديل. قم بتشغيل 'إدارة المخزون' لتتبع مخزون البديل.",
         "manageKit": "إدارة مجموعة المخزون",
         "navigateToItem": "الانتقال إلى عنصر المخزون",
         "actions": {
@@ -632,17 +659,17 @@
           "inventoryKit": "عرض عناصر المخزون"
         },
         "inventoryKit": "مجموعة المخزون",
-        "inventoryKitHint": "هل يتكون هذا الخيار من عدة عناصر مخزون؟",
+        "inventoryKitHint": "هل يتكون هذا البديل من عدة عناصر مخزون؟",
         "validation": {
-          "itemId": "الرجاء تحديد عنصر مخزون.",
-          "quantity": "الكمية مطلوبة. الرجاء إدخال رقم موجب."
+          "itemId": "يرجى اختيار عنصر المخزون.",
+          "quantity": "الكمية مطلوبة. يرجى إدخال رقم موجب."
         },
-        "header": "المخزون والرصيد",
-        "editItemDetails": "تعديل تفاصيل العنصر",
+        "header": "المخزون والمخزون",
+        "editItemDetails": "تحرير تفاصيل العنصر",
         "manageInventoryLabel": "إدارة المخزون",
-        "manageInventoryHint": "عند التمكين، سنقوم بتغيير كمية المخزون لك عند إنشاء الطلبات والإرجاع.",
-        "allowBackordersLabel": "السماح بالطلبات المتأخرة",
-        "allowBackordersHint": "عند التمكين، يمكن للعملاء شراء الخيار حتى إذا لم تكن هناك كمية متاحة.",
+        "manageInventoryHint": "عند التمكين، سنقوم بتغيير كمية المخزون لك عند إنشاء الطلبات والإرجاعات.",
+        "allowBackordersLabel": "السماح بالطلبات المسبقة",
+        "allowBackordersHint": "عند التمكين، يمكن للعملاء شراء البديل حتى إذا لم يكن هناك كمية متاحة.",
         "toast": {
           "levelsBatch": "تم تحديث مستويات المخزون.",
           "update": "تم تحديث عنصر المخزون بنجاح.",
@@ -654,7 +681,7 @@
     "options": {
       "header": "الخيارات",
       "edit": {
-        "header": "تعديل الخيار",
+        "header": "تحرير الخيار",
         "successToast": "تم تحديث الخيار {{title}} بنجاح."
       },
       "create": {
@@ -664,21 +691,12 @@
       "deleteWarning": "أنت على وشك حذف خيار المنتج: {{title}}. لا يمكن التراجع عن هذا الإجراء."
     },
     "organization": {
-      "header": "التنظيم",
+      "header": "تنظيم",
       "edit": {
-        "header": "تعديل التنظيم",
+        "header": "تحرير التنظيم",
         "toasts": {
           "success": "تم تحديث تنظيم {{title}} بنجاح."
         }
-      }
-    },
-    "stock": {
-      "heading": "إدارة مستويات ومواقع مخزون المنتج",
-      "description": "تحديث مستويات المخزون المُخزّنة لجميع خيارات المنتج.",
-      "loading": "انتظر قليلًا، قد يستغرق هذا بعض الوقت...",
-      "tooltips": {
-        "alreadyManaged": "عنصر المخزون هذا قابل للتعديل بالفعل ضمن {{title}}.",
-        "alreadyManagedWithSku": "عنصر المخزون هذا قابل للتعديل بالفعل ضمن {{title}} ({{sku}})."
       }
     },
     "toasts": {
@@ -688,7 +706,7 @@
           "description": "تم حذف {{title}} بنجاح."
         },
         "error": {
-          "header": "فشل حذف المنتج"
+          "header": "فشل في حذف المنتج"
         }
       }
     }
@@ -699,8 +717,8 @@
     "createCollection": "إنشاء مجموعة",
     "createCollectionHint": "إنشاء مجموعة جديدة لتنظيم منتجاتك.",
     "createSuccess": "تم إنشاء المجموعة بنجاح.",
-    "editCollection": "تعديل المجموعة",
-    "handleTooltip": "يُستخدم المُعرّف للإشارة إلى المجموعة في واجهة متجرك. إذا لم يتم تحديده، فسيتم إنشاء المُعرّف من عنوان المجموعة.",
+    "editCollection": "تحرير المجموعة",
+    "handleTooltip": "يستخدم المقبض للإشارة إلى المجموعة في واجهة متجرك. إذا لم يتم تحديده، سيتم إنشاء المقبض من عنوان المجموعة.",
     "deleteWarning": "أنت على وشك حذف المجموعة {{title}}. لا يمكن التراجع عن هذا الإجراء.",
     "removeSingleProductWarning": "أنت على وشك إزالة المنتج {{title}} من المجموعة. لا يمكن التراجع عن هذا الإجراء.",
     "removeProductsWarning_one": "أنت على وشك إزالة {{count}} منتج من المجموعة. لا يمكن التراجع عن هذا الإجراء.",
@@ -710,55 +728,55 @@
         "noRecordsMessage": "لا توجد منتجات في المجموعة."
       },
       "add": {
-        "successToast_one": "تمت إضافة المنتج بنجاح إلى المجموعة.",
-        "successToast_other": "تمت إضافة المنتجات بنجاح إلى المجموعة."
+        "successToast_one": "تمت إضافة المنتج إلى المجموعة بنجاح.",
+        "successToast_other": "تمت إضافة المنتجات إلى المجموعة بنجاح."
       },
       "remove": {
-        "successToast_one": "تمت إزالة المنتج بنجاح من المجموعة.",
-        "successToast_other": "تمت إزالة المنتجات بنجاح من المجموعة."
+        "successToast_one": "تمت إزالة المنتج من المجموعة بنجاح.",
+        "successToast_other": "تمت إزالة المنتجات من المجموعة بنجاح."
       }
     }
   },
   "categories": {
-    "domain": "التصنيفات",
-    "subtitle": "تنظيم المنتجات في تصنيفات، وإدارة ترتيب هذه التصنيفات وهيكلها.",
+    "domain": "الفئات",
+    "subtitle": "تنظيم المنتجات في فئات، وإدارة ترتيب الفئات وتسلسلها الهرمي.",
     "create": {
-      "header": "إنشاء تصنيف",
-      "hint": "إنشاء تصنيف جديد لتنظيم منتجاتك.",
+      "header": "إنشاء فئة",
+      "hint": "إنشاء فئة جديدة لتنظيم منتجاتك.",
       "tabs": {
         "details": "التفاصيل",
         "organize": "تنظيم الترتيب"
       },
-      "successToast": "تم إنشاء التصنيف {{name}} بنجاح."
+      "successToast": "تم إنشاء الفئة {{name}} بنجاح."
     },
     "edit": {
-      "header": "تعديل التصنيف",
-      "description": "تعديل التصنيف لتحديث تفاصيله.",
-      "successToast": "تم تحديث التصنيف بنجاح."
+      "header": "تحرير الفئة",
+      "description": "تحرير الفئة لتحديث تفاصيلها.",
+      "successToast": "تم تحديث الفئة بنجاح."
     },
     "delete": {
-      "confirmation": "أنت على وشك حذف التصنيف {{name}}. لا يمكن التراجع عن هذا الإجراء.",
-      "successToast": "تم حذف التصنيف {{name}} بنجاح."
+      "confirmation": "أنت على وشك حذف الفئة {{name}}. لا يمكن التراجع عن هذا الإجراء.",
+      "successToast": "تم حذف الفئة {{name}} بنجاح."
     },
     "products": {
       "add": {
-        "disabledTooltip": "المنتج موجود بالفعل في هذا التصنيف.",
-        "successToast_one": "تمت إضافة {{count}} منتج إلى التصنيف.",
-        "successToast_other": "تمت إضافة {{count}} منتجات إلى التصنيف."
+        "disabledTooltip": "المنتج موجود بالفعل في هذه الفئة.",
+        "successToast_one": "تمت إضافة {{count}} منتج إلى الفئة.",
+        "successToast_other": "تمت إضافة {{count}} منتجات إلى الفئة."
       },
       "remove": {
-        "confirmation_one": "أنت على وشك إزالة {{count}} منتج من التصنيف. لا يمكن التراجع عن هذا الإجراء.",
-        "confirmation_other": "أنت على وشك إزالة {{count}} منتجات من التصنيف. لا يمكن التراجع عن هذا الإجراء.",
-        "successToast_one": "تمت إزالة {{count}} منتج من التصنيف.",
-        "successToast_other": "تمت إزالة {{count}} منتجات من التصنيف."
+        "confirmation_one": "أنت على وشك إزالة {{count}} منتج من الفئة. لا يمكن التراجع عن هذا الإجراء.",
+        "confirmation_other": "أنت على وشك إزالة {{count}} منتجات من الفئة. لا يمكن التراجع عن هذا الإجراء.",
+        "successToast_one": "تمت إزالة {{count}} منتج من الفئة.",
+        "successToast_other": "تمت إزالة {{count}} منتجات من الفئة."
       },
       "list": {
-        "noRecordsMessage": "لا توجد منتجات في التصنيف."
+        "noRecordsMessage": "لا توجد منتجات في الفئة."
       }
     },
     "organize": {
       "header": "تنظيم",
-      "action": "تعديل الترتيب"
+      "action": "تحرير الترتيب"
     },
     "fields": {
       "visibility": {
@@ -773,10 +791,10 @@
       },
       "path": {
         "label": "المسار",
-        "tooltip": "عرض المسار الكامل للتصنيف."
+        "tooltip": "عرض المسار الكامل للفئة."
       },
       "children": {
-        "label": "العناصر الفرعية"
+        "label": "الأطفال"
       },
       "new": {
         "label": "جديد"
@@ -784,86 +802,86 @@
     }
   },
   "inventory": {
+    "stock": {
+      "action": "إضافة عناصر المخزون إلى مجموعة المخزون الخاصة بالبديل",
+      "description": "إضافة عناصر المخزون إلى مجموعة المخزون الخاصة بالبديل.",
+      "disabledToggleTooltip": "يجب أن يكون البديل مدار بالفعل لإضافة عناصر المخزون إلى مجموعة المخزون الخاصة بالبديل.",
+      "disablePrompt_one": "أنت على وشك إضافة {{count}} عنصر مخزون إلى مجموعة المخزون الخاصة بالبديل. لا يمكن التراجع عن هذا الإجراء.",
+      "disablePrompt_other": "أنت على وشك إضافة {{count}} عناصر مخزون إلى مجموعة المخزون الخاصة بالبديل. لا يمكن التراجع عن هذا الإجراء.",
+      "placeholder": "اختر عنصر المخزون",
+      "successToast": "تم إضافة عناصر المخزون إلى مجموعة المخزون الخاصة بالبديل بنجاح.",
+      "title": "مجموعات المخزون"
+    },
     "domain": "المخزون",
     "subtitle": "إدارة عناصر المخزون الخاصة بك",
     "reserved": "محجوز",
     "available": "متاح",
     "locationLevels": "المواقع",
-    "associatedVariants": "الخيارات المرتبطة",
+    "associatedVariants": "البدائل المرتبطة",
     "manageLocations": "إدارة المواقع",
-    "deleteWarning": "أنت على وشك حذف عنصر مخزون. لا يمكن التراجع عن هذا الإجراء.",
-    "editItemDetails": "تعديل تفاصيل العنصر",
+    "deleteWarning": "أنت على وشك حذف عنصر المخزون. لا يمكن التراجع عن هذا الإجراء.",
+    "editItemDetails": "تحرير تفاصيل العنصر",
     "create": {
       "title": "إنشاء عنصر مخزون",
       "details": "التفاصيل",
-      "availability": "التوفر",
+      "availability": "التوافر",
       "locations": "المواقع",
       "attributes": "السمات",
-      "requiresShipping": "يتطلب شحنًا",
-      "requiresShippingHint": "هل يتطلب عنصر المخزون شحنًا؟",
+      "requiresShipping": "يتطلب الشحن",
+      "requiresShippingHint": "هل يتطلب عنصر المخزون الشحن؟",
       "successToast": "تم إنشاء عنصر المخزون بنجاح."
     },
     "reservation": {
       "header": "حجز {{itemName}}",
-      "editItemDetails": "تعديل الحجز",
-      "lineItemId": "معرّف عنصر السطر",
-      "orderID": "معرّف الطلب",
+      "editItemDetails": "تحرير الحجز",
+      "lineItemId": "معرف العنصر",
+      "orderID": "معرف الطلب",
       "description": "الوصف",
       "location": "الموقع",
-      "inStockAtLocation": "متوفر في المخزون في هذا الموقع",
+      "inStockAtLocation": "متوفر في هذا الموقع",
       "availableAtLocation": "متاح في هذا الموقع",
       "reservedAtLocation": "محجوز في هذا الموقع",
-      "reservedAmount": "مبلغ الحجز",
+      "reservedAmount": "كمية الحجز",
       "create": "إنشاء حجز",
-      "itemToReserve": "العنصر المراد حجزه",
-      "quantityPlaceholder": "كم تريد أن تحجز؟",
+      "itemToReserve": "العنصر للحجز",
+      "quantityPlaceholder": "كم تريد الحجز؟",
       "descriptionPlaceholder": "ما نوع هذا الحجز؟",
       "successToast": "تم إنشاء الحجز بنجاح.",
       "updateSuccessToast": "تم تحديث الحجز بنجاح.",
       "deleteSuccessToast": "تم حذف الحجز بنجاح.",
       "errors": {
-        "noAvaliableQuantity": "لا يحتوي موقع المخزون على كمية متاحة.",
+        "noAvaliableQuantity": "الموقع المخزني لا يحتوي على كمية متاحة.",
         "quantityOutOfRange": "الكمية الدنيا هي 1 والكمية القصوى هي {{max}}"
       }
     },
     "adjustInventory": {
       "errors": {
-        "stockedQuantity": "لا يمكن تحديث الكمية المخزنة لتكون أقل من الكمية المحجوزة البالغة {{quantity}}."
+        "stockedQuantity": "لا يمكن تحديث الكمية المخزنة إلى أقل من الكمية المحجوزة البالغة {{quantity}}."
       }
     },
     "toast": {
       "updateLocations": "تم تحديث المواقع بنجاح.",
       "updateLevel": "تم تحديث مستوى المخزون بنجاح.",
       "updateItem": "تم تحديث عنصر المخزون بنجاح."
-    },
-    "stock": {
-      "title": "تحديث مستويات المخزون",
-      "description": "تحديث مستويات المخزون المُخزّنة لعناصر المخزون المحددة.",
-      "action": "تعديل مستويات المخزون",
-      "placeholder": "غير مُفعّل",
-      "disablePrompt_one": "أنت على وشك تعطيل {{count}} مستوى موقع. لا يمكن التراجع عن هذا الإجراء.",
-      "disablePrompt_other": "أنت على وشك تعطيل {{count}} مستويات مواقع. لا يمكن التراجع عن هذا الإجراء.",
-      "disabledToggleTooltip": "لا يمكن التعطيل: امسح الكمية الواردة و/أو المحجوزة قبل التعطيل.",
-      "successToast": "تم تحديث مستويات المخزون بنجاح."
     }
   },
   "giftCards": {
     "domain": "بطاقات الهدايا",
-    "editGiftCard": "تعديل بطاقة الهدايا",
+    "editGiftCard": "تحرير بطاقة الهدايا",
     "createGiftCard": "إنشاء بطاقة هدايا",
-    "createGiftCardHint": "إنشاء بطاقة هدايا يدويًا يمكن استخدامها كطريقة دفع في متجرك.",
-    "selectRegionFirst": "حدد منطقة أولاً",
+    "createGiftCardHint": "إنشاء بطاقة هدايا يدويًا يمكن استخدامها كوسيلة دفع في متجرك.",
+    "selectRegionFirst": "اختر منطقة أولاً",
     "deleteGiftCardWarning": "أنت على وشك حذف بطاقة الهدايا {{code}}. لا يمكن التراجع عن هذا الإجراء.",
     "balanceHigherThanValue": "لا يمكن أن يكون الرصيد أعلى من المبلغ الأصلي.",
     "balanceLowerThanZero": "لا يمكن أن يكون الرصيد سالبًا.",
-    "expiryDateHint": "لدى البلدان قوانين مختلفة فيما يتعلق بتواريخ انتهاء صلاحية بطاقات الهدايا. تأكد من التحقق من اللوائح المحلية قبل تحديد تاريخ انتهاء الصلاحية.",
+    "expiryDateHint": "تختلف القوانين المتعلقة بتواريخ انتهاء صلاحية بطاقات الهدايا من بلد لآخر. تأكد من مراجعة اللوائح المحلية قبل تحديد تاريخ انتهاء الصلاحية.",
     "regionHint": "سيؤدي تغيير منطقة بطاقة الهدايا أيضًا إلى تغيير عملتها، مما قد يؤثر على قيمتها النقدية.",
-    "enabledHint": "حدد ما إذا كانت بطاقة الهدايا مُفعّلة أم مُعطّلة.",
+    "enabledHint": "حدد ما إذا كانت بطاقة الهدايا مفعلة أو معطلة.",
     "balance": "الرصيد",
     "currentBalance": "الرصيد الحالي",
     "initialBalance": "الرصيد الأولي",
     "personalMessage": "رسالة شخصية",
-    "recipient": "المتلقي"
+    "recipient": "المستلم"
   },
   "customers": {
     "domain": "العملاء",
@@ -879,7 +897,7 @@
       "label": "مجموعات العملاء",
       "remove": "هل أنت متأكد أنك تريد إزالة العميل من مجموعة العملاء \"{{name}}\"؟",
       "removeMany": "هل أنت متأكد أنك تريد إزالة العميل من مجموعات العملاء التالية: {{groups}}؟",
-      "alreadyAddedTooltip": "العميل موجود بالفعل في مجموعة العملاء هذه.",
+      "alreadyAddedTooltip": "العميل موجود بالفعل في هذه المجموعة.",
       "list": {
         "noRecordsMessage": "هذا العميل لا ينتمي إلى أي مجموعة."
       },
@@ -897,7 +915,7 @@
       }
     },
     "edit": {
-      "header": "تعديل العميل",
+      "header": "تحرير العميل",
       "emailDisabledTooltip": "لا يمكن تغيير عنوان البريد الإلكتروني للعملاء المسجلين.",
       "successToast": "تم تحديث العميل {{email}} بنجاح."
     },
@@ -916,25 +934,25 @@
     "hasAccount": "لديه حساب"
   },
   "customerGroups": {
-    "domain": "مجموعات العملاء",
-    "subtitle": "قم بتنظيم العملاء في مجموعات. يمكن أن تحتوي المجموعات على عروض أسعار وترويجات مختلفة.",
     "list": {
       "empty": {
-        "heading": "لا توجد مجموعات عملاء",
-        "description": "لا توجد مجموعات عملاء لعرضها."
+        "description": "لا يوجد مجموعات عملاء.",
+        "heading": "لا يوجد مجموعات عملاء."
       },
       "filtered": {
-        "heading": "لا توجد نتائج",
-        "description": "لا توجد مجموعات عملاء تطابق معايير الفلترة الحالية."
+        "description": "هذا المنتج لديه {{count}} مجموعات عملاء معروفة.",
+        "heading": "مجموعات عملاء معروفة"
       }
     },
+    "domain": "مجموعات العملاء",
+    "subtitle": "تنظيم العملاء في مجموعات. يمكن أن تحتوي المجموعات على عروض ترويجية وأسعار مختلفة.",
     "create": {
       "header": "إنشاء مجموعة عملاء",
-      "hint": "قم بإنشاء مجموعة عملاء جديدة لتصنيف عملائك.",
+      "hint": "إنشاء مجموعة عملاء جديدة لتقسيم عملائك.",
       "successToast": "تم إنشاء مجموعة العملاء {{name}} بنجاح."
     },
     "edit": {
-      "header": "تعديل مجموعة العملاء",
+      "header": "تحرير مجموعة العملاء",
       "successToast": "تم تحديث مجموعة العملاء {{name}} بنجاح."
     },
     "delete": {
@@ -943,12 +961,12 @@
       "successToast": "تم حذف مجموعة العملاء {{name}} بنجاح."
     },
     "customers": {
-      "alreadyAddedTooltip": "تم بالفعل إضافة العميل إلى المجموعة.",
+      "alreadyAddedTooltip": "تمت إضافة العميل بالفعل إلى المجموعة.",
       "add": {
-        "successToast_one": "تمت إضافة العميل بنجاح إلى المجموعة.",
-        "successToast_other": "تمت إضافة العملاء بنجاح إلى المجموعة.",
+        "successToast_one": "تمت إضافة العميل إلى المجموعة بنجاح.",
+        "successToast_other": "تمت إضافة العملاء إلى المجموعة بنجاح.",
         "list": {
-          "noRecordsMessage": "يرجى إنشاء عميل أولاً."
+          "noRecordsMessage": "أنشئ عميلًا أولاً."
         }
       },
       "remove": {
@@ -958,48 +976,48 @@
         "description_other": "أنت على وشك إزالة {{count}} عملاء من مجموعة العملاء. لا يمكن التراجع عن هذا الإجراء."
       },
       "list": {
-        "noRecordsMessage": "لا توجد عملاء في هذه المجموعة."
+        "noRecordsMessage": "هذه المجموعة لا تحتوي على عملاء."
       }
     }
   },
   "orders": {
+    "orderCanceled": "تم إلغاء الطلب",
+    "status": {
+      "archived": "مؤرشف",
+      "canceled": "ملغى",
+      "completed": "مكتمل",
+      "draft": "مسودة",
+      "not_paid": "غير مدفوع",
+      "pending": "قيد الانتظار",
+      "requires_action": "يتطلب إجراء"
+    },
     "domain": "الطلبات",
     "claim": "مطالبة",
-    "exchange": "استبدال",
+    "exchange": "تبادل",
     "return": "إرجاع",
     "cancelWarning": "أنت على وشك إلغاء الطلب {{id}}. لا يمكن التراجع عن هذا الإجراء.",
-    "orderCanceled": "تم إلغاء الطلب بنجاح",
     "onDateFromSalesChannel": "{{date}} من {{salesChannel}}",
     "list": {
       "noRecordsMessage": "ستظهر طلباتك هنا."
     },
-    "status": {
-      "not_paid": "لم يتم الدفع",
-      "pending": "قيد الانتظار",
-      "completed": "مكتمل",
-      "draft": "مسودة",
-      "archived": "مؤرشف",
-      "canceled": "ملغي",
-      "requires_action": "يتطلب إجراء"
-    },
     "summary": {
       "requestReturn": "طلب إرجاع",
       "allocateItems": "تخصيص العناصر",
-      "editOrder": "تعديل الطلب",
-      "editOrderContinue": "متابعة تعديل الطلب",
-      "inventoryKit": "يتكون من {{count}} عناصر مخزون",
+      "editOrder": "تحرير الطلب",
+      "editOrderContinue": "متابعة تحرير الطلب",
+      "inventoryKit": "يتكون من {{count}}x عناصر المخزون",
       "itemTotal": "إجمالي العناصر",
       "shippingTotal": "إجمالي الشحن",
       "discountTotal": "إجمالي الخصم",
-      "taxTotalIncl": "إجمالي الضريبة (مشمولة)",
+      "taxTotalIncl": "إجمالي الضرائب (مشمول)",
       "itemSubtotal": "المجموع الفرعي للعناصر",
       "shippingSubtotal": "المجموع الفرعي للشحن",
       "discountSubtotal": "المجموع الفرعي للخصم",
-      "taxTotal": "إجمالي الضريبة"
+      "taxTotal": "إجمالي الضرائب"
     },
     "transfer": {
       "title": "نقل الملكية",
-      "requestSuccess": "تم إرسال طلب نقل ملكية الطلب إلى: {{email}}.",
+      "requestSuccess": "تم إرسال طلب نقل الطلب إلى: {{email}}.",
       "currentOwner": "المالك الحالي",
       "newOwner": "المالك الجديد",
       "currentOwnerDescription": "العميل المرتبط حاليًا بهذا الطلب.",
@@ -1008,139 +1026,139 @@
     "payment": {
       "title": "المدفوعات",
       "isReadyToBeCaptured": "الدفع <0/> جاهز للاستلام.",
-      "totalPaidByCustomer": "إجمالي ما دفعه العميل",
-      "capture": "استلام الدفعة",
+      "totalPaidByCustomer": "إجمالي المدفوع من قبل العميل",
+      "capture": "استلام الدفع",
       "capture_short": "استلام",
       "refund": "استرداد",
-      "markAsPaid": "وضع علامة كمدفوع",
+      "markAsPaid": "وضع علامة مدفوع",
       "statusLabel": "حالة الدفع",
       "statusTitle": "حالة الدفع",
       "status": {
-        "notPaid": "لم يتم الدفع",
-        "authorized": "مُصرّح به",
-        "partiallyAuthorized": "مُصرّح به جزئيًا",
+        "notPaid": "غير مدفوع",
+        "authorized": "مصرح به",
+        "partiallyAuthorized": "مصرح به جزئيًا",
         "awaiting": "في انتظار",
         "captured": "تم الاستلام",
         "partiallyRefunded": "تم استرداده جزئيًا",
         "partiallyCaptured": "تم استلامه جزئيًا",
         "refunded": "تم استرداده",
-        "canceled": "ملغي",
+        "canceled": "ملغى",
         "requiresAction": "يتطلب إجراء"
       },
-      "capturePayment": "سيتم استلام دفعة بقيمة {{amount}}.",
-      "capturePaymentSuccess": "تم استلام دفعة بقيمة {{amount}} بنجاح",
-      "markAsPaidPayment": "سيتم وضع علامة على دفعة بقيمة {{amount}} كمدفوعة.",
-      "markAsPaidPaymentSuccess": "تم وضع علامة على دفعة بقيمة {{amount}} كمدفوعة بنجاح",
+      "capturePayment": "سيتم استلام الدفع بمبلغ {{amount}}.",
+      "capturePaymentSuccess": "تم استلام الدفع بمبلغ {{amount}} بنجاح",
+      "markAsPaidPayment": "سيتم وضع علامة مدفوع على الدفع بمبلغ {{amount}}.",
+      "markAsPaidPaymentSuccess": "تم وضع علامة مدفوع على الدفع بمبلغ {{amount}} بنجاح",
       "createRefund": "إنشاء استرداد",
-      "refundPaymentSuccess": "تم استرداد مبلغ {{amount}} بنجاح",
-      "createRefundWrongQuantity": "يجب أن يكون الكمية رقمًا بين 1 و {{number}}",
+      "refundPaymentSuccess": "تم استرداد المبلغ {{amount}} بنجاح",
+      "createRefundWrongQuantity": "يجب أن تكون الكمية رقمًا بين 1 و {{number}}",
       "refundAmount": "استرداد {{ amount }}",
       "paymentLink": "نسخ رابط الدفع لـ {{ amount }}",
-      "selectPaymentToRefund": "حدد الدفعة المراد استردادها"
+      "selectPaymentToRefund": "اختر الدفع للاسترداد"
     },
     "edits": {
-      "title": "تعديل الطلب",
-      "confirm": "تأكيد التعديل",
-      "confirmText": "أنت على وشك تأكيد تعديل الطلب. لا يمكن التراجع عن هذا الإجراء.",
-      "cancel": "إلغاء التعديل",
+      "title": "تحرير الطلب",
+      "confirm": "تأكيد التحرير",
+      "confirmText": "أنت على وشك تأكيد تحرير الطلب. لا يمكن التراجع عن هذا الإجراء.",
+      "cancel": "إلغاء التحرير",
       "currentItems": "العناصر الحالية",
-      "currentItemsDescription": "اضبط كمية العنصر أو قم بإزالته.",
+      "currentItemsDescription": "تعديل كمية العنصر أو إزالته.",
       "addItemsDescription": "يمكنك إضافة عناصر جديدة إلى الطلب.",
       "addItems": "إضافة عناصر",
       "amountPaid": "المبلغ المدفوع",
       "newTotal": "الإجمالي الجديد",
       "differenceDue": "الفرق المستحق",
-      "create": "تعديل الطلب",
+      "create": "تحرير الطلب",
       "currentTotal": "الإجمالي الحالي",
-      "noteHint": "أضف ملاحظة داخلية للتعديل",
-      "cancelSuccessToast": "تم إلغاء تعديل الطلب",
-      "createSuccessToast": "تم إنشاء طلب تعديل الطلب",
-      "activeChangeError": "يوجد بالفعل تغيير طلب نشط على الطلب (إرجاع، مطالبة، استبدال، إلخ). يرجى إنهاء أو إلغاء التغيير قبل تعديل الطلب.",
+      "noteHint": "أضف ملاحظة داخلية للتحرير",
+      "cancelSuccessToast": "تم إلغاء تحرير الطلب",
+      "createSuccessToast": "تم إنشاء طلب تحرير الطلب",
+      "activeChangeError": "هناك تغيير نشط بالفعل على الطلب (إرجاع، مطالبة، تبادل، إلخ). يرجى إنهاء أو إلغاء التغيير قبل تحرير الطلب.",
       "panel": {
-        "title": "تم طلب تعديل الطلب",
-        "titlePending": "تعديل الطلب قيد الانتظار"
+        "title": "تم طلب تحرير الطلب",
+        "titlePending": "تحرير الطلب قيد الانتظار"
       },
       "toast": {
-        "canceledSuccessfully": "تم إلغاء تعديل الطلب بنجاح",
-        "confirmedSuccessfully": "تم تأكيد تعديل الطلب بنجاح"
+        "canceledSuccessfully": "تم إلغاء تحرير الطلب",
+        "confirmedSuccessfully": "تم تأكيد تحرير الطلب"
       },
       "validation": {
-        "quantityLowerThanFulfillment": "لا يمكن تعيين الكمية لتكون أقل من أو تساوي الكمية التي تم تنفيذها"
+        "quantityLowerThanFulfillment": "لا يمكن تعيين الكمية لتكون أقل من أو تساوي الكمية الملباة"
       }
     },
     "edit": {
       "email": {
-        "title": "تعديل البريد الإلكتروني",
+        "title": "تحرير البريد الإلكتروني",
         "requestSuccess": "تم تحديث البريد الإلكتروني للطلب إلى {{email}}."
       },
       "shippingAddress": {
-        "title": "تعديل عنوان الشحن",
-        "requestSuccess": "تم تحديث عنوان شحن الطلب."
+        "title": "تحرير عنوان الشحن",
+        "requestSuccess": "تم تحديث عنوان الشحن للطلب."
       },
       "billingAddress": {
-        "title": "تعديل عنوان الفوترة",
-        "requestSuccess": "تم تحديث عنوان فوترة الطلب."
+        "title": "تحرير عنوان الفواتير",
+        "requestSuccess": "تم تحديث عنوان الفواتير للطلب."
       }
     },
     "returns": {
       "create": "إنشاء إرجاع",
       "confirm": "تأكيد الإرجاع",
-      "confirmText": "أنت على وشك تأكيد إرجاع. لا يمكن التراجع عن هذا الإجراء.",
+      "confirmText": "أنت على وشك تأكيد الإرجاع. لا يمكن التراجع عن هذا الإجراء.",
       "inbound": "وارد",
       "outbound": "صادر",
       "sendNotification": "إرسال إشعار",
-      "sendNotificationHint": "إخطار العميل بشأن الإرجاع.",
+      "sendNotificationHint": "إخطار العميل بالإرجاع.",
       "returnTotal": "إجمالي الإرجاع",
       "inboundTotal": "إجمالي الوارد",
       "refundAmount": "مبلغ الاسترداد",
-      "outstandingAmount": "المبلغ المتبقي",
+      "outstandingAmount": "المبلغ المستحق",
       "reason": "السبب",
       "reasonHint": "اختر سبب رغبة العميل في إرجاع العناصر.",
       "note": "ملاحظة",
       "noInventoryLevel": "لا يوجد مستوى مخزون",
-      "noInventoryLevelDesc": "الموقع المحدد ليس لديه مستوى مخزون للعناصر المحددة. يمكن طلب الإرجاع ولكن لا يمكن استلامه حتى يتم إنشاء مستوى مخزون للموقع المحدد.",
-      "noteHint": "يمكنك الكتابة بحرية إذا كنت ترغب في تحديد شيء ما.",
+      "noInventoryLevelDesc": "الموقع المحدد لا يحتوي على مستوى مخزون للعناصر المحددة. يمكن طلب الإرجاع ولكن لا يمكن استلامه حتى يتم إنشاء مستوى مخزون للموقع المحدد.",
+      "noteHint": "يمكنك الكتابة بحرية إذا كنت تريد تحديد شيء ما.",
       "location": "الموقع",
-      "locationHint": "اختر الموقع الذي ترغب في إرجاع العناصر إليه.",
+      "locationHint": "اختر الموقع الذي تريد إرجاع العناصر إليه.",
       "inboundShipping": "شحن الإرجاع",
-      "inboundShippingHint": "اختر الطريقة التي ترغب في استخدامها.",
+      "inboundShippingHint": "اختر الطريقة التي تريد استخدامها.",
       "returnableQuantityLabel": "الكمية القابلة للإرجاع",
       "refundableAmountLabel": "المبلغ القابل للاسترداد",
-      "returnRequestedInfo": "تم طلب إرجاع {{requestedItemsCount}} من العناصر",
-      "returnReceivedInfo": "تم استلام {{requestedItemsCount}} من العناصر المرتجعة",
+      "returnRequestedInfo": "تم طلب إرجاع {{requestedItemsCount}}x عناصر",
+      "returnReceivedInfo": "تم استلام {{requestedItemsCount}}x عناصر",
       "itemReceived": "تم استلام العناصر",
       "returnRequested": "تم طلب الإرجاع",
-      "damagedItemReceived": "تم استلام عناصر تالفة",
-      "damagedItemsReturned": "تم إرجاع {{quantity}} من العناصر التالفة",
-      "activeChangeError": "هناك تغيير طلب نشط قيد التقدم على هذا الطلب. يرجى إنهاء أو تجاهل التغيير أولاً.",
+      "damagedItemReceived": "تم استلام العناصر التالفة",
+      "damagedItemsReturned": "تم إرجاع {{quantity}}x عناصر تالفة",
+      "activeChangeError": "هناك تغيير نشط في الطلب قيد التقدم على هذا الطلب. يرجى إنهاء أو إلغاء التغيير أولاً.",
       "cancel": {
         "title": "إلغاء الإرجاع",
         "description": "هل أنت متأكد أنك تريد إلغاء طلب الإرجاع؟"
       },
       "placeholders": {
         "noReturnShippingOptions": {
-          "title": "لم يتم العثور على خيارات شحن إرجاع",
-          "hint": "لم يتم إنشاء خيارات شحن إرجاع للموقع. يمكنك إنشاء واحدة في <LinkComponent>الموقع والشحن</LinkComponent>."
+          "title": "لم يتم العثور على خيارات شحن الإرجاع",
+          "hint": "لم يتم إنشاء خيارات شحن الإرجاع للموقع. يمكنك إنشاء واحدة في <LinkComponent>الموقع والشحن</LinkComponent>."
         },
         "outboundShippingOptions": {
-          "title": "لم يتم العثور على خيارات شحن صادرة",
-          "hint": "لم يتم إنشاء خيارات شحن صادرة للموقع. يمكنك إنشاء واحدة في <LinkComponent>الموقع والشحن</LinkComponent>."
+          "title": "لم يتم العثور على خيارات الشحن الصادرة",
+          "hint": "لم يتم إنشاء خيارات الشحن الصادرة للموقع. يمكنك إنشاء واحدة في <LinkComponent>الموقع والشحن</LinkComponent>."
         }
       },
       "receive": {
         "action": "استلام العناصر",
         "receiveItems": "{{ returnType }} {{ id }}",
         "restockAll": "إعادة تخزين جميع العناصر",
-        "itemsLabel": "تم استلام العناصر",
-        "title": "استلام العناصر للرقم #{{returnId}}",
-        "sendNotificationHint": "إخطار العميل بشأن الإرجاع المستلم.",
-        "inventoryWarning": "يرجى ملاحظة أننا سنقوم تلقائيًا بضبط مستويات المخزون بناءً على إدخالك أعلاه.",
+        "itemsLabel": "العناصر المستلمة",
+        "title": "استلام العناصر لـ #{{returnId}}",
+        "sendNotificationHint": "إخطار العميل بالإرجاع المستلم.",
+        "inventoryWarning": "يرجى ملاحظة أننا سنقوم تلقائيًا بتعديل مستويات المخزون بناءً على إدخالك أعلاه.",
         "writeOffInputLabel": "كم عدد العناصر التالفة؟",
         "toast": {
           "success": "تم استلام الإرجاع بنجاح.",
           "errorLargeValue": "الكمية أكبر من كمية العنصر المطلوبة.",
           "errorNegativeValue": "لا يمكن أن تكون الكمية قيمة سالبة.",
-          "errorLargeDamagedValue": "كمية العناصر التالفة + كمية العناصر المستلمة غير التالفة تتجاوز إجمالي كمية العناصر في الإرجاع. يرجى تقليل كمية العناصر غير التالفة."
+          "errorLargeDamagedValue": "كمية العناصر التالفة + كمية العناصر غير التالفة المستلمة تتجاوز إجمالي كمية العنصر في الإرجاع. يرجى تقليل كمية العناصر غير التالفة."
         }
       },
       "toast": {
@@ -1155,15 +1173,15 @@
     "claims": {
       "create": "إنشاء مطالبة",
       "confirm": "تأكيد المطالبة",
-      "confirmText": "أنت على وشك تأكيد مطالبة. لا يمكن التراجع عن هذا الإجراء.",
+      "confirmText": "أنت على وشك تأكيد المطالبة. لا يمكن التراجع عن هذا الإجراء.",
       "manage": "إدارة المطالبة",
       "outbound": "صادر",
-      "outboundItemAdded": "تمت إضافة {{itemsCount}} من خلال المطالبة",
+      "outboundItemAdded": "تمت إضافة {{itemsCount}}x من خلال المطالبة",
       "outboundTotal": "إجمالي الصادر",
-      "outboundShipping": "شحن صادر",
-      "outboundShippingHint": "اختر الطريقة التي ترغب في استخدامها.",
+      "outboundShipping": "شحن الصادر",
+      "outboundShippingHint": "اختر الطريقة التي تريد استخدامها.",
       "refundAmount": "الفرق المقدر",
-      "activeChangeError": "هناك تغيير طلب نشط على هذا الطلب. يرجى إنهاء أو تجاهل التغيير السابق.",
+      "activeChangeError": "هناك تغيير نشط في الطلب على هذا الطلب. يرجى إنهاء أو إلغاء التغيير السابق.",
       "actions": {
         "cancelClaim": {
           "successToast": "تم إلغاء المطالبة بنجاح."
@@ -1174,7 +1192,7 @@
         "description": "هل أنت متأكد أنك تريد إلغاء المطالبة؟"
       },
       "tooltips": {
-        "onlyReturnShippingOptions": "ستتكون هذه القائمة من خيارات شحن الإرجاع فقط."
+        "onlyReturnShippingOptions": "ستتكون هذه القائمة فقط من خيارات شحن الإرجاع."
       },
       "toast": {
         "canceledSuccessfully": "تم إلغاء المطالبة بنجاح",
@@ -1186,141 +1204,145 @@
       }
     },
     "exchanges": {
-      "create": "إنشاء استبدال",
-      "manage": "إدارة الاستبدال",
-      "confirm": "تأكيد الاستبدال",
-      "confirmText": "أنت على وشك تأكيد استبدال. لا يمكن التراجع عن هذا الإجراء.",
+      "create": "إنشاء تبادل",
+      "manage": "إدارة التبادل",
+      "confirm": "تأكيد التبادل",
+      "confirmText": "أنت على وشك تأكيد التبادل. لا يمكن التراجع عن هذا الإجراء.",
       "outbound": "صادر",
-      "outboundItemAdded": "تمت إضافة {{itemsCount}} من خلال الاستبدال",
+      "outboundItemAdded": "{{itemsCount}}x تمت إضافتها من خلال التبادل",
       "outboundTotal": "إجمالي الصادر",
-      "outboundShipping": "شحن صادر",
-      "outboundShippingHint": "اختر الطريقة التي ترغب في استخدامها.",
+      "outboundShipping": "شحن الصادر",
+      "outboundShippingHint": "اختر الطريقة التي تريد استخدامها.",
       "refundAmount": "الفرق المقدر",
-      "activeChangeError": "هناك تغيير طلب نشط على هذا الطلب. يرجى إنهاء أو تجاهل التغيير السابق.",
+      "activeChangeError": "هناك تغيير نشط في الطلب على هذا الطلب. يرجى إنهاء أو إلغاء التغيير السابق.",
       "actions": {
         "cancelExchange": {
-          "successToast": "تم إلغاء الاستبدال بنجاح."
+          "successToast": "تم إلغاء التبادل بنجاح."
         }
       },
       "cancel": {
-        "title": "إلغاء الاستبدال",
-        "description": "هل أنت متأكد أنك تريد إلغاء الاستبدال؟"
+        "title": "إلغاء التبادل",
+        "description": "هل أنت متأكد أنك تريد إلغاء التبادل؟"
       },
       "tooltips": {
-        "onlyReturnShippingOptions": "ستتكون هذه القائمة من خيارات شحن الإرجاع فقط."
+        "onlyReturnShippingOptions": "ستتكون هذه القائمة فقط من خيارات شحن الإرجاع."
       },
       "toast": {
-        "canceledSuccessfully": "تم إلغاء الاستبدال بنجاح",
-        "confirmedSuccessfully": "تم تأكيد الاستبدال بنجاح"
+        "canceledSuccessfully": "تم إلغاء التبادل بنجاح",
+        "confirmedSuccessfully": "تم تأكيد التبادل بنجاح"
       },
       "panel": {
-        "title": "تم بدء الاستبدال",
-        "description": "هناك طلب استبدال مفتوح ليتم إكماله"
+        "title": "تم بدء التبادل",
+        "description": "هناك طلب تبادل مفتوح ليتم إكماله"
       }
     },
     "reservations": {
-      "allocatedLabel": "مُخصّص",
-      "notAllocatedLabel": "غير مُخصّص"
+      "allocatedLabel": "مخصص",
+      "notAllocatedLabel": "غير مخصص"
     },
     "allocateItems": {
       "action": "تخصيص العناصر",
       "title": "تخصيص عناصر الطلب",
-      "locationDescription": "اختر الموقع الذي ترغب في التخصيص منه.",
-      "itemsToAllocate": "العناصر المراد تخصيصها",
-      "itemsToAllocateDesc": "حدد عدد العناصر التي ترغب في تخصيصها",
+      "locationDescription": "اختر الموقع الذي تريد التخصيص منه.",
+      "itemsToAllocate": "العناصر للتخصيص",
+      "itemsToAllocateDesc": "اختر عدد العناصر التي ترغب في تخصيصها",
       "search": "بحث عن العناصر",
-      "consistsOf": "يتكون من {{num}} من عناصر المخزون",
-      "requires": "يتطلب {{num}} لكل نوع",
+      "consistsOf": "يتكون من {{num}}x عناصر المخزون",
+      "requires": "يتطلب {{num}} لكل بديل",
       "toast": {
         "created": "تم تخصيص العناصر بنجاح"
       },
       "error": {
-        "quantityNotAllocated": "هناك عناصر غير مُخصّصة."
+        "quantityNotAllocated": "هناك عناصر غير مخصصة."
       }
     },
     "shipment": {
-      "title": "وضع علامة على التنفيذ كشحن",
+      "title": "تحديد الشحنة كمشحونة",
       "trackingNumber": "رقم التتبع",
-      "addTracking": "إضافة رقم تتبع",
+      "addTracking": "إضافة رقم التتبع",
       "sendNotification": "إرسال إشعار",
-      "sendNotificationHint": "إخطار العميل بشأن هذه الشحنة.",
+      "sendNotificationHint": "إخطار العميل حول هذه الشحنة.",
       "toastCreated": "تم إنشاء الشحنة بنجاح."
     },
     "fulfillment": {
-      "cancelWarning": "أنت على وشك إلغاء تنفيذ. لا يمكن التراجع عن هذا الإجراء.",
-      "markAsDeliveredWarning": "أنت على وشك وضع علامة على التنفيذ بأنه تم التسليم. لا يمكن التراجع عن هذا الإجراء.",
+      "differentOptionSelected": "تم اختيار خيار شحن مختلف عن الذي اختاره العميل.",
+      "disabledItemTooltip": "يجب أن يكون البديل مدار بالفعل لإضافة عناصر المخزون إلى مجموعة المخزون الخاصة بالبديل.",
+      "cancelWarning": "أنت على وشك إلغاء التنفيذ. لا يمكن التراجع عن هذا الإجراء.",
+      "markAsDeliveredWarning": "أنت على وشك تحديد التنفيذ كمُسلم. لا يمكن التراجع عن هذا الإجراء.",
       "unfulfilledItems": "العناصر غير المنفذة",
       "statusLabel": "حالة التنفيذ",
       "statusTitle": "حالة التنفيذ",
       "fulfillItems": "تنفيذ العناصر",
       "awaitingFulfillmentBadge": "في انتظار التنفيذ",
-      "requiresShipping": "يتطلب شحن",
-      "number": "التنفيذ #{{number}}",
-      "itemsToFulfill": "العناصر المراد تنفيذها",
+      "requiresShipping": "يتطلب الشحن",
+      "number": "تنفيذ #{{number}}",
+      "itemsToFulfill": "العناصر لتنفيذها",
       "create": "إنشاء تنفيذ",
       "available": "متاح",
       "inStock": "في المخزون",
-      "markAsShipped": "وضع علامة كشحن",
-      "markAsDelivered": "وضع علامة كتسليم",
-      "itemsToFulfillDesc": "اختر العناصر والكميات المراد تنفيذها",
-      "locationDescription": "اختر الموقع الذي ترغب في تنفيذ العناصر منه.",
-      "sendNotificationHint": "إخطار العملاء بشأن التنفيذ الذي تم إنشاؤه.",
-      "methodDescription": "اختر طريقة شحن مختلفة عن تلك التي اختارها العميل",
+      "markAsShipped": "تحديد كمشحون",
+      "markAsDelivered": "تحديد كمُسلم",
+      "itemsToFulfillDesc": "اختر العناصر والكميات لتنفيذها",
+      "locationDescription": "اختر الموقع الذي تريد تنفيذ العناصر منه.",
+      "sendNotificationHint": "إخطار العملاء حول التنفيذ المُنشأ.",
+      "methodDescription": "اختر طريقة شحن مختلفة عن التي اختارها العميل",
       "error": {
+        "noLocation": "يجب أن يكون الموقع موجود.",
+        "noShippingOption": "يجب أن يكون خيار الشحن موجود.",
         "wrongQuantity": "يتوفر عنصر واحد فقط للتنفيذ",
         "wrongQuantity_other": "يجب أن تكون الكمية رقمًا بين 1 و {{number}}",
         "noItems": "لا توجد عناصر لتنفيذها."
       },
       "status": {
-        "notFulfilled": "لم يتم التنفيذ",
-        "partiallyFulfilled": "تم التنفيذ جزئيًا",
-        "fulfilled": "تم التنفيذ",
-        "partiallyShipped": "تم الشحن جزئيًا",
-        "shipped": "تم الشحن",
-        "delivered": "تم التسليم",
-        "partiallyDelivered": "تم التسليم جزئيًا",
-        "partiallyReturned": "تم الإرجاع جزئيًا",
-        "returned": "تم الإرجاع",
-        "canceled": "ملغي",
-        "requiresAction": "يتطلب إجراء"
+        "notFulfilled": "Not fulfilled",
+        "partiallyFulfilled": "Partially fulfilled",
+        "fulfilled": "Fulfilled",
+        "partiallyShipped": "Partially shipped",
+        "shipped": "Shipped",
+        "delivered": "Delivered",
+        "partiallyDelivered": "Partially delivered",
+        "partiallyReturned": "Partially returned",
+        "returned": "Returned",
+        "canceled": "Canceled",
+        "requiresAction": "Requires action"
       },
       "toast": {
-        "created": "تم إنشاء التنفيذ بنجاح",
-        "canceled": "تم إلغاء التنفيذ بنجاح",
-        "fulfillmentShipped": "لا يمكن إلغاء تنفيذ تم شحنه بالفعل",
-        "fulfillmentDelivered": "تم وضع علامة على التنفيذ بأنه تم التسليم بنجاح"
+        "created": "Fulfillment created successfully",
+        "canceled": "Fulfillment successfully canceled",
+        "fulfillmentShipped": "Cannot cancel an already shipped fulfillment",
+        "fulfillmentDelivered": "Fulfillment marked as delivered successfully"
       },
-      "trackingLabel": "التتبع",
-      "shippingFromLabel": "الشحن من",
-      "itemsLabel": "العناصر"
+      "trackingLabel": "Tracking",
+      "shippingFromLabel": "Shipping from",
+      "itemsLabel": "Items"
     },
     "refund": {
       "title": "إنشاء استرداد",
-      "sendNotificationHint": "إخطار العملاء بشأن الاسترداد الذي تم إنشاؤه.",
-      "systemPayment": "دفعة نظام",
-      "systemPaymentDesc": "واحدة أو أكثر من دفعاتك هي دفعة نظام. يجب الانتباه إلى أن عمليات الاستلام والاسترداد لا تتم معالجتها بواسطة Medusa لهذه الدفعات.",
+      "sendNotificationHint": "إخطار العملاء بالاسترداد المُنشأ.",
+      "systemPayment": "الدفع بالنظام",
+      "systemPaymentDesc": "واحدة أو أكثر من دفعاتك هي دفعة نظام. كن على علم بأن الاستلام والاسترداد لا يتم التعامل معها بواسطة Medusa لمثل هذه الدفعات.",
       "error": {
-        "amountToLarge": "لا يمكن استرداد أكثر من مبلغ الطلب الأصلي.",
+        "amountToLarge": "لا يمكن استرداد أكثر من المبلغ الأصلي للطلب.",
         "amountNegative": "يجب أن يكون مبلغ الاسترداد رقمًا موجبًا.",
-        "reasonRequired": "الرجاء تحديد سبب الاسترداد."
+        "reasonRequired": "يرجى اختيار سبب الاسترداد."
       }
     },
     "customer": {
-      "contactLabel": "اتصال",
-      "editEmail": "تعديل البريد الإلكتروني",
+      "contactLabel": "الاتصال",
+      "editEmail": "تحرير البريد الإلكتروني",
       "transferOwnership": "نقل الملكية",
-      "editBillingAddress": "تعديل عنوان الفوترة",
-      "editShippingAddress": "تعديل عنوان الشحن"
+      "editBillingAddress": "تحرير عنوان الفواتير",
+      "editShippingAddress": "تحرير عنوان الشحن"
     },
     "activity": {
       "header": "النشاط",
-      "showMoreActivities_one": "عرض {{count}} نشاطًا آخر",
+      "showMoreActivities_one": "عرض {{count}} نشاط آخر",
       "showMoreActivities_other": "عرض {{count}} أنشطة أخرى",
       "comment": {
         "label": "تعليق",
         "placeholder": "اترك تعليقًا",
         "addButtonText": "إضافة تعليق",
-        "deleteButtonText": "حذف تعليق"
+        "deleteButtonText": "حذف التعليق"
       },
       "from": "من",
       "to": "إلى",
@@ -1338,9 +1360,9 @@
         },
         "payment": {
           "awaiting": "في انتظار الدفع",
-          "captured": "تم استلام الدفعة",
+          "captured": "تم استلام الدفع",
           "canceled": "تم إلغاء الدفع",
-          "refunded": "تم استرداد الدفعة"
+          "refunded": "تم استرداد الدفع"
         },
         "fulfillment": {
           "created": "تم تنفيذ العناصر",
@@ -1354,8 +1376,8 @@
           "created": "تم طلب الإرجاع #{{returnId}}",
           "canceled": "تم إلغاء الإرجاع #{{returnId}}",
           "received": "تم استلام الإرجاع #{{returnId}}",
-          "items_one": "تم إرجاع {{count}} عنصر",
-          "items_other": "تم إرجاع {{count}} عناصر"
+          "items_one": "{{count}} عنصر مُرجع",
+          "items_other": "{{count}} عناصر مُرجعة"
         },
         "note": {
           "comment": "تعليق",
@@ -1368,23 +1390,23 @@
           "itemsOutbound": "{{count}} عنصر للإرسال"
         },
         "exchange": {
-          "created": "تم طلب الاستبدال #{{exchangeId}}",
-          "canceled": "تم إلغاء الاستبدال #{{exchangeId}}",
+          "created": "تم طلب التبادل #{{exchangeId}}",
+          "canceled": "تم إلغاء التبادل #{{exchangeId}}",
           "itemsInbound": "{{count}} عنصر للإرجاع",
           "itemsOutbound": "{{count}} عنصر للإرسال"
         },
         "edit": {
-          "requested": "تم طلب تعديل الطلب #{{editId}}",
-          "confirmed": "تم تأكيد تعديل الطلب #{{editId}}"
+          "requested": "تم طلب تحرير الطلب #{{editId}}",
+          "confirmed": "تم تأكيد تحرير الطلب #{{editId}}"
         },
         "transfer": {
-          "requested": "تم طلب نقل ملكية الطلب #{{transferId}}",
-          "confirmed": "تم تأكيد نقل ملكية الطلب #{{transferId}}",
-          "declined": "تم رفض نقل ملكية الطلب #{{transferId}}"
+          "requested": "تم طلب نقل الطلب #{{transferId}}",
+          "confirmed": "تم تأكيد نقل الطلب #{{transferId}}",
+          "declined": "تم رفض نقل الطلب #{{transferId}}"
         },
         "update_order": {
           "shipping_address": "تم تحديث عنوان الشحن",
-          "billing_address": "تم تحديث عنوان الفوترة",
+          "billing_address": "تم تحديث عنوان الفواتير",
           "email": "تم تحديث البريد الإلكتروني"
         }
       }
@@ -1399,11 +1421,11 @@
     "domain": "الطلبات المسودة",
     "deleteWarning": "أنت على وشك حذف الطلب المسودة {{id}}. لا يمكن التراجع عن هذا الإجراء.",
     "paymentLinkLabel": "رابط الدفع",
-    "cartIdLabel": "معرّف سلة التسوق",
+    "cartIdLabel": "معرف السلة",
     "markAsPaid": {
-      "label": "وضع علامة 'تم الدفع'",
-      "warningTitle": "وضع علامة 'تم الدفع'",
-      "warningDescription": "أنت على وشك وضع علامة 'تم الدفع' على الطلب المسودة. لا يمكن التراجع عن هذا الإجراء، ولن يكون تحصيل الدفع ممكنًا لاحقًا."
+      "label": "وضع علامة مدفوع",
+      "warningTitle": "وضع علامة مدفوع",
+      "warningDescription": "أنت على وشك وضع علامة على الطلب المسودة كمدفوع. لا يمكن التراجع عن هذا الإجراء، ولن يكون جمع الدفع ممكنًا لاحقًا."
     },
     "status": {
       "open": "مفتوح",
@@ -1414,13 +1436,13 @@
       "createDraftOrderHint": "إنشاء طلب مسودة جديد لإدارة تفاصيل الطلب قبل تقديمه.",
       "chooseRegionHint": "اختر المنطقة",
       "existingItemsLabel": "العناصر الموجودة",
-      "existingItemsHint": "إضافة منتجات موجودة إلى الطلب المسودة.",
+      "existingItemsHint": "إضافة المنتجات الموجودة إلى الطلب المسودة.",
       "customItemsLabel": "العناصر المخصصة",
       "customItemsHint": "إضافة عناصر مخصصة إلى الطلب المسودة.",
-      "addExistingItemsAction": "إضافة عناصر موجودة",
+      "addExistingItemsAction": "إضافة العناصر الموجودة",
       "addCustomItemAction": "إضافة عنصر مخصص",
-      "noCustomItemsAddedLabel": "لم تتم إضافة أي عناصر مخصصة حتى الآن",
-      "noExistingItemsAddedLabel": "لم تتم إضافة أي عناصر موجودة حتى الآن",
+      "noCustomItemsAddedLabel": "لم تتم إضافة عناصر مخصصة بعد",
+      "noExistingItemsAddedLabel": "لم تتم إضافة عناصر موجودة بعد",
       "chooseRegionTooltip": "اختر منطقة أولاً",
       "useExistingCustomerLabel": "استخدام عميل موجود",
       "addShippingMethodsAction": "إضافة طرق الشحن",
@@ -1435,50 +1457,50 @@
     "validation": {
       "requiredEmailOrCustomer": "البريد الإلكتروني أو العميل مطلوب.",
       "requiredItems": "مطلوب عنصر واحد على الأقل.",
-      "invalidEmail": "يجب أن يكون البريد الإلكتروني عنوان بريد إلكتروني صالحًا."
+      "invalidEmail": "يجب أن يكون البريد الإلكتروني عنوان بريد إلكتروني صالح."
     }
   },
   "stockLocations": {
     "domain": "المواقع والشحن",
     "list": {
-      "description": "إدارة مواقع تخزين متجرك وخيارات الشحن."
+      "description": "إدارة مواقع المخزون وخيارات الشحن لمتجرك."
     },
     "create": {
-      "header": "إنشاء موقع تخزين",
-      "hint": "موقع التخزين هو موقع مادي يتم فيه تخزين المنتجات وشحنها منه.",
+      "header": "إنشاء موقع مخزون",
+      "hint": "موقع المخزون هو موقع فعلي يتم فيه تخزين المنتجات وشحنها.",
       "successToast": "تم إنشاء الموقع {{name}} بنجاح."
     },
     "edit": {
-      "header": "تعديل موقع التخزين",
+      "header": "تحرير موقع المخزون",
       "viewInventory": "عرض المخزون",
       "successToast": "تم تحديث الموقع {{name}} بنجاح."
     },
     "delete": {
-      "confirmation": "أنت على وشك حذف موقع التخزين {{name}}. لا يمكن التراجع عن هذا الإجراء."
+      "confirmation": "أنت على وشك حذف موقع المخزون {{name}}. لا يمكن التراجع عن هذا الإجراء."
     },
     "fulfillmentProviders": {
-      "header": "مزودو التنفيذ",
-      "shippingOptionsTooltip": "ستتكون هذه القائمة المنسدلة فقط من المزودين المُمكّنين لهذا الموقع. أضفهم إلى الموقع إذا كانت القائمة المنسدلة مُعطّلة.",
-      "label": "مزودو التنفيذ المتصلون",
-      "connectedTo": "متصل بـ {{count}} من أصل {{total}} من مزودي التنفيذ",
-      "noProviders": "موقع التخزين هذا غير متصل بأي من مزودي التنفيذ.",
+      "header": "مزودي التنفيذ",
+      "shippingOptionsTooltip": "سيحتوي هذا القائمة المنسدلة فقط على المزودين الممكّنين لهذا الموقع. أضفهم إلى الموقع إذا كانت القائمة المنسدلة معطلة.",
+      "label": "مزودي التنفيذ المتصلين",
+      "connectedTo": "متصل بـ {{count}} من {{total}} مزودي التنفيذ",
+      "noProviders": "هذا الموقع المخزون غير متصل بأي مزودي تنفيذ.",
       "action": "توصيل المزودين",
-      "successToast": "تم تحديث مزودي التنفيذ لموقع التخزين بنجاح."
+      "successToast": "تم تحديث مزودي التنفيذ لموقع المخزون بنجاح."
     },
     "fulfillmentSets": {
       "pickup": {
-        "header": "الاستلام من المتجر"
+        "header": "الاستلام"
       },
       "shipping": {
         "header": "الشحن"
       },
       "disable": {
-        "confirmation": "هل أنت متأكد أنك تريد تعطيل {{name}}؟ سيؤدي هذا إلى حذف جميع مناطق الخدمة وخيارات الشحن المرتبطة، ولا يمكن التراجع عنه.",
-        "pickup": "تم تعطيل الاستلام من المتجر بنجاح.",
+        "confirmation": "هل أنت متأكد أنك تريد تعطيل {{name}}؟ سيؤدي ذلك إلى حذف جميع مناطق الخدمة وخيارات الشحن المرتبطة، ولا يمكن التراجع عن هذا الإجراء.",
+        "pickup": "تم تعطيل الاستلام بنجاح.",
         "shipping": "تم تعطيل الشحن بنجاح."
       },
       "enable": {
-        "pickup": "تم تمكين الاستلام من المتجر بنجاح.",
+        "pickup": "تم تمكين الاستلام بنجاح.",
         "shipping": "تم تمكين الشحن بنجاح."
       }
     },
@@ -1492,22 +1514,57 @@
     "salesChannels": {
       "header": "قنوات البيع",
       "label": "قنوات البيع المتصلة",
-      "connectedTo": "متصل بـ {{count}} من أصل {{total}} من قنوات البيع",
+      "connectedTo": "متصل بـ {{count}} من {{total}} قنوات البيع",
       "noChannels": "الموقع غير متصل بأي قنوات بيع.",
       "action": "توصيل قنوات البيع",
       "successToast": "تم تحديث قنوات البيع بنجاح."
     },
     "shippingOptions": {
+      "conditionalPrices": {
+        "actions": {
+          "addPrice": "إضافة سعر",
+          "manageConditionalPrices": "إدارة الأسعار المخصصة"
+        },
+        "attributes": {
+          "cartItemTotal": "إجمالي عناصر السلة"
+        },
+        "customRules": {
+          "eq": "يساوي",
+          "gt": "أكبر من",
+          "label": "قواعد مخصصة",
+          "lt": "أقل من",
+          "tooltip": "إضافة قواعد مخصصة لتحديد الأسعار بناءً على المنتجات الموجودة في السلة."
+        },
+        "description": "إضافة قواعد مخصصة لتحديد الأسعار بناءً على المنتجات الموجودة في السلة.",
+        "errors": {
+          "amountRequired": "يجب أن يكون الحد موجود.",
+          "duplicateAmount": "لا يمكن أن يكون الحد متساوياً لقواعد مخصصة أخرى.",
+          "minGreaterThanMax": "لا يمكن أن يكون الحد الأدنى أكبر من الحد الأعلى.",
+          "minOrMaxRequired": "يجب أن يكون الحد الأدنى أو الحد الأعلى موجود.",
+          "overlappingConditions": "لا يمكن أن يكون الحد الأدنى أكبر من الحد الأعلى."
+        },
+        "header": "قواعد الأسعار المخصصة",
+        "rules": {
+          "amount": "الحد",
+          "gte": "أكبر من أو يساوي",
+          "lte": "أقل من أو يساوي"
+        },
+        "summaries": {
+          "greaterThan": "أكبر من",
+          "lessThan": "أقل من",
+          "range": "في النطاق"
+        }
+      },
       "create": {
         "shipping": {
           "header": "إنشاء خيار شحن لـ {{zone}}",
-          "hint": "أنشئ خيار شحن جديد لتحديد كيفية شحن المنتجات من هذا الموقع.",
+          "hint": "إنشاء خيار شحن جديد لتحديد كيفية شحن المنتجات من هذا الموقع.",
           "label": "خيارات الشحن",
           "successToast": "تم إنشاء خيار الشحن {{name}} بنجاح."
         },
         "returns": {
           "header": "إنشاء خيار إرجاع لـ {{zone}}",
-          "hint": "أنشئ خيار إرجاع جديد لتحديد كيفية إرجاع المنتجات إلى هذا الموقع.",
+          "hint": "إنشاء خيار إرجاع جديد لتحديد كيفية إرجاع المنتجات إلى هذا الموقع.",
           "label": "خيارات الإرجاع",
           "successToast": "تم إنشاء خيار الإرجاع {{name}} بنجاح."
         },
@@ -1515,56 +1572,22 @@
           "details": "التفاصيل",
           "prices": "الأسعار"
         },
-        "action": "إنشاء خيار"
+        "action": "إنشاء الخيار"
       },
       "delete": {
         "confirmation": "أنت على وشك حذف خيار الشحن {{name}}. لا يمكن التراجع عن هذا الإجراء.",
         "successToast": "تم حذف خيار الشحن {{name}} بنجاح."
       },
       "edit": {
-        "header": "تعديل خيار الشحن",
-        "action": "تعديل خيار",
+        "header": "تحرير خيار الشحن",
+        "action": "تحرير الخيار",
         "successToast": "تم تحديث خيار الشحن {{name}} بنجاح."
       },
       "pricing": {
-        "action": "تعديل الأسعار"
-      },
-      "conditionalPrices": {
-        "header": "الأسعار المشروطة لـ {{name}}",
-        "description": "إدارة الأسعار المشروطة لخيار الشحن هذا بناءً على إجمالي عناصر سلة التسوق.",
-        "attributes": {
-          "cartItemTotal": "إجمالي عناصر سلة التسوق"
-        },
-        "summaries": {
-          "range": "إذا كان {{attribute}} بين {{gte}} و {{lte}}",
-          "greaterThan": "إذا كان {{attribute}} ≥ {{gte}}",
-          "lessThan": "إذا كان {{attribute}} ≤ {{lte}}"
-        },
-        "actions": {
-          "addPrice": "إضافة سعر",
-          "manageConditionalPrices": "إدارة الأسعار المشروطة"
-        },
-        "rules": {
-          "amount": "سعر خيار الشحن",
-          "gte": "الحد الأدنى لإجمالي عناصر سلة التسوق",
-          "lte": "الحد الأقصى لإجمالي عناصر سلة التسوق"
-        },
-        "customRules": {
-          "label": "قواعد مخصصة",
-          "tooltip": "يحتوي هذا السعر المشروط على قواعد لا يمكن إدارتها في لوحة التحكم.",
-          "eq": "يجب أن يساوي إجمالي عناصر سلة التسوق",
-          "gt": "يجب أن يكون إجمالي عناصر سلة التسوق أكبر من",
-          "lt": "يجب أن يكون إجمالي عناصر سلة التسوق أقل من"
-        },
-        "errors": {
-          "amountRequired": "سعر خيار الشحن مطلوب",
-          "minOrMaxRequired": "يجب توفير حد أدنى أو حد أقصى لإجمالي عناصر سلة التسوق على الأقل",
-          "minGreaterThanMax": "يجب أن يكون الحد الأدنى لإجمالي عناصر سلة التسوق أقل من أو يساوي الحد الأقصى لإجمالي عناصر سلة التسوق",
-          "duplicateAmount": "يجب أن يكون سعر خيار الشحن فريدًا لكل شرط",
-          "overlappingConditions": "يجب أن تكون الشروط فريدة عبر جميع قواعد الأسعار"
-        }
+        "action": "تحرير الأسعار"
       },
       "fields": {
+        "fulfillmentOption": "خيار التنفيذ",
         "count": {
           "shipping_one": "{{count}} خيار شحن",
           "shipping_other": "{{count}} خيارات شحن",
@@ -1580,17 +1603,16 @@
             },
             "calculated": {
               "label": "محسوب",
-              "hint": "يتم حساب سعر خيار الشحن بواسطة مزود التنفيذ أثناء عملية الدفع."
+              "hint": "سعر خيار الشحن محسوب بواسطة مزود التنفيذ أثناء الدفع."
             }
           }
         },
         "enableInStore": {
-          "label": "التمكين في المتجر",
-          "hint": "ما إذا كان بإمكان العملاء استخدام هذا الخيار أثناء عملية الدفع."
+          "label": "تمكين في المتجر",
+          "hint": "ما إذا كان يمكن للعملاء استخدام هذا الخيار أثناء الدفع."
         },
         "provider": "مزود التنفيذ",
-        "profile": "ملف تعريف الشحن",
-        "fulfillmentOption": "خيار التنفيذ"
+        "profile": "ملف تعريف الشحن"
       }
     },
     "serviceZones": {
@@ -1601,7 +1623,7 @@
         "successToast": "تم إنشاء منطقة الخدمة {{name}} بنجاح."
       },
       "edit": {
-        "header": "تعديل منطقة الخدمة",
+        "header": "تحرير منطقة الخدمة",
         "successToast": "تم تحديث منطقة الخدمة {{name}} بنجاح."
       },
       "delete": {
@@ -1612,21 +1634,21 @@
         "header": "إدارة المناطق لـ {{name}}",
         "action": "إدارة المناطق",
         "label": "المناطق",
-        "hint": "حدد المناطق الجغرافية التي تغطيها منطقة الخدمة.",
+        "hint": "اختر المناطق الجغرافية التي تغطيها منطقة الخدمة.",
         "successToast": "تم تحديث المناطق لـ {{name}} بنجاح."
       },
       "fields": {
-        "noRecords": "لا توجد مناطق خدمة لإضافة خيارات شحن إليها.",
+        "noRecords": "لا توجد مناطق خدمة لإضافة خيارات الشحن إليها.",
         "tip": "منطقة الخدمة هي مجموعة من المناطق الجغرافية. تُستخدم لتقييد خيارات الشحن المتاحة لمجموعة محددة من المواقع."
       }
     }
   },
   "shippingProfile": {
     "domain": "ملفات تعريف الشحن",
-    "subtitle": "تجميع المنتجات ذات متطلبات الشحن المتشابهة في ملفات تعريف.",
+    "subtitle": "تجميع المنتجات ذات متطلبات الشحن المماثلة في ملفات تعريف.",
     "create": {
-      "header": "إنشاء ملف تعريف شحن",
-      "hint": "إنشاء ملف تعريف شحن جديد لتجميع المنتجات ذات متطلبات الشحن المتشابهة.",
+      "header": "إنشاء ملف تعريف الشحن",
+      "hint": "إنشاء ملف تعريف شحن جديد لتجميع المنتجات ذات متطلبات الشحن المماثلة.",
       "successToast": "تم إنشاء ملف تعريف الشحن {{name}} بنجاح."
     },
     "delete": {
@@ -1641,7 +1663,7 @@
   "taxRegions": {
     "domain": "مناطق الضرائب",
     "list": {
-      "hint": "إدارة ما تفرضه على عملائك عند التسوق من بلدان ومناطق مختلفة."
+      "hint": "إدارة ما تفرضه على عملائك عند التسوق من دول ومناطق مختلفة."
     },
     "delete": {
       "confirmation": "أنت على وشك حذف منطقة ضريبية. لا يمكن التراجع عن هذا الإجراء.",
@@ -1649,7 +1671,7 @@
     },
     "create": {
       "header": "إنشاء منطقة ضريبية",
-      "hint": "أنشئ منطقة ضريبية جديدة لتحديد معدلات الضرائب لبلد معين.",
+      "hint": "إنشاء منطقة ضريبية جديدة لتحديد معدلات الضرائب لدولة معينة.",
       "errors": {
         "rateIsRequired": "معدل الضريبة مطلوب عند إنشاء معدل ضريبة افتراضي.",
         "nameIsRequired": "الاسم مطلوب عند إنشاء معدل ضريبة افتراضي."
@@ -1657,116 +1679,116 @@
       "successToast": "تم إنشاء المنطقة الضريبية بنجاح."
     },
     "province": {
-      "header": "المقاطعات",
+      "header": "المحافظات",
       "create": {
-        "header": "إنشاء منطقة ضريبية للمقاطعة",
-        "hint": "أنشئ منطقة ضريبية جديدة لتحديد معدلات الضرائب لمقاطعة معينة."
+        "header": "إنشاء منطقة ضريبية للمحافظة",
+        "hint": "إنشاء منطقة ضريبية جديدة لتحديد معدلات الضرائب لمحافظة معينة."
       }
     },
     "state": {
       "header": "الولايات",
       "create": {
         "header": "إنشاء منطقة ضريبية للولاية",
-        "hint": "أنشئ منطقة ضريبية جديدة لتحديد معدلات الضرائب لولاية معينة."
+        "hint": "إنشاء منطقة ضريبية جديدة لتحديد معدلات الضرائب لولاية معينة."
       }
     },
     "stateOrTerritory": {
       "header": "الولايات أو الأقاليم",
       "create": {
         "header": "إنشاء منطقة ضريبية للولاية/الإقليم",
-        "hint": "أنشئ منطقة ضريبية جديدة لتحديد معدلات الضرائب لولاية/إقليم معين."
+        "hint": "إنشاء منطقة ضريبية جديدة لتحديد معدلات الضرائب لولاية/إقليم معين."
       }
     },
     "county": {
-      "header": "المقاطعات (الريفية)",
+      "header": "المقاطعات",
       "create": {
-        "header": "إنشاء منطقة ضريبية للمقاطعة (الريفية)",
-        "hint": "أنشئ منطقة ضريبية جديدة لتحديد معدلات الضرائب لمقاطعة (ريفية) معينة."
+        "header": "إنشاء منطقة ضريبية للمقاطعة",
+        "hint": "إنشاء منطقة ضريبية جديدة لتحديد معدلات الضرائب لمقاطعة معينة."
       }
     },
     "region": {
       "header": "المناطق",
       "create": {
         "header": "إنشاء منطقة ضريبية للمنطقة",
-        "hint": "أنشئ منطقة ضريبية جديدة لتحديد معدلات الضرائب لمنطقة معينة."
+        "hint": "إنشاء منطقة ضريبية جديدة لتحديد معدلات الضرائب لمنطقة معينة."
       }
     },
     "department": {
-      "header": "الإدارات",
+      "header": "الأقسام",
       "create": {
-        "header": "إنشاء منطقة ضريبية للإدارة",
-        "hint": "أنشئ منطقة ضريبية جديدة لتحديد معدلات الضرائب لإدارة معينة."
+        "header": "إنشاء منطقة ضريبية للقسم",
+        "hint": "إنشاء منطقة ضريبية جديدة لتحديد معدلات الضرائب لقسم معين."
       }
     },
     "territory": {
       "header": "الأقاليم",
       "create": {
         "header": "إنشاء منطقة ضريبية للإقليم",
-        "hint": "أنشئ منطقة ضريبية جديدة لتحديد معدلات الضرائب لإقليم معين."
+        "hint": "إنشاء منطقة ضريبية جديدة لتحديد معدلات الضرائب لإقليم معين."
       }
     },
     "prefecture": {
-      "header": "المحافظات (في اليابان)",
+      "header": "المحافظات",
       "create": {
-        "header": "إنشاء منطقة ضريبية للمحافظة (في اليابان)",
-        "hint": "أنشئ منطقة ضريبية جديدة لتحديد معدلات الضرائب لمحافظة معينة (في اليابان)."
+        "header": "إنشاء منطقة ضريبية للمحافظة",
+        "hint": "إنشاء منطقة ضريبية جديدة لتحديد معدلات الضرائب لمحافظة معينة."
       }
     },
     "district": {
-      "header": "المقاطعات (المدن)",
+      "header": "المناطق",
       "create": {
-        "header": "إنشاء منطقة ضريبية للمقاطعة (المدينة)",
-        "hint": "أنشئ منطقة ضريبية جديدة لتحديد معدلات الضرائب لمقاطعة (مدينة) معينة."
+        "header": "إنشاء منطقة ضريبية للمنطقة",
+        "hint": "إنشاء منطقة ضريبية جديدة لتحديد معدلات الضرائب لمنطقة معينة."
       }
     },
     "governorate": {
       "header": "المحافظات",
       "create": {
         "header": "إنشاء منطقة ضريبية للمحافظة",
-        "hint": "أنشئ منطقة ضريبية جديدة لتحديد معدلات الضرائب لمحافظة معينة."
+        "hint": "إنشاء منطقة ضريبية جديدة لتحديد معدلات الضرائب لمحافظة معينة."
       }
     },
     "canton": {
-      "header": "الكانتونات (في سويسرا)",
+      "header": "الكانتونات",
       "create": {
-        "header": "إنشاء منطقة ضريبية للكانتون (في سويسرا)",
-        "hint": "أنشئ منطقة ضريبية جديدة لتحديد معدلات الضرائب لكانتون معين (في سويسرا)."
+        "header": "إنشاء منطقة ضريبية للكانتون",
+        "hint": "إنشاء منطقة ضريبية جديدة لتحديد معدلات الضرائب لكانتون معين."
       }
     },
     "emirate": {
       "header": "الإمارات",
       "create": {
         "header": "إنشاء منطقة ضريبية للإمارة",
-        "hint": "أنشئ منطقة ضريبية جديدة لتحديد معدلات الضرائب لإمارة معينة."
+        "hint": "إنشاء منطقة ضريبية جديدة لتحديد معدلات الضرائب لإمارة معينة."
       }
     },
     "sublevel": {
       "header": "المستويات الفرعية",
       "create": {
         "header": "إنشاء منطقة ضريبية للمستوى الفرعي",
-        "hint": "أنشئ منطقة ضريبية جديدة لتحديد معدلات الضرائب لمستوى فرعي معين."
+        "hint": "إنشاء منطقة ضريبية جديدة لتحديد معدلات الضرائب لمستوى فرعي معين."
       }
     },
     "taxOverrides": {
       "header": "التجاوزات",
       "create": {
         "header": "إنشاء تجاوز",
-        "hint": "أنشئ معدل ضريبة يتجاوز معدلات الضريبة الافتراضية لشروط محددة."
+        "hint": "إنشاء معدل ضريبة يتجاوز معدلات الضرائب الافتراضية للظروف المحددة."
       },
       "edit": {
-        "header": "تعديل التجاوز",
-        "hint": "عدّل معدل الضريبة الذي يتجاوز معدلات الضريبة الافتراضية لشروط محددة."
+        "header": "تحرير التجاوز",
+        "hint": "تحرير معدل الضريبة الذي يتجاوز معدلات الضرائب الافتراضية للظروف المحددة."
       }
     },
     "taxRates": {
       "create": {
         "header": "إنشاء معدل ضريبة",
-        "hint": "أنشئ معدل ضريبة جديد لتحديد معدل الضريبة لمنطقة.",
+        "hint": "إنشاء معدل ضريبة جديد لتحديد معدل الضريبة لمنطقة.",
         "successToast": "تم إنشاء معدل الضريبة بنجاح."
       },
       "edit": {
-        "header": "تعديل معدل الضريبة",
-        "hint": "عدّل معدل الضريبة لتحديد معدل الضريبة لمنطقة.",
+        "header": "تحرير معدل الضريبة",
+        "hint": "تحرير معدل الضريبة لتحديد معدل الضريبة لمنطقة.",
         "successToast": "تم تحديث معدل الضريبة بنجاح."
       },
       "delete": {
@@ -1776,25 +1798,25 @@
     },
     "fields": {
       "isCombinable": {
-        "label": "قابل للدمج",
-        "hint": "ما إذا كان يمكن دمج معدل الضريبة هذا مع المعدل الافتراضي من المنطقة الضريبية.",
-        "true": "قابل للدمج",
-        "false": "غير قابل للدمج"
+        "label": "قابل للجمع",
+        "hint": "ما إذا كان يمكن جمع هذا معدل الضريبة مع المعدل الافتراضي من المنطقة الضريبية.",
+        "true": "قابل للجمع",
+        "false": "غير قابل للجمع"
       },
       "defaultTaxRate": {
         "label": "معدل الضريبة الافتراضي",
-        "tooltip": "معدل الضريبة الافتراضي لهذه المنطقة. مثال على ذلك هو معدل ضريبة القيمة المضافة القياسي لبلد أو منطقة.",
+        "tooltip": "معدل الضريبة الافتراضي لهذه المنطقة. مثال على ذلك هو معدل ضريبة القيمة المضافة القياسي لدولة أو منطقة.",
         "action": "إنشاء معدل ضريبة افتراضي"
       },
       "taxRate": "معدل الضريبة",
       "taxCode": "رمز الضريبة",
       "targets": {
         "label": "الأهداف",
-        "hint": "حدد الأهداف التي سيتم تطبيق معدل الضريبة هذا عليها.",
+        "hint": "حدد الأهداف التي سيطبق عليها هذا معدل الضريبة.",
         "options": {
           "product": "المنتجات",
           "productCollection": "مجموعات المنتجات",
-          "productTag": "وسوم المنتجات",
+          "productTag": "علامات المنتجات",
           "productType": "أنواع المنتجات",
           "customerGroup": "مجموعات العملاء"
         },
@@ -1806,19 +1828,19 @@
         "placeholders": {
           "product": "البحث عن المنتجات",
           "productCollection": "البحث عن مجموعات المنتجات",
-          "productTag": "البحث عن وسوم المنتجات",
+          "productTag": "البحث عن علامات المنتجات",
           "productType": "البحث عن أنواع المنتجات",
           "customerGroup": "البحث عن مجموعات العملاء"
         },
         "tags": {
           "product": "المنتج",
           "productCollection": "مجموعة المنتجات",
-          "productTag": "وسم المنتج",
+          "productTag": "علامة المنتج",
           "productType": "نوع المنتج",
           "customerGroup": "مجموعة العملاء"
         },
         "modal": {
-          "header": "إضافة أهداف"
+          "header": "إضافة الأهداف"
         },
         "values_one": "{{count}} قيمة",
         "values_other": "{{count}} قيم",
@@ -1830,47 +1852,47 @@
       },
       "sublevels": {
         "labels": {
-          "province": "مقاطعة",
-          "state": "ولاية",
-          "region": "منطقة",
-          "stateOrTerritory": "ولاية/إقليم",
-          "department": "إدارة",
-          "county": "مقاطعة (ريفية)",
-          "territory": "إقليم",
-          "prefecture": "محافظة (في اليابان)",
-          "district": "مقاطعة (مدينة)",
-          "governorate": "محافظة",
-          "emirate": "إمارة",
-          "canton": "كانتون (في سويسرا)",
+          "province": "المحافظة",
+          "state": "الولاية",
+          "region": "المنطقة",
+          "stateOrTerritory": "الولاية/الإقليم",
+          "department": "القسم",
+          "county": "المقاطعة",
+          "territory": "الإقليم",
+          "prefecture": "المحافظة",
+          "district": "المنطقة",
+          "governorate": "المحافظة",
+          "emirate": "الإمارة",
+          "canton": "الكانتون",
           "sublevel": "رمز المستوى الفرعي"
         },
         "placeholders": {
-          "province": "حدد مقاطعة",
-          "state": "حدد ولاية",
-          "region": "حدد منطقة",
-          "stateOrTerritory": "حدد ولاية/إقليم",
-          "department": "حدد إدارة",
-          "county": "حدد مقاطعة (ريفية)",
-          "territory": "حدد إقليم",
-          "prefecture": "حدد محافظة (في اليابان)",
-          "district": "حدد مقاطعة (مدينة)",
-          "governorate": "حدد محافظة",
-          "emirate": "حدد إمارة",
-          "canton": "حدد كانتون"
+          "province": "اختر المحافظة",
+          "state": "اختر الولاية",
+          "region": "اختر المنطقة",
+          "stateOrTerritory": "اختر الولاية/الإقليم",
+          "department": "اختر القسم",
+          "county": "اختر المقاطعة",
+          "territory": "اختر الإقليم",
+          "prefecture": "اختر المحافظة",
+          "district": "اختر المنطقة",
+          "governorate": "اختر المحافظة",
+          "emirate": "اختر الإمارة",
+          "canton": "اختر الكانتون"
         },
         "tooltips": {
-          "sublevel": "أدخل رمز ISO 3166-2 للمنطقة الضريبية الفرعية.",
-          "notPartOfCountry": "يبدو أن {{province}} ليست جزءًا من {{country}}. يرجى التحقق مرة أخرى إذا كان هذا صحيحًا."
+          "sublevel": "أدخل رمز ISO 3166-2 لمنطقة الضريبة الفرعية.",
+          "notPartOfCountry": "{{province}} لا يبدو أنها جزء من {{country}}. يرجى التحقق مرة أخرى إذا كان هذا صحيحًا."
         },
         "alert": {
-          "header": "المناطق الفرعية معطلة لهذه المنطقة الضريبية",
-          "description": "المناطق الفرعية معطلة لهذه المنطقة افتراضيًا. يمكنك تمكينها لإنشاء مناطق فرعية مثل المقاطعات أو الولايات أو الأقاليم.",
+          "header": "تم تعطيل المناطق الفرعية لهذه المنطقة الضريبية",
+          "description": "تم تعطيل المناطق الفرعية لهذه المنطقة افتراضيًا. يمكنك تمكينها لإنشاء مناطق فرعية مثل المحافظات أو الولايات أو الأقاليم.",
           "action": "تمكين المناطق الفرعية"
         }
       },
       "noDefaultRate": {
         "label": "لا يوجد معدل افتراضي",
-        "tooltip": "لا تحتوي هذه المنطقة الضريبية على معدل ضريبة افتراضي. إذا كان هناك معدل قياسي، مثل ضريبة القيمة المضافة لبلد ما، فيرجى إضافته إلى هذه المنطقة."
+        "tooltip": "هذه المنطقة الضريبية لا تحتوي على معدل ضريبة افتراضي. إذا كان هناك معدل قياسي، مثل ضريبة القيمة المضافة لدولة، يرجى إضافته إلى هذه المنطقة."
       }
     }
   },
@@ -1890,74 +1912,74 @@
       "value": "القيمة",
       "campaign": "الحملة",
       "method": "الطريقة",
-      "allocation": "التوزيع",
+      "allocation": "التخصيص",
       "addCondition": "إضافة شرط",
       "clearAll": "مسح الكل",
       "amount": {
-        "tooltip": "حدد رمز العملة لتمكين تعيين المبلغ"
+        "tooltip": "اختر رمز العملة لتمكين تعيين المبلغ"
       },
       "conditions": {
         "rules": {
           "title": "من يمكنه استخدام هذا الرمز؟",
-          "description": "أي عميل مسموح له باستخدام رمز العرض الترويجي؟ يمكن استخدام رمز العرض الترويجي من قبل جميع العملاء إذا تُرك دون تغيير."
+          "description": "أي عميل مسموح له باستخدام رمز العرض الترويجي؟ يمكن استخدام رمز العرض الترويجي من قبل جميع العملاء إذا ترك دون تغيير."
         },
         "target-rules": {
           "title": "ما هي العناصر التي سيتم تطبيق العرض الترويجي عليها؟",
           "description": "سيتم تطبيق العرض الترويجي على العناصر التي تطابق الشروط التالية."
         },
         "buy-rules": {
-          "title": "ما الذي يجب أن يكون في سلة التسوق لفتح العرض الترويجي؟",
-          "description": "إذا تطابقت هذه الشروط، فسنقوم بتمكين العرض الترويجي على العناصر المستهدفة."
+          "title": "ما الذي يجب أن يكون في السلة لتفعيل العرض الترويجي؟",
+          "description": "إذا تطابقت هذه الشروط، سنقوم بتفعيل العرض الترويجي على العناصر المستهدفة."
         }
       }
     },
     "tooltips": {
-      "campaignType": "يجب تحديد رمز العملة في العرض الترويجي لتعيين ميزانية إنفاق."
+      "campaignType": "يجب اختيار رمز العملة في العرض الترويجي لتحديد ميزانية الإنفاق."
     },
     "errors": {
       "requiredField": "حقل مطلوب",
-      "promotionTabError": "أصلح الأخطاء في علامة تبويب العرض الترويجي قبل المتابعة"
+      "promotionTabError": "إصلاح الأخطاء في علامة التبويب العرض الترويجي قبل المتابعة"
     },
     "toasts": {
       "promotionCreateSuccess": "تم إنشاء العرض الترويجي ({{code}}) بنجاح."
     },
     "create": {},
     "edit": {
-      "title": "تعديل تفاصيل العرض الترويجي",
+      "title": "تحرير تفاصيل العرض الترويجي",
       "rules": {
-        "title": "تعديل شروط الاستخدام"
+        "title": "تحرير شروط الاستخدام"
       },
       "target-rules": {
-        "title": "تعديل شروط العناصر"
+        "title": "تحرير شروط العناصر"
       },
       "buy-rules": {
-        "title": "تعديل قواعد الشراء"
+        "title": "تحرير شروط الشراء"
       }
     },
     "campaign": {
       "header": "الحملة",
       "edit": {
-        "header": "تعديل الحملة",
+        "header": "تحرير الحملة",
         "successToast": "تم تحديث حملة العرض الترويجي بنجاح."
       },
       "actions": {
-        "goToCampaign": "الانتقال إلى الحملة"
+        "goToCampaign": "الذهاب إلى الحملة"
       }
     },
     "campaign_currency": {
-      "tooltip": "هذه هي عملة العرض الترويجي. قم بتغييرها من علامة تبويب التفاصيل."
+      "tooltip": "هذه هي عملة العرض الترويجي. قم بتغييرها من علامة التبويب التفاصيل."
     },
     "form": {
       "required": "مطلوب",
       "and": "و",
-      "selectAttribute": "حدد السمة",
+      "selectAttribute": "اختر السمة",
       "campaign": {
         "existing": {
           "title": "حملة موجودة",
-          "description": "إضافة عرض ترويجي إلى حملة موجودة.",
+          "description": "إضافة العرض الترويجي إلى حملة موجودة.",
           "placeholder": {
             "title": "لا توجد حملات موجودة",
-            "desc": "يمكنك إنشاء واحدة لتتبع عروض ترويجية متعددة وتعيين حدود للميزانية."
+            "desc": "يمكنك إنشاء واحدة لتتبع العروض الترويجية المتعددة وتحديد حدود الميزانية."
           }
         },
         "new": {
@@ -1966,38 +1988,38 @@
         },
         "none": {
           "title": "بدون حملة",
-          "description": "المتابعة بدون ربط العرض الترويجي بحملة"
+          "description": "المتابعة دون ربط العرض الترويجي بحملة"
         }
       },
       "status": {
-        "label": "الحالة",
-        "draft": {
-          "title": "مسودة",
-          "description": "لن يتمكن العملاء من استخدام الرمز بعد"
-        },
         "active": {
-          "title": "نشط",
-          "description": "سيتمكن العملاء من استخدام الرمز"
+          "description": "العرض الترويجي مفعل",
+          "title": "مفعل"
         },
         "inactive": {
-          "title": "غير نشط",
-          "description": "لن يتمكن العملاء من استخدام الرمز بعد الآن"
-        }
+          "description": "العرض الترويجي معطل",
+          "title": "معطل"
+        },
+        "draft": {
+          "description": "العرض الترويجي في وضع المسودة",
+          "title": "مسودة"
+        },
+        "label": "الحالة"
       },
       "method": {
         "label": "الطريقة",
         "code": {
           "title": "رمز العرض الترويجي",
-          "description": "يجب على العملاء إدخال هذا الرمز عند إتمام عملية الشراء"
+          "description": "يجب على العملاء إدخال هذا الرمز عند الدفع"
         },
         "automatic": {
           "title": "تلقائي",
-          "description": "سيرى العملاء هذا العرض الترويجي عند إتمام عملية الشراء"
+          "description": "سيشاهد العملاء هذا العرض الترويجي عند الدفع"
         }
       },
       "max_quantity": {
         "title": "الكمية القصوى",
-        "description": "الكمية القصوى للعناصر التي ينطبق عليها هذا العرض الترويجي."
+        "description": "الكمية القصوى من العناصر التي ينطبق عليها هذا العرض الترويجي."
       },
       "type": {
         "standard": {
@@ -2005,23 +2027,23 @@
           "description": "عرض ترويجي قياسي"
         },
         "buyget": {
-          "title": "اشترِ واحصل على",
-          "description": "اشترِ  'أ' واحصل على عرض 'ب'"
+          "title": "اشتر واحصل",
+          "description": "عرض ترويجي اشتر X واحصل على Y"
         }
       },
       "allocation": {
         "each": {
-          "title": "لكل عنصر",
-          "description": "يطبق القيمة على كل عنصر"
+          "title": "كل",
+          "description": "تطبيق القيمة على كل عنصر"
         },
         "across": {
-          "title": "على جميع العناصر",
-          "description": "يطبق القيمة على جميع العناصر"
+          "title": "عبر",
+          "description": "تطبيق القيمة عبر العناصر"
         }
       },
       "code": {
         "title": "الرمز",
-        "description": "الرمز الذي سيدخله عملاؤك أثناء إتمام عملية الشراء."
+        "description": "الرمز الذي سيدخله عملاؤك أثناء الدفع."
       },
       "value": {
         "title": "قيمة العرض الترويجي"
@@ -2029,11 +2051,11 @@
       "value_type": {
         "fixed": {
           "title": "قيمة العرض الترويجي",
-          "description": "المبلغ المراد خصمه. على سبيل المثال. 100"
+          "description": "المبلغ الذي سيتم خصمه. على سبيل المثال: 100"
         },
         "percentage": {
           "title": "قيمة العرض الترويجي",
-          "description": "النسبة المئوية للخصم من المبلغ. على سبيل المثال. 8٪"
+          "description": "النسبة المئوية للخصم من المبلغ. على سبيل المثال: 8%"
         }
       }
     },
@@ -2051,9 +2073,9 @@
     "domain": "الحملات",
     "details": "تفاصيل الحملة",
     "status": {
-      "active": "نشطة",
-      "expired": "منتهية",
-      "scheduled": "مجدولة"
+      "active": "نشط",
+      "expired": "منتهي",
+      "scheduled": "مجدول"
     },
     "delete": {
       "title": "هل أنت متأكد؟",
@@ -2061,15 +2083,15 @@
       "successToast": "تم إنشاء الحملة '{{name}}' بنجاح."
     },
     "edit": {
-      "header": "تعديل الحملة",
-      "description": "تعديل تفاصيل الحملة.",
+      "header": "تحرير الحملة",
+      "description": "تحرير تفاصيل الحملة.",
       "successToast": "تم تحديث الحملة '{{name}}' بنجاح."
     },
     "configuration": {
       "header": "التكوين",
       "edit": {
-        "header": "تعديل تكوين الحملة",
-        "description": "تعديل تكوين الحملة.",
+        "header": "تحرير تكوين الحملة",
+        "description": "تحرير تكوين الحملة.",
         "successToast": "تم تحديث تكوين الحملة بنجاح."
       }
     },
@@ -2082,14 +2104,14 @@
     },
     "fields": {
       "name": "الاسم",
-      "identifier": "المعرّف",
+      "identifier": "المعرف",
       "start_date": "تاريخ البدء",
       "end_date": "تاريخ الانتهاء",
       "total_spend": "الميزانية المنفقة",
       "total_used": "الميزانية المستخدمة",
       "budget_limit": "حد الميزانية",
       "campaign_id": {
-        "hint": "يتم عرض الحملات التي لها نفس رمز العملة مثل العرض الترويجي في هذه القائمة فقط."
+        "hint": "تظهر فقط الحملات التي تحتوي على نفس رمز العملة مثل العرض الترويجي في هذه القائمة."
       }
     },
     "budget": {
@@ -2107,31 +2129,31 @@
       "type": {
         "spend": {
           "title": "الإنفاق",
-          "description": "تعيين حد لإجمالي المبلغ المخصوم من جميع استخدامات العرض الترويجي."
+          "description": "تحديد حد للمبلغ الإجمالي المخفض لجميع استخدامات العرض الترويجي."
         },
         "usage": {
           "title": "الاستخدام",
-          "description": "تعيين حد لعدد مرات استخدام العرض الترويجي."
+          "description": "تحديد حد لعدد مرات استخدام العرض الترويجي."
         }
       },
       "edit": {
-        "header": "تعديل ميزانية الحملة"
+        "header": "تحرير ميزانية الحملة"
       }
     },
     "promotions": {
       "remove": {
-        "title": "إزالة عرض ترويجي من الحملة",
-        "description": "أنت على وشك إزالة {{count}} عرض/عروض ترويجية من الحملة. لا يمكن التراجع عن هذا الإجراء."
+        "title": "إزالة العرض الترويجي من الحملة",
+        "description": "أنت على وشك إزالة {{count}} عرض ترويجي من الحملة. لا يمكن التراجع عن هذا الإجراء."
       },
       "alreadyAdded": "تمت إضافة هذا العرض الترويجي بالفعل إلى الحملة.",
       "alreadyAddedDiffCampaign": "تمت إضافة هذا العرض الترويجي بالفعل إلى حملة مختلفة ({{name}}).",
-      "currencyMismatch": "عملة العرض الترويجي والحملة غير متطابقة",
+      "currencyMismatch": "عملة العرض الترويجي والحملة لا تتطابق",
       "toast": {
-        "success": "تمت إضافة {{count}} عرض/عروض ترويجية بنجاح إلى الحملة"
+        "success": "تمت إضافة {{count}} عرض ترويجي إلى الحملة بنجاح"
       },
       "add": {
         "list": {
-          "noRecordsMessage": "أنشئ عرضًا ترويجيًا أولاً."
+          "noRecordsMessage": "قم بإنشاء عرض ترويجي أولاً."
         }
       },
       "list": {
@@ -2143,7 +2165,7 @@
   },
   "priceLists": {
     "domain": "قوائم الأسعار",
-    "subtitle": "إنشاء مبيعات أو تجاوز الأسعار لشروط محددة.",
+    "subtitle": "إنشاء مبيعات أو تجاوز الأسعار لظروف محددة.",
     "delete": {
       "confirmation": "أنت على وشك حذف قائمة الأسعار {{title}}. لا يمكن التراجع عن هذا الإجراء.",
       "successToast": "تم حذف قائمة الأسعار {{title}} بنجاح."
@@ -2164,14 +2186,14 @@
       }
     },
     "edit": {
-      "header": "تعديل قائمة الأسعار",
+      "header": "تحرير قائمة الأسعار",
       "successToast": "تم تحديث قائمة الأسعار {{title}} بنجاح."
     },
     "configuration": {
       "header": "التكوين",
       "edit": {
-        "header": "تعديل تكوين قائمة الأسعار",
-        "description": "تعديل تكوين قائمة الأسعار.",
+        "header": "تحرير تكوين قائمة الأسعار",
+        "description": "تحرير تكوين قائمة الأسعار.",
         "successToast": "تم تحديث تكوين قائمة الأسعار بنجاح."
       }
     },
@@ -2179,16 +2201,16 @@
       "header": "المنتجات",
       "actions": {
         "addProducts": "إضافة منتجات",
-        "editPrices": "تعديل الأسعار"
+        "editPrices": "تحرير الأسعار"
       },
       "delete": {
-        "confirmation_one": "أنت على وشك حذف أسعار {{count}} منتج في قائمة الأسعار. لا يمكن التراجع عن هذا الإجراء.",
-        "confirmation_other": "أنت على وشك حذف أسعار {{count}} منتجات في قائمة الأسعار. لا يمكن التراجع عن هذا الإجراء.",
-        "successToast_one": "تم حذف أسعار {{count}} منتج بنجاح.",
-        "successToast_other": "تم حذف أسعار {{count}} منتجات بنجاح."
+        "confirmation_one": "أنت على وشك حذف الأسعار لـ {{count}} منتج في قائمة الأسعار. لا يمكن التراجع عن هذا الإجراء.",
+        "confirmation_other": "أنت على وشك حذف الأسعار لـ {{count}} منتجات في قائمة الأسعار. لا يمكن التراجع عن هذا الإجراء.",
+        "successToast_one": "تم حذف الأسعار لـ {{count}} منتج بنجاح.",
+        "successToast_other": "تم حذف الأسعار لـ {{count}} منتجات بنجاح."
       },
       "add": {
-        "successToast": "تمت إضافة الأسعار بنجاح إلى قائمة الأسعار."
+        "successToast": "تمت إضافة الأسعار إلى قائمة الأسعار بنجاح."
       },
       "edit": {
         "successToast": "تم تحديث الأسعار بنجاح."
@@ -2204,13 +2226,13 @@
         "options": {
           "active": "نشط",
           "draft": "مسودة",
-          "expired": "منتهية",
-          "scheduled": "مجدولة"
+          "expired": "منتهي",
+          "scheduled": "مجدول"
         }
       },
       "type": {
         "label": "النوع",
-        "hint": "اختر نوع قائمة الأسعار التي تريد إنشاءها.",
+        "hint": "اختر نوع قائمة الأسعار التي تريد إنشاؤها.",
         "options": {
           "sale": {
             "label": "بيع",
@@ -2218,17 +2240,17 @@
           },
           "override": {
             "label": "تجاوز",
-            "description": "تُستخدم التجاوزات عادةً لإنشاء أسعار خاصة بالعملاء."
+            "description": "عادةً ما تُستخدم التجاوزات لإنشاء أسعار مخصصة للعملاء."
           }
         }
       },
       "startsAt": {
-        "label": "هل لقائمة الأسعار تاريخ بدء؟",
-        "hint": "جدولة قائمة الأسعار ليتم تفعيلها في المستقبل."
+        "label": "هل تحتوي قائمة الأسعار على تاريخ بدء؟",
+        "hint": "جدولة قائمة الأسعار لتفعيلها في المستقبل."
       },
       "endsAt": {
-        "label": "هل لقائمة الأسعار تاريخ انتهاء؟",
-        "hint": "جدولة قائمة الأسعار ليتم إلغاء تفعيلها في المستقبل."
+        "label": "هل تحتوي قائمة الأسعار على تاريخ انتهاء؟",
+        "hint": "جدولة قائمة الأسعار لتعطيلها في المستقبل."
       },
       "customerAvailability": {
         "header": "اختر مجموعات العملاء",
@@ -2247,32 +2269,43 @@
       "usageInsightsLabel": "رؤى الاستخدام"
     },
     "edit": {
-      "header": "تعديل الملف الشخصي",
-      "languageHint": "اللغة التي تريد استخدامها في لوحة تحكم المسؤول. هذا لا يغير لغة متجرك.",
+      "header": "تحرير الملف الشخصي",
+      "languageHint": "اللغة التي تريد استخدامها في لوحة الإدارة. هذا لا يغير لغة متجرك.",
       "languagePlaceholder": "اختر اللغة",
-      "usageInsightsHint": "شارك رؤى الاستخدام وساعدنا في تحسين Medusa. يمكنك قراءة المزيد حول ما نجمعه وكيف نستخدمه في <0>وثائقنا</0>."
+      "usageInsightsHint": "شارك رؤى الاستخدام وساعدنا في تحسين Medusa. يمكنك قراءة المزيد حول ما نجمعه وكيف نستخدمه في <0>التوثيق</0>."
     },
     "toast": {
       "edit": "تم حفظ تغييرات الملف الشخصي"
     }
   },
   "users": {
-    "domain": "المستخدمون",
-    "editUser": "تعديل المستخدم",
+    "deleteUserSuccess": "تم حذف المستخدم بنجاح",
+    "list": {
+      "empty": {
+        "description": "لا يوجد مستخدمين في هذا المتجر.",
+        "heading": "لا يوجد مستخدمين"
+      },
+      "filtered": {
+        "description": "لا يوجد مستخدمين مطابقين للمعايير المحددة.",
+        "heading": "لا يوجد مستخدمين"
+      }
+    },
+    "domain": "المستخدمين",
+    "editUser": "تحرير المستخدم",
     "inviteUser": "دعوة مستخدم",
-    "inviteUserHint": "قم بدعوة مستخدم جديد إلى متجرك.",
+    "inviteUserHint": "دعوة مستخدم جديد إلى متجرك.",
     "sendInvite": "إرسال الدعوة",
     "pendingInvites": "الدعوات المعلقة",
-    "deleteInviteWarning": "أنت على وشك حذف دعوة المستخدم {{email}}. لا يمكن التراجع عن هذا الإجراء.",
+    "deleteInviteWarning": "أنت على وشك حذف الدعوة لـ {{email}}. لا يمكن التراجع عن هذا الإجراء.",
     "resendInvite": "إعادة إرسال الدعوة",
     "copyInviteLink": "نسخ رابط الدعوة",
     "expiredOnDate": "انتهت صلاحيتها في {{date}}",
-    "validFromUntil": "صالحة من <0>{{from}}</0> إلى <1>{{until}}</1>",
+    "validFromUntil": "صالح من <0>{{from}}</0> - <1>{{until}}</1>",
     "acceptedOnDate": "تم قبولها في {{date}}",
     "inviteStatus": {
-      "accepted": "مقبول",
-      "pending": "قيد الانتظار",
-      "expired": "منتهية الصلاحية"
+      "accepted": "تم القبول",
+      "pending": "معلق",
+      "expired": "منتهي الصلاحية"
     },
     "roles": {
       "admin": "مسؤول",
@@ -2280,50 +2313,49 @@
       "member": "عضو"
     },
     "deleteUserWarning": "أنت على وشك حذف المستخدم {{name}}. لا يمكن التراجع عن هذا الإجراء.",
-    "deleteUserSuccess": "تم حذف المستخدم {{name}} بنجاح",
     "invite": "دعوة"
   },
   "store": {
     "domain": "المتجر",
     "manageYourStoresDetails": "إدارة تفاصيل متجرك",
-    "editStore": "تعديل المتجر",
+    "editStore": "تحرير المتجر",
     "defaultCurrency": "العملة الافتراضية",
     "defaultRegion": "المنطقة الافتراضية",
-    "swapLinkTemplate": "نموذج رابط التبديل",
-    "paymentLinkTemplate": "نموذج رابط الدفع",
-    "inviteLinkTemplate": "نموذج رابط الدعوة",
+    "swapLinkTemplate": "قالب رابط التبديل",
+    "paymentLinkTemplate": "قالب رابط الدفع",
+    "inviteLinkTemplate": "قالب رابط الدعوة",
     "currencies": "العملات",
     "addCurrencies": "إضافة عملات",
-    "enableTaxInclusivePricing": "تمكين احتساب الأسعار شاملة للضريبة",
-    "disableTaxInclusivePricing": "تعطيل احتساب الأسعار شاملة للضريبة",
-    "removeCurrencyWarning_one": "أنت على وشك إزالة {{count}} عملة من متجرك. تأكد من إزالة جميع الأسعار التي تستخدم هذه العملة قبل المتابعة.",
-    "removeCurrencyWarning_other": "أنت على وشك إزالة {{count}} عملات من متجرك. تأكد من إزالة جميع الأسعار التي تستخدم هذه العملات قبل المتابعة.",
-    "currencyAlreadyAdded": "تمت إضافة هذه العملة بالفعل إلى متجرك.",
+    "enableTaxInclusivePricing": "تمكين التسعير الشامل للضرائب",
+    "disableTaxInclusivePricing": "تعطيل التسعير الشامل للضرائب",
+    "removeCurrencyWarning_one": "أنت على وشك إزالة {{count}} عملة من متجرك. تأكد من إزالة جميع الأسعار التي تستخدم العملة قبل المتابعة.",
+    "removeCurrencyWarning_other": "أنت على وشك إزالة {{count}} عملات من متجرك. تأكد من إزالة جميع الأسعار التي تستخدم العملات قبل المتابعة.",
+    "currencyAlreadyAdded": "تمت إضافة العملة بالفعل إلى متجرك.",
     "edit": {
-      "header": "تعديل المتجر"
+      "header": "تحرير المتجر"
     },
     "toast": {
       "update": "تم تحديث المتجر بنجاح",
       "currenciesUpdated": "تم تحديث العملات بنجاح",
       "currenciesRemoved": "تمت إزالة العملات من المتجر بنجاح",
-      "updatedTaxInclusivitySuccessfully": "تم تحديث احتساب الأسعار شاملة للضريبة بنجاح"
+      "updatedTaxInclusivitySuccessfully": "تم تحديث التسعير الشامل للضرائب بنجاح"
     }
   },
   "regions": {
     "domain": "المناطق",
-    "subtitle": "المنطقة هي مساحة تبيع فيها المنتجات. يمكن أن تغطي عدة دول، ولها معدلات ضرائب ومزودين وعملة مختلفة.",
+    "subtitle": "المنطقة هي منطقة تبيع فيها المنتجات. يمكن أن تغطي عدة دول، ولها معدلات ضرائب مختلفة، ومزودين، وعملة.",
     "createRegion": "إنشاء منطقة",
-    "createRegionHint": "إدارة معدلات الضرائب والمزودين لمجموعة من البلدان.",
+    "createRegionHint": "إدارة معدلات الضرائب والمزودين لمجموعة من الدول.",
     "addCountries": "إضافة دول",
-    "editRegion": "تعديل المنطقة",
-    "countriesHint": "إضافة الدول المُضمّنة في هذه المنطقة.",
+    "editRegion": "تحرير المنطقة",
+    "countriesHint": "أضف الدول المدرجة في هذه المنطقة.",
     "deleteRegionWarning": "أنت على وشك حذف المنطقة {{name}}. لا يمكن التراجع عن هذا الإجراء.",
     "removeCountriesWarning_one": "أنت على وشك إزالة {{count}} دولة من المنطقة. لا يمكن التراجع عن هذا الإجراء.",
     "removeCountriesWarning_other": "أنت على وشك إزالة {{count}} دول من المنطقة. لا يمكن التراجع عن هذا الإجراء.",
     "removeCountryWarning": "أنت على وشك إزالة الدولة {{name}} من المنطقة. لا يمكن التراجع عن هذا الإجراء.",
-    "automaticTaxesHint": "عند التمكين، سيتم احتساب الضرائب فقط عند إتمام عملية الشراء بناءً على عنوان الشحن.",
-    "taxInclusiveHint": "عند التمكين، ستكون الأسعار في المنطقة شاملة للضريبة.",
-    "providersHint": "إضافة مزودي الدفع المتاحين في هذه المنطقة.",
+    "automaticTaxesHint": "عند التمكين، سيتم حساب الضرائب فقط عند الدفع بناءً على عنوان الشحن.",
+    "taxInclusiveHint": "عند التمكين، ستكون الأسعار في المنطقة شاملة للضرائب.",
+    "providersHint": "أضف مزودي الدفع المتاحين في هذه المنطقة.",
     "shippingOptions": "خيارات الشحن",
     "deleteShippingOptionWarning": "أنت على وشك حذف خيار الشحن {{name}}. لا يمكن التراجع عن هذا الإجراء.",
     "return": "إرجاع",
@@ -2336,20 +2368,20 @@
     },
     "toast": {
       "delete": "تم حذف المنطقة بنجاح",
-      "edit": "تم حفظ تعديل المنطقة",
+      "edit": "تم حفظ تحرير المنطقة",
       "create": "تم إنشاء المنطقة بنجاح",
       "countries": "تم تحديث دول المنطقة بنجاح"
     },
     "shippingOption": {
       "createShippingOption": "إنشاء خيار شحن",
       "createShippingOptionHint": "إنشاء خيار شحن جديد للمنطقة.",
-      "editShippingOption": "تعديل خيار الشحن",
+      "editShippingOption": "تحرير خيار الشحن",
       "fulfillmentMethod": "طريقة التنفيذ",
       "type": {
         "outbound": "صادر",
-        "outboundHint": "استخدم هذا إذا كنت تقوم بإنشاء خيار شحن لإرسال المنتجات إلى العميل.",
+        "outboundHint": "استخدم هذا إذا كنت تنشئ خيار شحن لإرسال المنتجات إلى العميل.",
         "return": "إرجاع",
-        "returnHint": "استخدم هذا إذا كنت تقوم بإنشاء خيار شحن للعميل لإرجاع المنتجات إليك."
+        "returnHint": "استخدم هذا إذا كنت تنشئ خيار شحن لإرجاع المنتجات إليك."
       },
       "priceType": {
         "label": "نوع السعر",
@@ -2358,29 +2390,29 @@
       },
       "availability": {
         "adminOnly": "للمسؤول فقط",
-        "adminOnlyHint": "عند التمكين، سيكون خيار الشحن متاحًا فقط في لوحة تحكم المسؤول، وليس في واجهة المتجر."
+        "adminOnlyHint": "عند التمكين، سيكون خيار الشحن متاحًا فقط في لوحة الإدارة، وليس في واجهة المتجر."
       },
-      "taxInclusiveHint": "عند التمكين، سيكون سعر خيار الشحن شاملاً للضريبة.",
+      "taxInclusiveHint": "عند التمكين، سيكون سعر خيار الشحن شاملًا للضرائب.",
       "requirements": {
         "label": "المتطلبات",
-        "hint": "حدد متطلبات خيار الشحن."
+        "hint": "حدد المتطلبات لخيار الشحن."
       }
     }
   },
   "taxes": {
     "domain": "مناطق الضرائب",
-    "domainDescription": "إدارة منطقة الضرائب الخاصة بك",
+    "domainDescription": "إدارة منطقتك الضريبية",
     "countries": {
-      "taxCountriesHint": "تُطبّق إعدادات الضرائب على البلدان المُدرجة."
+      "taxCountriesHint": "تنطبق إعدادات الضرائب على الدول المدرجة."
     },
     "settings": {
-      "editTaxSettings": "تعديل إعدادات الضرائب",
+      "editTaxSettings": "تحرير إعدادات الضرائب",
       "taxProviderLabel": "مزود الضرائب",
       "systemTaxProviderLabel": "مزود الضرائب النظامي",
-      "calculateTaxesAutomaticallyLabel": "احتساب الضرائب تلقائيًا",
-      "calculateTaxesAutomaticallyHint": "عند التمكين، سيتم احتساب معدلات الضرائب تلقائيًا وتطبيقها على سلال التسوق. عند التعطيل، يجب احتساب الضرائب يدويًا عند إتمام عملية الشراء. يُوصى بالضرائب اليدوية للاستخدام مع مزودي ضرائب تابعين لجهات خارجية.",
+      "calculateTaxesAutomaticallyLabel": "حساب الضرائب تلقائيًا",
+      "calculateTaxesAutomaticallyHint": "عند التمكين، سيتم حساب معدلات الضرائب تلقائيًا وتطبيقها على السلال. عند التعطيل، يجب حساب الضرائب يدويًا عند الدفع. يوصى بالضرائب اليدوية للاستخدام مع مزودي الضرائب الخارجيين.",
       "applyTaxesOnGiftCardsLabel": "تطبيق الضرائب على بطاقات الهدايا",
-      "applyTaxesOnGiftCardsHint": "عند التمكين، سيتم تطبيق الضرائب على بطاقات الهدايا عند إتمام عملية الشراء. في بعض البلدان، تتطلب لوائح الضرائب تطبيق الضرائب على بطاقات الهدايا عند الشراء.",
+      "applyTaxesOnGiftCardsHint": "عند التمكين، سيتم تطبيق الضرائب على بطاقات الهدايا عند الدفع. في بعض الدول، تتطلب اللوائح الضريبية تطبيق الضرائب على بطاقات الهدايا عند الشراء.",
       "defaultTaxRateLabel": "معدل الضريبة الافتراضي",
       "defaultTaxCodeLabel": "رمز الضريبة الافتراضي"
     },
@@ -2392,21 +2424,21 @@
       "createTaxRate": "إنشاء معدل ضريبة",
       "createTaxRateHint": "إنشاء معدل ضريبة جديد للمنطقة.",
       "deleteRateDescription": "أنت على وشك حذف معدل الضريبة {{name}}. لا يمكن التراجع عن هذا الإجراء.",
-      "editTaxRate": "تعديل معدل الضريبة",
-      "editRateAction": "تعديل المعدل",
-      "editOverridesAction": "تعديل التجاوزات",
-      "editOverridesTitle": "تعديل تجاوزات معدل الضريبة",
-      "editOverridesHint": "تحديد التجاوزات لمعدل الضريبة.",
+      "editTaxRate": "تحرير معدل الضريبة",
+      "editRateAction": "تحرير المعدل",
+      "editOverridesAction": "تحرير التجاوزات",
+      "editOverridesTitle": "تحرير تجاوزات معدل الضريبة",
+      "editOverridesHint": "حدد التجاوزات لمعدل الضريبة.",
       "deleteTaxRateWarning": "أنت على وشك حذف معدل الضريبة {{name}}. لا يمكن التراجع عن هذا الإجراء.",
-      "productOverridesLabel": "تجاوزات المنتجات",
-      "productOverridesHint": "تحديد تجاوزات المنتجات لمعدل الضريبة.",
-      "addProductOverridesAction": "إضافة تجاوزات المنتجات",
-      "productTypeOverridesLabel": "تجاوزات أنواع المنتجات",
-      "productTypeOverridesHint": "تحديد تجاوزات أنواع المنتجات لمعدل الضريبة.",
-      "addProductTypeOverridesAction": "إضافة تجاوزات أنواع المنتجات",
-      "shippingOptionOverridesLabel": "تجاوزات خيارات الشحن",
-      "shippingOptionOverridesHint": "تحديد تجاوزات خيارات الشحن لمعدل الضريبة.",
-      "addShippingOptionOverridesAction": "إضافة تجاوزات خيارات الشحن",
+      "productOverridesLabel": "تجاوزات المنتج",
+      "productOverridesHint": "حدد تجاوزات المنتج لمعدل الضريبة.",
+      "addProductOverridesAction": "إضافة تجاوزات المنتج",
+      "productTypeOverridesLabel": "تجاوزات نوع المنتج",
+      "productTypeOverridesHint": "حدد تجاوزات نوع المنتج لمعدل الضريبة.",
+      "addProductTypeOverridesAction": "إضافة تجاوزات نوع المنتج",
+      "shippingOptionOverridesLabel": "تجاوزات خيار الشحن",
+      "shippingOptionOverridesHint": "حدد تجاوزات خيار الشحن لمعدل الضريبة.",
+      "addShippingOptionOverridesAction": "إضافة تجاوزات خيار الشحن",
       "productOverridesHeader": "المنتجات",
       "productTypeOverridesHeader": "أنواع المنتجات",
       "shippingOptionOverridesHeader": "خيارات الشحن"
@@ -2414,10 +2446,10 @@
   },
   "locations": {
     "domain": "المواقع",
-    "editLocation": "تعديل الموقع",
-    "addSalesChannels": "إضافة قنوات بيع",
+    "editLocation": "تحرير الموقع",
+    "addSalesChannels": "إضافة قنوات البيع",
     "noLocationsFound": "لم يتم العثور على مواقع",
-    "selectLocations": "حدد المواقع التي تخزن العنصر.",
+    "selectLocations": "اختر المواقع التي تخزن العنصر.",
     "deleteLocationWarning": "أنت على وشك حذف الموقع {{name}}. لا يمكن التراجع عن هذا الإجراء.",
     "removeSalesChannelsWarning_one": "أنت على وشك إزالة {{count}} قناة بيع من الموقع.",
     "removeSalesChannelsWarning_other": "أنت على وشك إزالة {{count}} قنوات بيع من الموقع.",
@@ -2434,14 +2466,14 @@
   },
   "salesChannels": {
     "domain": "قنوات البيع",
-    "subtitle": "إدارة القنوات عبر الإنترنت وخارجها التي تبيع عليها المنتجات.",
+    "subtitle": "إدارة القنوات عبر الإنترنت وغير المتصلة التي تبيع المنتجات عليها.",
     "createSalesChannel": "إنشاء قناة بيع",
     "createSalesChannelHint": "إنشاء قناة بيع جديدة لبيع منتجاتك عليها.",
-    "enabledHint": "حدد ما إذا كانت قناة البيع مُفعّلة.",
+    "enabledHint": "حدد ما إذا كانت قناة البيع مفعلة.",
     "removeProductsWarning_one": "أنت على وشك إزالة {{count}} منتج من {{sales_channel}}.",
     "removeProductsWarning_other": "أنت على وشك إزالة {{count}} منتجات من {{sales_channel}}.",
     "addProducts": "إضافة منتجات",
-    "editSalesChannel": "تعديل قناة البيع",
+    "editSalesChannel": "تحرير قناة البيع",
     "productAlreadyAdded": "تمت إضافة المنتج بالفعل إلى قناة البيع.",
     "deleteSalesChannelWarning": "أنت على وشك حذف قناة البيع {{name}}. لا يمكن التراجع عن هذا الإجراء.",
     "toast": {
@@ -2465,16 +2497,16 @@
   },
   "apiKeyManagement": {
     "domain": {
-      "publishable": "مفاتيح API قابلة للنشر",
-      "secret": "مفاتيح API سرية"
+      "publishable": "مفاتيح API القابلة للنشر",
+      "secret": "مفاتيح API السرية"
     },
     "subtitle": {
-      "publishable": "إدارة مفاتيح API المستخدمة في واجهة المتجر لتقييد نطاق الطلبات على قنوات بيع محددة.",
-      "secret": "إدارة مفاتيح API المستخدمة لمصادقة مستخدمي المسؤول في تطبيقات المسؤول."
+      "publishable": "إدارة مفاتيح API المستخدمة في واجهة المتجر لتحديد نطاق الطلبات إلى قنوات بيع محددة.",
+      "secret": "إدارة مفاتيح API المستخدمة لمصادقة المستخدمين الإداريين في تطبيقات الإدارة."
     },
     "status": {
       "active": "نشط",
-      "revoked": "مُبطل"
+      "revoked": "ملغى"
     },
     "type": {
       "publishable": "قابل للنشر",
@@ -2482,24 +2514,24 @@
     },
     "create": {
       "createPublishableHeader": "إنشاء مفتاح API قابل للنشر",
-      "createPublishableHint": "إنشاء مفتاح API جديد قابل للنشر لتقييد نطاق الطلبات على قنوات بيع محددة.",
+      "createPublishableHint": "إنشاء مفتاح API قابل للنشر جديد لتحديد نطاق الطلبات إلى قنوات بيع محددة.",
       "createSecretHeader": "إنشاء مفتاح API سري",
-      "createSecretHint": "إنشاء مفتاح API سري جديد للوصول إلى Medusa API كمستخدم مسؤول مُصدّق.",
-      "secretKeyCreatedHeader": "تم إنشاء مفتاح سري",
-      "secretKeyCreatedHint": "تم إنشاء مفتاحك السري الجديد. انسخه وخزّنه بأمان الآن. هذه هي المرة الوحيدة التي سيظهر فيها.",
+      "createSecretHint": "إنشاء مفتاح API سري جديد للوصول إلى API Medusa كمستخدم إداري مصادق.",
+      "secretKeyCreatedHeader": "تم إنشاء المفتاح السري",
+      "secretKeyCreatedHint": "تم إنشاء مفتاحك السري الجديد. انسخه واحفظه بأمان الآن. هذه هي المرة الوحيدة التي سيتم عرضها.",
       "copySecretTokenSuccess": "تم نسخ المفتاح السري إلى الحافظة.",
-      "copySecretTokenFailure": "فشل نسخ المفتاح السري إلى الحافظة.",
+      "copySecretTokenFailure": "فشل في نسخ المفتاح السري إلى الحافظة.",
       "successToast": "تم إنشاء مفتاح API بنجاح."
     },
     "edit": {
-      "header": "تعديل مفتاح API",
-      "description": "تعديل عنوان مفتاح API.",
+      "header": "تحرير مفتاح API",
+      "description": "تحرير عنوان مفتاح API.",
       "successToast": "تم تحديث مفتاح API {{title}} بنجاح."
     },
     "salesChannels": {
-      "title": "إضافة قنوات بيع",
-      "description": "إضافة قنوات البيع التي يجب تقييد مفتاح API بها.",
-      "successToast_one": "تمت إضافة {{count}} قناة بيع بنجاح إلى مفتاح API.",
+      "title": "إضافة قنوات البيع",
+      "description": "أضف قنوات البيع التي يجب أن يقتصر عليها مفتاح API.",
+      "successToast_one": "تمت إضافة قناة بيع واحدة بنجاح إلى مفتاح API.",
       "successToast_other": "تمت إضافة {{count}} قنوات بيع بنجاح إلى مفتاح API.",
       "alreadyAddedTooltip": "تمت إضافة قناة البيع بالفعل إلى مفتاح API.",
       "list": {
@@ -2511,8 +2543,8 @@
       "successToast": "تم حذف مفتاح API {{title}} بنجاح."
     },
     "revoke": {
-      "warning": "أنت على وشك إبطال مفتاح API {{title}}. لا يمكن التراجع عن هذا الإجراء.",
-      "successToast": "تم إبطال مفتاح API {{title}} بنجاح."
+      "warning": "أنت على وشك إلغاء مفتاح API {{title}}. لا يمكن التراجع عن هذا الإجراء.",
+      "successToast": "تم إلغاء مفتاح API {{title}} بنجاح."
     },
     "addSalesChannels": {
       "list": {
@@ -2521,42 +2553,42 @@
     },
     "removeSalesChannel": {
       "warning": "أنت على وشك إزالة قناة البيع {{name}} من مفتاح API. لا يمكن التراجع عن هذا الإجراء.",
-      "warningBatch_one": "أنت على وشك إزالة {{count}} قناة بيع من مفتاح API. لا يمكن التراجع عن هذا الإجراء.",
+      "warningBatch_one": "أنت على وشك إزالة قناة بيع واحدة من مفتاح API. لا يمكن التراجع عن هذا الإجراء.",
       "warningBatch_other": "أنت على وشك إزالة {{count}} قنوات بيع من مفتاح API. لا يمكن التراجع عن هذا الإجراء.",
       "successToast": "تمت إزالة قناة البيع بنجاح من مفتاح API.",
-      "successToastBatch_one": "تمت إزالة {{count}} قناة بيع بنجاح من مفتاح API.",
+      "successToastBatch_one": "تمت إزالة قناة بيع واحدة بنجاح من مفتاح API.",
       "successToastBatch_other": "تمت إزالة {{count}} قنوات بيع بنجاح من مفتاح API."
     },
     "actions": {
-      "revoke": "إبطال مفتاح API",
+      "revoke": "إلغاء مفتاح API",
       "copy": "نسخ مفتاح API",
       "copySuccessToast": "تم نسخ مفتاح API إلى الحافظة."
     },
     "table": {
       "lastUsedAtHeader": "آخر استخدام في",
-      "createdAtHeader": "تم الإبطال في"
+      "createdAtHeader": "تم الإلغاء في"
     },
     "fields": {
       "lastUsedAtLabel": "آخر استخدام في",
-      "revokedByLabel": "تم الإبطال بواسطة",
-      "revokedAtLabel": "تم الإبطال في",
+      "revokedByLabel": "تم الإلغاء بواسطة",
+      "revokedAtLabel": "تم الإلغاء في",
       "createdByLabel": "تم الإنشاء بواسطة"
     }
   },
   "returnReasons": {
     "domain": "أسباب الإرجاع",
     "subtitle": "إدارة أسباب إرجاع العناصر.",
-    "calloutHint": "إدارة الأسباب لتصنيف المرتجعات.",
-    "editReason": "تعديل سبب الإرجاع",
+    "calloutHint": "إدارة الأسباب لتصنيف الإرجاعات.",
+    "editReason": "تحرير سبب الإرجاع",
     "create": {
       "header": "إضافة سبب إرجاع",
-      "subtitle": "تحديد الأسباب الأكثر شيوعًا للإرجاع.",
-      "hint": "إنشاء سبب إرجاع جديد لتصنيف المرتجعات.",
+      "subtitle": "حدد الأسباب الأكثر شيوعًا للإرجاع.",
+      "hint": "إنشاء سبب إرجاع جديد لتصنيف الإرجاعات.",
       "successToast": "تم إنشاء سبب الإرجاع {{label}} بنجاح."
     },
     "edit": {
-      "header": "تعديل سبب الإرجاع",
-      "subtitle": "تعديل قيمة سبب الإرجاع.",
+      "header": "تحرير سبب الإرجاع",
+      "subtitle": "تحرير قيمة سبب الإرجاع.",
       "successToast": "تم تحديث سبب الإرجاع {{label}} بنجاح."
     },
     "delete": {
@@ -2566,70 +2598,67 @@
     "fields": {
       "value": {
         "label": "القيمة",
-        "placeholder": "wrong_size",
-        "tooltip": "يجب أن تكون القيمة مُعرّفًا فريدًا لسبب الإرجاع."
+        "placeholder": "خطأ في الحجم",
+        "tooltip": "يجب أن تكون القيمة معرفًا فريدًا لسبب الإرجاع."
       },
-      "label": {
-        "label": "التسمية",
-        "placeholder": "حجم خاطئ"
-      },
+      "label": { "label": "التسمية", "placeholder": "خطأ في الحجم" },
       "description": {
         "label": "الوصف",
-        "placeholder": "تلقى العميل حجمًا خاطئًا"
+        "placeholder": "تلقى العميل الحجم الخطأ"
       }
     }
   },
   "login": {
-    "forgotPassword": "هل نسيت كلمة المرور؟ - إعادة تعيين",
-    "title": "مرحباً بك في Medusa",
-    "hint": "سجّل الدخول للوصول إلى منطقة الحساب"
+    "forgotPassword": "نسيت كلمة المرور؟ - <0>إعادة تعيين</0>",
+    "title": "مرحبًا بك في مدوسا",
+    "hint": "سجل الدخول للوصول إلى منطقة الحساب"
   },
   "invite": {
-    "title": "مرحباً بك في ميدوسا",
+    "title": "مرحبًا بك في مدوسا",
     "hint": "أنشئ حسابك أدناه",
     "backToLogin": "العودة إلى تسجيل الدخول",
     "createAccount": "إنشاء حساب",
-    "alreadyHaveAccount": "لديك حساب بالفعل؟ - تسجيل الدخول",
-    "emailTooltip": "لا يمكن تغيير بريدك الإلكتروني. إذا كنت ترغب في استخدام بريد إلكتروني آخر، فيجب إرسال دعوة جديدة.",
+    "alreadyHaveAccount": "هل لديك حساب بالفعل؟ - <0>تسجيل الدخول</0>",
+    "emailTooltip": "لا يمكن تغيير بريدك الإلكتروني. إذا كنت ترغب في استخدام بريد إلكتروني آخر، يجب إرسال دعوة جديدة.",
     "invalidInvite": "الدعوة غير صالحة أو انتهت صلاحيتها.",
-    "successTitle": "تم تسجيل حسابك",
-    "successHint": "ابدأ استخدام Medusa Admin على الفور.",
-    "successAction": "بدء Medusa Admin",
-    "invalidTokenTitle": "رمز الدعوة الخاص بك غير صالح",
+    "successTitle": "تم تسجيل حسابك بنجاح",
+    "successHint": "ابدأ باستخدام مدوسا الآن.",
+    "successAction": "ابدأ مدوسا",
+    "invalidTokenTitle": "رمز الدعوة غير صالح",
     "invalidTokenHint": "حاول طلب رابط دعوة جديد.",
-    "passwordMismatch": "كلمتا المرور غير متطابقتين",
+    "passwordMismatch": "كلمات المرور غير متطابقة",
     "toast": {
       "accepted": "تم قبول الدعوة بنجاح"
     }
   },
   "resetPassword": {
     "title": "إعادة تعيين كلمة المرور",
-    "hint": "أدخل بريدك الإلكتروني أدناه، وسنرسل لك تعليمات حول كيفية إعادة تعيين كلمة مرورك.",
+    "hint": "أدخل بريدك الإلكتروني أدناه، وسنرسل لك تعليمات حول كيفية إعادة تعيين كلمة المرور.",
     "email": "البريد الإلكتروني",
     "sendResetInstructions": "إرسال تعليمات إعادة التعيين",
     "backToLogin": "<0>العودة إلى تسجيل الدخول</0>",
     "newPasswordHint": "اختر كلمة مرور جديدة أدناه.",
-    "invalidTokenTitle": "رمز إعادة التعيين الخاص بك غير صالح",
+    "invalidTokenTitle": "رمز إعادة التعيين غير صالح",
     "invalidTokenHint": "حاول طلب رابط إعادة تعيين جديد.",
-    "expiredTokenTitle": "انتهت صلاحية رمز إعادة التعيين الخاص بك",
-    "goToResetPassword": "الانتقال إلى إعادة تعيين كلمة المرور",
+    "expiredTokenTitle": "رمز إعادة التعيين انتهت صلاحيته",
+    "goToResetPassword": "اذهب إلى إعادة تعيين كلمة المرور",
     "resetPassword": "إعادة تعيين كلمة المرور",
     "newPassword": "كلمة المرور الجديدة",
-    "repeatNewPassword": "إعادة كلمة المرور الجديدة",
-    "tokenExpiresIn": "تنتهي صلاحية الرمز خلال <0>{{time}}</0> دقائق",
-    "successfulRequestTitle": "تم إرسال بريد إلكتروني إليك بنجاح",
-    "successfulRequest": "لقد أرسلنا إليك بريدًا إلكترونيًا يمكنك استخدامه لإعادة تعيين كلمة مرورك. تحقق من مجلد الرسائل غير المرغوب فيها إذا لم تكن قد تلقيته بعد بضع دقائق.",
-    "successfulResetTitle": "تمت إعادة تعيين كلمة المرور بنجاح",
+    "repeatNewPassword": "أعد إدخال كلمة المرور الجديدة",
+    "tokenExpiresIn": "ينتهي صلاحية الرمز في <0>{{time}}</0> دقيقة",
+    "successfulRequestTitle": "تم إرسال البريد الإلكتروني بنجاح",
+    "successfulRequest": "لقد أرسلنا لك بريدًا إلكترونيًا يمكنك استخدامه لإعادة تعيين كلمة المرور. تحقق من مجلد البريد العشوائي إذا لم تتلقاه بعد بضع دقائق.",
+    "successfulResetTitle": "تم إعادة تعيين كلمة المرور بنجاح",
     "successfulReset": "يرجى تسجيل الدخول في صفحة تسجيل الدخول.",
-    "passwordMismatch": "كلمتا المرور غير متطابقتين",
-    "invalidLinkTitle": "رابط إعادة التعيين الخاص بك غير صالح",
-    "invalidLinkHint": "حاول إعادة تعيين كلمة مرورك مرة أخرى."
+    "passwordMismatch": "كلمات المرور غير متطابقة",
+    "invalidLinkTitle": "رابط إعادة التعيين غير صالح",
+    "invalidLinkHint": "حاول إعادة تعيين كلمة المرور مرة أخرى."
   },
   "workflowExecutions": {
-    "domain": "سير العمل",
-    "subtitle": "عرض وتتبع عمليات تنفيذ سير العمل في تطبيق Medusa الخاص بك.",
-    "transactionIdLabel": "معرّف المعاملة",
-    "workflowIdLabel": "معرّف سير العمل",
+    "domain": "تنفيذات سير العمل",
+    "subtitle": "عرض وتتبع تنفيذات سير العمل في تطبيق مدوسا الخاص بك.",
+    "transactionIdLabel": "معرف المعاملة",
+    "workflowIdLabel": "معرف سير العمل",
     "progressLabel": "التقدم",
     "stepsCompletedLabel_one": "{{completed}} من {{count}} خطوة",
     "stepsCompletedLabel_other": "{{completed}} من {{count}} خطوات",
@@ -2637,24 +2666,24 @@
       "noRecordsMessage": "لم يتم تنفيذ أي سير عمل حتى الآن."
     },
     "history": {
-      "sectionTitle": "السجل",
+      "sectionTitle": "التاريخ",
       "runningState": "قيد التشغيل...",
       "awaitingState": "في الانتظار",
       "failedState": "فشل",
-      "skippedState": "تم التخطي",
-      "skippedFailureState": "تم التخطي (فشل)",
+      "skippedState": "تم التجاوز",
+      "skippedFailureState": "تم التجاوز (فشل)",
       "definitionLabel": "التعريف",
-      "outputLabel": "الناتج",
-      "compensateInputLabel": "مدخل التعويض",
-      "revertedLabel": "تم الإرجاع",
+      "outputLabel": "المخرجات",
+      "compensateInputLabel": "تعويض المدخلات",
+      "revertedLabel": "تم التراجع",
       "errorLabel": "خطأ"
     },
     "state": {
       "done": "تم",
       "failed": "فشل",
-      "reverted": "تم الإرجاع",
-      "invoking": "جاري الاستدعاء",
-      "compensating": "جاري التعويض",
+      "reverted": "تم التراجع",
+      "invoking": "استدعاء",
+      "compensating": "تعويض",
       "notStarted": "لم يبدأ"
     },
     "transaction": {
@@ -2664,8 +2693,8 @@
     },
     "step": {
       "state": {
-        "skipped": "تم التخطي",
-        "skippedFailure": "تم التخطي (فشل)",
+        "skipped": "تم التجاوز",
+        "skippedFailure": "تم التجاوز (فشل)",
         "dormant": "خامل",
         "timeout": "انتهت المهلة"
       }
@@ -2680,7 +2709,7 @@
       "successToast": "تم إنشاء نوع المنتج {{value}} بنجاح."
     },
     "edit": {
-      "header": "تعديل نوع المنتج",
+      "header": "تحرير نوع المنتج",
       "successToast": "تم تحديث نوع المنتج {{value}} بنجاح."
     },
     "delete": {
@@ -2692,20 +2721,20 @@
     }
   },
   "productTags": {
-    "domain": "وسوم المنتجات",
+    "domain": "علامات المنتجات",
     "create": {
-      "header": "إنشاء وسم منتج",
-      "subtitle": "إنشاء وسم منتج جديد لتصنيف منتجاتك.",
-      "successToast": "تم إنشاء وسم المنتج {{value}} بنجاح."
+      "header": "إنشاء علامة منتج",
+      "subtitle": "إنشاء علامة منتج جديدة لتصنيف منتجاتك.",
+      "successToast": "تم إنشاء علامة المنتج {{value}} بنجاح."
     },
     "edit": {
-      "header": "تعديل وسم منتج",
-      "subtitle": "تعديل قيمة وسم المنتج.",
-      "successToast": "تم تحديث وسم المنتج {{value}} بنجاح."
+      "header": "تحرير علامة المنتج",
+      "subtitle": "تحرير قيمة علامة المنتج.",
+      "successToast": "تم تحديث علامة المنتج {{value}} بنجاح."
     },
     "delete": {
-      "confirmation": "أنت على وشك حذف وسم المنتج {{value}}. لا يمكن التراجع عن هذا الإجراء.",
-      "successToast": "تم حذف وسم المنتج {{value}} بنجاح."
+      "confirmation": "أنت على وشك حذف علامة المنتج {{value}}. لا يمكن التراجع عن هذا الإجراء.",
+      "successToast": "تم حذف علامة المنتج {{value}} بنجاح."
     },
     "fields": {
       "value": "القيمة"
@@ -2715,32 +2744,34 @@
     "domain": "الإشعارات",
     "emptyState": {
       "title": "لا توجد إشعارات",
-      "description": "ليس لديك أي إشعارات في الوقت الحالي، ولكن بمجرد حصولك عليها ستظهر هنا."
+      "description": "ليس لديك أي إشعارات في الوقت الحالي، ولكن بمجرد أن تحصل عليها ستظهر هنا."
     },
     "accessibility": {
-      "description": "سيتم عرض الإشعارات حول أنشطة Medusa هنا."
+      "description": "سيتم سرد الإشعارات حول أنشطة مدوسا هنا."
     }
   },
   "errors": {
     "serverError": "خطأ في الخادم - حاول مرة أخرى لاحقًا.",
-    "invalidCredentials": "بريد إلكتروني أو كلمة مرور خاطئة"
+    "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة"
   },
   "statuses": {
     "scheduled": "مجدول",
-    "expired": "منتهي الصلاحية",
+    "expired": "منتهي",
     "active": "نشط",
-    "inactive": "غير نشط",
+    "enabled": "ممكّن",
+    "disabled": "معطل",
     "draft": "مسودة",
-    "enabled": "مُفعّل",
-    "disabled": "مُعطّل"
+    "inactive": "معطل"
   },
   "labels": {
-    "productVariant": "خيار المنتج",
+    "beaware": "كن واعي",
+    "loading": "جاري التحميل...",
+    "productVariant": "متغير المنتج",
     "prices": "الأسعار",
     "available": "متاح",
     "inStock": "في المخزون",
-    "added": "تمت الإضافة",
-    "removed": "تمت الإزالة",
+    "added": "مضاف",
+    "removed": "محذوف",
     "from": "من",
     "to": "إلى"
   },
@@ -2749,36 +2780,36 @@
     "refundAmount": "مبلغ الاسترداد",
     "name": "الاسم",
     "default": "افتراضي",
-    "lastName": "اسم العائلة",
+    "lastName": "الاسم الأخير",
     "firstName": "الاسم الأول",
     "title": "العنوان",
     "customTitle": "عنوان مخصص",
     "manageInventory": "إدارة المخزون",
-    "inventoryKit": "يحتوي على مجموعة مخزون",
+    "inventoryKit": "مجموعة المخزون",
     "inventoryItems": "عناصر المخزون",
     "inventoryItem": "عنصر المخزون",
     "requiredQuantity": "الكمية المطلوبة",
     "description": "الوصف",
     "email": "البريد الإلكتروني",
     "password": "كلمة المرور",
-    "repeatPassword": "إعادة كلمة المرور",
+    "repeatPassword": "أعد إدخال كلمة المرور",
     "confirmPassword": "تأكيد كلمة المرور",
     "newPassword": "كلمة المرور الجديدة",
-    "repeatNewPassword": "إعادة كلمة المرور الجديدة",
-    "categories": "التصنيفات",
+    "repeatNewPassword": "أعد إدخال كلمة المرور الجديدة",
+    "categories": "الفئات",
     "shippingMethod": "طريقة الشحن",
     "configurations": "التكوينات",
     "conditions": "الشروط",
-    "category": "التصنيف",
+    "category": "الفئة",
     "collection": "المجموعة",
     "discountable": "قابل للخصم",
-    "handle": "المعرّف",
+    "handle": "المقبض",
     "subtitle": "العنوان الفرعي",
     "by": "بواسطة",
-    "item": "العنصر",
+    "item": "عنصر",
     "qty": "الكمية",
     "limit": "الحد",
-    "tags": "الوسوم",
+    "tags": "العلامات",
     "type": "النوع",
     "reason": "السبب",
     "none": "لا شيء",
@@ -2787,36 +2818,36 @@
     "percentage": "النسبة المئوية",
     "sales_channels": "قنوات البيع",
     "customer_groups": "مجموعات العملاء",
-    "product_tags": "وسوم المنتجات",
+    "product_tags": "علامات المنتجات",
     "product_types": "أنواع المنتجات",
     "product_collections": "مجموعات المنتجات",
     "status": "الحالة",
     "code": "الرمز",
     "value": "القيمة",
-    "disabled": "مُعطّل",
+    "disabled": "معطل",
     "dynamic": "ديناميكي",
     "normal": "عادي",
-    "years": "سنوات",
-    "months": "أشهر",
-    "days": "أيام",
-    "hours": "ساعات",
-    "minutes": "دقائق",
-    "totalRedemptions": "إجمالي عمليات الاسترداد",
+    "years": "السنوات",
+    "months": "الأشهر",
+    "days": "الأيام",
+    "hours": "الساعات",
+    "minutes": "الدقائق",
+    "totalRedemptions": "إجمالي الاستردادات",
     "countries": "الدول",
-    "paymentProviders": "مزودو الدفع",
+    "paymentProviders": "مزودي الدفع",
     "refundReason": "سبب الاسترداد",
-    "fulfillmentProviders": "مزودو التنفيذ",
+    "fulfillmentProviders": "مزودي التنفيذ",
     "fulfillmentProvider": "مزود التنفيذ",
-    "providers": "المزودون",
-    "availability": "التوفر",
+    "providers": "المزودين",
+    "availability": "التوافر",
     "inventory": "المخزون",
     "optional": "اختياري",
     "note": "ملاحظة",
     "automaticTaxes": "الضرائب التلقائية",
-    "taxInclusivePricing": "الأسعار شاملة الضرائب",
+    "taxInclusivePricing": "التسعير الشامل للضرائب",
     "currency": "العملة",
     "address": "العنوان",
-    "address2": "شقة، جناح، إلخ.",
+    "address2": "الشقة، الجناح، إلخ.",
     "city": "المدينة",
     "postalCode": "الرمز البريدي",
     "country": "الدولة",
@@ -2827,18 +2858,18 @@
     "metadata": "البيانات الوصفية",
     "selectCountry": "اختر الدولة",
     "products": "المنتجات",
-    "variants": "الخيارات",
+    "variants": "البدائل",
     "orders": "الطلبات",
     "account": "الحساب",
     "total": "إجمالي الطلب",
-    "paidTotal": "إجمالي المبلغ المحصل",
-    "totalExclTax": "الإجمالي باستثناء الضريبة",
+    "paidTotal": "إجمالي المدفوع",
+    "totalExclTax": "الإجمالي بدون ضريبة",
     "subtotal": "المجموع الفرعي",
     "shipping": "الشحن",
     "outboundShipping": "الشحن الصادر",
     "returnShipping": "شحن الإرجاع",
     "tax": "الضريبة",
-    "created": "تاريخ الإنشاء",
+    "created": "تم الإنشاء",
     "key": "المفتاح",
     "customer": "العميل",
     "date": "التاريخ",
@@ -2854,13 +2885,13 @@
     "sent": "تم الإرسال",
     "salesChannels": "قنوات البيع",
     "product": "المنتج",
-    "createdAt": "تاريخ الإنشاء",
-    "updatedAt": "تاريخ التحديث",
-    "revokedAt": "تاريخ الإبطال",
+    "createdAt": "تم الإنشاء في",
+    "updatedAt": "تم التحديث في",
+    "revokedAt": "تم الإلغاء في",
     "true": "صحيح",
     "false": "خطأ",
-    "giftCard": "بطاقة هدية",
-    "tag": "وسم",
+    "giftCard": "بطاقة هدايا",
+    "tag": "علامة",
     "dateIssued": "تاريخ الإصدار",
     "issuedDate": "تاريخ الإصدار",
     "expiryDate": "تاريخ الانتهاء",
@@ -2871,7 +2902,7 @@
     "length": "الطول",
     "weight": "الوزن",
     "midCode": "رمز MID",
-    "hsCode": "رمز النظام المنسق",
+    "hsCode": "رمز HS",
     "ean": "EAN",
     "upc": "UPC",
     "inventoryQuantity": "كمية المخزون",
@@ -2880,13 +2911,13 @@
     "material": "المادة",
     "thumbnail": "الصورة المصغرة",
     "sku": "SKU",
-    "managedInventory": "إدارة المخزون",
-    "allowBackorder": "السماح بالطلبات المتأخرة",
+    "managedInventory": "المخزون المُدار",
+    "allowBackorder": "السماح بالطلبات المسبقة",
     "inStock": "في المخزون",
     "location": "الموقع",
     "quantity": "الكمية",
-    "variant": "الخيار",
-    "id": "المعرّف",
+    "variant": "البديل",
+    "id": "المعرف",
     "parent": "الأصل",
     "minSubtotal": "الحد الأدنى للمجموع الفرعي",
     "maxSubtotal": "الحد الأقصى للمجموع الفرعي",
@@ -2895,7 +2926,7 @@
     "details": "التفاصيل",
     "label": "التسمية",
     "rate": "المعدل",
-    "requiresShipping": "يتطلب شحنًا",
+    "requiresShipping": "يتطلب الشحن",
     "unitPrice": "سعر الوحدة",
     "startDate": "تاريخ البدء",
     "endDate": "تاريخ الانتهاء",
@@ -2903,7 +2934,7 @@
     "values": "القيم"
   },
   "dateTime": {
-    "years_one": "عام",
+    "years_one": "سنة",
     "years_other": "سنوات",
     "months_one": "شهر",
     "months_other": "أشهر",

@@ -1,6 +1,6 @@
 import { BigNumberInput } from "../totals"
 import { PaymentCollectionStatus } from "./common"
-import { PaymentProviderContext } from "./provider"
+import { PaymentCustomerDTO, PaymentProviderContext } from "./provider"
 
 /**
  * The payment collection to be created.
@@ -253,6 +253,26 @@ export interface CreatePaymentProviderDTO {
    * Whether the provider is enabled.
    */
   is_enabled?: boolean
+}
+
+/**
+ * The payment session to be created.
+ */
+export interface CreateAccountHolderDTO {
+  /**
+   * The provider's ID.
+   */
+  provider_id: string
+
+  /**
+   * Necessary context data for the associated payment provider.
+   */
+  context: PaymentProviderContext & {
+    /**
+     * The customer information from Medusa.
+     */
+    customer: PaymentCustomerDTO
+  }
 }
 
 /**

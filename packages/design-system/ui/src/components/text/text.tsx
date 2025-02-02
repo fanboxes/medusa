@@ -1,5 +1,5 @@
-import { Slot } from "@radix-ui/react-slot"
 import { VariantProps, cva } from "cva"
+import { Slot } from "radix-ui"
 import * as React from "react"
 
 import { clx } from "@/utils/clx"
@@ -130,7 +130,7 @@ const Text = React.forwardRef<HTMLParagraphElement, TextProps>(
     }: TextProps,
     ref
   ) => {
-    const Component = asChild ? Slot : as
+    const Component = asChild ? Slot.Root : as
 
     return (
       <Component

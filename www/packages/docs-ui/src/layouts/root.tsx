@@ -3,6 +3,7 @@ import clsx from "clsx"
 import { RootProviders, Sidebar, SidebarProps } from "@/components"
 import { Toc } from "../components/Toc"
 import { MainContentLayout, MainContentLayoutProps } from "./main-content"
+import { AiAssistantChatWindow } from "../components/AiAssistant/ChatWindow"
 
 export type RootLayoutProps = {
   bodyClassName?: string
@@ -26,7 +27,7 @@ export const RootLayout = ({
     <body
       className={clsx(
         "bg-medusa-bg-subtle font-base text-medium w-full",
-        "text-medusa-fg-subtle",
+        "text-medusa-fg-base",
         "h-screen overflow-hidden",
         "grid grid-cols-1 lg:mx-auto lg:grid-cols-[221px_1fr]",
         bodyClassName
@@ -38,6 +39,7 @@ export const RootLayout = ({
           <div className={clsx("relative", "h-screen", "flex")}>
             <MainContentLayout {...mainProps} />
             {showToc && <Toc />}
+            <AiAssistantChatWindow />
           </div>
         </ProvidersComponent>
       </RootProviders>

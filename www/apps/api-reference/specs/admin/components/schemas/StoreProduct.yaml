@@ -35,7 +35,7 @@ properties:
     items:
       type: object
   type:
-    type: object
+    $ref: ./StoreProductType.yaml
   length:
     type: number
     title: length

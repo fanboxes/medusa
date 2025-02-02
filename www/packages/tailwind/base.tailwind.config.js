@@ -275,6 +275,8 @@ module.exports = {
         "subtle-code-fade-right-to-left-dark": `linear-gradient(90deg, #30303380, #303033)`,
         "border-dotted":
           "linear-gradient(90deg,var(--docs-border-strong) 1px,transparent 1px)",
+        "ai-assistant-bottom":
+          "linear-gradient(180deg, rgba(255, 255, 255, 0.00) 0%, var(--docs-bg-base) 100%)",
       },
       screens: {
         xs: "568px",
@@ -283,7 +285,8 @@ module.exports = {
         lg: "1024px",
         xl: "1280px",
         xxl: "1536px",
-        xxxl: "3840px",
+        xxxl: "1800px",
+        xxxxl: "3840px",
       },
       transitionTimingFunction: {
         ease: "ease",
@@ -291,6 +294,7 @@ module.exports = {
       width: {
         toc: "221px",
         "sidebar-xs": "calc(100% - 20px)",
+        "ai-assistant": "500px"
       },
       maxWidth: {
         // sidebar
@@ -326,6 +330,8 @@ module.exports = {
         "modal-sm": "624px",
         "modal-md": "752px",
         "modal-lg": "640px",
+        // ai-assistant
+        "ai-assistant": "500px"
       },
       minWidth: {
         xl: "1419px",
@@ -502,8 +508,8 @@ module.exports = {
         "code-label": [
           "12px",
           {
-            lineHeight: "20px",
-            fontWeight: "400",
+            lineHeight: "15px",
+            fontWeight: "500",
           },
         ],
         "code-body": [

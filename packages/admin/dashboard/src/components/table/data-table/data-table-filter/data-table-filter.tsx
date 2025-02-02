@@ -1,5 +1,5 @@
 import { Button, clx } from "@medusajs/ui"
-import * as Popover from "@radix-ui/react-popover"
+import { Popover as RadixPopover } from "radix-ui"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useSearchParams } from "react-router-dom"
 
@@ -174,14 +174,14 @@ export const DataTableFilter = ({
           }
         })}
         {!readonly && availableFilters.length > 0 && (
-          <Popover.Root modal open={open} onOpenChange={setOpen}>
-            <Popover.Trigger asChild id="filters_menu_trigger">
+          <RadixPopover.Root modal open={open} onOpenChange={setOpen}>
+            <RadixPopover.Trigger asChild id="filters_menu_trigger">
               <Button size="small" variant="secondary">
                 {t("filters.addFilter")}
               </Button>
-            </Popover.Trigger>
-            <Popover.Portal>
-              <Popover.Content
+            </RadixPopover.Trigger>
+            <RadixPopover.Portal>
+              <RadixPopover.Content
                 className={clx(
                   "bg-ui-bg-base text-ui-fg-base shadow-elevation-flyout z-[1] h-full max-h-[200px] w-[300px] overflow-auto rounded-lg p-1 outline-none"
                 )}
@@ -213,9 +213,9 @@ export const DataTableFilter = ({
                     </div>
                   )
                 })}
-              </Popover.Content>
-            </Popover.Portal>
-          </Popover.Root>
+              </RadixPopover.Content>
+            </RadixPopover.Portal>
+          </RadixPopover.Root>
         )}
         {!readonly && activeFilters.length > 0 && (
           <ClearAllFilters filters={filters} prefix={prefix} />

@@ -85,12 +85,24 @@ medusaIntegrationTestRunner({
         )
       ).data.sales_channel
 
+      shippingProfile = (
+        await api.post(
+          `/admin/shipping-profiles`,
+          {
+            name: "Test",
+            type: "default",
+          },
+          adminHeaders
+        )
+      ).data.shipping_profile
+
       const product = (
         await api.post(
           "/admin/products",
           {
             title: "Test product",
             options: [{ title: "size", values: ["large", "small"] }],
+            shipping_profile_id: shippingProfile.id,
             variants: [
               {
                 title: "Test variant",
@@ -115,6 +127,7 @@ medusaIntegrationTestRunner({
           {
             title: "Extra product",
             options: [{ title: "size", values: ["large", "small"] }],
+            shipping_profile_id: shippingProfile.id,
             variants: [
               {
                 title: "my variant",
@@ -173,17 +186,6 @@ medusaIntegrationTestRunner({
         currency_code: "usd",
         customer_id: customer.id,
       })
-
-      shippingProfile = (
-        await api.post(
-          `/admin/shipping-profiles`,
-          {
-            name: "Test",
-            type: "default",
-          },
-          adminHeaders
-        )
-      ).data.shipping_profile
 
       location = (
         await api.post(

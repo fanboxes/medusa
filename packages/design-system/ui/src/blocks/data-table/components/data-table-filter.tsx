@@ -211,6 +211,7 @@ const DataTableFilter = ({ id, filter }: DataTableFilterProps) => {
     </Popover>
   )
 }
+DataTableFilter.displayName = "DataTable.Filter"
 
 type DataTableFilterDateContentProps = {
   id: string

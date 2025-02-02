@@ -37,6 +37,8 @@ moduleIntegrationTestRunner<HelloModuleService>({
     // TODO write tests
   },
 })
+
+jest.setTimeout(60 * 1000)
 ```
 
 The `moduleIntegrationTestRunner` function accepts as a parameter an object with the following properties:
@@ -63,12 +65,12 @@ The tests in the `testSuite` function are written using [Jest](https://jestjs.io
 Run the following command to run your module integration tests:
 
 ```bash npm2yarn
-npm run test:modules
+npm run test:integration:modules
 ```
 
 <Note title="Tip">
 
-If you don't have a `test:modules` script in `package.json`, refer to the [Medusa Testing Tools chapter](../page.mdx#add-test-commands).
+If you don't have a `test:integration:modules` script in `package.json`, refer to the [Medusa Testing Tools chapter](../page.mdx#add-test-commands).
 
 </Note>
 
@@ -115,6 +117,8 @@ moduleIntegrationTestRunner<HelloModuleService>({
   moduleModels: [DummyModel],
   // ...
 })
+
+jest.setTimeout(60 * 1000)
 ```
 
 ---

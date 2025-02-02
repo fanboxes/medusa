@@ -22,6 +22,8 @@ medusaIntegrationTestRunner({
     let baseTag2
     let newTag
 
+    let shippingProfile
+
     beforeEach(async () => {
       await createAdminUser(dbConnection, adminHeaders, getContainer())
 
@@ -65,6 +67,14 @@ medusaIntegrationTestRunner({
         )
       ).data.product_tag
 
+      shippingProfile = (
+        await api.post(
+          `/admin/shipping-profiles`,
+          { name: "default", type: "default" },
+          adminHeaders
+        )
+      ).data.shipping_profile
+
       baseProduct = (
         await api.post(
           "/admin/products",
@@ -74,6 +84,7 @@ medusaIntegrationTestRunner({
             // BREAKING: Type input changed from {type: {value: string}} to {type_id: string}
             type_id: baseType.id,
             tags: [{ id: baseTag1.id }, { id: baseTag2.id }],
+            shipping_profile_id: shippingProfile.id,
             images: [
               {
                 url: "image-one",
@@ -95,6 +106,7 @@ medusaIntegrationTestRunner({
             status: "proposed",
             tags: [{ id: newTag.id }],
             type_id: baseType.id,
+            shipping_profile_id: shippingProfile.id,
           }),
           adminHeaders
         )
@@ -108,6 +120,7 @@ medusaIntegrationTestRunner({
             status: "published",
             collection_id: publishedCollection.id,
             tags: [{ id: baseTag1.id }, { id: baseTag2.id }],
+            shipping_profile_id: shippingProfile.id,
           }),
           adminHeaders
         )
@@ -115,7 +128,10 @@ medusaIntegrationTestRunner({
       deletedProduct = (
         await api.post(
           "/admin/products",
-          getProductFixture({ title: "Deleted product" }),
+          getProductFixture({
+            title: "Deleted product",
+            shipping_profile_id: shippingProfile.id,
+          }),
           adminHeaders
         )
       ).data.product
@@ -605,6 +621,7 @@ medusaIntegrationTestRunner({
             is_giftcard: true,
             description: "test-giftcard-description",
             options: [{ title: "Denominations", values: ["100"] }],
+            shipping_profile_id: shippingProfile.id,
             variants: [
               {
                 title: "Test variant",
@@ -693,6 +710,7 @@ medusaIntegrationTestRunner({
             is_giftcard: true,
             description: "test-giftcard-description",
             options: [{ title: "size", values: ["x", "l"] }],
+            shipping_profile_id: shippingProfile.id,
             variants: [
               {
                 title: "Test variant",
@@ -912,6 +930,7 @@ medusaIntegrationTestRunner({
               getProductFixture({
                 title: "Test saleschannel",
                 sales_channels: [{ id: salesChannel.id }],
+                shipping_profile_id: shippingProfile.id,
               }),
               adminHeaders
             )
@@ -1098,6 +1117,7 @@ medusaIntegrationTestRunner({
             title: "Test product - 1",
             handle: "test-1",
             options: [{ title: "size", values: ["x", "l"] }],
+            shipping_profile_id: shippingProfile.id,
             variants: [
               {
                 title: "Custom inventory 1",
@@ -1141,6 +1161,7 @@ medusaIntegrationTestRunner({
             title: "Test product - 1",
             handle: "test-1",
             options: [{ title: "size", values: ["x", "l"] }],
+            shipping_profile_id: shippingProfile.id,
             variants: [
               {
                 title: "Custom inventory 1",
@@ -1202,6 +1223,7 @@ medusaIntegrationTestRunner({
                 collection_id: baseCollection.id,
                 type_id: baseType.id,
                 tags: [{ id: baseTag1.id }, { id: baseTag2.id }],
+                shipping_profile_id: shippingProfile.id,
               }),
 
               adminHeaders
@@ -1341,6 +1363,7 @@ medusaIntegrationTestRunner({
             {
               title: "Test create",
               options: [{ title: "size", values: ["x", "l"] }],
+              shipping_profile_id: shippingProfile.id,
               variants: [
                 {
                   title: "Price with rules",
@@ -1394,6 +1417,7 @@ medusaIntegrationTestRunner({
             collection_id: baseCollection.id,
             tags: [{ id: baseTag1.id }, { id: baseTag2.id }],
             options: [{ title: "size", values: ["large"] }],
+            shipping_profile_id: shippingProfile.id,
             variants: [
               {
                 title: "Test variant",
@@ -1425,7 +1449,8 @@ medusaIntegrationTestRunner({
             images: [{ url: "test-image.png" }, { url: "test-image-2.png" }],
             collection_id: baseCollection.id,
             tags: [{ id: baseTag1.id }, { id: baseTag2.id }],
-            options: [{ title: "size", values: ["l", x] }],
+            options: [{ title: "size", values: ["l", "x"] }],
+            shipping_profile_id: shippingProfile.id,
             variants: [
               {
                 title: "Test variant 1",
@@ -1477,6 +1502,7 @@ medusaIntegrationTestRunner({
             is_giftcard: true,
             description: "test-giftcard-description",
             options: [{ title: "size", values: ["large"] }],
+            shipping_profile_id: shippingProfile.id,
             variants: [
               {
                 title: "Test variant",
@@ -1637,6 +1663,7 @@ medusaIntegrationTestRunner({
 
         it("updates product variants (update price on existing variant, create new variant)", async () => {
           const payload = {
+            shipping_profile_id: shippingProfile.id,
             variants: [
               {
                 id: baseProduct.variants[0].id,
@@ -1815,6 +1842,7 @@ medusaIntegrationTestRunner({
               "/admin/products",
               getProductFixture({
                 title: "Test metadata",
+                shipping_profile_id: shippingProfile.id,
                 metadata: {
                   "test-key": "test-value",
                   "test-key-2": "test-value-2",
@@ -1877,6 +1905,7 @@ medusaIntegrationTestRunner({
               getProductFixture({
                 title: "Test saleschannel",
                 sales_channels: [{ id: salesChannel1.id }],
+                shipping_profile_id: shippingProfile.id,
               }),
               adminHeaders
             )
@@ -2045,7 +2074,10 @@ medusaIntegrationTestRunner({
           const plainProduct = (
             await api.post(
               "/admin/products",
-              { title: "Test variant order" },
+              {
+                title: "Test variant order",
+                shipping_profile_id: shippingProfile.id,
+              },
               adminHeaders
             )
           ).data.product
@@ -2152,6 +2184,7 @@ medusaIntegrationTestRunner({
             title: "Test product - 1",
             handle: "test-1",
             options: [{ title: "size", values: ["x", "l"] }],
+            shipping_profile_id: shippingProfile.id,
             variants: [
               {
                 title: "Custom inventory 1",
@@ -2265,6 +2298,7 @@ medusaIntegrationTestRunner({
             title: "Test product - 1",
             handle: "test-1",
             options: [{ title: "size", values: ["x", "l"] }],
+            shipping_profile_id: shippingProfile.id,
             variants: [
               {
                 title: "Custom inventory 1",
@@ -2316,6 +2350,7 @@ medusaIntegrationTestRunner({
             title: "Test product - 1",
             handle: "test-1",
             options: [{ title: "size", values: ["x", "l"] }],
+            shipping_profile_id: shippingProfile.id,
             variants: [
               {
                 title: "Custom inventory 1",
@@ -2490,6 +2525,7 @@ medusaIntegrationTestRunner({
                 title: "Test product - 1",
                 handle: "test-1",
                 options: [{ title: "size", values: ["l"] }],
+                shipping_profile_id: shippingProfile.id,
                 variants: [
                   {
                     title: "Custom inventory 1",
@@ -2520,6 +2556,7 @@ medusaIntegrationTestRunner({
               title: "Test product - 2",
               handle: "test-2",
               options: [{ title: "size", values: ["l"] }],
+              shipping_profile_id: shippingProfile.id,
               variants: [
                 {
                   title: "W/ shared inventory item",
@@ -2604,6 +2641,7 @@ medusaIntegrationTestRunner({
                 title: "Test product - 1",
                 handle: "test-1",
                 options: [{ title: "size", values: ["l"] }],
+                shipping_profile_id: shippingProfile.id,
                 variants: [
                   {
                     title: "Custom inventory 1",
@@ -2740,6 +2778,7 @@ medusaIntegrationTestRunner({
             title: baseProduct.title,
             handle: baseProduct.handle,
             options: [{ title: "size", values: ["x", "l"] }],
+            shipping_profile_id: shippingProfile.id,
             variants: [
               {
                 title: "Test variant",
@@ -2772,6 +2811,7 @@ medusaIntegrationTestRunner({
             handle: baseProduct.handle,
             description: "test-product-description",
             options: [{ title: "size", values: ["x", "l"] }],
+            shipping_profile_id: shippingProfile.id,
             variants: [
               {
                 title: "Test variant",
@@ -2948,6 +2988,7 @@ medusaIntegrationTestRunner({
           const createPayload = getProductFixture({
             title: "Test batch create",
             handle: "test-batch-create",
+            shipping_profile_id: shippingProfile.id,
           })
 
           const updatePayload = {
@@ -3006,6 +3047,7 @@ medusaIntegrationTestRunner({
           const productWithMultipleVariants = getProductFixture({
             title: "Test batch variants",
             handle: "test-batch-variants",
+            shipping_profile_id: shippingProfile.id,
             variants: [
               {
                 title: "Variant 1",

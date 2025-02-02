@@ -37,7 +37,7 @@
  *     items:
  *       $ref: "#/components/schemas/StoreProductCategory"
  *   type:
- *     $ref: "#/components/schemas/StoreProduct"
+ *     $ref: "#/components/schemas/StoreProductType"
  *   length:
  *     type: number
  *     title: length

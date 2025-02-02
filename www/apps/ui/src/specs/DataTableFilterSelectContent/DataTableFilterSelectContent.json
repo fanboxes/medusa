@@ -1,0 +1,50 @@
+{
+  "description": "",
+  "methods": [],
+  "displayName": "DataTableFilterSelectContent",
+  "props": {
+    "id": {
+      "required": true,
+      "tsType": {
+        "name": "string"
+      },
+      "description": ""
+    },
+    "filter": {
+      "required": false,
+      "tsType": {
+        "name": "Array",
+        "elements": [
+          {
+            "name": "string"
+          }
+        ],
+        "raw": "string[]"
+      },
+      "description": "",
+      "defaultValue": {
+        "value": "[]",
+        "computed": false
+      }
+    },
+    "options": {
+      "required": true,
+      "tsType": {
+        "name": "Array",
+        "elements": [
+          {
+            "name": "DataTableFilterOption",
+            "elements": [
+              {
+                "name": "string"
+              }
+            ],
+            "raw": "DataTableFilterOption<string>"
+          }
+        ],
+        "raw": "DataTableFilterOption<string>[]"
+      },
+      "description": ""
+    }
+  }
+}

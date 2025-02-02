@@ -1,19 +1,12 @@
 "use client"
 
 import { ExpandedDocument, SecuritySchemeObject } from "@/types/openapi"
-import {
-  ReactNode,
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-} from "react"
+import { ReactNode, createContext, useContext, useEffect, useMemo } from "react"
 import { SidebarItem, SidebarItemSections } from "types"
 import getSectionId from "../utils/get-section-id"
 import getTagChildSidebarItems from "../utils/get-tag-child-sidebar-items"
-import { usePathname, useRouter } from "next/navigation"
-import { usePrevious, useSidebar } from "docs-ui"
+import { useRouter } from "next/navigation"
+import { useSidebar } from "docs-ui"
 
 type BaseSpecsContextType = {
   baseSpecs: ExpandedDocument | undefined
@@ -29,10 +22,7 @@ type BaseSpecsProviderProps = {
 
 const BaseSpecsProvider = ({ children, baseSpecs }: BaseSpecsProviderProps) => {
   const router = useRouter()
-  const { items, activePath, addItems, setActivePath, resetItems } =
-    useSidebar()
-  const pathname = usePathname()
-  const prevPathName = usePrevious(pathname)
+  const { activePath, addItems, setActivePath, resetItems } = useSidebar()
 
   const getSecuritySchema = (
     securityName: string

@@ -6,9 +6,17 @@ import { useDataTableContext } from "@/blocks/data-table/context/use-data-table-
 import { CommandBar } from "@/components/command-bar"
 
 interface DataTableCommandBarProps {
+  /**
+   * The label to show when items are selected. If a function is passed, 
+   * it will be called with the count of selected items.
+   */
   selectedLabel?: ((count: number) => string) | string
 }
 
+/**
+ * This component adds a command bar to the data table, which is used
+ * to show commands that can be executed on the selected rows.
+ */
 const DataTableCommandBar = (props: DataTableCommandBarProps) => {
   const { instance } = useDataTableContext()
 
@@ -55,6 +63,7 @@ const DataTableCommandBar = (props: DataTableCommandBarProps) => {
     </CommandBar>
   )
 }
+DataTableCommandBar.displayName = "DataTable.CommandBar"
 
 export { DataTableCommandBar }
 export type { DataTableCommandBarProps }

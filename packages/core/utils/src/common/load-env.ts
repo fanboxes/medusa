@@ -12,14 +12,17 @@ const KNOWN_ENVIRONMENTS = ["staging", "production", "test"]
  * - Loads ".env.production" when "environment=production".
  * - Loads ".env.test" when "environment=test".
  *
+ * The ".env" file is always loaded alongside the environment
+ * specific .env file.
+ *
  * This method does not return any value and updates the "process.env"
  * object instead.
  */
 export function loadEnv(environment: string, envDir: string) {
-  const fileToLoad = KNOWN_ENVIRONMENTS.includes(environment)
-    ? `.env.${environment}`
-    : ".env"
+  const filesToLoad = KNOWN_ENVIRONMENTS.includes(environment)
+    ? [`.env.${environment}`, ".env"].map((file) => join(envDir, file))
+    : [join(envDir, ".env")]
   try {
-    expand(dotenv.config({ path: join(envDir, fileToLoad) }))
+    expand(dotenv.config({ path: filesToLoad }))
   } catch {}
 }

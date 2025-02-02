@@ -1,5 +1,5 @@
 import { events } from "fetch-event-stream"
-import qs from "qs"
+import { stringify } from "qs"
 import {
   ClientFetch,
   Config,
@@ -242,7 +242,7 @@ export class Client {
           const params = Object.fromEntries(
             normalizedInput.searchParams.entries()
           )
-          const stringifiedQuery = qs.stringify({ ...params, ...init.query })
+          const stringifiedQuery = stringify({ ...params, ...init.query })
           normalizedInput.search = stringifiedQuery
         }
       }

@@ -33,21 +33,18 @@ export async function ensurePublishableApiKeyMiddleware(
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
 
   try {
-    const { data } = await query.graph(
-      {
-        entity: "api_key",
-        fields: ["id", "token", "sales_channels_link.sales_channel_id"],
-        filters: {
-          token: publishableApiKey,
-          type: ApiKeyType.PUBLISHABLE,
-          $or: [
-            { revoked_at: { $eq: null } },
-            { revoked_at: { $gt: new Date() } },
-          ],
-        },
+    const { data } = await query.graph({
+      entity: "api_key",
+      fields: ["id", "token", "sales_channels_link.sales_channel_id"],
+      filters: {
+        token: publishableApiKey,
+        type: ApiKeyType.PUBLISHABLE,
+        $or: [
+          { revoked_at: { $eq: null } },
+          { revoked_at: { $gt: new Date() } },
+        ],
       },
-      { throwIfKeyNotFound: true }
-    )
+    })
 
     apiKey = data[0]
   } catch (e) {

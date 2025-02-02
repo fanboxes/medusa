@@ -28,7 +28,10 @@ export const StoreGetProductParams = createSelectParams().merge(
 export const StoreGetProductVariantsParamsFields = z.object({
   q: z.string().optional(),
   id: z.union([z.string(), z.array(z.string())]).optional(),
-  options: z.object({ value: z.string(), option_id: z.string() }).optional(),
+  sku: z.union([z.string(), z.array(z.string())]).optional(),
+  options: z
+    .object({ value: z.string().optional(), option_id: z.string().optional() })
+    .optional(),
   created_at: createOperatorMap().optional(),
   updated_at: createOperatorMap().optional(),
   deleted_at: createOperatorMap().optional(),
@@ -64,10 +67,12 @@ export const StoreGetProductsParams = createFindParams({
     z
       .object({
         variants: z
-
           .object({
             options: z
-              .object({ value: z.string(), option_id: z.string() })
+              .object({
+                value: z.string().optional(),
+                option_id: z.string().optional(),
+              })
               .optional(),
           })
           .merge(applyAndAndOrOperators(StoreGetProductVariantsParamsFields))

@@ -38,6 +38,7 @@ export const cartFieldsForRefreshSteps = [
 ]
 
 export const completeCartFields = [
+  "metadata",
   "id",
   "currency_code",
   "email",

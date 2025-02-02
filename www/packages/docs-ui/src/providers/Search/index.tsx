@@ -23,7 +23,8 @@ import { CSSTransition, SwitchTransition } from "react-transition-group"
 
 export type SearchCommand = {
   name: string
-  component: React.ReactNode
+  component?: React.ReactNode
+  action?: () => void
   icon?: React.ReactNode
   title: string
   badge?: BadgeProps
@@ -38,6 +39,7 @@ export type SearchContextType = {
   commands: SearchCommand[]
   command: SearchCommand | null
   setCommand: React.Dispatch<React.SetStateAction<SearchCommand | null>>
+  setCommands: React.Dispatch<React.SetStateAction<SearchCommand[]>>
   modalRef: React.MutableRefObject<HTMLDialogElement | null>
 }
 
@@ -64,13 +66,14 @@ export const SearchProvider = ({
   initialDefaultFilters = [],
   searchProps,
   algolia,
-  commands = [],
+  commands: initialCommands = [],
   modalClassName,
 }: SearchProviderProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const [defaultFilters, setDefaultFilters] = useState<string[]>(
     initialDefaultFilters
   )
+  const [commands, setCommands] = useState<SearchCommand[]>(initialCommands)
   const [command, setCommand] = useState<SearchCommand | null>(null)
 
   const modalRef = useRef<HTMLDialogElement | null>(null)
@@ -211,6 +214,10 @@ export const SearchProvider = ({
 
   const componentWrapperRef = useRef(null)
 
+  useEffect(() => {
+    command?.action?.()
+  }, [command])
+
   return (
     <SearchContext.Provider
       value={{
@@ -223,6 +230,7 @@ export const SearchProvider = ({
         command,
         setCommand,
         modalRef,
+        setCommands,
       }}
     >
       {children}
@@ -241,20 +249,20 @@ export const SearchProvider = ({
           <CSSTransition
             classNames={{
               enter:
-                command === null
+                command === null || !command.component
                   ? "animate-fadeInLeft animate-fast"
                   : "animate-fadeInRight animate-fast",
               exit:
-                command === null
+                command === null || !command.component
                   ? "animate-fadeOutLeft animate-fast"
                   : "animate-fadeOutRight animate-fast",
             }}
             timeout={250}
-            key={command?.name || "search"}
+            key={command?.component ? command.name : "search"}
             nodeRef={componentWrapperRef}
           >
             <div ref={componentWrapperRef} className="h-full">
-              {command === null && (
+              {!command?.component && (
                 <Search {...searchProps} algolia={algolia} />
               )}
               {command?.component}

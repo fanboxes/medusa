@@ -1,8 +1,25 @@
+import crypto from "crypto"
+
 import {
-  CreatePaymentProviderSession,
-  PaymentProviderError,
-  PaymentProviderSessionResponse,
+  AuthorizePaymentInput,
+  AuthorizePaymentOutput,
+  CancelPaymentInput,
+  CancelPaymentOutput,
+  CapturePaymentInput,
+  CapturePaymentOutput,
+  DeletePaymentInput,
+  DeletePaymentOutput,
+  GetPaymentStatusInput,
+  GetPaymentStatusOutput,
+  InitiatePaymentInput,
+  InitiatePaymentOutput,
   ProviderWebhookPayload,
+  RefundPaymentInput,
+  RefundPaymentOutput,
+  RetrievePaymentInput,
+  RetrievePaymentOutput,
+  UpdatePaymentInput,
+  UpdatePaymentOutput,
   WebhookActionResult,
 } from "@medusajs/framework/types"
 import {
@@ -23,53 +40,49 @@ export class SystemProviderService extends AbstractPaymentProvider {
   }
 
   async initiatePayment(
-    context: CreatePaymentProviderSession
-  ): Promise<PaymentProviderSessionResponse> {
-    return { data: {} }
+    input: InitiatePaymentInput
+  ): Promise<InitiatePaymentOutput> {
+    return { data: {}, id: crypto.randomUUID() }
   }
 
   async getPaymentStatus(
-    paymentSessionData: Record<string, unknown>
-  ): Promise<PaymentSessionStatus> {
+    input: GetPaymentStatusInput
+  ): Promise<GetPaymentStatusOutput> {
     throw new Error("Method not implemented.")
   }
 
   async retrievePayment(
-    paymentSessionData: Record<string, unknown>
-  ): Promise<Record<string, unknown> | PaymentProviderError> {
+    input: RetrievePaymentInput
+  ): Promise<RetrievePaymentOutput> {
     return {}
   }
 
-  async authorizePayment(_): Promise<
-    | PaymentProviderError
-    | {
-        status: PaymentSessionStatus
-        data: PaymentProviderSessionResponse["data"]
-      }
-  > {
+  async authorizePayment(
+    input: AuthorizePaymentInput
+  ): Promise<AuthorizePaymentOutput> {
     return { data: {}, status: PaymentSessionStatus.AUTHORIZED }
   }
 
-  async updatePayment(
-    _
-  ): Promise<PaymentProviderError | PaymentProviderSessionResponse> {
-    return { data: {} } as PaymentProviderSessionResponse
+  async updatePayment(input: UpdatePaymentInput): Promise<UpdatePaymentOutput> {
+    return { data: {} }
   }
 
-  async deletePayment(_): Promise<Record<string, unknown>> {
-    return {}
+  async deletePayment(input: DeletePaymentInput): Promise<DeletePaymentOutput> {
+    return { data: {} }
   }
 
-  async capturePayment(_): Promise<Record<string, unknown>> {
-    return {}
+  async capturePayment(
+    input: CapturePaymentInput
+  ): Promise<CapturePaymentOutput> {
+    return { data: {} }
   }
 
-  async refundPayment(_): Promise<Record<string, unknown>> {
-    return {}
+  async refundPayment(input: RefundPaymentInput): Promise<RefundPaymentOutput> {
+    return { data: {} }
   }
 
-  async cancelPayment(_): Promise<Record<string, unknown>> {
-    return {}
+  async cancelPayment(input: CancelPaymentInput): Promise<CancelPaymentOutput> {
+    return { data: {} }
   }
 
   async getWebhookActionAndData(

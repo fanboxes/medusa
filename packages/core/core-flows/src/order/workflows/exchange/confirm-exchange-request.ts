@@ -63,14 +63,14 @@ export type ConfirmExchangeRequestValidationStepInput = {
 /**
  * This step validates that a requested exchange can be confirmed.
  * If the order or exchange is canceled, or the order change is not active, the step will throw an error.
- * 
+ *
  * :::note
- * 
+ *
  * You can retrieve an order, order exchange, and order change details using [Query](https://docs.medusajs.com/learn/fundamentals/module-links/query),
  * or [useQueryGraphStep](https://docs.medusajs.com/resources/references/medusa-workflows/steps/useQueryGraphStep).
- * 
+ *
  * :::
- * 
+ *
  * @example
  * const data = confirmExchangeRequestValidationStep({
  *   order: {
@@ -266,10 +266,10 @@ export const confirmExchangeRequestWorkflowId = "confirm-exchange-request"
 /**
  * This workflow confirms an exchange request. It's used by the
  * [Confirm Exchange Admin API Route](https://docs.medusajs.com/api/admin#exchanges_postexchangesidrequest).
- * 
+ *
  * You can use this workflow within your customizations or your own custom workflows, allowing you to confirm an exchange
  * for an order in your custom flow.
- * 
+ *
  * @example
  * const { result } = await confirmExchangeRequestWorkflow(container)
  * .run({
@@ -277,9 +277,9 @@ export const confirmExchangeRequestWorkflowId = "confirm-exchange-request"
  *     exchange_id: "exchange_123",
  *   }
  * })
- * 
+ *
  * @summary
- * 
+ *
  * Confirm an exchange request.
  */
 export const confirmExchangeRequestWorkflow = createWorkflow(
@@ -373,13 +373,6 @@ export const confirmExchangeRequestWorkflow = createWorkflow(
       updateReturnsStep(updateReturnData)
     })
 
-    const exchangeId = transform(
-      { createdExchangeItems },
-      ({ createdExchangeItems }) => {
-        return createdExchangeItems?.[0]?.exchange_id
-      }
-    )
-
     const { returnShippingMethod, exchangeShippingMethod } = transform(
       { orderPreview, orderExchange, returnId },
       extractShippingOption
@@ -407,7 +400,7 @@ export const confirmExchangeRequestWorkflow = createWorkflow(
           "additional_items.item.variant.inventory_items.inventory.location_levels.stock_locations.sales_channels.id",
           "additional_items.item.variant.inventory_items.inventory.location_levels.stock_locations.sales_channels.name",
         ],
-        variables: { id: exchangeId },
+        variables: { id: input.exchange_id },
         list: false,
         throw_if_key_not_found: true,
       }).config({ name: "exchange-query" })
@@ -463,7 +456,6 @@ export const confirmExchangeRequestWorkflow = createWorkflow(
           id: returnShippingMethod.shipping_option_id,
         },
         list: false,
-        throw_if_key_not_found: true,
       }).config({ name: "exchange-return-shipping-option" })
 
       const fulfillmentData = transform(

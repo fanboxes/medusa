@@ -1,6 +1,6 @@
 import { Spinner } from "@medusajs/icons"
-import { Slot } from "@radix-ui/react-slot"
 import { VariantProps, cva } from "cva"
+import { Slot } from "radix-ui"
 import * as React from "react"
 
 import { clx } from "@/utils/clx"
@@ -78,7 +78,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
     }: IconButtonProps,
     ref
   ) => {
-    const Component = asChild ? Slot : "button"
+    const Component = asChild ? Slot.Root : "button"
 
     /**
      * In the case of a button where asChild is true, and isLoading is true, we ensure that

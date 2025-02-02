@@ -5,6 +5,7 @@ const _OrderShippingMethodAdjustment = model
   .define(
     {
       tableName: "order_shipping_method_adjustment",
+      name: "OrderShippingMethodAdjustment",
     },
     {
       id: model.id({ prefix: "ordsmadj" }).primaryKey(),

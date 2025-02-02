@@ -1,0 +1,378 @@
+{
+	"OrderAddress": {
+		"filePath": "packages/modules/order/src/models/address.ts",
+		"properties": {
+			"id": "The ID of the order address.",
+			"customer_id": "The ID of the customer that the address belongs to.",
+			"company": "The company of the order address",
+			"first_name": "The first name of the order address",
+			"last_name": "The last name of the order address",
+			"address_1": "The first line of the order address",
+			"address_2": "The second line of the order address",
+			"city": "The city of the order address",
+			"country_code": "The country code of the order address.\n\n@example us",
+			"province": "The province of the order address",
+			"postal_code": "The postal code of the order address",
+			"phone": "The phone of the order address",
+			"metadata": "Holds custom data in key-value pairs."
+		}
+	},
+	"OrderClaimItemImage": {
+		"filePath": "packages/modules/order/src/models/claim-item-image.ts",
+		"properties": {
+			"id": "The ID of the order claim item image.",
+			"claim_item": "The associated claim item.\n\n@expandable",
+			"url": "The URL of the order claim item image",
+			"metadata": "Holds custom data in key-value pairs."
+		}
+	},
+	"OrderLineItemAdjustment": {
+		"filePath": "packages/modules/order/src/models/line-item-adjustment.ts",
+		"properties": {
+			"id": "The ID of the order line item adjustment.",
+			"description": "The description of the order line item adjustment",
+			"promotion_id": "The ID of the promotion applied.",
+			"code": "The code of the promotion.",
+			"amount": "The amount of the adjustment",
+			"provider_id": "The ID of the provider used to apply the adjustment.",
+			"item": "The associated item that the adjustment is applied on.\n\n@expandable"
+		}
+	},
+	"OrderLineItemTaxLine": {
+		"filePath": "packages/modules/order/src/models/line-item-tax-line.ts",
+		"properties": {
+			"id": "The ID of the order line item tax line.",
+			"description": "The description of the order line item tax line",
+			"tax_rate_id": "The ID of the applied tax rate.",
+			"code": "The code of the order line item tax line",
+			"rate": "The rate of the order line item tax line",
+			"provider_id": "The ID of the tax provider used to calculate the tax line.",
+			"item": "The associated item that the tax line is for.\n\n@expandable"
+		}
+	},
+	"OrderLineItem": {
+		"filePath": "packages/modules/order/src/models/line-item.ts",
+		"properties": {
+			"id": "The ID of the order line item.",
+			"title": "The title of the order line item",
+			"subtitle": "The subtitle of the order line item",
+			"thumbnail": "The thumbnail URL of the order line item",
+			"variant_id": "The ID of the associated variant.",
+			"product_id": "The ID of the variant's product.",
+			"product_title": "The title of the associated product.",
+			"product_description": "The description of the associated product.",
+			"product_subtitle": "The subtitle of the associated product.",
+			"product_type": "The type of the associated product.",
+			"product_type_id": "The ID of the associated product's type.",
+			"product_collection": "The collection of the associated product.",
+			"product_handle": "The handle of the associated product.",
+			"variant_sku": "The SKU of the associated variant.",
+			"variant_barcode": "The barcode of the associated variant.",
+			"variant_title": "The title of the associated variant.",
+			"variant_option_values": "The option values of the associated variant.",
+			"requires_shipping": "Whether the order line item requires shipping.",
+			"is_discountable": "Whether the order line item is discountable.",
+			"is_tax_inclusive": "Whether the order line item is tax inclusive.\n\nLearn more in [this documentation](https://docs.medusajs.com/resources/commerce-modules/pricing/tax-inclusive-pricing).",
+			"compare_at_unit_price": "The original price of the item before a promotion or sale.",
+			"unit_price": "The unit price of the order line item",
+			"is_custom_price": "Whether the order line item has a custom price.",
+			"metadata": "Holds custom data in key-value pairs.",
+			"tax_lines": "The associated tax lines.\n\n@expandable",
+			"adjustments": "The associated adjustments.\n\n@expandable"
+		}
+	},
+	"OrderClaimItem": {
+		"filePath": "packages/modules/order/src/models/claim-item.ts",
+		"properties": {
+			"id": "The ID of the order claim item.",
+			"reason": "The reason that the item is claimed.",
+			"quantity": "The claimed quantity.",
+			"is_additional_item": "Whether the order claim item is an outbound item.",
+			"note": "The note of the order claim item",
+			"metadata": "Holds custom data in key-value pairs.",
+			"claim": "The associated claim.\n\n@expandable",
+			"item": "The associated order item.\n\n@expandable",
+			"images": "The associated images.\n\n@expandable"
+		}
+	},
+	"OrderCreditLine": {
+		"filePath": "packages/modules/order/src/models/credit-line.ts",
+		"properties": {
+			"id": "The ID of the order credit line.",
+			"order": "The associated order.\n\n@expandable",
+			"reference": "The table that this credit line references. For example, `payment_collection`.",
+			"reference_id": "The ID of the record in the referenced table. For example, `paycol_123`.",
+			"amount": "The amount of the order credit line",
+			"raw_amount": "The raw amount of the order credit line",
+			"metadata": "Holds custom data in key-value pairs."
+		}
+	},
+	"OrderItem": {
+		"filePath": "packages/modules/order/src/models/order-item.ts",
+		"properties": {
+			"id": "The ID of the order item.",
+			"version": "The version that the order item belongs to.",
+			"unit_price": "The unit price of the order item",
+			"compare_at_unit_price": "The original price of the item before a promotion or sale.",
+			"quantity": "The quantity of the order item",
+			"fulfilled_quantity": "The fulfilled quantity of the order item",
+			"delivered_quantity": "The delivered quantity of the order item",
+			"shipped_quantity": "The shipped quantity of the order item",
+			"return_requested_quantity": "The quantity requested to be returned.",
+			"return_received_quantity": "The quantity received by a return.",
+			"return_dismissed_quantity": "The quantity dismissed by a return.",
+			"written_off_quantity": "The quantity written off by an order edit.",
+			"metadata": "Holds custom data in key-value pairs.",
+			"order": "The associated order.\n\n@expandable",
+			"item": "The associated line item.\n\n@expandable"
+		}
+	},
+	"OrderExchangeItem": {
+		"filePath": "packages/modules/order/src/models/exchange-item.ts",
+		"properties": {
+			"id": "The ID of the order exchange item.",
+			"quantity": "The quantity of the order exchange item",
+			"note": "The note of the order exchange item",
+			"metadata": "Holds custom data in key-value pairs.",
+			"exchange": "The associated exchange.\n\n@expandable",
+			"item": "The associated item.\n\n@expandable"
+		}
+	},
+	"ReturnReason": {
+		"filePath": "packages/modules/order/src/models/return-reason.ts",
+		"properties": {
+			"id": "The ID of the return reason.",
+			"value": "The value of the return reason",
+			"label": "The label of the return reason",
+			"description": "The description of the return reason",
+			"metadata": "Holds custom data in key-value pairs.",
+			"parent_return_reason": "The associated parent_return_reason.\n\n@expandable",
+			"return_reason_children": "The associated return_reason_children.\n\n@expandable"
+		}
+	},
+	"ReturnItem": {
+		"filePath": "packages/modules/order/src/models/return-item.ts",
+		"properties": {
+			"id": "The ID of the return item.",
+			"quantity": "The quantity of the return item",
+			"received_quantity": "The received quantity of the return item",
+			"damaged_quantity": "The damaged quantity of the return item",
+			"note": "The note of the return item",
+			"metadata": "Holds custom data in key-value pairs.",
+			"reason": "The reason of the return item",
+			"return": "The associated return.\n\n@expandable",
+			"item": "The associated item.\n\n@expandable"
+		}
+	},
+	"OrderTransaction": {
+		"filePath": "packages/modules/order/src/models/transaction.ts",
+		"properties": {
+			"id": "The ID of the order transaction.",
+			"version": "The order version that the transaction belongs to.",
+			"amount": "The amount of the order transaction",
+			"currency_code": "The currency code of the order transaction.\n\n@example usd",
+			"reference": "indicates the table’s name in the database. For example, `payment` from the Payment Module.",
+			"reference_id": "indicates the ID of the record in the table. For example, `pay_123`.",
+			"order": "The associated order.\n\n@expandable",
+			"return": "The associated return.\n\n@expandable",
+			"exchange": "The associated exchange.\n\n@expandable",
+			"claim": "The associated claim.\n\n@expandable"
+		}
+	},
+	"Return": {
+		"filePath": "packages/modules/order/src/models/return.ts",
+		"properties": {
+			"id": "The ID of the return.",
+			"order_version": "The order version that this return belongs to.",
+			"display_id": "The display ID of the return",
+			"status": "The status of the return",
+			"location_id": "The ID of the stock location that the items are returned to.",
+			"no_notification": "Whether the customer should receive notifications for return updates.",
+			"refund_amount": "The amount to be refunded to the customer.",
+			"created_by": "The ID of the user or customer that created the return.",
+			"metadata": "Holds custom data in key-value pairs.",
+			"requested_at": "The date the return was requested.",
+			"received_at": "The date the return was received.",
+			"canceled_at": "The date the return was canceled.",
+			"order": "The associated order.\n\n@expandable",
+			"exchange": "The associated exchange, if the return belongs to it.\n\n@expandable",
+			"claim": "The associated claim, if the return belongs to it.\n\n@expandable",
+			"items": "The associated order items.\n\n@expandable",
+			"shipping_methods": "The associated shipping methods used to return the items.\n\n@expandable",
+			"transactions": "The associated transactions, which can include refunds made to the customer.\n\n@expandable"
+		}
+	},
+	"OrderExchange": {
+		"filePath": "packages/modules/order/src/models/exchange.ts",
+		"properties": {
+			"id": "The ID of the order exchange.",
+			"order_version": "The order version that this exchange belongs to.",
+			"display_id": "The display ID of the exchange",
+			"no_notification": "Whether the customer should receive notifications for exchange updates.",
+			"difference_due": "The amount to capture or refund to the customer.\n\nLearn more in [this documentation](https://docs.medusajs.com/resources/commerce-modules/order/exchange#exchange-payment)",
+			"allow_backorder": "Whether merchants can send customers items that are out of stock.",
+			"created_by": "The ID of the user that created the exchange.",
+			"metadata": "Holds custom data in key-value pairs.",
+			"canceled_at": "The date the exchange was canceled.",
+			"order": "The associated order.\n\n@expandable",
+			"return": "The associated return used to return items from the customer.\n\n@expandable",
+			"additional_items": "The associated additional (outbound) items that are send to the customer.\n\n@expandable",
+			"shipping_methods": "The associated shipping_methods.\n\n@expandable",
+			"transactions": "The associated transactions, which can hold payments made due to the `difference_due`.\n\n@expandable"
+		}
+	},
+	"OrderShippingMethodAdjustment": {
+		"filePath": "packages/modules/order/src/models/shipping-method-adjustment.ts",
+		"properties": {
+			"id": "The ID of the order shipping method adjustment.",
+			"description": "The description of the order shipping method adjustment",
+			"promotion_id": "The ID of the promotion applied.",
+			"code": "The code of the promotion.",
+			"amount": "The amount of the adjustment",
+			"provider_id": "The ID of the provider used to apply the adjustment.",
+			"shipping_method": "The associated shipping method that the adjustment is applied on.\n\n@expandable"
+		}
+	},
+	"OrderShippingMethodTaxLine": {
+		"filePath": "packages/modules/order/src/models/shipping-method-tax-line.ts",
+		"properties": {
+			"id": "The ID of the order shipping method tax line.",
+			"description": "The description of the order shipping method tax line",
+			"tax_rate_id": "The ID of the applied tax rate.",
+			"code": "The code of the applied tax rate.",
+			"rate": "The applied tax rate",
+			"provider_id": "The ID of the tax provider used to calculate the tax line.",
+			"shipping_method": "The associated shipping_method that the tax line is for.\n\n@expandable"
+		}
+	},
+	"OrderShippingMethod": {
+		"filePath": "packages/modules/order/src/models/shipping-method.ts",
+		"properties": {
+			"id": "The ID of the order shipping method.",
+			"name": "The name of the order shipping method",
+			"description": "The description of the order shipping method",
+			"amount": "The amount of the order shipping method",
+			"is_tax_inclusive": "Whether the order shipping method is tax inclusive.\n\nLearn more in [this documentation](https://docs.medusajs.com/resources/commerce-modules/pricing/tax-inclusive-pricing).",
+			"is_custom_amount": "Whether the order shipping method has a custom amount.",
+			"shipping_option_id": "The ID of the associated shipping option.",
+			"data": "The data of the order shipping method useful for fulfillment.\n\nLearn more in [this documentation](https://docs.medusajs.com/resources/commerce-modules/order/concepts#data-property)",
+			"metadata": "Holds custom data in key-value pairs.",
+			"tax_lines": "The associated tax lines.\n\n@expandable",
+			"adjustments": "The applied adjustments.\n\n@expandable"
+		}
+	},
+	"OrderShipping": {
+		"filePath": "packages/modules/order/src/models/order-shipping-method.ts",
+		"properties": {
+			"id": "The ID of the order's shipping details.",
+			"version": "The version that the associated shipping method belongs to.",
+			"order": "The associated order.\n\n@expandable",
+			"return": "The associated return, if the shipping is used to return an item.\n\n@expandable",
+			"exchange": "The associated exchange, if the shipping is used to send an item in an exchange.\n\n@expandable",
+			"claim": "The associated claim, if the shipping is used to send an item in a claim.\n\n@expandable",
+			"shipping_method": "The associated shipping method.\n\n@expandable"
+		}
+	},
+	"OrderSummary": {
+		"filePath": "packages/modules/order/src/models/order-summary.ts",
+		"properties": {
+			"id": "The ID of the order summary.",
+			"version": "The version that the summary belongs to.",
+			"totals": "The totals of the order summary",
+			"order": "The associated order.\n\n@expandable"
+		}
+	},
+	"Order": {
+		"filePath": "packages/modules/order/src/models/order.ts",
+		"properties": {
+			"id": "The ID of the order.",
+			"display_id": "The display ID of the order",
+			"region_id": "The ID of the region that the order was purchased in.",
+			"customer_id": "The ID of the customer that placed the order.",
+			"version": "The version of the order",
+			"sales_channel_id": "The ID of the sales channel that the order was purchased through.",
+			"status": "The status of the order",
+			"is_draft_order": "Whether the order is a draft order.",
+			"email": "The email of the order's customer",
+			"currency_code": "The currency code of the order.\n\n@example usd",
+			"no_notification": "Whether the customer should receive notifications for order updates.",
+			"metadata": "Holds custom data in key-value pairs.",
+			"canceled_at": "The date the order was canceled.",
+			"shipping_address": "The associated shipping_address.\n\n@expandable",
+			"billing_address": "The associated billing address.\n\n@expandable",
+			"summary": "The associated summary.\n\n@expandable",
+			"items": "The associated items.\n\n@expandable",
+			"shipping_methods": "The associated shipping methods.\n\n@expandable",
+			"transactions": "The associated transactions, which include amounts captured and refunded.\n\n@expandable",
+			"credit_lines": "The associated credit lines, which include additional payment amounts for an order.\n\n@expandable",
+			"returns": "The associated returns.\n\n@expandable"
+		}
+	},
+	"OrderClaim": {
+		"filePath": "packages/modules/order/src/models/claim.ts",
+		"properties": {
+			"id": "The ID of the order claim.",
+			"order_version": "The order version that this claim belongs to.",
+			"display_id": "The display ID of the order claim",
+			"type": "The type of the order claim",
+			"no_notification": "Whether the customer should receive notifications about claim updates.",
+			"refund_amount": "The amount to refund to the customer.",
+			"created_by": "The ID of the user that created the claim.",
+			"canceled_at": "The date that the claim was canceled.",
+			"metadata": "Holds custom data in key-value pairs.",
+			"order": "The associated order.\n\n@expandable",
+			"return": "The associated return.\n\n@expandable",
+			"additional_items": "The associated additional (outbound) items.\n\n@expandable",
+			"claim_items": "The associated claim (outbound) items.\n\n@expandable",
+			"shipping_methods": "The associated shipping methods used to send the new items.\n\n@expandable",
+			"transactions": "The associated transactions, which can hold the payments refunded.\n\n@expandable"
+		}
+	},
+	"OrderChangeAction": {
+		"filePath": "packages/modules/order/src/models/order-change-action.ts",
+		"properties": {
+			"id": "The ID of the order change action.",
+			"order_id": "The ID of the associated order.",
+			"return_id": "The ID of the return this action belongs to, if any.",
+			"claim_id": "The ID of the claim this action belongs to, if any.",
+			"exchange_id": "The ID of the exchange this action belongs to, if any.",
+			"ordering": "The ordering of this action in the parent order change.",
+			"version": "The order version that this action belongs to.",
+			"reference": "The name of the table that this action references.",
+			"reference_id": "The ID of the record in the table that the action references.",
+			"action": "The action of the order change action. For example, `item_add`.",
+			"details": "The details of the order change action",
+			"amount": "The amount of the order change action",
+			"internal_note": "The internal note of the order change action",
+			"applied": "Whether the order change action is applied.",
+			"order_change": "The order change that the action belongs to.\n\n@expandable"
+		}
+	},
+	"OrderChange": {
+		"filePath": "packages/modules/order/src/models/order-change.ts",
+		"properties": {
+			"id": "The ID of the order change.",
+			"return_id": "The ID of the return that's making this order change.",
+			"claim_id": "The ID of the claim that's making this order change.",
+			"exchange_id": "The ID of the exchange that's making this order change.",
+			"version": "The version that the order change belongs to.",
+			"change_type": "The type of change made.",
+			"description": "The description of the order change",
+			"status": "The status of the order change",
+			"internal_note": "The internal note of the order change, viewed by admin users only.",
+			"created_by": "The ID of the user that created the order change.",
+			"requested_by": "The ID of the user that requested the order change.",
+			"requested_at": "The date that the change was requested.",
+			"confirmed_by": "The ID of the user that confirmed the order change",
+			"confirmed_at": "The date that the change was confirmed",
+			"declined_by": "The ID of the user that declined the order change",
+			"declined_reason": "The reason that the order change was declined",
+			"metadata": "Holds custom data in key-value pairs.",
+			"declined_at": "The date that the change was declined",
+			"canceled_by": "The ID of the user that canceled the order change",
+			"canceled_at": "The date that the change was canceled",
+			"order": "The associated order that the change applies to.\n\n@expandable",
+			"actions": "The associated actions.\n\n@expandable"
+		}
+	}
+}

@@ -832,5 +832,21 @@ describe("RemoteJoiner", () => {
     await expect(dataNotFound).rejects.toThrowError(
       "order id not found: ord_1234556"
     )
+
+    const queryNotFoundNoParam = RemoteJoiner.parseQuery(`
+      query {
+        order {
+          id
+          number
+        }
+      }
+    `)
+    const dataNotFoundNoPK = joiner.query(queryNotFoundNoParam, {
+      throwIfKeyNotFound: true,
+    })
+
+    await expect(dataNotFoundNoPK).rejects.toThrowError(
+      "order: Primary key(s) [id] not found in filters"
+    )
   })
 })

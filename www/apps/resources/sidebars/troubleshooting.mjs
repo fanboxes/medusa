@@ -45,6 +45,11 @@ export const troubleshootingSidebar = [
         path: "/troubleshooting/workflow-errors",
         title: "Workflow Errors",
       },
+      {
+        type: "link",
+        path: "/troubleshooting/test-errors",
+        title: "Test Errors",
+      },
     ],
   },
   {

@@ -1,23 +1,20 @@
 import {
-    ArrowDownRightMini,
-    PencilSquare,
-    Trash,
-    TriangleRightMini,
+  ArrowDownRightMini,
+  PencilSquare,
+  Trash,
+  TriangleRightMini,
 } from "@medusajs/icons"
 import { HttpTypes } from "@medusajs/types"
 import { Badge, IconButton, StatusBadge, Text, Tooltip } from "@medusajs/ui"
-import * as Collapsible from "@radix-ui/react-collapsible"
+import { Collapsible as RadixCollapsible } from "radix-ui"
 import { ComponentPropsWithoutRef } from "react"
 import { useTranslation } from "react-i18next"
 
 import { FetchError } from "@medusajs/js-sdk"
 import { ActionMenu } from "../../../../../components/common/action-menu"
 import { Divider } from "../../../../../components/common/divider"
-import { useCollections } from "../../../../../hooks/api/collections"
-import { useCustomerGroups } from "../../../../../hooks/api/customer-groups"
 import { useProductTypes } from "../../../../../hooks/api/product-types"
 import { useProducts } from "../../../../../hooks/api/products"
-import { useProductTags } from "../../../../../hooks/api/tags"
 import { formatPercentage } from "../../../../../lib/percentage-helpers"
 import { TaxRateRuleReferenceType } from "../../constants"
 import { useDeleteTaxRateAction } from "../../hooks"
@@ -50,14 +47,14 @@ export const TaxOverrideCard = ({ taxRate }: TaxOverrideCardProps) => {
   ).length
 
   return (
-    <Collapsible.Root>
+    <RadixCollapsible.Root>
       <div className="flex items-center justify-between px-6 py-3">
         <div className="flex items-center gap-x-2">
-          <Collapsible.Trigger asChild>
+          <RadixCollapsible.Trigger asChild>
             <IconButton size="2xsmall" variant="transparent" className="group">
               <TriangleRightMini className="text-ui-fg-muted transition-transform group-data-[state='open']:rotate-90" />
             </IconButton>
-          </Collapsible.Trigger>
+          </RadixCollapsible.Trigger>
           <div className="flex items-center gap-x-1.5">
             <Text size="small" weight="plus" leading="compact">
               {taxRate.name}
@@ -110,7 +107,7 @@ export const TaxOverrideCard = ({ taxRate }: TaxOverrideCardProps) => {
           />
         </div>
       </div>
-      <Collapsible.Content>
+      <RadixCollapsible.Content>
         <div className="bg-ui-bg-subtle">
           <Divider variant="dashed" />
           <div className="px-6 py-3">
@@ -154,8 +151,8 @@ export const TaxOverrideCard = ({ taxRate }: TaxOverrideCardProps) => {
             </div>
           </div>
         </div>
-      </Collapsible.Content>
-    </Collapsible.Root>
+      </RadixCollapsible.Content>
+    </RadixCollapsible.Root>
   )
 }
 
@@ -186,18 +183,18 @@ const ReferenceBadge = ({
     case TaxRateRuleReferenceType.PRODUCT:
       label = t("taxRegions.fields.targets.tags.product")
       break
-    case TaxRateRuleReferenceType.PRODUCT_COLLECTION:
-      label = t("taxRegions.fields.targets.tags.productCollection")
-      break
-    case TaxRateRuleReferenceType.PRODUCT_TAG:
-      label = t("taxRegions.fields.targets.tags.productTag")
-      break
+    // case TaxRateRuleReferenceType.PRODUCT_COLLECTION:
+    //   label = t("taxRegions.fields.targets.tags.productCollection")
+    //   break
+    // case TaxRateRuleReferenceType.PRODUCT_TAG:
+    //   label = t("taxRegions.fields.targets.tags.productTag")
+    //   break
     case TaxRateRuleReferenceType.PRODUCT_TYPE:
       label = t("taxRegions.fields.targets.tags.productType")
       break
-    case TaxRateRuleReferenceType.CUSTOMER_GROUP:
-      label = t("taxRegions.fields.targets.tags.customerGroup")
-      break
+    // case TaxRateRuleReferenceType.CUSTOMER_GROUP:
+    //   label = t("taxRegions.fields.targets.tags.customerGroup")
+    //   break
   }
 
   if (!label) {
@@ -277,15 +274,15 @@ const useReferenceValues = (
     }
   )
 
-  const tags = useProductTags(
-    {
-      id: ids,
-      limit: 10,
-    },
-    {
-      enabled: !!ids.length && type === TaxRateRuleReferenceType.PRODUCT_TAG,
-    }
-  )
+  // const tags = useProductTags(
+  //   {
+  //     id: ids,
+  //     limit: 10,
+  //   },
+  //   {
+  //     enabled: !!ids.length && type === TaxRateRuleReferenceType.PRODUCT_TAG,
+  //   }
+  // )
 
   const productTypes = useProductTypes(
     {
@@ -297,26 +294,26 @@ const useReferenceValues = (
     }
   )
 
-  const collections = useCollections(
-    {
-      id: ids,
-      limit: 10,
-    },
-    {
-      enabled:
-        !!ids.length && type === TaxRateRuleReferenceType.PRODUCT_COLLECTION,
-    }
-  )
+  // const collections = useCollections(
+  //   {
+  //     id: ids,
+  //     limit: 10,
+  //   },
+  //   {
+  //     enabled:
+  //       !!ids.length && type === TaxRateRuleReferenceType.PRODUCT_COLLECTION,
+  //   }
+  // )
 
-  const customerGroups = useCustomerGroups(
-    {
-      id: ids,
-      limit: 10,
-    },
-    {
-      enabled: !!ids.length && type === TaxRateRuleReferenceType.CUSTOMER_GROUP,
-    }
-  )
+  // const customerGroups = useCustomerGroups(
+  //   {
+  //     id: ids,
+  //     limit: 10,
+  //   },
+  //   {
+  //     enabled: !!ids.length && type === TaxRateRuleReferenceType.CUSTOMER_GROUP,
+  //   }
+  // )
 
   switch (type) {
     case TaxRateRuleReferenceType.PRODUCT:
@@ -330,17 +327,17 @@ const useReferenceValues = (
         isError: products.isError,
         error: products.error,
       }
-    case TaxRateRuleReferenceType.PRODUCT_TAG:
-      return {
-        labels: tags.product_tags?.map((tag: any) => tag.value),
-        isPending: tags.isPending,
-        additional:
-          tags.product_tags && tags.count
-            ? tags.count - tags.product_tags.length
-            : 0,
-        isError: tags.isError,
-        error: tags.error,
-      }
+    // case TaxRateRuleReferenceType.PRODUCT_TAG:
+    //   return {
+    //     labels: tags.product_tags?.map((tag: any) => tag.value),
+    //     isPending: tags.isPending,
+    //     additional:
+    //       tags.product_tags && tags.count
+    //         ? tags.count - tags.product_tags.length
+    //         : 0,
+    //     isError: tags.isError,
+    //     error: tags.error,
+    //   }
     case TaxRateRuleReferenceType.PRODUCT_TYPE:
       return {
         labels: productTypes.product_types?.map((type) => type.value),
@@ -352,27 +349,27 @@ const useReferenceValues = (
         isError: productTypes.isError,
         error: productTypes.error,
       }
-    case TaxRateRuleReferenceType.PRODUCT_COLLECTION:
-      return {
-        labels: collections.collections?.map((collection) => collection.title!),
-        isPending: collections.isPending,
-        additional:
-          collections.collections && collections.count
-            ? collections.count - collections.collections.length
-            : 0,
-        isError: collections.isError,
-        error: collections.error,
-      }
-    case TaxRateRuleReferenceType.CUSTOMER_GROUP:
-      return {
-        labels: customerGroups.customer_groups?.map((group) => group.name!),
-        isPending: customerGroups.isPending,
-        additional:
-          customerGroups.customer_groups && customerGroups.count
-            ? customerGroups.count - customerGroups.customer_groups.length
-            : 0,
-        isError: customerGroups.isError,
-        error: customerGroups.error,
-      }
+    // case TaxRateRuleReferenceType.PRODUCT_COLLECTION:
+    //   return {
+    //     labels: collections.collections?.map((collection) => collection.title!),
+    //     isPending: collections.isPending,
+    //     additional:
+    //       collections.collections && collections.count
+    //         ? collections.count - collections.collections.length
+    //         : 0,
+    //     isError: collections.isError,
+    //     error: collections.error,
+    //   }
+    // case TaxRateRuleReferenceType.CUSTOMER_GROUP:
+    //   return {
+    //     labels: customerGroups.customer_groups?.map((group) => group.name!),
+    //     isPending: customerGroups.isPending,
+    //     additional:
+    //       customerGroups.customer_groups && customerGroups.count
+    //         ? customerGroups.count - customerGroups.customer_groups.length
+    //         : 0,
+    //     isError: customerGroups.isError,
+    //     error: customerGroups.error,
+    //   }
   }
 }

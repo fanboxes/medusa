@@ -98,6 +98,18 @@ export const useActiveOnScroll = ({
     if (!enable) {
       return
     }
+    const rootBoundingRectElm =
+      root && "getBoundingClientRect" in root
+        ? root.getBoundingClientRect()
+        : root?.body.getBoundingClientRect()
+
+    if (
+      rootBoundingRectElm === undefined ||
+      (rootBoundingRectElm.top < 0 && rootBoundingRectElm.bottom < 0)
+    ) {
+      setActiveItemId("")
+      return
+    }
     const headings = getHeadingsInElm()
     let selectedHeadingByHash: HTMLHeadingElement | undefined = undefined
     const hash = location.hash.replace("#", "")
@@ -129,17 +141,19 @@ export const useActiveOnScroll = ({
       }
     })
 
-    const negativeDistanceToHalfway = Math.abs(
-      halfway + closestNegativeDistance
-    )
-    const positiveDistanceToHalfway = Math.abs(
-      halfway - closestPositiveDistance
-    )
+    const negativeDistanceToHalfway = closestNegativeDistance
+      ? Math.abs(halfway + closestNegativeDistance)
+      : 0
+    const positiveDistanceToHalfway = closestPositiveDistance
+      ? Math.abs(halfway - closestPositiveDistance)
+      : 0
 
     const chosenClosest =
-      negativeDistanceToHalfway > positiveDistanceToHalfway
-        ? closestNegativeHeading
-        : closestPositiveHeading
+      !negativeDistanceToHalfway && !positiveDistanceToHalfway
+        ? undefined
+        : negativeDistanceToHalfway > positiveDistanceToHalfway
+          ? closestNegativeHeading
+          : closestPositiveHeading
 
     setActiveItemId(
       chosenClosest
@@ -152,7 +166,7 @@ export const useActiveOnScroll = ({
               : ""
             : ""
     )
-  }, [getHeadingsInElm, items, enable])
+  }, [getHeadingsInElm, items, enable, root])
 
   useEffect(() => {
     if (!scrollableElement || !enable) {

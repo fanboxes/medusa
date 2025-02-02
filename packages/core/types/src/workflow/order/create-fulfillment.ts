@@ -63,6 +63,11 @@ export interface CreateOrderFulfillmentWorkflowInput {
   metadata?: Record<string, any> | null
 
   /**
+   * Shipping option to be used for the fulfillment.
+   */
+  shipping_option_id?: string
+
+  /**
    * Whether the fulfillment should be shipped.
    */
   requires_shipping?: boolean

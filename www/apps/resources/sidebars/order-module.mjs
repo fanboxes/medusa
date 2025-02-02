@@ -198,7 +198,7 @@ export const orderSidebar = [
                 type: "category",
                 title: "Data Models",
                 hasTitleStyling: true,
-                autogenerate_path: "/references/order_models/classes",
+                autogenerate_path: "/references/order_models/variables",
               },
             ],
           },

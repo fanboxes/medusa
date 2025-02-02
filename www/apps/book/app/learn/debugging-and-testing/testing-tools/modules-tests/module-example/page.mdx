@@ -58,6 +58,8 @@ moduleIntegrationTestRunner<HelloModuleService>({
     })
   },
 })
+
+jest.setTimeout(60 * 1000)
 ```
 
 You use the `moduleIntegrationTestRunner` function to add tests for the `hello` module. You have one test that passes if the `getMessage` method returns the `"Hello, World!"` string.
@@ -69,12 +71,12 @@ You use the `moduleIntegrationTestRunner` function to add tests for the `hello` 
 Run the following command to run your module integration tests:
 
 ```bash npm2yarn
-npm run test:modules
+npm run test:integration:modules
 ```
 
 <Note title="Tip">
 
-If you don't have a `test:modules` script in `package.json`, refer to the [Medusa Testing Tools chapter](../../page.mdx#add-test-commands).
+If you don't have a `test:integration:modules` script in `package.json`, refer to the [Medusa Testing Tools chapter](../../page.mdx#add-test-commands).
 
 </Note>
 

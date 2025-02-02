@@ -198,7 +198,7 @@ For example, assuming you have the [Order, Product, and OrderProduct models from
 class HelloModuleService extends MedusaService({
   Order,
   Product,
-  OrderProduct
+  OrderProduct,
 }) {}
 ```
 
@@ -212,16 +212,16 @@ const orderProduct = await helloModuleService.createOrderProducts({
   order_id: "123",
   product_id: "123",
   metadata: {
-    test: true
-  }
+    test: true,
+  },
 })
 
 // update order-product association
 const orderProduct = await helloModuleService.updateOrderProducts({
   id: "123",
   metadata: {
-    test: false
-  }
+    test: false,
+  },
 })
 
 // delete order-product association

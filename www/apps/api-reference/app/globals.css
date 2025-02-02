@@ -55,6 +55,10 @@
   body[data-modal="opened"] {
     @apply !overflow-hidden;
   }
+
+  .text-wrap {
+    text-wrap: wrap;
+  }
 }
 
 .grecaptcha-badge {

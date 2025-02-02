@@ -1,21 +1,18 @@
 import { EllipseMiniSolid } from "@medusajs/icons"
 import { Input, Label, clx } from "@medusajs/ui"
-import * as Popover from "@radix-ui/react-popover"
-import * as RadioGroup from "@radix-ui/react-radio-group"
 import { debounce } from "lodash"
 import {
-  ChangeEvent,
-  useCallback,
-  useEffect,
-  useState,
-} from "react"
+  Popover as RadixPopover,
+  RadioGroup as RadixRadioGroup,
+} from "radix-ui"
+import { ChangeEvent, useCallback, useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 
+import { TFunction } from "i18next"
 import { useSelectedParams } from "../hooks"
 import { useDataTableFilterContext } from "./context"
-import { IFilter } from "./types"
-import { TFunction } from "i18next"
 import FilterChip from "./filter-chip"
+import { IFilter } from "./types"
 
 type NumberFilterProps = IFilter
 
@@ -140,7 +137,7 @@ export const NumberFilter = ({
   const previousDisplayValue = parseDisplayValue(previousValue, t)
 
   return (
-    <Popover.Root modal open={open} onOpenChange={handleOpenChange}>
+    <RadixPopover.Root modal open={open} onOpenChange={handleOpenChange}>
       <FilterChip
         hasOperator
         hadPreviousValue={!!previousDisplayValue}
@@ -150,8 +147,8 @@ export const NumberFilter = ({
         readonly={readonly}
       />
       {!readonly && (
-        <Popover.Portal>
-          <Popover.Content
+        <RadixPopover.Portal>
+          <RadixPopover.Content
             data-name="number_filter_content"
             align="start"
             sideOffset={8}
@@ -171,7 +168,7 @@ export const NumberFilter = ({
             }}
           >
             <div className="p-1">
-              <RadioGroup.Root
+              <RadixRadioGroup.Root
                 value={operator}
                 onValueChange={(val) => setOperator(val as Comparison)}
                 className="flex flex-col items-start"
@@ -179,20 +176,20 @@ export const NumberFilter = ({
                 autoFocus
               >
                 {operators.map((o) => (
-                  <RadioGroup.Item
+                  <RadixRadioGroup.Item
                     key={o.operator}
                     value={o.operator}
                     className="txt-compact-small hover:bg-ui-bg-base-hover focus-visible:bg-ui-bg-base-hover active:bg-ui-bg-base-pressed transition-fg grid w-full grid-cols-[20px_1fr] gap-2 rounded-[4px] px-2 py-1.5 text-left outline-none"
                   >
                     <div className="size-5">
-                      <RadioGroup.Indicator>
+                      <RadixRadioGroup.Indicator>
                         <EllipseMiniSolid />
-                      </RadioGroup.Indicator>
+                      </RadixRadioGroup.Indicator>
                     </div>
                     <span className="w-full">{o.label}</span>
-                  </RadioGroup.Item>
+                  </RadixRadioGroup.Item>
                 ))}
-              </RadioGroup.Root>
+              </RadixRadioGroup.Root>
             </div>
             <div>
               {operator === "range" ? (
@@ -245,14 +242,17 @@ export const NumberFilter = ({
                 </div>
               )}
             </div>
-          </Popover.Content>
-        </Popover.Portal>
+          </RadixPopover.Content>
+        </RadixPopover.Portal>
       )}
-    </Popover.Root>
+    </RadixPopover.Root>
   )
 }
 
-const parseDisplayValue = (value: string[] | null | undefined, t: TFunction) => {
+const parseDisplayValue = (
+  value: string[] | null | undefined,
+  t: TFunction
+) => {
   const parsed = JSON.parse(value?.join(",") || "{}")
   let displayValue = ""
 

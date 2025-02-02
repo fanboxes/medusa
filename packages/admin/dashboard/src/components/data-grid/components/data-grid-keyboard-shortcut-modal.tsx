@@ -8,7 +8,7 @@ import {
   Kbd,
   Text,
 } from "@medusajs/ui"
-import * as Dialog from "@radix-ui/react-dialog"
+import { Dialog as RadixDialog } from "radix-ui"
 import { useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
 
@@ -177,35 +177,35 @@ export const DataGridKeyboardShortcutModal = ({
   }, [searchValue, shortcuts])
 
   return (
-    <Dialog.Root open={open} onOpenChange={onOpenChange}>
-      <Dialog.Trigger asChild>
+    <RadixDialog.Root open={open} onOpenChange={onOpenChange}>
+      <RadixDialog.Trigger asChild>
         <Button size="small" variant="secondary">
           {t("dataGrid.shortcuts.label")}
         </Button>
-      </Dialog.Trigger>
-      <Dialog.Portal>
-        <Dialog.Overlay
+      </RadixDialog.Trigger>
+      <RadixDialog.Portal>
+        <RadixDialog.Overlay
           className={clx(
             "bg-ui-bg-overlay fixed inset-0",
             "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
           )}
         />
-        <Dialog.Content className="bg-ui-bg-subtle shadow-elevation-modal fixed left-[50%] top-[50%] flex h-full max-h-[612px] w-full max-w-[560px] translate-x-[-50%] translate-y-[-50%] flex-col divide-y overflow-hidden rounded-lg outline-none">
+        <RadixDialog.Content className="bg-ui-bg-subtle shadow-elevation-modal fixed left-[50%] top-[50%] flex h-full max-h-[612px] w-full max-w-[560px] translate-x-[-50%] translate-y-[-50%] flex-col divide-y overflow-hidden rounded-lg outline-none">
           <div className="flex flex-col gap-y-3 px-6 py-4">
             <div className="flex items-center justify-between">
               <div>
-                <Dialog.Title asChild>
+                <RadixDialog.Title asChild>
                   <Heading>{t("app.menus.user.shortcuts")}</Heading>
-                </Dialog.Title>
-                <Dialog.Description className="sr-only"></Dialog.Description>
+                </RadixDialog.Title>
+                <RadixDialog.Description className="sr-only"></RadixDialog.Description>
               </div>
               <div className="flex items-center gap-x-2">
                 <Kbd>esc</Kbd>
-                <Dialog.Close asChild>
+                <RadixDialog.Close asChild>
                   <IconButton variant="transparent" size="small">
                     <XMark />
                   </IconButton>
-                </Dialog.Close>
+                </RadixDialog.Close>
               </div>
             </div>
             <div>
@@ -238,8 +238,8 @@ export const DataGridKeyboardShortcutModal = ({
               )
             })}
           </div>
-        </Dialog.Content>
-      </Dialog.Portal>
-    </Dialog.Root>
+        </RadixDialog.Content>
+      </RadixDialog.Portal>
+    </RadixDialog.Root>
   )
 }

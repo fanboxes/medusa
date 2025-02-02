@@ -1,0 +1,135 @@
+{
+  "description": "",
+  "methods": [],
+  "displayName": "DataTableFilterDateContent",
+  "props": {
+    "id": {
+      "required": true,
+      "tsType": {
+        "name": "string"
+      },
+      "description": ""
+    },
+    "filter": {
+      "required": true,
+      "tsType": {
+        "name": "unknown"
+      },
+      "description": ""
+    },
+    "options": {
+      "required": true,
+      "tsType": {
+        "name": "Array",
+        "elements": [
+          {
+            "name": "DataTableFilterOption",
+            "elements": [
+              {
+                "name": "DataTableDateComparisonOperator"
+              }
+            ],
+            "raw": "DataTableFilterOption<DataTableDateComparisonOperator>"
+          }
+        ],
+        "raw": "DataTableFilterOption<DataTableDateComparisonOperator>[]"
+      },
+      "description": ""
+    },
+    "isCustom": {
+      "required": true,
+      "tsType": {
+        "name": "boolean"
+      },
+      "description": ""
+    },
+    "setIsCustom": {
+      "required": true,
+      "tsType": {
+        "name": "signature",
+        "type": "function",
+        "raw": "(isCustom: boolean) => void",
+        "signature": {
+          "arguments": [
+            {
+              "type": {
+                "name": "boolean"
+              },
+              "name": "isCustom"
+            }
+          ],
+          "return": {
+            "name": "void"
+          }
+        }
+      },
+      "description": ""
+    },
+    "format": {
+      "defaultValue": {
+        "value": "\"date\"",
+        "computed": false
+      },
+      "description": "",
+      "tsType": {
+        "name": "union",
+        "raw": "\"date\" \\| \"date-time\"",
+        "elements": [
+          {
+            "name": "literal",
+            "value": "\"date\""
+          },
+          {
+            "name": "literal",
+            "value": "\"date-time\""
+          }
+        ]
+      },
+      "required": false
+    },
+    "rangeOptionLabel": {
+      "defaultValue": {
+        "value": "\"Custom\"",
+        "computed": false
+      },
+      "description": "",
+      "tsType": {
+        "name": "string"
+      },
+      "required": false
+    },
+    "rangeOptionStartLabel": {
+      "defaultValue": {
+        "value": "\"Starting\"",
+        "computed": false
+      },
+      "description": "",
+      "tsType": {
+        "name": "string"
+      },
+      "required": false
+    },
+    "rangeOptionEndLabel": {
+      "defaultValue": {
+        "value": "\"Ending\"",
+        "computed": false
+      },
+      "description": "",
+      "tsType": {
+        "name": "string"
+      },
+      "required": false
+    },
+    "disableRangeOption": {
+      "defaultValue": {
+        "value": "false",
+        "computed": false
+      },
+      "description": "",
+      "tsType": {
+        "name": "boolean"
+      },
+      "required": false
+    }
+  }
+}

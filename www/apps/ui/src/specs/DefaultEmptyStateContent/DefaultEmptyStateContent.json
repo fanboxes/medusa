@@ -1,0 +1,29 @@
+{
+  "description": "",
+  "methods": [],
+  "displayName": "DefaultEmptyStateContent",
+  "props": {
+    "heading": {
+      "required": false,
+      "tsType": {
+        "name": "string"
+      },
+      "description": "The heading to display in the empty state."
+    },
+    "description": {
+      "required": false,
+      "tsType": {
+        "name": "string"
+      },
+      "description": "The description to display in the empty state."
+    },
+    "custom": {
+      "required": false,
+      "tsType": {
+        "name": "ReactReactNode",
+        "raw": "React.ReactNode"
+      },
+      "description": "A custom component to display in the empty state, if provided it will override the heading and description."
+    }
+  }
+}

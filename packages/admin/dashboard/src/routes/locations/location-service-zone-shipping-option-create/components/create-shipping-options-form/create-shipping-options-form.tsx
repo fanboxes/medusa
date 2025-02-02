@@ -151,13 +151,13 @@ export function CreateShippingOptionsForm({
         rules: [
           {
             // eslint-disable-next-line
-            value: isReturn ? '"true"' : '"false"',
+            value: isReturn ? "true" : "false",
             attribute: "is_return",
             operator: "eq",
           },
           {
             // eslint-disable-next-line
-            value: data.enabled_in_store ? '"true"' : '"false"',
+            value: data.enabled_in_store ? "true" : "false",
             attribute: "enabled_in_store",
             operator: "eq",
           },

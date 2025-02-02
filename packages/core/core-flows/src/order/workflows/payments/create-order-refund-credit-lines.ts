@@ -97,7 +97,6 @@ export const createOrderRefundCreditLinesWorkflow = createWorkflow(
         order_id: input.order_id,
         status: [OrderChangeStatus.PENDING],
       },
-      options: { throwIfKeyNotFound: true },
     }).config({ name: "order-change-query" })
 
     const orderChange = transform(

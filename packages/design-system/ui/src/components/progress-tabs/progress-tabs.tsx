@@ -5,7 +5,7 @@ import {
   CircleDottedLine,
   CircleHalfSolid,
 } from "@medusajs/icons"
-import * as ProgressTabsPrimitives from "@radix-ui/react-tabs"
+import { Tabs as RadixTabs } from "radix-ui"
 import * as React from "react"
 
 import { ProgressStatus } from "@/types"
@@ -16,8 +16,8 @@ import { clx } from "@/utils/clx"
  *
  * @excludeExternal
  */
-const ProgressTabsRoot = (props: ProgressTabsPrimitives.TabsProps) => {
-  return <ProgressTabsPrimitives.Root {...props} />
+const ProgressTabsRoot = (props: RadixTabs.TabsProps) => {
+  return <RadixTabs.Root {...props} />
 }
 ProgressTabsRoot.displayName = "ProgressTabs"
 
@@ -59,14 +59,14 @@ ProgressIndicator.displayName = "ProgressTabs.ProgressIndicator"
 
 interface ProgressTabsTriggerProps
   extends Omit<
-    React.ComponentPropsWithoutRef<typeof ProgressTabsPrimitives.Trigger>,
+    React.ComponentPropsWithoutRef<typeof RadixTabs.Trigger>,
     "asChild"
   > {
   status?: ProgressStatus
 }
 
 const ProgressTabsTrigger = React.forwardRef<
-  React.ElementRef<typeof ProgressTabsPrimitives.Trigger>,
+  React.ElementRef<typeof RadixTabs.Trigger>,
   ProgressTabsTriggerProps
 >(
   (
@@ -78,7 +78,7 @@ const ProgressTabsTrigger = React.forwardRef<
     }: ProgressTabsTriggerProps,
     ref
   ) => (
-    <ProgressTabsPrimitives.Trigger
+    <RadixTabs.Trigger
       ref={ref}
       className={clx(
         "txt-compact-small-plus transition-fg text-ui-fg-muted bg-ui-bg-subtle border-r-ui-border-base inline-flex h-[52px] w-full max-w-[200px] flex-1 items-center gap-x-2 border-r px-4 text-left outline-none",
@@ -93,16 +93,16 @@ const ProgressTabsTrigger = React.forwardRef<
     >
       <ProgressIndicator status={status} />
       {children}
-    </ProgressTabsPrimitives.Trigger>
+    </RadixTabs.Trigger>
   )
 )
 ProgressTabsTrigger.displayName = "ProgressTabs.Trigger"
 
 const ProgressTabsList = React.forwardRef<
-  React.ElementRef<typeof ProgressTabsPrimitives.List>,
-  React.ComponentPropsWithoutRef<typeof ProgressTabsPrimitives.List>
+  React.ElementRef<typeof RadixTabs.List>,
+  React.ComponentPropsWithoutRef<typeof RadixTabs.List>
 >(({ className, ...props }, ref) => (
-  <ProgressTabsPrimitives.List
+  <RadixTabs.List
     ref={ref}
     className={clx("flex items-center", className)}
     {...props}
@@ -111,11 +111,11 @@ const ProgressTabsList = React.forwardRef<
 ProgressTabsList.displayName = "ProgressTabs.List"
 
 const ProgressTabsContent = React.forwardRef<
-  React.ElementRef<typeof ProgressTabsPrimitives.Content>,
-  React.ComponentPropsWithoutRef<typeof ProgressTabsPrimitives.Content>
+  React.ElementRef<typeof RadixTabs.Content>,
+  React.ComponentPropsWithoutRef<typeof RadixTabs.Content>
 >(({ className, ...props }, ref) => {
   return (
-    <ProgressTabsPrimitives.Content
+    <RadixTabs.Content
       ref={ref}
       className={clx("outline-none", className)}
       {...props}

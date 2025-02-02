@@ -1,6 +1,6 @@
 import { ArrowUturnLeft, MinusMini } from "@medusajs/icons"
 import { IconButton, Text, clx } from "@medusajs/ui"
-import * as Collapsible from "@radix-ui/react-collapsible"
+import { Collapsible as RadixCollapsible } from "radix-ui"
 import { Fragment, useEffect, useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Link, useLocation } from "react-router-dom"
@@ -134,21 +134,21 @@ const SettingsSidebar = () => {
       </div>
       <div className="flex flex-1 flex-col">
         <div className="flex flex-1 flex-col overflow-y-auto">
-          <CollapsibleSection
+          <RadixCollapsibleSection
             label={t("app.nav.settings.general")}
             items={routes}
           />
           <div className="flex items-center justify-center px-3">
             <Divider variant="dashed" />
           </div>
-          <CollapsibleSection
+          <RadixCollapsibleSection
             label={t("app.nav.settings.developer")}
             items={developerRoutes}
           />
           <div className="flex items-center justify-center px-3">
             <Divider variant="dashed" />
           </div>
-          <CollapsibleSection
+          <RadixCollapsibleSection
             label={t("app.nav.settings.myAccount")}
             items={myAccountRoutes}
           />
@@ -157,7 +157,7 @@ const SettingsSidebar = () => {
               <div className="flex items-center justify-center px-3">
                 <Divider variant="dashed" />
               </div>
-              <CollapsibleSection
+              <RadixCollapsibleSection
                 label={t("app.nav.common.extensions")}
                 items={extensionRoutes}
               />
@@ -208,7 +208,7 @@ const Header = () => {
   )
 }
 
-const CollapsibleSection = ({
+const RadixCollapsibleSection = ({
   label,
   items,
 }: {
@@ -216,20 +216,20 @@ const CollapsibleSection = ({
   items: INavItem[]
 }) => {
   return (
-    <Collapsible.Root defaultOpen className="py-3">
+    <RadixCollapsible.Root defaultOpen className="py-3">
       <div className="px-3">
         <div className="text-ui-fg-muted flex h-7 items-center justify-between px-2">
           <Text size="small" leading="compact">
             {label}
           </Text>
-          <Collapsible.Trigger asChild>
+          <RadixCollapsible.Trigger asChild>
             <IconButton size="2xsmall" variant="transparent" className="static">
               <MinusMini className="text-ui-fg-muted" />
             </IconButton>
-          </Collapsible.Trigger>
+          </RadixCollapsible.Trigger>
         </div>
       </div>
-      <Collapsible.Content>
+      <RadixCollapsible.Content>
         <div className="pt-0.5">
           <nav className="flex flex-col gap-y-0.5">
             {items.map((setting) => (
@@ -237,8 +237,8 @@ const CollapsibleSection = ({
             ))}
           </nav>
         </div>
-      </Collapsible.Content>
-    </Collapsible.Root>
+      </RadixCollapsible.Content>
+    </RadixCollapsible.Root>
   )
 }
 

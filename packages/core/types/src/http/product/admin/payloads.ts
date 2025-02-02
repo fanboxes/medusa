@@ -5,7 +5,7 @@ export interface AdminExportProductRequest {}
 export interface AdminImportProductRequest {
   /**
    * The CSV file to import the products from.
-   * 
+   *
    * It's an uploaded file of type [File](https://developer.mozilla.org/en-US/docs/Web/API/File).
    */
   file: File
@@ -35,7 +35,7 @@ export interface AdminBatchProductVariantInventoryItemRequest
 export interface AdminCreateProductVariantPrice {
   /**
    * The price's currency code.
-   * 
+   *
    * @example
    * usd
    */
@@ -54,11 +54,11 @@ export interface AdminCreateProductVariantPrice {
   max_quantity?: number | null
   /**
    * The price's rules.
-   * 
+   *
    * @privateRemarks
    * Note: Although the BE is generic, we only use region_id for price rules for now, so it's better to keep the typings stricter.
    */
-  rules?: { 
+  rules?: {
     /**
      * The ID of the region that the price applies in.
      */
@@ -180,11 +180,11 @@ export interface AdminCreateProduct {
   /**
    * The product's images.
    */
-  images?: { 
+  images?: {
     /**
      * The image's URL.
      */
-    url: string 
+    url: string
   }[]
   /**
    * The product's thumbnail URL.
@@ -211,9 +211,13 @@ export interface AdminCreateProduct {
    */
   collection_id?: string
   /**
+   * The ID of the product's shipping profile.
+   */
+  shipping_profile_id: string
+  /**
    * The product's categories.
    */
-  categories?: { 
+  categories?: {
     /**
      * The ID of a product category that the product belongs to.
      */
@@ -222,7 +226,7 @@ export interface AdminCreateProduct {
   /**
    * The product's tags.
    */
-  tags?: { 
+  tags?: {
     /**
      * The ID of the associated product tag.
      */
@@ -239,7 +243,7 @@ export interface AdminCreateProduct {
   /**
    * The sales channels that the product is available in.
    */
-  sales_channels?: { 
+  sales_channels?: {
     /**
      * The ID of a sales channel that the product is available in.
      */
@@ -363,7 +367,8 @@ export interface AdminUpdateProductVariant {
   options?: Record<string, string>
 }
 
-export interface AdminBatchUpdateProductVariant extends AdminUpdateProductVariant {
+export interface AdminBatchUpdateProductVariant
+  extends AdminUpdateProductVariant {
   /**
    * The ID of the variant to update.
    */
@@ -394,7 +399,7 @@ export interface AdminUpdateProduct {
   /**
    * The product's images.
    */
-  images?: { 
+  images?: {
     /**
      * The image's URL.
      */
@@ -427,20 +432,20 @@ export interface AdminUpdateProduct {
   /**
    * The product's categories.
    */
-  categories?: { 
+  categories?: {
     /**
      * The ID of the category that the product belongs to.
      */
-    id: string 
+    id: string
   }[]
   /**
    * The product's tags.
    */
-  tags?: { 
+  tags?: {
     /**
      * The ID of a tag that the product is associated with.
      */
-    id: string 
+    id: string
   }[]
   /**
    * The product's options.
@@ -453,12 +458,16 @@ export interface AdminUpdateProduct {
   /**
    * The sales channels that the product is available in.
    */
-  sales_channels?: { 
+  sales_channels?: {
     /**
      * The ID of a sales channel that the product is available in.
      */
-    id: string 
+    id: string
   }[]
+  /**
+   * The ID of the product's shipping profile.
+   */
+  shipping_profile_id?: string
   /**
    * The product's weight.
    */

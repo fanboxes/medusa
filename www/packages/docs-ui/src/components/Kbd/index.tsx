@@ -16,9 +16,9 @@ export const Kbd = ({
       className={clsx(
         "rounded-docs_xs border-solid border border-medusa-border-base",
         "inline-flex items-center justify-center",
-        "py-0 px-docs_0.25",
+        "p-0",
         "bg-medusa-bg-field",
-        "text-medusa-fg-subtle",
+        "text-medusa-fg-base",
         "font-base shadow-none",
         variant === "small"
           ? "text-compact-x-small"

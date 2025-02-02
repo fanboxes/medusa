@@ -1442,6 +1442,12 @@ In this section, you'll add a widget in the product details page. The widget wil
 
 To send requests from admin customizations to the Medusa server, you need to use Medusa's [JS SDK](../../../js-sdk/page.mdx). You'll also use [Tanstack Query](https://tanstack.com/query/latest) to benefit from features like data caching and invalidation.
 
+<Note type="warning">
+
+Do not install Tanstack Query as that will cause unexpected errors in your development. If you prefer installing it for better auto-completion in your code editor, make sure to install `v5.64.2` as a development dependency.
+
+</Note>
+
 To configure the JS SDK, create the file `src/admin/lib/sdk.ts` with the following content:
 
 ```ts title="src/admin/lib/sdk.ts"

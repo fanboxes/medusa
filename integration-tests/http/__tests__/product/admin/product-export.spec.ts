@@ -39,6 +39,9 @@ const compareCSVs = async (filePath, expectedFilePath) => {
   fileContent = fileContent.replace(dateRegex, "<DATE>")
   fixturesContent = fixturesContent.replace(dateRegex, "<DATE>")
 
+  fixturesContent = fixturesContent.replace(/,Shipping Profile Id*/g, "")
+  fixturesContent = fixturesContent.replace(/,import-shipping-profile*/g, "")
+
   expect(fileContent).toEqual(fixturesContent)
 }
 
@@ -56,6 +59,7 @@ medusaIntegrationTestRunner({
     let baseTag1
     let baseTag2
     let newTag
+    let shippingProfile
 
     let eventBus: IEventBusModuleService
     beforeAll(async () => {
@@ -91,6 +95,14 @@ medusaIntegrationTestRunner({
           adminHeaders
         )
       ).data.collection
+
+      shippingProfile = (
+        await api.post(
+          `/admin/shipping-profiles`,
+          { name: "Test", type: "default" },
+          adminHeaders
+        )
+      ).data.shipping_profile
 
       baseType = (
         await api.post(
@@ -130,6 +142,7 @@ medusaIntegrationTestRunner({
           getProductFixture({
             title: "Base product",
             description: "test-product-description\ntest line 2",
+            shipping_profile_id: shippingProfile.id,
             collection_id: baseCollection.id,
             type_id: baseType.id,
             categories: [{ id: baseCategory.id }],
@@ -191,6 +204,7 @@ medusaIntegrationTestRunner({
             status: "proposed",
             tags: [{ id: newTag.id }],
             type_id: baseType.id,
+            shipping_profile_id: shippingProfile.id,
           }),
           adminHeaders
         )
@@ -281,6 +295,7 @@ medusaIntegrationTestRunner({
             "/admin/products",
             getProductFixture({
               title: "Product with prices",
+              shipping_profile_id: shippingProfile.id,
               tags: [{ id: baseTag1.id }, { id: baseTag2.id }],
               variants: [
                 {

@@ -1,5 +1,67 @@
 # Change Log
 
+## 2.4.0
+
+### Minor Changes
+
+- [#10292](https://github.com/medusajs/medusa/pull/10292) [`cc73802ab3821d2c667942bd887efb7476205547`](https://github.com/medusajs/medusa/commit/cc73802ab3821d2c667942bd887efb7476205547) Thanks [@carlos-r-l-rodrigues](https://github.com/carlos-r-l-rodrigues)! - chore: upgrade to mikro-orm 6
+
+### Patch Changes
+
+- [#11110](https://github.com/medusajs/medusa/pull/11110) [`0deffe7b9b9a1055813249b17057b7bba01b78ac`](https://github.com/medusajs/medusa/commit/0deffe7b9b9a1055813249b17057b7bba01b78ac) Thanks [@thetutlage](https://github.com/thetutlage)! - fix: switch from tsc watch to chokidar
+
+- [#11072](https://github.com/medusajs/medusa/pull/11072) [`13fe2f6776b22c401d131f184fc3600ef4008383`](https://github.com/medusajs/medusa/commit/13fe2f6776b22c401d131f184fc3600ef4008383) Thanks [@adrien2p](https://github.com/adrien2p)! - fix(framework): migration scripts regexp
+
+- [#11055](https://github.com/medusajs/medusa/pull/11055) [`45b47bf8136d05b1b9939b81cd892d4426b569f2`](https://github.com/medusajs/medusa/commit/45b47bf8136d05b1b9939b81cd892d4426b569f2) Thanks [@shahednasser](https://github.com/shahednasser)! - fix(medusa): use correct request and response types for batch location levels route
+
+- [#11084](https://github.com/medusajs/medusa/pull/11084) [`e53b8b0a9708d2eb46258ca417b6ff6abbd5f3d9`](https://github.com/medusajs/medusa/commit/e53b8b0a9708d2eb46258ca417b6ff6abbd5f3d9) Thanks [@thetutlage](https://github.com/thetutlage)! - fix: Flaky behavior of Yalc
+
+- Updated dependencies [[`0deffe7b9b9a1055813249b17057b7bba01b78ac`](https://github.com/medusajs/medusa/commit/0deffe7b9b9a1055813249b17057b7bba01b78ac), [`2d0e50624fa37af5f74e46048a83ce3b39b210aa`](https://github.com/medusajs/medusa/commit/2d0e50624fa37af5f74e46048a83ce3b39b210aa), [`cc73802ab3821d2c667942bd887efb7476205547`](https://github.com/medusajs/medusa/commit/cc73802ab3821d2c667942bd887efb7476205547), [`8119d9964b1617ef2a8b06998f02ce4486484344`](https://github.com/medusajs/medusa/commit/8119d9964b1617ef2a8b06998f02ce4486484344), [`57892bee0054eb5f3e9075014b1f6b966dc531db`](https://github.com/medusajs/medusa/commit/57892bee0054eb5f3e9075014b1f6b966dc531db), [`ecc8efcb049f5c77cb7e38c2b6a273860590a5f4`](https://github.com/medusajs/medusa/commit/ecc8efcb049f5c77cb7e38c2b6a273860590a5f4), [`13fe2f6776b22c401d131f184fc3600ef4008383`](https://github.com/medusajs/medusa/commit/13fe2f6776b22c401d131f184fc3600ef4008383), [`da3906efa42ee729c11696e2d3255a60ac3fa958`](https://github.com/medusajs/medusa/commit/da3906efa42ee729c11696e2d3255a60ac3fa958), [`e53b8b0a9708d2eb46258ca417b6ff6abbd5f3d9`](https://github.com/medusajs/medusa/commit/e53b8b0a9708d2eb46258ca417b6ff6abbd5f3d9), [`5aa47978734b4deae5139a4fd5eba15fd20cb874`](https://github.com/medusajs/medusa/commit/5aa47978734b4deae5139a4fd5eba15fd20cb874), [`b9c469a6d445dfb2f692bc16753c660426a48bdc`](https://github.com/medusajs/medusa/commit/b9c469a6d445dfb2f692bc16753c660426a48bdc)]:
+  - @medusajs/framework@2.4.0
+  - @medusajs/core-flows@2.4.0
+  - @medusajs/locking-postgres@2.4.0
+  - @medusajs/workflow-engine-inmemory@2.4.0
+  - @medusajs/workflow-engine-redis@2.4.0
+  - @medusajs/stock-location@2.4.0
+  - @medusajs/sales-channel@2.4.0
+  - @medusajs/link-modules@2.4.0
+  - @medusajs/notification@2.4.0
+  - @medusajs/fulfillment@2.4.0
+  - @medusajs/inventory@2.4.0
+  - @medusajs/promotion@2.4.0
+  - @medusajs/currency@2.4.0
+  - @medusajs/customer@2.4.0
+  - @medusajs/api-key@2.4.0
+  - @medusajs/locking@2.4.0
+  - @medusajs/payment@2.4.0
+  - @medusajs/pricing@2.4.0
+  - @medusajs/product@2.4.0
+  - @medusajs/region@2.4.0
+  - @medusajs/index@2.4.0
+  - @medusajs/order@2.4.0
+  - @medusajs/store@2.4.0
+  - @medusajs/auth@2.4.0
+  - @medusajs/cart@2.4.0
+  - @medusajs/file@2.4.0
+  - @medusajs/user@2.4.0
+  - @medusajs/tax@2.4.0
+  - @medusajs/admin-bundler@2.4.0
+  - @medusajs/event-bus-local@2.4.0
+  - @medusajs/telemetry@2.4.0
+  - @medusajs/cache-inmemory@2.4.0
+  - @medusajs/cache-redis@2.4.0
+  - @medusajs/event-bus-redis@2.4.0
+  - @medusajs/auth-emailpass@2.4.0
+  - @medusajs/auth-github@2.4.0
+  - @medusajs/auth-google@2.4.0
+  - @medusajs/file-local@2.4.0
+  - @medusajs/file-s3@2.4.0
+  - @medusajs/fulfillment-manual@2.4.0
+  - @medusajs/locking-redis@2.4.0
+  - @medusajs/notification-local@2.4.0
+  - @medusajs/notification-sendgrid@2.4.0
+  - @medusajs/payment-stripe@2.4.0
+
 ## 2.3.1
 
 ### Patch Changes

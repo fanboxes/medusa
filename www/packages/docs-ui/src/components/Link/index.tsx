@@ -4,14 +4,13 @@ import type { LinkProps as NextLinkProps } from "next/link"
 import clsx from "clsx"
 import { TriangleRightMini } from "@medusajs/icons"
 
-export type LinkProps = {
-  href?: string
-  children?: React.ReactNode
-  className?: string
-  target?: string
-  rel?: string
-  withIcon?: boolean
-} & Partial<NextLinkProps>
+export type LinkProps = Partial<NextLinkProps> &
+  React.AllHTMLAttributes<HTMLAnchorElement> & {
+    href?: string
+    children?: React.ReactNode
+    className?: string
+    withIcon?: boolean
+  }
 
 export const Link = ({
   href,

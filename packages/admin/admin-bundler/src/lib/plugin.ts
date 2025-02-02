@@ -12,6 +12,7 @@ interface PluginOptions {
 export async function plugin(options: PluginOptions) {
   const vite = await import("vite")
   const react = (await import("@vitejs/plugin-react")).default
+  const { nodeResolve } = await import("@rollup/plugin-node-resolve")
   const entries = await glob(`${options.root}/src/admin/**/*.{ts,tsx,js,jsx}`)
 
   /**
@@ -36,11 +37,13 @@ export async function plugin(options: PluginOptions) {
   const external = new Set([
     ...Object.keys(pkg.dependencies || {}),
     ...Object.keys(pkg.peerDependencies || {}),
+    ...Object.keys(pkg.devDependencies || {}),
     "react",
     "react-dom",
     "react/jsx-runtime",
     "react-router-dom",
     "@medusajs/admin-sdk",
+    "@tanstack/react-query",
   ])
 
   /**
@@ -60,7 +63,8 @@ export async function plugin(options: PluginOptions) {
       minify: false,
       outDir: path.resolve(options.root, options.outDir),
       rollupOptions: {
-        external: [...external],
+        plugins: [nodeResolve() as any],
+        external: [...external, /node_modules/],
         output: {
           globals: {
             react: "React",

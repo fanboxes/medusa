@@ -1,0 +1,28 @@
+/**
+ * @schema AdminBatchCreateInventoryItemsLocationLevels
+ * type: object
+ * description: The details of an inventory level to create.
+ * required:
+ *   - location_id
+ *   - inventory_item_id
+ * properties:
+ *   location_id:
+ *     type: string
+ *     title: location_id
+ *     description: The ID of the associated stock location.
+ *   inventory_item_id:
+ *     type: string
+ *     title: inventory_item_id
+ *     description: The ID of the associated inventory item.
+ *   stocked_quantity:
+ *     type: number
+ *     title: stocked_quantity
+ *     description: The stocked quantity.
+ *   incoming_quantity:
+ *     type: number
+ *     title: incoming_quantity
+ *     description: The incoming quantity to be added to stock.
+ * x-schemaName: AdminBatchCreateInventoryItemsLocationLevels
+ * 
+*/
+

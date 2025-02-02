@@ -7,7 +7,7 @@ info:
     url: https://github.com/medusajs/medusa/blob/master/LICENSE
 tags:
   - name: Auth
-    description: >
+    description: |
       Auth API routes allow you to manage a customer's authentication.
   - name: Carts
     description: >
@@ -107,6 +107,12 @@ tags:
       url: https://docs.medusajs.com/v2/resources/storefront-development/products/categories/list
     x-associatedSchema:
       $ref: "#/components/schemas/StoreProductCategory"
+  - name: Product Tags
+    x-associatedSchema:
+      $ref: "#/components/schemas/StoreProductTag"
+  - name: Product Types
+    x-associatedSchema:
+      $ref: "#/components/schemas/StoreProductType"
   - name: Products
     description: >
       Customers browse products for their purchase.

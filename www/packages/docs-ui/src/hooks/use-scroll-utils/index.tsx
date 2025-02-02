@@ -106,6 +106,7 @@ function useScrollControllerContextValue({
       // 56 is the height of the navbar
       // might need a better way to determine it.
       top: top - parentOffsetTop - 56,
+      behavior: "instant",
     })
   }
 

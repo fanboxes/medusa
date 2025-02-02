@@ -1,0 +1,24 @@
+{
+  "description": "",
+  "methods": [],
+  "displayName": "DataTable.SortingIcon",
+  "props": {
+    "direction": {
+      "required": true,
+      "tsType": {
+        "name": "union",
+        "raw": "DataTableSortDirection | false",
+        "elements": [
+          {
+            "name": "DataTableSortDirection"
+          },
+          {
+            "name": "literal",
+            "value": "false"
+          }
+        ]
+      },
+      "description": ""
+    }
+  }
+}

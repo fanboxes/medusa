@@ -8,4 +8,5 @@ const IndexRelation = model.define("IndexRelation", {
   child_name: model.text(),
   child_id: model.text().index("IDX_index_relation_child_id"),
 })
+
 export default IndexRelation

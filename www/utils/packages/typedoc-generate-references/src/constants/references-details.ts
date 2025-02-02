@@ -53,4 +53,5 @@ export const dmlModules = [
   "stock-location-next",
   "tax",
   "fulfillment",
+  "order",
 ]

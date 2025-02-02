@@ -1,0 +1,21 @@
+If you're using the [S3 File Module Provider](../../../architectural-modules/file/s3/page.mdx) to store files in Cloudflare and you get a checksum error similar to the following:
+
+```bash
+Header 'x-amz-checksum-crc32' with value '0wpgCA==' not implemented
+```
+
+This is due to a recent update in the AWS SDK client that sets the ChecksumAlgorithm by default, which Cloudflare doesn't support. To resolve this issue, add in your `package.json` the following resolution for the `@aws-sdk/client-s3` package:
+
+```json
+{
+  "resolutions": {
+    "@aws-sdk/client-s3": "3.726.1"
+  }
+}
+```
+
+The version must be less than `3.729.0`. After adding the resolution, install the dependencies again:
+
+```bash npm2yarn
+npm install
+```

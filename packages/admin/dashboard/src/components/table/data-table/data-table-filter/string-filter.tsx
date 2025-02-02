@@ -1,11 +1,11 @@
 import { Input, Label, clx } from "@medusajs/ui"
-import * as Popover from "@radix-ui/react-popover"
 import { debounce } from "lodash"
+import { Popover as RadixPopover } from "radix-ui"
 import { ChangeEvent, useCallback, useEffect, useState } from "react"
 import { useSelectedParams } from "../hooks"
 import { useDataTableFilterContext } from "./context"
-import { IFilter } from "./types"
 import FilterChip from "./filter-chip"
+import { IFilter } from "./types"
 
 type StringFilterProps = IFilter
 
@@ -24,7 +24,9 @@ export const StringFilter = ({
 
   const query = selectedParams.get()
 
-  const [previousValue, setPreviousValue] = useState<string | undefined>(query?.[0])
+  const [previousValue, setPreviousValue] = useState<string | undefined>(
+    query?.[0]
+  )
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedOnChange = useCallback(
@@ -69,7 +71,7 @@ export const StringFilter = ({
   }
 
   return (
-    <Popover.Root modal open={open} onOpenChange={handleOpenChange}>
+    <RadixPopover.Root modal open={open} onOpenChange={handleOpenChange}>
       <FilterChip
         hasOperator
         hadPreviousValue={!!previousValue}
@@ -79,8 +81,8 @@ export const StringFilter = ({
         readonly={readonly}
       />
       {!readonly && (
-        <Popover.Portal>
-          <Popover.Content
+        <RadixPopover.Portal>
+          <RadixPopover.Content
             hideWhenDetached
             align="start"
             sideOffset={8}
@@ -115,9 +117,9 @@ export const StringFilter = ({
                 />
               </div>
             </div>
-          </Popover.Content>
-        </Popover.Portal>
+          </RadixPopover.Content>
+        </RadixPopover.Portal>
       )}
-    </Popover.Root>
+    </RadixPopover.Root>
   )
 }

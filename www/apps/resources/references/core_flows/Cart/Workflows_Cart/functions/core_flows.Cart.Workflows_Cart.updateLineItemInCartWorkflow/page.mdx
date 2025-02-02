@@ -27,7 +27,7 @@ by the [Update Line Item Store API Route](https://docs.medusajs.com/api/store#ca
 
 You can use this workflow within your own customizations or custom workflows, allowing you to update a line item's details in your custom flows.
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/644c8b9d3022fb4bc4ec6760ee4fed93b92d1b96/packages/core/core-flows/src/cart/workflows/update-line-item-in-cart.ts#L50" />
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/core/core-flows/src/cart/workflows/update-line-item-in-cart.ts#L50" />
 
 ## Examples
 
@@ -171,9 +171,9 @@ This hook is executed before all operations. You can consume this hook to perfor
 #### Example
 
 ```ts
-import { addShippingMethodToCartWorkflow } from "@medusajs/medusa/core-flows"
+import { updateLineItemInCartWorkflow } from "@medusajs/medusa/core-flows"
 
-addShippingMethodToCartWorkflow.hooks.validate(
+updateLineItemInCartWorkflow.hooks.validate(
   (async ({ input, cart }, { container }) => {
     //TODO
   })
@@ -184,4 +184,4 @@ addShippingMethodToCartWorkflow.hooks.validate(
 
 Handlers consuming this hook accept the following input.
 
-<TypeList types={[{"name":"input","type":"object","description":"The input data for the hook.","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"input","type":"[AddShippingMethodToCartWorkflowInput](../../../../interfaces/core_flows.AddShippingMethodToCartWorkflowInput/page.mdx)","description":"The data to add a shipping method to a cart.","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"cart_id","type":"`string`","description":"The ID of the cart to add the shipping method to.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"options","type":"`object`[]","description":"The shipping options to create the shipping methods from and add to the cart.","optional":false,"defaultValue":"","expandable":false,"children":[]}]},{"name":"cart","type":"`any`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="validate"/>
+<TypeList types={[{"name":"input","type":"object","description":"The input data for the hook.","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"input","type":"[UpdateLineItemInCartWorkflowInputDTO](../../../../../types/interfaces/types.UpdateLineItemInCartWorkflowInputDTO/page.mdx)","description":"The details of the line item to update.","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"cart_id","type":"`string`","description":"The ID of the cart that the line item belongs to.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"item_id","type":"`string`","description":"The ID of the line item to update.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"update","type":"Partial&#60;[UpdateLineItemDTO](../../../../../cart/interfaces/cart.UpdateLineItemDTO/page.mdx)&#62;","description":"The details to update in the line item.","optional":false,"defaultValue":"","expandable":false,"children":[]}]},{"name":"cart","type":"`any`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="validate"/>

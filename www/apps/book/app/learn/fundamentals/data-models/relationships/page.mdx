@@ -217,29 +217,29 @@ export const manyToManyColumnHighlights = [
 ]
 
 ```ts highlights={manyToManyColumnHighlights}
-import { model } from "@medusajs/framework/utils";
+import { model } from "@medusajs/framework/utils"
 
 export const Order = model.define("order_test", {
   id: model.id().primaryKey(),
   products: model.manyToMany(() => Product, {
-    pivotEntity: () => OrderProduct
-  })
+    pivotEntity: () => OrderProduct,
+  }),
 })
 
 export const Product = model.define("product_test", {
   id: model.id().primaryKey(),
-  orders: model.manyToMany(() => Order)
+  orders: model.manyToMany(() => Order),
 })
 
 export const OrderProduct = model.define("orders_products", {
   id: model.id().primaryKey(),
   order: model.belongsTo(() => Order, {
-    mappedBy: "products"
+    mappedBy: "products",
   }),
   product: model.belongsTo(() => Product, {
-    mappedBy: "orders"
+    mappedBy: "orders",
   }),
-  metadata: model.json().nullable()
+  metadata: model.json().nullable(),
 })
 ```
 

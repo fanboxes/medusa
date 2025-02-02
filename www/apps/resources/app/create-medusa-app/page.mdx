@@ -15,7 +15,7 @@ export const metadata = {
 
 # {metadata.title}
 
-The `create-medusa-app` CLI tool simplifies the process of creating a new Medusa project and provides an onboarding experience.
+The `create-medusa-app` CLI tool simplifies the process of creating a new Medusa project. It also allows you to setup a [Medusa plugin project](#create-a-medusa-plugin-project).
 
 <Prerequisites items={[
   {
@@ -206,6 +206,23 @@ npx create-medusa-app@latest [project-name]
 
       </Table.Cell>
     </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+
+        `--plugin`
+
+      </Table.Cell>
+      <Table.Cell>
+
+        Create a [plugin project](#create-a-medusa-plugin-project) instead of a Medusa application. This option is available starting from [Medusa v2.3.0](https://github.com/medusajs/medusa/releases/tag/v2.3.0).
+
+      </Table.Cell>
+      <Table.Cell>
+      
+        `false`
+
+      </Table.Cell>
+    </Table.Row>
   </Table.Body>
 </Table>
 
@@ -238,6 +255,18 @@ npx create-medusa-app@latest --db-url "postgres://postgres.<host>:<password>@aws
 If the database already has the necessary migrations and you don't need the command to run migrations, you can pass the `--no-migrations` option.
 
 </Note>
+
+---
+
+## Create a Medusa Plugin Project
+
+The `create-medusa-app` tool can also be used to create a Medusa Plugin Project. You can do that by passing the `--plugin` option:
+
+```bash
+npx create-medusa-app@latest my-plugin --plugin
+```
+
+Learn more about how to create a plugin in [this documentation](!docs!/learn/fundamentals/plugins).
 
 ---
 

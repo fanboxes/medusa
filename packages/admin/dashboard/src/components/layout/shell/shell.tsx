@@ -1,8 +1,7 @@
-import * as Dialog from "@radix-ui/react-dialog"
-
 import { SidebarLeft, TriangleRightMini, XMark } from "@medusajs/icons"
 import { IconButton, clx } from "@medusajs/ui"
 import { AnimatePresence } from "motion/react"
+import { Dialog as RadixDialog } from "radix-ui"
 import { PropsWithChildren, ReactNode, useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import {
@@ -225,22 +224,22 @@ const MobileSidebarContainer = ({ children }: PropsWithChildren) => {
   const { mobile, toggle } = useSidebar()
 
   return (
-    <Dialog.Root open={mobile} onOpenChange={() => toggle("mobile")}>
-      <Dialog.Portal>
-        <Dialog.Overlay
+    <RadixDialog.Root open={mobile} onOpenChange={() => toggle("mobile")}>
+      <RadixDialog.Portal>
+        <RadixDialog.Overlay
           className={clx(
             "bg-ui-bg-overlay fixed inset-0",
             "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
           )}
         />
-        <Dialog.Content
+        <RadixDialog.Content
           className={clx(
             "bg-ui-bg-subtle shadow-elevation-modal fixed inset-y-2 left-2 flex w-full max-w-[304px] flex-col overflow-hidden rounded-lg border-r",
             "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-out-to-left-1/2 data-[state=open]:slide-in-from-left-1/2 duration-200"
           )}
         >
           <div className="p-3">
-            <Dialog.Close asChild>
+            <RadixDialog.Close asChild>
               <IconButton
                 size="small"
                 variant="transparent"
@@ -248,17 +247,17 @@ const MobileSidebarContainer = ({ children }: PropsWithChildren) => {
               >
                 <XMark />
               </IconButton>
-            </Dialog.Close>
-            <Dialog.Title className="sr-only">
+            </RadixDialog.Close>
+            <RadixDialog.Title className="sr-only">
               {t("app.nav.accessibility.title")}
-            </Dialog.Title>
-            <Dialog.Description className="sr-only">
+            </RadixDialog.Title>
+            <RadixDialog.Description className="sr-only">
               {t("app.nav.accessibility.description")}
-            </Dialog.Description>
+            </RadixDialog.Description>
           </div>
           {children}
-        </Dialog.Content>
-      </Dialog.Portal>
-    </Dialog.Root>
+        </RadixDialog.Content>
+      </RadixDialog.Portal>
+    </RadixDialog.Root>
   )
 }

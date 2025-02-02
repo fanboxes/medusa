@@ -12,6 +12,12 @@ In this chapter, you'll find some tips for your admin development.
 
 To send a request to an API route in the Medusa Application, use Medusa's [JS SDK](!resources!/js-sdk) with [Tanstack Query](https://tanstack.com/query/latest). Both of these tools are installed in your project by default.
 
+<Note type="warning">
+
+Do not install Tanstack Query as that will cause unexpected errors in your development. If you prefer installing it for better auto-completion in your code editor, make sure to install `v5.64.2` as a development dependency.
+
+</Note>
+
 First, create the file `src/admin/lib/config.ts` to setup the SDK for use in your customizations:
 
 ```ts

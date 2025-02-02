@@ -16,6 +16,18 @@ Medusa removes this overhead by allowing you to easily write custom modules that
 
 As you learn more about Medusa, you will see that modules are central to customizations and integrations. With modules, your Medusa application can turn into a middleware solution for your commerce ecosystem.
 
+<Note title="Use a module if" type="success">
+
+- You want to build a custom feature related to a single domain or integrate a third-party service.
+
+</Note>
+
+<Note title="Don't use a module if" type="error">
+
+- You want to create a reusable package of customizations that include not only modules, but also API routes, workflows, and other customizations. Instead, use a [plugin](../plugins/page.mdx).
+
+</Note>
+
 ---
 
 ## How to Create a Module?
@@ -136,6 +148,12 @@ You export `BLOG_MODULE` to reference the module's name more reliably when resol
 
 ### 4. Add Module to Medusa's Configurations
 
+<Note>
+
+If you're creating the module in a plugin, this step isn't required as the module is registered when the plugin is registered. Learn more about plugins in [this documentation](../plugins/page.mdx).
+
+</Note>
+
 Once you finish building the module, add it to Medusa's configurations to start using it. Medusa will then register the module's main service in the Medusa container, allowing you to resolve and use it in other customizations.
 
 In `medusa-config.ts`, add a `modules` property and pass an array with your custom module:
@@ -165,6 +183,12 @@ You don't have to write migrations yourself. Medusa's CLI tool has a command tha
 
 To generate a migration for the Blog Module, run the following command in your Medusa application's directory:
 
+<Note>
+
+If you're creating the module in a plugin, use the [plugin\:db\:generate command](!resources!/medusa-cli/commands/plugin#plugindbgenerate) instead.
+
+</Note>
+
 ```bash
 npx medusa db:generate blog
 ```
@@ -192,6 +216,12 @@ In the migration class, the `up` method creates the table `post` and defines its
 ### 6. Run Migrations
 
 To reflect the changes in the generated migration file on the database, run the `db:migrate` command:
+
+<Note>
+
+If you're creating the module in a plugin, run this command on the Medusa application that the plugin is installed in.
+
+</Note>
 
 ```bash
 npx medusa db:migrate

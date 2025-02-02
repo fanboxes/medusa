@@ -1,5 +1,5 @@
-import { Slot } from "@radix-ui/react-slot"
 import { VariantProps, cva } from "cva"
+import { Slot } from "radix-ui"
 import * as React from "react"
 
 import { clx } from "@/utils/clx"
@@ -131,7 +131,7 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
     }: BadgeProps,
     ref
   ) => {
-    const Component = asChild ? Slot : "span"
+    const Component = asChild ? Slot.Root : "span"
 
     return (
       <Component

@@ -1,4 +1,4 @@
-import { ShippingOptionPriceType } from "@medusajs/framework/utils"
+import { isDefined, ShippingOptionPriceType } from "@medusajs/framework/utils"
 import {
   createWorkflow,
   parallelize,
@@ -6,8 +6,8 @@ import {
   WorkflowData,
   WorkflowResponse,
 } from "@medusajs/framework/workflows-sdk"
-import { 
-  CalculateShippingOptionPriceDTO, 
+import {
+  CalculateShippingOptionPriceDTO,
   ListShippingOptionsForCartWithPricingWorkflowInput,
 } from "@medusajs/types"
 
@@ -44,13 +44,13 @@ export const listShippingOptionsForCartWithPricingWorkflowId =
 /**
  * This workflow lists shipping options that can be used during checkout for a cart. It also retrieves the prices
  * of these shipping options, including calculated prices that may be retrieved from third-party providers.
- * 
+ *
  * This workflow is executed in other cart-related workflows, such as {@link addShippingMethodToCartWorkflow} to retrieve the
  * price of the shipping method being added to the cart.
- * 
- * You can use this workflow within your own customizations or custom workflows, allowing you to retrieve the shipping options of a cart and their prices 
+ *
+ * You can use this workflow within your own customizations or custom workflows, allowing you to retrieve the shipping options of a cart and their prices
  * in your custom flows.
- * 
+ *
  * @example
  * const { result } = await listShippingOptionsForCartWithPricingWorkflow(container)
  * .run({
@@ -66,16 +66,14 @@ export const listShippingOptionsForCartWithPricingWorkflowId =
  *     ]
  *   }
  * })
- * 
+ *
  * @summary
- * 
+ *
  * List a cart's shipping options with prices.
  */
 export const listShippingOptionsForCartWithPricingWorkflow = createWorkflow(
   listShippingOptionsForCartWithPricingWorkflowId,
-  (
-    input: WorkflowData<ListShippingOptionsForCartWithPricingWorkflowInput>
-  ) => {
+  (input: WorkflowData<ListShippingOptionsForCartWithPricingWorkflowInput>) => {
     const optionIds = transform({ input }, ({ input }) =>
       (input.options ?? []).map(({ id }) => id)
     )
@@ -141,8 +139,12 @@ export const listShippingOptionsForCartWithPricingWorkflow = createWorkflow(
       { input, cart, fulfillmentSetIds },
       ({ input, cart, fulfillmentSetIds }) => ({
         context: {
-          is_return: input.is_return ?? false,
-          enabled_in_store: input.enabled_in_store ?? true,
+          is_return: input.is_return ? "true" : "false",
+          enabled_in_store: !isDefined(input.enabled_in_store)
+            ? "true"
+            : input.enabled_in_store
+            ? "true"
+            : "false",
         },
 
         filters: {

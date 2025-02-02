@@ -14,12 +14,29 @@ import { DataTableToolbar } from "./components/data-table-toolbar"
 import { DataTableContextProvider } from "./context/data-table-context-provider"
 import { UseDataTableReturn } from "./use-data-table"
 
+/**
+ * The props of the `DataTable` component.
+ */
 interface DataTableProps<TData> {
+  /**
+   * The instance returned by the `useDataTable` hook.
+   */
   instance: UseDataTableReturn<TData>
+  /**
+   * The children of the component.
+   */
   children?: React.ReactNode
+  /**
+   * Additional classes to pass to the wrapper `div` of the component.
+   */
   className?: string
 }
 
+/**
+ * This component creates a data table with filters, pagination, sorting, and more.
+ * It's built on top of the `Table` component while expanding its functionality.
+ * The `DataTable` is useful to create tables similar to those in the Medusa Admin dashboard.
+ */
 const Root = <TData,>({
   instance,
   children,
@@ -33,6 +50,7 @@ const Root = <TData,>({
     </DataTableContextProvider>
   )
 }
+Root.displayName = "DataTable"
 
 const DataTable = Object.assign(Root, {
   Table: DataTableTable,

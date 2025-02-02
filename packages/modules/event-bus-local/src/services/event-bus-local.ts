@@ -91,7 +91,7 @@ export default class LocalEventBusService extends AbstractEventBusModuleService 
       const { options, ...eventBody } = eventData
 
       const options_ = options as { delay: number }
-      const delay = options?.delay ? setTimeout : async () => {}
+      const delay = (ms?: number) => (ms ? setTimeout(ms) : Promise.resolve())
 
       delay(options_?.delay).then(() =>
         this.eventEmitter_.emit(eventData.name, eventBody)
@@ -118,7 +118,7 @@ export default class LocalEventBusService extends AbstractEventBusModuleService 
       const { options, ...eventBody } = event
 
       const options_ = options as { delay: number }
-      const delay = options?.delay ? setTimeout : async () => {}
+      const delay = (ms?: number) => (ms ? setTimeout(ms) : Promise.resolve())
 
       delay(options_?.delay).then(() =>
         this.eventEmitter_.emit(event.name, eventBody)

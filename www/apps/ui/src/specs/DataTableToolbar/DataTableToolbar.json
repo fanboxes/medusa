@@ -1,0 +1,29 @@
+{
+  "description": "Toolbar shown for the data table.",
+  "methods": [],
+  "displayName": "DataTableToolbar",
+  "props": {
+    "className": {
+      "required": false,
+      "tsType": {
+        "name": "string"
+      },
+      "description": "Additional classes to pass to the wrapper `div` of the component."
+    },
+    "children": {
+      "required": false,
+      "tsType": {
+        "name": "ReactReactNode",
+        "raw": "React.ReactNode"
+      },
+      "description": "The children to show in the toolbar."
+    },
+    "translations": {
+      "required": false,
+      "tsType": {
+        "name": "DataTableToolbarTranslations"
+      },
+      "description": "The translations of strings in the toolbar."
+    }
+  }
+}

@@ -1,7 +1,7 @@
 "use client"
 
-import * as Primitives from "@radix-ui/react-switch"
 import { VariantProps, cva } from "cva"
+import { Switch as RadixSwitch } from "radix-ui"
 import * as React from "react"
 
 import { clx } from "@/utils/clx"
@@ -35,7 +35,7 @@ const thumbVariants = cva({
 
 interface SwitchProps
   extends Omit<
-      React.ComponentPropsWithoutRef<typeof Primitives.Root>,
+      React.ComponentPropsWithoutRef<typeof RadixSwitch.Root>,
       "asChild"
     >,
     VariantProps<typeof switchVariants> {}
@@ -44,7 +44,7 @@ interface SwitchProps
  * This component is based on the [Radix UI Switch](https://www.radix-ui.com/primitives/docs/components/switch) primitive.
  */
 const Switch = React.forwardRef<
-  React.ElementRef<typeof Primitives.Root>,
+  React.ElementRef<typeof RadixSwitch.Root>,
   SwitchProps
 >(
   (
@@ -58,13 +58,13 @@ const Switch = React.forwardRef<
     }: SwitchProps,
     ref
   ) => (
-    <Primitives.Root
+    <RadixSwitch.Root
       className={clx(switchVariants({ size }), className)}
       {...props}
       ref={ref}
     >
-      <Primitives.Thumb className={clx(thumbVariants({ size }))} />
-    </Primitives.Root>
+      <RadixSwitch.Thumb className={clx(thumbVariants({ size }))} />
+    </RadixSwitch.Root>
   )
 )
 Switch.displayName = "Switch"

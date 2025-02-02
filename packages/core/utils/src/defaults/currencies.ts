@@ -946,9 +946,9 @@ export const defaultCurrencies: Record<string, Currency> = {
     name_plural: "Tongan paʻanga",
   },
   TRY: {
-    symbol: "TL",
+    symbol: "₺",
     name: "Turkish Lira",
-    symbol_native: "TL",
+    symbol_native: "₺",
     decimal_digits: 2,
     rounding: 0,
     code: "TRY",

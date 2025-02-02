@@ -64,6 +64,7 @@ export const ProductCreateSchema = z
     discountable: z.boolean(),
     type_id: z.string().optional(),
     collection_id: z.string().optional(),
+    shipping_profile_id: z.string(), // TODO: require min(1) when partial validation per tab is added
     categories: z.array(z.string()),
     tags: z.array(z.string()).optional(),
     sales_channels: z
@@ -145,6 +146,7 @@ export const PRODUCT_CREATE_FORM_DEFAULTS: Partial<
   media: [],
   categories: [],
   collection_id: "",
+  shipping_profile_id: "",
   description: "",
   handle: "",
   height: "",

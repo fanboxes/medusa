@@ -1,7 +1,7 @@
 "use client"
 
-import * as Primitives from "@radix-ui/react-label"
 import { cva, type VariantProps } from "cva"
+import { Label as RadixLabel } from "radix-ui"
 import * as React from "react"
 
 import { clx } from "@/utils/clx"
@@ -47,7 +47,7 @@ const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
     ...props
   }: LabelProps, ref) => {
     return (
-      <Primitives.Root
+      <RadixLabel.Root
         ref={ref}
         className={clx(labelVariants({ size, weight }), className)}
         {...props}

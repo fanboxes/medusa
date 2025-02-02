@@ -1,7 +1,7 @@
 "use client"
 
 import { CheckMini, MinusMini } from "@medusajs/icons"
-import * as Primitives from "@radix-ui/react-checkbox"
+import { Checkbox as RadixCheckbox } from "radix-ui"
 import * as React from "react"
 
 import { clx } from "@/utils/clx"
@@ -11,13 +11,13 @@ import { CheckboxCheckedState } from "./types"
  * This component is based on the [Radix UI Checkbox](https://www.radix-ui.com/primitives/docs/components/checkbox) primitive.
  */
 const Checkbox = React.forwardRef<
-  React.ElementRef<typeof Primitives.Root>,
-  React.ComponentPropsWithoutRef<typeof Primitives.Root> & {
+  React.ElementRef<typeof RadixCheckbox.Root>,
+  React.ComponentPropsWithoutRef<typeof RadixCheckbox.Root> & {
     checked?: CheckboxCheckedState | undefined
   }
 >(({ className, checked, ...props }, ref) => {
   return (
-    <Primitives.Root
+    <RadixCheckbox.Root
       {...props}
       ref={ref}
       checked={checked}
@@ -36,11 +36,11 @@ const Checkbox = React.forwardRef<
           "group-data-[state=indeterminate]:bg-ui-bg-interactive group-data-[state=indeterminate]:shadow-borders-interactive-with-shadow"
         )}
       >
-        <Primitives.Indicator>
+        <RadixCheckbox.Indicator>
           {checked === "indeterminate" ? <MinusMini /> : <CheckMini />}
-        </Primitives.Indicator>
+        </RadixCheckbox.Indicator>
       </div>
-    </Primitives.Root>
+    </RadixCheckbox.Root>
   )
 })
 Checkbox.displayName = "Checkbox"

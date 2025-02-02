@@ -58,14 +58,14 @@ export type ConfirmReturnRequestValidationStepInput = {
 /**
  * This step validates that a return request can be confirmed.
  * If the order or return is canceled or the order change is not active, the step will throw an error.
- * 
+ *
  * :::note
- * 
+ *
  * You can retrieve an order, order change, and return details using [Query](https://docs.medusajs.com/learn/fundamentals/module-links/query),
  * or [useQueryGraphStep](https://docs.medusajs.com/resources/references/medusa-workflows/steps/useQueryGraphStep).
- * 
+ *
  * :::
- * 
+ *
  * @example
  * const data = confirmReturnRequestValidationStep({
  *   order: {
@@ -219,12 +219,12 @@ export type ConfirmReturnRequestWorkflowInput = {
 
 export const confirmReturnRequestWorkflowId = "confirm-return-request"
 /**
- * This workflow confirms a return request. It's used by the 
+ * This workflow confirms a return request. It's used by the
  * [Confirm Return Request Admin API Route](https://docs.medusajs.com/api/admin#returns_postreturnsidrequest).
- * 
+ *
  * You can use this workflow within your customizations or your own custom workflows, allowing you to confirm a return request
  * in your custom flow.
- * 
+ *
  * @example
  * const { result } = await confirmReturnRequestWorkflow(container)
  * .run({
@@ -232,9 +232,9 @@ export const confirmReturnRequestWorkflowId = "confirm-return-request"
  *     return_id: "return_123",
  *   }
  * })
- * 
+ *
  * @summary
- * 
+ *
  * Confirm a return request.
  */
 export const confirmReturnRequestWorkflow = createWorkflow(
@@ -326,7 +326,6 @@ export const confirmReturnRequestWorkflow = createWorkflow(
           id: returnShippingOptionId,
         },
         list: false,
-        throw_if_key_not_found: true,
       }).config({ name: "return-shipping-option" })
 
       const fulfillmentData = transform(

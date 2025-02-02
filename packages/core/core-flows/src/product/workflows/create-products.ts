@@ -1,6 +1,7 @@
 import {
   AdditionalData,
   CreateProductWorkflowInputDTO,
+  LinkDefinition,
   PricingTypes,
   ProductTypes,
 } from "@medusajs/framework/types"
@@ -8,6 +9,7 @@ import {
   ProductWorkflowEvents,
   isPresent,
   MedusaError,
+  Modules,
 } from "@medusajs/framework/utils"
 import {
   WorkflowData,
@@ -17,7 +19,11 @@ import {
   transform,
   createStep,
 } from "@medusajs/framework/workflows-sdk"
-import { emitEventStep } from "../../common"
+import {
+  createRemoteLinkStep,
+  emitEventStep,
+  useQueryGraphStep,
+} from "../../common"
 import { associateProductsWithSalesChannelsStep } from "../../sales-channel"
 import { createProductsStep } from "../steps/create-products"
 import { createProductVariantsWorkflow } from "./create-product-variants"
@@ -29,14 +35,19 @@ export interface ValidateProductInputStepInput {
   /**
    * The products to validate.
    */
-  products: CreateProductWorkflowInputDTO[]
+  products: Omit<CreateProductWorkflowInputDTO, "sales_channels">[]
+
+  /**
+   * The shipping profiles to validate.
+   */
+  shippingProfiles: { id: string }[]
 }
 
 const validateProductInputStepId = "validate-product-input"
 /**
  * This step validates that all provided products have options.
  * If a product is missing options, an error is thrown.
- * 
+ *
  * @example
  * const data = validateProductInputStep({
  *   products: [
@@ -71,7 +82,7 @@ const validateProductInputStepId = "validate-product-input"
 export const validateProductInputStep = createStep(
   validateProductInputStepId,
   async (data: ValidateProductInputStepInput) => {
-    const { products } = data
+    const { products, shippingProfiles } = data
 
     const missingOptionsProductTitles = products
       .filter((product) => !product.options?.length)
@@ -81,6 +92,25 @@ export const validateProductInputStep = createStep(
       throw new MedusaError(
         MedusaError.Types.INVALID_DATA,
         `Product options are not provided for: [${missingOptionsProductTitles.join(
+          ", "
+        )}].`
+      )
+    }
+
+    const existingProfileIds = new Set(shippingProfiles.map((p) => p.id))
+
+    const missingShippingProfileProductTitles = products
+      .filter(
+        (product) =>
+          !product.shipping_profile_id ||
+          !existingProfileIds.has(product.shipping_profile_id)
+      )
+      .map((product) => product.title)
+
+    if (missingShippingProfileProductTitles.length) {
+      throw new MedusaError(
+        MedusaError.Types.INVALID_DATA,
+        `Shipping profile is not provided for: [${missingShippingProfileProductTitles.join(
           ", "
         )}].`
       )
@@ -102,11 +132,11 @@ export const createProductsWorkflowId = "create-products"
 /**
  * This workflow creates one or more products. It's used by the [Create Product Admin API Route](https://docs.medusajs.com/api/admin#products_postproducts).
  * It can also be useful to you when creating [seed scripts](https://docs.medusajs.com/learn/fundamentals/custom-cli-scripts/seed-data), for example.
- * 
+ *
  * This workflow has a hook that allows you to perform custom actions on the created products. You can see an example in [this guide](https://docs.medusajs.com/resources/commerce-modules/product/extend).
- * 
+ *
  * You can also use this workflow within your customizations or your own custom workflows, allowing you to wrap custom logic around product creation.
- * 
+ *
  * @example
  * const { result } = await createProductsWorkflow(container)
  * .run({
@@ -143,26 +173,45 @@ export const createProductsWorkflowId = "create-products"
  *     }
  *   }
  * })
- * 
+ *
  * @summary
- * 
+ *
  * Create one or more products with options and variants.
- * 
+ *
  * @property hooks.productCreated - This hook is executed after the products are created. You can consume this hook to perform custom actions on the created products.
  */
 export const createProductsWorkflow = createWorkflow(
   createProductsWorkflowId,
   (input: WorkflowData<CreateProductsWorkflowInput>) => {
     // Passing prices to the product module will fail, we want to keep them for after the product is created.
-    const productWithoutExternalRelations = transform({ input }, (data) =>
-      data.input.products.map((p) => ({
-        ...p,
-        sales_channels: undefined,
-        variants: undefined,
-      }))
-    )
+    const { products: productWithoutExternalRelations, shippingPorfileIds } =
+      transform({ input }, (data) => {
+        const shippingPorfileIds: string[] = []
+        const productsData = data.input.products.map((p) => {
+          if (p.shipping_profile_id) {
+            shippingPorfileIds.push(p.shipping_profile_id)
+          }
 
-    validateProductInputStep({ products: productWithoutExternalRelations })
+          return {
+            ...p,
+            sales_channels: undefined,
+            shipping_profile_id: undefined,
+            variants: undefined,
+          }
+        })
+
+        return { products: productsData, shippingPorfileIds }
+      })
+
+    const { data: shippingProfiles } = useQueryGraphStep({
+      entity: "shipping_profile",
+      fields: ["id"],
+      filters: {
+        id: shippingPorfileIds,
+      },
+    })
+
+    validateProductInputStep({ products: input.products, shippingProfiles })
 
     const createdProducts = createProductsStep(productWithoutExternalRelations)
 
@@ -181,6 +230,24 @@ export const createProductsWorkflow = createWorkflow(
     })
 
     associateProductsWithSalesChannelsStep({ links: salesChannelLinks })
+
+    const shippingProfileLinks = transform(
+      { input, createdProducts },
+      (data) => {
+        return data.createdProducts.map((createdProduct, i) => {
+          return {
+            [Modules.PRODUCT]: {
+              product_id: createdProduct.id,
+            },
+            [Modules.FULFILLMENT]: {
+              shipping_profile_id: data.input.products[i].shipping_profile_id,
+            },
+          }
+        })
+      }
+    )
+
+    createRemoteLinkStep(shippingProfileLinks as LinkDefinition[])
 
     const variantsInput = transform({ input, createdProducts }, (data) => {
       // TODO: Move this to a unified place for all product workflow types

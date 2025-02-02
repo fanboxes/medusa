@@ -7,8 +7,8 @@ import {
   Kbd,
   Text,
 } from "@medusajs/ui"
-import * as Dialog from "@radix-ui/react-dialog"
 import { Command } from "cmdk"
+import { Dialog as RadixDialog } from "radix-ui"
 import {
   Children,
   ComponentPropsWithoutRef,
@@ -285,7 +285,7 @@ const CommandPalette = forwardRef<
 ))
 CommandPalette.displayName = Command.displayName
 
-interface CommandDialogProps extends Dialog.DialogProps {
+interface CommandDialogProps extends RadixDialog.DialogProps {
   isLoading?: boolean
 }
 
@@ -297,10 +297,10 @@ const CommandDialog = ({ children, ...props }: CommandDialogProps) => {
   }, [props.isLoading, children])
 
   return (
-    <Dialog.Root {...props}>
-      <Dialog.Portal>
-        <Dialog.Overlay className="bg-ui-bg-overlay fixed inset-0" />
-        <Dialog.Content
+    <RadixDialog.Root {...props}>
+      <RadixDialog.Portal>
+        <RadixDialog.Overlay className="bg-ui-bg-overlay fixed inset-0" />
+        <RadixDialog.Content
           className={clx(
             "bg-ui-bg-base shadow-elevation-modal fixed left-[50%] top-[50%] flex max-h-[calc(100%-16px)] w-[calc(100%-16px)] min-w-0 max-w-2xl translate-x-[-50%] translate-y-[-50%] flex-col overflow-hidden rounded-xl p-0",
             {
@@ -308,12 +308,12 @@ const CommandDialog = ({ children, ...props }: CommandDialogProps) => {
             }
           )}
         >
-          <Dialog.Title className="sr-only">
+          <RadixDialog.Title className="sr-only">
             {t("app.search.title")}
-          </Dialog.Title>
-          <Dialog.Description className="sr-only">
+          </RadixDialog.Title>
+          <RadixDialog.Description className="sr-only">
             {t("app.search.description")}
-          </Dialog.Description>
+          </RadixDialog.Description>
           <CommandPalette className="[&_[cmdk-group-heading]]:text-muted-foreground flex h-full flex-col overflow-hidden [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0">
             {children}
           </CommandPalette>
@@ -337,9 +337,9 @@ const CommandDialog = ({ children, ...props }: CommandDialogProps) => {
               </div>
             </div>
           </div>
-        </Dialog.Content>
-      </Dialog.Portal>
-    </Dialog.Root>
+        </RadixDialog.Content>
+      </RadixDialog.Portal>
+    </RadixDialog.Root>
   )
 }
 

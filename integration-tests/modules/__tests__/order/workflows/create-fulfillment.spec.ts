@@ -132,6 +132,17 @@ async function prepareDataFixtures({ container }) {
 
   await remoteLink.create([
     {
+      [Modules.PRODUCT]: {
+        product_id: product.id,
+      },
+      [Modules.FULFILLMENT]: {
+        shipping_profile_id: shippingProfile.id,
+      },
+    },
+  ])
+
+  await remoteLink.create([
+    {
       [Modules.STOCK_LOCATION]: {
         stock_location_id: location.id,
       },

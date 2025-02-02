@@ -40,7 +40,7 @@ export const useKeyboardShortcut = ({
     [shortcutKeys]
   )
 
-  const sidebarShortcut = useCallback(
+  const onKeyDown = useCallback(
     (e: KeyboardEvent) => {
       // the event is triggered when an input
       // autocompletes, and in that case
@@ -63,10 +63,10 @@ export const useKeyboardShortcut = ({
   )
 
   useEffect(() => {
-    window.addEventListener("keydown", sidebarShortcut)
+    window.addEventListener("keydown", onKeyDown)
 
     return () => {
-      window.removeEventListener("keydown", sidebarShortcut)
+      window.removeEventListener("keydown", onKeyDown)
     }
-  }, [sidebarShortcut])
+  }, [onKeyDown])
 }

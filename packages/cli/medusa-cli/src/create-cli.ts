@@ -205,6 +205,16 @@ function buildLocalCommands(cli, isLocalProject) {
       ),
     })
     .command({
+      command: "db:migrate:scripts",
+      desc: "Run all migration scripts",
+      handler: handlerP(
+        getCommandHandler("db/run-scripts", (args, cmd) => {
+          process.env.NODE_ENV = process.env.NODE_ENV || `development`
+          return cmd(args)
+        })
+      ),
+    })
+    .command({
       command: "db:rollback [modules...]",
       desc: "Rollback last batch of executed migrations for a given module",
       builder: {

@@ -5,6 +5,7 @@ import { AdminProductCategory } from "../../product-category"
 import { AdminProductTag } from "../../product-tag"
 import { AdminProductType } from "../../product-type"
 import { AdminSalesChannel } from "../../sales-channel"
+import { AdminShippingProfile } from "../../shipping-profile"
 import {
   BaseProduct,
   BaseProductImage,
@@ -86,6 +87,10 @@ export interface AdminProduct
    * The sales channels that the product is available in.
    */
   sales_channels?: AdminSalesChannel[] | null
+  /**
+   * The shipping profile that the product is available in.
+   */
+  shipping_profile?: AdminShippingProfile | null
   /**
    * The product's variants.
    */

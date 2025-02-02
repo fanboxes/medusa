@@ -1,3 +1,3 @@
-import { CheckedState } from "@radix-ui/react-checkbox"
+import type { Checkbox } from "radix-ui"
 
-export type CheckboxCheckedState = CheckedState
+export type CheckboxCheckedState = Checkbox.CheckedState

@@ -2,21 +2,29 @@ import React from "react"
 import {
   BrowserProvider,
   ColorModeProvider,
+  LayoutProvider,
+  LayoutProviderProps,
   MobileProvider,
   ModalProvider,
 } from "../../providers"
 
 type RootProvidersProps = {
   children: React.ReactNode
+  layoutProviderProps?: Omit<LayoutProviderProps, "children">
 }
 
-export const RootProviders = ({ children }: RootProvidersProps) => {
+export const RootProviders = ({
+  children,
+  layoutProviderProps = {},
+}: RootProvidersProps) => {
   return (
     <BrowserProvider>
       <MobileProvider>
-        <ColorModeProvider>
-          <ModalProvider>{children}</ModalProvider>
-        </ColorModeProvider>
+        <LayoutProvider {...layoutProviderProps}>
+          <ColorModeProvider>
+            <ModalProvider>{children}</ModalProvider>
+          </ColorModeProvider>
+        </LayoutProvider>
       </MobileProvider>
     </BrowserProvider>
   )

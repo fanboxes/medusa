@@ -1,0 +1,17 @@
+export const metadata = {
+  title: `${pageNumber} Re-Use Customizations with Plugins`,
+}
+
+# {metadata.title}
+
+In the previous chapters, you've learned important concepts related to creating modules, implementing commerce features in workflows, exposing those features in API routes, customizing the Medusa Admin dashboard with Admin Extensions, and integrating third-party systems.
+
+You've implemented the brands example within a single Medusa application. However, this approach is not scalable when you want to reuse your customizations across multiple projects.
+
+To reuse your customizations across multiple Medusa applications, such as implementing brands in different projects, you can create a plugin. A plugin is an NPM package that encapsulates your customizations and can be installed in any Medusa application. Plugins can include modules, workflows, API routes, Admin Extensions, and more.
+
+![Diagram showcasing how the Brand Plugin would add its resources to any application it's installed in](https://res.cloudinary.com/dza7lstvk/image/upload/v1737540091/Medusa%20Book/brand-plugin_bk9zi9.jpg)
+
+Medusa provides the tooling to create a plugin package, test it in a local Medusa application, and publish it to NPM.
+
+To learn more about plugins and how to create them, refer to [this chapter](../../fundamentals/plugins/page.mdx).

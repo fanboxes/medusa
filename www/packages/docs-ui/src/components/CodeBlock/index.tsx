@@ -38,9 +38,13 @@ export type CodeBlockMetaFields = {
   noCopy?: boolean
   noReport?: boolean
   noLineNumbers?: boolean
+  noAskAi?: boolean
   collapsibleLines?: string
   expandButtonLabel?: string
   isTerminal?: boolean
+  forceNoTitle?: boolean
+  collapsed?: boolean
+  wrapperClassName?: string
 } & CodeBlockHeaderMeta
 
 export type CodeBlockStyle = "loud" | "subtle" | "inline"
@@ -48,14 +52,11 @@ export type CodeBlockStyle = "loud" | "subtle" | "inline"
 export type CodeBlockProps = {
   source: string
   lang?: string
-  wrapperClassName?: string
   innerClassName?: string
   className?: string
-  collapsed?: boolean
   blockStyle?: CodeBlockStyle
   children?: React.ReactNode
   style?: React.HTMLAttributes<HTMLDivElement>["style"]
-  forceNoTitle?: boolean
   animateTokenHighlights?: boolean
   overrideColors?: {
     bg?: string
@@ -277,6 +278,7 @@ export const CodeBlock = ({
     getCollapsedLinesElm,
     getNonCollapsedLinesElm,
     type: collapsibleType,
+    isCollapsible,
     ...collapsibleResult
   } = useCollapsibleCodeLines({
     collapsibleLinesStr: collapsibleLines,
@@ -462,7 +464,7 @@ export const CodeBlock = ({
                       isSingleLine={tokens.length <= 1}
                     />
                   )}
-                {collapsibleType === "end" && (
+                {collapsibleType === "end" && isCollapsible(tokens) && (
                   <>
                     <CodeBlockCollapsibleFade
                       type={collapsibleType}

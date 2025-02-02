@@ -24,7 +24,21 @@ medusaIntegrationTestRunner({
 
       await setupTaxStructure(container.resolve(Modules.TAX))
       await createAdminUser(dbConnection, adminHeaders, container)
-      const seeders = await createOrderSeeder({ api, container })
+
+      const inventoryItemOverride = (
+        await api.post(
+          `/admin/inventory-items`,
+          { sku: "test-variant", requires_shipping: false },
+          adminHeaders
+        )
+      ).data.inventory_item
+
+      const seeders = await createOrderSeeder({
+        api,
+        container,
+        inventoryItemOverride,
+        withoutShipping: true,
+      })
       order = seeders.order
 
       shippingProfile = (

@@ -10,7 +10,8 @@ export function OrderCreateFulfillment() {
   const requiresShipping = searchParams.get("requires_shipping") === "true"
 
   const { order, isLoading, isError, error } = useOrder(id!, {
-    fields: "currency_code,*items,*items.variant,*shipping_address",
+    fields:
+      "currency_code,*items,*items.variant,+items.variant.product.shipping_profile.id,*shipping_address,+shipping_methods.shipping_option_id",
   })
 
   if (isError) {

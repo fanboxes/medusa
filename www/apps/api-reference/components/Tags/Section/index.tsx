@@ -23,7 +23,7 @@ import clsx from "clsx"
 import { Feedback, Loading, Link } from "docs-ui"
 import { usePathname, useRouter } from "next/navigation"
 import { PathsObject, SchemaObject, TagObject } from "@/types/openapi"
-import { TagSectionSchemaProps } from "./Schema"
+import TagSectionSchema from "./Schema"
 import checkElementInViewport from "../../../utils/check-element-in-viewport"
 import TagPaths from "../Paths"
 import useSWR from "swr"
@@ -36,10 +36,6 @@ export type TagSectionProps = {
 const Section = dynamic<SectionProps>(
   async () => import("../../Section")
 ) as React.FC<SectionProps>
-
-const TagSectionSchema = dynamic<TagSectionSchemaProps>(
-  async () => import("./Schema")
-) as React.FC<TagSectionSchemaProps>
 
 const MDXContentClient = dynamic<MDXContentClientProps>(
   async () => import("../../MDXContent/Client"),
@@ -117,21 +113,22 @@ const TagSectionComponent = ({ tag }: TagSectionProps) => {
       rootMargin={`112px 0px 112px 0px`}
       root={root}
       onChange={(inView) => {
-        if (inView) {
-          if (!loadData) {
-            setLoadData(true)
+        if (!inView) {
+          return
+        }
+        if (!loadData) {
+          setLoadData(true)
+        }
+        // ensure that the hash link doesn't change if it links to an inner path
+        const currentHashArr = location.hash.replace("#", "").split("_")
+        if (currentHashArr.length < 2 || currentHashArr[0] !== slugTagName) {
+          if (location.hash !== slugTagName) {
+            router.push(`#${slugTagName}`, {
+              scroll: false,
+            })
           }
-          // ensure that the hash link doesn't change if it links to an inner path
-          const currentHashArr = location.hash.replace("#", "").split("_")
-          if (currentHashArr.length < 2 || currentHashArr[0] !== slugTagName) {
-            if (location.hash !== slugTagName) {
-              router.push(`#${slugTagName}`, {
-                scroll: false,
-              })
-            }
-            if (activePath !== slugTagName) {
-              setActivePath(slugTagName)
-            }
+          if (activePath !== slugTagName) {
+            setActivePath(slugTagName)
           }
         }
       }}

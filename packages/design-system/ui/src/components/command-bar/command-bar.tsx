@@ -1,7 +1,6 @@
 "use client"
 
-import * as Popover from "@radix-ui/react-popover"
-import * as Portal from "@radix-ui/react-portal"
+import { Popover, Portal } from "radix-ui"
 import * as React from "react"
 
 import { Kbd } from "@/components/kbd"

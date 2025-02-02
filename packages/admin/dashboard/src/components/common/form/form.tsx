@@ -6,8 +6,7 @@ import {
   Tooltip,
   clx,
 } from "@medusajs/ui"
-import * as LabelPrimitives from "@radix-ui/react-label"
-import { Slot } from "@radix-ui/react-slot"
+import { Label as RadixLabel, Slot } from "radix-ui"
 import React, {
   ReactNode,
   createContext,
@@ -103,8 +102,8 @@ const Item = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
 Item.displayName = "Form.Item"
 
 const Label = forwardRef<
-  React.ElementRef<typeof LabelPrimitives.Root>,
-  React.ComponentPropsWithoutRef<typeof LabelPrimitives.Root> & {
+  React.ElementRef<typeof RadixLabel.Root>,
+  React.ComponentPropsWithoutRef<typeof RadixLabel.Root> & {
     optional?: boolean
     tooltip?: ReactNode
     icon?: ReactNode
@@ -141,8 +140,8 @@ const Label = forwardRef<
 Label.displayName = "Form.Label"
 
 const Control = forwardRef<
-  React.ElementRef<typeof Slot>,
-  React.ComponentPropsWithoutRef<typeof Slot>
+  React.ElementRef<typeof Slot.Root>,
+  React.ComponentPropsWithoutRef<typeof Slot.Root>
 >(({ ...props }, ref) => {
   const {
     error,
@@ -153,7 +152,7 @@ const Control = forwardRef<
   } = useFormField()
 
   return (
-    <Slot
+    <Slot.Root
       ref={ref}
       id={formItemId}
       aria-describedby={

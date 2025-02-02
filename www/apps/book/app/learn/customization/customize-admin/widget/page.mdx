@@ -147,6 +147,12 @@ Since the widget is injected at the top of the product details page, the widget 
 
 In the widget, you use [Tanstack (React) Query](https://tanstack.com/query/latest) to query the Medusa server. Tanstack Query provides features like asynchronous state management and optimized caching. In the `queryFn` function that executes the query, you use the JS SDK to send a request to the [Get Product API Route](!api!/admin#products_getproductsid), passing `+brand.*` in the `fields` query parameter to retrieve the product's brand.
 
+<Note type="warning">
+
+Do not install Tanstack Query as that will cause unexpected errors in your development. If you prefer installing it for better auto-completion in your code editor, make sure to install `v5.64.2` as a development dependency.
+
+</Note>
+
 You then render a section that shows the brand's name. In admin customizations, use components from the [Medusa UI package](!ui!) to maintain a consistent user interface and design in the dashboard.
 
 ---

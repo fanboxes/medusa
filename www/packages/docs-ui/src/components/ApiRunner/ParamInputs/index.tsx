@@ -16,7 +16,7 @@ export const ApiRunnerParamInputs = ({
 }: ApiRunnerParamInputsProps) => {
   return (
     <div className="flex flex-col gap-docs_0.25 w-full">
-      <span className="txt-small-plus text-medusa-fg-subtle">{title}</span>
+      <span className="txt-small-plus text-medusa-fg-base">{title}</span>
       <div className="flex flex-col gap-docs_0.5">
         {Object.keys(data).map((pathParam, index) => (
           <ApiRunnerParamInput

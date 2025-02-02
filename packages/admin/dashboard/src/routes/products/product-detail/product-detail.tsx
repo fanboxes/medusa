@@ -14,6 +14,7 @@ import { PRODUCT_DETAIL_FIELDS } from "./constants"
 import { productLoader } from "./loader"
 
 import { useDashboardExtension } from "../../../extensions"
+import { ProductShippingProfileSection } from "./components/product-shipping-profile-section"
 
 export const ProductDetail = () => {
   const initialData = useLoaderData() as Awaited<
@@ -71,6 +72,7 @@ export const ProductDetail = () => {
       </TwoColumnPage.Main>
       <TwoColumnPage.Sidebar>
         <ProductSalesChannelSection product={product} />
+        <ProductShippingProfileSection product={product} />
         <ProductOrganizationSection product={product} />
         <ProductAttributeSection product={product} />
       </TwoColumnPage.Sidebar>

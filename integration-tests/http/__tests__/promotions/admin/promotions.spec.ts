@@ -56,6 +56,7 @@ medusaIntegrationTestRunner({
       let appContainer
       let promotion
       let standardPromotion
+      let shippingProfile
 
       const promotionRule = {
         operator: "eq",
@@ -90,6 +91,14 @@ medusaIntegrationTestRunner({
             adminHeaders
           )
         ).data.promotion
+
+        shippingProfile = (
+          await api.post(
+            `/admin/shipping-profiles`,
+            { name: "default", type: "default" },
+            adminHeaders
+          )
+        ).data.shipping_profile
       })
 
       describe("GET /admin/promotions/:id", () => {
@@ -512,7 +521,10 @@ medusaIntegrationTestRunner({
             const product = (
               await api.post(
                 "/admin/products",
-                medusaTshirtProduct,
+                {
+                  ...medusaTshirtProduct,
+                  shipping_profile_id: shippingProfile.id,
+                },
                 adminHeaders
               )
             ).data.product
@@ -1494,6 +1506,7 @@ medusaIntegrationTestRunner({
               {
                 title: "Test product 1",
                 options: [{ title: "size", values: ["large", "small"] }],
+                shipping_profile_id: shippingProfile.id,
               },
               adminHeaders
             )
@@ -1505,6 +1518,7 @@ medusaIntegrationTestRunner({
               {
                 title: "Test product 2",
                 options: [{ title: "size", values: ["large", "small"] }],
+                shipping_profile_id: shippingProfile.id,
               },
               adminHeaders
             )

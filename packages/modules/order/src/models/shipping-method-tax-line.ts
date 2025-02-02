@@ -5,6 +5,7 @@ const _OrderShippingMethodTaxLine = model
   .define(
     {
       tableName: "order_shipping_method_tax_line",
+      name: "OrderShippingMethodTaxLine",
     },
     {
       id: model.id({ prefix: "ordsmtxl" }).primaryKey(),

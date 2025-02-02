@@ -1,3 +1,6 @@
+import { OperatorMap } from "../../dal"
+import { FindParams } from "../common"
+
 export interface BaseProductType {
   /**
    * The product type's ID.
@@ -23,4 +26,27 @@ export interface BaseProductType {
    * Key-value pairs of custom data.
    */
   metadata?: Record<string, unknown> | null
+}
+
+export interface BaseProductTypeListParams extends FindParams {
+  /**
+   * Query or keyword to apply on the type's searchable fields.
+   */
+  q?: string
+  /**
+   * Filter by type ID(s).
+   */
+  id?: string | string[]
+  /**
+   * Filter by value(s).
+   */
+  value?: string | string[]
+  /**
+   * Apply filters on the creation date.
+   */
+  created_at?: OperatorMap<string>
+  /**
+   * Apply filters on the update date.
+   */
+  updated_at?: OperatorMap<string>
 }

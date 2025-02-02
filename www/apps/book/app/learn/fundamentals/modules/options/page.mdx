@@ -8,9 +8,7 @@ In this chapter, you’ll learn about passing options to your module from the Me
 
 ## What are Module Options?
 
-A module can receive options to customize or configure its functionality.
-
-For example, if you’re creating a module that integrates a third-party service, you’ll want to receive the integration credentials in the options rather than adding them directly in your code.
+A module can receive options to customize or configure its functionality. For example, if you’re creating a module that integrates a third-party service, you’ll want to receive the integration credentials in the options rather than adding them directly in your code.
 
 ---
 
@@ -20,7 +18,7 @@ To pass options to a module, add an `options` property to the module’s configu
 
 For example:
 
-```js title="medusa-config.ts"
+```ts title="medusa-config.ts"
 module.exports = defineConfig({
   // ...
   modules: [
@@ -35,6 +33,28 @@ module.exports = defineConfig({
 ```
 
 The `options` property’s value is an object. You can pass any properties you want.
+
+### Pass Options to a Module in a Plugin
+
+If your module is part of a plugin, you can pass options to the module in the plugin’s configuration.
+
+For example:
+
+```ts title="medusa-config.ts"
+import { defineConfig } from "@medusajs/framework/utils"
+module.exports = defineConfig({
+  plugins: [
+    {
+      resolve: "@myorg/plugin-name",
+      options: {
+        capitalize: true,
+      },
+    },
+  ],
+})
+```
+
+The `options` property in the plugin configuration is passed to all modules in a plugin.
 
 ---
 

@@ -33,6 +33,11 @@ export interface AdminCreateOrderFulfillment {
    */
   location_id?: string
   /**
+   * The ID of the shipping option to use for the fulfillment.
+   * Overrides the shipping option selected by the customer.
+   */
+  shipping_option_id?: string
+  /**
    * Whether to notify the customer about this change.
    */
   no_notification?: boolean

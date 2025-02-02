@@ -23,12 +23,13 @@ moduleIntegrationTestRunner<IPaymentModuleService>({
           service: PaymentModuleService,
         }).linkable
 
-        expect(Object.keys(linkable)).toHaveLength(5)
+        expect(Object.keys(linkable)).toHaveLength(6)
         expect(Object.keys(linkable)).toEqual([
           "paymentCollection",
           "paymentSession",
           "payment",
           "refundReason",
+          "accountHolder",
           "paymentProvider",
         ])
 
@@ -73,6 +74,15 @@ moduleIntegrationTestRunner<IPaymentModuleService>({
               field: "refundReason",
             },
           },
+          accountHolder: {
+            id: {
+              linkable: "account_holder_id",
+              entity: "AccountHolder",
+              primaryKey: "id",
+              serviceName: "payment",
+              field: "accountHolder",
+            },
+          },
           paymentProvider: {
             id: {
               linkable: "payment_provider_id",
@@ -100,10 +110,7 @@ moduleIntegrationTestRunner<IPaymentModuleService>({
               currency_code: "usd",
               data: {},
               context: {
-                extra: {},
-                customer: {},
-                billing_address: {},
-                email: "test@test.test.com",
+                customer: { id: "cus-id-1", email: "new@test.tsst" },
               },
             }
           )
@@ -347,10 +354,10 @@ moduleIntegrationTestRunner<IPaymentModuleService>({
               currency_code: "usd",
               data: {},
               context: {
-                extra: {},
-                customer: {},
-                billing_address: {},
-                email: "test@test.test.com",
+                customer: {
+                  id: "cus-id-1",
+                  email: "test@test.test.com",
+                },
               },
             })
 
@@ -402,10 +409,7 @@ moduleIntegrationTestRunner<IPaymentModuleService>({
                 currency_code: "usd",
                 data: {},
                 context: {
-                  extra: {},
-                  customer: {},
-                  billing_address: {},
-                  email: "test@test.test.com",
+                  customer: { id: "cus-id-1", email: "test@test.test.com" },
                 },
               })
               .catch((e) => e)
@@ -439,10 +443,7 @@ moduleIntegrationTestRunner<IPaymentModuleService>({
                 currency_code: "usd",
                 data: {},
                 context: {
-                  extra: {},
-                  customer: {},
-                  billing_address: {},
-                  email: "test@test.test.com",
+                  customer: { id: "cus-id-1", email: "test@test.test.com" },
                 },
               })
               .catch((e) => e)
@@ -461,10 +462,7 @@ moduleIntegrationTestRunner<IPaymentModuleService>({
               currency_code: "usd",
               data: {},
               context: {
-                extra: {},
-                customer: {},
-                billing_address: {},
-                email: "test@test.test.com",
+                customer: { id: "cus-id-1", email: "new@test.tsst" },
               },
             })
 
@@ -474,10 +472,7 @@ moduleIntegrationTestRunner<IPaymentModuleService>({
               currency_code: "eur",
               data: {},
               context: {
-                extra: {},
-                customer: {},
-                billing_address: {},
-                email: "new@test.tsst",
+                customer: { id: "cus-id-1", email: "new@test.tsst" },
               },
             })
 
@@ -505,10 +500,7 @@ moduleIntegrationTestRunner<IPaymentModuleService>({
               currency_code: "usd",
               data: {},
               context: {
-                extra: {},
-                email: "test@test.com",
-                billing_address: {},
-                customer: {},
+                customer: { id: "cus-id-1", email: "new@test.tsst" },
               },
             })
 

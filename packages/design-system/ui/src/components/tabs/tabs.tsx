@@ -1,6 +1,6 @@
 "use client"
 
-import * as TabsPrimitives from "@radix-ui/react-tabs"
+import { Tabs as RadixTabs } from "radix-ui"
 import * as React from "react"
 
 import { clx } from "@/utils/clx"
@@ -9,17 +9,17 @@ import { clx } from "@/utils/clx"
  * This component is based on the [Radix UI Tabs](https://radix-ui.com/primitives/docs/components/tabs) primitves
  */
 const TabsRoot = (
-  props: React.ComponentPropsWithoutRef<typeof TabsPrimitives.Root>
+  props: React.ComponentPropsWithoutRef<typeof RadixTabs.Root>
 ) => {
-  return <TabsPrimitives.Root {...props} />
+  return <RadixTabs.Root {...props} />
 }
 TabsRoot.displayName = "Tabs"
 
 const TabsTrigger = React.forwardRef<
-  React.ElementRef<typeof TabsPrimitives.Trigger>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitives.Trigger>
+  React.ElementRef<typeof RadixTabs.Trigger>,
+  React.ComponentPropsWithoutRef<typeof RadixTabs.Trigger>
 >(({ className, children, ...props }, ref) => (
-  <TabsPrimitives.Trigger
+  <RadixTabs.Trigger
     ref={ref}
     className={clx(
       "txt-compact-small-plus transition-fg text-ui-fg-subtle inline-flex items-center justify-center rounded-full border border-transparent bg-transparent px-2.5 py-1 outline-none",
@@ -31,15 +31,15 @@ const TabsTrigger = React.forwardRef<
     {...props}
   >
     {children}
-  </TabsPrimitives.Trigger>
+  </RadixTabs.Trigger>
 ))
 TabsTrigger.displayName = "Tabs.Trigger"
 
 const TabsList = React.forwardRef<
-  React.ElementRef<typeof TabsPrimitives.List>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitives.List>
+  React.ElementRef<typeof RadixTabs.List>,
+  React.ComponentPropsWithoutRef<typeof RadixTabs.List>
 >(({ className, ...props }, ref) => (
-  <TabsPrimitives.List
+  <RadixTabs.List
     ref={ref}
     className={clx("flex items-center gap-2", className)}
     {...props}
@@ -48,10 +48,10 @@ const TabsList = React.forwardRef<
 TabsList.displayName = "Tabs.List"
 
 const TabsContent = React.forwardRef<
-  React.ElementRef<typeof TabsPrimitives.Content>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitives.Content>
+  React.ElementRef<typeof RadixTabs.Content>,
+  React.ComponentPropsWithoutRef<typeof RadixTabs.Content>
 >(({ className, ...props }, ref) => (
-  <TabsPrimitives.Content
+  <RadixTabs.Content
     ref={ref}
     className={clx("outline-none", className)}
     {...props}

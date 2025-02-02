@@ -8,6 +8,10 @@ export const filesMap = [
     "pathname": "/admin-components/components/container"
   },
   {
+    "filePath": "/www/apps/resources/app/admin-components/components/data-table/page.mdx",
+    "pathname": "/admin-components/components/data-table"
+  },
+  {
     "filePath": "/www/apps/resources/app/admin-components/components/forms/page.mdx",
     "pathname": "/admin-components/components/forms"
   },
@@ -820,6 +824,10 @@ export const filesMap = [
     "pathname": "/medusa-cli/commands/new"
   },
   {
+    "filePath": "/www/apps/resources/app/medusa-cli/commands/plugin/page.mdx",
+    "pathname": "/medusa-cli/commands/plugin"
+  },
+  {
     "filePath": "/www/apps/resources/app/medusa-cli/commands/start/page.mdx",
     "pathname": "/medusa-cli/commands/start"
   },
@@ -858,6 +866,14 @@ export const filesMap = [
   {
     "filePath": "/www/apps/resources/app/page.mdx",
     "pathname": "/"
+  },
+  {
+    "filePath": "/www/apps/resources/app/plugins/guides/wishlist/page.mdx",
+    "pathname": "/plugins/guides/wishlist"
+  },
+  {
+    "filePath": "/www/apps/resources/app/plugins/page.mdx",
+    "pathname": "/plugins"
   },
   {
     "filePath": "/www/apps/resources/app/recipes/b2b/page.mdx",
@@ -1218,6 +1234,10 @@ export const filesMap = [
   {
     "filePath": "/www/apps/resources/app/troubleshooting/s3/page.mdx",
     "pathname": "/troubleshooting/s3"
+  },
+  {
+    "filePath": "/www/apps/resources/app/troubleshooting/test-errors/page.mdx",
+    "pathname": "/troubleshooting/test-errors"
   },
   {
     "filePath": "/www/apps/resources/app/troubleshooting/workflow-errors/page.mdx",
@@ -3892,10 +3912,6 @@ export const filesMap = [
     "pathname": "/references/core_flows/Order/Steps_Order/functions/core_flows.Order.Steps_Order.updateOrderChangesStep"
   },
   {
-    "filePath": "/www/apps/resources/references/core_flows/Order/Steps_Order/functions/core_flows.Order.Steps_Order.updateOrderExchangesStep/page.mdx",
-    "pathname": "/references/core_flows/Order/Steps_Order/functions/core_flows.Order.Steps_Order.updateOrderExchangesStep"
-  },
-  {
     "filePath": "/www/apps/resources/references/core_flows/Order/Steps_Order/functions/core_flows.Order.Steps_Order.updateOrderShippingMethodsStep/page.mdx",
     "pathname": "/references/core_flows/Order/Steps_Order/functions/core_flows.Order.Steps_Order.updateOrderShippingMethodsStep"
   },
@@ -4026,10 +4042,6 @@ export const filesMap = [
   {
     "filePath": "/www/apps/resources/references/core_flows/Order/Steps_Order/variables/core_flows.Order.Steps_Order.updateOrderChangesStepId/page.mdx",
     "pathname": "/references/core_flows/Order/Steps_Order/variables/core_flows.Order.Steps_Order.updateOrderChangesStepId"
-  },
-  {
-    "filePath": "/www/apps/resources/references/core_flows/Order/Steps_Order/variables/core_flows.Order.Steps_Order.updateOrderExchangesStepId/page.mdx",
-    "pathname": "/references/core_flows/Order/Steps_Order/variables/core_flows.Order.Steps_Order.updateOrderExchangesStepId"
   },
   {
     "filePath": "/www/apps/resources/references/core_flows/Order/Steps_Order/variables/core_flows.Order.Steps_Order.updateOrderShippingMethodsStepId/page.mdx",
@@ -6980,6 +6992,38 @@ export const filesMap = [
     "pathname": "/references/core_flows/interfaces/core_flows.BatchInventoryItemLevelsWorkflowInput"
   },
   {
+    "filePath": "/www/apps/resources/references/core_flows/interfaces/core_flows.BatchInventoryItemLevelsWorkflowOutput/page.mdx",
+    "pathname": "/references/core_flows/interfaces/core_flows.BatchInventoryItemLevelsWorkflowOutput"
+  },
+  {
+    "filePath": "/www/apps/resources/references/core_flows/interfaces/core_flows.BatchProductVariantsWorkflowInput/page.mdx",
+    "pathname": "/references/core_flows/interfaces/core_flows.BatchProductVariantsWorkflowInput"
+  },
+  {
+    "filePath": "/www/apps/resources/references/core_flows/interfaces/core_flows.BatchProductVariantsWorkflowOutput/page.mdx",
+    "pathname": "/references/core_flows/interfaces/core_flows.BatchProductVariantsWorkflowOutput"
+  },
+  {
+    "filePath": "/www/apps/resources/references/core_flows/interfaces/core_flows.BatchProductWorkflowInput/page.mdx",
+    "pathname": "/references/core_flows/interfaces/core_flows.BatchProductWorkflowInput"
+  },
+  {
+    "filePath": "/www/apps/resources/references/core_flows/interfaces/core_flows.BatchPromotionRulesWorkflowInput/page.mdx",
+    "pathname": "/references/core_flows/interfaces/core_flows.BatchPromotionRulesWorkflowInput"
+  },
+  {
+    "filePath": "/www/apps/resources/references/core_flows/interfaces/core_flows.BatchPromotionRulesWorkflowOutput/page.mdx",
+    "pathname": "/references/core_flows/interfaces/core_flows.BatchPromotionRulesWorkflowOutput"
+  },
+  {
+    "filePath": "/www/apps/resources/references/core_flows/interfaces/core_flows.BatchShippingOptionRulesInput/page.mdx",
+    "pathname": "/references/core_flows/interfaces/core_flows.BatchShippingOptionRulesInput"
+  },
+  {
+    "filePath": "/www/apps/resources/references/core_flows/interfaces/core_flows.BatchShippingOptionRulesOutput/page.mdx",
+    "pathname": "/references/core_flows/interfaces/core_flows.BatchShippingOptionRulesOutput"
+  },
+  {
     "filePath": "/www/apps/resources/references/core_flows/interfaces/core_flows.BulkCreateDeleteLevelsWorkflowInput/page.mdx",
     "pathname": "/references/core_flows/interfaces/core_flows.BulkCreateDeleteLevelsWorkflowInput"
   },
@@ -7284,40 +7328,8 @@ export const filesMap = [
     "pathname": "/references/core_flows/types/core_flows.AuthorizePaymentSessionStepInput"
   },
   {
-    "filePath": "/www/apps/resources/references/core_flows/types/core_flows.BatchInventoryItemLevelsWorkflowOutput/page.mdx",
-    "pathname": "/references/core_flows/types/core_flows.BatchInventoryItemLevelsWorkflowOutput"
-  },
-  {
     "filePath": "/www/apps/resources/references/core_flows/types/core_flows.BatchPriceListPricesWorkflowInput/page.mdx",
     "pathname": "/references/core_flows/types/core_flows.BatchPriceListPricesWorkflowInput"
-  },
-  {
-    "filePath": "/www/apps/resources/references/core_flows/types/core_flows.BatchProductVariantsWorkflowInput/page.mdx",
-    "pathname": "/references/core_flows/types/core_flows.BatchProductVariantsWorkflowInput"
-  },
-  {
-    "filePath": "/www/apps/resources/references/core_flows/types/core_flows.BatchProductVariantsWorkflowOutput/page.mdx",
-    "pathname": "/references/core_flows/types/core_flows.BatchProductVariantsWorkflowOutput"
-  },
-  {
-    "filePath": "/www/apps/resources/references/core_flows/types/core_flows.BatchProductWorkflowInput/page.mdx",
-    "pathname": "/references/core_flows/types/core_flows.BatchProductWorkflowInput"
-  },
-  {
-    "filePath": "/www/apps/resources/references/core_flows/types/core_flows.BatchPromotionRulesWorkflowInput/page.mdx",
-    "pathname": "/references/core_flows/types/core_flows.BatchPromotionRulesWorkflowInput"
-  },
-  {
-    "filePath": "/www/apps/resources/references/core_flows/types/core_flows.BatchPromotionRulesWorkflowOutput/page.mdx",
-    "pathname": "/references/core_flows/types/core_flows.BatchPromotionRulesWorkflowOutput"
-  },
-  {
-    "filePath": "/www/apps/resources/references/core_flows/types/core_flows.BatchShippingOptionRulesInput/page.mdx",
-    "pathname": "/references/core_flows/types/core_flows.BatchShippingOptionRulesInput"
-  },
-  {
-    "filePath": "/www/apps/resources/references/core_flows/types/core_flows.BatchShippingOptionRulesOutput/page.mdx",
-    "pathname": "/references/core_flows/types/core_flows.BatchShippingOptionRulesOutput"
   },
   {
     "filePath": "/www/apps/resources/references/core_flows/types/core_flows.BeginClaimOrderValidationStepInput/page.mdx",
@@ -8554,10 +8566,6 @@ export const filesMap = [
   {
     "filePath": "/www/apps/resources/references/core_flows/types/core_flows.UpdateOrderEditShippingMethodValidationStepInput/page.mdx",
     "pathname": "/references/core_flows/types/core_flows.UpdateOrderEditShippingMethodValidationStepInput"
-  },
-  {
-    "filePath": "/www/apps/resources/references/core_flows/types/core_flows.UpdateOrderExchangesStepInput/page.mdx",
-    "pathname": "/references/core_flows/types/core_flows.UpdateOrderExchangesStepInput"
   },
   {
     "filePath": "/www/apps/resources/references/core_flows/types/core_flows.UpdateOrderShippingMethodsStepInput/page.mdx",
@@ -14180,96 +14188,96 @@ export const filesMap = [
     "pathname": "/references/order/types/order.Scalar"
   },
   {
-    "filePath": "/www/apps/resources/references/order_models/classes/order_models.Order/page.mdx",
-    "pathname": "/references/order_models/classes/order_models.Order"
+    "filePath": "/www/apps/resources/references/order_models/variables/order_models.Order/page.mdx",
+    "pathname": "/references/order_models/variables/order_models.Order"
   },
   {
-    "filePath": "/www/apps/resources/references/order_models/classes/order_models.OrderAddress/page.mdx",
-    "pathname": "/references/order_models/classes/order_models.OrderAddress"
+    "filePath": "/www/apps/resources/references/order_models/variables/order_models.OrderAddress/page.mdx",
+    "pathname": "/references/order_models/variables/order_models.OrderAddress"
   },
   {
-    "filePath": "/www/apps/resources/references/order_models/classes/order_models.OrderChange/page.mdx",
-    "pathname": "/references/order_models/classes/order_models.OrderChange"
+    "filePath": "/www/apps/resources/references/order_models/variables/order_models.OrderChange/page.mdx",
+    "pathname": "/references/order_models/variables/order_models.OrderChange"
   },
   {
-    "filePath": "/www/apps/resources/references/order_models/classes/order_models.OrderChangeAction/page.mdx",
-    "pathname": "/references/order_models/classes/order_models.OrderChangeAction"
+    "filePath": "/www/apps/resources/references/order_models/variables/order_models.OrderChangeAction/page.mdx",
+    "pathname": "/references/order_models/variables/order_models.OrderChangeAction"
   },
   {
-    "filePath": "/www/apps/resources/references/order_models/classes/order_models.OrderClaim/page.mdx",
-    "pathname": "/references/order_models/classes/order_models.OrderClaim"
+    "filePath": "/www/apps/resources/references/order_models/variables/order_models.OrderClaim/page.mdx",
+    "pathname": "/references/order_models/variables/order_models.OrderClaim"
   },
   {
-    "filePath": "/www/apps/resources/references/order_models/classes/order_models.OrderClaimItem/page.mdx",
-    "pathname": "/references/order_models/classes/order_models.OrderClaimItem"
+    "filePath": "/www/apps/resources/references/order_models/variables/order_models.OrderClaimItem/page.mdx",
+    "pathname": "/references/order_models/variables/order_models.OrderClaimItem"
   },
   {
-    "filePath": "/www/apps/resources/references/order_models/classes/order_models.OrderClaimItemImage/page.mdx",
-    "pathname": "/references/order_models/classes/order_models.OrderClaimItemImage"
+    "filePath": "/www/apps/resources/references/order_models/variables/order_models.OrderClaimItemImage/page.mdx",
+    "pathname": "/references/order_models/variables/order_models.OrderClaimItemImage"
   },
   {
-    "filePath": "/www/apps/resources/references/order_models/classes/order_models.OrderCreditLine/page.mdx",
-    "pathname": "/references/order_models/classes/order_models.OrderCreditLine"
+    "filePath": "/www/apps/resources/references/order_models/variables/order_models.OrderCreditLine/page.mdx",
+    "pathname": "/references/order_models/variables/order_models.OrderCreditLine"
   },
   {
-    "filePath": "/www/apps/resources/references/order_models/classes/order_models.OrderExchange/page.mdx",
-    "pathname": "/references/order_models/classes/order_models.OrderExchange"
+    "filePath": "/www/apps/resources/references/order_models/variables/order_models.OrderExchange/page.mdx",
+    "pathname": "/references/order_models/variables/order_models.OrderExchange"
   },
   {
-    "filePath": "/www/apps/resources/references/order_models/classes/order_models.OrderExchangeItem/page.mdx",
-    "pathname": "/references/order_models/classes/order_models.OrderExchangeItem"
+    "filePath": "/www/apps/resources/references/order_models/variables/order_models.OrderExchangeItem/page.mdx",
+    "pathname": "/references/order_models/variables/order_models.OrderExchangeItem"
   },
   {
-    "filePath": "/www/apps/resources/references/order_models/classes/order_models.OrderItem/page.mdx",
-    "pathname": "/references/order_models/classes/order_models.OrderItem"
+    "filePath": "/www/apps/resources/references/order_models/variables/order_models.OrderItem/page.mdx",
+    "pathname": "/references/order_models/variables/order_models.OrderItem"
   },
   {
-    "filePath": "/www/apps/resources/references/order_models/classes/order_models.OrderLineItem/page.mdx",
-    "pathname": "/references/order_models/classes/order_models.OrderLineItem"
+    "filePath": "/www/apps/resources/references/order_models/variables/order_models.OrderLineItem/page.mdx",
+    "pathname": "/references/order_models/variables/order_models.OrderLineItem"
   },
   {
-    "filePath": "/www/apps/resources/references/order_models/classes/order_models.OrderLineItemAdjustment/page.mdx",
-    "pathname": "/references/order_models/classes/order_models.OrderLineItemAdjustment"
+    "filePath": "/www/apps/resources/references/order_models/variables/order_models.OrderLineItemAdjustment/page.mdx",
+    "pathname": "/references/order_models/variables/order_models.OrderLineItemAdjustment"
   },
   {
-    "filePath": "/www/apps/resources/references/order_models/classes/order_models.OrderLineItemTaxLine/page.mdx",
-    "pathname": "/references/order_models/classes/order_models.OrderLineItemTaxLine"
+    "filePath": "/www/apps/resources/references/order_models/variables/order_models.OrderLineItemTaxLine/page.mdx",
+    "pathname": "/references/order_models/variables/order_models.OrderLineItemTaxLine"
   },
   {
-    "filePath": "/www/apps/resources/references/order_models/classes/order_models.OrderShipping/page.mdx",
-    "pathname": "/references/order_models/classes/order_models.OrderShipping"
+    "filePath": "/www/apps/resources/references/order_models/variables/order_models.OrderShipping/page.mdx",
+    "pathname": "/references/order_models/variables/order_models.OrderShipping"
   },
   {
-    "filePath": "/www/apps/resources/references/order_models/classes/order_models.OrderShippingMethod/page.mdx",
-    "pathname": "/references/order_models/classes/order_models.OrderShippingMethod"
+    "filePath": "/www/apps/resources/references/order_models/variables/order_models.OrderShippingMethod/page.mdx",
+    "pathname": "/references/order_models/variables/order_models.OrderShippingMethod"
   },
   {
-    "filePath": "/www/apps/resources/references/order_models/classes/order_models.OrderShippingMethodAdjustment/page.mdx",
-    "pathname": "/references/order_models/classes/order_models.OrderShippingMethodAdjustment"
+    "filePath": "/www/apps/resources/references/order_models/variables/order_models.OrderShippingMethodAdjustment/page.mdx",
+    "pathname": "/references/order_models/variables/order_models.OrderShippingMethodAdjustment"
   },
   {
-    "filePath": "/www/apps/resources/references/order_models/classes/order_models.OrderShippingMethodTaxLine/page.mdx",
-    "pathname": "/references/order_models/classes/order_models.OrderShippingMethodTaxLine"
+    "filePath": "/www/apps/resources/references/order_models/variables/order_models.OrderShippingMethodTaxLine/page.mdx",
+    "pathname": "/references/order_models/variables/order_models.OrderShippingMethodTaxLine"
   },
   {
-    "filePath": "/www/apps/resources/references/order_models/classes/order_models.OrderSummary/page.mdx",
-    "pathname": "/references/order_models/classes/order_models.OrderSummary"
+    "filePath": "/www/apps/resources/references/order_models/variables/order_models.OrderSummary/page.mdx",
+    "pathname": "/references/order_models/variables/order_models.OrderSummary"
   },
   {
-    "filePath": "/www/apps/resources/references/order_models/classes/order_models.OrderTransaction/page.mdx",
-    "pathname": "/references/order_models/classes/order_models.OrderTransaction"
+    "filePath": "/www/apps/resources/references/order_models/variables/order_models.OrderTransaction/page.mdx",
+    "pathname": "/references/order_models/variables/order_models.OrderTransaction"
   },
   {
-    "filePath": "/www/apps/resources/references/order_models/classes/order_models.Return/page.mdx",
-    "pathname": "/references/order_models/classes/order_models.Return"
+    "filePath": "/www/apps/resources/references/order_models/variables/order_models.Return/page.mdx",
+    "pathname": "/references/order_models/variables/order_models.Return"
   },
   {
-    "filePath": "/www/apps/resources/references/order_models/classes/order_models.ReturnItem/page.mdx",
-    "pathname": "/references/order_models/classes/order_models.ReturnItem"
+    "filePath": "/www/apps/resources/references/order_models/variables/order_models.ReturnItem/page.mdx",
+    "pathname": "/references/order_models/variables/order_models.ReturnItem"
   },
   {
-    "filePath": "/www/apps/resources/references/order_models/classes/order_models.ReturnReason/page.mdx",
-    "pathname": "/references/order_models/classes/order_models.ReturnReason"
+    "filePath": "/www/apps/resources/references/order_models/variables/order_models.ReturnReason/page.mdx",
+    "pathname": "/references/order_models/variables/order_models.ReturnReason"
   },
   {
     "filePath": "/www/apps/resources/references/payment/IBigNumber/methods/payment.IBigNumber.toJSON/page.mdx",
@@ -14348,6 +14356,10 @@ export const filesMap = [
     "pathname": "/references/payment/IPaymentModuleService/methods/payment.IPaymentModuleService.listAndCountPaymentCollections"
   },
   {
+    "filePath": "/www/apps/resources/references/payment/IPaymentModuleService/methods/payment.IPaymentModuleService.listAndCountPaymentMethods/page.mdx",
+    "pathname": "/references/payment/IPaymentModuleService/methods/payment.IPaymentModuleService.listAndCountPaymentMethods"
+  },
+  {
     "filePath": "/www/apps/resources/references/payment/IPaymentModuleService/methods/payment.IPaymentModuleService.listAndCountPaymentProviders/page.mdx",
     "pathname": "/references/payment/IPaymentModuleService/methods/payment.IPaymentModuleService.listAndCountPaymentProviders"
   },
@@ -14358,6 +14370,10 @@ export const filesMap = [
   {
     "filePath": "/www/apps/resources/references/payment/IPaymentModuleService/methods/payment.IPaymentModuleService.listPaymentCollections/page.mdx",
     "pathname": "/references/payment/IPaymentModuleService/methods/payment.IPaymentModuleService.listPaymentCollections"
+  },
+  {
+    "filePath": "/www/apps/resources/references/payment/IPaymentModuleService/methods/payment.IPaymentModuleService.listPaymentMethods/page.mdx",
+    "pathname": "/references/payment/IPaymentModuleService/methods/payment.IPaymentModuleService.listPaymentMethods"
   },
   {
     "filePath": "/www/apps/resources/references/payment/IPaymentModuleService/methods/payment.IPaymentModuleService.listPaymentProviders/page.mdx",
@@ -14476,6 +14492,10 @@ export const filesMap = [
     "pathname": "/references/payment/interfaces/payment.FilterablePaymentCollectionProps"
   },
   {
+    "filePath": "/www/apps/resources/references/payment/interfaces/payment.FilterablePaymentMethodProps/page.mdx",
+    "pathname": "/references/payment/interfaces/payment.FilterablePaymentMethodProps"
+  },
+  {
     "filePath": "/www/apps/resources/references/payment/interfaces/payment.FilterablePaymentProps/page.mdx",
     "pathname": "/references/payment/interfaces/payment.FilterablePaymentProps"
   },
@@ -14538,6 +14558,10 @@ export const filesMap = [
   {
     "filePath": "/www/apps/resources/references/payment/interfaces/payment.PaymentDTO/page.mdx",
     "pathname": "/references/payment/interfaces/payment.PaymentDTO"
+  },
+  {
+    "filePath": "/www/apps/resources/references/payment/interfaces/payment.PaymentMethodDTO/page.mdx",
+    "pathname": "/references/payment/interfaces/payment.PaymentMethodDTO"
   },
   {
     "filePath": "/www/apps/resources/references/payment/interfaces/payment.PaymentModuleOptions/page.mdx",
@@ -18836,10 +18860,6 @@ export const filesMap = [
     "pathname": "/references/types/HttpTypes/interfaces/types.HttpTypes.AdminLinkPriceListProducts"
   },
   {
-    "filePath": "/www/apps/resources/references/types/HttpTypes/interfaces/types.HttpTypes.AdminMarkOrderFulfillmentAsDelivered/page.mdx",
-    "pathname": "/references/types/HttpTypes/interfaces/types.HttpTypes.AdminMarkOrderFulfillmentAsDelivered"
-  },
-  {
     "filePath": "/www/apps/resources/references/types/HttpTypes/interfaces/types.HttpTypes.AdminMarkPaymentCollectionAsPaid/page.mdx",
     "pathname": "/references/types/HttpTypes/interfaces/types.HttpTypes.AdminMarkPaymentCollectionAsPaid"
   },
@@ -20068,12 +20088,36 @@ export const filesMap = [
     "pathname": "/references/types/HttpTypes/interfaces/types.HttpTypes.StoreProductTagListParams"
   },
   {
+    "filePath": "/www/apps/resources/references/types/HttpTypes/interfaces/types.HttpTypes.StoreProductTagListResponse/page.mdx",
+    "pathname": "/references/types/HttpTypes/interfaces/types.HttpTypes.StoreProductTagListResponse"
+  },
+  {
     "filePath": "/www/apps/resources/references/types/HttpTypes/interfaces/types.HttpTypes.StoreProductTagParams/page.mdx",
     "pathname": "/references/types/HttpTypes/interfaces/types.HttpTypes.StoreProductTagParams"
   },
   {
+    "filePath": "/www/apps/resources/references/types/HttpTypes/interfaces/types.HttpTypes.StoreProductTagResponse/page.mdx",
+    "pathname": "/references/types/HttpTypes/interfaces/types.HttpTypes.StoreProductTagResponse"
+  },
+  {
     "filePath": "/www/apps/resources/references/types/HttpTypes/interfaces/types.HttpTypes.StoreProductType/page.mdx",
     "pathname": "/references/types/HttpTypes/interfaces/types.HttpTypes.StoreProductType"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/HttpTypes/interfaces/types.HttpTypes.StoreProductTypeListParams/page.mdx",
+    "pathname": "/references/types/HttpTypes/interfaces/types.HttpTypes.StoreProductTypeListParams"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/HttpTypes/interfaces/types.HttpTypes.StoreProductTypeListResponse/page.mdx",
+    "pathname": "/references/types/HttpTypes/interfaces/types.HttpTypes.StoreProductTypeListResponse"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/HttpTypes/interfaces/types.HttpTypes.StoreProductTypeParams/page.mdx",
+    "pathname": "/references/types/HttpTypes/interfaces/types.HttpTypes.StoreProductTypeParams"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/HttpTypes/interfaces/types.HttpTypes.StoreProductTypeResponse/page.mdx",
+    "pathname": "/references/types/HttpTypes/interfaces/types.HttpTypes.StoreProductTypeResponse"
   },
   {
     "filePath": "/www/apps/resources/references/types/HttpTypes/interfaces/types.HttpTypes.StoreProductVariant/page.mdx",
@@ -21938,6 +21982,10 @@ export const filesMap = [
   {
     "filePath": "/www/apps/resources/references/types/interfaces/types.BaseProductType/page.mdx",
     "pathname": "/references/types/interfaces/types.BaseProductType"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.BaseProductTypeListParams/page.mdx",
+    "pathname": "/references/types/interfaces/types.BaseProductTypeListParams"
   },
   {
     "filePath": "/www/apps/resources/references/types/interfaces/types.BaseProductVariant/page.mdx",

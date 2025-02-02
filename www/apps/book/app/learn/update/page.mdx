@@ -1,0 +1,120 @@
+import { config } from "../../../config/index"
+
+export const metadata = {
+  title: `${pageNumber} Updating Medusa`,
+}
+
+# {metadata.title}
+
+In this chapter, you'll learn about updating your Medusa application and packages.
+
+export const releaseNoteText = `Read the [Release Notes](${config.version.releaseUrl}).`
+
+<Note type="soon" title="Tip">
+
+Medusa's current version is v{config.version.number}. {releaseNoteText}
+
+</Note>
+
+## Medusa Versioning
+
+When Medusa puts out a new release, all packages are updated to the same version. This ensures that all packages are compatible with each other, and makes it easier for you to switch between versions.
+
+<Note>
+
+This doesn't apply to the design-system packages, including `@medusajs/ui`, `@medusajs/ui-presets`, and `@medusajs/ui-icons`. These packages are versioned independently. However, you don't need to install and manage them separately in your Medusa application, as they are included in the `@medusajs/admin-sdk`. If you're using them in a standalone project, such as a storefront or custom admin dashboard, refer to [this section in the Medusa UI documentation](!ui!/installation/standalone-project#updating-ui-packages) for update instructions.
+
+</Note>
+
+Medusa updates the version number `major.minor.patch` according to the following rules:
+
+- **patch**: A patch release includes bug fixes and minor improvements. It doesn't include breaking changes. For example, if the current version is `2.0.0`, the next patch release will be `2.0.1`.
+- **minor**: A minor release includes new features, fixes, improvements, and breaking changes. For example, if the current version is `2.0.0`, the next minor release will be `2.1.0`.
+- **major**: A major release includes significant changes to the entire codebase and architecture. For those, the update process will be more elaborate. For example, if the current version is `2.0.0`, the next major release would be `3.0.0`.
+
+---
+
+## Check Installed Version
+
+To check the currently installed version of Medusa in your project, run the following command in your Medusa application:
+
+```bash
+npx medusa -v
+```
+
+This will show you the installed version of Medusa and the [Medusa CLI tool](!resources!/medusa-cli), which should be the same.
+
+---
+
+## Check Latest Version
+
+The documentation shows the current version at the top right of the navigation bar. When a new version is released, you'll find a blue dot on the version number. Clicking it will take you to the [release notes on GitHub](https://github.com/medusajs/medusa/releases).
+
+You can also star the [Medusa repository on GitHub](https://github.com/medusajs/medusa) to receive updates about new releases on your GitHub dashboard. Our team also shares updates on new releases on our social media channels.
+
+---
+
+## Update Medusa Application
+
+Before updating a Medusa application, make sure to check the [release notes](https://github.com/medusajs/medusa/releases) for any breaking changes that require actions from your side.
+
+Then, to update your Medusa application, bump the version of all `@medusajs/*` dependencies in your `package.json`. Then, re-install dependencies:
+
+```bash npm2yarn
+npm run install
+```
+
+This will update all Medusa packages to the latest version.
+
+### Running Migrations
+
+Releases may include changes to the database, such as new tables, updates to existing tables, updates after adding links, or data migration scripts.
+
+So, after updating Medusa, run the following command to migrate the latest changes to your database:
+
+```bash
+npx medusa db:migrate
+```
+
+This will run all pending migrations, sync links, and run data migration scripts.
+
+### Reverting an Update
+
+Before reverting an update, if you already ran the migrations, you have to first identify the modules who had migrations. Then, before reverting, run the `db:rollback` command for each of those modules.
+
+For example, if the version you updated to had migrations for the Cart and Product Modules, run the following command:
+
+```bash
+npx medusa db:rollback cart product
+```
+
+Then, revert the update by changing the version of all `@medusajs/*` dependencies in your `package.json` to the previous version and re-installing dependencies:
+
+```bash npm2yarn
+npm run install
+```
+
+Finally, run the migrations to sync link changes:
+
+```bash
+npx medusa db:migrate
+```
+
+---
+
+## Understanding Codebase Changes
+
+In the Medusa codebase, our team uses the following [TSDoc](https://tsdoc.org/) tags to indicate changes made in the latest version for a specific piece of code:
+
+- `@deprecated`: Indicates that a piece of code is deprecated and will be removed in a future version. The tag's message will include details on what to use instead. However, our updates are always backward-compatible, allowing you to update your codebase at your own pace.
+- `@version`: Indicates the version when a piece of code was available from. A piece of code that has this tag will only be available starting from the specified version.
+
+---
+
+## Update Plugin Project
+
+If you have a Medusa plugin project, you only need to update its `@medusajs/*` dependencies in the `package.json` file to the latest version. Then, re-install dependencies:
+
+```bash npm2yarn
+npm run install
+```

@@ -11,7 +11,7 @@ medusaIntegrationTestRunner({
   testSuite: ({ dbConnection, getContainer, api }) => {
     let baseProduct
     let baseRegion
-
+    let shippingProfile
     beforeEach(async () => {
       await createAdminUser(dbConnection, adminHeaders, getContainer())
       // BREAKING: Creating a region no longer takes tax_rate, payment_providers, fulfillment_providers, countriesr
@@ -26,11 +26,20 @@ medusaIntegrationTestRunner({
         )
       ).data.region
 
+      shippingProfile = (
+        await api.post(
+          `/admin/shipping-profiles`,
+          { name: "default", type: "default" },
+          adminHeaders
+        )
+      ).data.shipping_profile
+
       baseProduct = (
         await api.post(
           "/admin/products",
           getProductFixture({
             title: "Base product",
+            shipping_profile_id: shippingProfile.id,
           }),
           adminHeaders
         )
@@ -67,6 +76,7 @@ medusaIntegrationTestRunner({
                 { title: "First variant", prices: [] },
                 { title: "Second variant", prices: [] },
               ],
+              shipping_profile_id: shippingProfile.id,
             }),
             adminHeaders
           )
@@ -801,6 +811,7 @@ medusaIntegrationTestRunner({
             "/admin/products",
             {
               title: "product 1",
+              shipping_profile_id: shippingProfile.id,
               options: [
                 { title: "size", values: ["large", "medium", "small"] },
               ],

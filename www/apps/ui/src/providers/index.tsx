@@ -1,6 +1,7 @@
 "use client"
 
 import {
+  AiAssistantProvider,
   AnalyticsProvider,
   ScrollControllerProvider,
   SiteConfigProvider,
@@ -23,7 +24,16 @@ const Providers = ({ children }: ProvidersProps) => {
           <SidebarProvider>
             <MainNavProvider>
               <SearchProvider>
-                <TooltipProvider>{children}</TooltipProvider>
+                <AiAssistantProvider
+                  apiUrl={process.env.NEXT_PUBLIC_AI_ASSISTANT_URL || "temp"}
+                  websiteId={process.env.NEXT_PUBLIC_AI_WEBSITE_ID || "temp"}
+                  recaptchaSiteKey={
+                    process.env
+                      .NEXT_PUBLIC_AI_API_ASSISTANT_RECAPTCHA_SITE_KEY || "temp"
+                  }
+                >
+                  <TooltipProvider>{children}</TooltipProvider>
+                </AiAssistantProvider>
               </SearchProvider>
             </MainNavProvider>
           </SidebarProvider>

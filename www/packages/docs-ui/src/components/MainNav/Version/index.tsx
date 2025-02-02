@@ -44,10 +44,12 @@ export const MainNavVersion = () => {
       >
         <Tooltip html="View the release notes<br/>on GitHub">
           <span
-            className="relative text-compact-small-plus"
+            className="relative text-compact-small-plus block"
             onMouseOut={afterHover}
           >
-            <span>v{version.number}</span>
+            <span className="flex justify-center items-center">
+              v{version.number}
+            </span>
             {showNewBadge && (
               <span
                 className={clsx(

@@ -16,7 +16,7 @@ const VersionSwitcher = () => {
           location.href = process.env.NEXT_PUBLIC_API_V1_URL + pathname
         }}
       />
-      <span className={clsx("text-medusa-fg-subtle")}>V2</span>
+      <span className={clsx("text-medusa-fg-base")}>V2</span>
     </div>
   )
 }

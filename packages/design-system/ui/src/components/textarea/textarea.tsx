@@ -1,7 +1,7 @@
 import * as React from "react"
 
+import { inputBaseStyles } from "@/components/input"
 import { clx } from "@/utils/clx"
-import { inputBaseStyles } from "../input"
 
 /**
  * This component is based on the `textarea` element and supports all of its props

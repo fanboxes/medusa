@@ -24,9 +24,16 @@
  *     example: is_return
  *   operator:
  *     type: string
- *     title: operator
- *     description: The shipping option rule's operator.
- *     example: eq
+ *     description: The rule's operator.
+ *     enum:
+ *       - gt
+ *       - lt
+ *       - eq
+ *       - ne
+ *       - in
+ *       - lte
+ *       - gte
+ *       - nin
  *   value:
  *     type: string
  *     title: value

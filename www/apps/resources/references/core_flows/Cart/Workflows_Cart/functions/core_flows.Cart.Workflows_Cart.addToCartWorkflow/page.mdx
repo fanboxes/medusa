@@ -29,7 +29,7 @@ This workflow adds a product variant to a cart as a line item. It's executed by 
 You can use this workflow within your own customizations or custom workflows, allowing you to wrap custom logic around adding an item to the cart.
 For example, you can use this workflow to add a line item to the cart with a custom price.
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/644c8b9d3022fb4bc4ec6760ee4fed93b92d1b96/packages/core/core-flows/src/cart/workflows/add-to-cart.ts#L69" />
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/core/core-flows/src/cart/workflows/add-to-cart.ts#L69" />
 
 ## Examples
 
@@ -197,9 +197,9 @@ This hook is executed before all operations. You can consume this hook to perfor
 #### Example
 
 ```ts
-import { addShippingMethodToCartWorkflow } from "@medusajs/medusa/core-flows"
+import { addToCartWorkflow } from "@medusajs/medusa/core-flows"
 
-addShippingMethodToCartWorkflow.hooks.validate(
+addToCartWorkflow.hooks.validate(
   (async ({ input, cart }, { container }) => {
     //TODO
   })
@@ -210,4 +210,4 @@ addShippingMethodToCartWorkflow.hooks.validate(
 
 Handlers consuming this hook accept the following input.
 
-<TypeList types={[{"name":"input","type":"object","description":"The input data for the hook.","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"input","type":"[AddShippingMethodToCartWorkflowInput](../../../../interfaces/core_flows.AddShippingMethodToCartWorkflowInput/page.mdx)","description":"The data to add a shipping method to a cart.","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"cart_id","type":"`string`","description":"The ID of the cart to add the shipping method to.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"options","type":"`object`[]","description":"The shipping options to create the shipping methods from and add to the cart.","optional":false,"defaultValue":"","expandable":false,"children":[]}]},{"name":"cart","type":"`any`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="validate"/>
+<TypeList types={[{"name":"input","type":"object","description":"The input data for the hook.","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"input","type":"[AddToCartWorkflowInputDTO](../../../../../types/interfaces/types.AddToCartWorkflowInputDTO/page.mdx)","description":"The details of adding items to the cart.","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"cart_id","type":"`string`","description":"The ID of the cart to add items to.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"items","type":"[CreateCartCreateLineItemDTO](../../../../../types/interfaces/types.CreateCartCreateLineItemDTO/page.mdx)[]","description":"The items to add to the cart.","optional":false,"defaultValue":"","expandable":false,"children":[]}]},{"name":"cart","type":"`any`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="validate"/>

@@ -1,4 +1,5 @@
-export * from "./AiAssistant"
+export * from "./AiAssistant/SearchWindow"
+export * from "./AiAssistant/ChatWindow"
 export * from "./ApiRunner"
 export * from "./Badge"
 export * from "./BetaBadge"

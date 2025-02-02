@@ -1,0 +1,23 @@
+{
+  "description": "This component adds a command bar to the data table, which is used\nto show commands that can be executed on the selected rows.",
+  "methods": [],
+  "displayName": "DataTable.CommandBar",
+  "props": {
+    "selectedLabel": {
+      "required": false,
+      "tsType": {
+        "name": "union",
+        "raw": "((count: number) => string) | string",
+        "elements": [
+          {
+            "name": "unknown"
+          },
+          {
+            "name": "string"
+          }
+        ]
+      },
+      "description": "The label to show when items are selected. If a function is passed, \nit will be called with the count of selected items."
+    }
+  }
+}

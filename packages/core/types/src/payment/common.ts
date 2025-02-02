@@ -662,3 +662,45 @@ export interface PaymentMethodDTO {
    */
   provider_id: string
 }
+
+export interface AccountHolderDTO {
+  /**
+   * The ID of the account holder.
+   */
+  id: string
+
+  /**
+   * The ID of the associated payment provider.
+   */
+  provider_id: string
+
+  /**
+   * The external ID of the account holder in the payment provider system.
+   */
+  external_id: string
+
+  /**
+   * The email of the account holder.
+   */
+  email: string | null
+
+  /**
+   * The data of the account holder, as returned by the payment provider.
+   */
+  data: Record<string, unknown>
+
+  /**
+   * When the account holder was created.
+   */
+  created_at?: string | Date | null
+
+  /**
+   * When the account holder was updated.
+   */
+  updated_at?: string | Date | null
+
+  /**
+   * Holds custom data in key-value pairs.
+   */
+  metadata?: Record<string, unknown> | null
+}

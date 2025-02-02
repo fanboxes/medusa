@@ -3,6 +3,7 @@ import { RestoreReturn, SoftDeleteReturn } from "../dal"
 import { IModuleService } from "../modules-sdk"
 import { Context } from "../shared-context"
 import {
+  AccountHolderDTO,
   CaptureDTO,
   FilterableCaptureProps,
   FilterablePaymentCollectionProps,
@@ -31,7 +32,9 @@ import {
   UpdatePaymentDTO,
   UpdatePaymentSessionDTO,
   UpdateRefundReasonDTO,
+  CreateAccountHolderDTO,
   UpsertPaymentCollectionDTO,
+  CreatePaymentMethodDTO,
 } from "./mutations"
 import { WebhookActionResult } from "./provider"
 
@@ -752,6 +755,63 @@ export interface IPaymentModuleService extends IModuleService {
   ): Promise<[PaymentProviderDTO[], number]>
 
   /**
+   * This method creates(if supported by provider) the account holder in the payment provider.
+   *
+   * @param {CreateAccountHolderDTO} data - The details of the account holder.
+   * @param {Context} sharedContext - A context used to share resources, such as transaction manager, between the application and the module.
+   * @returns {Promise<Record<string, unknown>>} The account holder's details in the payment provider, typically just the ID.
+   *
+   * @example
+   * const accountHolder =
+   *   await paymentModuleService.createAccountHolder(
+   *     {
+   *       provider_id: "stripe",
+   *       context: {
+   *         customer: {
+   *           id: "cus_123",
+   *         },
+   *       },
+   *     }
+   *   )
+   *
+   *  remoteLink.create([{
+   *    [Modules.CUSTOMER]: {
+   *      customer_id: "cus_123",
+   *    },
+   *    [Modules.PAYMENT]: {
+   *      account_holder_id: accountHolder.id,
+   *    },
+   *  }])
+   */
+  createAccountHolder(
+    input: CreateAccountHolderDTO,
+    sharedContext?: Context
+  ): Promise<AccountHolderDTO>
+
+  /**
+   * This method deletes the account holder in the payment provider.
+   *
+   * @param {string} id - The account holder's ID.
+   * @param {Context} sharedContext - A context used to share resources, such as transaction manager, between the application and the module.
+   * @returns {Promise<void>} Resolves when the account holder is deleted successfully.
+   *
+   * @example
+   * await paymentModuleService.deleteAccountHolder({
+   *   id: "acc_holder_123",
+   * })
+   *
+   * remoteLink.dismiss([{
+   *    [Modules.CUSTOMER]: {
+   *      customer_id: "cus_123",
+   *    },
+   *    [Modules.PAYMENT]: {
+   *      account_holder_id: "acc_holder_123",
+   *    },
+   *  }])
+   */
+  deleteAccountHolder(id: string, sharedContext?: Context): Promise<void>
+
+  /**
    * This method retrieves all payment methods based on the context and configuration.
    *
    * @param {FilterablePaymentMethodProps} filters - The filters to apply on the retrieved payment methods.
@@ -818,6 +878,78 @@ export interface IPaymentModuleService extends IModuleService {
     config: FindConfig<PaymentMethodDTO>,
     sharedContext?: Context
   ): Promise<[PaymentMethodDTO[], number]>
+
+  /**
+   * This method creates payment methods.
+   *
+   * @param {CreatePaymentMethodDTO[]} data - The payment methods to create.
+   * @param {Context} sharedContext - A context used to share resources, such as transaction manager, between the application and the module.
+   * @returns {Promise<PaymentMethodDTO[]>} The created payment methods.
+   *
+   * @example
+   * const paymentMethods =
+   *   await paymentModuleService.createPaymentMethods([
+   *     {
+   *       provider_id: "pp_stripe_stripe",
+   *       data: {
+   *         customer_id: "cus_123",
+   *       },
+   *       context: {
+   *         accountHolder: {
+   *           data: {
+   *             id: "acc_holder_123",
+   *           },
+   *         },
+   *       },
+   *     },
+   *     {
+   *       provider_id: "pp_stripe_stripe",
+   *       data: {
+   *         customer_id: "cus_123",
+   *       },
+   *       context: {
+   *         accountHolder: {
+   *           data: {
+   *             id: "acc_holder_123",
+   *           },
+   *         },
+   *       },
+   *     },
+   *   ])
+   */
+  createPaymentMethods(
+    data: CreatePaymentMethodDTO[],
+    sharedContext?: Context
+  ): Promise<PaymentMethodDTO[]>
+
+  /**
+   * This method creates a payment method.
+   *
+   * @param {CreatePaymentMethodDTO} data - The payment method to create.
+   * @param {Context} sharedContext - A context used to share resources, such as transaction manager, between the application and the module.
+   * @returns {Promise<PaymentMethodDTO>} The created payment method.
+   *
+   * @example
+   * const paymentMethod =
+   *   await paymentModuleService.createPaymentMethods({
+   *     provider_id: "pp_stripe_stripe",
+   *     data: {
+   *       customer_id: "cus_123",
+   *     },
+   *     context: {
+   *       accountHolder: {
+   *           data: {
+   *             id: "acc_holder_123",
+   *           },
+   *         },
+   *       },
+   *     },
+   *   })
+   */
+  createPaymentMethods(
+    data: CreatePaymentMethodDTO,
+    sharedContext?: Context
+  ): Promise<PaymentMethodDTO>
 
   /**
    * This method retrieves a paginated list of captures based on optional filters and configuration.

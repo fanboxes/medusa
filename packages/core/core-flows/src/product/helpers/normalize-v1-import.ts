@@ -1,4 +1,8 @@
-import { ProductTypes, SalesChannelTypes } from "@medusajs/framework/types"
+import {
+  ProductTypes,
+  SalesChannelTypes,
+  ShippingProfileDTO,
+} from "@medusajs/framework/types"
 import { MedusaError } from "@medusajs/framework/utils"
 
 const basicFieldsToOmit = [
@@ -32,6 +36,7 @@ export const normalizeV1Products = (
     productTypes: ProductTypes.ProductTypeDTO[]
     productCollections: ProductTypes.ProductCollectionDTO[]
     salesChannels: SalesChannelTypes.SalesChannelDTO[]
+    shippingProfiles: ShippingProfileDTO[]
   }
 ): object[] => {
   const productTypesMap = new Map(
@@ -42,6 +47,9 @@ export const normalizeV1Products = (
   )
   const salesChannelsMap = new Map(
     supportingData.salesChannels.map((sc) => [sc.name, sc.id])
+  )
+  const shippingProfilesIds = new Set(
+    supportingData.shippingProfiles.map((sp) => sp.id)
   )
 
   return rawProducts.map((product) => {
@@ -137,6 +145,21 @@ export const normalizeV1Products = (
 
           finalRes[`Product Sales Channel ${key.split(" ")[2]}`] =
             salesChannelsMap.get(value)
+        }
+      }
+
+      if (key.startsWith("Shipping Profile Id")) {
+        if (!value) {
+          throw new MedusaError(
+            MedusaError.Types.INVALID_DATA,
+            "Shipping Profile Id is required when importing products"
+          )
+        }
+        if (!shippingProfilesIds.has(value)) {
+          throw new MedusaError(
+            MedusaError.Types.INVALID_DATA,
+            `Shipping profile: '${value}' does not exist`
+          )
         }
       }
 

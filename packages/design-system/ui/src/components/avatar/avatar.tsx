@@ -1,7 +1,7 @@
 "use client"
 
-import * as Primitives from "@radix-ui/react-avatar"
 import { cva, type VariantProps } from "cva"
+import { Avatar as RadixAvatar } from "radix-ui"
 import * as React from "react"
 
 import { clx } from "@/utils/clx"
@@ -116,7 +116,7 @@ const innerVariants = cva({
 
 interface AvatarProps
   extends Omit<
-      React.ComponentPropsWithoutRef<typeof Primitives.Root>,
+      React.ComponentPropsWithoutRef<typeof RadixAvatar.Root>,
       "asChild" | "children" | "size"
     >,
     VariantProps<typeof avatarVariants> {
@@ -128,7 +128,7 @@ interface AvatarProps
  * This component is based on the [Radix UI Avatar](https://www.radix-ui.com/primitives/docs/components/avatar) primitive.
  */
 const Avatar = React.forwardRef<
-  React.ElementRef<typeof Primitives.Root>,
+  React.ElementRef<typeof RadixAvatar.Root>,
   AvatarProps
 >(
   (
@@ -155,7 +155,7 @@ const Avatar = React.forwardRef<
     ref
   ) => {
     return (
-      <Primitives.Root
+      <RadixAvatar.Root
         ref={ref}
         {...props}
         className={clx(         
@@ -164,20 +164,20 @@ const Avatar = React.forwardRef<
         )}
       >
         {src && (
-          <Primitives.Image
+          <RadixAvatar.Image
             src={src}
             className={innerVariants({ variant, size })}
           />
         )}
-        <Primitives.Fallback
+        <RadixAvatar.Fallback
           className={clx(
             innerVariants({ variant, size }),
             "bg-ui-bg-component-hover text-ui-fg-subtle pointer-events-none flex select-none items-center justify-center"
           )}
         >
           {fallback}
-        </Primitives.Fallback>
-      </Primitives.Root>
+        </RadixAvatar.Fallback>
+      </RadixAvatar.Root>
     )
   }
 )

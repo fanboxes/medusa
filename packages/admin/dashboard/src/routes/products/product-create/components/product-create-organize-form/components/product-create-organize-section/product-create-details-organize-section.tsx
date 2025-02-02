@@ -51,6 +51,16 @@ export const ProductCreateOrganizationSection = ({
       })),
   })
 
+  const shippingProfiles = useComboboxData({
+    queryKey: ["shipping_profiles"],
+    queryFn: (params) => sdk.admin.shippingProfile.list(params),
+    getOptions: (data) =>
+      data.shipping_profiles.map((shippingProfile) => ({
+        label: shippingProfile.name,
+        value: shippingProfile.id,
+      })),
+  })
+
   const { fields, remove, replace } = useFieldArray({
     control: form.control,
     name: "sales_channels",
@@ -153,6 +163,34 @@ export const ProductCreateOrganizationSection = ({
                     searchValue={tags.searchValue}
                     onSearchValueChange={tags.onSearchValueChange}
                     fetchNextPage={tags.fetchNextPage}
+                  />
+                </Form.Control>
+                <Form.ErrorMessage />
+              </Form.Item>
+            )
+          }}
+        />
+      </div>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div>
+          <Form.Label>{t("products.fields.shipping_profile.label")}</Form.Label>
+          <Form.Hint>
+            <Trans i18nKey={"products.fields.shipping_profile.hint"} />
+          </Form.Hint>
+        </div>
+        <Form.Field
+          control={form.control}
+          name="shipping_profile_id"
+          render={({ field }) => {
+            return (
+              <Form.Item>
+                <Form.Control>
+                  <Combobox
+                    {...field}
+                    options={shippingProfiles.options}
+                    searchValue={shippingProfiles.searchValue}
+                    onSearchValueChange={shippingProfiles.onSearchValueChange}
+                    fetchNextPage={shippingProfiles.fetchNextPage}
                   />
                 </Form.Control>
                 <Form.ErrorMessage />

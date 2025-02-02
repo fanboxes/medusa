@@ -65,13 +65,13 @@ class HelloModuleService {
 
 You add two methods `getCount` and `getCountSql` that have the `InjectManager` decorator. Each of the methods also accept the `sharedContext` parameter which has the `MedusaContext` decorator.
 
-The entity manager is injected to the `sharedContext.manager` property, which is an instance of [EntityManager from the @mikro-orm/knex package](https://mikro-orm.io/api/5.9/knex/class/EntityManager).
+The entity manager is injected to the `sharedContext.manager` property, which is an instance of [EntityManager from the @mikro-orm/knex package](https://mikro-orm.io/api/knex/class/EntityManager).
 
 You use the manager in the `getCount` method to retrieve the number of records in a table, and in the `getCountSql` to run a PostgreSQL query that retrieves the count.
 
 <Note>
 
-Refer to [MikroORM's reference](https://mikro-orm.io/api/5.9/knex/class/EntityManager) for a full list of the entity manager's methods.
+Refer to [MikroORM's reference](https://mikro-orm.io/api/knex/class/EntityManager) for a full list of the entity manager's methods.
 
 </Note>
 
@@ -156,7 +156,7 @@ The shared context's `transactionManager` property holds the transactional entit
 
 <Note>
 
-Refer to [MikroORM's reference](https://mikro-orm.io/api/5.9/knex/class/EntityManager) for a full list of the entity manager's methods.
+Refer to [MikroORM's reference](https://mikro-orm.io/api/knex/class/EntityManager) for a full list of the entity manager's methods.
 
 </Note>
 
@@ -369,7 +369,7 @@ The `baseRepository_.transaction` method also receives as a second parameter an 
 
 <Note>
 
-Refer to [MikroORM's reference](https://mikro-orm.io/api/5.9/knex/class/EntityManager) for a full list of the entity manager's methods.
+Refer to [MikroORM's reference](https://mikro-orm.io/api/knex/class/EntityManager) for a full list of the entity manager's methods.
 
 </Note>
 

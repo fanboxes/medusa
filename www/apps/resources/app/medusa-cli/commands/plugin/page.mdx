@@ -1,0 +1,100 @@
+---
+sidebar_label: "plugin"
+sidebar_position: 6
+---
+
+import { Table } from "docs-ui"
+
+export const metadata = {
+  title: `plugin Commands - Medusa CLI Reference`,
+}
+
+# {metadata.title}
+
+Commands starting with `plugin:` perform actions related to [plugin](!docs!/learn/fundamentals/plugins) development.
+
+<Note>
+
+These commands are available starting from [Medusa v2.3.0](https://github.com/medusajs/medusa/releases/tag/v2.3.0).
+
+</Note>
+
+## plugin\:publish
+
+Publish a plugin into the local packages registry. The command uses [Yalc](https://github.com/wclr/yalc) under the hood to publish the plugin to a local package registry. You can then install the plugin in a local Medusa project using the [plugin\:add](#pluginadd) command.
+
+```bash
+npx medusa plugin:publish
+```
+
+---
+
+## plugin\:add
+
+Install the specified plugins from the local package registry into a local Medusa application. Plugins can be added to the local package registry using the [plugin\:publish](#pluginpublish) command.
+
+```bash
+npx medusa plugin:add [names...]
+```
+
+### Arguments
+
+<Table>
+  <Table.Header>
+    <Table.Row>
+      <Table.HeaderCell>Argument</Table.HeaderCell>
+      <Table.HeaderCell>Description</Table.HeaderCell>
+      <Table.HeaderCell>Required</Table.HeaderCell>
+    </Table.Row>
+  </Table.Header>
+  <Table.Body>
+    <Table.Row>
+      <Table.Cell>
+      
+      `names`
+      
+      </Table.Cell>
+      <Table.Cell>
+
+      The names of one or more plugins to install from the local package registry. A plugin's name is as specified in its `package.json` file.
+      
+      </Table.Cell>
+      <Table.Cell>
+
+      Yes
+
+      </Table.Cell>
+    </Table.Row>
+  </Table.Body>
+</Table>
+
+---
+
+## plugin\:develop
+
+Start a development server for a plugin. The command will watch for changes in the plugin's source code and automatically re-publish the changes into the local package registry.
+
+```bash
+npx medusa plugin:develop
+```
+
+---
+
+## plugin\:db\:generate
+
+Generate migrations for all modules in a plugin.
+
+```bash
+npx medusa plugin:db:generate
+```
+
+---
+
+## plugin\:build
+
+Build a plugin before publishing it to NPM. The command will compile an output in the `.medusa/server` directory.
+
+```bash
+npx medusa plugin:build
+```
+

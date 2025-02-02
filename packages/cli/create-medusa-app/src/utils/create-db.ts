@@ -226,14 +226,15 @@ export async function getDbClientAndCredentials({
   verbose?: boolean
   dbName?: string
 }> {
-  if (dbName) {
-    return await getForDbName({
-      dbName,
+  // Check the db-url first, because the dbName is always defined in MedusaProjectCreator->create()->initializeProject()->setupDatabase()
+  if (dbUrl) {
+    return await getForDbUrl({
+      dbUrl,
       verbose,
     })
   } else {
-    return await getForDbUrl({
-      dbUrl,
+    return await getForDbName({
+      dbName,
       verbose,
     })
   }

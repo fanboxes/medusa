@@ -8,11 +8,24 @@ import * as React from "react"
 import { useDataTableContext } from "@/blocks/data-table/context/use-data-table-context"
 
 interface DataTableSearchProps {
+  /**
+   * If true, the search input will be focused on mount.
+   */
   autoFocus?: boolean
+  /**
+   * Additional classes to pass to the search input.
+   */
   className?: string
+  /**
+   * The placeholder text to show in the search input.
+   */
   placeholder?: string
 }
 
+/**
+ * This component adds a search input to the data table, allowing users
+ * to search through the table's data.
+ */
 const DataTableSearch = (props: DataTableSearchProps) => {
   const { className, ...rest } = props
   const { instance } = useDataTableContext()
@@ -43,6 +56,7 @@ const DataTableSearch = (props: DataTableSearchProps) => {
     />
   )
 }
+DataTableSearch.displayName = "DataTable.Search"
 
 const DataTableSearchSkeleton = () => {
   return <Skeleton className="h-7 w-[128px]" />

@@ -97,6 +97,12 @@ tags:
       url: https://docs.medusajs.com/v2/resources/storefront-development/products/categories/list
     x-associatedSchema:
       $ref: '#/components/schemas/StoreProductCategory'
+  - name: Product Tags
+    x-associatedSchema:
+      $ref: '#/components/schemas/StoreProductTag'
+  - name: Product Types
+    x-associatedSchema:
+      $ref: '#/components/schemas/StoreProductType'
   - name: Products
     description: |
       Customers browse products for their purchase.
@@ -4631,6 +4637,1334 @@ paths:
           $ref: '#/components/responses/invalid_request_error'
         '500':
           $ref: '#/components/responses/500_error'
+  /store/product-tags:
+    get:
+      operationId: GetProductTags
+      summary: List Product Tags
+      description: Retrieve a list of product tags. The product tags can be filtered by fields such as `id`. The product tags can also be sorted or paginated.
+      x-authenticated: false
+      parameters:
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
+        - name: fields
+          in: query
+          description: |-
+            Comma-separated fields that should be included in the returned data.
+            if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields.
+            without prefix it will replace the entire default fields.
+          required: false
+          schema:
+            type: string
+            title: fields
+            description: Comma-separated fields that should be included in the returned data. If a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. Without prefix it will replace the entire default fields.
+            externalDocs:
+              url: '#select-fields-and-relations'
+        - name: offset
+          in: query
+          description: The number of items to skip when retrieving a list.
+          required: false
+          schema:
+            type: number
+            title: offset
+            description: The number of items to skip when retrieving a list.
+            externalDocs:
+              url: '#pagination'
+        - name: limit
+          in: query
+          description: Limit the number of items returned in the list.
+          required: false
+          schema:
+            type: number
+            title: limit
+            description: Limit the number of items returned in the list.
+            externalDocs:
+              url: '#pagination'
+        - name: order
+          in: query
+          description: The field to sort the data by. By default, the sort order is ascending. To change the order to descending, prefix the field name with `-`.
+          required: false
+          schema:
+            type: string
+            title: order
+            description: The field to sort the data by. By default, the sort order is ascending. To change the order to descending, prefix the field name with `-`.
+            externalDocs:
+              url: '#pagination'
+        - name: $and
+          in: query
+          description: Join query parameters with an AND condition. Each object's content is the same type as the expected query parameters.
+          required: false
+          schema:
+            type: array
+            description: Join query parameters with an AND condition. Each object's content is the same type as the expected query parameters.
+            items:
+              type: object
+            title: $and
+        - name: $or
+          in: query
+          description: Join query parameters with an OR condition. Each object's content is the same type as the expected query parameters.
+          required: false
+          schema:
+            type: array
+            description: Join query parameters with an OR condition. Each object's content is the same type as the expected query parameters.
+            items:
+              type: object
+            title: $or
+        - name: q
+          in: query
+          description: Query to search product tag's searchable fields.
+          required: false
+          schema:
+            type: string
+            title: q
+            description: Query to search product tag's searchable fields.
+        - name: id
+          in: query
+          required: false
+          schema:
+            oneOf:
+              - type: string
+                title: id
+                description: Filter by a product tag's ID.
+              - type: array
+                description: Filter by product tag IDs.
+                items:
+                  type: string
+                  title: id
+                  description: A product tag's ID.
+        - name: value
+          in: query
+          required: false
+          schema:
+            oneOf:
+              - type: string
+                title: value
+                description: Filter by a product tag's value.
+              - type: array
+                description: Filter by product tag values.
+                items:
+                  type: string
+                  title: value
+                  description: A product tag's value.
+        - name: created_at
+          in: query
+          description: Filter by the tag's creation date.
+          required: false
+          schema:
+            type: object
+            description: Filter by the tag's creation date.
+            properties:
+              $and:
+                type: array
+                description: Join query parameters with an AND condition. Each object's content is the same type as the expected query parameters.
+                items:
+                  type: object
+                title: $and
+              $or:
+                type: array
+                description: Join query parameters with an OR condition. Each object's content is the same type as the expected query parameters.
+                items:
+                  type: object
+                title: $or
+              $eq:
+                oneOf:
+                  - type: string
+                    title: $eq
+                    description: Filter by an exact match.
+                  - type: array
+                    description: Filter by multiple exact matches.
+                    items:
+                      type: string
+                      title: $eq
+                      description: An exact match.
+              $ne:
+                type: string
+                title: $ne
+                description: Filter by values not equal to this parameter.
+              $in:
+                type: array
+                description: Filter by values in this array.
+                items:
+                  type: string
+                  title: $in
+                  description: The value to match.
+              $nin:
+                type: array
+                description: Filter by values not in this array.
+                items:
+                  type: string
+                  title: $nin
+                  description: The value not to match.
+              $not:
+                oneOf:
+                  - type: string
+                    title: $not
+                    description: Filter by values not matching this parameter.
+                  - type: object
+                    description: Filter by values not matching the conditions in this parameter.
+                    properties:
+                      $and:
+                        type: array
+                        description: Join query parameters with an AND condition. Each object's content is the same type as the expected query parameters.
+                        items:
+                          type: object
+                        title: $and
+                      $or:
+                        type: array
+                        description: Join query parameters with an OR condition. Each object's content is the same type as the expected query parameters.
+                        items:
+                          type: object
+                        title: $or
+                      $eq:
+                        oneOf:
+                          - type: string
+                            title: $eq
+                            description: Filter by an exact match.
+                          - type: array
+                            description: Filter by multiple exact matches.
+                            items:
+                              type: string
+                              title: $eq
+                              description: The value to match.
+                      $ne:
+                        type: string
+                        title: $ne
+                        description: Filter by values not matching this parameter.
+                      $in:
+                        type: array
+                        description: Filter by values in this array.
+                        items:
+                          type: string
+                          title: $in
+                          description: The value to match.
+                      $nin:
+                        type: array
+                        description: Filter by values not in this array.
+                        items:
+                          type: string
+                          title: $nin
+                          description: The value to not match
+                      $not:
+                        oneOf:
+                          - type: string
+                            title: $not
+                            description: Filter by values not matching this parameter
+                          - type: object
+                            description: Filter by values not matching the conditions in this parameter.
+                          - type: array
+                            description: Filter by values not matching the values of this parameter.
+                            items:
+                              type: string
+                              title: $not
+                              description: The values to not match.
+                      $gt:
+                        type: string
+                        title: $gt
+                        description: Filter by values greater than this parameter. Useful for numbers and dates only.
+                      $gte:
+                        type: string
+                        title: $gte
+                        description: Filter by values greater than or equal to this parameter. Useful for numbers and dates only.
+                      $lt:
+                        type: string
+                        title: $lt
+                        description: Filter by values less than this parameter. Useful for numbers and dates only.
+                      $lte:
+                        type: string
+                        title: $lte
+                        description: Filter by values less than or equal to this parameter. Useful for numbers and dates only.
+                      $like:
+                        type: string
+                        title: $like
+                        description: Apply a `like` filter. Useful for strings only.
+                      $re:
+                        type: string
+                        title: $re
+                        description: Apply a regex filter. Useful for strings only.
+                      $ilike:
+                        type: string
+                        title: $ilike
+                        description: Apply a case-insensitive `like` filter. Useful for strings only.
+                      $fulltext:
+                        type: string
+                        title: $fulltext
+                        description: Filter to apply on full-text properties.
+                      $overlap:
+                        type: array
+                        description: Filter arrays that have overlapping values with this parameter.
+                        items:
+                          type: string
+                          title: $overlap
+                          description: The value to match.
+                      $contains:
+                        type: array
+                        description: Filter arrays that contain some of the values of this parameter.
+                        items:
+                          type: string
+                          title: $contains
+                          description: The values to match.
+                      $contained:
+                        type: array
+                        description: Filter arrays that contain all values of this parameter.
+                        items:
+                          type: string
+                          title: $contained
+                          description: The values to match.
+                      $exists:
+                        type: boolean
+                        title: $exists
+                        description: Filter by whether a value for this parameter exists (not `null`).
+                  - type: array
+                    description: Filter by values not matching those in this parameter.
+                    items:
+                      type: string
+                      title: $not
+                      description: The values to not match.
+              $gt:
+                type: string
+                title: $gt
+                description: Filter by values greater than this parameter. Useful for numbers and dates only.
+              $gte:
+                type: string
+                title: $gte
+                description: Filter by values greater than or equal to this parameter. Useful for numbers and dates only.
+              $lt:
+                type: string
+                title: $lt
+                description: Filter by values less than this parameter. Useful for numbers and dates only.
+              $lte:
+                type: string
+                title: $lte
+                description: Filter by values less than or equal to this parameter. Useful for numbers and dates only.
+              $like:
+                type: string
+                title: $like
+                description: Apply a `like` filter. Useful for strings only.
+              $re:
+                type: string
+                title: $re
+                description: Apply a regex filter. Useful for strings only.
+              $ilike:
+                type: string
+                title: $ilike
+                description: Apply a case-insensitive `like` filter. Useful for strings only.
+              $fulltext:
+                type: string
+                title: $fulltext
+                description: Filter to apply on full-text properties.
+              $overlap:
+                type: array
+                description: Filter arrays that have overlapping values with this parameter.
+                items:
+                  type: string
+                  title: $overlap
+                  description: The values to match.
+              $contains:
+                type: array
+                description: Filter arrays that contain some of the values of this parameter.
+                items:
+                  type: string
+                  title: $contains
+                  description: The values to match.
+              $contained:
+                type: array
+                description: Filter arrays that contain all values of this parameter.
+                items:
+                  type: string
+                  title: $contained
+                  description: The values to match.
+              $exists:
+                type: boolean
+                title: $exists
+                description: Filter by whether a value for this parameter exists (not `null`).
+        - name: updated_at
+          in: query
+          description: Filter by the tag's update date.
+          required: false
+          schema:
+            type: object
+            description: Filter by the tag's update date.
+            properties:
+              $and:
+                type: array
+                description: Join query parameters with an AND condition. Each object's content is the same type as the expected query parameters.
+                items:
+                  type: object
+                title: $and
+              $or:
+                type: array
+                description: Join query parameters with an OR condition. Each object's content is the same type as the expected query parameters.
+                items:
+                  type: object
+                title: $or
+              $eq:
+                oneOf:
+                  - type: string
+                    title: $eq
+                    description: Filter by an exact match.
+                  - type: array
+                    description: Filter by multiple exact matches.
+                    items:
+                      type: string
+                      title: $eq
+                      description: An exact match.
+              $ne:
+                type: string
+                title: $ne
+                description: Filter by values not equal to this parameter.
+              $in:
+                type: array
+                description: Filter by values in this array.
+                items:
+                  type: string
+                  title: $in
+                  description: The value to match.
+              $nin:
+                type: array
+                description: Filter by values not in this array.
+                items:
+                  type: string
+                  title: $nin
+                  description: The value not to match.
+              $not:
+                oneOf:
+                  - type: string
+                    title: $not
+                    description: Filter by values not matching this parameter.
+                  - type: object
+                    description: Filter by values not matching the conditions in this parameter.
+                    properties:
+                      $and:
+                        type: array
+                        description: Join query parameters with an AND condition. Each object's content is the same type as the expected query parameters.
+                        items:
+                          type: object
+                        title: $and
+                      $or:
+                        type: array
+                        description: Join query parameters with an OR condition. Each object's content is the same type as the expected query parameters.
+                        items:
+                          type: object
+                        title: $or
+                      $eq:
+                        oneOf:
+                          - type: string
+                            title: $eq
+                            description: Filter by an exact match.
+                          - type: array
+                            description: Filter by multiple exact matches.
+                            items:
+                              type: string
+                              title: $eq
+                              description: The value to match.
+                      $ne:
+                        type: string
+                        title: $ne
+                        description: Filter by values not matching this parameter.
+                      $in:
+                        type: array
+                        description: Filter by values in this array.
+                        items:
+                          type: string
+                          title: $in
+                          description: The value to match.
+                      $nin:
+                        type: array
+                        description: Filter by values not in this array.
+                        items:
+                          type: string
+                          title: $nin
+                          description: The value to not match
+                      $not:
+                        oneOf:
+                          - type: string
+                            title: $not
+                            description: Filter by values not matching this parameter
+                          - type: object
+                            description: Filter by values not matching the conditions in this parameter.
+                          - type: array
+                            description: Filter by values not matching the values of this parameter.
+                            items:
+                              type: string
+                              title: $not
+                              description: The values to not match.
+                      $gt:
+                        type: string
+                        title: $gt
+                        description: Filter by values greater than this parameter. Useful for numbers and dates only.
+                      $gte:
+                        type: string
+                        title: $gte
+                        description: Filter by values greater than or equal to this parameter. Useful for numbers and dates only.
+                      $lt:
+                        type: string
+                        title: $lt
+                        description: Filter by values less than this parameter. Useful for numbers and dates only.
+                      $lte:
+                        type: string
+                        title: $lte
+                        description: Filter by values less than or equal to this parameter. Useful for numbers and dates only.
+                      $like:
+                        type: string
+                        title: $like
+                        description: Apply a `like` filter. Useful for strings only.
+                      $re:
+                        type: string
+                        title: $re
+                        description: Apply a regex filter. Useful for strings only.
+                      $ilike:
+                        type: string
+                        title: $ilike
+                        description: Apply a case-insensitive `like` filter. Useful for strings only.
+                      $fulltext:
+                        type: string
+                        title: $fulltext
+                        description: Filter to apply on full-text properties.
+                      $overlap:
+                        type: array
+                        description: Filter arrays that have overlapping values with this parameter.
+                        items:
+                          type: string
+                          title: $overlap
+                          description: The value to match.
+                      $contains:
+                        type: array
+                        description: Filter arrays that contain some of the values of this parameter.
+                        items:
+                          type: string
+                          title: $contains
+                          description: The values to match.
+                      $contained:
+                        type: array
+                        description: Filter arrays that contain all values of this parameter.
+                        items:
+                          type: string
+                          title: $contained
+                          description: The values to match.
+                      $exists:
+                        type: boolean
+                        title: $exists
+                        description: Filter by whether a value for this parameter exists (not `null`).
+                  - type: array
+                    description: Filter by values not matching those in this parameter.
+                    items:
+                      type: string
+                      title: $not
+                      description: The values to not match.
+              $gt:
+                type: string
+                title: $gt
+                description: Filter by values greater than this parameter. Useful for numbers and dates only.
+              $gte:
+                type: string
+                title: $gte
+                description: Filter by values greater than or equal to this parameter. Useful for numbers and dates only.
+              $lt:
+                type: string
+                title: $lt
+                description: Filter by values less than this parameter. Useful for numbers and dates only.
+              $lte:
+                type: string
+                title: $lte
+                description: Filter by values less than or equal to this parameter. Useful for numbers and dates only.
+              $like:
+                type: string
+                title: $like
+                description: Apply a `like` filter. Useful for strings only.
+              $re:
+                type: string
+                title: $re
+                description: Apply a regex filter. Useful for strings only.
+              $ilike:
+                type: string
+                title: $ilike
+                description: Apply a case-insensitive `like` filter. Useful for strings only.
+              $fulltext:
+                type: string
+                title: $fulltext
+                description: Filter to apply on full-text properties.
+              $overlap:
+                type: array
+                description: Filter arrays that have overlapping values with this parameter.
+                items:
+                  type: string
+                  title: $overlap
+                  description: The values to match.
+              $contains:
+                type: array
+                description: Filter arrays that contain some of the values of this parameter.
+                items:
+                  type: string
+                  title: $contains
+                  description: The values to match.
+              $contained:
+                type: array
+                description: Filter arrays that contain all values of this parameter.
+                items:
+                  type: string
+                  title: $contained
+                  description: The values to match.
+              $exists:
+                type: boolean
+                title: $exists
+                description: Filter by whether a value for this parameter exists (not `null`).
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |-
+            curl '{backend_url}/store/product-tags' \
+            -H 'x-publishable-api-key: {your_publishable_api_key}'
+      tags:
+        - Product Tags
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StoreProductTagListResponse'
+        '400':
+          $ref: '#/components/responses/400_error'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not_found_error'
+        '409':
+          $ref: '#/components/responses/invalid_state_error'
+        '422':
+          $ref: '#/components/responses/invalid_request_error'
+        '500':
+          $ref: '#/components/responses/500_error'
+  /store/product-tags/{id}:
+    get:
+      operationId: GetProductTagsId
+      summary: Get a Product Tag
+      description: Retrieve a product tag by its ID. You can expand the product tag's relations or select the fields that should be returned.
+      x-authenticated: false
+      parameters:
+        - name: id
+          in: path
+          description: The product tag's ID.
+          required: true
+          schema:
+            type: string
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
+        - name: fields
+          in: query
+          description: |-
+            Comma-separated fields that should be included in the returned data.
+            if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields.
+            without prefix it will replace the entire default fields.
+          required: false
+          schema:
+            type: string
+            title: fields
+            description: Comma-separated fields that should be included in the returned data. If a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. Without prefix it will replace the entire default fields.
+            externalDocs:
+              url: '#select-fields-and-relations'
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |-
+            curl '{backend_url}/store/product-tags/{id}' \
+            -H 'x-publishable-api-key: {your_publishable_api_key}'
+      tags:
+        - Product Tags
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StoreProductTagResponse'
+        '400':
+          $ref: '#/components/responses/400_error'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not_found_error'
+        '409':
+          $ref: '#/components/responses/invalid_state_error'
+        '422':
+          $ref: '#/components/responses/invalid_request_error'
+        '500':
+          $ref: '#/components/responses/500_error'
+  /store/product-types:
+    get:
+      operationId: GetProductTypes
+      summary: List Product Types
+      description: Retrieve a list of product types. The product types can be filtered by fields such as `id`. The product types can also be sorted or paginated.
+      x-authenticated: false
+      parameters:
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
+        - name: fields
+          in: query
+          description: |-
+            Comma-separated fields that should be included in the returned data.
+             if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields.
+             without prefix it will replace the entire default fields.
+          required: false
+          schema:
+            type: string
+            title: fields
+            description: Comma-separated fields that should be included in the returned data. If a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. Without prefix it will replace the entire default fields.
+            externalDocs:
+              url: '#select-fields-and-relations'
+        - name: offset
+          in: query
+          description: The number of items to skip when retrieving a list.
+          required: false
+          schema:
+            type: number
+            title: offset
+            description: The number of items to skip when retrieving a list.
+            externalDocs:
+              url: '#pagination'
+        - name: limit
+          in: query
+          description: Limit the number of items returned in the list.
+          required: false
+          schema:
+            type: number
+            title: limit
+            description: Limit the number of items returned in the list.
+            externalDocs:
+              url: '#pagination'
+        - name: order
+          in: query
+          description: The field to sort the data by. By default, the sort order is ascending. To change the order to descending, prefix the field name with `-`.
+          required: false
+          schema:
+            type: string
+            title: order
+            description: The field to sort the data by. By default, the sort order is ascending. To change the order to descending, prefix the field name with `-`.
+            externalDocs:
+              url: '#pagination'
+        - name: $and
+          in: query
+          description: Join query parameters with an AND condition. Each object's content is the same type as the expected query parameters.
+          required: false
+          schema:
+            type: array
+            description: Join query parameters with an AND condition. Each object's content is the same type as the expected query parameters.
+            items:
+              type: object
+            title: $and
+        - name: $or
+          in: query
+          description: Join query parameters with an OR condition. Each object's content is the same type as the expected query parameters.
+          required: false
+          schema:
+            type: array
+            description: Join query parameters with an OR condition. Each object's content is the same type as the expected query parameters.
+            items:
+              type: object
+            title: $or
+        - name: q
+          in: query
+          description: Query to search the product type's searchable fields.
+          required: false
+          schema:
+            type: string
+            title: q
+            description: Query to search the product type's searchable fields.
+        - name: id
+          in: query
+          required: false
+          schema:
+            oneOf:
+              - type: string
+                title: id
+                description: Filter by a product type's ID.
+              - type: array
+                description: Filter by product type IDs.
+                items:
+                  type: string
+                  title: id
+                  description: A product type's ID.
+        - name: value
+          in: query
+          required: false
+          schema:
+            oneOf:
+              - type: string
+                title: value
+                description: Filter by a product type's value.
+              - type: array
+                description: Filter by product type values.
+                items:
+                  type: string
+                  title: value
+                  description: A product type's value.
+        - name: created_at
+          in: query
+          description: Filter by the type's creation date.
+          required: false
+          schema:
+            type: object
+            description: Filter by the type's creation date.
+            properties:
+              $and:
+                type: array
+                description: Join query parameters with an AND condition. Each object's content is the same type as the expected query parameters.
+                items:
+                  type: object
+                title: $and
+              $or:
+                type: array
+                description: Join query parameters with an OR condition. Each object's content is the same type as the expected query parameters.
+                items:
+                  type: object
+                title: $or
+              $eq:
+                oneOf:
+                  - type: string
+                    title: $eq
+                    description: Filter by an exact match.
+                  - type: array
+                    description: Filter by multiple exact matches.
+                    items:
+                      type: string
+                      title: $eq
+                      description: An exact match.
+              $ne:
+                type: string
+                title: $ne
+                description: Filter by values not equal to this parameter.
+              $in:
+                type: array
+                description: Filter by values in this array.
+                items:
+                  type: string
+                  title: $in
+                  description: The value to match.
+              $nin:
+                type: array
+                description: Filter by values not in this array.
+                items:
+                  type: string
+                  title: $nin
+                  description: The value not to match.
+              $not:
+                oneOf:
+                  - type: string
+                    title: $not
+                    description: Filter by values not matching this parameter.
+                  - type: object
+                    description: Filter by values not matching the conditions in this parameter.
+                    properties:
+                      $and:
+                        type: array
+                        description: Join query parameters with an AND condition. Each object's content is the same type as the expected query parameters.
+                        items:
+                          type: object
+                        title: $and
+                      $or:
+                        type: array
+                        description: Join query parameters with an OR condition. Each object's content is the same type as the expected query parameters.
+                        items:
+                          type: object
+                        title: $or
+                      $eq:
+                        oneOf:
+                          - type: string
+                            title: $eq
+                            description: Filter by an exact match.
+                          - type: array
+                            description: Filter by multiple exact matches.
+                            items:
+                              type: string
+                              title: $eq
+                              description: The value to match.
+                      $ne:
+                        type: string
+                        title: $ne
+                        description: Filter by values not matching this parameter.
+                      $in:
+                        type: array
+                        description: Filter by values in this array.
+                        items:
+                          type: string
+                          title: $in
+                          description: The value to match.
+                      $nin:
+                        type: array
+                        description: Filter by values not in this array.
+                        items:
+                          type: string
+                          title: $nin
+                          description: The value to not match
+                      $not:
+                        oneOf:
+                          - type: string
+                            title: $not
+                            description: Filter by values not matching this parameter
+                          - type: object
+                            description: Filter by values not matching the conditions in this parameter.
+                          - type: array
+                            description: Filter by values not matching the values of this parameter.
+                            items:
+                              type: string
+                              title: $not
+                              description: The values to not match.
+                      $gt:
+                        type: string
+                        title: $gt
+                        description: Filter by values greater than this parameter. Useful for numbers and dates only.
+                      $gte:
+                        type: string
+                        title: $gte
+                        description: Filter by values greater than or equal to this parameter. Useful for numbers and dates only.
+                      $lt:
+                        type: string
+                        title: $lt
+                        description: Filter by values less than this parameter. Useful for numbers and dates only.
+                      $lte:
+                        type: string
+                        title: $lte
+                        description: Filter by values less than or equal to this parameter. Useful for numbers and dates only.
+                      $like:
+                        type: string
+                        title: $like
+                        description: Apply a `like` filter. Useful for strings only.
+                      $re:
+                        type: string
+                        title: $re
+                        description: Apply a regex filter. Useful for strings only.
+                      $ilike:
+                        type: string
+                        title: $ilike
+                        description: Apply a case-insensitive `like` filter. Useful for strings only.
+                      $fulltext:
+                        type: string
+                        title: $fulltext
+                        description: Filter to apply on full-text properties.
+                      $overlap:
+                        type: array
+                        description: Filter arrays that have overlapping values with this parameter.
+                        items:
+                          type: string
+                          title: $overlap
+                          description: The value to match.
+                      $contains:
+                        type: array
+                        description: Filter arrays that contain some of the values of this parameter.
+                        items:
+                          type: string
+                          title: $contains
+                          description: The values to match.
+                      $contained:
+                        type: array
+                        description: Filter arrays that contain all values of this parameter.
+                        items:
+                          type: string
+                          title: $contained
+                          description: The values to match.
+                      $exists:
+                        type: boolean
+                        title: $exists
+                        description: Filter by whether a value for this parameter exists (not `null`).
+                  - type: array
+                    description: Filter by values not matching those in this parameter.
+                    items:
+                      type: string
+                      title: $not
+                      description: The values to not match.
+              $gt:
+                type: string
+                title: $gt
+                description: Filter by values greater than this parameter. Useful for numbers and dates only.
+              $gte:
+                type: string
+                title: $gte
+                description: Filter by values greater than or equal to this parameter. Useful for numbers and dates only.
+              $lt:
+                type: string
+                title: $lt
+                description: Filter by values less than this parameter. Useful for numbers and dates only.
+              $lte:
+                type: string
+                title: $lte
+                description: Filter by values less than or equal to this parameter. Useful for numbers and dates only.
+              $like:
+                type: string
+                title: $like
+                description: Apply a `like` filter. Useful for strings only.
+              $re:
+                type: string
+                title: $re
+                description: Apply a regex filter. Useful for strings only.
+              $ilike:
+                type: string
+                title: $ilike
+                description: Apply a case-insensitive `like` filter. Useful for strings only.
+              $fulltext:
+                type: string
+                title: $fulltext
+                description: Filter to apply on full-text properties.
+              $overlap:
+                type: array
+                description: Filter arrays that have overlapping values with this parameter.
+                items:
+                  type: string
+                  title: $overlap
+                  description: The values to match.
+              $contains:
+                type: array
+                description: Filter arrays that contain some of the values of this parameter.
+                items:
+                  type: string
+                  title: $contains
+                  description: The values to match.
+              $contained:
+                type: array
+                description: Filter arrays that contain all values of this parameter.
+                items:
+                  type: string
+                  title: $contained
+                  description: The values to match.
+              $exists:
+                type: boolean
+                title: $exists
+                description: Filter by whether a value for this parameter exists (not `null`).
+        - name: updated_at
+          in: query
+          description: Filter by the type's update date.
+          required: false
+          schema:
+            type: object
+            description: Filter by the type's update date.
+            properties:
+              $and:
+                type: array
+                description: Join query parameters with an AND condition. Each object's content is the same type as the expected query parameters.
+                items:
+                  type: object
+                title: $and
+              $or:
+                type: array
+                description: Join query parameters with an OR condition. Each object's content is the same type as the expected query parameters.
+                items:
+                  type: object
+                title: $or
+              $eq:
+                oneOf:
+                  - type: string
+                    title: $eq
+                    description: Filter by an exact match.
+                  - type: array
+                    description: Filter by multiple exact matches.
+                    items:
+                      type: string
+                      title: $eq
+                      description: An exact match.
+              $ne:
+                type: string
+                title: $ne
+                description: Filter by values not equal to this parameter.
+              $in:
+                type: array
+                description: Filter by values in this array.
+                items:
+                  type: string
+                  title: $in
+                  description: The value to match.
+              $nin:
+                type: array
+                description: Filter by values not in this array.
+                items:
+                  type: string
+                  title: $nin
+                  description: The value not to match.
+              $not:
+                oneOf:
+                  - type: string
+                    title: $not
+                    description: Filter by values not matching this parameter.
+                  - type: object
+                    description: Filter by values not matching the conditions in this parameter.
+                    properties:
+                      $and:
+                        type: array
+                        description: Join query parameters with an AND condition. Each object's content is the same type as the expected query parameters.
+                        items:
+                          type: object
+                        title: $and
+                      $or:
+                        type: array
+                        description: Join query parameters with an OR condition. Each object's content is the same type as the expected query parameters.
+                        items:
+                          type: object
+                        title: $or
+                      $eq:
+                        oneOf:
+                          - type: string
+                            title: $eq
+                            description: Filter by an exact match.
+                          - type: array
+                            description: Filter by multiple exact matches.
+                            items:
+                              type: string
+                              title: $eq
+                              description: The value to match.
+                      $ne:
+                        type: string
+                        title: $ne
+                        description: Filter by values not matching this parameter.
+                      $in:
+                        type: array
+                        description: Filter by values in this array.
+                        items:
+                          type: string
+                          title: $in
+                          description: The value to match.
+                      $nin:
+                        type: array
+                        description: Filter by values not in this array.
+                        items:
+                          type: string
+                          title: $nin
+                          description: The value to not match
+                      $not:
+                        oneOf:
+                          - type: string
+                            title: $not
+                            description: Filter by values not matching this parameter
+                          - type: object
+                            description: Filter by values not matching the conditions in this parameter.
+                          - type: array
+                            description: Filter by values not matching the values of this parameter.
+                            items:
+                              type: string
+                              title: $not
+                              description: The values to not match.
+                      $gt:
+                        type: string
+                        title: $gt
+                        description: Filter by values greater than this parameter. Useful for numbers and dates only.
+                      $gte:
+                        type: string
+                        title: $gte
+                        description: Filter by values greater than or equal to this parameter. Useful for numbers and dates only.
+                      $lt:
+                        type: string
+                        title: $lt
+                        description: Filter by values less than this parameter. Useful for numbers and dates only.
+                      $lte:
+                        type: string
+                        title: $lte
+                        description: Filter by values less than or equal to this parameter. Useful for numbers and dates only.
+                      $like:
+                        type: string
+                        title: $like
+                        description: Apply a `like` filter. Useful for strings only.
+                      $re:
+                        type: string
+                        title: $re
+                        description: Apply a regex filter. Useful for strings only.
+                      $ilike:
+                        type: string
+                        title: $ilike
+                        description: Apply a case-insensitive `like` filter. Useful for strings only.
+                      $fulltext:
+                        type: string
+                        title: $fulltext
+                        description: Filter to apply on full-text properties.
+                      $overlap:
+                        type: array
+                        description: Filter arrays that have overlapping values with this parameter.
+                        items:
+                          type: string
+                          title: $overlap
+                          description: The value to match.
+                      $contains:
+                        type: array
+                        description: Filter arrays that contain some of the values of this parameter.
+                        items:
+                          type: string
+                          title: $contains
+                          description: The values to match.
+                      $contained:
+                        type: array
+                        description: Filter arrays that contain all values of this parameter.
+                        items:
+                          type: string
+                          title: $contained
+                          description: The values to match.
+                      $exists:
+                        type: boolean
+                        title: $exists
+                        description: Filter by whether a value for this parameter exists (not `null`).
+                  - type: array
+                    description: Filter by values not matching those in this parameter.
+                    items:
+                      type: string
+                      title: $not
+                      description: The values to not match.
+              $gt:
+                type: string
+                title: $gt
+                description: Filter by values greater than this parameter. Useful for numbers and dates only.
+              $gte:
+                type: string
+                title: $gte
+                description: Filter by values greater than or equal to this parameter. Useful for numbers and dates only.
+              $lt:
+                type: string
+                title: $lt
+                description: Filter by values less than this parameter. Useful for numbers and dates only.
+              $lte:
+                type: string
+                title: $lte
+                description: Filter by values less than or equal to this parameter. Useful for numbers and dates only.
+              $like:
+                type: string
+                title: $like
+                description: Apply a `like` filter. Useful for strings only.
+              $re:
+                type: string
+                title: $re
+                description: Apply a regex filter. Useful for strings only.
+              $ilike:
+                type: string
+                title: $ilike
+                description: Apply a case-insensitive `like` filter. Useful for strings only.
+              $fulltext:
+                type: string
+                title: $fulltext
+                description: Filter to apply on full-text properties.
+              $overlap:
+                type: array
+                description: Filter arrays that have overlapping values with this parameter.
+                items:
+                  type: string
+                  title: $overlap
+                  description: The values to match.
+              $contains:
+                type: array
+                description: Filter arrays that contain some of the values of this parameter.
+                items:
+                  type: string
+                  title: $contains
+                  description: The values to match.
+              $contained:
+                type: array
+                description: Filter arrays that contain all values of this parameter.
+                items:
+                  type: string
+                  title: $contained
+                  description: The values to match.
+              $exists:
+                type: boolean
+                title: $exists
+                description: Filter by whether a value for this parameter exists (not `null`).
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |-
+            curl '{backend_url}/store/product-types' \
+            -H 'x-publishable-api-key: {your_publishable_api_key}'
+      tags:
+        - Product Types
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StoreProductTypeListResponse'
+        '400':
+          $ref: '#/components/responses/400_error'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not_found_error'
+        '409':
+          $ref: '#/components/responses/invalid_state_error'
+        '422':
+          $ref: '#/components/responses/invalid_request_error'
+        '500':
+          $ref: '#/components/responses/500_error'
+  /store/product-types/{id}:
+    get:
+      operationId: GetProductTypesId
+      summary: Get a Product Type
+      description: Retrieve a product type by its ID. You can expand the product type's relations or select the fields that should be returned.
+      x-authenticated: false
+      parameters:
+        - name: id
+          in: path
+          description: The product type's ID.
+          required: true
+          schema:
+            type: string
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
+        - name: fields
+          in: query
+          description: |-
+            Comma-separated fields that should be included in the returned data.
+             if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields.
+             without prefix it will replace the entire default fields.
+          required: false
+          schema:
+            type: string
+            title: fields
+            description: Comma-separated fields that should be included in the returned data. If a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. Without prefix it will replace the entire default fields.
+            externalDocs:
+              url: '#select-fields-and-relations'
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |-
+            curl '{backend_url}/store/product-types/{id}' \
+            -H 'x-publishable-api-key: {your_publishable_api_key}'
+      tags:
+        - Product Types
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StoreProductTypeResponse'
+        '400':
+          $ref: '#/components/responses/400_error'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not_found_error'
+        '409':
+          $ref: '#/components/responses/invalid_state_error'
+        '422':
+          $ref: '#/components/responses/invalid_request_error'
+        '500':
+          $ref: '#/components/responses/500_error'
   /store/products:
     get:
       operationId: GetProducts
@@ -6373,6 +7707,30 @@ components:
           type: number
           title: apply_to_quantity
           description: The quantity that results from matching the `buyget` promotion's condition. For example, if the promotion is a "Buy 2 shirts get 1 free", the value of this attribute is `1`.
+    AdminBatchCreateInventoryItemsLocationLevels:
+      type: object
+      description: The details of an inventory level to create.
+      required:
+        - location_id
+        - inventory_item_id
+      properties:
+        location_id:
+          type: string
+          title: location_id
+          description: The ID of the associated stock location.
+        inventory_item_id:
+          type: string
+          title: inventory_item_id
+          description: The ID of the associated inventory item.
+        stocked_quantity:
+          type: number
+          title: stocked_quantity
+          description: The stocked quantity.
+        incoming_quantity:
+          type: number
+          title: incoming_quantity
+          description: The incoming quantity to be added to stock.
+      x-schemaName: AdminBatchCreateInventoryItemsLocationLevels
     AdminBatchInventoryItemLocationsLevel:
       type: object
       description: The inventory levels to create, update, or delete.
@@ -6435,6 +7793,58 @@ components:
           title: force
           description: Whether to delete specified inventory levels even if they have a non-zero stocked quantity.
       x-schemaName: AdminBatchInventoryItemLocationsLevel
+    AdminBatchInventoryItemsLocationLevels:
+      type: object
+      description: The inventory levels to manage.
+      properties:
+        create:
+          type: array
+          description: The inventory levels to create.
+          items:
+            $ref: '#/components/schemas/AdminBatchCreateInventoryItemsLocationLevels'
+        update:
+          type: array
+          description: The inventory levels to update.
+          items:
+            $ref: '#/components/schemas/AdminBatchUpdateInventoryItemsLocationLevels'
+        delete:
+          type: array
+          description: The IDs of the inventory levels to delete.
+          items:
+            type: string
+            title: delete
+            description: The ID of the inventory level to delete.
+        force:
+          type: boolean
+          title: force
+          description: Whether to delete specified inventory levels even if they have a non-zero stocked quantity.
+      required:
+        - create
+        - update
+        - delete
+      x-schemaName: AdminBatchInventoryItemsLocationLevels
+    AdminBatchInventoryItemsLocationLevelsResponse:
+      type: object
+      description: The result of managing inventory levels.
+      x-schemaName: AdminBatchInventoryItemsLocationLevelsResponse
+      properties:
+        created:
+          type: array
+          description: The created inventory levels.
+          items:
+            $ref: '#/components/schemas/InventoryLevel'
+        updated:
+          type: array
+          description: The updated inventory levels.
+          items:
+            $ref: '#/components/schemas/InventoryLevel'
+        deleted:
+          type: array
+          description: The IDs of deleted inventory levels.
+          items:
+            type: string
+            title: deleted
+            description: The ID of a deleted inventory level.
     AdminBatchProductRequest:
       type: object
       description: The products to create, update, or delete.
@@ -6565,6 +7975,34 @@ components:
               type: boolean
               title: deleted
               description: Whether the product variants were deleted.
+    AdminBatchUpdateInventoryItemsLocationLevels:
+      type: object
+      description: The details of an inventory level to update.
+      required:
+        - location_id
+        - inventory_item_id
+      properties:
+        location_id:
+          type: string
+          title: location_id
+          description: The ID of the associated stock location.
+        inventory_item_id:
+          type: string
+          title: inventory_item_id
+          description: The ID of the associated inventory item.
+        stocked_quantity:
+          type: number
+          title: stocked_quantity
+          description: The stocked quantity.
+        incoming_quantity:
+          type: number
+          title: incoming_quantity
+          description: The incoming quantity to be added to stock.
+        id:
+          type: string
+          title: id
+          description: The update's ID.
+      x-schemaName: AdminBatchUpdateInventoryItemsLocationLevels
     AdminBatchUpdateProduct:
       type: object
       description: The product's details.
@@ -15836,9 +17274,16 @@ components:
           example: is_return
         operator:
           type: string
-          title: operator
-          description: The shipping option rule's operator.
-          example: eq
+          description: The rule's operator.
+          enum:
+            - gt
+            - lt
+            - eq
+            - ne
+            - in
+            - lte
+            - gte
+            - nin
         value:
           type: string
           title: value
@@ -31181,7 +32626,7 @@ components:
           items:
             type: object
         type:
-          type: object
+          $ref: '#/components/schemas/StoreProductType'
         length:
           type: number
           title: length
@@ -31582,6 +33027,114 @@ components:
         - value
         - created_at
         - updated_at
+    StoreProductTagListResponse:
+      type: object
+      description: The paginated list of product tags.
+      x-schemaName: StoreProductTagListResponse
+      required:
+        - limit
+        - offset
+        - count
+        - product_tags
+      properties:
+        limit:
+          type: number
+          title: limit
+          description: The maximum number of items returned.
+        offset:
+          type: number
+          title: offset
+          description: The number of items to skip before retrieving the returned items.
+        count:
+          type: number
+          title: count
+          description: The total number of items available.
+        product_tags:
+          type: array
+          description: The list of product tags.
+          items:
+            $ref: '#/components/schemas/StoreProductTag'
+    StoreProductTagResponse:
+      type: object
+      description: The product tag's details.
+      x-schemaName: StoreProductTagResponse
+      required:
+        - product_tag
+      properties:
+        product_tag:
+          $ref: '#/components/schemas/StoreProductTag'
+    StoreProductType:
+      type: object
+      description: The product type's details.
+      x-schemaName: StoreProductType
+      required:
+        - id
+        - value
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: string
+          title: id
+          description: The product type's ID.
+        metadata:
+          type: object
+          description: The product type's metadata, can hold custom key-value pairs.
+        created_at:
+          type: string
+          format: date-time
+          title: created_at
+          description: The date the product type was created.
+        updated_at:
+          type: string
+          format: date-time
+          title: updated_at
+          description: The date the product type was updated.
+        deleted_at:
+          type: string
+          format: date-time
+          title: deleted_at
+          description: The date the product type was deleted.
+        value:
+          type: string
+          title: value
+          description: The type's value.
+    StoreProductTypeListResponse:
+      type: object
+      description: The paginated list of product types.
+      x-schemaName: StoreProductTypeListResponse
+      required:
+        - limit
+        - offset
+        - count
+        - product_types
+      properties:
+        limit:
+          type: number
+          title: limit
+          description: The maximum number of items returned.
+        offset:
+          type: number
+          title: offset
+          description: The number of items to skip before retrieving the returned items.
+        count:
+          type: number
+          title: count
+          description: The total number of items available.
+        product_types:
+          type: array
+          description: The list of product types.
+          items:
+            $ref: '#/components/schemas/StoreProductType'
+    StoreProductTypeResponse:
+      type: object
+      description: The product type's details.
+      x-schemaName: StoreProductTypeResponse
+      required:
+        - product_type
+      properties:
+        product_type:
+          $ref: '#/components/schemas/StoreProductType'
     StoreProductVariant:
       type: object
       description: The variant's details.

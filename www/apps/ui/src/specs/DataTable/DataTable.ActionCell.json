@@ -1,0 +1,23 @@
+{
+  "description": "",
+  "methods": [],
+  "displayName": "DataTable.ActionCell",
+  "props": {
+    "ctx": {
+      "required": true,
+      "tsType": {
+        "name": "CellContext",
+        "elements": [
+          {
+            "name": "TData"
+          },
+          {
+            "name": "unknown"
+          }
+        ],
+        "raw": "CellContext<TData, unknown>"
+      },
+      "description": ""
+    }
+  }
+}

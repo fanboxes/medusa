@@ -21,7 +21,7 @@ and retrieve their correct pricing after a cart update. This workflow is used by
 
 You can use this workflow within your own customizations or custom workflows, allowing you to refresh the cart's shipping method after making updates to the cart.
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/644c8b9d3022fb4bc4ec6760ee4fed93b92d1b96/packages/core/core-flows/src/cart/workflows/refresh-cart-shipping-methods.ts#L48" />
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/core/core-flows/src/cart/workflows/refresh-cart-shipping-methods.ts#L48" />
 
 ## Examples
 
@@ -149,9 +149,9 @@ This hook is executed before all operations. You can consume this hook to perfor
 #### Example
 
 ```ts
-import { addShippingMethodToCartWorkflow } from "@medusajs/medusa/core-flows"
+import { refreshCartShippingMethodsWorkflow } from "@medusajs/medusa/core-flows"
 
-addShippingMethodToCartWorkflow.hooks.validate(
+refreshCartShippingMethodsWorkflow.hooks.validate(
   (async ({ input, cart }, { container }) => {
     //TODO
   })
@@ -162,4 +162,4 @@ addShippingMethodToCartWorkflow.hooks.validate(
 
 Handlers consuming this hook accept the following input.
 
-<TypeList types={[{"name":"input","type":"object","description":"The input data for the hook.","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"input","type":"[AddShippingMethodToCartWorkflowInput](../../../../interfaces/core_flows.AddShippingMethodToCartWorkflowInput/page.mdx)","description":"The data to add a shipping method to a cart.","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"cart_id","type":"`string`","description":"The ID of the cart to add the shipping method to.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"options","type":"`object`[]","description":"The shipping options to create the shipping methods from and add to the cart.","optional":false,"defaultValue":"","expandable":false,"children":[]}]},{"name":"cart","type":"`any`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="validate"/>
+<TypeList types={[{"name":"input","type":"object","description":"The input data for the hook.","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"input","type":"[RefreshCartShippingMethodsWorkflowInput](../../../../types/core_flows.RefreshCartShippingMethodsWorkflowInput/page.mdx)","description":"The details of the cart to refresh.","optional":false,"defaultValue":"","expandable":false,"children":[{"name":"cart_id","type":"`string`","description":"The cart's ID.","optional":false,"defaultValue":"","expandable":false,"children":[]}]},{"name":"cart","type":"`any`","description":"","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" openedLevel={1} sectionTitle="validate"/>

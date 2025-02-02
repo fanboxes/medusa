@@ -79,10 +79,13 @@ export const ProductCreateForm = ({
       return {}
     }
 
-    return regions.reduce((acc, reg) => {
-      acc[reg.id] = reg.currency_code
-      return acc
-    }, {} as Record<string, string>)
+    return regions.reduce(
+      (acc, reg) => {
+        acc[reg.id] = reg.currency_code
+        return acc
+      },
+      {} as Record<string, string>
+    )
   }, [regions])
 
   /**
@@ -178,6 +181,15 @@ export const ProductCreateForm = ({
     }
 
     if (currentTab === Tab.ORGANIZE) {
+      // TODO: this is temp until we add partial validation per tab
+      if (!form.getValues("shipping_profile_id")) {
+        form.setError("shipping_profile_id", {
+          type: "required",
+          message: t("products.shippingProfile.create.errors.required"),
+        })
+        return
+      }
+
       setTab(Tab.VARIANTS)
     }
 
@@ -208,7 +220,8 @@ export const ProductCreateForm = ({
     }
 
     setTabState({ ...currentState })
-  }, [tab, tabState])
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- we only want this effect to run when the tab changes
+  }, [tab])
 
   return (
     <RouteFocusModal.Form form={form}>

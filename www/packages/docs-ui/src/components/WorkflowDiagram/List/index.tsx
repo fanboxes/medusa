@@ -8,6 +8,7 @@ import { WorkflowDiagramLegend } from "../Common/Legend"
 
 export const WorkflowDiagramList = ({
   workflow,
+  hideLegend = false,
 }: WorkflowDiagramCommonProps) => {
   const clusters = createNodeClusters(workflow.steps)
 
@@ -20,7 +21,7 @@ export const WorkflowDiagramList = ({
           <WorkflowDiagramListDepth cluster={cluster} next={next} key={depth} />
         )
       })}
-      <WorkflowDiagramLegend />
+      {!hideLegend && <WorkflowDiagramLegend />}
     </div>
   )
 }

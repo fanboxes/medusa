@@ -7,7 +7,7 @@ import {
 } from "@medusajs/icons"
 import { AdminProductCategoryResponse } from "@medusajs/types"
 import { Text, clx } from "@medusajs/ui"
-import * as Popover from "@radix-ui/react-popover"
+import { Popover as RadixPopover } from "radix-ui"
 import {
   CSSProperties,
   ComponentPropsWithoutRef,
@@ -239,8 +239,8 @@ export const CategoryCombobox = forwardRef<
   }
 
   return (
-    <Popover.Root open={open} onOpenChange={handleOpenChange}>
-      <Popover.Anchor
+    <RadixPopover.Root open={open} onOpenChange={handleOpenChange}>
+      <RadixPopover.Anchor
         asChild
         onClick={() => {
           if (!open) {
@@ -317,8 +317,8 @@ export const CategoryCombobox = forwardRef<
             <TrianglesMini className="text-ui-fg-muted" />
           </button>
         </div>
-      </Popover.Anchor>
-      <Popover.Content
+      </RadixPopover.Anchor>
+      <RadixPopover.Content
         sideOffset={4}
         role="listbox"
         className={clx(
@@ -454,8 +454,8 @@ export const CategoryCombobox = forwardRef<
             </div>
           )}
         </div>
-      </Popover.Content>
-    </Popover.Root>
+      </RadixPopover.Content>
+    </RadixPopover.Root>
   )
 })
 

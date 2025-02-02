@@ -18,9 +18,19 @@ medusaIntegrationTestRunner({
     let productCategoryChild2
     let productCategoryChild3
 
+    let shippingProfile
+
     beforeEach(async () => {
       const appContainer = getContainer()
       await createAdminUser(dbConnection, adminHeaders, appContainer)
+
+      shippingProfile = (
+        await api.post(
+          `/admin/shipping-profiles`,
+          { name: "default", type: "default" },
+          adminHeaders
+        )
+      ).data.shipping_profile
     })
 
     describe("GET /admin/product-categories/:id", () => {
@@ -1349,6 +1359,7 @@ medusaIntegrationTestRunner({
             title: "product 1",
             options: [{ title: "size", values: ["x", "l"] }],
             categories: [{ id: productCategory.id }],
+            shipping_profile_id: shippingProfile.id,
           },
           adminHeaders
         )
@@ -1358,6 +1369,7 @@ medusaIntegrationTestRunner({
           {
             title: "product 2",
             options: [{ title: "color", values: ["r", "g"] }],
+            shipping_profile_id: shippingProfile.id,
           },
           adminHeaders
         )

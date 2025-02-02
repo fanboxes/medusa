@@ -14,19 +14,6 @@ export class User {
     this.client = client
   }
 
-  async create(
-    body: HttpTypes.AdminCreateUser,
-    query?: HttpTypes.AdminUserParams,
-    headers?: ClientHeaders
-  ) {
-    return this.client.fetch<HttpTypes.AdminUserResponse>(`/admin/users`, {
-      method: "POST",
-      headers,
-      body,
-      query,
-    })
-  }
-
   async update(
     id: string,
     body: HttpTypes.AdminUpdateUser,

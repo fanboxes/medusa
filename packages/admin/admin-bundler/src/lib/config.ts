@@ -34,6 +34,8 @@ export async function getViteConfig(
         "react-router-dom",
         "@medusajs/ui",
         "@medusajs/dashboard",
+        "@medusajs/js-sdk",
+        "@tanstack/react-query",
       ],
       exclude: [...VIRTUAL_MODULES],
     },

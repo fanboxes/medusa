@@ -136,6 +136,11 @@ const normalizeProductForImport = (
       return
     }
 
+    if (normalizedKey.startsWith("shipping_profile_id")) {
+      response["shipping_profile_id"] = normalizedValue
+      return
+    }
+
     if (normalizedKey.startsWith("product_category_")) {
       response["categories"] = [
         ...(response["categories"] || []),

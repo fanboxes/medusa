@@ -1,3 +1,9 @@
+import { FetchError } from "@medusajs/js-sdk"
+import {
+  AdminSalesChannelListResponse,
+  AdminSalesChannelResponse,
+  HttpTypes,
+} from "@medusajs/types"
 import {
   QueryKey,
   UseMutationOptions,
@@ -5,16 +11,10 @@ import {
   useMutation,
   useQuery,
 } from "@tanstack/react-query"
-import {
-  AdminSalesChannelListResponse,
-  AdminSalesChannelResponse,
-  HttpTypes,
-} from "@medusajs/types"
 import { sdk } from "../../lib/client"
 import { queryClient } from "../../lib/query-client"
 import { queryKeysFactory } from "../../lib/query-key-factory"
 import { productsQueryKeys } from "./products"
-import { FetchError } from "@medusajs/js-sdk"
 
 const SALES_CHANNELS_QUERY_KEY = "sales-channels" as const
 export const salesChannelsQueryKeys = queryKeysFactory(SALES_CHANNELS_QUERY_KEY)

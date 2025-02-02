@@ -31,9 +31,18 @@ medusaIntegrationTestRunner({
 
     describe("Index engine", () => {
       it("should search through the indexed data and return the correct results ordered and filtered [1]", async () => {
+        const shippingProfile = (
+          await api.post(
+            `/admin/shipping-profiles`,
+            { name: "Test", type: "default" },
+            adminHeaders
+          )
+        ).data.shipping_profile
+
         const payload = {
           title: "Test Giftcard",
           is_giftcard: true,
+          shipping_profile_id: shippingProfile.id,
           description: "test-giftcard-description",
           options: [{ title: "Denominations", values: ["100"] }],
           variants: new Array(10).fill(0).map((_, i) => ({
@@ -101,10 +110,19 @@ medusaIntegrationTestRunner({
       })
 
       it("should search through the indexed data and return the correct results ordered and filtered [2]", async () => {
+        const shippingProfile = (
+          await api.post(
+            `/admin/shipping-profiles`,
+            { name: "Test", type: "default" },
+            adminHeaders
+          )
+        ).data.shipping_profile
+
         const payload = {
           title: "Test Giftcard",
           is_giftcard: true,
           description: "test-giftcard-description",
+          shipping_profile_id: shippingProfile.id,
           options: [{ title: "Denominations", values: ["100"] }],
           variants: new Array(10).fill(0).map((_, i) => ({
             title: `Test variant ${i}`,
@@ -171,9 +189,18 @@ medusaIntegrationTestRunner({
       })
 
       it.skip("should search through the indexed data and return the correct results ordered and filtered [3]", async () => {
+        const shippingProfile = (
+          await api.post(
+            `/admin/shipping-profiles`,
+            { name: "Test", type: "default" },
+            adminHeaders
+          )
+        ).data.shipping_profile
+
         const payloads = new Array(50).fill(0).map((_, a) => ({
           title: "Test Giftcard-" + a,
           is_giftcard: true,
+          shipping_profile_id: shippingProfile.id,
           description: "test-giftcard-description" + a,
           options: [{ title: "Denominations", values: ["100"] }],
           variants: new Array(10).fill(0).map((_, i) => ({

@@ -1,7 +1,7 @@
 import { EllipseMiniSolid } from "@medusajs/icons"
 import { DatePicker, Text, clx } from "@medusajs/ui"
-import * as Popover from "@radix-ui/react-popover"
 import isEqual from "lodash/isEqual"
+import { Popover as RadixPopover } from "radix-ui"
 import { useMemo, useState } from "react"
 
 import { t } from "i18next"
@@ -124,7 +124,7 @@ export const DateFilter = ({
   }
 
   return (
-    <Popover.Root modal open={open} onOpenChange={handleOpenChange}>
+    <RadixPopover.Root modal open={open} onOpenChange={handleOpenChange}>
       <FilterChip
         hadPreviousValue={!!previousValue}
         label={label}
@@ -133,8 +133,8 @@ export const DateFilter = ({
         readonly={readonly}
       />
       {!readonly && (
-        <Popover.Portal>
-          <Popover.Content
+        <RadixPopover.Portal>
+          <RadixPopover.Content
             data-name="date_filter_content"
             align="start"
             sideOffset={8}
@@ -238,10 +238,10 @@ export const DateFilter = ({
                 </div>
               </div>
             )}
-          </Popover.Content>
-        </Popover.Portal>
+          </RadixPopover.Content>
+        </RadixPopover.Portal>
       )}
-    </Popover.Root>
+    </RadixPopover.Root>
   )
 }
 

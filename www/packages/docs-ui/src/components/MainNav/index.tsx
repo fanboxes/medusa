@@ -7,6 +7,7 @@ import {
   Button,
   LinkButton,
   SearchModalOpener,
+  useLayout,
   useMainNav,
   useSidebar,
   useSiteConfig,
@@ -18,6 +19,7 @@ import { SidebarLeftIcon } from "../Icons/SidebarLeft"
 import { MainNavMobileMenu } from "./MobileMenu"
 import Link from "next/link"
 import { MainNavVersion } from "./Version"
+import { AiAssistantTriggerButton } from "../AiAssistant/TriggerButton"
 
 type MainNavProps = {
   className?: string
@@ -28,17 +30,18 @@ export const MainNav = ({ className, itemsClassName }: MainNavProps) => {
   const { editDate } = useMainNav()
   const { setMobileSidebarOpen, isSidebarShown } = useSidebar()
   const { config } = useSiteConfig()
+  const { showCollapsedNavbar } = useLayout()
 
   return (
     <div
-      className={clsx(
-        "flex justify-between items-center",
-        "px-docs_1 w-full z-20",
-        "sticky top-0 bg-medusa-bg-base",
-        className
-      )}
+      className={clsx("w-full z-20 sticky top-0 bg-medusa-bg-base", className)}
     >
-      <div className="flex items-center gap-docs_1">
+      <div
+        className={clsx(
+          "flex justify-between items-center px-docs_1 w-full gap-docs_1",
+          showCollapsedNavbar && "border-b border-medusa-border-base"
+        )}
+      >
         <div className="flex items-center gap-[10px]">
           {isSidebarShown && (
             <Button
@@ -53,32 +56,46 @@ export const MainNav = ({ className, itemsClassName }: MainNavProps) => {
             <BorderedIcon
               icon={config.logo}
               iconWrapperClassName="my-[14px]"
+              wrapperClassName="w-[20px] h-[20px]"
               iconWidth={20}
               iconHeight={20}
             />
           </Link>
         </div>
-        <MainNavItems className={itemsClassName} />
-      </div>
-      <div className="flex items-center gap-docs_0.75 my-docs_0.75">
-        <div className="lg:flex items-center gap-docs_0.5 text-medusa-fg-subtle hidden">
-          <MainNavVersion />
-          {editDate && <MainNavEditDate date={editDate} />}
-          <LinkButton
-            href={config.reportIssueLink || ""}
-            variant="subtle"
-            target="_blank"
-            className="text-compact-small-plus"
-          >
-            Report Issue
-          </LinkButton>
+        {!showCollapsedNavbar && (
+          <MainNavItems className={clsx("flex-grow", itemsClassName)} />
+        )}
+        <div
+          className={clsx(
+            "flex items-center gap-docs_0.75 my-docs_0.75",
+            showCollapsedNavbar && "flex-grow justify-between"
+          )}
+        >
+          <div className="lg:flex items-center gap-docs_0.5 text-medusa-fg-subtle hidden">
+            <MainNavVersion />
+            {editDate && <MainNavEditDate date={editDate} />}
+            <LinkButton
+              href={config.reportIssueLink || ""}
+              variant="subtle"
+              target="_blank"
+              className="text-compact-small-plus"
+            >
+              Report Issue
+            </LinkButton>
+          </div>
+          <div className="flex items-center gap-docs_0.25">
+            <AiAssistantTriggerButton />
+            <SearchModalOpener />
+            <MainNavDesktopMenu />
+            <MainNavMobileMenu />
+          </div>
         </div>
-        <div className="flex items-center gap-docs_0.25">
-          <SearchModalOpener />
-          <MainNavDesktopMenu />
-          <MainNavMobileMenu />
-        </div>
       </div>
+      {showCollapsedNavbar && (
+        <div className={clsx("border-b border-medusa-border-base px-docs_1")}>
+          <MainNavItems className={clsx("flex-wrap", itemsClassName)} />
+        </div>
+      )}
     </div>
   )
 }

@@ -23,6 +23,9 @@ interface DataTableTableProps {
   emptyState?: DataTableEmptyStateProps
 }
 
+/**
+ * This component renders the table in a data table, supporting advanced features.
+ */
 const DataTableTable = (props: DataTableTableProps) => {
   const [hoveredRowId, setHoveredRowId] = React.useState<string | null>(null)
   const isKeyDown = React.useRef(false)
@@ -254,6 +257,7 @@ const DataTableTable = (props: DataTableTableProps) => {
     </div>
   )
 }
+DataTableTable.displayName = "DataTable.Table"
 
 interface DataTableEmptyStateDisplayProps {
   state: DataTableEmptyState
