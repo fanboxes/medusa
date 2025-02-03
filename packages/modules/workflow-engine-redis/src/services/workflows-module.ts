@@ -15,10 +15,12 @@ import type {
   ReturnWorkflow,
   UnwrapWorkflowInputDataType,
 } from "@medusajs/framework/workflows-sdk"
+import { SqlEntityManager } from "@mikro-orm/postgresql"
 import { WorkflowExecution } from "@models"
 import { WorkflowOrchestratorService } from "@services"
 
 type InjectedDependencies = {
+  manager: SqlEntityManager
   baseRepository: DAL.RepositoryService
   workflowExecutionService: ModulesSdkTypes.IMedusaInternalService<any>
   workflowOrchestratorService: WorkflowOrchestratorService
@@ -36,9 +38,12 @@ export class WorkflowsModuleService<
   protected workflowExecutionService_: ModulesSdkTypes.IMedusaInternalService<TWorkflowExecution>
   protected workflowOrchestratorService_: WorkflowOrchestratorService
   protected redisDisconnectHandler_: () => Promise<void>
+  protected manager_: SqlEntityManager
+  private clearTimeout_: NodeJS.Timeout
 
   constructor(
     {
+      manager,
       baseRepository,
       workflowExecutionService,
       workflowOrchestratorService,
@@ -49,6 +54,7 @@ export class WorkflowsModuleService<
     // @ts-ignore
     super(...arguments)
 
+    this.manager_ = manager
     this.baseRepository_ = baseRepository
     this.workflowExecutionService_ = workflowExecutionService
     this.workflowOrchestratorService_ = workflowOrchestratorService
@@ -59,12 +65,18 @@ export class WorkflowsModuleService<
     onApplicationShutdown: async () => {
       await this.workflowOrchestratorService_.onApplicationShutdown()
       await this.redisDisconnectHandler_()
+      clearInterval(this.clearTimeout_)
     },
     onApplicationPrepareShutdown: async () => {
       await this.workflowOrchestratorService_.onApplicationPrepareShutdown()
     },
     onApplicationStart: async () => {
       await this.workflowOrchestratorService_.onApplicationStart()
+
+      await this.clearExpiredExecutions()
+      this.clearTimeout_ = setInterval(async () => {
+        await this.clearExpiredExecutions()
+      }, 1000 * 60 * 60)
     },
   }
 
@@ -169,5 +181,13 @@ export class WorkflowsModuleService<
     @MedusaContext() context: Context = {}
   ) {
     return this.workflowOrchestratorService_.unsubscribe(args as any, context)
+  }
+
+  private async clearExpiredExecutions() {
+    return this.manager_.execute(`
+      DELETE FROM workflow_execution
+      WHERE retention_time IS NOT NULL AND
+      updated_at <= (CURRENT_TIMESTAMP - INTERVAL '1 second' * retention_time);
+    `)
   }
 }

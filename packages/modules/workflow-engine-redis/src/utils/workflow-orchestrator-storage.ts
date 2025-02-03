@@ -105,7 +105,7 @@ export class RedisDistributedTransactionStorage
     this.workflowOrchestratorService_ = workflowOrchestratorService
   }
 
-  private async saveToDb(data: TransactionCheckpoint) {
+  private async saveToDb(data: TransactionCheckpoint, retentionTime?: number) {
     await this.workflowExecutionService_.upsert([
       {
         workflow_id: data.flow.modelId,
@@ -116,6 +116,7 @@ export class RedisDistributedTransactionStorage
           errors: data.errors,
         },
         state: data.flow.state,
+        retention_time: retentionTime,
       },
     ])
   }
@@ -251,7 +252,7 @@ export class RedisDistributedTransactionStorage
     if (hasFinished && !retentionTime && !idempotent) {
       await this.deleteFromDb(data)
     } else {
-      await this.saveToDb(data)
+      await this.saveToDb(data, retentionTime)
     }
 
     if (hasFinished) {

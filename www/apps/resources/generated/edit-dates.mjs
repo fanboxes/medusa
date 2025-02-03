@@ -102,7 +102,7 @@ export const generatedEditDates = {
   "app/contribution-guidelines/docs/page.mdx": "2024-12-12T11:06:12.250Z",
   "app/create-medusa-app/page.mdx": "2025-01-16T10:00:25.975Z",
   "app/deployment/admin/vercel/page.mdx": "2024-10-16T08:10:29.377Z",
-  "app/deployment/medusa-application/railway/page.mdx": "2024-11-11T11:50:10.517Z",
+  "app/deployment/medusa-application/railway/page.mdx": "2025-02-03T09:51:08.102Z",
   "app/deployment/storefront/vercel/page.mdx": "2025-01-06T12:19:31.142Z",
   "app/deployment/page.mdx": "2024-11-25T14:31:45.277Z",
   "app/integrations/page.mdx": "2024-12-16T16:46:12.395Z",

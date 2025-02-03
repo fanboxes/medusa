@@ -849,4 +849,151 @@ describe("RemoteJoiner", () => {
       "order: Primary key(s) [id] not found in filters"
     )
   })
+
+  it("Should merge initial data with data fetched", async () => {
+    const query = RemoteJoiner.parseQuery(`
+      query {
+        order {
+          id
+          number
+          products {
+            product {
+              handler
+              user {
+                name
+              }
+            }
+          }
+        }
+      }
+    `)
+
+    const initialData = [
+      {
+        id: 201,
+        extra_field: "extra",
+        metadata: {
+          some: "data",
+        },
+        products: [
+          {
+            product_id: 101,
+            color: "red",
+            product: {
+              id: 101,
+              product_extra_field: "extra 101 - red",
+            },
+          },
+          {
+            product_id: 101,
+            color: "green",
+            product: {
+              id: 101,
+              product_extra_field: "extra 101 - green",
+            },
+          },
+        ],
+      },
+      {
+        id: 205,
+        extra_field: "extra",
+        products: [
+          {
+            product_id: [101, 103],
+            product: [
+              {
+                id: 101,
+                color: "blue",
+                product_extra_field: "extra 101 - blue",
+              },
+              {
+                id: 103,
+                color: "yellow",
+                product_extra_field: "extra 101 - yellow",
+              },
+            ],
+          },
+        ],
+      },
+    ]
+
+    const data = await joiner.query(query, {
+      initialData,
+    })
+
+    expect(data).toEqual([
+      {
+        id: 201,
+        number: "ORD-001",
+        products: [
+          {
+            product_id: 101,
+            color: "red",
+            product: {
+              id: 101,
+              product_extra_field: "extra 101 - red",
+              handler: "product-1-handler",
+              user_id: 2,
+              user: {
+                name: "Jane Doe",
+                id: 2,
+              },
+            },
+          },
+          {
+            product_id: 101,
+            color: "green",
+            product: {
+              id: 101,
+              product_extra_field: "extra 101 - green",
+              handler: "product-1-handler",
+              user_id: 2,
+              user: {
+                name: "Jane Doe",
+                id: 2,
+              },
+            },
+          },
+        ],
+        extra_field: "extra",
+        metadata: {
+          some: "data",
+        },
+      },
+      {
+        id: 205,
+        number: "ORD-202",
+        products: [
+          {
+            product_id: [101, 103],
+            product: [
+              {
+                id: 101,
+                color: "blue",
+                product_extra_field: "extra 101 - blue",
+                handler: "product-1-handler",
+                user_id: 2,
+                user: {
+                  name: "Jane Doe",
+                  id: 2,
+                },
+              },
+              {
+                id: 103,
+                color: "yellow",
+                product_extra_field: "extra 101 - yellow",
+                handler: "product-3-handler",
+                user_id: 3,
+                user: {
+                  name: "aaa bbb",
+                  id: 3,
+                },
+              },
+            ],
+          },
+        ],
+        extra_field: "extra",
+      },
+    ])
+  })
 })

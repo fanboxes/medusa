@@ -3,7 +3,6 @@ import {
   DAL,
   InferEntityType,
   InternalModuleDeclaration,
-  MedusaContainer,
   ModulesSdkTypes,
   WorkflowsSdkTypes,
 } from "@medusajs/framework/types"
@@ -16,10 +15,12 @@ import type {
   ReturnWorkflow,
   UnwrapWorkflowInputDataType,
 } from "@medusajs/framework/workflows-sdk"
+import { SqlEntityManager } from "@mikro-orm/postgresql"
 import { WorkflowExecution } from "@models"
 import { WorkflowOrchestratorService } from "@services"
 
 type InjectedDependencies = {
+  manager: SqlEntityManager
   baseRepository: DAL.RepositoryService
   workflowExecutionService: ModulesSdkTypes.IMedusaInternalService<any>
   workflowOrchestratorService: WorkflowOrchestratorService
@@ -35,10 +36,12 @@ export class WorkflowsModuleService<
   protected baseRepository_: DAL.RepositoryService
   protected workflowExecutionService_: ModulesSdkTypes.IMedusaInternalService<TWorkflowExecution>
   protected workflowOrchestratorService_: WorkflowOrchestratorService
-  protected container_: MedusaContainer
+  protected manager_: SqlEntityManager
+  private clearTimeout_: NodeJS.Timeout
 
   constructor(
     {
+      manager,
       baseRepository,
       workflowExecutionService,
       workflowOrchestratorService,
@@ -48,9 +51,23 @@ export class WorkflowsModuleService<
     // @ts-ignore
     super(...arguments)
 
+    this.manager_ = manager
     this.baseRepository_ = baseRepository
     this.workflowExecutionService_ = workflowExecutionService
     this.workflowOrchestratorService_ = workflowOrchestratorService
+  }
+
+  __hooks = {
+    onApplicationStart: async () => {
+      await this.clearExpiredExecutions()
+
+      this.clearTimeout_ = setInterval(async () => {
+        await this.clearExpiredExecutions()
+      }, 1000 * 60 * 60)
+    },
+    onApplicationShutdown: async () => {
+      clearInterval(this.clearTimeout_)
+    },
   }
 
   @InjectSharedContext()
@@ -154,5 +171,13 @@ export class WorkflowsModuleService<
     @MedusaContext() context: Context = {}
   ) {
     return this.workflowOrchestratorService_.unsubscribe(args as any, context)
+  }
+
+  private async clearExpiredExecutions() {
+    return this.manager_.execute(`
+      DELETE FROM workflow_execution
+      WHERE retention_time IS NOT NULL AND
+      updated_at <= (CURRENT_TIMESTAMP - INTERVAL '1 second' * retention_time);
+    `)
   }
 }

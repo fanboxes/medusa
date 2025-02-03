@@ -9,6 +9,7 @@ export const WorkflowExecution = model
     execution: model.json().nullable(),
     context: model.json().nullable(),
     state: model.enum(TransactionState),
+    retention_time: model.number().nullable(),
   })
   .indexes([
     {

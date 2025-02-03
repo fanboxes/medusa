@@ -341,7 +341,9 @@ moduleIntegrationTestRunner<IWorkflowEngineService>({
         })
 
         it("should execute a scheduled workflow", async () => {
-          const spy = createScheduled("standard")
+          const spy = createScheduled("standard", {
+            cron: "0 0 * * * *", // Jest issue: clearExpiredExecutions runs every hour, this is scheduled to run every hour to match the number of calls
+          })
 
           await jest.runOnlyPendingTimersAsync()
           expect(spy).toHaveBeenCalledTimes(1)
