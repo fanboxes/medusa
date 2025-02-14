@@ -22,6 +22,11 @@ export const productSidebar = [
         children: [
           {
             type: "link",
+            path: "/commerce-modules/product/variant-inventory",
+            title: "Variant Inventory",
+          },
+          {
+            type: "link",
             path: "/commerce-modules/product/links-to-other-modules",
             title: "Links to Other Modules",
           },

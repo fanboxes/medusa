@@ -1,8 +1,5 @@
-import { ExpressionJsVar, ExpressionJsVarLiteral } from "../types/index.js"
-import {
-  isExpressionJsVarLiteral,
-  isExpressionJsVarObj,
-} from "./expression-is-utils.js"
+import { ExpressionJsVar, ExpressionJsVarLiteral } from "types"
+import { isExpressionJsVarLiteral, isExpressionJsVarObj } from "docs-utils"
 
 export const performActionOnLiteral = (
   item: ExpressionJsVar[] | ExpressionJsVar,

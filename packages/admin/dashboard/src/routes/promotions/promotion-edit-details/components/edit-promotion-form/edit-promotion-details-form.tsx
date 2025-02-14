@@ -233,6 +233,9 @@ export const EditPromotionDetailsForm = ({
               control={form.control}
               name="value"
               render={({ field: { onChange, ...field } }) => {
+                const currencyCode =
+                  promotion.application_method?.currency_code ?? "USD"
+
                 return (
                   <Form.Item>
                     <Form.Label>
@@ -247,8 +250,8 @@ export const EditPromotionDetailsForm = ({
                           onValueChange={(val) =>
                             onChange(val ? parseInt(val) : null)
                           }
-                          code={"USD"}
-                          symbol={getCurrencySymbol("USD")}
+                          code={currencyCode}
+                          symbol={getCurrencySymbol(currencyCode)}
                           {...field}
                           value={field.value}
                         />

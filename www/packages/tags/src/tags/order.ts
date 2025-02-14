@@ -4,6 +4,10 @@ export const order = [
     "path": "/storefront-development/checkout/complete-cart"
   },
   {
+    "title": "Implement Express Checkout with Medusa",
+    "path": "/storefront-development/guides/express-checkout"
+  },
+  {
     "title": "completeCartWorkflow",
     "path": "/references/medusa-workflows/completeCartWorkflow"
   },
@@ -134,10 +138,6 @@ export const order = [
   {
     "title": "updateOrderChangesStep",
     "path": "/references/medusa-workflows/steps/updateOrderChangesStep"
-  },
-  {
-    "title": "updateOrderExchangesStep",
-    "path": "/references/medusa-workflows/steps/updateOrderExchangesStep"
   },
   {
     "title": "updateOrderShippingMethodsStep",

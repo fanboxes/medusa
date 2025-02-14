@@ -1,10 +1,9 @@
 import path from "path"
 import { Transformer } from "unified"
-import { UnistNodeWithData, UnistTree } from "../types/index.js"
+import { UnistNodeWithData, UnistTree, ComponentLinkFixerOptions } from "types"
 import { FixLinkOptions, fixLinkUtil } from "../index.js"
 import getAttribute from "../utils/get-attribute.js"
-import { estreeToJs } from "../utils/estree-to-js.js"
-import { ComponentLinkFixerOptions } from "../types/index.js"
+import { estreeToJs } from "docs-utils"
 import { performActionOnLiteral } from "./perform-action-on-literal.js"
 import { MD_LINK_REGEX } from "../constants.js"
 

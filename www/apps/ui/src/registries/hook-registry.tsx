@@ -1,5 +1,8 @@
-import { HookRegistryItem } from "@/types/hooks"
 import * as React from "react"
+
+export type HookRegistryItem = {
+  table: React.LazyExoticComponent<React.ComponentType>
+}
 
 export const HookRegistry: Record<string, HookRegistryItem> = {
   usePrompt: {

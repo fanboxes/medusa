@@ -8,6 +8,14 @@ export const locking = [
     "path": "/references/medusa-workflows/completeCartWorkflow"
   },
   {
+    "title": "adjustInventoryLevelsStep",
+    "path": "/references/medusa-workflows/steps/adjustInventoryLevelsStep"
+  },
+  {
+    "title": "cancelOrderFulfillmentWorkflow",
+    "path": "/references/medusa-workflows/cancelOrderFulfillmentWorkflow"
+  },
+  {
     "title": "confirmClaimRequestWorkflow",
     "path": "/references/medusa-workflows/confirmClaimRequestWorkflow"
   },
@@ -18,6 +26,14 @@ export const locking = [
   {
     "title": "confirmOrderEditRequestWorkflow",
     "path": "/references/medusa-workflows/confirmOrderEditRequestWorkflow"
+  },
+  {
+    "title": "confirmReturnReceiveWorkflow",
+    "path": "/references/medusa-workflows/confirmReturnReceiveWorkflow"
+  },
+  {
+    "title": "createOrderFulfillmentWorkflow",
+    "path": "/references/medusa-workflows/createOrderFulfillmentWorkflow"
   },
   {
     "title": "createReservationsStep",

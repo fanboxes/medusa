@@ -47,7 +47,7 @@ export class InMemoryDistributedTransactionStorage
     this.workflowOrchestratorService_ = workflowOrchestratorService
   }
 
-  private async saveToDb(data: TransactionCheckpoint) {
+  private async saveToDb(data: TransactionCheckpoint, retentionTime?: number) {
     await this.workflowExecutionService_.upsert([
       {
         workflow_id: data.flow.modelId,
@@ -58,6 +58,7 @@ export class InMemoryDistributedTransactionStorage
           errors: data.errors,
         },
         state: data.flow.state,
+        retention_time: retentionTime,
       },
     ])
   }
@@ -143,7 +144,7 @@ export class InMemoryDistributedTransactionStorage
     if (hasFinished && !retentionTime && !idempotent) {
       await this.deleteFromDb(data)
     } else {
-      await this.saveToDb(data)
+      await this.saveToDb(data, retentionTime)
     }
 
     if (hasFinished) {

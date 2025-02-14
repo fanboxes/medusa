@@ -1,0 +1,84 @@
+---
+title: "Product Variant Inventory"
+tags:
+    - concept
+    - inventory
+    - stock location
+    - sales channel
+---
+
+export const metadata = {
+  title: `Product Variant Inventory`,
+}
+
+# {metadata.title}
+
+In this guide, you'll learn about the inventory management features related to product variants.
+
+## Configure Inventory Management of Product Variants
+
+A product variant, represented by the [ProductVariant](/references/product/models/ProductVariant) data model, has a `manage_inventory` field that's disabled by default. This field indicates whether you'll manage the inventory quantity of the product variant.
+
+The Product Module doesn't provide inventory-management features. Instead, the Medusa application uses the [Inventory Module](../../inventory/page.mdx) to manage inventory for products and variants. When `manage_inventory` is disabled, the Medusa application always considers the product variant to be in stock. This is useful if your product's variants aren't items that can be stocked, such as digital products, or they don't have a limited stock quantity.
+
+When `manage_inventory` is enabled, the Medusa application tracks the inventory of the product variant using the [Inventory Module](../../inventory/page.mdx). For example, when a customer purchases a product variant, the Medusa application decrements the stocked quantity of the product variant.
+
+---
+
+## How the Medusa Application Manages Inventory
+
+When a product variant has `manage_inventory` enabled, the Medusa application creates an inventory item using the [Inventory Module](../../inventory/page.mdx) and links it to the product variant.
+
+![Diagram showcasing the link between a product variant and its inventory item](https://res.cloudinary.com/dza7lstvk/image/upload/v1709652779/Medusa%20Resources/product-inventory_kmjnud.jpg)
+
+The inventory item has one or more locations, called inventory levels, that represent the stock quantity of the product variant at a specific location. This allows you to manage inventory across multiple warehouses, such as a warehouse in the US and another in Europe.
+
+![Diagram showcasing the link between a variant and its inventory item, and the inventory item's level.](https://res.cloudinary.com/dza7lstvk/image/upload/v1738580390/Medusa%20Resources/variant-inventory-level_bbee2t.jpg)
+
+<Note title="Tip">
+
+Learn more about inventory concepts in the [Inventory Module's documentation](../../inventory/concepts/page.mdx).
+
+</Note>
+
+The Medusa application represents and manages stock locations using the [Stock Location Module](../../stock-location/page.mdx). It creates a read-only link between the `InventoryLevel` and `StockLocation` data models so that it can retrieve the stock location of an inventory level.
+
+![Diagram showcasing the read-only link between an inventory level and a stock location](https://res.cloudinary.com/dza7lstvk/image/upload/v1738582163/Medusa%20Resources/inventory-level-stock_amxfg5.jpg)
+
+<Note title="Tip">
+
+Learn more about the Stock Location Module in the [Stock Location Module's documentation](../../stock-location/concepts/page.mdx).
+
+</Note>
+
+### Product Inventory in Storefronts
+
+When a storefront sends a request to the Medusa application, it must always pass a [publishable API key](../../sales-channel/publishable-api-keys/page.mdx) in the request header. This API key specifies the sales channels, available through the [Sales Channel Module](../../sales-channel/page.mdx), of the storefront.
+
+The Medusa application links sales channels to stock locations, indicating the locations available for a specific sales channel. So, all inventory-related operations are scoped by the sales channel and its associated stock locations.
+
+For example, the availability of a product variant is determined by the `stocked_quantity` of its inventory level at the stock location linked to the storefront's sales channel.
+
+![Diagram showcasing the overall relations between inventory, stock location, and sales channel concepts](https://res.cloudinary.com/dza7lstvk/image/upload/v1738582163/Medusa%20Resources/inventory-stock-sales_fknoxw.jpg)
+
+---
+
+## Variant Back Orders
+
+Product variants have an `allow_backorder` field that's disabled by default. When enabled, the Medusa application allows customers to purchase the product variant even when it's out of stock. Use this when your product variant is available through on-demand or pre-order purchase.
+
+<Note title="Tip">
+
+You can also allow customers to subscribe to restock notifications of a product variant as explained in [this guide](../../../recipes/commerce-automation/restock-notification/page.mdx).
+
+</Note>
+
+---
+
+## Additional Resources
+
+The following guides provide more details on inventory management in the Medusa application:
+
+- [Inventory Kits in the Inventory Module](../../inventory/inventory-kit/page.mdx): Learn how you can implement bundled or multi-part products through the Inventory Module.
+- [Inventory in Flows](../../inventory/inventory-in-flows/page.mdx): Learn how Medusa utilizes inventory management in different flows.
+- [Storefront guide: how to retrieve a product variant's inventory details](https://docs.medusajs.com/resources/storefront-development/products/inventory).

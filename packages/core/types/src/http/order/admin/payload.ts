@@ -11,6 +11,10 @@ export interface AdminUpdateOrder {
    * The order's billing address.
    */
   billing_address?: OrderAddress
+  /**
+   * The order's metadata.
+   */
+  metadata?: Record<string, unknown> | null
 }
 
 export interface AdminCreateOrderFulfillment {

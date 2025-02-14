@@ -1,11 +1,11 @@
 import { z } from "zod"
+import { AddressPayload } from "../../utils/common-validators"
 import {
   createFindParams,
   createOperatorMap,
   createSelectParams,
   WithAdditionalData,
 } from "../../utils/validators"
-import { AddressPayload } from "../../utils/common-validators"
 
 export const AdminGetOrdersOrderParams = createSelectParams().merge(
   z.object({
@@ -144,4 +144,5 @@ export const AdminUpdateOrder = z.object({
   email: z.string().optional(),
   shipping_address: AddressPayload.optional(),
   billing_address: AddressPayload.optional(),
+  metadata: z.record(z.unknown()).nullish(),
 })

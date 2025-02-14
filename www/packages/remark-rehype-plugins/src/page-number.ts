@@ -1,7 +1,7 @@
 import path from "path"
 import type { Transformer } from "unified"
 import type { RawSidebarItem } from "types"
-import type { UnistTree } from "./types/index.js"
+import type { UnistTree } from "types"
 
 export function pageNumberRehypePlugin({
   sidebar,

@@ -13,7 +13,77 @@ export const generatedSidebar = [
     "type": "link",
     "path": "/examples",
     "title": "Examples",
-    "children": []
+    "isChildSidebar": true,
+    "children": [
+      {
+        "loaded": true,
+        "isPathHref": true,
+        "type": "ref",
+        "path": "/examples",
+        "title": "Example Snippets",
+        "children": []
+      },
+      {
+        "loaded": true,
+        "isPathHref": true,
+        "type": "ref",
+        "path": "/recipes",
+        "title": "Recipes",
+        "children": []
+      },
+      {
+        "loaded": true,
+        "isPathHref": true,
+        "type": "ref",
+        "path": "/plugins",
+        "title": "Plugins",
+        "children": []
+      },
+      {
+        "loaded": true,
+        "isPathHref": true,
+        "type": "ref",
+        "path": "/integrations",
+        "title": "Integrations",
+        "children": []
+      },
+      {
+        "loaded": true,
+        "isPathHref": true,
+        "type": "category",
+        "title": "Server Examples",
+        "autogenerate_tags": "example+server",
+        "autogenerate_as_ref": true,
+        "children": [
+          {
+            "loaded": true,
+            "isPathHref": true,
+            "type": "link",
+            "title": "Custom Item Price",
+            "path": "/examples/guides/custom-item-price",
+            "children": []
+          }
+        ]
+      },
+      {
+        "loaded": true,
+        "isPathHref": true,
+        "type": "category",
+        "title": "Storefront Examples",
+        "autogenerate_tags": "example+storefront",
+        "autogenerate_as_ref": true,
+        "children": [
+          {
+            "loaded": true,
+            "isPathHref": true,
+            "type": "ref",
+            "title": "Implement Express Checkout with Medusa",
+            "path": "/storefront-development/guides/express-checkout",
+            "children": []
+          }
+        ]
+      }
+    ]
   },
   {
     "loaded": true,
@@ -1153,6 +1223,14 @@ export const generatedSidebar = [
                 "path": "/commerce-modules/cart/extend",
                 "title": "Extend Module",
                 "children": []
+              },
+              {
+                "loaded": true,
+                "isPathHref": true,
+                "type": "ref",
+                "title": "Implement Custom Line Item Pricing in Medusa",
+                "path": "/examples/guides/custom-item-price",
+                "children": []
               }
             ]
           },
@@ -1210,7 +1288,7 @@ export const generatedSidebar = [
                 "loaded": true,
                 "isPathHref": true,
                 "type": "ref",
-                "title": "Checkout Step 2: Enter Address",
+                "title": "Checkout Step 2: Set Address",
                 "path": "/storefront-development/checkout/address",
                 "children": []
               },
@@ -1527,6 +1605,14 @@ export const generatedSidebar = [
                     "description": "The following methods or properties are used to send requests to Store API Routes related to the Cart Module.",
                     "autogenerate_as_ref": true,
                     "children": [
+                      {
+                        "loaded": true,
+                        "isPathHref": true,
+                        "type": "ref",
+                        "title": "Implement Express Checkout with Medusa",
+                        "path": "/storefront-development/guides/express-checkout",
+                        "children": []
+                      },
                       {
                         "loaded": true,
                         "isPathHref": true,
@@ -3530,6 +3616,14 @@ export const generatedSidebar = [
                         "loaded": true,
                         "isPathHref": true,
                         "type": "ref",
+                        "title": "importProductsWorkflow",
+                        "path": "/references/medusa-workflows/importProductsWorkflow",
+                        "children": []
+                      },
+                      {
+                        "loaded": true,
+                        "isPathHref": true,
+                        "type": "ref",
                         "title": "deleteShippingProfileWorkflow",
                         "path": "/references/medusa-workflows/deleteShippingProfileWorkflow",
                         "children": []
@@ -3724,6 +3818,14 @@ export const generatedSidebar = [
                         "loaded": true,
                         "isPathHref": true,
                         "type": "ref",
+                        "title": "parseProductCsvStep",
+                        "path": "/references/medusa-workflows/steps/parseProductCsvStep",
+                        "children": []
+                      },
+                      {
+                        "loaded": true,
+                        "isPathHref": true,
+                        "type": "ref",
                         "title": "deleteShippingProfilesStep",
                         "path": "/references/medusa-workflows/steps/deleteShippingProfilesStep",
                         "children": []
@@ -3749,6 +3851,14 @@ export const generatedSidebar = [
                     "description": "The following methods or properties are used to send requests to Store API Routes related to the Fulfillment Module.",
                     "autogenerate_as_ref": true,
                     "children": [
+                      {
+                        "loaded": true,
+                        "isPathHref": true,
+                        "type": "ref",
+                        "title": "Implement Express Checkout with Medusa",
+                        "path": "/storefront-development/guides/express-checkout",
+                        "children": []
+                      },
                       {
                         "loaded": true,
                         "isPathHref": true,
@@ -4626,6 +4736,8 @@ export const generatedSidebar = [
             "type": "category",
             "title": "Concepts",
             "initialOpen": false,
+            "autogenerate_tags": "concept+inventory",
+            "autogenerate_as_ref": true,
             "children": [
               {
                 "loaded": true,
@@ -4657,6 +4769,14 @@ export const generatedSidebar = [
                 "type": "link",
                 "path": "/commerce-modules/inventory/links-to-other-modules",
                 "title": "Links to Modules",
+                "children": []
+              },
+              {
+                "loaded": true,
+                "isPathHref": true,
+                "type": "ref",
+                "title": "Product Variant Inventory",
+                "path": "/commerce-modules/product/variant-inventory",
                 "children": []
               }
             ]
@@ -6651,14 +6771,6 @@ export const generatedSidebar = [
                         "loaded": true,
                         "isPathHref": true,
                         "type": "ref",
-                        "title": "updateOrderExchangesStep",
-                        "path": "/references/medusa-workflows/steps/updateOrderExchangesStep",
-                        "children": []
-                      },
-                      {
-                        "loaded": true,
-                        "isPathHref": true,
-                        "type": "ref",
                         "title": "updateOrderShippingMethodsStep",
                         "path": "/references/medusa-workflows/steps/updateOrderShippingMethodsStep",
                         "children": []
@@ -6716,6 +6828,14 @@ export const generatedSidebar = [
                     "description": "The following methods or properties are used to send requests to Store API Routes related to the Order Module.",
                     "autogenerate_as_ref": true,
                     "children": [
+                      {
+                        "loaded": true,
+                        "isPathHref": true,
+                        "type": "ref",
+                        "title": "Implement Express Checkout with Medusa",
+                        "path": "/storefront-development/guides/express-checkout",
+                        "children": []
+                      },
                       {
                         "loaded": true,
                         "isPathHref": true,
@@ -8311,6 +8431,14 @@ export const generatedSidebar = [
                 "loaded": true,
                 "isPathHref": true,
                 "type": "link",
+                "path": "/commerce-modules/payment/account-holder",
+                "title": "Account Holder",
+                "children": []
+              },
+              {
+                "loaded": true,
+                "isPathHref": true,
+                "type": "link",
                 "path": "/commerce-modules/payment/webhook-events",
                 "title": "Webhook Events",
                 "children": []
@@ -8748,6 +8876,14 @@ export const generatedSidebar = [
                         "loaded": true,
                         "isPathHref": true,
                         "type": "ref",
+                        "title": "createPaymentAccountHolderStep",
+                        "path": "/references/medusa-workflows/steps/createPaymentAccountHolderStep",
+                        "children": []
+                      },
+                      {
+                        "loaded": true,
+                        "isPathHref": true,
+                        "type": "ref",
                         "title": "createPaymentSessionStep",
                         "path": "/references/medusa-workflows/steps/createPaymentSessionStep",
                         "children": []
@@ -8821,6 +8957,14 @@ export const generatedSidebar = [
                     "description": "The following methods or properties are used to send requests to Store API Routes related to the Payment Module.",
                     "autogenerate_as_ref": true,
                     "children": [
+                      {
+                        "loaded": true,
+                        "isPathHref": true,
+                        "type": "ref",
+                        "title": "Implement Express Checkout with Medusa",
+                        "path": "/storefront-development/guides/express-checkout",
+                        "children": []
+                      },
                       {
                         "loaded": true,
                         "isPathHref": true,
@@ -8924,8 +9068,26 @@ export const generatedSidebar = [
                         "loaded": true,
                         "isPathHref": true,
                         "type": "link",
+                        "path": "/references/payment/createAccountHolder",
+                        "title": "createAccountHolder",
+                        "description": "",
+                        "children": []
+                      },
+                      {
+                        "loaded": true,
+                        "isPathHref": true,
+                        "type": "link",
                         "path": "/references/payment/createPaymentCollections",
                         "title": "createPaymentCollections",
+                        "description": "",
+                        "children": []
+                      },
+                      {
+                        "loaded": true,
+                        "isPathHref": true,
+                        "type": "link",
+                        "path": "/references/payment/createPaymentMethods",
+                        "title": "createPaymentMethods",
                         "description": "",
                         "children": []
                       },
@@ -8944,6 +9106,24 @@ export const generatedSidebar = [
                         "type": "link",
                         "path": "/references/payment/createRefundReasons",
                         "title": "createRefundReasons",
+                        "description": "",
+                        "children": []
+                      },
+                      {
+                        "loaded": true,
+                        "isPathHref": true,
+                        "type": "link",
+                        "path": "/references/payment/deleteAccountHolder",
+                        "title": "deleteAccountHolder",
+                        "description": "",
+                        "children": []
+                      },
+                      {
+                        "loaded": true,
+                        "isPathHref": true,
+                        "type": "link",
+                        "path": "/references/payment/deleteCaptures",
+                        "title": "deleteCaptures",
                         "description": "",
                         "children": []
                       },
@@ -8971,6 +9151,15 @@ export const generatedSidebar = [
                         "type": "link",
                         "path": "/references/payment/deleteRefundReasons",
                         "title": "deleteRefundReasons",
+                        "description": "",
+                        "children": []
+                      },
+                      {
+                        "loaded": true,
+                        "isPathHref": true,
+                        "type": "link",
+                        "path": "/references/payment/deleteRefunds",
+                        "title": "deleteRefunds",
                         "description": "",
                         "children": []
                       },
@@ -9214,6 +9403,15 @@ export const generatedSidebar = [
                         "loaded": true,
                         "isPathHref": true,
                         "type": "link",
+                        "path": "/references/payment/models/AccountHolder",
+                        "title": "AccountHolder",
+                        "description": "",
+                        "children": []
+                      },
+                      {
+                        "loaded": true,
+                        "isPathHref": true,
+                        "type": "link",
                         "path": "/references/payment/models/Capture",
                         "title": "Capture",
                         "description": "",
@@ -9234,15 +9432,6 @@ export const generatedSidebar = [
                         "type": "link",
                         "path": "/references/payment/models/PaymentCollection",
                         "title": "PaymentCollection",
-                        "description": "",
-                        "children": []
-                      },
-                      {
-                        "loaded": true,
-                        "isPathHref": true,
-                        "type": "link",
-                        "path": "/references/payment/models/PaymentMethodToken",
-                        "title": "PaymentMethodToken",
                         "description": "",
                         "children": []
                       },
@@ -9381,6 +9570,14 @@ export const generatedSidebar = [
                 "type": "ref",
                 "title": "Get Variant Price with Taxes",
                 "path": "/commerce-modules/product/guides/price-with-taxes",
+                "children": []
+              },
+              {
+                "loaded": true,
+                "isPathHref": true,
+                "type": "ref",
+                "title": "Implement Custom Line Item Pricing in Medusa",
+                "path": "/examples/guides/custom-item-price",
                 "children": []
               }
             ]
@@ -10342,6 +10539,14 @@ export const generatedSidebar = [
                 "loaded": true,
                 "isPathHref": true,
                 "type": "link",
+                "path": "/commerce-modules/product/variant-inventory",
+                "title": "Variant Inventory",
+                "children": []
+              },
+              {
+                "loaded": true,
+                "isPathHref": true,
+                "type": "link",
                 "path": "/commerce-modules/product/links-to-other-modules",
                 "title": "Links to Other Modules",
                 "children": []
@@ -10995,6 +11200,14 @@ export const generatedSidebar = [
                     "description": "The following methods or properties are used to send requests to Store API Routes related to the Product Module.",
                     "autogenerate_as_ref": true,
                     "children": [
+                      {
+                        "loaded": true,
+                        "isPathHref": true,
+                        "type": "ref",
+                        "title": "Implement Express Checkout with Medusa",
+                        "path": "/storefront-development/guides/express-checkout",
+                        "children": []
+                      },
                       {
                         "loaded": true,
                         "isPathHref": true,
@@ -12963,6 +13176,14 @@ export const generatedSidebar = [
                         "loaded": true,
                         "isPathHref": true,
                         "type": "ref",
+                        "title": "Implement Express Checkout with Medusa",
+                        "path": "/storefront-development/guides/express-checkout",
+                        "children": []
+                      },
+                      {
+                        "loaded": true,
+                        "isPathHref": true,
+                        "type": "ref",
                         "title": "region",
                         "path": "/references/js-sdk/store/region",
                         "children": []
@@ -13200,6 +13421,8 @@ export const generatedSidebar = [
             "type": "category",
             "title": "Concepts",
             "initialOpen": false,
+            "autogenerate_tags": "concept+salesChannel",
+            "autogenerate_as_ref": true,
             "children": [
               {
                 "loaded": true,
@@ -13215,6 +13438,14 @@ export const generatedSidebar = [
                 "type": "link",
                 "path": "/commerce-modules/sales-channel/links-to-other-modules",
                 "title": "Links to Modules",
+                "children": []
+              },
+              {
+                "loaded": true,
+                "isPathHref": true,
+                "type": "ref",
+                "title": "Product Variant Inventory",
+                "path": "/commerce-modules/product/variant-inventory",
                 "children": []
               }
             ]
@@ -13640,6 +13871,8 @@ export const generatedSidebar = [
             "type": "category",
             "title": "Concepts",
             "initialOpen": false,
+            "autogenerate_tags": "concept+stockLocation",
+            "autogenerate_as_ref": true,
             "children": [
               {
                 "loaded": true,
@@ -13655,6 +13888,22 @@ export const generatedSidebar = [
                 "type": "link",
                 "path": "/commerce-modules/stock-location/links-to-other-modules",
                 "title": "Links to Modules",
+                "children": []
+              },
+              {
+                "loaded": true,
+                "isPathHref": true,
+                "type": "ref",
+                "title": "Inventory Kits",
+                "path": "/commerce-modules/inventory/inventory-kit",
+                "children": []
+              },
+              {
+                "loaded": true,
+                "isPathHref": true,
+                "type": "ref",
+                "title": "Product Variant Inventory",
+                "path": "/commerce-modules/product/variant-inventory",
                 "children": []
               }
             ]
@@ -16031,6 +16280,22 @@ export const generatedSidebar = [
         "loaded": true,
         "isPathHref": true,
         "type": "category",
+        "title": "Examples",
+        "children": [
+          {
+            "loaded": true,
+            "isPathHref": true,
+            "type": "link",
+            "path": "/storefront-development/guides/express-checkout",
+            "title": "Express Checkout Storefront",
+            "children": []
+          }
+        ]
+      },
+      {
+        "loaded": true,
+        "isPathHref": true,
+        "type": "category",
         "title": "Regions",
         "children": [
           {
@@ -16291,7 +16556,7 @@ export const generatedSidebar = [
             "isPathHref": true,
             "type": "link",
             "path": "/storefront-development/checkout/address",
-            "title": "2. Enter Address",
+            "title": "2. Set Address",
             "children": []
           },
           {
@@ -18665,6 +18930,15 @@ export const generatedSidebar = [
                     "type": "link",
                     "path": "/references/medusa-workflows/steps/validateLineItemPricesStep",
                     "title": "validateLineItemPricesStep",
+                    "description": "",
+                    "children": []
+                  },
+                  {
+                    "loaded": true,
+                    "isPathHref": true,
+                    "type": "link",
+                    "path": "/references/medusa-workflows/steps/validateShippingStep",
+                    "title": "validateShippingStep",
                     "description": "",
                     "children": []
                   },
@@ -21921,6 +22195,15 @@ export const generatedSidebar = [
                     "loaded": true,
                     "isPathHref": true,
                     "type": "link",
+                    "path": "/references/medusa-workflows/steps/createPaymentAccountHolderStep",
+                    "title": "createPaymentAccountHolderStep",
+                    "description": "",
+                    "children": []
+                  },
+                  {
+                    "loaded": true,
+                    "isPathHref": true,
+                    "type": "link",
                     "path": "/references/medusa-workflows/steps/createPaymentSessionStep",
                     "title": "createPaymentSessionStep",
                     "description": "",
@@ -23526,6 +23809,15 @@ export const generatedSidebar = [
                     "type": "link",
                     "path": "/references/medusa-workflows/steps/deleteShippingProfilesStep",
                     "title": "deleteShippingProfilesStep",
+                    "description": "",
+                    "children": []
+                  },
+                  {
+                    "loaded": true,
+                    "isPathHref": true,
+                    "type": "link",
+                    "path": "/references/medusa-workflows/validateStepShippingProfileDelete",
+                    "title": "validateStepShippingProfileDelete",
                     "description": "",
                     "children": []
                   }

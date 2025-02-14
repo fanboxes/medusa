@@ -6,12 +6,12 @@ import type {
   UnistNode,
   UnistNodeWithData,
   UnistTree,
-} from "./types/index.js"
+} from "types"
 import type { VFile } from "vfile"
 import { parseCrossProjectLink } from "./utils/cross-project-link-utils.js"
 import { SlugChange } from "types"
 import getAttribute from "./utils/get-attribute.js"
-import { estreeToJs } from "./utils/estree-to-js.js"
+import { estreeToJs } from "docs-utils"
 import { performActionOnLiteral } from "./utils/perform-action-on-literal.js"
 import { MD_LINK_REGEX } from "./constants.js"
 

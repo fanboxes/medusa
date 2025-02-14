@@ -1,5 +1,10 @@
 import { OrderDTO, OrderWorkflow } from "@medusajs/framework/types"
 import {
+  MedusaError,
+  OrderWorkflowEvents,
+  validateEmail,
+} from "@medusajs/framework/utils"
+import {
   WorkflowData,
   WorkflowResponse,
   createStep,
@@ -11,19 +16,14 @@ import {
   RegisterOrderChangeDTO,
   UpdateOrderDTO,
 } from "@medusajs/types"
-import {
-  MedusaError,
-  OrderWorkflowEvents,
-  validateEmail,
-} from "@medusajs/framework/utils"
 
-import { throwIfOrderIsCancelled } from "../utils/order-validation"
+import { emitEventStep, useQueryGraphStep } from "../../common"
 import {
   previewOrderChangeStep,
   registerOrderChangesStep,
   updateOrdersStep,
 } from "../steps"
-import { emitEventStep, useQueryGraphStep } from "../../common"
+import { throwIfOrderIsCancelled } from "../utils/order-validation"
 
 /**
  * The data to validate the order update.
@@ -42,14 +42,14 @@ export type UpdateOrderValidationStepInput = {
 /**
  * This step validates that an order can be updated with provided input. If the order is cancelled,
  * the email is invalid, or the country code is being changed in the shipping or billing addresses, the step will throw an error.
- * 
+ *
  * :::note
- * 
+ *
  * You can retrieve an order's details using [Query](https://docs.medusajs.com/learn/fundamentals/module-links/query),
  * or [useQueryGraphStep](https://docs.medusajs.com/resources/references/medusa-workflows/steps/useQueryGraphStep).
- * 
+ *
  * :::
- * 
+ *
  * @example
  * const data = updateOrderValidationStep({
  *   order: {
@@ -64,10 +64,7 @@ export type UpdateOrderValidationStepInput = {
  */
 export const updateOrderValidationStep = createStep(
   "update-order-validation",
-  async function ({
-    order,
-    input,
-  }: UpdateOrderValidationStepInput) {
+  async function ({ order, input }: UpdateOrderValidationStepInput) {
     throwIfOrderIsCancelled({ order })
 
     if (
@@ -100,12 +97,12 @@ export const updateOrderValidationStep = createStep(
 
 export const updateOrderWorkflowId = "update-order-workflow"
 /**
- * This workflow updates an order's general details, such as its email or addresses. It's used by the 
+ * This workflow updates an order's general details, such as its email or addresses. It's used by the
  * [Update Order Admin API Route](https://docs.medusajs.com/api/admin#orders_postordersid).
- * 
+ *
  * You can use this workflow within your customizations or your own custom workflows, allowing you to update an
  * order's details in your custom flows.
- * 
+ *
  * @example
  * const { result } = await updateOrderWorkflow(container)
  * .run({
@@ -115,9 +112,9 @@ export const updateOrderWorkflowId = "update-order-workflow"
  *     email: "example@gmail.com",
  *   }
  * })
- * 
+ *
  * @summary
- * 
+ *
  * Update an order's details.
  */
 export const updateOrderWorkflow = createWorkflow(
@@ -133,6 +130,7 @@ export const updateOrderWorkflow = createWorkflow(
         "email",
         "shipping_address.*",
         "billing_address.*",
+        "metadata",
       ],
       filters: { id: input.id },
       options: { throwIfKeyNotFound: true },
@@ -219,6 +217,20 @@ export const updateOrderWorkflow = createWorkflow(
               type: "email",
               old: order.email,
               new: input.email,
+            },
+          })
+        }
+
+        if (input.metadata !== undefined) {
+          changes.push({
+            change_type: "update_order" as const,
+            order_id: input.id,
+            created_by: input.user_id,
+            confirmed_by: input.user_id,
+            details: {
+              type: "metadata",
+              old: order.metadata,
+              new: input.metadata,
             },
           })
         }

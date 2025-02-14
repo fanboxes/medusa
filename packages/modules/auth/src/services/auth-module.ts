@@ -106,12 +106,14 @@ export default class AuthModuleService
     sharedContext?: Context
   ): Promise<AuthTypes.AuthIdentityDTO[]>
 
+  // @ts-expect-error
   updateAuthIdentities(
     data: AuthTypes.UpdateAuthIdentityDTO,
     sharedContext?: Context
   ): Promise<AuthTypes.AuthIdentityDTO>
 
   @InjectManager()
+  // @ts-expect-error
   async updateAuthIdentities(
     data: AuthTypes.UpdateAuthIdentityDTO | AuthTypes.UpdateAuthIdentityDTO[],
     @MedusaContext() sharedContext: Context = {}
@@ -151,12 +153,14 @@ export default class AuthModuleService
     sharedContext?: Context
   ): Promise<AuthTypes.ProviderIdentityDTO[]>
 
+  // @ts-expect-error
   createProviderIdentities(
     data: AuthTypes.CreateProviderIdentityDTO,
     sharedContext?: Context
   ): Promise<AuthTypes.ProviderIdentityDTO>
 
   @InjectManager()
+  // @ts-expect-error
   async createProviderIdentities(
     data:
       | AuthTypes.CreateProviderIdentityDTO[]
@@ -179,12 +183,14 @@ export default class AuthModuleService
     sharedContext?: Context
   ): Promise<AuthTypes.ProviderIdentityDTO[]>
 
+  // @ts-expect-error
   updateProviderIdentities(
     data: AuthTypes.UpdateProviderIdentityDTO,
     sharedContext?: Context
   ): Promise<AuthTypes.ProviderIdentityDTO>
 
   @InjectManager()
+  // @ts-expect-error
   async updateProviderIdentities(
     data:
       | AuthTypes.UpdateProviderIdentityDTO

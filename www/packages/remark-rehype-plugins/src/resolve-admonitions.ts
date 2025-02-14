@@ -1,5 +1,5 @@
 import { Transformer } from "unified"
-import { UnistNode } from "./types/index.js"
+import { UnistNode } from "types"
 
 const ALLOWED_NODE_NAMES = ["note", "tip", "info", "warning"]
 

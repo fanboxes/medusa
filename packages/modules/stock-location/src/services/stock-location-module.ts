@@ -81,12 +81,13 @@ export default class StockLocationModuleService
     data: CreateStockLocationInput,
     context: Context
   ): Promise<StockLocationTypes.StockLocationDTO>
+  // @ts-expect-error
   createStockLocations(
     data: CreateStockLocationInput[],
     context: Context
   ): Promise<StockLocationTypes.StockLocationDTO[]>
-
   @InjectManager()
+  // @ts-expect-error
   async createStockLocations(
     data: CreateStockLocationInput | CreateStockLocationInput[],
     @MedusaContext() context: Context = {}
@@ -172,6 +173,7 @@ export default class StockLocationModuleService
     input: UpdateStockLocationInput,
     context?: Context
   ): Promise<StockLocationTypes.StockLocationDTO>
+  // @ts-expect-error
   updateStockLocations(
     selector: FilterableStockLocationProps,
     input: UpdateStockLocationInput,
@@ -185,6 +187,7 @@ export default class StockLocationModuleService
    * @returns The updated stock location.
    */
   @InjectManager()
+  // @ts-expect-error
   async updateStockLocations(
     idOrSelector: string | FilterableStockLocationProps,
     data: UpdateStockLocationInput | UpdateStockLocationInput[],
@@ -229,12 +232,14 @@ export default class StockLocationModuleService
     data: StockLocationAddressInput & { id: string },
     context?: Context
   ): Promise<StockLocationTypes.StockLocationAddressDTO>
+  // @ts-expect-error
   updateStockLocationAddresses(
     data: (StockLocationAddressInput & { id: string })[],
     context?: Context
   ): Promise<StockLocationTypes.StockLocationAddressDTO[]>
 
   @InjectManager()
+  // @ts-expect-error
   async updateStockLocationAddresses(
     data:
       | (StockLocationAddressInput & { id: string })

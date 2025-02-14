@@ -125,22 +125,30 @@ abstract class StripeBase extends AbstractPaymentProvider<StripeOptions> {
     }
 
     const paymentIntent = await this.stripe_.paymentIntents.retrieve(id)
+    const dataResponse = paymentIntent as unknown as Record<string, unknown>
 
     switch (paymentIntent.status) {
       case "requires_payment_method":
+        if (paymentIntent.last_payment_error) {
+          return { status: PaymentSessionStatus.ERROR, data: dataResponse }
+        }
+        return { status: PaymentSessionStatus.PENDING, data: dataResponse }
       case "requires_confirmation":
       case "processing":
-        return { status: PaymentSessionStatus.PENDING }
+        return { status: PaymentSessionStatus.PENDING, data: dataResponse }
       case "requires_action":
-        return { status: PaymentSessionStatus.REQUIRES_MORE }
+        return {
+          status: PaymentSessionStatus.REQUIRES_MORE,
+          data: dataResponse,
+        }
       case "canceled":
-        return { status: PaymentSessionStatus.CANCELED }
+        return { status: PaymentSessionStatus.CANCELED, data: dataResponse }
       case "requires_capture":
-        return { status: PaymentSessionStatus.AUTHORIZED }
+        return { status: PaymentSessionStatus.AUTHORIZED, data: dataResponse }
       case "succeeded":
-        return { status: PaymentSessionStatus.CAPTURED }
+        return { status: PaymentSessionStatus.CAPTURED, data: dataResponse }
       default:
-        return { status: PaymentSessionStatus.PENDING }
+        return { status: PaymentSessionStatus.PENDING, data: dataResponse }
     }
   }
 
@@ -419,24 +427,23 @@ abstract class StripeBase extends AbstractPaymentProvider<StripeOptions> {
     const intent = event.data.object as Stripe.PaymentIntent
 
     const { currency } = intent
+
     switch (event.type) {
-      case "payment_intent.amount_capturable_updated":
+      case "payment_intent.created":
+      case "payment_intent.processing":
         return {
-          action: PaymentActions.AUTHORIZED,
+          action: PaymentActions.PENDING,
           data: {
             session_id: intent.metadata.session_id,
-            amount: getAmountFromSmallestUnit(
-              intent.amount_capturable,
-              currency
-            ), // NOTE: revisit when implementing multicapture
+            amount: getAmountFromSmallestUnit(intent.amount, currency),
           },
         }
-      case "payment_intent.succeeded":
+      case "payment_intent.canceled":
         return {
-          action: PaymentActions.SUCCESSFUL,
+          action: PaymentActions.CANCELED,
           data: {
             session_id: intent.metadata.session_id,
-            amount: getAmountFromSmallestUnit(intent.amount_received, currency),
+            amount: getAmountFromSmallestUnit(intent.amount, currency),
           },
         }
       case "payment_intent.payment_failed":
@@ -447,6 +454,34 @@ abstract class StripeBase extends AbstractPaymentProvider<StripeOptions> {
             amount: getAmountFromSmallestUnit(intent.amount, currency),
           },
         }
+      case "payment_intent.requires_action":
+        return {
+          action: PaymentActions.REQUIRES_MORE,
+          data: {
+            session_id: intent.metadata.session_id,
+            amount: getAmountFromSmallestUnit(intent.amount, currency),
+          },
+        }
+      case "payment_intent.amount_capturable_updated":
+        return {
+          action: PaymentActions.AUTHORIZED,
+          data: {
+            session_id: intent.metadata.session_id,
+            amount: getAmountFromSmallestUnit(
+              intent.amount_capturable,
+              currency
+            ),
+          },
+        }
+      case "payment_intent.succeeded":
+        return {
+          action: PaymentActions.SUCCESSFUL,
+          data: {
+            session_id: intent.metadata.session_id,
+            amount: getAmountFromSmallestUnit(intent.amount_received, currency),
+          },
+        }
+
       default:
         return { action: PaymentActions.NOT_SUPPORTED }
     }

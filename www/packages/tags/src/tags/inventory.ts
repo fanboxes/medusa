@@ -4,6 +4,10 @@ export const inventory = [
     "path": "/commerce-modules/inventory/inventory-kit"
   },
   {
+    "title": "Product Variant Inventory",
+    "path": "/commerce-modules/product/variant-inventory"
+  },
+  {
     "title": "Retrieve Product Variant's Inventory in Storefront",
     "path": "/storefront-development/products/inventory"
   },

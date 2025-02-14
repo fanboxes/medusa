@@ -17,6 +17,8 @@ export const salesChannelSidebar = [
         type: "category",
         title: "Concepts",
         initialOpen: false,
+        autogenerate_tags: "concept+salesChannel",
+        autogenerate_as_ref: true,
         children: [
           {
             type: "link",

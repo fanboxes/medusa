@@ -9,8 +9,8 @@ export const ProductStatusEnum = z.nativeEnum(ProductStatus)
 export const StoreGetProductParamsDirectFields = z.object({
   q: z.string().optional(),
   id: z.union([z.string(), z.array(z.string())]).optional(),
-  title: z.string().optional(),
-  handle: z.string().optional(),
+  title: z.union([z.string(), z.array(z.string())]).optional(),
+  handle: z.union([z.string(), z.array(z.string())]).optional(),
   is_giftcard: booleanString().optional(),
   category_id: z.union([z.string(), z.array(z.string())]).optional(),
   external_id: z.union([z.string(), z.array(z.string())]).optional(),

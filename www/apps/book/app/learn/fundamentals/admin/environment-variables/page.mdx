@@ -1,0 +1,76 @@
+export const metadata = {
+  title: `${pageNumber} Environment Variables in Admin Customizations`,
+}
+
+# {metadata.title}
+
+In this chapter, you'll learn how to use environment variables in your admin customizations.
+
+<Note>
+
+To learn how envirnment variables are generally loaded in Medusa based on your application's environment, check out [this chapter](../../environment-variables/page.mdx).
+
+</Note>
+
+## How to Set Environment Variables
+
+The Medusa Admin is built on top of [Vite](https://vite.dev/). To set an environment variable that you want to use in a widget or UI route, prefix the environment variable with `VITE_`.
+
+For example:
+
+```plain
+VITE_MY_API_KEY=sk_123
+```
+
+---
+
+## How to Use Environment Variables
+
+To access or use an environment variable starting with `VITE_`, use the `import.meta.env` object.
+
+For example:
+
+```tsx highlights={[["8"]]}
+import { defineWidgetConfig } from "@medusajs/admin-sdk"
+import { Container, Heading } from "@medusajs/ui"
+
+const ProductWidget = () => {
+  return (
+    <Container className="divide-y p-0">
+      <div className="flex items-center justify-between px-6 py-4">
+        <Heading level="h2">API Key: {import.meta.env.VITE_MY_API_KEY}</Heading>
+      </div>
+    </Container>
+  )
+}
+
+export const config = defineWidgetConfig({
+  zone: "product.details.before",
+})
+
+export default ProductWidget
+```
+
+In this example, you display the API key in a widget using `import.meta.env.VITE_MY_API_KEY`.
+
+### Type Error on import.meta.env
+
+If you receive a type error on `import.meta.env`, create the file `src/admin/vite-env.d.ts` with the following content:
+
+```ts title="src/admin/vite-env.d.ts"
+/// <reference types="vite/client" />
+```
+
+This file tells TypeScript to recognize the `import.meta.env` object and enhances the types of your custom environment variables.
+
+---
+
+## Check Node Environment in Admin Customizations
+
+To check the current environment, Vite exposes two variables:
+
+- `import.meta.env.DEV`: Returns `true` if the current environment is development.
+- `import.meta.env.PROD`: Returns `true` if the current environment is production.
+
+Learn more about other Vite environment variables in the [Vite documentation](https://vite.dev/guide/env-and-mode).
+

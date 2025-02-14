@@ -8,7 +8,6 @@ import { MedusaAppOutput, MedusaModule } from "@medusajs/framework/modules-sdk"
 import { EventBusTypes, IndexTypes } from "@medusajs/framework/types"
 import {
   ContainerRegistrationKeys,
-  ModuleRegistrationName,
   Modules,
   toMikroORMEntity,
 } from "@medusajs/framework/utils"
@@ -17,6 +16,7 @@ import { EntityManager } from "@mikro-orm/postgresql"
 import { IndexData, IndexRelation } from "@models"
 import { asValue } from "awilix"
 import * as path from "path"
+import { setTimeout } from "timers/promises"
 import { EventBusServiceMock } from "../__fixtures__"
 import { dbName } from "../__fixtures__/medusa-config"
 
@@ -151,6 +151,7 @@ const beforeEach_ = async (eventDataToEmit) => {
   if (isFirstTime) {
     isFirstTime = false
     await sendEvents(eventDataToEmit)
+
     return
   }
 
@@ -241,11 +242,11 @@ describe("IndexModuleService", function () {
     ]
 
     beforeEach(async () => {
+      await setTimeout(1000)
       await beforeEach_(eventDataToEmit)
 
-      manager = (
-        medusaApp.sharedContainer!.resolve(ModuleRegistrationName.INDEX) as any
-      ).container_.manager as EntityManager
+      manager = (medusaApp.sharedContainer!.resolve(Modules.INDEX) as any)
+        .container_.manager as EntityManager
     })
 
     afterEach(afterEach_)
@@ -404,9 +405,8 @@ describe("IndexModuleService", function () {
     beforeEach(async () => {
       await beforeEach_(eventDataToEmit)
 
-      manager = (
-        medusaApp.sharedContainer!.resolve(ModuleRegistrationName.INDEX) as any
-      ).container_.manager as EntityManager
+      manager = (medusaApp.sharedContainer!.resolve(Modules.INDEX) as any)
+        .container_.manager as EntityManager
     })
 
     afterEach(afterEach_)
@@ -565,9 +565,8 @@ describe("IndexModuleService", function () {
     beforeEach(async () => {
       await beforeEach_(eventDataToEmit)
 
-      manager = (
-        medusaApp.sharedContainer!.resolve(ModuleRegistrationName.INDEX) as any
-      ).container_.manager as EntityManager
+      manager = (medusaApp.sharedContainer!.resolve(Modules.INDEX) as any)
+        .container_.manager as EntityManager
 
       await updateData(manager)
 
@@ -686,9 +685,8 @@ describe("IndexModuleService", function () {
     beforeEach(async () => {
       await beforeEach_(eventDataToEmit)
 
-      manager = (
-        medusaApp.sharedContainer!.resolve(ModuleRegistrationName.INDEX) as any
-      ).container_.manager as EntityManager
+      manager = (medusaApp.sharedContainer!.resolve(Modules.INDEX) as any)
+        .container_.manager as EntityManager
 
       queryMock.graph = jest.fn().mockImplementation((query) => {
         const entity = query.entity

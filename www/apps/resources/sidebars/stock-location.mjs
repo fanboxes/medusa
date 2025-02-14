@@ -17,6 +17,8 @@ export const stockLocationSidebar = [
         type: "category",
         title: "Concepts",
         initialOpen: false,
+        autogenerate_tags: "concept+stockLocation",
+        autogenerate_as_ref: true,
         children: [
           {
             type: "link",

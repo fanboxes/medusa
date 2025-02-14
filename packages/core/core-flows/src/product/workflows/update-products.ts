@@ -141,6 +141,25 @@ function findProductsWithSalesChannels({
   return !input.update?.sales_channels ? [] : productIds
 }
 
+function findProductsWithShippingProfiles({
+  updatedProducts,
+  input,
+}: {
+  updatedProducts: ProductTypes.ProductDTO[]
+  input: UpdateProductWorkflowInput
+}) {
+  let productIds = updatedProducts.map((p) => p.id)
+
+  if ("products" in input) {
+    const discardedProductIds: string[] = input.products
+      .filter((p) => !p.shipping_profile_id)
+      .map((p) => p.id as string)
+    return arrayDifference(productIds, discardedProductIds)
+  }
+
+  return !input.update?.shipping_profile_id ? [] : productIds
+}
+
 function prepareSalesChannelLinks({
   input,
   updatedProducts,
@@ -417,10 +436,6 @@ export const updateProductsWorkflow = createWorkflow(
     const toUpdateInput = transform({ input }, prepareUpdateProductInput)
     const updatedProducts = updateProductsStep(toUpdateInput)
 
-    const updatedPorductIds = transform({ updatedProducts }, (data) => {
-      return data.updatedProducts.map((p) => p.id)
-    })
-
     const salesChannelLinks = transform(
       { input, updatedProducts },
       prepareSalesChannelLinks
@@ -441,6 +456,11 @@ export const updateProductsWorkflow = createWorkflow(
       findProductsWithSalesChannels
     )
 
+    const productsWithShippingProfiles = transform(
+      { updatedProducts, input },
+      findProductsWithShippingProfiles
+    )
+
     const currentSalesChannelLinks = useRemoteQueryStep({
       entry_point: "product_sales_channel",
       fields: ["product_id", "sales_channel_id"],
@@ -450,7 +470,7 @@ export const updateProductsWorkflow = createWorkflow(
     const currentShippingProfileLinks = useRemoteQueryStep({
       entry_point: "product_shipping_profile",
       fields: ["product_id", "shipping_profile_id"],
-      variables: { filters: { product_id: updatedPorductIds } },
+      variables: { filters: { product_id: productsWithShippingProfiles } },
     }).config({ name: "get-current-shipping-profile-links-step" })
 
     const toDeleteSalesChannelLinks = transform(

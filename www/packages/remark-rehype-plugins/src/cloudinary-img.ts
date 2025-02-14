@@ -1,5 +1,5 @@
 import type { Transformer } from "unified"
-import type { CloudinaryConfig, UnistNode, UnistTree } from "./types/index.js"
+import type { CloudinaryConfig, UnistNode, UnistTree } from "types"
 
 const cloudinaryImageRegex =
   /^https:\/\/res.cloudinary.com\/.*\/upload\/v[0-9]+\/(?<imageId>.*)$/

@@ -14,10 +14,10 @@ describe("generateContainerTypes", function () {
       {
         cache: {
           __definition: {
-            key: "cache",
+            key: "foo-cache",
             label: "Cache",
-            defaultPackage: "@medusajs/foo",
-            resolvePath: "@medusajs/foo",
+            defaultPackage: "@medusajs/foo-cache",
+            resolvePath: "@medusajs/foo-cache",
             defaultModuleDeclaration: {
               scope: "internal",
             },
@@ -34,11 +34,46 @@ describe("generateContainerTypes", function () {
     expect(await fileSystem.exists("modules-bindings.d.ts")).toBeTruthy()
     expect(await fileSystem.contents("modules-bindings.d.ts"))
       .toMatchInlineSnapshot(`
-      "import type Cache from '@medusajs/foo'
+      "import type FooCache from '@medusajs/foo-cache'
 
       declare module '@medusajs/framework/types' {
         interface ModulesImplementations {
-          cache: InstanceType<(typeof Cache)['service']>
+          'foo-cache': InstanceType<(typeof FooCache)['service']>
+        }
+      }"
+    `)
+  })
+
+  it("point inbuilt packages to their interfaces", async function () {
+    await generateContainerTypes(
+      {
+        cache: {
+          __definition: {
+            key: "cache",
+            label: "Cache",
+            defaultPackage: "@medusajs/foo-cache",
+            resolvePath: "@medusajs/foo-cache",
+            defaultModuleDeclaration: {
+              scope: "internal",
+            },
+          },
+          __joinerConfig: {},
+        },
+      },
+      {
+        outputDir: fileSystem.basePath,
+        interfaceName: "ModulesImplementations",
+      }
+    )
+
+    expect(await fileSystem.exists("modules-bindings.d.ts")).toBeTruthy()
+    expect(await fileSystem.contents("modules-bindings.d.ts"))
+      .toMatchInlineSnapshot(`
+      "import type { ICacheService } from '@medusajs/framework/types'
+
+      declare module '@medusajs/framework/types' {
+        interface ModulesImplementations {
+          'cache': ICacheService
         }
       }"
     `)
@@ -47,10 +82,10 @@ describe("generateContainerTypes", function () {
   it("should normalize module path pointing to a relative file", async function () {
     await generateContainerTypes(
       {
-        cache: {
+        bar: {
           __definition: {
-            key: "cache",
-            label: "Cache",
+            key: "bar",
+            label: "Bar",
             defaultPackage: "./foo/bar",
             resolvePath: "./foo/bar",
             defaultModuleDeclaration: {
@@ -69,11 +104,11 @@ describe("generateContainerTypes", function () {
     expect(await fileSystem.exists("modules-bindings.d.ts")).toBeTruthy()
     expect(await fileSystem.contents("modules-bindings.d.ts"))
       .toMatchInlineSnapshot(`
-      "import type Cache from '../../foo/bar'
+      "import type Bar from '../../foo/bar'
 
       declare module '@medusajs/framework/types' {
         interface ModulesImplementations {
-          cache: InstanceType<(typeof Cache)['service']>
+          'bar': InstanceType<(typeof Bar)['service']>
         }
       }"
     `)

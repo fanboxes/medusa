@@ -24,7 +24,7 @@ export const storefront = [
     "path": "/storefront-development/cart/update"
   },
   {
-    "title": "Checkout Step 2: Enter Address",
+    "title": "Checkout Step 2: Set Address",
     "path": "/storefront-development/checkout/address"
   },
   {
@@ -82,6 +82,10 @@ export const storefront = [
   {
     "title": "Third-Party or Social Login in Storefront",
     "path": "/storefront-development/customers/third-party-login"
+  },
+  {
+    "title": "Implement Express Checkout with Medusa",
+    "path": "/storefront-development/guides/express-checkout"
   },
   {
     "title": "List Product Categories in Storefront",

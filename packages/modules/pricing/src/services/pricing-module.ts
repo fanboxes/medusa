@@ -427,6 +427,7 @@ export default class PricingModuleService
     sharedContext?: Context
   ): Promise<PriceSetDTO>
 
+  // @ts-expect-error
   async createPriceSets(
     data: PricingTypes.CreatePriceSetDTO[],
     sharedContext?: Context
@@ -434,6 +435,7 @@ export default class PricingModuleService
 
   @InjectManager()
   @EmitEvents()
+  // @ts-expect-error
   async createPriceSets(
     data: PricingTypes.CreatePriceSetDTO | PricingTypes.CreatePriceSetDTO[],
     @MedusaContext() sharedContext: Context = {}
@@ -503,6 +505,7 @@ export default class PricingModuleService
     data: PricingTypes.UpdatePriceSetDTO,
     sharedContext?: Context
   ): Promise<PriceSetDTO>
+  // @ts-expect-error
   async updatePriceSets(
     selector: PricingTypes.FilterablePriceSetProps,
     data: PricingTypes.UpdatePriceSetDTO,
@@ -510,6 +513,7 @@ export default class PricingModuleService
   ): Promise<PriceSetDTO[]>
 
   @InjectManager()
+  // @ts-expect-error
   async updatePriceSets(
     idOrSelector: string | PricingTypes.FilterablePriceSetProps,
     data: PricingTypes.UpdatePriceSetDTO,
@@ -885,6 +889,7 @@ export default class PricingModuleService
     data: PricingTypes.UpdatePricePreferenceDTO,
     sharedContext?: Context
   ): Promise<PricePreferenceDTO>
+  // @ts-expect-error
   async updatePricePreferences(
     selector: PricingTypes.FilterablePricePreferenceProps,
     data: PricingTypes.UpdatePricePreferenceDTO,
@@ -892,6 +897,7 @@ export default class PricingModuleService
   ): Promise<PricePreferenceDTO[]>
 
   @InjectManager()
+  // @ts-expect-error
   async updatePricePreferences(
     idOrSelector: string | PricingTypes.FilterablePricePreferenceProps,
     data: PricingTypes.UpdatePricePreferenceDTO,

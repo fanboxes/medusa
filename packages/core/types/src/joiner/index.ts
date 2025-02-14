@@ -84,6 +84,7 @@ export interface RemoteJoinerQuery {
 export interface RemoteJoinerOptions {
   throwIfKeyNotFound?: boolean
   throwIfRelationNotFound?: boolean | string[]
+  initialData?: object | object[]
 }
 
 export interface RemoteNestedExpands {

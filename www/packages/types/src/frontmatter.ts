@@ -7,4 +7,6 @@ export declare type FrontMatter = {
   sidebar_autogenerate_exclude?: boolean
   sidebar_description?: string
   tags?: string[]
+  title?: string
+  description?: string
 }

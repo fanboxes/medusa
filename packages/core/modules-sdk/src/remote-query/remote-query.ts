@@ -14,9 +14,10 @@ import {
   RemoteJoinerQuery,
   RemoteNestedExpands,
 } from "@medusajs/types"
-import { isString, toPascalCase } from "@medusajs/utils"
+import { isPresent, isString, toPascalCase } from "@medusajs/utils"
 import { MedusaModule } from "../medusa-module"
 
+const BASE_PREFIX = ""
 export class RemoteQuery {
   private remoteJoiner: RemoteJoiner
   private modulesMap: Map<string, LoadedModule> = new Map()
@@ -99,7 +100,7 @@ export class RemoteQuery {
 
   public static getAllFieldsAndRelations(
     expand: RemoteExpandProperty | RemoteNestedExpands[number],
-    prefix = "",
+    prefix = BASE_PREFIX,
     args: JoinerArgument = {} as JoinerArgument
   ): {
     select?: string[]
@@ -122,7 +123,14 @@ export class RemoteQuery {
       fields.add(prefix ? `${prefix}.${field}` : field)
     }
 
-    args[prefix] = expand.args
+    const filters =
+      expand.args?.find((arg) => arg.name === "filters")?.value ?? {}
+
+    if (isPresent(filters)) {
+      args[prefix] = filters
+    } else if (isPresent(expand.args)) {
+      args[prefix] = expand.args
+    }
 
     for (const property in expand.expands ?? {}) {
       const newPrefix = prefix ? `${prefix}.${property}` : property
@@ -147,7 +155,12 @@ export class RemoteQuery {
         : shouldSelectAll
         ? undefined
         : []
-    return { select, relations, args }
+
+    return {
+      select,
+      relations,
+      args,
+    }
   }
 
   private hasPagination(options: { [attr: string]: unknown }): boolean {
@@ -223,6 +236,15 @@ export class RemoteQuery {
 
     if (ids) {
       filters[keyField] = ids
+    }
+
+    delete options.args?.[BASE_PREFIX]
+    if (Object.keys(options.args ?? {}).length) {
+      filters = {
+        ...filters,
+        ...options?.args,
+      }
+      options.args = {} as any
     }
 
     const hasPagination = this.hasPagination(options)

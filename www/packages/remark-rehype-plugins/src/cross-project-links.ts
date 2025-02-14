@@ -4,8 +4,8 @@ import type {
   UnistNode,
   UnistNodeWithData,
   UnistTree,
-} from "./types/index.js"
-import { estreeToJs } from "./utils/estree-to-js.js"
+} from "types"
+import { estreeToJs } from "docs-utils"
 import getAttribute from "./utils/get-attribute.js"
 import { performActionOnLiteral } from "./utils/perform-action-on-literal.js"
 
@@ -46,6 +46,14 @@ function linkElmFixer(node: UnistNode, options: CrossProjectLinksOptions) {
   }
 
   node.properties.href = matchAndFixLinks(node.properties.href, options)
+}
+
+function linkNodeFixer(node: UnistNode, options: CrossProjectLinksOptions) {
+  if (!node.url) {
+    return
+  }
+
+  node.url = matchAndFixLinks(node.url, options)
 }
 
 function componentFixer(
@@ -128,20 +136,23 @@ export function crossProjectLinksPlugin(
 
     visit(
       tree as UnistTree,
-      ["element", "mdxJsxFlowElement"],
+      ["element", "mdxJsxFlowElement", "link"],
       (node: UnistNode) => {
         const isComponent =
           node.name && allowedComponentNames.includes(node.name)
-        const isLink = node.tagName === "a" && node.properties?.href
-        if (!isComponent && !isLink) {
+        const isLinkElm = node.tagName === "a" && node.properties?.href
+        const isLinkNode = node.type === "link" && node.url
+        if (!isComponent && !isLinkElm && !isLinkNode) {
           return
         }
 
         if (isComponent) {
           componentFixer(node as UnistNodeWithData, options)
+        } else if (isLinkElm) {
+          linkElmFixer(node, options)
+        } else {
+          linkNodeFixer(node, options)
         }
-
-        linkElmFixer(node, options)
       }
     )
   }

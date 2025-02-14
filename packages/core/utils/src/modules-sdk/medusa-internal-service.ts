@@ -273,6 +273,7 @@ export function MedusaInternalService<
             {},
             sharedContext
           )
+
           // Create a pair of entity and data to update
           entitiesToUpdate.forEach((entity) => {
             toUpdateData.push({
@@ -343,6 +344,10 @@ export function MedusaInternalService<
             )} "${missingEntityValues.join(", ")}" not found`
           )
         }
+      }
+
+      if (!toUpdateData.length) {
+        return []
       }
 
       return await this[propertyRepositoryName].update(
@@ -456,6 +461,10 @@ export function MedusaInternalService<
           })*/
           return criteria
         })
+      }
+
+      if (!deleteCriteria.$or.length) {
+        return
       }
 
       await this[propertyRepositoryName].delete(deleteCriteria, sharedContext)

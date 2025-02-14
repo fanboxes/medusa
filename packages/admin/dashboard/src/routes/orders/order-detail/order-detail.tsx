@@ -72,6 +72,7 @@ export const OrderDetail = () => {
       }}
       data={order}
       showJSON
+      showMetadata
       hasOutlet
     >
       <TwoColumnPage.Main>

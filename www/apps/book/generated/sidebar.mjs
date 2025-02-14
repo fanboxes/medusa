@@ -229,9 +229,9 @@ export const generatedSidebar = [
             "isPathHref": true,
             "type": "link",
             "path": "/learn/fundamentals/modules/modules-directory-structure",
-            "title": "Modules Directory Structure",
+            "title": "Directory Structure",
             "children": [],
-            "chapterTitle": "3.2.1. Modules Directory Structure"
+            "chapterTitle": "3.2.1. Directory Structure"
           },
           {
             "loaded": true,
@@ -368,6 +368,15 @@ export const generatedSidebar = [
             "title": "Custom Columns",
             "children": [],
             "chapterTitle": "3.3.4. Custom Columns"
+          },
+          {
+            "loaded": true,
+            "isPathHref": true,
+            "type": "link",
+            "path": "/learn/fundamentals/module-links/query-context",
+            "title": "Query Context",
+            "children": [],
+            "chapterTitle": "3.3.5. Query Context"
           }
         ],
         "chapterTitle": "3.3. Module Links"
@@ -528,10 +537,19 @@ export const generatedSidebar = [
             "loaded": true,
             "isPathHref": true,
             "type": "link",
+            "path": "/learn/fundamentals/api-routes/parse-body",
+            "title": "Body Parsing",
+            "children": [],
+            "chapterTitle": "3.5.5. Body Parsing"
+          },
+          {
+            "loaded": true,
+            "isPathHref": true,
+            "type": "link",
             "path": "/learn/fundamentals/api-routes/validation",
             "title": "Validation",
             "children": [],
-            "chapterTitle": "3.5.5. Validation"
+            "chapterTitle": "3.5.6. Validation"
           },
           {
             "loaded": true,
@@ -540,7 +558,7 @@ export const generatedSidebar = [
             "path": "/learn/fundamentals/api-routes/protected-routes",
             "title": "Protected Routes",
             "children": [],
-            "chapterTitle": "3.5.6. Protected Routes"
+            "chapterTitle": "3.5.7. Protected Routes"
           },
           {
             "loaded": true,
@@ -549,7 +567,7 @@ export const generatedSidebar = [
             "path": "/learn/fundamentals/api-routes/errors",
             "title": "Errors",
             "children": [],
-            "chapterTitle": "3.5.7. Errors"
+            "chapterTitle": "3.5.8. Errors"
           },
           {
             "loaded": true,
@@ -558,7 +576,7 @@ export const generatedSidebar = [
             "path": "/learn/fundamentals/api-routes/cors",
             "title": "Handling CORS",
             "children": [],
-            "chapterTitle": "3.5.8. Handling CORS"
+            "chapterTitle": "3.5.9. Handling CORS"
           },
           {
             "loaded": true,
@@ -567,7 +585,7 @@ export const generatedSidebar = [
             "path": "/learn/fundamentals/api-routes/additional-data",
             "title": "Additional Data",
             "children": [],
-            "chapterTitle": "3.5.9. Additional Data"
+            "chapterTitle": "3.5.10. Additional Data"
           }
         ],
         "chapterTitle": "3.5. API Routes"
@@ -583,10 +601,19 @@ export const generatedSidebar = [
             "loaded": true,
             "isPathHref": true,
             "type": "link",
+            "path": "/learn/fundamentals/workflows/constructor-constraints",
+            "title": "Constructor Constraints",
+            "children": [],
+            "chapterTitle": "3.6.1. Constructor Constraints"
+          },
+          {
+            "loaded": true,
+            "isPathHref": true,
+            "type": "link",
             "path": "/learn/fundamentals/workflows/variable-manipulation",
             "title": "Transform Variables",
             "children": [],
-            "chapterTitle": "3.6.1. Transform Variables"
+            "chapterTitle": "3.6.2. Transform Variables"
           },
           {
             "loaded": true,
@@ -595,16 +622,7 @@ export const generatedSidebar = [
             "path": "/learn/fundamentals/workflows/conditions",
             "title": "When-Then Conditions",
             "children": [],
-            "chapterTitle": "3.6.2. When-Then Conditions"
-          },
-          {
-            "loaded": true,
-            "isPathHref": true,
-            "type": "link",
-            "path": "/learn/fundamentals/workflows/constructor-constraints",
-            "title": "Constructor Constraints",
-            "children": [],
-            "chapterTitle": "3.6.3. Constructor Constraints"
+            "chapterTitle": "3.6.3. When-Then Conditions"
           },
           {
             "loaded": true,
@@ -784,10 +802,19 @@ export const generatedSidebar = [
             "loaded": true,
             "isPathHref": true,
             "type": "link",
+            "path": "/learn/fundamentals/admin/environment-variables",
+            "title": "Environment Variables",
+            "children": [],
+            "chapterTitle": "3.9.3. Environment Variables"
+          },
+          {
+            "loaded": true,
+            "isPathHref": true,
+            "type": "link",
             "path": "/learn/fundamentals/admin/constraints",
             "title": "Constraints",
             "children": [],
-            "chapterTitle": "3.9.3. Constraints"
+            "chapterTitle": "3.9.4. Constraints"
           },
           {
             "loaded": true,
@@ -796,7 +823,7 @@ export const generatedSidebar = [
             "path": "/learn/fundamentals/admin/tips",
             "title": "Tips",
             "children": [],
-            "chapterTitle": "3.9.4. Tips"
+            "chapterTitle": "3.9.5. Tips"
           }
         ],
         "chapterTitle": "3.9. Admin Development"

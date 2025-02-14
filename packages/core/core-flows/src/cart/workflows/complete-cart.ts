@@ -25,7 +25,11 @@ import {
 import { createOrdersStep } from "../../order/steps/create-orders"
 import { authorizePaymentSessionStep } from "../../payment/steps/authorize-payment-session"
 import { registerUsageStep } from "../../promotion/steps/register-usage"
-import { updateCartsStep, validateCartPaymentsStep } from "../steps"
+import {
+  updateCartsStep,
+  validateCartPaymentsStep,
+  validateShippingStep,
+} from "../steps"
 import { reserveInventoryStep } from "../steps/reserve-inventory"
 import { completeCartFields } from "../utils/fields"
 import { prepareConfirmInventoryInput } from "../utils/prepare-confirm-inventory-input"
@@ -101,6 +105,8 @@ export const completeCartWorkflow = createWorkflow(
       fields: completeCartFields,
       variables: { id: input.id },
       list: false,
+    }).config({
+      name: "cart-query",
     })
 
     const validate = createHook("validate", {
@@ -112,6 +118,21 @@ export const completeCartWorkflow = createWorkflow(
     const order = when("create-order", { orderId }, ({ orderId }) => {
       return !orderId
     }).then(() => {
+      const cartOptionIds = transform({ cart }, ({ cart }) => {
+        return cart.shipping_methods?.map((sm) => sm.shipping_option_id)
+      })
+
+      const shippingOptions = useRemoteQueryStep({
+        entry_point: "shipping_option",
+        fields: ["id", "shipping_profile_id"],
+        variables: { id: cartOptionIds },
+        list: true,
+      }).config({
+        name: "shipping-options-query",
+      })
+
+      validateShippingStep({ cart, shippingOptions })
+
       const paymentSessions = validateCartPaymentsStep({ cart })
 
       const payment = authorizePaymentSessionStep({
