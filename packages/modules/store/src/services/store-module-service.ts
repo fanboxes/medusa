@@ -54,11 +54,13 @@ export default class StoreModuleService
     data: StoreTypes.CreateStoreDTO[],
     sharedContext?: Context
   ): Promise<StoreTypes.StoreDTO[]>
+  // @ts-expect-error
   async createStores(
     data: StoreTypes.CreateStoreDTO,
     sharedContext?: Context
   ): Promise<StoreTypes.StoreDTO>
   @InjectManager()
+  // @ts-expect-error
   async createStores(
     data: StoreTypes.CreateStoreDTO | StoreTypes.CreateStoreDTO[],
     @MedusaContext() sharedContext: Context = {}
@@ -131,12 +133,14 @@ export default class StoreModuleService
     data: StoreTypes.UpdateStoreDTO,
     sharedContext?: Context
   ): Promise<StoreTypes.StoreDTO>
+  // @ts-expect-error
   async updateStores(
     selector: StoreTypes.FilterableStoreProps,
     data: StoreTypes.UpdateStoreDTO,
     sharedContext?: Context
   ): Promise<StoreTypes.StoreDTO[]>
   @InjectManager()
+  // @ts-expect-error
   async updateStores(
     idOrSelector: string | StoreTypes.FilterableStoreProps,
     data: StoreTypes.UpdateStoreDTO,

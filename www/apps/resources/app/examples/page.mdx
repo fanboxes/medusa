@@ -2028,7 +2028,7 @@ export const GET = async (
 
   const { 
     data: myCustoms,
-    metadata: { count, take, skip },
+    metadata: { count, take, skip } = {},
   } = await query.graph({
     entity: "my_custom",
     fields: ["id", "name"],

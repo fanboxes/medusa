@@ -71,12 +71,14 @@ export default class RegionModuleService
     data: CreateRegionDTO[],
     sharedContext?: Context
   ): Promise<RegionDTO[]>
+  // @ts-expect-error
   async createRegions(
     data: CreateRegionDTO,
     sharedContext?: Context
   ): Promise<RegionDTO>
 
   @InjectManager()
+  // @ts-expect-error
   async createRegions(
     data: CreateRegionDTO | CreateRegionDTO[],
     @MedusaContext() sharedContext: Context = {}
@@ -130,7 +132,7 @@ export default class RegionModuleService
   }
 
   @InjectManager()
-  // @ts-ignore
+  // @ts-expect-error
   async softDeleteRegions(
     ids: string | object | string[] | object[],
     config?: SoftDeleteReturn<string>,
@@ -141,7 +143,7 @@ export default class RegionModuleService
     await super.updateCountries(
       {
         selector: { region_id: ids },
-        data: { region_id: null },
+        data: { region_id: null } as any,
       },
       sharedContext
     )
@@ -192,6 +194,7 @@ export default class RegionModuleService
     data: UpdateRegionDTO,
     sharedContext?: Context
   ): Promise<RegionDTO>
+  // @ts-expect-error
   async updateRegions(
     selector: FilterableRegionProps,
     data: UpdateRegionDTO,
@@ -199,6 +202,7 @@ export default class RegionModuleService
   ): Promise<RegionDTO[]>
 
   @InjectManager()
+  // @ts-expect-error
   async updateRegions(
     idOrSelector: string | FilterableRegionProps,
     data: UpdateRegionDTO,

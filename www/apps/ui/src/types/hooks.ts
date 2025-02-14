@@ -1,4 +1,3 @@
-import { ComponentType, LazyExoticComponent } from "react"
 import { PropType } from "./props"
 
 export type HookData = {
@@ -8,7 +7,3 @@ export type HookData = {
 }
 
 export type HookDataMap = HookData[]
-
-export type HookRegistryItem = {
-  table: LazyExoticComponent<ComponentType>
-}

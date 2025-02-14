@@ -104,12 +104,14 @@ export class ApiKeyModuleService
     data: ApiKeyTypes.CreateApiKeyDTO[],
     sharedContext?: Context
   ): Promise<ApiKeyTypes.ApiKeyDTO[]>
+  //@ts-expect-error
   createApiKeys(
     data: ApiKeyTypes.CreateApiKeyDTO,
     sharedContext?: Context
   ): Promise<ApiKeyTypes.ApiKeyDTO>
 
   @InjectManager()
+  //@ts-expect-error
   async createApiKeys(
     data: ApiKeyTypes.CreateApiKeyDTO | ApiKeyTypes.CreateApiKeyDTO[],
     @MedusaContext() sharedContext: Context = {}
@@ -243,6 +245,7 @@ export class ApiKeyModuleService
     data: ApiKeyTypes.UpdateApiKeyDTO,
     sharedContext?: Context
   ): Promise<ApiKeyTypes.ApiKeyDTO>
+  //@ts-expect-error
   async updateApiKeys(
     selector: FilterableApiKeyProps,
     data: ApiKeyTypes.UpdateApiKeyDTO,
@@ -250,6 +253,7 @@ export class ApiKeyModuleService
   ): Promise<ApiKeyTypes.ApiKeyDTO[]>
 
   @InjectManager()
+  //@ts-expect-error
   async updateApiKeys(
     idOrSelector: string | FilterableApiKeyProps,
     data: ApiKeyTypes.UpdateApiKeyDTO,

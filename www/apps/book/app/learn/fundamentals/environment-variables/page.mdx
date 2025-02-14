@@ -22,7 +22,13 @@ In production, you should always use system environment variables that you set t
 
 During development, it's easier to set environment variables in a `.env` file in your repository.
 
-Based on your `NODE_ENV` system environment variable, which is considered as `development` if not set, Medusa will try to load environment variables from the following `.env` files:
+Based on your `NODE_ENV` system environment variable, Medusa will try to load environment variables from the following `.env` files:
+
+<Note title="Tip">
+
+As of [Medusa v2.5.0](https://github.com/medusajs/medusa/releases/tag/v2.5.0), `NODE_ENV` defaults to `production` when using `medusa start`. Otherwise, it defaults to `development`.
+
+</Note>
 
 <Table>
   <Table.Header>
@@ -94,3 +100,11 @@ In the `medusa-config.ts` file of your Medusa application, you'll find a `loadEn
 This function is responsible for loading the correct `.env` file based on the value of `process.env.NODE_ENV`.
 
 To ensure that the correct `.env` file is loaded as shown in the table above, only specify `development`, `production`, `staging` or `test` as the value of `process.env.NODE_ENV` or as the parameter of `loadEnv`.
+
+---
+
+## Environment Variables for Admin Customizations
+
+Since the Medusa Admin is built on top of [Vite](https://vite.dev/), you prefix the environment variables you want to use in a widget or UI route with `VITE_`. Then, you can access or use them with the `import.meta.env` object.
+
+Learn more in [this documentation](../admin/environment-variables/page.mdx).

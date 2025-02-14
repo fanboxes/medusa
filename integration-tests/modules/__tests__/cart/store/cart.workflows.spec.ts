@@ -266,6 +266,7 @@ medusaIntegrationTestRunner({
 
           const inventoryItem = await inventoryModule.createInventoryItems({
             sku: "inv-1234",
+            requires_shipping: false,
           })
 
           await inventoryModule.createInventoryLevels([
@@ -743,7 +744,7 @@ medusaIntegrationTestRunner({
                   title: "Test item",
                   subtitle: "Test subtitle",
                   thumbnail: "some-url",
-                  requires_shipping: true,
+                  requires_shipping: false,
                   is_discountable: false,
                   is_tax_inclusive: false,
                   unit_price: 3000,
@@ -825,7 +826,7 @@ medusaIntegrationTestRunner({
                     precision: 20,
                     value: "3000",
                   },
-                  requires_shipping: true,
+                  requires_shipping: false,
                   subtitle: "Test subtitle",
                   thumbnail: "some-url",
                   title: "Test item",

@@ -1,5 +1,5 @@
 import { Transformer } from "unified"
-import { ComponentLinkFixerOptions } from "./types/index.js"
+import { ComponentLinkFixerOptions } from "types"
 import { componentLinkFixer } from "./utils/component-link-fixer.js"
 
 export function typeListLinkFixerPlugin(

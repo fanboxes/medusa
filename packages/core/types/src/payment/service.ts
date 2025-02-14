@@ -1004,6 +1004,21 @@ export interface IPaymentModuleService extends IModuleService {
   ): Promise<CaptureDTO[]>
 
   /**
+   * This method deletes a capture by its ID.
+   *
+   * @param {string[]} captureId - The capture's ID.
+   * @param {Context} sharedContext - A context used to share resources, such as transaction manager, between the application and the module.
+   * @returns {Promise<void>} Resolves when the capture is deleted successfully.
+   *
+   * @example
+   * await paymentModuleService.deleteCaptures([
+   *   "capt_123",
+   *   "capt_321",
+   * ])
+   */
+  deleteCaptures(ids: string[], sharedContext?: Context): Promise<void>
+
+  /**
    * This method retrieves a paginated list of refunds based on optional filters and configuration.
    *
    * @param {FilterableRefundProps} filters - The filters to apply on the retrieved refunds.
@@ -1054,6 +1069,21 @@ export interface IPaymentModuleService extends IModuleService {
     config?: FindConfig<RefundDTO>,
     sharedContext?: Context
   ): Promise<RefundDTO[]>
+
+  /**
+   * This method deletes a refund by its ID.
+   *
+   * @param {string[]} refundId - The refund's ID.
+   * @param {Context} sharedContext - A context used to share resources, such as transaction manager, between the application and the module.
+   * @returns {Promise<void>} Resolves when the refund is deleted successfully.
+   *
+   * @example
+   * await paymentModuleService.deleteRefunds([
+   *   "ref_123",
+   *   "ref_321",
+   * ])
+   */
+  deleteRefunds(ids: string[], sharedContext?: Context): Promise<void>
 
   /**
    * This method creates refund reasons.

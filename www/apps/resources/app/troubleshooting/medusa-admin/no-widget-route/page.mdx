@@ -52,3 +52,30 @@ module.exports = defineConfig({
   // ...
 })
 ```
+
+---
+
+## Uncaught SyntaxError: The request module does not provide an export named default
+
+If you're using a third-party library that isn't ESM compatible, you might encounter this error in the console when you access the admin.
+
+To resolve it, add the third-party library to `vite`'s `optimizeDeps` configuration in `medusa-config.ts`. For example:
+
+```ts title="medusa-config.ts"
+module.exports = defineConfig({
+  admin: {
+    vite: () => {
+      return {
+        optimizeDeps: {
+          include: ["qs"],
+        },
+      }
+    },
+  },
+  // ...
+})
+```
+
+Where `qs` would be the third-party library you're using.
+
+Learn more about the `optimizeDeps` configuration in the [Vite documentation](https://vite.dev/config/dep-optimization-options). Also, learn more about Medusa's admin configurations in [this documentation](/references/medusa-config).

@@ -1,19 +1,8 @@
 import { HookTable } from "@/components/hook-table"
-import { HookDataMap } from "@/types/hooks"
-
-const useToastValues: HookDataMap = [
-  {
-    value: "dialog",
-    type: {
-      type: "function",
-      signature: `async (props: PromptProps): Promise<boolean>`,
-    },
-    description: "Async function used to display a new confirmation dialog.",
-  },
-]
+import { usePrompt } from "../../registries/hook-values"
 
 const Props = () => {
-  return <HookTable props={useToastValues} />
+  return <HookTable props={usePrompt} />
 }
 
 export default Props

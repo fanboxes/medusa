@@ -1,4 +1,4 @@
-import { UnistNodeWithData } from "../types/index.js"
+import { UnistNodeWithData } from "types"
 
 export default function getAttribute(
   node: UnistNodeWithData,

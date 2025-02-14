@@ -1583,7 +1583,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mdx-js/mdx@npm:^3.0.1":
+"@mdx-js/mdx@npm:^3.0.1, @mdx-js/mdx@npm:^3.1.0":
   version: 3.1.0
   resolution: "@mdx-js/mdx@npm:3.1.0"
   dependencies:
@@ -5533,6 +5533,7 @@ __metadata:
     autoprefixer: 10.4.14
     clsx: ^2.0.0
     docs-ui: "*"
+    docs-utils: "*"
     eslint: ^9.13.0
     eslint-plugin-prettier: ^5.2.1
     eslint-plugin-react-hooks: ^5.0.0
@@ -5868,6 +5869,7 @@ __metadata:
     build-scripts: "*"
     clsx: ^2.1.0
     docs-ui: "*"
+    docs-utils: "*"
     eslint: ^9.13.0
     eslint-plugin-prettier: ^5.2.1
     eslint-plugin-react-hooks: ^5.0.0
@@ -5942,11 +5944,14 @@ __metadata:
   dependencies:
     "@types/node": ^20.11.20
     docs-utils: "*"
+    fdir: ^6.4.3
     rimraf: ^5.0.5
+    slugify: ^1.6.6
     tags: "*"
     tsconfig: "*"
     types: "*"
     typescript: ^5.3.3
+    yaml: ^2.7.0
   peerDependencies:
     docs-utils: "*"
   languageName: unknown
@@ -7196,8 +7201,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "docs-utils@workspace:packages/docs-utils"
   dependencies:
+    "@mdx-js/mdx": ^3.1.0
     "@types/node": ^20.11.20
+    react-docgen: ^7.1.0
     remark-frontmatter: ^5.0.0
+    remark-mdx: ^3.1.0
     remark-parse: ^11.0.0
     remark-stringify: ^11.0.0
     rimraf: ^5.0.5
@@ -8508,6 +8516,18 @@ __metadata:
   dependencies:
     format: ^0.2.0
   checksum: b80fbf1019b9ce8b08ee09ce86e02b028563e13a32ac3be34e42bfac00a97b96d8dee6d31e26578ffc16224eb6729e01ff1f97ddfeee00494f4f56c0aeed4bdd
+  languageName: node
+  linkType: hard
+
+"fdir@npm:^6.4.3":
+  version: 6.4.3
+  resolution: "fdir@npm:6.4.3"
+  peerDependencies:
+    picomatch: ^3 || ^4
+  peerDependenciesMeta:
+    picomatch:
+      optional: true
+  checksum: d13c10120e9625adf21d8d80481586200759928c19405a816b77dd28eaeb80e7c59c5def3e2941508045eb06d34eb47fad865ccc8bf98e6ab988bb0ed160fb6f
   languageName: node
   linkType: hard
 
@@ -13297,6 +13317,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"remark-mdx@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "remark-mdx@npm:3.1.0"
+  dependencies:
+    mdast-util-mdx: ^3.0.0
+    micromark-extension-mdxjs: ^3.0.0
+  checksum: 247800fa8561624bdca5776457c5965d99e5e60080e80262c600fe12ddd573862e029e39349e1e36e4c3bf79c8e571ecf4d3d2d8c13485b758391fb500e24a1a
+  languageName: node
+  linkType: hard
+
 "remark-parse@npm:^10.0.0, remark-parse@npm:^10.0.2":
   version: 10.0.2
   resolution: "remark-parse@npm:10.0.2"
@@ -15032,6 +15062,7 @@ turbo@latest:
     contentlayer: ^0.3.4
     date-fns: ^3.3.1
     docs-ui: "*"
+    docs-utils: "*"
     eslint: ^9.13.0
     eslint-plugin-prettier: ^5.2.1
     eslint-plugin-react-hooks: ^5.0.0
@@ -15045,6 +15076,7 @@ turbo@latest:
     react-dom: rc
     rehype-slug: ^6.0.0
     remark: ^14.0.3
+    remark-rehype-plugins: "*"
     tailwind: "*"
     tailwindcss: 3.3.3
     ts-node: ^10.9.1
@@ -15869,6 +15901,15 @@ turbo@latest:
   bin:
     yaml: bin.mjs
   checksum: 97ab0b5a0714c92e4dd75120a6a63e470b0adc282afae0a701bf38f8c42cbf6429fcd6aca883e3a63c68936ab841862e6c69e2d66d355c3e4fc7cfd346af2108
+  languageName: node
+  linkType: hard
+
+"yaml@npm:^2.7.0":
+  version: 2.7.0
+  resolution: "yaml@npm:2.7.0"
+  bin:
+    yaml: bin.mjs
+  checksum: 886a7d2abbd70704b79f1d2d05fe9fb0aa63aefb86e1cb9991837dced65193d300f5554747a872b4b10ae9a12bc5d5327e4d04205f70336e863e35e89d8f4ea9
   languageName: node
   linkType: hard
 

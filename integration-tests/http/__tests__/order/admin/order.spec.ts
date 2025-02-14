@@ -588,7 +588,7 @@ medusaIntegrationTestRunner({
               variants: [
                 {
                   title: "Test variant",
-                  sku: "test-variant",
+                  sku: "w-inv-override-1",
                   inventory_items: [
                     {
                       inventory_item_id: inventoryItemOverride.id,
@@ -676,7 +676,7 @@ medusaIntegrationTestRunner({
               variants: [
                 {
                   title: "Test variant 2",
-                  sku: "test-variant-2",
+                  sku: "w-inv-override-2",
                   inventory_items: [
                     {
                       inventory_item_id: inventoryItemOverride2.id,
@@ -798,7 +798,7 @@ medusaIntegrationTestRunner({
           ],
           stockChannelOverride,
           inventoryItemOverride,
-          shippingProfileOverride: shippingProfile,
+          shippingProfileOverride: [shippingProfile, shippingProfileOverride],
         })
         order = seeder.order
         order = (await api.get(`/admin/orders/${order.id}`, adminHeaders)).data
@@ -840,6 +840,7 @@ medusaIntegrationTestRunner({
         await api.post(
           `/admin/orders/${order.id}/fulfillments`,
           {
+            shipping_option_id: seeder.shippingOption.id,
             location_id: seeder.stockLocation.id,
             items: [{ id: orderItemId, quantity: 1 }],
           },
@@ -859,6 +860,7 @@ medusaIntegrationTestRunner({
         await api.post(
           `/admin/orders/${order.id}/fulfillments`,
           {
+            shipping_option_id: seeder.shippingOption.id,
             location_id: seeder.stockLocation.id,
             items: [{ id: orderItemId, quantity: 1 }],
           },
@@ -880,6 +882,7 @@ medusaIntegrationTestRunner({
         } = await api.post(
           `/admin/orders/${order.id}/fulfillments?fields=fulfillments.id`,
           {
+            shipping_option_id: seeder.shippingOption.id,
             location_id: seeder.stockLocation.id,
             items: [{ id: orderItemId, quantity: 1 }],
           },
@@ -908,6 +911,7 @@ medusaIntegrationTestRunner({
           .post(
             `/admin/orders/${order.id}/fulfillments`,
             {
+              shipping_option_id: seeder.shippingOption.id,
               location_id: seeder.stockLocation.id,
               items: [{ id: orderItemId, quantity: 5 }],
             },
@@ -932,6 +936,7 @@ medusaIntegrationTestRunner({
           .post(
             `/admin/orders/${order.id}/fulfillments`,
             {
+              shipping_option_id: seeder.shippingOption.id, // shipping option with the "regular" shipping profile
               location_id: stockChannelOverride.id,
               items: [{ id: orderItemId, quantity: 1 }],
             },
@@ -946,20 +951,24 @@ medusaIntegrationTestRunner({
       })
 
       it("should only create fulfillments grouped by shipping requirement", async () => {
+        const i1 = order.items.find((i) => i.variant_sku === `w-inv-override-1`)
+        const i2 = order.items.find((i) => i.variant_sku === `w-inv-override-2`)
+
         const {
           response: { data },
         } = await api
           .post(
             `/admin/orders/${order.id}/fulfillments`,
             {
+              shipping_option_id: seeder.shippingOption.id,
               location_id: seeder.stockLocation.id,
               items: [
                 {
-                  id: order.items[0].id,
+                  id: i1.id,
                   quantity: 1,
                 },
                 {
-                  id: order.items[1].id,
+                  id: i2.id,
                   quantity: 1,
                 },
               ],
@@ -978,8 +987,9 @@ medusaIntegrationTestRunner({
         } = await api.post(
           `/admin/orders/${order.id}/fulfillments?fields=+fulfillments.id,fulfillments.requires_shipping`,
           {
+            shipping_option_id: seeder.shippingOption.id,
             location_id: seeder.stockLocation.id,
-            items: [{ id: order.items[0].id, quantity: 1 }],
+            items: [{ id: i1.id, quantity: 1 }],
           },
           adminHeaders
         )
@@ -991,8 +1001,9 @@ medusaIntegrationTestRunner({
         } = await api.post(
           `/admin/orders/${order.id}/fulfillments?fields=+fulfillments.id,fulfillments.requires_shipping`,
           {
+            shipping_option_id: seeder.shippingOption.id,
             location_id: seeder.stockLocation.id,
-            items: [{ id: order.items[1].id, quantity: 1 }],
+            items: [{ id: i2.id, quantity: 1 }],
           },
           adminHeaders
         )

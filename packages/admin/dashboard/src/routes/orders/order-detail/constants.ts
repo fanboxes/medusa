@@ -6,6 +6,7 @@ const DEFAULT_PROPERTIES = [
   "email",
   "display_id",
   "currency_code",
+  "metadata",
   // --- TOTALS ---
   "total",
   "item_total",
@@ -36,6 +37,7 @@ const DEFAULT_RELATIONS = [
   "*promotion",
   "*shipping_methods",
   "*fulfillments",
+  "+fulfillments.shipping_option.service_zone.fulfillment_set.type",
   "*fulfillments.items",
   "*fulfillments.labels",
   "*fulfillments.labels",

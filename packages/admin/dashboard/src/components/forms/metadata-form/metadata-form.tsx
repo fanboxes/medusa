@@ -113,6 +113,15 @@ const InnerForm = <TRes,>({
 
   function deleteRow(index: number) {
     remove(index)
+
+    // If the last row is deleted, add a new blank row
+    if (fields.length === 1) {
+      insert(0, {
+        key: "",
+        value: "",
+        disabled: false,
+      })
+    }
   }
 
   function insertRow(index: number, position: "above" | "below") {

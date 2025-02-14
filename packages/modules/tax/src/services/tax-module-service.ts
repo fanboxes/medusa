@@ -88,12 +88,14 @@ export default class TaxModuleService
     sharedContext?: Context
   ): Promise<TaxTypes.TaxRateDTO[]>
 
+  // @ts-expect-error
   async createTaxRates(
     data: TaxTypes.CreateTaxRateDTO,
     sharedContext?: Context
   ): Promise<TaxTypes.TaxRateDTO>
 
   @InjectManager()
+  // @ts-expect-error
   async createTaxRates(
     data: TaxTypes.CreateTaxRateDTO[] | TaxTypes.CreateTaxRateDTO,
     @MedusaContext() sharedContext: Context = {}
@@ -155,11 +157,13 @@ export default class TaxModuleService
     data: TaxTypes.UpdateTaxRateDTO,
     sharedContext?: Context
   ): Promise<TaxTypes.TaxRateDTO>
+  // @ts-expect-error
   async updateTaxRates(
     ids: string[],
     data: TaxTypes.UpdateTaxRateDTO,
     sharedContext?: Context
   ): Promise<TaxTypes.TaxRateDTO[]>
+  // @ts-expect-error
   async updateTaxRates(
     selector: TaxTypes.FilterableTaxRateProps,
     data: TaxTypes.UpdateTaxRateDTO,
@@ -167,6 +171,7 @@ export default class TaxModuleService
   ): Promise<TaxTypes.TaxRateDTO[]>
 
   @InjectManager()
+  // @ts-expect-error
   async updateTaxRates(
     selector: string | string[] | TaxTypes.FilterableTaxRateProps,
     data: TaxTypes.UpdateTaxRateDTO,
@@ -296,12 +301,14 @@ export default class TaxModuleService
     sharedContext?: Context
   ): Promise<TaxRegionDTO>
 
+  // @ts-expect-error
   createTaxRegions(
     data: TaxTypes.CreateTaxRegionDTO[],
     sharedContext?: Context
   ): Promise<TaxRegionDTO[]>
 
   @InjectManager()
+  // @ts-expect-error
   async createTaxRegions(
     data: TaxTypes.CreateTaxRegionDTO | TaxTypes.CreateTaxRegionDTO[],
     @MedusaContext() sharedContext: Context = {}
@@ -347,17 +354,19 @@ export default class TaxModuleService
     )
   }
 
-  // @ts-ignore
+  // @ts-expect-error
   createTaxRateRules(
     data: TaxTypes.CreateTaxRateRuleDTO,
     sharedContext?: Context
   ): Promise<TaxTypes.TaxRateRuleDTO>
+  // @ts-expect-error
   createTaxRateRules(
     data: TaxTypes.CreateTaxRateRuleDTO[],
     sharedContext?: Context
   ): Promise<TaxTypes.TaxRateRuleDTO[]>
 
   @InjectManager()
+  // @ts-expect-error
   async createTaxRateRules(
     data: TaxTypes.CreateTaxRateRuleDTO | TaxTypes.CreateTaxRateRuleDTO[],
     @MedusaContext() sharedContext: Context = {}

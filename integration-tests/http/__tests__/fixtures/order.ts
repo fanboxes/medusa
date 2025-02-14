@@ -29,10 +29,16 @@ export async function createOrderSeeder({
   stockChannelOverride?: AdminStockLocation
   additionalProducts?: { variant_id: string; quantity: number }[]
   inventoryItemOverride?: AdminInventoryItem
-  shippingProfileOverride?: AdminShippingProfile
+  shippingProfileOverride?: AdminShippingProfile | AdminShippingProfile[]
   withoutShipping?: boolean
 }) {
   const publishableKey = await generatePublishableKey(container)
+
+  const shippingProfileOverrideArray = !shippingProfileOverride
+    ? undefined
+    : Array.isArray(shippingProfileOverride)
+    ? shippingProfileOverride
+    : [shippingProfileOverride]
 
   const storeHeaders =
     storeHeaderOverride ??
@@ -92,7 +98,7 @@ export async function createOrderSeeder({
   )
 
   const shippingProfile =
-    shippingProfileOverride ??
+    shippingProfileOverrideArray?.[0] ??
     (
       await api.post(
         `/admin/shipping-profiles`,
@@ -168,29 +174,38 @@ export async function createOrderSeeder({
     adminHeaders
   )
 
-  const shippingOption = (
-    await api.post(
-      `/admin/shipping-options`,
-      {
-        name: `Test shipping option ${fulfillmentSet.id}`,
-        service_zone_id: fulfillmentSet.service_zones[0].id,
-        shipping_profile_id: shippingProfile.id,
-        provider_id: "manual_test-provider",
-        price_type: "flat",
-        type: {
-          label: "Test type",
-          description: "Test description",
-          code: "test-code",
-        },
-        prices: [
-          { currency_code: "usd", amount: 1000 },
-          { region_id: region.id, amount: 1100 },
-        ],
-        rules: [],
-      },
-      adminHeaders
-    )
-  ).data.shipping_option
+  /**
+   * Create shipping options for each shipping profile provided
+   */
+  const shippingOptions = await Promise.all(
+    (shippingProfileOverrideArray || [shippingProfile]).map(async (sp) => {
+      return (
+        await api.post(
+          `/admin/shipping-options`,
+          {
+            name: `Test shipping option ${fulfillmentSet.id}`,
+            service_zone_id: fulfillmentSet.service_zones[0].id,
+            shipping_profile_id: sp.id,
+            provider_id: "manual_test-provider",
+            price_type: "flat",
+            type: {
+              label: "Test type",
+              description: "Test description",
+              code: "test-code",
+            },
+            prices: [
+              { currency_code: "usd", amount: 1000 },
+              { region_id: region.id, amount: 1100 },
+            ],
+            rules: [],
+          },
+          adminHeaders
+        )
+      ).data.shipping_option
+    })
+  )
+
+  const shippingOption = shippingOptions[0]
 
   const cart = (
     await api.post(
@@ -226,10 +241,15 @@ export async function createOrderSeeder({
   ).data.cart
 
   if (!withoutShipping) {
-    await api.post(
-      `/store/carts/${cart.id}/shipping-methods`,
-      { option_id: shippingOption.id },
-      storeHeaders
+    // Create shipping methods for each shipping option so shipping profiles of products in the cart are supported
+    await Promise.all(
+      shippingOptions.map(async (so) => {
+        await api.post(
+          `/store/carts/${cart.id}/shipping-methods`,
+          { option_id: so.id },
+          storeHeaders
+        )
+      })
     )
   }
 

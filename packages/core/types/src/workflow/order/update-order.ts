@@ -26,6 +26,10 @@ export type UpdateOrderWorkflowInput = {
    * The new email of the order.
    */
   email?: string
+  /**
+   * The new metadata of the order.
+   */
+  metadata?: Record<string, unknown> | null
 }
 
 export type UpdateOrderShippingAddressWorkflowInput = {

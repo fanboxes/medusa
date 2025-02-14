@@ -18,7 +18,8 @@ import { useTranslation } from "react-i18next"
 import { CellContext } from "@tanstack/react-table"
 import { useNavigate } from "react-router-dom"
 import { DataTable } from "../../../../../components/data-table"
-import { useDataTableDateFilters } from "../../../../../components/data-table/hooks/general/use-data-table-date-filters"
+import { useDataTableDateColumns } from "../../../../../components/data-table/helpers/general/use-data-table-date-columns"
+import { useDataTableDateFilters } from "../../../../../components/data-table/helpers/general/use-data-table-date-filters"
 import {
   useDeleteVariantLazy,
   useProductVariants,
@@ -143,6 +144,8 @@ const useColumns = (product: HttpTypes.AdminProduct) => {
   const navigate = useNavigate()
   const { mutateAsync } = useDeleteVariantLazy(product.id)
   const prompt = usePrompt()
+
+  const dateColumns = useDataTableDateColumns<HttpTypes.AdminProductVariant>()
 
   const handleDelete = useCallback(
     async (id: string, title: string) => {
@@ -330,25 +333,28 @@ const useColumns = (product: HttpTypes.AdminProduct) => {
           const { text, hasInventoryKit, quantity } = getInventory(row.original)
 
           return (
-            <div className="flex h-full w-full items-center gap-2 overflow-hidden">
-              {hasInventoryKit && <Component />}
-              <span
-                className={clx("truncate", {
-                  "text-ui-fg-error": !quantity,
-                })}
-                title={text}
-              >
-                {text}
-              </span>
-            </div>
+            <Tooltip content={text}>
+              <div className="flex h-full w-full items-center gap-2 overflow-hidden">
+                {hasInventoryKit && <Component />}
+                <span
+                  className={clx("truncate", {
+                    "text-ui-fg-error": !quantity,
+                  })}
+                >
+                  {text}
+                </span>
+              </div>
+            </Tooltip>
           )
         },
+        maxSize: 250,
       }),
+      ...dateColumns,
       columnHelper.action({
         actions: getActions,
       }),
     ]
-  }, [t, optionColumns, getActions, getInventory])
+  }, [t, optionColumns, dateColumns, getActions, getInventory])
 }
 
 const filterHelper =

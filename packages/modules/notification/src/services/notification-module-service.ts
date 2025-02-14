@@ -63,6 +63,7 @@ export default class NotificationModuleService
     data: NotificationTypes.CreateNotificationDTO[],
     sharedContext?: Context
   ): Promise<NotificationTypes.NotificationDTO[]>
+  // @ts-expect-error
   createNotifications(
     data: NotificationTypes.CreateNotificationDTO,
     sharedContext?: Context
@@ -70,6 +71,7 @@ export default class NotificationModuleService
 
   @InjectManager()
   @EmitEvents()
+  // @ts-expect-error
   async createNotifications(
     data:
       | NotificationTypes.CreateNotificationDTO

@@ -66,7 +66,7 @@ export interface FindConfig<Entity> {
   /**
    * An array of strings, each being attribute names of the entity to retrieve in the result.
    */
-  select?: (keyof Entity | string)[]
+  select?: (keyof Entity | (string & {}))[]
 
   /**
    * A number indicating the number of records to skip before retrieving the results.

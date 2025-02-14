@@ -7,11 +7,11 @@ import {
   MedusaResponse,
 } from "@medusajs/framework/http"
 import { AdminOrder, HttpTypes } from "@medusajs/framework/types"
+import { ContainerRegistrationKeys } from "@medusajs/framework/utils"
 import {
   AdminGetOrdersOrderParamsType,
   AdminUpdateOrderType,
 } from "../validators"
-import { ContainerRegistrationKeys } from "@medusajs/framework/utils"
 
 export const GET = async (
   req: AuthenticatedMedusaRequest<AdminGetOrdersOrderParamsType>,

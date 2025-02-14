@@ -1,6 +1,6 @@
 import path from "path"
 import type { Transformer } from "unified"
-import type { LocalLinkOptions, UnistNode, UnistTree } from "./types/index.js"
+import type { LocalLinkOptions, UnistNode, UnistTree } from "types"
 import { fixLinkUtil } from "./index.js"
 
 export function localLinksRehypePlugin(options: LocalLinkOptions): Transformer {
@@ -25,16 +25,28 @@ export function localLinksRehypePlugin(options: LocalLinkOptions): Transformer {
       ""
     )
     const appsPath = basePath || path.join(file.cwd, "app")
-    visit(tree as UnistTree, "element", (node: UnistNode) => {
-      if (node.tagName !== "a" || !node.properties?.href?.match(/page\.mdx?/)) {
-        return
-      }
+    visit(tree as UnistTree, ["element", "link"], (node: UnistNode) => {
+      if (node.tagName === "a") {
+        if (!node.properties?.href?.match(/page\.mdx?/)) {
+          return
+        }
 
-      node.properties.href = fixLinkUtil({
-        currentPageFilePath,
-        linkedPath: node.properties.href,
-        appsPath,
-      })
+        node.properties.href = fixLinkUtil({
+          currentPageFilePath,
+          linkedPath: node.properties.href,
+          appsPath,
+        })
+      } else if (node.type === "link") {
+        if (!node.url?.match(/page\.mdx?/)) {
+          return
+        }
+
+        node.url = fixLinkUtil({
+          currentPageFilePath,
+          linkedPath: node.url,
+          appsPath,
+        })
+      }
     })
   }
 }

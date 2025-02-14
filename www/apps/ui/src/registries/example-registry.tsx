@@ -1,12 +1,7 @@
 import * as React from "react"
+import { ExampleRegistry as ExampleRegistryType } from "types"
 
-type ExampleType = {
-  name: string
-  component: React.LazyExoticComponent<() => React.JSX.Element>
-  file: string
-}
-
-export const ExampleRegistry: Record<string, ExampleType> = {
+export const ExampleRegistry: ExampleRegistryType = {
   "alert-demo": {
     name: "alert-demo",
     component: React.lazy(async () => import("@/examples/alert-demo")),

@@ -4,6 +4,7 @@ import {
 } from "@medusajs/types"
 
 import type { RedisOptions } from "ioredis"
+import { ConnectionOptions } from "node:tls"
 // @ts-expect-error
 import type { InlineConfig } from "vite"
 
@@ -90,7 +91,25 @@ export type AdminOptions = {
    * Configure the Vite configuration for the admin dashboard. This function receives the default Vite configuration
    * and returns the modified configuration. The default value is `undefined`.
    *
-   * @privateRemarks TODO Add example
+   * Learn about configurations you can pass to Vite in [Vite's documentation](https://vite.dev/config/).
+   *
+   * @example
+   * For example, if you're using a third-party library that isn't ESM-compatible, add it to Vite's `optimizeDeps` configuration:
+   *
+   * ```ts title="medusa-config.ts"
+   * module.exports = defineConfig({
+   *   admin: {
+   *     vite: () => {
+   *       return {
+   *         optimizeDeps: {
+   *           include: ["qs"],
+   *         },
+   *       };
+   *     },
+   *   },
+   *   // ...
+   * })
+   * ```
    */
   vite?: (config: InlineConfig) => InlineConfig
 }
@@ -286,12 +305,7 @@ export type ProjectConfigOptions = {
       /**
        * Configure support for TLS/SSL connection
        */
-      ssl?: {
-        /**
-         * Whether to fail connection if the server certificate is verified against the list of supplied CAs and the hostname and no match is found.
-         */
-        rejectUnauthorized?: false
-      }
+      ssl?: boolean | ConnectionOptions
     }
   }
 
@@ -833,7 +847,7 @@ export type ConfigModule = {
    * - An object having the following properties:
    *     - `resolve`: The name of the plugin's package as specified in the plugin's `package.json` file.
    *     - `options`: An object that includes options to be passed to the modules within the plugin. Learn more in [this documentation](https://docs.medusajs.com/learn/fundamentals/modules/options).
-   * 
+   *
    * Learn how to create a plugin in [this documentation](https://docs.medusajs.com/learn/fundamentals/plugins/create).
    *
    * @example
@@ -856,9 +870,9 @@ export type ConfigModule = {
    */
   plugins: (
     | {
-      /**
-       * The name of the plugin's package as specified in the plugin's `package.json` file.
-       */
+        /**
+         * The name of the plugin's package as specified in the plugin's `package.json` file.
+         */
         resolve: string
         /**
          * An object that includes options to be passed to the modules within the plugin.

@@ -17,6 +17,8 @@ export const inventorySidebar = [
         type: "category",
         title: "Concepts",
         initialOpen: false,
+        autogenerate_tags: "concept+inventory",
+        autogenerate_as_ref: true,
         children: [
           {
             type: "link",
