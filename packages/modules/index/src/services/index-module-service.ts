@@ -130,6 +130,7 @@ export default class IndexModuleService
       })
 
       const configurationChecker = new Configuration({
+        logger: this.logger_,
         schemaObjectRepresentation: this.schemaObjectRepresentation_,
         indexMetadataService: this.indexMetadataService_,
         indexSyncService: this.indexSyncService_,
@@ -178,8 +179,14 @@ export default class IndexModuleService
       return this.schemaObjectRepresentation_
     }
 
+    const baseSchema = `
+      scalar DateTime
+      scalar Date
+      scalar Time
+      scalar JSON
+    `
     const [objectRepresentation, entityMap] = buildSchemaObjectRepresentation(
-      this.moduleOptions_.schema ?? defaultSchema
+      baseSchema + (this.moduleOptions_.schema ?? defaultSchema)
     )
 
     this.schemaObjectRepresentation_ = objectRepresentation

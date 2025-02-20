@@ -64,6 +64,18 @@ describe("buildQuery", () => {
     })
   })
 
+  test("should build pagination with values of 0", () => {
+    const config: FindConfig<any> = {
+      take: 0,
+      skip: 0,
+    }
+    const result = buildQuery({}, config)
+    expect(result.options).toMatchObject({
+      limit: 0,
+      offset: 0,
+    })
+  })
+
   test("should handle withDeleted flag", () => {
     const filters = { deleted_at: "some-value" }
     const result = buildQuery(filters)

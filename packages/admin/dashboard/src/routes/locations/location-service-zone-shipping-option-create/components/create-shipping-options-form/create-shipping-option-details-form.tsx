@@ -247,21 +247,15 @@ export const CreateShippingOptionDetailsForm = ({
           />
         </div>
 
-        {!isPickup && (
-          <>
-            <Divider />
-            <SwitchBox
-              control={form.control}
-              name="enabled_in_store"
-              label={t(
-                "stockLocations.shippingOptions.fields.enableInStore.label"
-              )}
-              description={t(
-                "stockLocations.shippingOptions.fields.enableInStore.hint"
-              )}
-            />
-          </>
-        )}
+        <Divider />
+        <SwitchBox
+          control={form.control}
+          name="enabled_in_store"
+          label={t("stockLocations.shippingOptions.fields.enableInStore.label")}
+          description={t(
+            "stockLocations.shippingOptions.fields.enableInStore.hint"
+          )}
+        />
       </div>
     </div>
   )

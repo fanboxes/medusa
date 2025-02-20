@@ -148,7 +148,7 @@ describe("IndexModuleService syncIndexConfig", function () {
         }),
         expect.objectContaining({
           entity: "Product",
-          fields: "id,title",
+          fields: "created_at,id,title",
           status: "done",
         }),
         expect.objectContaining({
@@ -191,6 +191,7 @@ describe("IndexModuleService syncIndexConfig", function () {
     ;(index as any).buildSchemaObjectRepresentation_()
 
     let configurationChecker = new Configuration({
+      logger,
       schemaObjectRepresentation: (index as any).schemaObjectRepresentation_,
       indexMetadataService,
       indexSyncService,
@@ -277,6 +278,7 @@ describe("IndexModuleService syncIndexConfig", function () {
     )
 
     configurationChecker = new Configuration({
+      logger,
       schemaObjectRepresentation: (index as any).schemaObjectRepresentation_,
       indexMetadataService,
       indexSyncService,

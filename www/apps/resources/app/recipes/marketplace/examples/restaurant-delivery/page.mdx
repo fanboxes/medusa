@@ -3292,9 +3292,9 @@ You can use a custom Next.js project, or use Medusa's Next.js Starter storefront
 
 Before adding the storefront UI, you need an API route that allows a client to stream delivery changes.
 
-So, create the file `src/api/deliveries/subscribe/route.ts` with the following content:
+So, create the file `src/api/deliveries/[id]/subscribe/route.ts` with the following content:
 
-```ts title="src/api/deliveries/subscribe/route.ts" collapsibleLines="1-12" expandButtonLabel="Show Imports"
+```ts title="src/api/deliveries/[id]/subscribe/route.ts" collapsibleLines="1-12" expandButtonLabel="Show Imports"
 import { 
   MedusaRequest, 
   MedusaResponse,

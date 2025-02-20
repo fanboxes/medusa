@@ -9,6 +9,8 @@ import {
 
 jest.setTimeout(120000)
 
+// NOTE: In this tests, both API are used to query, we use object pattern and string pattern
+
 process.env.ENABLE_INDEX_MODULE = "true"
 
 medusaIntegrationTestRunner({
@@ -23,12 +25,9 @@ medusaIntegrationTestRunner({
       process.env.ENABLE_INDEX_MODULE = "false"
     })
 
-    beforeEach(async () => {
-      await createAdminUser(dbConnection, adminHeaders, appContainer)
-    })
-
     describe("Index engine - Query.index", () => {
-      it("should use query.index to query the index module and hydrate the data", async () => {
+      beforeEach(async () => {
+        await createAdminUser(dbConnection, adminHeaders, appContainer)
         const shippingProfile = (
           await api.post(
             `/admin/shipping-profiles`,
@@ -40,6 +39,7 @@ medusaIntegrationTestRunner({
         const payload = [
           {
             title: "Test Product",
+            status: "published",
             description: "test-product-description",
             shipping_profile_id: shippingProfile.id,
             options: [{ title: "Denominations", values: ["100"] }],
@@ -66,6 +66,7 @@ medusaIntegrationTestRunner({
           {
             title: "Extra product",
             description: "extra description",
+            status: "published",
             shipping_profile_id: shippingProfile.id,
             options: [{ title: "Colors", values: ["Red"] }],
             variants: new Array(2).fill(0).map((_, i) => ({
@@ -88,13 +89,16 @@ medusaIntegrationTestRunner({
           },
         ]
 
-        for (const data of payload) {
-          await api.post("/admin/products", data, adminHeaders).catch((err) => {
+        await api
+          .post("/admin/products/batch", { create: payload }, adminHeaders)
+          .catch((err) => {
             console.log(err)
           })
-        }
-        await setTimeout(5000)
 
+        await setTimeout(2000)
+      })
+
+      it("should use query.index to query the index module and hydrate the data", async () => {
         const query = appContainer.resolve(
           ContainerRegistrationKeys.QUERY
         ) as RemoteQueryFunction
@@ -105,7 +109,7 @@ medusaIntegrationTestRunner({
             "id",
             "description",
             "status",
-
+            "title",
             "variants.sku",
             "variants.barcode",
             "variants.material",
@@ -120,17 +124,25 @@ medusaIntegrationTestRunner({
             "variants.prices.amount": { $gt: 30 },
           },
           pagination: {
+            take: 10,
+            skip: 0,
             order: {
               "variants.prices.amount": "DESC",
             },
           },
         })
 
+        expect(resultset.metadata).toEqual({
+          count: 2,
+          skip: 0,
+          take: 10,
+        })
         expect(resultset.data).toEqual([
           {
             id: expect.any(String),
             description: "extra description",
-            status: "draft",
+            title: "Extra product",
+            status: "published",
             variants: [
               {
                 sku: "extra-variant-0",
@@ -194,7 +206,8 @@ medusaIntegrationTestRunner({
           {
             id: expect.any(String),
             description: "test-product-description",
-            status: "draft",
+            title: "Test Product",
+            status: "published",
             variants: [
               {
                 sku: "test-variant-1",
@@ -230,6 +243,104 @@ medusaIntegrationTestRunner({
                   },
                 ],
               },
+            ],
+          },
+        ])
+      })
+
+      it("should use query.index to query the index module sorting by price desc", async () => {
+        const query = appContainer.resolve(
+          ContainerRegistrationKeys.QUERY
+        ) as RemoteQueryFunction
+
+        const resultset = await query.index({
+          entity: "product",
+          fields: [
+            "id",
+            "variants.prices.amount",
+            "variants.prices.currency_code",
+          ],
+          filters: {
+            "variants.prices.currency_code": "USD",
+          },
+          pagination: {
+            take: 1,
+            skip: 0,
+            order: {
+              "variants.prices.amount": "DESC",
+            },
+          },
+        })
+
+        // Limiting to 1 on purpose to keep it simple and check the correct order is maintained
+        expect(resultset.data).toEqual([
+          {
+            id: expect.any(String),
+            variants: expect.arrayContaining([
+              expect.objectContaining({
+                prices: expect.arrayContaining([
+                  {
+                    amount: 20,
+                    currency_code: "CAD",
+                    id: expect.any(String),
+                  },
+                  {
+                    amount: 80,
+                    currency_code: "USD",
+                    id: expect.any(String),
+                  },
+                ]),
+              }),
+            ]),
+          },
+        ])
+
+        const resultset2 = await query.index({
+          entity: "product",
+          fields: [
+            "id",
+            "variants.prices.amount",
+            "variants.prices.currency_code",
+          ],
+          filters: {
+            variants: {
+              prices: {
+                currency_code: "USD",
+              },
+            },
+          },
+          pagination: {
+            take: 1,
+            skip: 0,
+            order: {
+              variants: {
+                prices: {
+                  amount: "ASC",
+                },
+              },
+            },
+          },
+        })
+
+        // Limiting to 1 on purpose to keep it simple and check the correct order is maintained
+        expect(resultset2.data).toEqual([
+          {
+            id: expect.any(String),
+            variants: [
+              expect.objectContaining({
+                prices: expect.arrayContaining([
+                  {
+                    amount: 30,
+                    currency_code: "USD",
+                    id: expect.any(String),
+                  },
+                  {
+                    amount: 50,
+                    currency_code: "EUR",
+                    id: expect.any(String),
+                  },
+                ]),
+              }),
             ],
           },
         ])

@@ -14,6 +14,7 @@ import {
   MedusaError,
   isObject,
   remoteQueryObjectFromString,
+  unflattenObjectKeys,
 } from "@medusajs/utils"
 import { RemoteQuery } from "./remote-query"
 import { toRemoteQuery } from "./to-remote-query"
@@ -211,7 +212,9 @@ export class Query {
       : ({} as any)
     const pagination = queryOptions.pagination as any
     if (pagination?.order) {
-      pagination.order = { [mainEntity]: pagination.order }
+      pagination.order = {
+        [mainEntity]: unflattenObjectKeys(pagination?.order),
+      }
     }
 
     const indexResponse = (await this.#indexModule.query({

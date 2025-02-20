@@ -15,7 +15,7 @@ import {
   SchemaObjectEntityRepresentation,
 } from "@medusajs/types"
 import { IndexMetadataStatus, Orchestrator } from "@utils"
-
+import { setTimeout } from "timers/promises"
 export class DataSynchronizer {
   #container: Record<string, any>
   #isReady: boolean = false
@@ -160,6 +160,8 @@ export class DataSynchronizer {
   }
 
   async #taskRunner(entity: string) {
+    this.#logger.info(`[Index engine] syncing entity '${entity}'`)
+
     const [[lastCursor]] = await promiseAll([
       this.#indexSyncService.list(
         {
@@ -176,15 +178,24 @@ export class DataSynchronizer {
       ),
     ])
 
+    let startTime = performance.now()
+    let chunkStartTime = startTime
+
     const finalAcknoledgement = await this.syncEntity({
       entityName: entity,
       pagination: {
         cursor: lastCursor?.last_key,
       },
       ack: async (ack) => {
+        const endTime = performance.now()
+        const chunkElapsedTime = (endTime - chunkStartTime).toFixed(2)
         const promises: Promise<any>[] = []
 
         if (ack.lastCursor) {
+          this.#logger.debug(
+            `[Index engine] syncing entity '${entity}' updating last cursor to ${ack.lastCursor} (+${chunkElapsedTime}ms)`
+          )
+
           promises.push(
             this.#indexSyncService.update({
               data: {
@@ -201,7 +212,22 @@ export class DataSynchronizer {
           }
         }
 
+        if (ack.err) {
+          this.#logger.error(
+            `[Index engine] syncing entity '${entity}' failed with error (+${chunkElapsedTime}ms):\n${ack.err.message}`
+          )
+        }
+
+        if (ack.done) {
+          const elapsedTime = (endTime - startTime).toFixed(2)
+          this.#logger.info(
+            `[Index engine] syncing entity '${entity}' done (+${elapsedTime}ms)`
+          )
+        }
+
         await promiseAll(promises)
+
+        chunkStartTime = performance.now()
       },
     })
 
@@ -272,7 +298,7 @@ export class DataSynchronizer {
       const acknoledgement = {
         lastCursor: pagination.cursor ?? null,
         err: new Error(
-          "Entity does not have a property 'id'. The 'id' must be provided and must be orderable (e.g ulid)"
+          `Entity ${entityName} does not have a property 'id'. The 'id' must be provided and must be orderable (e.g ulid)`
         ),
       }
 
@@ -329,13 +355,11 @@ export class DataSynchronizer {
 
         await ack({ lastCursor: currentCursor })
       } catch (err) {
-        this.#logger.error(
-          `Index engine] sync failed for entity ${entityName}`,
-          err
-        )
         error = err
         break
       }
+
+      await setTimeout(0)
     }
 
     let acknoledgement: { lastCursor: string; done?: boolean; err?: Error } = {

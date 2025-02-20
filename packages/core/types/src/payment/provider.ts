@@ -76,6 +76,11 @@ export type PaymentProviderContext = {
    * The customer information from Medusa.
    */
   customer?: PaymentCustomerDTO
+
+  /**
+   * Idempotency key for the request, if the payment provider supports it. It will be ignored otherwise.
+   */
+  idempotency_key?: string
 }
 
 export type PaymentProviderInput = {
@@ -185,6 +190,18 @@ export type CreateAccountHolderInput = PaymentProviderInput & {
      * The account holder's associated customer details.
      */
     customer: PaymentCustomerDTO
+  }
+}
+
+export type UpdateAccountHolderInput = PaymentProviderInput & {
+  /**
+   * The context of creating the account holder.
+   */
+  context: PaymentProviderContext & {
+    /**
+     * The account holder's details.
+     */
+    account_holder: PaymentAccountHolderDTO
   }
 }
 
@@ -317,6 +334,8 @@ export type CreateAccountHolderOutput = PaymentProviderOutput & {
    */
   id: string
 }
+
+export type UpdateAccountHolderOutput = PaymentProviderOutput
 
 export type DeleteAccountHolderOutput = PaymentProviderOutput
 
@@ -460,6 +479,50 @@ export interface IPaymentProvider {
   createAccountHolder?(
     data: CreateAccountHolderInput
   ): Promise<CreateAccountHolderOutput>
+
+  /**
+   * This method is used when updating an account holder in Medusa, allowing you to update
+   * the equivalent account in the third-party service.
+   *
+   * The returned data will be stored in the account holder created in Medusa. For example,
+   * the returned `id` property will be stored in the account holder's `external_id` property.
+   *
+   * @param data - Input data including the details of the account holder to update.
+   * @returns The result of updating the account holder. If an error occurs, throw it.
+   *
+   * @version 2.6.0
+   *
+   * @example
+   * import { MedusaError } from "@medusajs/framework/utils"
+   *
+   * class MyPaymentProviderService extends AbstractPaymentProvider<
+   *  Options
+   * > {
+   *  async updateAccountHolder({ context, data }: UpdateAccountHolderInput) {
+   *   const { account_holder, customer } = context
+   *
+   *   if (!account_holder?.data?.id) {
+   *     throw new MedusaError(
+   *       MedusaError.Types.INVALID_DATA,
+   *       "Missing account holder ID."
+   *     )
+   *   }
+   *
+   *   // assuming you have a client that updates the account holder
+   *   const providerAccountHolder = await this.client.updateAccountHolder({
+   *     id: account_holder.data.id,
+   *    ...data
+   *   })
+   *
+   *   return {
+   *     id: providerAccountHolder.id,
+   *     data: providerAccountHolder as unknown as Record<string, unknown>
+   *   }
+   * }
+   */
+  updateAccountHolder?(
+    data: UpdateAccountHolderInput
+  ): Promise<UpdateAccountHolderOutput>
 
   /**
    * This method is used when an account holder is deleted in Medusa, allowing you

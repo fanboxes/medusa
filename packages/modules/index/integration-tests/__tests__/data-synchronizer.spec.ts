@@ -199,7 +199,7 @@ describe("DataSynchronizer", () => {
         filters: {
           id: [testProductId],
         },
-        fields: ["id", "title"],
+        fields: ["id", "created_at", "title"],
       })
 
       // Second loop fetching products
@@ -225,7 +225,7 @@ describe("DataSynchronizer", () => {
         filters: {
           id: [testProductId2],
         },
-        fields: ["id", "title"],
+        fields: ["id", "created_at", "title"],
       })
 
       expect(ackMock).toHaveBeenNthCalledWith(1, {

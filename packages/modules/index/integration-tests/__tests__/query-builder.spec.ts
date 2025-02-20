@@ -414,7 +414,19 @@ describe("IndexModuleService query", function () {
       },
     })
 
+    // NULLS LAST (DESC = first)
     expect(data).toEqual([
+      {
+        id: "prod_2",
+        title: "Product 2 title",
+        deep: {
+          a: 1,
+          obj: {
+            b: 15,
+          },
+        },
+        variants: [],
+      },
       {
         id: "prod_1",
         variants: [
@@ -439,17 +451,6 @@ describe("IndexModuleService query", function () {
             ],
           },
         ],
-      },
-      {
-        id: "prod_2",
-        title: "Product 2 title",
-        deep: {
-          a: 1,
-          obj: {
-            b: 15,
-          },
-        },
-        variants: [],
       },
     ])
 
@@ -470,17 +471,6 @@ describe("IndexModuleService query", function () {
 
     expect(dataAsc).toEqual([
       {
-        id: "prod_2",
-        title: "Product 2 title",
-        deep: {
-          a: 1,
-          obj: {
-            b: 15,
-          },
-        },
-        variants: [],
-      },
-      {
         id: "prod_1",
         variants: [
           {
@@ -504,6 +494,17 @@ describe("IndexModuleService query", function () {
             ],
           },
         ],
+      },
+      {
+        id: "prod_2",
+        title: "Product 2 title",
+        deep: {
+          a: 1,
+          obj: {
+            b: 15,
+          },
+        },
+        variants: [],
       },
     ])
   })
@@ -565,6 +566,11 @@ describe("IndexModuleService query", function () {
       pagination: {
         take: 100,
         skip: 0,
+        order: {
+          product: {
+            created_at: "ASC",
+          },
+        },
       },
     })
 
@@ -596,7 +602,7 @@ describe("IndexModuleService query", function () {
           product: {
             variants: {
               prices: {
-                amount: "DESC",
+                amount: "ASC",
               },
             },
           },
@@ -609,12 +615,12 @@ describe("IndexModuleService query", function () {
         id: "prod_1",
         variants: [
           {
-            id: "var_1",
-            sku: "aaa test aaa",
-          },
-          {
             id: "var_2",
             sku: "sku 123",
+          },
+          {
+            id: "var_1",
+            sku: "aaa test aaa",
           },
         ],
       },
