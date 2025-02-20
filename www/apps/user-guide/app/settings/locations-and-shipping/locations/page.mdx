@@ -1,0 +1,290 @@
+---
+sidebar_position: 7
+sidebar_label: "Locations"
+---
+
+import { EllipsisHorizontal, TaxExclusive, TaxInclusive } from "@medusajs/icons"
+
+export const metadata = {
+  title: `Manage Locations`,
+}
+
+# {metadata.title}
+
+In this guide, you’ll learn how to manage the stock locations using the Medusa Admin.
+
+## What is a Stock Location?
+
+A location represents a physical stocking location, such as a warehouse. You can then manage [inventory item](../../../inventory/inventory/page.mdx) quantities in those locations.
+
+For each location, you can specify the sales channels it's associated with, the fulfillment providers available in that location, and the shipping options available from that location.
+
+Then, during checkout, a customer can only choose shipping options available from the location associated with the sales channel they're ordering from. After they place the order, the items are fulfilled from the stock location associated with the order's sales channel.
+
+---
+
+## Create Location
+
+To create a stock location:
+
+1. Go to Settings → Locations & Shipping.
+2. Click the Create button at the top right.
+3. In the form that opens:
+    - Enter the location's name, such as "Main Warehouse".
+    - Enter the address details. It's only required to enter an address line and choose a country.
+4. Once you're done, click the Save button.
+
+![Create location form](https://res.cloudinary.com/dza7lstvk/image/upload/v1739981066/User%20Guide/Screenshot_2025-02-19_at_6.04.12_PM_spbndl.png)
+
+---
+
+## View Location Details
+
+To view the details of a location:
+
+1. Go to Settings → Locations.
+2. Click on "View details" at the top right of the location's section.
+
+This opens the location's details page where you can also manage the location.
+
+![Locations details page](https://res.cloudinary.com/dza7lstvk/image/upload/v1739981293/User%20Guide/Screenshot_2025-02-19_at_6.06.01_PM_ps7s97.png)
+
+---
+
+## Edit Location
+
+To edit a stock location:
+
+1. Open the location's details page.
+2. Click the <InlineIcon Icon={EllipsisHorizontal} alt="three-dots" /> icon at the top right of the first section.
+3. Choose Edit from the dropdown.
+4. In the side window that opens, you can edit the location's name and address details.
+5. Once you're done, click the Save button.
+
+![Edit location form](https://res.cloudinary.com/dza7lstvk/image/upload/v1739981386/User%20Guide/Screenshot_2025-02-19_at_6.09.25_PM_yd6zta.png)
+
+---
+
+## Create Shipping Options
+
+A location can have shipping options for the pickup and shipping modes. You can manage these options from the location's details page.
+
+Shipping options are organized by service zones in each shipping mode. A service zone is a geographical area where you can specify the shipping options available. For example, you can create a service zone for the United States, and specify the shipping options available in the US.
+
+So, to create a shipping option for either pick-up or shipping, you need to enable the pick-up or shipping mode, create a service zone for that mode, and create the shipping option within that zone.
+
+### 1. Enable Shipping Mode
+
+By default, pick-up and shipping are disabled in a location. To enable either:
+
+1. Go to the location's details page.
+2. Click the <InlineIcon Icon={EllipsisHorizontal} alt="three-dots" /> icon at the top right of the "Pickup" or "Shipping" section.
+3. Choose Enable from the dropdown.
+
+You can also disable the shipping mode by following the same steps.
+
+### 2. Create Service Zone
+
+To ceate a service zone for pick-up or shipping:
+
+1. Go to the location's details page.
+2. Click the <InlineIcon Icon={EllipsisHorizontal} alt="three-dots" /> icon at the top right of the "Pickup" or "Shipping" section.
+3. Choose "Create service zone" from the dropdown.
+4. In the form that opens:
+    - In the Name field, enter the name of the service zone. For example, "United States".
+    - Under the Areas section, you'll choose the countries that are covered by this service zone:
+        - Click the "Manage areas" button.
+        - Check the countries to add to the service zone.
+        - Click the Save button.
+5. Once you're done, click the Save button.
+
+![Create service zone form](https://res.cloudinary.com/dza7lstvk/image/upload/v1739982156/User%20Guide/Screenshot_2025-02-19_at_6.22.17_PM_ajd36h.png)
+
+Learn how you can further manage this service zone in the [Manage Service Zones section](#manage-service-zones).
+
+### 3. Create Shipping Options
+
+You can now add shipping options to the service zone you created. You can either add a standard shipping option that's used during checkout, or a return shipping option, which is only used to return items from the customer.
+
+To create a shipping option:
+
+1. Go to the location's details page.
+2. In the "Pickup" or "Shipping" section, find the service zone you want to add the shipping option to.
+3. Click the "Create option" at the right of either "Shipping options" or "Return options", based on the type of shipping option you're creating.
+4. In the form that opens:
+    - For the "Price type", chose **Fixed** if you want to apply fixed pricing for the shipping option, or **Calculated** if the price should be calculated dynamically during checkout. Calculated prices are useful if you're using a third-party fulfillment provider that calculates prices dynamically.
+        - If you chose Fixed, you'll set the price in the next step of the form.
+        - If you choose Calculated and the fulfillment provider you choose doesn't support calculated prices, the shipping option creation will fail.
+    - In the Name field, enter a name for the shipping option. Customers will see this option during checkout.
+    - In the Shipping Profile field, choose the shipping profile that this option can be used for. Only products belonging to this shipping profile can be shipped with this shipping option.
+    - In the Fulfillment Provider field, choose the fulfillment provider that will handle shipping orders using this option.
+        - If you don't find the fulfillment provider you're looking for, make sure it's [added to the location](#manage-fulfillment-providers).
+    - In the Fulfillment Option field, choose a fulfillment option from the fulfillment provider. For example, UPS may provide express or standard fulfillment options.
+        - If you're unsure about which fulfillment option to choose, contact your technical team for assistance.
+    - If you don't want this shipping option to be used by customers during checkout, disable the "Enable in store" toggle. This is useful if you're creating a shipping option that's only used internally.
+
+![Create shipping option form step 1](https://res.cloudinary.com/dza7lstvk/image/upload/v1739982940/User%20Guide/Screenshot_2025-02-19_at_6.30.28_PM_cteij2.png)
+
+If you chose a "Calculated" price type, you can click the "Save" button to create the shipping option. Otherwise click Continue to proceed to the Prices step.
+
+In the Prices step, use the [Bulk Editor](../../../tips/bulk-editor/page.mdx) to enter the shipping option's prices for every currency and region in your store. Once you're done, click the Save button.
+
+Learn how you can further manage the shipping option in the [Manage Shipping Options section](#manage-shipping-options).
+
+<Note title="Tips">
+
+- Price columns that have the <InlineIcon Icon={TaxExclusive} alt="tax-exclusive" /> icon are tax-exclusive prices. Medusa will calculate taxes during checkout and add them to this price.
+- Price columns that have the <InlineIcon Icon={TaxInclusive} alt="tax-inclusive" /> icon are tax-inclusive prices. Medusa will calculate taxes during checkout as part of this price.
+
+Tax-inclusive pricing is configured in the [currency's](../../store/page.mdx#edit-tax-inclusive-setting-for-currency) or [region's](../../regions/page.mdx#tax-inclusive-pricing-for-regions) settings.
+
+</Note>
+
+![Create shipping option form step 2](https://res.cloudinary.com/dza7lstvk/image/upload/v1739983344/User%20Guide/Screenshot_2025-02-19_at_6.42.12_PM_u3dk2g.png)
+
+---
+
+## Manage Service Zones
+
+You can manage service zones in pick-up or shipping mode by [creating](#2-create-service-zone), editing, or deleting them.
+
+### Edit Service Zone Details
+
+To edit a service zone in a location:
+
+1. Go to the location's details page.
+2. In the "Pickup" or "Shipping" sections, find the service zone and click on the <InlineIcon Icon={EllipsisHorizontal} alt="three-dots" /> icon at its right.
+3. Choose Edit from the dropdown.
+4. In the side window that opens, you can edit the service zone's name.
+5. Once you're done, click the Save button.
+
+![Edit service zone form](https://res.cloudinary.com/dza7lstvk/image/upload/v1739983657/User%20Guide/Screenshot_2025-02-19_at_6.47.22_PM_xsktmj.png)
+
+### Manage Service Zone Areas
+
+To manage the areas in a service zone:
+
+1. Go to the location's details page.
+2. In the "Pickup" or "Shipping" sections, find the service zone and click on the <InlineIcon Icon={EllipsisHorizontal} alt="three-dots" /> icon at its right.
+3. Choose "Manage areas" from the dropdown.
+4. In the form that opens, manage the areas in the service zone:
+    - Click the "Manage areas" button.
+    - Check the countries to add to the service zone, and uncheck the countries to remove from the service zone.
+    - Click the Save button.
+5. Once you're done, click the Save button.
+
+![Manage service zone areas](https://res.cloudinary.com/dza7lstvk/image/upload/v1739983833/User%20Guide/Screenshot_2025-02-19_at_6.49.50_PM_zoud5i.png)
+
+### Delete Service Zone
+
+<Note type="warning">
+
+Deleting a service zone is irreversible. It will delete all shipping options in the service zone.
+
+</Note>
+
+To delete a service zone:
+
+1. Go to the location's details page.
+2. In the "Pickup" or "Shipping" sections, find the service zone and click on the <InlineIcon Icon={EllipsisHorizontal} alt="three-dots" /> icon at its right.
+3. Choose Delete from the dropdown.
+4. Confirm deleting the service zone by clicking the Delete button in the pop-up.
+
+---
+
+## Manage Shipping Options
+
+You can manage shipping options in pick-up and shipping modes by [creating](#create-shipping-options), editing, or deleting them.
+
+### Edit Shipping Option Details
+
+To edit a shipping option's details:
+
+1. Go to the location's details page.
+2. In the "Pickup" or "Shipping" sections, find the shipping option and click on the <InlineIcon Icon={EllipsisHorizontal} alt="three-dots" /> icon at its right.
+3. Choose "Edit option" from the dropdown.
+4. In the side window that opens, you can edit the shipping option's price type, name, shipping profile, and whether it's enabled in store for customers to use.
+5. Once you're done, click the Save button.
+
+![Edit shipping option details form](https://res.cloudinary.com/dza7lstvk/image/upload/v1739984284/User%20Guide/Screenshot_2025-02-19_at_6.57.23_PM_k9z5wq.png)
+
+### Edit Shipping Option Prices
+
+To edit the prices of shipping options whose price type is Fixed:
+
+1. Go to the location's details page.
+2. In the "Pickup" or "Shipping" sections, find the shipping option and click on the <InlineIcon Icon={EllipsisHorizontal} alt="three-dots" /> icon at its right.
+3. Choose "Edit prices" from the dropdown.
+4. In the [Bulk Editor](../../../tips/bulk-editor/page.mdx) that opens, you can edit the shipping option's price for every currency and region in your store.
+5. Once you're done, click the Save button.
+
+<Note title="Tips">
+
+- Price columns that have the <InlineIcon Icon={TaxExclusive} alt="tax-exclusive" /> icon are tax-exclusive prices. Medusa will calculate taxes during checkout and add them to this price.
+- Price columns that have the <InlineIcon Icon={TaxInclusive} alt="tax-inclusive" /> icon are tax-inclusive prices. Medusa will calculate taxes during checkout as part of this price.
+
+Tax-inclusive pricing is configured in the [currency's](../../store/page.mdx#edit-tax-inclusive-setting-for-currency) or [region's](../../regions/page.mdx#tax-inclusive-pricing-for-regions) settings.
+
+</Note>
+
+![Edit shipping option prices form](https://res.cloudinary.com/dza7lstvk/image/upload/v1739984484/User%20Guide/Screenshot_2025-02-19_at_7.00.25_PM_a0dsoh.png)
+
+### Delete Shipping Option
+
+<Note type="warning">
+
+Deleting a shipping option is irreversible.
+
+</Note>
+
+To delete a shipping option:
+
+1. Go to the location's details page.
+2. In the "Pickup" or "Shipping" sections, find the shipping option and click on the <InlineIcon Icon={EllipsisHorizontal} alt="three-dots" /> icon at its right.
+3. Choose Delete from the dropdown.
+4. Confirm deleting the shipping option by entering its name in the pop-up and clicking the "Delete" button.
+
+---
+
+## Change Associated Sales Channels
+
+To change the sales channels associated with a location:
+
+1. Go to the location's details page.
+2. Click the <InlineIcon Icon={EllipsisHorizontal} alt="three-dots" /> icon at the top right of the "Sales Channels" section.
+3. Choose Edit from the dropdown.
+4. In the list that opens, you can select the sales channels to associate with the location, or unselect the ones you want to remove.
+5. Once you're done, click the Save button.
+
+![Change associated sales channels](https://res.cloudinary.com/dza7lstvk/image/upload/v1739981529/User%20Guide/Screenshot_2025-02-19_at_6.11.53_PM_lvlolu.png)
+
+---
+
+## Manage Fulfillment Providers
+
+To manage the fulfillment providers available in a location:
+
+1. Go to the location's details page.
+2. Click the <InlineIcon Icon={EllipsisHorizontal} alt="three-dots" /> icon at the top right of the "Fulfillment Providers" section.
+3. Choose Edit from the dropdown.
+4. In the list that opens, you can select the fulfillment providers to associate with the location, or unselect the ones you want to remove.
+5. Once you're done, click the Save button.
+
+![Manage fulfillment providers](https://res.cloudinary.com/dza7lstvk/image/upload/v1739981633/User%20Guide/Screenshot_2025-02-19_at_6.13.31_PM_wpdsfk.png)
+
+---
+
+## Delete Location
+
+<Note type="warning">
+
+Deleting a location is irreversible and will delete its service zones and shipping options.
+
+</Note>
+
+To delete a location:
+
+1. Open the location's details page.
+2. Click the <InlineIcon Icon={EllipsisHorizontal} alt="three-dots" /> icon at the top right of the first section.
+3. Choose Delete from the dropdown.
+4. Confirm deleting the location by entering its name and clicking the Delete button.

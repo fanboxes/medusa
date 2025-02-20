@@ -17,6 +17,7 @@ import {
   isString,
   lowerCaseFirst,
   MedusaError,
+  mergeMetadata,
 } from "../common"
 import { FreeTextSearchFilterKeyPrefix } from "../dal"
 import { DmlEntity, toMikroORMEntity } from "../dml"
@@ -349,6 +350,16 @@ export function MedusaInternalService<
       if (!toUpdateData.length) {
         return []
       }
+
+      // Manage metadata if needed
+      toUpdateData.forEach(({ entity, update }) => {
+        if (isPresent(update.metadata)) {
+          entity.metadata = update.metadata = mergeMetadata(
+            entity.metadata ?? {},
+            update.metadata
+          )
+        }
+      })
 
       return await this[propertyRepositoryName].update(
         toUpdateData,

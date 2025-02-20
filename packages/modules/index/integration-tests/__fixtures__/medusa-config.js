@@ -31,6 +31,7 @@ Object.keys(config.modules).forEach((key) => {
 config.modules[Modules.INDEX] = {
   resolve: "@medusajs/index",
   dependencies: [
+    ContainerRegistrationKeys.LOGGER,
     Modules.EVENT_BUS,
     Modules.LOCKING,
     ContainerRegistrationKeys.REMOTE_QUERY,

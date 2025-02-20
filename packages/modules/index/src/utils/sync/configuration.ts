@@ -1,5 +1,5 @@
 import { simpleHash } from "@medusajs/framework/utils"
-import { IndexTypes, InferEntityType } from "@medusajs/types"
+import { IndexTypes, InferEntityType, Logger } from "@medusajs/types"
 import { IndexMetadata } from "@models"
 import { schemaObjectRepresentationPropertiesToOmit } from "@types"
 import { DataSynchronizer } from "../../services/data-synchronizer"
@@ -12,25 +12,32 @@ export class Configuration {
   #indexMetadataService: IndexMetadataService
   #indexSyncService: IndexSyncService
   #dataSynchronizer: DataSynchronizer
+  #logger: Logger
 
   constructor({
     schemaObjectRepresentation,
     indexMetadataService,
     indexSyncService,
     dataSynchronizer,
+    logger,
   }: {
     schemaObjectRepresentation: IndexTypes.SchemaObjectRepresentation
     indexMetadataService: IndexMetadataService
     indexSyncService: IndexSyncService
     dataSynchronizer: DataSynchronizer
+    logger: Logger
   }) {
     this.#schemaObjectRepresentation = schemaObjectRepresentation ?? {}
     this.#indexMetadataService = indexMetadataService
     this.#indexSyncService = indexSyncService
     this.#dataSynchronizer = dataSynchronizer
+    this.#logger = logger
   }
 
   async checkChanges(): Promise<InferEntityType<typeof IndexMetadata>[]> {
+    this.#logger.info(
+      "[Index engine] Checking for changes in the index configuration"
+    )
     const schemaObjectRepresentation = this.#schemaObjectRepresentation
 
     const currentConfig = await this.#indexMetadataService.list()
@@ -135,8 +142,16 @@ export class Configuration {
       await this.#indexSyncService.upsert(idxSyncData)
     }
 
-    return await this.#indexMetadataService.list({
+    const changes = await this.#indexMetadataService.list({
       status: [IndexMetadataStatus.PENDING, IndexMetadataStatus.PROCESSING],
     })
+
+    this.#logger.info(
+      `[Index engine] Found ${changes.length} change${
+        changes.length > 1 ? "s" : ""
+      } in the index configuration that are either pending or processing`
+    )
+
+    return changes
   }
 }

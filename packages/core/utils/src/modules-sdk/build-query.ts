@@ -25,8 +25,14 @@ export function buildQuery<const T = any>(
   const findOptions: DAL.FindOptions<T>["options"] = {
     populate: deduplicate(config.relations ?? []),
     fields: config.select as string[],
-    limit: (Number.isSafeInteger(config.take) && config.take) || undefined,
-    offset: (Number.isSafeInteger(config.skip) && config.skip) || undefined,
+    limit:
+      Number.isSafeInteger(config.take) && config.take != null
+        ? config.take
+        : undefined,
+    offset:
+      Number.isSafeInteger(config.skip) && config.skip != null
+        ? config.skip
+        : undefined,
   }
 
   if (config.order) {

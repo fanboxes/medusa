@@ -668,7 +668,6 @@ medusaIntegrationTestRunner({
             "/admin/products",
             {
               title: `Test fixture 2`,
-              shipping_profile_id: shippingProfile.id,
               options: [
                 { title: "size", values: ["large", "small"] },
                 { title: "color", values: ["green"] },

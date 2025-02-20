@@ -18,6 +18,8 @@ import { isPresent, isString, toPascalCase } from "@medusajs/utils"
 import { MedusaModule } from "../medusa-module"
 
 const BASE_PREFIX = ""
+const MAX_BATCH_SIZE = 4000
+const MAX_CONCURRENT_REQUESTS = 10
 export class RemoteQuery {
   private remoteJoiner: RemoteJoiner
   private modulesMap: Map<string, LoadedModule> = new Map()
@@ -182,6 +184,102 @@ export class RemoteQuery {
     }
   }
 
+  private async fetchRemoteDataBatched(args: {
+    serviceName: string
+    keyField: string
+    service: any
+    methodName: string
+    filters: any
+    options: any
+    ids: (unknown | unknown[])[]
+  }): Promise<any[]> {
+    const {
+      serviceName,
+      keyField,
+      service,
+      methodName,
+      filters,
+      options,
+      ids,
+    } = args
+
+    const getBatch = function* (
+      idArray: (unknown | unknown[])[],
+      batchSize: number
+    ) {
+      for (let i = 0; i < idArray.length; i += batchSize) {
+        yield idArray.slice(i, i + batchSize)
+      }
+    }
+
+    const idsToFetch = getBatch(ids, MAX_BATCH_SIZE)
+    const results: any[] = []
+    let running = 0
+    const fetchPromises: Promise<void>[] = []
+
+    const processBatch = async (batch: (unknown | unknown[])[]) => {
+      running++
+      const batchFilters = { ...filters, [keyField]: batch }
+      let result
+
+      try {
+        if (RemoteQuery.traceFetchRemoteData) {
+          result = await RemoteQuery.traceFetchRemoteData(
+            async () => service[methodName](batchFilters, options),
+            serviceName,
+            methodName,
+            options
+          )
+        } else {
+          result = await service[methodName](batchFilters, options)
+        }
+        results.push(result)
+      } finally {
+        running--
+        processAllBatches()
+      }
+    }
+
+    let batchesDone: (value: void) => void = () => {}
+    const awaitBatches = new Promise((ok) => {
+      batchesDone = ok
+    })
+    const processAllBatches = async () => {
+      let isDone = false
+      while (running < MAX_CONCURRENT_REQUESTS) {
+        const nextBatch = idsToFetch.next()
+        if (nextBatch.done) {
+          isDone = true
+          break
+        }
+
+        const batch = nextBatch.value
+        fetchPromises.push(processBatch(batch))
+      }
+
+      if (isDone) {
+        await Promise.all(fetchPromises)
+        batchesDone()
+      }
+    }
+
+    processAllBatches()
+    await awaitBatches
+
+    const flattenedResults = results.reduce((acc, result) => {
+      if (
+        Array.isArray(result) &&
+        result.length === 2 &&
+        Array.isArray(result[0])
+      ) {
+        return acc.concat(result[0])
+      }
+      return acc.concat(result)
+    }, [])
+
+    return flattenedResults
+  }
+
   public async remoteFetchData(
     expand: RemoteExpandProperty,
     keyField: string,
@@ -265,6 +363,19 @@ export class RemoteQuery {
 
     if (ids?.length && !hasPagination) {
       options.take = null
+    }
+
+    if (ids && ids.length >= MAX_BATCH_SIZE && !hasPagination) {
+      const data = await this.fetchRemoteDataBatched({
+        serviceName: serviceConfig.serviceName,
+        keyField,
+        service,
+        methodName,
+        filters,
+        options,
+        ids,
+      })
+      return { data }
     }
 
     let result: any

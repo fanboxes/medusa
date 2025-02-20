@@ -30,29 +30,34 @@ const dbUtils = TestDatabaseUtils.dbTestUtilFactory()
 jest.setTimeout(300000)
 
 const productId = "prod_1"
+const productId2 = "prod_2"
 const variantId = "var_1"
+const variantId2 = "var_2"
 const priceSetId = "price_set_1"
 const priceId = "money_amount_1"
 const linkId = "link_id_1"
 
 const sendEvents = async (eventDataToEmit) => {
-  let a = 0
+  let productCounter = 0
+  let variantCounter = 0
 
   queryMock.graph = jest.fn().mockImplementation((query) => {
     const entity = query.entity
     if (entity === "product") {
       return {
         data: {
-          id: a++ > 0 ? "aaaa" : productId,
+          id: productCounter++ > 0 ? productId2 : productId,
+          title: "Test Product " + productCounter,
         },
       }
     } else if (entity === "product_variant") {
+      const counter = variantCounter++
       return {
         data: {
-          id: variantId,
+          id: counter > 0 ? variantId2 : variantId,
           sku: "aaa test aaa",
           product: {
-            id: productId,
+            id: counter > 0 ? productId2 : productId,
           },
         },
       }
@@ -374,7 +379,16 @@ describe("IndexModuleService", function () {
       {
         name: "product.created",
         data: {
-          id: "PRODUCTASDASDAS",
+          id: productId2,
+        },
+      },
+      {
+        name: "variant.created",
+        data: {
+          id: variantId2,
+          product: {
+            id: productId2,
+          },
         },
       },
       {
@@ -426,14 +440,46 @@ describe("IndexModuleService", function () {
       })
 
       expect(productIndexEntries).toHaveLength(2)
-      expect(productIndexEntries[0].id).toEqual(productId)
+      expect(productIndexEntries).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            id: productId,
+            data: expect.objectContaining({
+              id: productId,
+              title: expect.stringContaining("Test Product"),
+            }),
+          }),
+          expect.objectContaining({
+            id: productId2,
+            data: expect.objectContaining({
+              id: productId2,
+              title: expect.stringContaining("Test Product"),
+            }),
+          }),
+        ])
+      )
 
       const variantIndexEntries = indexEntries.filter((entry) => {
         return entry.name === "ProductVariant"
       })
 
-      expect(variantIndexEntries).toHaveLength(1)
-      expect(variantIndexEntries[0].id).toEqual(variantId)
+      expect(variantIndexEntries).toHaveLength(2)
+      expect(variantIndexEntries).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            id: variantId,
+            data: expect.objectContaining({
+              id: variantId,
+            }),
+          }),
+          expect.objectContaining({
+            id: variantId2,
+            data: expect.objectContaining({
+              id: variantId2,
+            }),
+          }),
+        ])
+      )
 
       const priceSetIndexEntries = indexEntries.filter((entry) => {
         return entry.name === "PriceSet"
@@ -461,7 +507,7 @@ describe("IndexModuleService", function () {
         {}
       )
 
-      expect(indexRelationEntries).toHaveLength(4)
+      expect(indexRelationEntries).toHaveLength(5)
 
       const productVariantIndexRelationEntries = indexRelationEntries.filter(
         (entry) => {

@@ -10,6 +10,7 @@ import {
   Modules,
   ProductWorkflowEvents,
   arrayDifference,
+  isDefined,
 } from "@medusajs/framework/utils"
 import {
   WorkflowData,
@@ -50,7 +51,7 @@ export type UpdateProductsWorkflowInputSelector = {
     /**
      * The shipping profile to set.
      */
-    shipping_profile_id?: string
+    shipping_profile_id?: string | null
   }
 } & AdditionalData
 
@@ -73,7 +74,7 @@ export type UpdateProductsWorkflowInputProducts = {
     /**
      * The shipping profile to set.
      */
-    shipping_profile_id?: string
+    shipping_profile_id?: string | null
   })[]
 } & AdditionalData
 
@@ -152,12 +153,12 @@ function findProductsWithShippingProfiles({
 
   if ("products" in input) {
     const discardedProductIds: string[] = input.products
-      .filter((p) => !p.shipping_profile_id)
+      .filter((p) => !isDefined(p.shipping_profile_id))
       .map((p) => p.id as string)
     return arrayDifference(productIds, discardedProductIds)
   }
 
-  return !input.update?.shipping_profile_id ? [] : productIds
+  return !isDefined(input.update?.shipping_profile_id) ? [] : productIds
 }
 
 function prepareSalesChannelLinks({
@@ -215,7 +216,7 @@ function prepareShippingProfileLinks({
     }
 
     return input.products
-      .filter((p) => p.shipping_profile_id)
+      .filter((p) => typeof p.shipping_profile_id === "string")
       .map((p) => ({
         [Modules.PRODUCT]: {
           product_id: p.id,
@@ -226,7 +227,7 @@ function prepareShippingProfileLinks({
       }))
   }
 
-  if (input.selector && input.update?.shipping_profile_id) {
+  if (input.selector && typeof input.update?.shipping_profile_id === "string") {
     return updatedProducts.map((p) => ({
       [Modules.PRODUCT]: {
         product_id: p.id,
