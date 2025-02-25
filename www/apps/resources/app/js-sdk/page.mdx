@@ -185,11 +185,36 @@ The `Medusa` initializer accepts as a parameter an object with the following pro
       - `local` for the Local Storage.
       - `session` for the Session Storage.
       - `memory` to store it within the SDK for the current application's runtime.
+      - `custom` to define custom storage using the `auth.storage` configuration. If `auth.storage` isn't defined, the SDK throws an error. This option is only available after Medusa v2.5.1.
+      - `nostore` to not store the token.
 
       </Table.Cell>
       <Table.Cell>
 
       `local`
+
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+
+      `auth.storage`
+
+      </Table.Cell>
+      <Table.Cell>
+
+      This option is only available after Medusa v2.5.1. It's an object or class that's used when `auth.jwtTokenStorageMethod` is `custom` to store the JWT token. It's useful when using the JS SDK in an environment where Local or Session Storage isn't available. The object or class must have the following methods:
+
+      - `setItem`: A function that accepts a key and value to store the JWT token.
+      - `getItem`: A function that accepts a key to retrieve the JWT token.
+      - `removeItem`: A function that accepts a key to remove the JWT token from storage.
+
+      Learn more in [this section](#use-custom-storage).
+
+      </Table.Cell>
+      <Table.Cell>
+
+      \-
 
       </Table.Cell>
     </Table.Row>
@@ -484,3 +509,49 @@ revalidateTag("products")
 ```
 
 Learn more in the [Next.js documentation](https://nextjs.org/docs/app/building-your-application/caching#fetch-optionsnexttags-and-revalidatetag).
+
+### Use Custom Storage
+
+<Note>
+
+The `auth.storage` configuration is only available after Medusa v2.5.1.
+
+</Note>
+
+If you're using the JS SDK in an environment where Local Storage or Session Storage isn't available, such as in a React Native application, you can define custom logic to store the JWT token.
+
+To do that, set the `auth.jwtTokenStorageMethod` configuration to `custom` and define the `auth.storage` configuration with the custom logic to store the JWT token.
+
+For example, if you're using React Native's `AsyncStorage`:
+
+```ts title="config.ts"
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import Medusa from "@medusajs/js-sdk"
+
+let MEDUSA_BACKEND_URL = "http://localhost:9000"
+
+if (process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL) {
+  MEDUSA_BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
+}
+
+export const sdk = new Medusa({
+  baseUrl: MEDUSA_BACKEND_URL,
+  debug: process.env.NODE_ENV === "development",
+  publishableKey: process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
+  auth: {
+    type: "jwt",
+    jwtTokenStorageMethod: "custom",
+    storge: AsyncStorage,
+  },
+})
+```
+
+In the `auth` configuration, you specify the `type` as `jwt`, the `jwtTokenStorageMethod` as `custom`, and the `storage` as `AsyncStorage`. So, the SDK uses `AsyncStorage` to store the JWT token.
+
+#### Custom Storage Methods
+
+The object or class passed to `auth.storage` configuration must have the following methods:
+
+- `setItem`: A function that accepts a key and value to store the JWT token.
+- `getItem`: A function that accepts a key to retrieve the JWT token.
+- `removeItem`: A function that accepts a key to remove the JWT token from storage.

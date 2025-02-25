@@ -1,5 +1,14 @@
 # @medusajs/admin-sdk
 
+## 2.5.1
+
+### Patch Changes
+
+- [#11413](https://github.com/medusajs/medusa/pull/11413) [`a039dd6932c3c5581b3ee0ebba1eb8413912ec43`](https://github.com/medusajs/medusa/commit/a039dd6932c3c5581b3ee0ebba1eb8413912ec43) Thanks [@kasperkristensen](https://github.com/kasperkristensen)! - chore(admin-sdk): Pin zod in admin-sdk
+
+- Updated dependencies []:
+  - @medusajs/admin-shared@2.5.1
+
 ## 2.5.0
 
 ### Patch Changes

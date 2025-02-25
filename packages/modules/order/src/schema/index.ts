@@ -17,23 +17,22 @@ enum ChangeActionType {
 }
 
 type OrderSummary {
-  total: Float
-  subtotal: Float
-  total_tax: Float
-  ordered_total: Float
-  fulfilled_total: Float
-  returned_total: Float
-  return_request_total: Float
-  write_off_total: Float
-  projected_total: Float
-  net_total: Float
-  net_subtotal: Float
-  net_total_tax: Float
-  balance: Float
+  pending_difference: Float
+  current_order_total: Float
+  original_order_total: Float
+  transaction_total: Float
   paid_total: Float
   refunded_total: Float
-  pending_difference: Float
+  credit_line_total: Float
+  accounting_total: Float
   raw_pending_difference: JSON
+  raw_current_order_total: JSON
+  raw_original_order_total: JSON
+  raw_transaction_total: JSON
+  raw_paid_total: JSON
+  raw_refunded_total: JSON
+  raw_credit_line_total: JSON
+  raw_accounting_total: JSON
 }
 
 type OrderShippingMethodAdjustment {

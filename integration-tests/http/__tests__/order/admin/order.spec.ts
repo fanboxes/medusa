@@ -387,7 +387,6 @@ medusaIntegrationTestRunner({
             status: "canceled",
 
             summary: expect.objectContaining({
-              credit_line_total: 106,
               current_order_total: 0,
               accounting_total: 0,
             }),
@@ -448,7 +447,6 @@ medusaIntegrationTestRunner({
             status: "canceled",
 
             summary: expect.objectContaining({
-              credit_line_total: 106,
               current_order_total: 0,
               accounting_total: 0,
             }),
@@ -518,7 +516,6 @@ medusaIntegrationTestRunner({
             status: "canceled",
 
             summary: expect.objectContaining({
-              credit_line_total: 106,
               current_order_total: 0,
               accounting_total: 0,
             }),

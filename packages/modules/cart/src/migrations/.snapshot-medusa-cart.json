@@ -163,6 +163,7 @@
           "keyName": "IDX_cart_address_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_cart_address_deleted_at\" ON \"cart_address\" (deleted_at) WHERE deleted_at IS NULL"
@@ -173,12 +174,14 @@
             "id"
           ],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
       ],
       "checks": [],
-      "foreignKeys": {}
+      "foreignKeys": {},
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -313,6 +316,7 @@
           "keyName": "IDX_cart_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_cart_deleted_at\" ON \"cart\" (deleted_at) WHERE deleted_at IS NULL"
@@ -321,6 +325,7 @@
           "keyName": "IDX_cart_region_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_cart_region_id\" ON \"cart\" (region_id) WHERE deleted_at IS NULL AND region_id IS NOT NULL"
@@ -329,6 +334,7 @@
           "keyName": "IDX_cart_customer_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_cart_customer_id\" ON \"cart\" (customer_id) WHERE deleted_at IS NULL AND customer_id IS NOT NULL"
@@ -337,6 +343,7 @@
           "keyName": "IDX_cart_sales_channel_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_cart_sales_channel_id\" ON \"cart\" (sales_channel_id) WHERE deleted_at IS NULL AND sales_channel_id IS NOT NULL"
@@ -345,6 +352,7 @@
           "keyName": "IDX_cart_curency_code",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_cart_curency_code\" ON \"cart\" (currency_code) WHERE deleted_at IS NULL"
@@ -353,6 +361,7 @@
           "keyName": "IDX_cart_shipping_address_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_cart_shipping_address_id\" ON \"cart\" (shipping_address_id) WHERE deleted_at IS NULL AND shipping_address_id IS NOT NULL"
@@ -361,6 +370,7 @@
           "keyName": "IDX_cart_billing_address_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_cart_billing_address_id\" ON \"cart\" (billing_address_id) WHERE deleted_at IS NULL AND billing_address_id IS NOT NULL"
@@ -371,6 +381,7 @@
             "id"
           ],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
@@ -403,7 +414,164 @@
           "deleteRule": "set null",
           "updateRule": "cascade"
         }
-      }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "cart_id": {
+          "name": "cart_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "reference": {
+          "name": "reference",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "reference_id": {
+          "name": "reference_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "amount": {
+          "name": "amount",
+          "type": "numeric",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "decimal"
+        },
+        "raw_amount": {
+          "name": "raw_amount",
+          "type": "jsonb",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "json"
+        },
+        "metadata": {
+          "name": "metadata",
+          "type": "jsonb",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "json"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "default": "now()",
+          "mappedType": "datetime"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "default": "now()",
+          "mappedType": "datetime"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 6,
+          "mappedType": "datetime"
+        }
+      },
+      "name": "credit_line",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "IDX_credit_line_cart_id",
+          "columnNames": [],
+          "composite": false,
+          "constraint": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_credit_line_cart_id\" ON \"credit_line\" (cart_id) WHERE deleted_at IS NULL"
+        },
+        {
+          "keyName": "IDX_credit_line_deleted_at",
+          "columnNames": [],
+          "composite": false,
+          "constraint": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_credit_line_deleted_at\" ON \"credit_line\" (deleted_at) WHERE deleted_at IS NULL"
+        },
+        {
+          "keyName": "IDX_cart_credit_line_reference_reference_id",
+          "columnNames": [],
+          "composite": false,
+          "constraint": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_cart_credit_line_reference_reference_id\" ON \"credit_line\" (reference, reference_id) WHERE deleted_at IS NOT NULL"
+        },
+        {
+          "keyName": "credit_line_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "credit_line_cart_id_foreign": {
+          "constraintName": "credit_line_cart_id_foreign",
+          "columnNames": [
+            "cart_id"
+          ],
+          "localTableName": "public.credit_line",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.cart",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -703,6 +871,7 @@
           "keyName": "IDX_cart_line_item_cart_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_cart_line_item_cart_id\" ON \"cart_line_item\" (cart_id) WHERE deleted_at IS NULL"
@@ -711,6 +880,7 @@
           "keyName": "IDX_cart_line_item_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_cart_line_item_deleted_at\" ON \"cart_line_item\" (deleted_at) WHERE deleted_at IS NULL"
@@ -719,6 +889,7 @@
           "keyName": "IDX_line_item_cart_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_line_item_cart_id\" ON \"cart_line_item\" (cart_id) WHERE deleted_at IS NULL"
@@ -727,6 +898,7 @@
           "keyName": "IDX_line_item_variant_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_line_item_variant_id\" ON \"cart_line_item\" (variant_id) WHERE deleted_at IS NULL AND variant_id IS NOT NULL"
@@ -735,6 +907,7 @@
           "keyName": "IDX_line_item_product_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_line_item_product_id\" ON \"cart_line_item\" (product_id) WHERE deleted_at IS NULL AND product_id IS NOT NULL"
@@ -743,6 +916,7 @@
           "keyName": "IDX_line_item_product_type_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_line_item_product_type_id\" ON \"cart_line_item\" (product_type_id) WHERE deleted_at IS NULL AND product_type_id IS NOT NULL"
@@ -753,6 +927,7 @@
             "id"
           ],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
@@ -772,7 +947,8 @@
           "deleteRule": "cascade",
           "updateRule": "cascade"
         }
-      }
+      },
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -897,6 +1073,7 @@
           "keyName": "IDX_cart_line_item_adjustment_item_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_cart_line_item_adjustment_item_id\" ON \"cart_line_item_adjustment\" (item_id) WHERE deleted_at IS NULL"
@@ -905,6 +1082,7 @@
           "keyName": "IDX_cart_line_item_adjustment_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_cart_line_item_adjustment_deleted_at\" ON \"cart_line_item_adjustment\" (deleted_at) WHERE deleted_at IS NULL"
@@ -913,6 +1091,7 @@
           "keyName": "IDX_line_item_adjustment_promotion_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_line_item_adjustment_promotion_id\" ON \"cart_line_item_adjustment\" (promotion_id) WHERE deleted_at IS NULL AND promotion_id IS NOT NULL"
@@ -921,6 +1100,7 @@
           "keyName": "IDX_adjustment_item_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_adjustment_item_id\" ON \"cart_line_item_adjustment\" (item_id) WHERE deleted_at IS NULL"
@@ -931,6 +1111,7 @@
             "id"
           ],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
@@ -956,7 +1137,8 @@
           "deleteRule": "cascade",
           "updateRule": "cascade"
         }
-      }
+      },
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -1072,6 +1254,7 @@
           "keyName": "IDX_cart_line_item_tax_line_item_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_cart_line_item_tax_line_item_id\" ON \"cart_line_item_tax_line\" (item_id) WHERE deleted_at IS NULL"
@@ -1080,6 +1263,7 @@
           "keyName": "IDX_cart_line_item_tax_line_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_cart_line_item_tax_line_deleted_at\" ON \"cart_line_item_tax_line\" (deleted_at) WHERE deleted_at IS NULL"
@@ -1088,6 +1272,7 @@
           "keyName": "IDX_line_item_tax_line_tax_rate_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_line_item_tax_line_tax_rate_id\" ON \"cart_line_item_tax_line\" (tax_rate_id) WHERE deleted_at IS NULL AND tax_rate_id IS NOT NULL"
@@ -1096,6 +1281,7 @@
           "keyName": "IDX_tax_line_item_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_tax_line_item_id\" ON \"cart_line_item_tax_line\" (item_id) WHERE deleted_at IS NULL"
@@ -1106,6 +1292,7 @@
             "id"
           ],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
@@ -1125,7 +1312,8 @@
           "deleteRule": "cascade",
           "updateRule": "cascade"
         }
-      }
+      },
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -1260,6 +1448,7 @@
           "keyName": "IDX_cart_shipping_method_cart_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_cart_shipping_method_cart_id\" ON \"cart_shipping_method\" (cart_id) WHERE deleted_at IS NULL"
@@ -1268,6 +1457,7 @@
           "keyName": "IDX_cart_shipping_method_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_cart_shipping_method_deleted_at\" ON \"cart_shipping_method\" (deleted_at) WHERE deleted_at IS NULL"
@@ -1276,6 +1466,7 @@
           "keyName": "IDX_shipping_method_cart_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_shipping_method_cart_id\" ON \"cart_shipping_method\" (cart_id) WHERE deleted_at IS NULL"
@@ -1284,6 +1475,7 @@
           "keyName": "IDX_shipping_method_option_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_shipping_method_option_id\" ON \"cart_shipping_method\" (shipping_option_id) WHERE deleted_at IS NULL AND shipping_option_id IS NOT NULL"
@@ -1294,6 +1486,7 @@
             "id"
           ],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
@@ -1319,7 +1512,8 @@
           "deleteRule": "cascade",
           "updateRule": "cascade"
         }
-      }
+      },
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -1444,6 +1638,7 @@
           "keyName": "IDX_cart_shipping_method_adjustment_shipping_method_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_cart_shipping_method_adjustment_shipping_method_id\" ON \"cart_shipping_method_adjustment\" (shipping_method_id) WHERE deleted_at IS NULL"
@@ -1452,6 +1647,7 @@
           "keyName": "IDX_cart_shipping_method_adjustment_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_cart_shipping_method_adjustment_deleted_at\" ON \"cart_shipping_method_adjustment\" (deleted_at) WHERE deleted_at IS NULL"
@@ -1460,6 +1656,7 @@
           "keyName": "IDX_shipping_method_adjustment_promotion_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_shipping_method_adjustment_promotion_id\" ON \"cart_shipping_method_adjustment\" (promotion_id) WHERE deleted_at IS NULL AND promotion_id IS NOT NULL"
@@ -1468,6 +1665,7 @@
           "keyName": "IDX_adjustment_shipping_method_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_adjustment_shipping_method_id\" ON \"cart_shipping_method_adjustment\" (shipping_method_id) WHERE deleted_at IS NULL"
@@ -1478,6 +1676,7 @@
             "id"
           ],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
@@ -1496,7 +1695,8 @@
           "referencedTableName": "public.cart_shipping_method",
           "updateRule": "cascade"
         }
-      }
+      },
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -1612,6 +1812,7 @@
           "keyName": "IDX_cart_shipping_method_tax_line_shipping_method_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_cart_shipping_method_tax_line_shipping_method_id\" ON \"cart_shipping_method_tax_line\" (shipping_method_id) WHERE deleted_at IS NULL"
@@ -1620,6 +1821,7 @@
           "keyName": "IDX_cart_shipping_method_tax_line_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_cart_shipping_method_tax_line_deleted_at\" ON \"cart_shipping_method_tax_line\" (deleted_at) WHERE deleted_at IS NULL"
@@ -1628,6 +1830,7 @@
           "keyName": "IDX_tax_line_shipping_method_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_tax_line_shipping_method_id\" ON \"cart_shipping_method_tax_line\" (shipping_method_id) WHERE deleted_at IS NULL"
@@ -1636,6 +1839,7 @@
           "keyName": "IDX_shipping_method_tax_line_tax_rate_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_shipping_method_tax_line_tax_rate_id\" ON \"cart_shipping_method_tax_line\" (tax_rate_id) WHERE deleted_at IS NULL AND tax_rate_id IS NOT NULL"
@@ -1646,6 +1850,7 @@
             "id"
           ],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
@@ -1664,7 +1869,9 @@
           "referencedTableName": "public.cart_shipping_method",
           "updateRule": "cascade"
         }
-      }
+      },
+      "nativeEnums": {}
     }
-  ]
+  ],
+  "nativeEnums": {}
 }

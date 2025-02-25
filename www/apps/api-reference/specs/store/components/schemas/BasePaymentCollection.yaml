@@ -59,6 +59,8 @@ properties:
       - awaiting
       - authorized
       - partially_authorized
+      - completed
+      - failed
   payment_providers:
     type: array
     description: >-

@@ -1,5 +1,11 @@
 # @medusajs/product
 
+## 2.5.1
+
+### Patch Changes
+
+- [#11400](https://github.com/medusajs/medusa/pull/11400) [`d6c03ee5427457237e3c739545a8816cc3a3198e`](https://github.com/medusajs/medusa/commit/d6c03ee5427457237e3c739545a8816cc3a3198e) Thanks [@carlos-r-l-rodrigues](https://github.com/carlos-r-l-rodrigues)! - fix(utils): custom linkable keys
+
 ## 2.5.0
 
 ## 2.4.0

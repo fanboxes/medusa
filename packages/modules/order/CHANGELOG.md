@@ -1,5 +1,11 @@
 # @medusajs/order
 
+## 2.5.1
+
+### Patch Changes
+
+- [#11518](https://github.com/medusajs/medusa/pull/11518) [`0c957350a6688c78572361b51c1f16a452a31aed`](https://github.com/medusajs/medusa/commit/0c957350a6688c78572361b51c1f16a452a31aed) Thanks [@carlos-r-l-rodrigues](https://github.com/carlos-r-l-rodrigues)! - fix(order): order edit flows with calculated taxes
+
 ## 2.5.0
 
 ### Patch Changes

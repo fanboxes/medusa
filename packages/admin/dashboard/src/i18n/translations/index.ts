@@ -1,3 +1,4 @@
+import bg from "./bg.json"
 import de from "./de.json"
 import el from "./el.json"
 import en from "./en.json"
@@ -20,6 +21,9 @@ import cs from "./cs.json"
 import ru from "./ru.json"
 
 export default {
+  bg: {
+    translation: bg,
+  },
   de: {
     translation: de,
   },

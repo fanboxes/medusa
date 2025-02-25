@@ -1,11 +1,13 @@
 import {
   InferEntityType,
   OrderChangeActionDTO,
+  OrderDTO,
 } from "@medusajs/framework/types"
 import {
   ChangeActionType,
   MathBN,
   createRawPropertiesFromBigNumber,
+  decorateCartTotals,
   isDefined,
 } from "@medusajs/framework/utils"
 import { OrderItem, OrderShippingMethod } from "@models"
@@ -18,11 +20,12 @@ export interface ApplyOrderChangeDTO extends OrderChangeActionDTO {
   applied: boolean
 }
 
-export function applyChangesToOrder(
+export async function applyChangesToOrder(
   orders: any[],
   actionsMap: Record<string, any[]>,
   options?: {
     addActionReferenceToObject?: boolean
+    includeTaxLinesAndAdjustementsToPreview?: (...args) => void
   }
 ) {
   const itemsToUpsert: InferEntityType<typeof OrderItem>[] = []
@@ -48,8 +51,6 @@ export function applyChangesToOrder(
     })
 
     createRawPropertiesFromBigNumber(calculated)
-
-    calculatedOrders[order.id] = calculated
 
     const version = actionsMap[order.id]?.[0]?.version ?? order.version
     const orderAttributes: {
@@ -95,14 +96,6 @@ export function applyChangesToOrder(
       itemsToUpsert.push(itemToUpsert)
     }
 
-    const orderSummary = order.summary as any
-    summariesToUpsert.push({
-      id: orderSummary?.version === version ? orderSummary.id : undefined,
-      order_id: order.id,
-      version,
-      totals: calculated.summary,
-    })
-
     if (version > order.version) {
       for (const shippingMethod of calculated.order.shipping_methods ?? []) {
         const shippingMethod_ = shippingMethod as any
@@ -140,6 +133,26 @@ export function applyChangesToOrder(
       orderAttributes.version = version
     }
 
+    // Including tax lines and adjustments for added items and shipping methods
+    if (options?.includeTaxLinesAndAdjustementsToPreview) {
+      await options?.includeTaxLinesAndAdjustementsToPreview(
+        calculated.order,
+        itemsToUpsert,
+        shippingMethodsToUpsert
+      )
+      decorateCartTotals(calculated.order)
+    }
+
+    const orderSummary = order.summary
+    summariesToUpsert.push({
+      id: orderSummary?.version === version ? orderSummary.id : undefined,
+      order_id: order.id,
+      version,
+      totals: calculated.getSummaryFromOrder(
+        calculated.order as unknown as OrderDTO
+      ),
+    })
+
     if (Object.keys(orderAttributes).length > 0) {
       orderToUpdate.push({
         selector: {
@@ -150,6 +163,8 @@ export function applyChangesToOrder(
         },
       })
     }
+
+    calculatedOrders[order.id] = calculated
   }
 
   return {

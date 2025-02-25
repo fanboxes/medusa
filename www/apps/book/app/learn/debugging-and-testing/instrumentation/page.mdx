@@ -71,11 +71,15 @@ export function register() {
 }
 ```
 
-In the `instrumentation.ts` file, you export a `register` function that uses Medusa's `registerOtel` utility function.
+In the `instrumentation.ts` file, you export a `register` function that uses Medusa's `registerOtel` utility function. You also initialize an instance of the exporter, such as Zipkin, and pass it to the `registerOtel` function.
 
-You also initialize an instance of the exporter, such as Zipkin, and pass it to the `registerOtel` function.
+`registerOtel` accepts an object where you can pass any [NodeSDKConfiguration](https://open-telemetry.github.io/opentelemetry-js/interfaces/_opentelemetry_sdk_node.NodeSDKConfiguration.html) property along with the following properties:
 
-`registerOtel` accepts an object having the following properties:
+<Note>
+
+The `NodeSDKConfiguration` properties are accepted since Medusa v2.5.1.
+
+</Note>
 
 <TypeList
   types={[

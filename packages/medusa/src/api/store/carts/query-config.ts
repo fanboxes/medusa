@@ -27,6 +27,9 @@ export const defaultStoreCartFields = [
   "original_shipping_tax_total",
   "original_shipping_subtotal",
   "original_shipping_total",
+  "credit_lines_subtotal",
+  "credit_lines_tax_total",
+  "credit_lines_total",
   "metadata",
   "sales_channel_id",
   "promotions.id",
@@ -121,6 +124,7 @@ export const defaultStoreCartFields = [
   "*region.countries",
   "*payment_collection",
   "*payment_collection.payment_sessions",
+  "*credit_lines",
 ]
 
 export const retrieveTransformQueryConfig = {

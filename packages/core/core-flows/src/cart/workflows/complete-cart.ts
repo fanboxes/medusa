@@ -1,4 +1,5 @@
 import {
+  CartCreditLineDTO,
   CartWorkflowDTO,
   UsageComputedActions,
 } from "@medusajs/framework/types"
@@ -210,6 +211,18 @@ export const completeCartWorkflow = createWorkflow(
           .map((adjustment) => adjustment.code)
           .filter(Boolean)
 
+        const creditLines = (cart.credit_lines ?? []).map(
+          (creditLine: CartCreditLineDTO) => {
+            return {
+              amount: creditLine.amount,
+              raw_amount: creditLine.raw_amount,
+              reference: creditLine.reference,
+              reference_id: creditLine.reference_id,
+              metadata: creditLine.metadata,
+            }
+          }
+        )
+
         return {
           region_id: cart.region?.id,
           customer_id: cart.customer?.id,
@@ -222,6 +235,7 @@ export const completeCartWorkflow = createWorkflow(
           no_notification: false,
           items: allItems,
           shipping_methods: shippingMethods,
+          credit_lines: creditLines,
           metadata: cart.metadata,
           promo_codes: promoCodes,
           transactions,

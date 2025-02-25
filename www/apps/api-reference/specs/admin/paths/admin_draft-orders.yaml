@@ -1804,35 +1804,7 @@ get:
       content:
         application/json:
           schema:
-            allOf:
-              - type: object
-                description: The paginated list of draft orders.
-                required:
-                  - limit
-                  - offset
-                  - count
-                properties:
-                  limit:
-                    type: number
-                    title: limit
-                    description: The maximum number of items returned.
-                  offset:
-                    type: number
-                    title: offset
-                    description: >-
-                      The number of items skipped before retrieving the returned
-                      items.
-                  count:
-                    type: number
-                    title: count
-                    description: The total number of items.
-              - type: object
-                description: The paginated list of draft orders.
-                required:
-                  - draft_orders
-                properties:
-                  draft_orders:
-                    $ref: ../components/schemas/AdminOrder.yaml
+            $ref: ../components/schemas/AdminDraftOrderListResponse.yaml
     '400':
       $ref: ../components/responses/400_error.yaml
     '401':
@@ -1845,6 +1817,7 @@ get:
       $ref: ../components/responses/invalid_request_error.yaml
     '500':
       $ref: ../components/responses/500_error.yaml
+  x-workflow: getOrdersListWorkflow
 post:
   operationId: PostDraftOrders
   summary: Create Draft Order

@@ -68,6 +68,10 @@ export type RemoteQueryInput<TEntry extends string> = {
    * Apply a query context on the retrieved data. For example, to retrieve product prices for a certain context.
    */
   context?: any
+  /**
+   * Apply a `withDeleted` flag on the retrieved data to retrieve soft deleted items.
+   */
+  withDeleted?: boolean
 }
 
 export type RemoteQueryGraph<TEntry extends string> = {

@@ -2016,6 +2016,7 @@ moduleIntegrationTestRunner<IOrderModuleService>({
             ])
           )
 
+          await service.deleteOrderLineItemTaxLines(taxLines.map((o) => o.id))
           await service.setOrderLineItemTaxLines(createdOrder.id, [
             {
               item_id: itemOne.id,
@@ -2087,7 +2088,7 @@ moduleIntegrationTestRunner<IOrderModuleService>({
             ])
           )
 
-          await service.setOrderLineItemTaxLines(createdOrder.id, [])
+          await service.deleteOrderLineItemTaxLines(taxLines.map((o) => o.id))
 
           const order = await service.retrieveOrder(createdOrder.id, {
             relations: ["items.item.tax_lines"],
@@ -2240,14 +2241,13 @@ moduleIntegrationTestRunner<IOrderModuleService>({
             // create
             {
               item_id: itemOne.id,
-              rate: 25,
+              rate: 32,
               code: "TX-2",
             } as CreateOrderLineItemTaxLineDTO,
-            // delete: should delete the initial tax line for itemOne
           ])
 
           const order = await service.retrieveOrder(createdOrder.id, {
-            relations: ["items.item.tax_lines"],
+            relations: ["items.tax_lines"],
           })
 
           const serialized = JSON.parse(JSON.stringify(order))
@@ -2265,7 +2265,7 @@ moduleIntegrationTestRunner<IOrderModuleService>({
                   }),
                   expect.objectContaining({
                     item_id: itemOne.id,
-                    rate: 25,
+                    rate: 32,
                     code: "TX-2",
                   }),
                 ]),

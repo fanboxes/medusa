@@ -136,6 +136,10 @@ export default ProductWidget
 
 You can also send requests to custom routes as explained in the [JS SDK reference](!resources!/js-sdk).
 
+### Use Route Loaders for Initial Data
+
+You may need to retrieve data before your component is rendered, or you may need to pass some initial data to your component to be used while data is being fetched. In those cases, you can use a [route loader](../routing/page.mdx).
+
 ---
 
 ## Global Variables in Admin Customizations
@@ -145,49 +149,6 @@ In your admin customizations, you can use the following global variables:
 - `__BASE__`: The base path of the Medusa Admin, as set in the [admin.path](!resources!/references/medusa-config#path) configuration in `medusa-config.ts`.
 - `__BACKEND_URL__`: The URL to the Medusa backend, as set in the [admin.backendUrl](!resources!/references/medusa-config#backendurl) configuration in `medusa-config.ts`.
 - `__STOREFRONT_URL__`: The URL to the storefront, as set in the [admin.storefrontUrl](!resources!/references/medusa-config#storefrontUrl) configuration in `medusa-config.ts`.
-
----
-
-## Routing Functionalities
-
-To navigate or link to other pages, or perform other routing functionalities, use the [react-router-dom](https://reactrouter.com/en/main) package. It's installed in your project through the Medusa Admin.
-
-For example:
-
-export const highlights = [
-  ["9", "Link", "Add a link to another page"],
-  ["9", '"/orders', "Add the path without the `/app` prefix."]
-]
-
-```tsx title="src/admin/widgets/product-widget.tsx" highlights={highlights}
-import { defineWidgetConfig } from "@medusajs/admin-sdk"
-import { Container } from "@medusajs/ui"
-import { Link } from "react-router-dom"
-
-// The widget
-const ProductWidget = () => {
-  return (
-    <Container className="divide-y p-0">
-      <Link to={"/orders"}>View Orders</Link>
-    </Container>
-  )
-}
-
-// The widget's configurations
-export const config = defineWidgetConfig({
-  zone: "product.details.before",
-})
-
-export default ProductWidget
-```
-
-This adds a widget in a product's details page with a link to the Orders page. The link's path must be without the `/app` prefix.
-
-<Note title="Learn more">
-
-Refer to [react-router-dom’s documentation](https://reactrouter.com/en/main) for other available components and hooks.
-
-</Note>
 
 ---
 

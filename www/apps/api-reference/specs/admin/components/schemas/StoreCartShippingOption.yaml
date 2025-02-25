@@ -14,6 +14,7 @@ required:
   - amount
   - prices
   - calculated_price
+  - insufficient_inventory
 properties:
   id:
     type: string
@@ -101,3 +102,9 @@ properties:
       $ref: ./StorePrice.yaml
   calculated_price:
     $ref: ./StoreCalculatedPrice.yaml
+  insufficient_inventory:
+    type: boolean
+    title: insufficient_inventory
+    description: >-
+      Whether the shipping option's location doesn't have sufficient quantity
+      for any of the cart's items.

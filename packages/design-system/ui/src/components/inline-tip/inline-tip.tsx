@@ -17,7 +17,14 @@ interface InlineTipProps extends React.ComponentPropsWithoutRef<"div"> {
  * This component is based on the `div` element and supports all of its props.
  */
 export const InlineTip = React.forwardRef<HTMLDivElement, InlineTipProps>(
-  ({ variant = "info", label, className, children, ...props }, ref) => {
+  (
+    { 
+      variant = "info", 
+      label, 
+      className, 
+      children, 
+      ...props
+    }: InlineTipProps, ref) => {
     return (
       <div
         ref={ref}

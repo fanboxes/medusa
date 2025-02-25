@@ -8,20 +8,19 @@ OrderChangeProcessing.registerActionType(ChangeActionType.CREDIT_LINE_ADD, {
     let existing = creditLines.find((cl) => cl.id === action.reference_id)
 
     if (!existing) {
-      existing = {
-        id: action.reference_id!,
+      const newCreditLine = {
         order_id: currentOrder.id,
         amount: action.amount!,
         reference: action.reference,
         reference_id: action.reference_id,
       }
 
-      creditLines.push(existing)
+      creditLines.push(newCreditLine as any)
+
+      setActionReference(newCreditLine, action, options)
+
+      currentOrder.credit_lines = creditLines
     }
-
-    setActionReference(existing, action, options)
-
-    currentOrder.credit_lines = creditLines
   },
   validate({ action }) {
     if (action.amount == null) {

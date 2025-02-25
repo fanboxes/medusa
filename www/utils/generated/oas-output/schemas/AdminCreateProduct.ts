@@ -5,7 +5,6 @@
  * x-schemaName: AdminCreateProduct
  * required:
  *   - title
- *   - shipping_profile_id
  *   - options
  * properties:
  *   title:

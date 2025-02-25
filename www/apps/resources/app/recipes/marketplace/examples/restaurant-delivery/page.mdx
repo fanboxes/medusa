@@ -1117,7 +1117,9 @@ export const deleteRestaurantAdminStep = createStep(
       RESTAURANT_MODULE
     )
 
-    await restaurantModuleService.createRestaurantAdmins(admin)
+    const { restaurant: _, ...adminData } = admin
+
+    await restaurantModuleService.createRestaurantAdmins(adminData)
   }
 )
 ```
@@ -2364,7 +2366,9 @@ export const updateDeliveryStep = createStep(
   async ({ prevDeliveryData }, { container }) => {
     const deliveryService = container.resolve(DELIVERY_MODULE)
 
-    await deliveryService.updateDeliveries(prevDeliveryData)
+    const { driver, ...prevDeliveryDataWithoutDriver } = prevDeliveryData;
+
+    await deliveryService.updateDeliveries(prevDeliveryDataWithoutDriver)
   }
 )
 ```

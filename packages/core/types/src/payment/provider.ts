@@ -195,7 +195,7 @@ export type CreateAccountHolderInput = PaymentProviderInput & {
 
 export type UpdateAccountHolderInput = PaymentProviderInput & {
   /**
-   * The context of creating the account holder.
+   * The context of updating the account holder.
    */
   context: PaymentProviderContext & {
     /**
@@ -335,10 +335,26 @@ export type CreateAccountHolderOutput = PaymentProviderOutput & {
   id: string
 }
 
+/**
+ * @interface
+ * 
+ * The result of updating an account holder in the third-party payment provider. The `data`
+ * property is stored as-is in Medusa's account holder's `data` property.
+ */
 export type UpdateAccountHolderOutput = PaymentProviderOutput
 
+/**
+ * @interface
+ * 
+ * The result of deleting an account holder in the third-party payment provider.
+ */
 export type DeleteAccountHolderOutput = PaymentProviderOutput
 
+/**
+ * @interface
+ * 
+ * The result of listing payment methods for an account holder in the third-party payment provider.
+ */
 export type ListPaymentMethodsOutput = (PaymentProviderOutput & {
   /**
    * The ID of the payment method in the payment provider.
@@ -490,7 +506,7 @@ export interface IPaymentProvider {
    * @param data - Input data including the details of the account holder to update.
    * @returns The result of updating the account holder. If an error occurs, throw it.
    *
-   * @version 2.6.0
+   * @version 2.5.1
    *
    * @example
    * import { MedusaError } from "@medusajs/framework/utils"

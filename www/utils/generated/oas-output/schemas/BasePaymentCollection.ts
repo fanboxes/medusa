@@ -61,6 +61,8 @@
  *       - awaiting
  *       - authorized
  *       - partially_authorized
+ *       - completed
+ *       - failed
  *   payment_providers:
  *     type: array
  *     description: The payment provider used to process the collection's payments and sessions.

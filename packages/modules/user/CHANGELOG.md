@@ -1,5 +1,7 @@
 # @medusajs/user
 
+## 2.5.1
+
 ## 2.5.0
 
 ### Patch Changes

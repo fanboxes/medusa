@@ -1,5 +1,6 @@
 import { BigNumberInput, CartLikeWithTotals } from "@medusajs/types"
 import { BigNumber } from "../big-number"
+import { calculateCreditLinesTotal } from "../credit-lines"
 import { GetItemTotalInput, getLineItemsTotals } from "../line-item"
 import { MathBN } from "../math"
 import {
@@ -13,6 +14,9 @@ interface TotalsConfig {
 }
 
 export interface DecorateCartLikeInputDTO {
+  credit_lines?: {
+    amount: BigNumberInput
+  }[]
   items?: {
     id?: string
     unit_price: BigNumberInput
@@ -52,6 +56,7 @@ export function decorateCartTotals(
     "detail.written_off_quantity": "write_off_total",
   }
 
+  const creditLines = cartLike.credit_lines ?? []
   const items = (cartLike.items ?? []) as unknown as GetItemTotalInput[]
   const shippingMethods = (cartLike.shipping_methods ??
     []) as unknown as GetShippingMethodTotalInput[]
@@ -68,6 +73,10 @@ export function decorateCartTotals(
   })
 
   const extraTotals = {}
+
+  // TODO: Remove this once we have a way to calculate the tax rate for credit lines
+  const creditLinesSumTax = MathBN.convert(0)
+  const creditLinesSumTaxRate = MathBN.div(creditLinesSumTax, 100)
 
   let subtotal = MathBN.convert(0)
 
@@ -192,6 +201,15 @@ export function decorateCartTotals(
     return shippingMethodTotals
   })
 
+  const { creditLinesTotal, creditLinesSubtotal, creditLinesTaxTotal } =
+    calculateCreditLinesTotal({
+      creditLines,
+      includesTax: false,
+      taxRate: creditLinesSumTaxRate,
+    })
+
+  subtotal = MathBN.sub(subtotal, creditLinesSubtotal)
+
   const taxTotal = MathBN.add(itemsTaxTotal, shippingTaxTotal)
 
   const originalTaxTotal = MathBN.add(
@@ -205,6 +223,7 @@ export function decorateCartTotals(
   // TODO: subtract (cart.gift_card_total + cart.gift_card_tax_total)
   const tempTotal = MathBN.add(subtotal, taxTotal)
   const total = MathBN.sub(tempTotal, discountSubtotal)
+
   const cart = cartLike as any
 
   cart.total = new BigNumber(total)
@@ -214,6 +233,10 @@ export function decorateCartTotals(
   cart.discount_total = new BigNumber(discountTotal)
   cart.discount_subtotal = new BigNumber(discountSubtotal)
   cart.discount_tax_total = new BigNumber(discountTaxTotal)
+
+  cart.credit_lines_total = new BigNumber(creditLinesTotal)
+  cart.credit_lines_subtotal = new BigNumber(creditLinesSubtotal)
+  cart.credit_lines_tax_total = new BigNumber(creditLinesTaxTotal)
 
   // cart.gift_card_total = giftCardTotal.total || 0
   // cart.gift_card_tax_total = giftCardTotal.tax_total || 0

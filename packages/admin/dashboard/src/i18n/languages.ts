@@ -1,5 +1,6 @@
 import {
   de,
+  bg,
   enUS,
   es,
   fr,
@@ -23,6 +24,12 @@ import {
 import { Language } from "./types"
 
 export const languages: Language[] = [
+  {
+    code: "bg",
+    display_name: "Български",
+    ltr: true,
+    date_locale: bg,
+  },
   {
     code: "en",
     display_name: "English",

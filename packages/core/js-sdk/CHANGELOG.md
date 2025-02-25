@@ -1,5 +1,18 @@
 # @medusajs/js-sdk
 
+## 2.5.1
+
+### Patch Changes
+
+- [#11467](https://github.com/medusajs/medusa/pull/11467) [`32ad13813bc267a04ea95d34a479efa5309b3051`](https://github.com/medusajs/medusa/commit/32ad13813bc267a04ea95d34a479efa5309b3051) Thanks [@ranjithkumar8352](https://github.com/ranjithkumar8352)! - Implement custom storage configuration option in js-sdk to support react native
+
+- [#11514](https://github.com/medusajs/medusa/pull/11514) [`3b4997840e624ef8da1a75744b4bfb5c5a371f7c`](https://github.com/medusajs/medusa/commit/3b4997840e624ef8da1a75744b4bfb5c5a371f7c) Thanks [@kasperkristensen](https://github.com/kasperkristensen)! - fix(medusa,js-sdk,types): Add basic draft order operations to js-sdk
+
+- [#11572](https://github.com/medusajs/medusa/pull/11572) [`f00e6bf660ab96b9d41bc3d424c8d78c54eaa8e7`](https://github.com/medusajs/medusa/commit/f00e6bf660ab96b9d41bc3d424c8d78c54eaa8e7) Thanks [@kasperkristensen](https://github.com/kasperkristensen)! - fix(js-sdk): Export draft order methods
+
+- Updated dependencies [[`22276648ad0aef12206464b555efdce97e316bb4`](https://github.com/medusajs/medusa/commit/22276648ad0aef12206464b555efdce97e316bb4), [`d1cbe4c61ed99bbeccf1be49721e0aa7b74edd71`](https://github.com/medusajs/medusa/commit/d1cbe4c61ed99bbeccf1be49721e0aa7b74edd71), [`1a3843a92a6db83b9249e9c0aece7b3d13a600a9`](https://github.com/medusajs/medusa/commit/1a3843a92a6db83b9249e9c0aece7b3d13a600a9), [`3b4997840e624ef8da1a75744b4bfb5c5a371f7c`](https://github.com/medusajs/medusa/commit/3b4997840e624ef8da1a75744b4bfb5c5a371f7c), [`0c957350a6688c78572361b51c1f16a452a31aed`](https://github.com/medusajs/medusa/commit/0c957350a6688c78572361b51c1f16a452a31aed), [`065df75e7d5b90a4de43873d8c08e1aab65e3fd7`](https://github.com/medusajs/medusa/commit/065df75e7d5b90a4de43873d8c08e1aab65e3fd7), [`47edd01deec79b394552cea349f1e41b7b88723b`](https://github.com/medusajs/medusa/commit/47edd01deec79b394552cea349f1e41b7b88723b)]:
+  - @medusajs/types@2.5.1
+
 ## 2.5.0
 
 ### Patch Changes

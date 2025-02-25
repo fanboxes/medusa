@@ -2,7 +2,7 @@ import { TypeList } from "docs-ui"
 
 # KebabCase
 
- **KebabCase**: S extends \`$&#123;infer T&#125;$&#123;infer U&#125;$&#123;infer V&#125;\` ? `U` extends Uppercase&#60;U&#62; ? \`$&#123;Lowercase&#60;T&#62;&#125;-$&#123;KebabCase&#60;\`$&#123;Lowercase&#60;U&#62;&#125;$&#123;V&#125;\`&#62;&#125;\` : \`$&#123;T&#125;$&#123;KebabCase&#60;\`$&#123;U&#125;$&#123;V&#125;\`&#62;&#125;\` : S
+ **KebabCase**: S extends `${infer T}${infer U}${infer V}` ? `U` extends Uppercase&#60;U&#62; ? `${Lowercase<T>}-${KebabCase<`$&#123;Lowercase&#60;U&#62;&#125;$&#123;V&#125;`>}` : `${T}${KebabCase<`$&#123;U&#125;$&#123;V&#125;`>}` : S
 
 ## Type Parameters
 

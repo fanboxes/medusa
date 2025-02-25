@@ -781,6 +781,13 @@ export interface CartDTO {
   items?: CartLineItemDTO[]
 
   /**
+   * The credit lines for a cart
+   *
+   * @expandable
+   */
+  credit_lines?: CartCreditLineDTO[]
+
+  /**
    * The associated shipping methods
    *
    * @expandable
@@ -1274,4 +1281,81 @@ export interface FilterableShippingMethodTaxLineProps
    * Filter the tax lines by their associated shipping method.
    */
   shipping_method?: FilterableShippingMethodProps
+}
+
+/**
+ * The cart credit line details.
+ */
+export interface CartCreditLineDTO {
+  /**
+   * The ID of the cart credit line.
+   */
+  id: string
+
+  /**
+   * The ID of the cart that the credit line belongs to.
+   */
+  cart_id: string
+
+  /**
+   * The amount of the credit line.
+   */
+  amount: BigNumberValue
+
+  /**
+   * The raw amount of the credit line.
+   */
+  raw_amount: BigNumberRawValue
+
+  /**
+   * The reference model name that the credit line is generated from
+   */
+  reference: string | null
+
+  /**
+   * The reference model id that the credit line is generated from
+   */
+  reference_id: string | null
+
+  /**
+   * The metadata of the cart detail
+   */
+  metadata: Record<string, unknown> | null
+
+  /**
+   * The date when the cart credit line was created.
+   */
+  created_at: Date
+
+  /**
+   * The date when the cart credit line was last updated.
+   */
+  updated_at: Date
+}
+
+export interface CreateCartCreditLineDTO {
+  /**
+   * The ID of the cart that the credit line belongs to.
+   */
+  cart_id: string
+
+  /**
+   * The amount of the credit line.
+   */
+  amount: number
+
+  /**
+   * The reference model name that the credit line is generated from
+   */
+  reference: string | null
+
+  /**
+   * The reference model id that the credit line is generated from
+   */
+  reference_id: string | null
+
+  /**
+   * The metadata of the cart detail
+   */
+  metadata: Record<string, unknown> | null
 }

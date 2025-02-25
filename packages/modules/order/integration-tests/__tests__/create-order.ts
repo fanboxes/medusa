@@ -36,13 +36,13 @@ moduleIntegrationTestRunner<IOrderModuleService>({
             is_discountable: true,
             is_tax_inclusive: true,
             compare_at_unit_price: 10,
-            unit_price: 8,
+            unit_price: 20,
             tax_lines: [
               {
                 description: "Tax 1",
                 tax_rate_id: "tax_usa",
                 code: "code",
-                rate: 0.1,
+                rate: 10,
                 provider_id: "taxify_master",
               },
             ],
@@ -110,7 +110,7 @@ moduleIntegrationTestRunner<IOrderModuleService>({
         ],
         transactions: [
           {
-            amount: 58,
+            amount: 48.9,
             currency_code: "USD",
             reference: "payment",
             reference_id: "pay_123",
@@ -211,9 +211,9 @@ moduleIntegrationTestRunner<IOrderModuleService>({
 
         expect(created.summary).toEqual(
           expect.objectContaining({
-            transaction_total: 68,
-            pending_difference: -20.10799200799201,
-            paid_total: 68,
+            transaction_total: 58.9,
+            pending_difference: 0,
+            paid_total: 58.9,
             refunded_total: 0,
           })
         )
@@ -236,9 +236,9 @@ moduleIntegrationTestRunner<IOrderModuleService>({
 
         expect(serializedOrder.summary).toEqual(
           expect.objectContaining({
-            transaction_total: 48,
-            pending_difference: -0.10799200799201,
-            paid_total: 68,
+            transaction_total: 38.9,
+            pending_difference: 20,
+            paid_total: 58.9,
             refunded_total: 20,
           })
         )
@@ -255,9 +255,9 @@ moduleIntegrationTestRunner<IOrderModuleService>({
 
         expect(serializedOrder2.summary).toEqual(
           expect.objectContaining({
-            transaction_total: 68,
-            pending_difference: -20.10799200799201,
-            paid_total: 68,
+            transaction_total: 58.9,
+            pending_difference: 0,
+            paid_total: 58.9,
             refunded_total: 0,
           })
         )
@@ -280,10 +280,10 @@ moduleIntegrationTestRunner<IOrderModuleService>({
 
         expect(serializedOrder3.summary).toEqual(
           expect.objectContaining({
-            paid_total: 68,
+            paid_total: 58.9,
             refunded_total: 50,
-            transaction_total: 18,
-            pending_difference: 29.89200799200799,
+            transaction_total: 8.9,
+            pending_difference: 50,
           })
         )
 
@@ -299,10 +299,10 @@ moduleIntegrationTestRunner<IOrderModuleService>({
 
         expect(serializedOrder4.summary).toEqual(
           expect.objectContaining({
-            paid_total: 68,
+            paid_total: 58.9,
             refunded_total: 70,
-            transaction_total: -2,
-            pending_difference: 49.89200799200799,
+            transaction_total: -11.1,
+            pending_difference: 70,
           })
         )
       })
@@ -365,7 +365,7 @@ moduleIntegrationTestRunner<IOrderModuleService>({
             id: createdOrder.id,
             transactions: [
               expect.objectContaining({
-                amount: 58,
+                amount: 48.9,
                 reference: "payment",
                 reference_id: "pay_123",
               }),

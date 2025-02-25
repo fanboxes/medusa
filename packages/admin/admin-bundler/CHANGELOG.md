@@ -1,5 +1,16 @@
 # @medusajs/admin-bundler
 
+## 2.5.1
+
+### Patch Changes
+
+- [#11414](https://github.com/medusajs/medusa/pull/11414) [`47edd01deec79b394552cea349f1e41b7b88723b`](https://github.com/medusajs/medusa/commit/47edd01deec79b394552cea349f1e41b7b88723b) Thanks [@kasperkristensen](https://github.com/kasperkristensen)! - fix(admin-vite-plugin,admin-bundler,ui,icons,dashboard,framework,types): Update Vite dependencies
+
+- Updated dependencies [[`3b69f5a105de675fda014c8b76cd511a841716c4`](https://github.com/medusajs/medusa/commit/3b69f5a105de675fda014c8b76cd511a841716c4), [`06cc658246687309291121f09205801e18537463`](https://github.com/medusajs/medusa/commit/06cc658246687309291121f09205801e18537463), [`a88f6576bd06522f86fb2f8bd4b49f94bd4017c1`](https://github.com/medusajs/medusa/commit/a88f6576bd06522f86fb2f8bd4b49f94bd4017c1), [`b53ea77658aa4f17b41bf52c9f51c5b7a425556b`](https://github.com/medusajs/medusa/commit/b53ea77658aa4f17b41bf52c9f51c5b7a425556b), [`0307304dc679bc1533e5826e0bb726f7895a0615`](https://github.com/medusajs/medusa/commit/0307304dc679bc1533e5826e0bb726f7895a0615), [`03b8bda1ba31fa835ea6e8bba07160d4495039ef`](https://github.com/medusajs/medusa/commit/03b8bda1ba31fa835ea6e8bba07160d4495039ef), [`47edd01deec79b394552cea349f1e41b7b88723b`](https://github.com/medusajs/medusa/commit/47edd01deec79b394552cea349f1e41b7b88723b)]:
+  - @medusajs/dashboard@2.5.1
+  - @medusajs/admin-vite-plugin@2.5.1
+  - @medusajs/admin-shared@2.5.1
+
 ## 2.5.0
 
 ### Patch Changes

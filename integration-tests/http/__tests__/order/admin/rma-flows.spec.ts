@@ -232,7 +232,6 @@ medusaIntegrationTestRunner({
             tax_total: 6,
             summary: expect.objectContaining({
               paid_total: 0,
-              difference_sum: 0,
               refunded_total: 0,
               transaction_total: 0,
               pending_difference: 106,
@@ -267,7 +266,6 @@ medusaIntegrationTestRunner({
             tax_total: 6,
             summary: expect.objectContaining({
               paid_total: 0,
-              difference_sum: 0,
               refunded_total: 0,
               transaction_total: 0,
               pending_difference: 106,
@@ -300,24 +298,18 @@ medusaIntegrationTestRunner({
         orderResult = (await api.get(`/admin/orders/${order.id}`, adminHeaders))
           .data.order
 
-        // After confirming a claim with an outbound item, the tax totals are not updated
-        // I suspect this will be the same for promotions and discount totals
-        // Additionally, the items during claim don't have taxes included in them.
-        // TODO: this needs to be fixed
         expect(orderResult).toEqual(
           expect.objectContaining({
-            total: 206,
+            total: 212,
             subtotal: 200,
-            tax_total: 6,
+            tax_total: 12,
             summary: expect.objectContaining({
               paid_total: 0,
-              difference_sum: 100,
               refunded_total: 0,
               transaction_total: 0,
-              pending_difference: 200,
-              // TODO: I think the current_order_total and original_order_total should include taxes and adjustments as well
-              current_order_total: 200,
-              original_order_total: 100,
+              pending_difference: 212,
+              current_order_total: 212,
+              original_order_total: 106,
             }),
           })
         )
@@ -329,8 +321,7 @@ medusaIntegrationTestRunner({
         expect(pendingPaymentCollection).toEqual(
           expect.objectContaining({
             status: "not_paid",
-            // TODO: The payment should also include taxes
-            amount: 200,
+            amount: 212,
           })
         )
 
@@ -342,21 +333,20 @@ medusaIntegrationTestRunner({
           )
         ).data.payment_collection
 
-        // TODO: The payment, payment sessions and collection should also include taxes
         expect(paymentCollection).toEqual(
           expect.objectContaining({
-            amount: 200,
+            amount: 212,
             status: "completed",
             payment_sessions: [
               expect.objectContaining({
                 status: "authorized",
-                amount: 200,
+                amount: 212,
               }),
             ],
             payments: [
               expect.objectContaining({
                 provider_id: "pp_system_default",
-                amount: 200,
+                amount: 212,
               }),
             ],
           })
@@ -365,25 +355,19 @@ medusaIntegrationTestRunner({
         orderResult = (await api.get(`/admin/orders/${order.id}`, adminHeaders))
           .data.order
 
-        // Totals summary after payment has been marked as paid
+        // Totals summarked as paidy after payment has been mar
         expect(orderResult).toEqual(
           expect.objectContaining({
-            total: 206,
+            total: 212,
             subtotal: 200,
-            tax_total: 6,
+            tax_total: 12,
             summary: expect.objectContaining({
-              // TODO: Paid total should include taxes
-              paid_total: 200,
-              // TODO: difference_sum should include taxes
-              difference_sum: 100,
+              paid_total: 212,
               refunded_total: 0,
-              // TODO: difference_sum should include taxes
-              transaction_total: 200,
+              transaction_total: 212,
               pending_difference: 0,
-              // TODO: difference_sum should include taxes
-              current_order_total: 200,
-              // TODO: difference_sum should include taxes
-              original_order_total: 100,
+              current_order_total: 212,
+              original_order_total: 106,
             }),
           })
         )
@@ -419,20 +403,18 @@ medusaIntegrationTestRunner({
         // After fulfillment, the taxes seems to now be considered.
         // The case now is that you need to now request additional payment from
         // the customer
-        // TODO: This shouldn't be a surprise during fulfillment
         expect(orderResult).toEqual(
           expect.objectContaining({
-            total: 206,
+            total: 212,
             subtotal: 200,
-            tax_total: 6,
+            tax_total: 12,
             summary: expect.objectContaining({
-              paid_total: 200,
-              difference_sum: 0,
+              paid_total: 212,
               refunded_total: 0,
-              transaction_total: 200,
-              pending_difference: 6,
-              current_order_total: 206,
-              original_order_total: 206,
+              transaction_total: 212,
+              pending_difference: 0,
+              current_order_total: 212,
+              original_order_total: 212,
             }),
           })
         )
@@ -460,17 +442,16 @@ medusaIntegrationTestRunner({
         // Nothing changes from the previous expectation
         expect(orderResult).toEqual(
           expect.objectContaining({
-            total: 206,
+            total: 212,
             subtotal: 200,
-            tax_total: 6,
+            tax_total: 12,
             summary: expect.objectContaining({
-              paid_total: 200,
-              difference_sum: 0,
+              paid_total: 212,
               refunded_total: 0,
-              transaction_total: 200,
-              pending_difference: 6,
-              current_order_total: 206,
-              original_order_total: 206,
+              transaction_total: 212,
+              pending_difference: 0,
+              current_order_total: 212,
+              original_order_total: 212,
             }),
           })
         )
@@ -516,18 +497,16 @@ medusaIntegrationTestRunner({
         expect(orderResult).toEqual(
           expect.objectContaining({
             // This now adds a shipping_tax_total, but the item_tax_total hasn't been updated
-            total: 321.9,
+            total: 333.9,
             subtotal: 315,
-            tax_total: 6.9,
+            tax_total: 18.9,
             summary: expect.objectContaining({
-              paid_total: 200,
-              difference_sum: 15,
+              paid_total: 212,
               refunded_total: 0,
-              transaction_total: 200,
-              // TODO: what happened to the previous pending difference of 6
-              pending_difference: 15,
-              current_order_total: 215,
-              original_order_total: 200,
+              transaction_total: 212,
+              pending_difference: 15.9,
+              current_order_total: 333.9,
+              original_order_total: 212,
             }),
           })
         )
@@ -551,17 +530,16 @@ medusaIntegrationTestRunner({
         // Nothing changes from the previous expectation
         expect(orderResult).toEqual(
           expect.objectContaining({
-            total: 321.9,
+            total: 333.9,
             subtotal: 315,
-            tax_total: 6.9,
+            tax_total: 18.9,
             summary: expect.objectContaining({
-              paid_total: 200,
-              difference_sum: 15,
+              paid_total: 212,
               refunded_total: 0,
-              transaction_total: 200,
-              pending_difference: 15,
-              current_order_total: 215,
-              original_order_total: 200,
+              transaction_total: 212,
+              pending_difference: 15.9,
+              current_order_total: 333.9,
+              original_order_total: 212,
             }),
           })
         )
@@ -598,18 +576,16 @@ medusaIntegrationTestRunner({
 
         expect(orderResult).toEqual(
           expect.objectContaining({
-            total: 421.9,
+            total: 439.9,
             subtotal: 415,
-            tax_total: 6.9,
+            tax_total: 24.9,
             summary: expect.objectContaining({
-              paid_total: 200,
-              difference_sum: 0,
+              paid_total: 212,
               refunded_total: 0,
-              transaction_total: 200,
-              // TODO: Tax totals seems to be added after every claim confirmation as well
-              pending_difference: 115.9,
-              current_order_total: 315.9,
-              original_order_total: 315.9,
+              transaction_total: 212,
+              pending_difference: 15.9,
+              current_order_total: 439.9,
+              original_order_total: 333.9,
             }),
           })
         )
@@ -621,8 +597,7 @@ medusaIntegrationTestRunner({
         expect(pendingPaymentCollection).toEqual(
           expect.objectContaining({
             status: "not_paid",
-            // TODO: The payment should also include taxes
-            amount: 115.9,
+            amount: 15.9,
           })
         )
 
@@ -634,21 +609,20 @@ medusaIntegrationTestRunner({
           )
         ).data.payment_collection
 
-        // TODO: The payment, payment sessions and collection should also include taxes
         expect(paymentCollection).toEqual(
           expect.objectContaining({
-            amount: 115.9,
+            amount: 15.9,
             status: "completed",
             payment_sessions: [
               expect.objectContaining({
                 status: "authorized",
-                amount: 115.9,
+                amount: 15.9,
               }),
             ],
             payments: [
               expect.objectContaining({
                 provider_id: "pp_system_default",
-                amount: 115.9,
+                amount: 15.9,
               }),
             ],
           })
@@ -658,20 +632,18 @@ medusaIntegrationTestRunner({
           .data.order
 
         // Totals summary after payment has been marked as paid
-        // TODO: There is a discrepancy between total and paid_total
         expect(orderResult).toEqual(
           expect.objectContaining({
-            total: 421.9,
+            total: 439.9,
             subtotal: 415,
-            tax_total: 6.9,
+            tax_total: 24.9,
             summary: expect.objectContaining({
-              paid_total: 315.9,
-              difference_sum: 0,
+              paid_total: 227.9,
               refunded_total: 0,
-              transaction_total: 315.9,
+              transaction_total: 227.9,
               pending_difference: 0,
-              current_order_total: 315.9,
-              original_order_total: 315.9,
+              current_order_total: 439.9,
+              original_order_total: 333.9,
             }),
           })
         )

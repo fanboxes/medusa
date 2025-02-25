@@ -2,9 +2,11 @@ import {
   addShippingMethodToCartWorkflow,
   addToCartWorkflow,
   completeCartWorkflow,
+  createCartCreditLinesWorkflow,
   createCartWorkflow,
   createPaymentCollectionForCartWorkflow,
   createPaymentSessionsWorkflow,
+  deleteCartCreditLinesWorkflow,
   deleteLineItemsStepId,
   deleteLineItemsWorkflow,
   findOrCreateCustomerStepId,
@@ -3346,6 +3348,108 @@ medusaIntegrationTestRunner({
           ).toEqual({
             testing_tax: true,
           })
+        })
+      })
+
+      describe("createCartCreditLinesWorkflow", () => {
+        it("should create credit lines for a cart", async () => {
+          const cart = await cartModuleService.createCarts({
+            currency_code: "dkk",
+            region_id: defaultRegion.id,
+            shipping_address: {
+              metadata: {
+                testing_tax: true,
+              },
+            },
+            items: [
+              {
+                quantity: 1,
+                unit_price: 5000,
+                title: "Test item",
+              },
+            ],
+          })
+
+          const { result: creditLines } =
+            await createCartCreditLinesWorkflow.run({
+              input: [
+                {
+                  cart_id: cart.id,
+                  amount: 1000,
+                  reference: "test",
+                  reference_id: "test",
+                  metadata: {
+                    test: "metadata",
+                  },
+                },
+              ],
+              container: appContainer,
+            })
+
+          expect(creditLines).toEqual([
+            expect.objectContaining({
+              cart_id: cart.id,
+              reference: "test",
+              reference_id: "test",
+              amount: 1000,
+              metadata: {
+                test: "metadata",
+              },
+            }),
+          ])
+        })
+      })
+
+      describe("deleteCartCreditLinesWorkflow", () => {
+        it("should delete credit lines from a cart", async () => {
+          const cart = await cartModuleService.createCarts({
+            currency_code: "dkk",
+            region_id: defaultRegion.id,
+            shipping_address: {
+              metadata: {
+                testing_tax: true,
+              },
+            },
+            items: [
+              {
+                quantity: 1,
+                unit_price: 5000,
+                title: "Test item",
+              },
+            ],
+          })
+
+          const {
+            result: [creditLine],
+          } = await createCartCreditLinesWorkflow.run({
+            input: [
+              {
+                cart_id: cart.id,
+                amount: 1000,
+                reference: "test",
+                reference_id: "test",
+                metadata: {
+                  test: "metadata",
+                },
+              },
+            ],
+            container: appContainer,
+          })
+
+          const { result } = await deleteCartCreditLinesWorkflow.run({
+            input: { id: [creditLine.id] },
+            container: appContainer,
+          })
+
+          const { data: creditLines } = await query.graph({
+            entity: "credit_line",
+            filters: {
+              id: creditLine.id,
+            },
+            fields: ["id"],
+          })
+
+          expect(creditLines).toEqual([])
         })
       })
     })

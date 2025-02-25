@@ -1,5 +1,18 @@
 # @medusajs/ui
 
+## 4.0.6
+
+### Patch Changes
+
+- [#11575](https://github.com/medusajs/medusa/pull/11575) [`38a57b1ddcaabeba78dba626b7ec7985df107d07`](https://github.com/medusajs/medusa/commit/38a57b1ddcaabeba78dba626b7ec7985df107d07) Thanks [@shahednasser](https://github.com/shahednasser)! - chore(ui): explicitely specify the props type of InlineTip
+
+- [#11462](https://github.com/medusajs/medusa/pull/11462) [`b53ea77658aa4f17b41bf52c9f51c5b7a425556b`](https://github.com/medusajs/medusa/commit/b53ea77658aa4f17b41bf52c9f51c5b7a425556b) Thanks [@kasperkristensen](https://github.com/kasperkristensen)! - feat(ui,dashboard): Move InlineTip to UI package
+
+- [#11414](https://github.com/medusajs/medusa/pull/11414) [`47edd01deec79b394552cea349f1e41b7b88723b`](https://github.com/medusajs/medusa/commit/47edd01deec79b394552cea349f1e41b7b88723b) Thanks [@kasperkristensen](https://github.com/kasperkristensen)! - fix(admin-vite-plugin,admin-bundler,ui,icons,dashboard,framework,types): Update Vite dependencies
+
+- Updated dependencies [[`47edd01deec79b394552cea349f1e41b7b88723b`](https://github.com/medusajs/medusa/commit/47edd01deec79b394552cea349f1e41b7b88723b)]:
+  - @medusajs/icons@2.5.1
+
 ## 4.0.5
 
 ### Patch Changes

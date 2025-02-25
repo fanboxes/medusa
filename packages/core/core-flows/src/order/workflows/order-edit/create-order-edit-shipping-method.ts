@@ -39,14 +39,14 @@ export type CreateOrderEditShippingMethodValidationStepInput = {
 /**
  * This step validates that a shipping method can be created for an order edit.
  * If the order is canceled or the order change is not active, the step will throw an error.
- * 
+ *
  * :::note
- * 
+ *
  * You can retrieve an order and order change details using [Query](https://docs.medusajs.com/learn/fundamentals/module-links/query),
  * or [useQueryGraphStep](https://docs.medusajs.com/resources/references/medusa-workflows/steps/useQueryGraphStep).
- * 
+ *
  * :::
- * 
+ *
  * @example
  * const data = createOrderEditShippingMethodValidationStep({
  *   order: {
@@ -94,10 +94,10 @@ export const createOrderEditShippingMethodWorkflowId =
 /**
  * This workflow creates a shipping method for an order edit. It's used by the
  * [Add Shipping Method API Route](https://docs.medusajs.com/api/admin#order-edits_postordereditsidshippingmethod).
- * 
+ *
  * You can use this workflow within your customizations or your own custom workflows, allowing you to create a shipping method
  * for an order edit in your in your own custom flows.
- * 
+ *
  * @example
  * const { result } = await createOrderEditShippingMethodWorkflow(container)
  * .run({
@@ -106,14 +106,16 @@ export const createOrderEditShippingMethodWorkflowId =
  *     shipping_option_id: "so_123",
  *   }
  * })
- * 
+ *
  * @summary
- * 
+ *
  * Create a shipping method for an order edit.
  */
 export const createOrderEditShippingMethodWorkflow = createWorkflow(
   createOrderEditShippingMethodWorkflowId,
-  function (input: CreateOrderEditShippingMethodWorkflowInput): WorkflowResponse<OrderPreviewDTO> {
+  function (
+    input: CreateOrderEditShippingMethodWorkflowInput
+  ): WorkflowResponse<OrderPreviewDTO> {
     const order: OrderDTO = useRemoteQueryStep({
       entry_point: "orders",
       fields: ["id", "status", "currency_code", "canceled_at"],
@@ -152,6 +154,7 @@ export const createOrderEditShippingMethodWorkflow = createWorkflow(
 
     const shippingMethodInput = transform(
       {
+        relatedEntity: { order_id: order.id },
         shippingOptions,
         customPrice: input.custom_amount,
         orderChange,
