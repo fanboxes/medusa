@@ -24,6 +24,7 @@ import {
   OrderChangeReturn,
   OrderClaimDTO,
   OrderClaimItemDTO,
+  OrderCreditLineDTO,
   OrderDTO,
   OrderExchangeDTO,
   OrderExchangeItemDTO,
@@ -52,6 +53,7 @@ import {
   CreateOrderChangeDTO,
   CreateOrderClaimDTO,
   CreateOrderClaimItemDTO,
+  CreateOrderCreditLineDTO,
   CreateOrderDTO,
   CreateOrderExchangeDTO,
   CreateOrderExchangeItemDTO,
@@ -1591,6 +1593,35 @@ export interface IOrderModuleService extends IModuleService {
   ): Promise<OrderLineItemAdjustmentDTO[]>
 
   /**
+   * This method upserts line item adjustments.
+   *
+   * @param {UpsertOrderLineItemAdjustmentDTO[]} data - The line item adjustments to create or update. If the `id` property is provided
+   * in an object, it means an existing line item adjustment will be updated. Otherwise, a new one is created.
+   * @param {Context} sharedContext - A context used to share resources, such as transaction manager, between the application and the module.
+   * @returns {Promise<OrderLineItemAdjustmentDTO[]>} The line item adjustments.
+   *
+   * @example
+   * const lineItemAdjustments = await orderModuleService.upsertOrderLineItemAdjustments(
+   *   [
+   *     {
+   *       item_id: "1234",
+   *       amount: 10
+   *     },
+   *     {
+   *       id: "123",
+   *       item_id: "4321",
+   *       amount: 20
+   *     }
+   *   ]
+   * )
+   *
+   */
+  upsertOrderLineItemAdjustments(
+    data: UpsertOrderLineItemAdjustmentDTO[],
+    sharedContext?: Context
+  ): Promise<OrderLineItemAdjustmentDTO[]>
+
+  /**
    * This method sets the line item adjustments of an order.
    *
    * @param {string} orderId - The order's ID.
@@ -1783,6 +1814,39 @@ export interface IOrderModuleService extends IModuleService {
   createOrderShippingMethodAdjustments(
     orderId: string,
     data: CreateOrderShippingMethodAdjustmentDTO[],
+    sharedContext?: Context
+  ): Promise<OrderShippingMethodAdjustmentDTO[]>
+
+  /**
+   * This method upserts shipping method adjustments.
+   *
+   * @param {(CreateOrderShippingMethodAdjustmentDTO | UpdateOrderShippingMethodAdjustmentDTO)[]} data - The shipping method adjustments to be created
+   * or updated. If an adjustment object has an `id` property, it's updated. Otherwise, a new adjustment is created.
+   * @param {Context} sharedContext - A context used to share resources, such as transaction manager, between the application and the module.
+   * @returns {Promise<OrderShippingMethodAdjustmentDTO[]>} The shipping method adjustments.
+   *
+   * @example
+   * const shippingMethodAdjustments = await orderModuleService
+   *   .upsertOrderShippingMethodAdjustments(
+   *     [
+   *       {
+   *         shipping_method_id: "123",
+   *         code: "50OFF",
+   *         amount: 5
+   *       },
+   *       {
+   *         id: "321",
+   *         amount: 5
+   *       }
+   *     ]
+   *   )
+   *
+   */
+  upsertOrderShippingMethodAdjustments(
+    data: (
+      | CreateOrderShippingMethodAdjustmentDTO
+      | UpdateOrderShippingMethodAdjustmentDTO
+    )[],
     sharedContext?: Context
   ): Promise<OrderShippingMethodAdjustmentDTO[]>
 
@@ -1986,6 +2050,31 @@ export interface IOrderModuleService extends IModuleService {
   ): Promise<OrderLineItemTaxLineDTO[]>
 
   /**
+   * This method upserts line item tax lines.
+   *
+   * @param {(CreateOrderLineItemTaxLineDTO | UpdateOrderLineItemTaxLineDTO)[]} taxLines - The line item tax lines to create or update. If the
+   * tax line object has an `id` property, it'll be updated. Otherwise, a tax line is created.
+   * @param {Context} sharedContext - A context used to share resources, such as transaction manager, between the application and the module.
+   * @returns {Promise<OrderLineItemTaxLineDTO[]>} The line item tax lines.
+   *
+   * @example
+   * const lineItemTaxLines = await orderModuleService
+   *   .upsertOrderLineItemTaxLines(
+   *     [
+   *       {
+   *         code: "123",
+   *         rate: 2
+   *       }
+   *     ]
+   *   )
+   *
+   */
+  upsertOrderLineItemTaxLines(
+    taxLines: (CreateOrderLineItemTaxLineDTO | UpdateOrderLineItemTaxLineDTO)[],
+    sharedContext?: Context
+  ): Promise<OrderLineItemTaxLineDTO[]>
+
+  /**
    * This method sets the line item tax lines of an order.
    *
    * @param {string} orderId - The order's ID.
@@ -2173,6 +2262,38 @@ export interface IOrderModuleService extends IModuleService {
     taxLines:
       | CreateOrderShippingMethodTaxLineDTO[]
       | CreateOrderShippingMethodTaxLineDTO,
+    sharedContext?: Context
+  ): Promise<OrderShippingMethodTaxLineDTO[]>
+
+  /**
+   * This method upsert shipping method tax lines.
+   *
+   * @param {(CreateOrderShippingMethodTaxLineDTO | UpdateOrderShippingMethodTaxLineDTO)[]} taxLines - The shipping method tax lines to create or update.
+   * If a tax line object has an `id` property, it's updated. Otherwise, a tax line is created.
+   * @param {Context} sharedContext - A context used to share resources, such as transaction manager, between the application and the module.
+   * @returns {Promise<OrderShippingMethodTaxLineDTO[]>} The shipping method tax lines.
+   *
+   * @example
+   * const shippingMethodTaxLines = await orderModuleService
+   *   .upsertOrderShippingMethodTaxLines(
+   *     [
+   *       {
+   *         code: "123",
+   *         rate: 2
+   *       },
+   *       {
+   *         id: "321",
+   *         rate: 2
+   *       }
+   *     ]
+   *   )
+   *
+   */
+  upsertOrderShippingMethodTaxLines(
+    taxLines: (
+      | CreateOrderShippingMethodTaxLineDTO
+      | UpdateOrderShippingMethodTaxLineDTO
+    )[],
     sharedContext?: Context
   ): Promise<OrderShippingMethodTaxLineDTO[]>
 
@@ -4806,4 +4927,9 @@ export interface IOrderModuleService extends IModuleService {
     data: CancelOrderExchangeDTO,
     sharedContext?: Context
   ): Promise<OrderExchangeDTO>
+
+  createOrderCreditLines(
+    data: CreateOrderCreditLineDTO[],
+    sharedContext?: Context
+  ): Promise<OrderCreditLineDTO[]>
 }

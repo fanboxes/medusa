@@ -24,6 +24,7 @@ import {
 import {
   Address,
   Cart,
+  CreditLine,
   LineItem,
   LineItemAdjustment,
   LineItemTaxLine,
@@ -54,6 +55,7 @@ type InjectedDependencies = {
 
 const generateMethodForModels = {
   Cart,
+  CreditLine,
   Address,
   LineItem,
   LineItemAdjustment,
@@ -66,6 +68,7 @@ const generateMethodForModels = {
 export default class CartModuleService
   extends ModulesSdkUtils.MedusaService<{
     Cart: { dto: CartTypes.CartDTO }
+    CreditLine: { dto: CartTypes.CartCreditLineDTO }
     Address: { dto: CartTypes.CartAddressDTO }
     LineItem: { dto: CartTypes.CartLineItemDTO }
     LineItemAdjustment: { dto: CartTypes.LineItemAdjustmentDTO }
@@ -170,6 +173,7 @@ export default class CartModuleService
 
     const requiredFieldsForTotals = [
       "items",
+      "credit_lines",
       "items.tax_lines",
       "items.adjustments",
       "shipping_methods",

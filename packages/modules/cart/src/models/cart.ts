@@ -1,5 +1,6 @@
 import { model } from "@medusajs/framework/utils"
 import Address from "./address"
+import CreditLine from "./credit-line"
 import LineItem from "./line-item"
 import ShippingMethod from "./shipping-method"
 
@@ -26,6 +27,9 @@ const Cart = model
       })
       .nullable(),
     items: model.hasMany(() => LineItem, {
+      mappedBy: "cart",
+    }),
+    credit_lines: model.hasMany(() => CreditLine, {
       mappedBy: "cart",
     }),
     shipping_methods: model.hasMany(() => ShippingMethod, {

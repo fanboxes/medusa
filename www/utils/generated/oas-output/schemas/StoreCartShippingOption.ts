@@ -16,6 +16,7 @@
  *   - amount
  *   - prices
  *   - calculated_price
+ *   - insufficient_inventory
  * properties:
  *   id:
  *     type: string
@@ -100,6 +101,10 @@
  *       $ref: "#/components/schemas/StorePrice"
  *   calculated_price:
  *     $ref: "#/components/schemas/StoreCalculatedPrice"
+ *   insufficient_inventory:
+ *     type: boolean
+ *     title: insufficient_inventory
+ *     description: Whether the shipping option's location doesn't have sufficient quantity for any of the cart's items.
  * 
 */
 

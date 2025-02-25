@@ -5,6 +5,7 @@ import { Claim } from "./claim"
 import { Currency } from "./currency"
 import { Customer } from "./customer"
 import { CustomerGroup } from "./customer-group"
+import { DraftOrder } from "./draft-order"
 import { Exchange } from "./exchange"
 import { Fulfillment } from "./fulfillment"
 import { FulfillmentProvider } from "./fulfillment-provider"
@@ -127,6 +128,10 @@ export class Admin {
    */
   public order: Order
   /**
+   * @tags draft order
+   */
+  public draftOrder: DraftOrder
+  /**
    * @tags order
    */
   public orderEdit: OrderEdit
@@ -229,6 +234,7 @@ export class Admin {
     this.inventoryItem = new InventoryItem(client)
     this.notification = new Notification(client)
     this.order = new Order(client)
+    this.draftOrder = new DraftOrder(client)
     this.orderEdit = new OrderEdit(client)
     this.return = new Return(client)
     this.claim = new Claim(client)

@@ -119,7 +119,6 @@ describe("Order Exchange - Actions", function () {
       original_order_total: 270,
       current_order_total: 312.5,
       pending_difference: 312.5,
-      difference_sum: 42.5,
       paid_total: 0,
       refunded_total: 0,
       credit_line_total: 0,

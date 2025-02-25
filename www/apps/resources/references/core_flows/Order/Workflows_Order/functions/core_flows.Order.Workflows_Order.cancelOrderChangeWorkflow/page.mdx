@@ -18,7 +18,7 @@ This workflow cancels an order change.
 You can use this workflow within your customizations or your own custom workflows, allowing you to wrap custom logic around 
 canceling an order change.
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/3c25aec00616c44b5bd0a66550749708f21aec3e/packages/core/core-flows/src/order/workflows/cancel-order-change.ts#L16" />
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/f00e6bf660ab96b9d41bc3d424c8d78c54eaa8e7/packages/core/core-flows/src/order/workflows/cancel-order-change.ts#L16" />
 
 ## Examples
 
@@ -39,7 +39,7 @@ export async function POST(
   const { result } = await cancelOrderChangeWorkflow(req.scope)
     .run({
       input: {
-        "id": "id_hIvKxv8EtFFUbW"
+        "id": "id_fXGxSrdT8MTP"
       }
     })
 
@@ -64,7 +64,7 @@ export default async function handleOrderPlaced({
   const { result } = await cancelOrderChangeWorkflow(container)
     .run({
       input: {
-        "id": "id_hIvKxv8EtFFUbW"
+        "id": "id_fXGxSrdT8MTP"
       }
     })
 
@@ -89,7 +89,7 @@ export default async function myCustomJob(
   const { result } = await cancelOrderChangeWorkflow(container)
     .run({
       input: {
-        "id": "id_hIvKxv8EtFFUbW"
+        "id": "id_fXGxSrdT8MTP"
       }
     })
 
@@ -115,7 +115,7 @@ const myWorkflow = createWorkflow(
     const result = cancelOrderChangeWorkflow
       .runAsStep({
         input: {
-          "id": "id_hIvKxv8EtFFUbW"
+          "id": "id_fXGxSrdT8MTP"
         }
       })
   }

@@ -1,4 +1,7 @@
-import { createOrderWorkflow } from "@medusajs/core-flows"
+import {
+  createOrderWorkflow,
+  getOrdersListWorkflow,
+} from "@medusajs/core-flows"
 import {
   AuthenticatedMedusaRequest,
   MedusaRequest,
@@ -8,6 +11,7 @@ import {
   AdditionalData,
   CreateOrderDTO,
   HttpTypes,
+  OrderDTO,
 } from "@medusajs/framework/types"
 import {
   ContainerRegistrationKeys,
@@ -21,24 +25,28 @@ export const GET = async (
   req: MedusaRequest<HttpTypes.AdminOrderFilters>,
   res: MedusaResponse<HttpTypes.AdminDraftOrderListResponse>
 ) => {
-  const remoteQuery = req.scope.resolve(ContainerRegistrationKeys.REMOTE_QUERY)
-
-  const queryObject = remoteQueryObjectFromString({
-    entryPoint: "order",
-    variables: {
-      filters: {
-        ...req.filterableFields,
-        is_draft_order: true,
-      },
-      ...req.queryConfig.pagination,
+  const variables = {
+    filters: {
+      ...req.filterableFields,
+      is_draft_order: true,
     },
-    fields: req.queryConfig.fields,
+    ...req.queryConfig.pagination,
+  }
+
+  const workflow = getOrdersListWorkflow(req.scope)
+  const { result } = await workflow.run({
+    input: {
+      fields: req.queryConfig.fields,
+      variables,
+    },
   })
 
-  const { rows: draft_orders, metadata } = await remoteQuery(queryObject)
-
+  const { rows, metadata } = result as {
+    rows: OrderDTO[]
+    metadata: any
+  }
   res.json({
-    draft_orders,
+    draft_orders: rows as unknown as HttpTypes.AdminOrder[],
     count: metadata.count,
     offset: metadata.skip,
     limit: metadata.take,

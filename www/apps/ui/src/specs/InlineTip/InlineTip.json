@@ -1,0 +1,44 @@
+{
+  "description": "This component is based on the `div` element and supports all of its props.",
+  "methods": [],
+  "displayName": "InlineTip",
+  "props": {
+    "label": {
+      "required": true,
+      "tsType": {
+        "name": "string"
+      },
+      "description": "The label to display in the tip."
+    },
+    "variant": {
+      "required": false,
+      "tsType": {
+        "name": "union",
+        "raw": "\"info\" | \"warning\" | \"error\" | \"success\"",
+        "elements": [
+          {
+            "name": "literal",
+            "value": "\"info\""
+          },
+          {
+            "name": "literal",
+            "value": "\"warning\""
+          },
+          {
+            "name": "literal",
+            "value": "\"error\""
+          },
+          {
+            "name": "literal",
+            "value": "\"success\""
+          }
+        ]
+      },
+      "description": "The variant of the tip.",
+      "defaultValue": {
+        "value": "\"info\"",
+        "computed": false
+      }
+    }
+  }
+}

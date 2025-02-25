@@ -7,7 +7,7 @@
  *   - draft_order
  * properties:
  *   draft_order:
- *     $ref: "#/components/schemas/AdminOrder"
+ *     $ref: "#/components/schemas/AdminDraftOrder"
  * 
 */
 

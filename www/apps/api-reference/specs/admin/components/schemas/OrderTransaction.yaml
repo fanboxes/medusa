@@ -4,6 +4,7 @@ x-schemaName: OrderTransaction
 required:
   - id
   - order_id
+  - version
   - order
   - amount
   - currency_code
@@ -59,3 +60,7 @@ properties:
     description: The date that the transaction was updated.
   order:
     type: object
+  version:
+    type: number
+    title: version
+    description: The order version that the transaction belongs to.

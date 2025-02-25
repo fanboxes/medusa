@@ -1,7 +1,10 @@
 export const defaultAdminListOrderFields = [
   "id",
+  "display_id",
   "status",
   "version",
+  "email",
+  "region_id",
   "*items",
   "summary",
   "metadata",
@@ -11,8 +14,11 @@ export const defaultAdminListOrderFields = [
 
 export const defaultAdminOrderFields = [
   "id",
+  "display_id",
   "status",
   "version",
+  "email",
+  "region_id",
   "*items",
   "*items.tax_lines",
   "*items.adjustments",

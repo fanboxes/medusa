@@ -2,11 +2,13 @@ import {
   Context,
   Event,
   IndexTypes,
+  QueryGraphFunction,
   RemoteQueryFunction,
   Subscriber,
 } from "@medusajs/framework/types"
 import {
   MikroOrmBaseRepository as BaseRepository,
+  CommonEvents,
   ContainerRegistrationKeys,
   deepMerge,
   InjectManager,
@@ -210,13 +212,20 @@ export class PostgresProvider implements IndexTypes.StorageProvider {
       }
 
       const { fields, alias } = schemaEntityObjectRepresentation
-      const { data: entityData } = await this.query_.graph({
+
+      const graphConfig: Parameters<QueryGraphFunction>[0] = {
         entity: alias,
         filters: {
           id: ids,
         },
         fields: [...new Set(["id", ...fields])],
-      })
+      }
+
+      if (action === CommonEvents.DELETED || action === CommonEvents.DETACHED) {
+        graphConfig.withDeleted = true
+      }
+
+      const { data: entityData } = await this.query_.graph(graphConfig)
 
       const argument = {
         entity: schemaEntityObjectRepresentation.entity,

@@ -1,5 +1,6 @@
 export { default as Address } from "./address"
 export { default as Cart } from "./cart"
+export { default as CreditLine } from "./credit-line"
 export { default as LineItem } from "./line-item"
 export { default as LineItemAdjustment } from "./line-item-adjustment"
 export { default as LineItemTaxLine } from "./line-item-tax-line"

@@ -209,6 +209,13 @@ export const docsConfig: DocsConfig = {
           },
           {
             type: "link",
+            title: "Inline Tip",
+            path: "/components/inline-tip",
+            isPathHref: true,
+            loaded: true,
+          },
+          {
+            type: "link",
             title: "Input",
             path: "/components/input",
             isPathHref: true,

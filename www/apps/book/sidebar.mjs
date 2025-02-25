@@ -468,6 +468,11 @@ export const sidebar = sidebarAttachHrefCommonOptions([
           },
           {
             type: "link",
+            path: "/learn/fundamentals/admin/routing",
+            title: "Routing Customizations",
+          },
+          {
+            type: "link",
             path: "/learn/fundamentals/admin/constraints",
             title: "Constraints",
           },

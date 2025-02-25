@@ -1,3 +1,4 @@
+import { createCartCreditLinesWorkflow } from "@medusajs/core-flows"
 import { medusaIntegrationTestRunner } from "@medusajs/test-utils"
 import {
   Modules,
@@ -1101,6 +1102,19 @@ medusaIntegrationTestRunner({
           })
 
           it("should successfully complete cart", async () => {
+            createCartCreditLinesWorkflow.run({
+              input: [
+                {
+                  cart_id: cart.id,
+                  amount: 100,
+                  currency_code: "usd",
+                  reference: "test",
+                  reference_id: "test",
+                },
+              ],
+              container: appContainer,
+            })
+
             const response = await api.post(
               `/store/carts/${cart.id}/complete`,
               {},
@@ -1112,6 +1126,13 @@ medusaIntegrationTestRunner({
               expect.objectContaining({
                 id: expect.any(String),
                 currency_code: "usd",
+                credit_lines: [
+                  expect.objectContaining({
+                    amount: 100,
+                    reference: "test",
+                    reference_id: "test",
+                  }),
+                ],
                 items: expect.arrayContaining([
                   expect.objectContaining({
                     unit_price: 1500,
@@ -1463,8 +1484,6 @@ medusaIntegrationTestRunner({
             })
 
             it("should complete a cart with inventory item shared between variants", async () => {
-              console.log(cart)
-
               const response = await api.post(
                 `/store/carts/${cart.id}/complete`,
                 {},

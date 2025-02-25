@@ -591,10 +591,14 @@ export class QueryBuilder {
     let textSearchQuery: string | null = null
     const searchQueryFilterProp = `${rootEntity}.q`
 
-    if (filter[searchQueryFilterProp]) {
-      hasTextSearch = true
-      textSearchQuery = filter[searchQueryFilterProp]
-      delete filter[searchQueryFilterProp]
+    if (searchQueryFilterProp in filter) {
+      if (!filter[searchQueryFilterProp]) {
+        delete filter[searchQueryFilterProp]
+      } else {
+        hasTextSearch = true
+        textSearchQuery = filter[searchQueryFilterProp]
+        delete filter[searchQueryFilterProp]
+      }
     }
 
     const joinParts = this.buildQueryParts(

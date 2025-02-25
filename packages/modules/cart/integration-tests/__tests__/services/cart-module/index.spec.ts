@@ -17,6 +17,7 @@ moduleIntegrationTestRunner<ICartModuleService>({
 
         expect(Object.keys(linkable)).toEqual([
           "cart",
+          "creditLine",
           "address",
           "lineItem",
           "lineItemAdjustment",
@@ -38,6 +39,15 @@ moduleIntegrationTestRunner<ICartModuleService>({
               primaryKey: "id",
               serviceName: "cart",
               field: "cart",
+            },
+          },
+          creditLine: {
+            id: {
+              entity: "CreditLine",
+              field: "creditLine",
+              linkable: "credit_line_id",
+              primaryKey: "id",
+              serviceName: "cart",
             },
           },
           address: {
@@ -2764,6 +2774,22 @@ moduleIntegrationTestRunner<ICartModuleService>({
             },
           },
         ],
+        credit_lines: [],
+        credit_lines_subtotal: 0,
+        credit_lines_tax_total: 0,
+        credit_lines_total: 0,
+        raw_credit_lines_subtotal: {
+          precision: 20,
+          value: "0",
+        },
+        raw_credit_lines_tax_total: {
+          precision: 20,
+          value: "0",
+        },
+        raw_credit_lines_total: {
+          precision: 20,
+          value: "0",
+        },
         total: 210,
         subtotal: 510,
         tax_total: 0,

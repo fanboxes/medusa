@@ -8,46 +8,13 @@ import { BaseProduct, BaseProductVariant } from "../product/common"
 import { BaseReturn } from "../return/common"
 
 export interface BaseOrderSummary {
-  /**
-   * The total of the order including taxes and promotions.
-   */
-  total: number
-  /**
-   * The total of the order excluding taxes, including promotions.
-   */
-  subtotal: number
-  /**
-   * The tax totals of the order including promotions.
-   */
-  total_tax: number
-  /**
-   * The total ordered amount.
-   */
-  ordered_total: number
-  /**
-   * The total fulfilled amount.
-   */
-  fulfilled_total: number
-  /**
-   * The total amount of returned items.
-   */
-  returned_total: number
-  /**
-   * The total amount of the items requested to be returned.
-   */
-  return_request_total: number
-  /**
-   * The total amount of the items removed from the order.
-   */
-  write_off_total: number
-  /**
-   * The total amount paid.
-   */
+  pending_difference: number
+  current_order_total: number
+  original_order_total: number
+  transaction_total: number
   paid_total: number
-  /**
-   * The total amount refunded
-   */
   refunded_total: number
+  accounting_total: number
 }
 
 export interface BaseOrderAdjustmentLine {

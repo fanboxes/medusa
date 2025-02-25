@@ -62,6 +62,17 @@ class OasKindGenerator extends FunctionKindGenerator {
   public name = "oas"
   protected allowedKinds: SyntaxKind[] = [ts.SyntaxKind.FunctionDeclaration]
   private MAX_LEVEL = 7
+  readonly METHOD_NAMES = [
+    "GET",
+    "POST",
+    "PUT",
+    "PATCH",
+    "DELETE",
+    "OPTIONS",
+    "HEAD",
+    "TRACE",
+    "CONNECT",
+  ]
   readonly REQUEST_TYPE_NAMES = [
     "MedusaRequest",
     "RequestWithContext",
@@ -146,8 +157,13 @@ class OasKindGenerator extends FunctionKindGenerator {
     const functionNode = ts.isFunctionDeclaration(node)
       ? node
       : this.extractFunctionNode(node as VariableNode)
+    const functionName = this.getFunctionName(node as FunctionOrVariableNode)
 
-    if (!functionNode || functionNode.parameters.length !== 2) {
+    if (
+      !functionNode ||
+      !this.METHOD_NAMES.includes(functionName) ||
+      functionNode.parameters.length !== 2
+    ) {
       return false
     }
 
@@ -753,8 +769,10 @@ class OasKindGenerator extends FunctionKindGenerator {
     }
 
     return (
-      node as ts.VariableStatement
-    ).declarationList.declarations[0].name.getText()
+      (
+        node as ts.VariableStatement
+      ).declarationList?.declarations[0].name.getText() || ""
+    )
   }
 
   /**

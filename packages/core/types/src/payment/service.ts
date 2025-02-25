@@ -99,7 +99,7 @@ export interface IPaymentModuleService extends IModuleService {
    * @returns {Promise<PaymentCollectionDTO>} The retrieved payment collection.
    *
    * @example
-   * A simple example that retrieves a {type name} by its ID:
+   * A simple example that retrieves a payment collection by its ID:
    *
    * ```ts
    * const paymentCollection =
@@ -195,7 +195,7 @@ export interface IPaymentModuleService extends IModuleService {
    * @returns {Promise<[PaymentCollectionDTO[], number]>} The list of payment collections along with their total count.
    *
    * @example
-   * To retrieve a list of {type name} using their IDs:
+   * To retrieve a list of payment collection using their IDs:
    *
    * ```ts
    * const paymentCollections =
@@ -204,7 +204,7 @@ export interface IPaymentModuleService extends IModuleService {
    *   })
    * ```
    *
-   * To specify relations that should be retrieved within the {type name}:
+   * To specify relations that should be retrieved within the payment collection:
    *
    * ```ts
    * const paymentCollections =
@@ -218,7 +218,7 @@ export interface IPaymentModuleService extends IModuleService {
    *   )
    * ```
    *
-   * By default, only the first `{default limit}` records are retrieved. You can control pagination by specifying the `skip` and `take` properties of the `config` parameter:
+   * By default, only the first `15` records are retrieved. You can control pagination by specifying the `skip` and `take` properties of the `config` parameter:
    *
    * ```ts
    * const paymentCollections =
@@ -749,6 +749,57 @@ export interface IPaymentModuleService extends IModuleService {
     sharedContext?: Context
   ): Promise<PaymentProviderDTO[]>
 
+  /**
+   * This method retrieves a paginated list of payment providers along with the total count of available payment providers satisfying the provided filters.
+   *
+   * @param {FilterablePaymentProviderProps} filters - The filters to apply on the retrieved payment provider.
+   * @param {FindConfig<PaymentProviderDTO>} config - The configurations determining how the payment provider is retrieved. Its properties, such as `select` or `relations`, accept the
+   * attributes or relations associated with a payment provider.
+   * @param {Context} sharedContext - A context used to share resources, such as transaction manager, between the application and the module.
+   * @returns {Promise<[PaymentProviderDTO[], number]>} The list of payment providers along with their total count.
+   *
+   * @example
+   * To retrieve a list of payment providers using their IDs:
+   *
+   * ```ts
+   * const [paymentProviders, count] =
+   *   await paymentModuleService.listAndCountPaymentProviders({
+   *     id: ["pp_stripe_stripe"],
+   *   })
+   * ```
+   *
+   * To specify relations that should be retrieved within the payment providers:
+   *
+   * ```ts
+   * const [paymentProviders, count] =
+   *   await paymentModuleService.listAndCountPaymentProviders(
+   *     {
+   *       id: ["pp_stripe_stripe"],
+   *     },
+   *     {
+   *       relations: ["payment_collections"],
+   *     }
+   *   )
+   * ```
+   *
+   * By default, only the first `15` records are retrieved. You can control pagination by specifying the `skip` and `take` properties of the `config` parameter:
+   *
+   * ```ts
+   * const [paymentProviders, count] =
+   *   await paymentModuleService.listAndCountPaymentProviders(
+   *     {
+   *       id: ["pp_stripe_stripe"],
+   *     },
+   *     {
+   *       relations: ["payment_collections"],
+   *       take: 20,
+   *       skip: 2,
+   *     }
+   *   )
+   * ```
+   *
+   *
+   */
   listAndCountPaymentProviders(
     filters?: FilterablePaymentProviderProps,
     config?: FindConfig<PaymentProviderDTO>,
@@ -756,11 +807,11 @@ export interface IPaymentModuleService extends IModuleService {
   ): Promise<[PaymentProviderDTO[], number]>
 
   /**
-   * This method creates(if supported by provider) the account holder in the payment provider.
+   * This method creates an account holder in the payment provider, if the provider supports account holders.
    *
-   * @param {CreateAccountHolderDTO} data - The details of the account holder.
+   * @param {CreateAccountHolderDTO} input - The details of the account holder.
    * @param {Context} sharedContext - A context used to share resources, such as transaction manager, between the application and the module.
-   * @returns {Promise<Record<string, unknown>>} The account holder's details in the payment provider, typically just the ID.
+   * @returns {Promise<AccountHolderDTO>} The created account holder's details.
    *
    * @example
    * const accountHolder =
@@ -790,11 +841,11 @@ export interface IPaymentModuleService extends IModuleService {
   ): Promise<AccountHolderDTO>
 
   /**
-   * This method updates(if supported by provider) the account holder in the payment provider.
+   * This method updates an account holder in the payment provider, if the provider supports account holders.
    *
-   * @param {UpdateAccountHolderDTO} data - The details of the account holder.
+   * @param {UpdateAccountHolderDTO} input - The details of the account holder to update.
    * @param {Context} sharedContext - A context used to share resources, such as transaction manager, between the application and the module.
-   * @returns {Promise<Record<string, unknown>>} The account holder's details in the payment provider, typically just the ID.
+   * @returns {Promise<AccountHolderDTO>} The updated account holder's details.
    *
    * @example
    * const accountHolder =

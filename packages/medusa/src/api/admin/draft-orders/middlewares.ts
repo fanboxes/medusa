@@ -1,11 +1,14 @@
+import {
+  validateAndTransformBody,
+  validateAndTransformQuery,
+} from "@medusajs/framework"
 import { MiddlewareRoute } from "@medusajs/framework/http"
-import { validateAndTransformBody } from "@medusajs/framework"
-import { validateAndTransformQuery } from "@medusajs/framework"
 import * as QueryConfig from "./query-config"
 import {
   AdminCreateDraftOrder,
-  AdminGetOrderParams,
-  AdminGetOrdersParams,
+  AdminGetDraftOrderParams,
+  AdminGetDraftOrdersParams,
+  AdminUpdateDraftOrder,
 } from "./validators"
 
 export const adminDraftOrderRoutesMiddlewares: MiddlewareRoute[] = [
@@ -14,7 +17,7 @@ export const adminDraftOrderRoutesMiddlewares: MiddlewareRoute[] = [
     matcher: "/admin/draft-orders",
     middlewares: [
       validateAndTransformQuery(
-        AdminGetOrdersParams,
+        AdminGetDraftOrdersParams,
         QueryConfig.listTransformQueryConfig
       ),
     ],
@@ -24,7 +27,7 @@ export const adminDraftOrderRoutesMiddlewares: MiddlewareRoute[] = [
     matcher: "/admin/draft-orders/:id",
     middlewares: [
       validateAndTransformQuery(
-        AdminGetOrderParams,
+        AdminGetDraftOrderParams,
         QueryConfig.retrieveTransformQueryConfig
       ),
     ],
@@ -35,7 +38,18 @@ export const adminDraftOrderRoutesMiddlewares: MiddlewareRoute[] = [
     middlewares: [
       validateAndTransformBody(AdminCreateDraftOrder),
       validateAndTransformQuery(
-        AdminGetOrderParams,
+        AdminGetDraftOrderParams,
+        QueryConfig.retrieveTransformQueryConfig
+      ),
+    ],
+  },
+  {
+    method: ["POST"],
+    matcher: "/admin/draft-orders/:id",
+    middlewares: [
+      validateAndTransformBody(AdminUpdateDraftOrder),
+      validateAndTransformQuery(
+        AdminGetDraftOrderParams,
         QueryConfig.retrieveTransformQueryConfig
       ),
     ],

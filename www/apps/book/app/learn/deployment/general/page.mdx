@@ -218,15 +218,15 @@ Feel free to add any other relevant environment variables, such as for integrati
 
 ### Set Start Command
 
-The Medusa application's production build, which is created using the `build` command, outputs the Medusa application to `.medusa/server`.
-
-So, you must run the `start` command from the `.medusa/server` directory.
+The Medusa application's production build, which is created using the `build` command, outputs the Medusa application to `.medusa/server`. So, you must install the dependencies in the `.medusa/server` directory, then run the `start` command in it.
 
 If your hosting provider doesn't support setting a current-working directory, set the start command to the following:
 
 ```bash npm2yarn
-cd .medusa/server && npm run predeploy && npm run start
+cd .medusa/server && npm install && npm run predeploy && npm run start
 ```
+
+Notice that you run the `predeploy` command before starting the Medusa application to run migrations and sync links whenever there's an update.
 
 ### Set Backend URL in Admin Configuration
 
@@ -293,14 +293,12 @@ Feel free to add any other relevant environment variables, such as for integrati
 
 ### Set Start Command
 
-The Medusa application's production build, which is created using the `build` command, outputs the Medusa application to `.medusa/server`.
-
-So, you must run the `start` command from the `.medusa/server` directory.
+The Medusa application's production build, which is created using the `build` command, outputs the Medusa application to `.medusa/server`. So, you must install the dependencies in the `.medusa/server` directory, then run the `start` command in it.
 
 If your hosting provider doesn't support setting a current-working directory, set the start command to the following:
 
 ```bash npm2yarn
-cd .medusa/server && npm run predeploy && npm run start
+cd .medusa/server && npm run install && npm run start
 ```
 
 ---

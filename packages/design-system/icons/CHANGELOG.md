@@ -1,5 +1,11 @@
 # @medusajs/icons
 
+## 2.5.1
+
+### Patch Changes
+
+- [#11414](https://github.com/medusajs/medusa/pull/11414) [`47edd01deec79b394552cea349f1e41b7b88723b`](https://github.com/medusajs/medusa/commit/47edd01deec79b394552cea349f1e41b7b88723b) Thanks [@kasperkristensen](https://github.com/kasperkristensen)! - fix(admin-vite-plugin,admin-bundler,ui,icons,dashboard,framework,types): Update Vite dependencies
+
 ## 2.5.0
 
 ### Patch Changes

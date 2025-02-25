@@ -811,10 +811,19 @@ export const generatedSidebar = [
             "loaded": true,
             "isPathHref": true,
             "type": "link",
+            "path": "/learn/fundamentals/admin/routing",
+            "title": "Routing Customizations",
+            "children": [],
+            "chapterTitle": "3.9.4. Routing Customizations"
+          },
+          {
+            "loaded": true,
+            "isPathHref": true,
+            "type": "link",
             "path": "/learn/fundamentals/admin/constraints",
             "title": "Constraints",
             "children": [],
-            "chapterTitle": "3.9.4. Constraints"
+            "chapterTitle": "3.9.5. Constraints"
           },
           {
             "loaded": true,
@@ -823,7 +832,7 @@ export const generatedSidebar = [
             "path": "/learn/fundamentals/admin/tips",
             "title": "Tips",
             "children": [],
-            "chapterTitle": "3.9.5. Tips"
+            "chapterTitle": "3.9.6. Tips"
           }
         ],
         "chapterTitle": "3.9. Admin Development"

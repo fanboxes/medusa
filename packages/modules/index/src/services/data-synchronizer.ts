@@ -1,7 +1,6 @@
 import {
   CommonEvents,
   ContainerRegistrationKeys,
-  groupBy,
   Modules,
   promiseAll,
 } from "@medusajs/framework/utils"
@@ -39,10 +38,6 @@ export class DataSynchronizer {
 
   get #indexSyncService(): ModulesSdkTypes.IMedusaInternalService<any> {
     return this.#container.indexSyncService
-  }
-
-  get #indexDataService(): ModulesSdkTypes.IMedusaInternalService<any> {
-    return this.#container.indexDataService
   }
 
   // @ts-ignore
@@ -103,48 +98,20 @@ export class DataSynchronizer {
   async removeEntities(entities: string[], staleOnly: boolean = false) {
     this.#isReadyOrThrow()
 
-    const staleCondition = staleOnly ? { staled_at: { $ne: null } } : {}
+    const staleCondition = staleOnly ? "staled_at IS NOT NULL" : ""
 
-    const dataToDelete = await this.#indexDataService.list({
-      ...staleCondition,
-      name: entities,
-    })
-
-    const toDeleteByEntity = groupBy(dataToDelete, "name")
-
-    for (const entity of toDeleteByEntity.keys()) {
-      const records = toDeleteByEntity.get(entity)
-      const ids = records?.map(
-        (record: { data: { id: string } }) => record.data.id
+    for (const entity of entities) {
+      await this.#container.manager.execute(
+        `WITH deleted_data AS (
+          DELETE FROM "index_data"
+          WHERE "name" = ? ${staleCondition ? `AND ${staleCondition}` : ""}
+          RETURNING id
+        )
+        DELETE FROM "index_relation"
+        WHERE ("parent_name" = ? AND "parent_id" IN (SELECT id FROM deleted_data))
+           OR ("child_name" = ? AND "child_id" IN (SELECT id FROM deleted_data))`,
+        [entity, entity, entity]
       )
-      if (!ids?.length) {
-        continue
-      }
-
-      if (this.#schemaObjectRepresentation[entity]) {
-        // Here we assume that some data have been deleted from from the source and we are cleaning since they are still staled in the index and we remove them from the index
-
-        // TODO: expand storage provider interface
-        await (this.#storageProvider as any).onDelete({
-          entity,
-          data: ids,
-          schemaEntityObjectRepresentation:
-            this.#schemaObjectRepresentation[entity],
-        })
-      } else {
-        // Here we assume that the entity is not indexed anymore as it is not part of the schema object representation and we are cleaning the index
-        // TODO: Drop the partition somewhere
-        await promiseAll([
-          this.#container.manager.execute(
-            `DELETE FROM "index_data" WHERE "name" = ?`,
-            [entity]
-          ),
-          this.#container.manager.execute(
-            `DELETE FROM "index_relation" WHERE "parent_name" = ? OR "child_name" = ?`,
-            [entity, entity]
-          ),
-        ])
-      }
     }
   }
 

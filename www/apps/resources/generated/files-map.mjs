@@ -10896,6 +10896,10 @@ export const filesMap = [
     "pathname": "/references/js_sdk/admin/Admin/properties/js_sdk.admin.Admin.customerGroup"
   },
   {
+    "filePath": "/www/apps/resources/references/js_sdk/admin/Admin/properties/js_sdk.admin.Admin.draftOrder/page.mdx",
+    "pathname": "/references/js_sdk/admin/Admin/properties/js_sdk.admin.Admin.draftOrder"
+  },
+  {
     "filePath": "/www/apps/resources/references/js_sdk/admin/Admin/properties/js_sdk.admin.Admin.exchange/page.mdx",
     "pathname": "/references/js_sdk/admin/Admin/properties/js_sdk.admin.Admin.exchange"
   },
@@ -11232,6 +11236,10 @@ export const filesMap = [
     "pathname": "/references/js_sdk/admin/Client/methods/js_sdk.admin.Client.setToken_"
   },
   {
+    "filePath": "/www/apps/resources/references/js_sdk/admin/Client/methods/js_sdk.admin.Client.throwError_/page.mdx",
+    "pathname": "/references/js_sdk/admin/Client/methods/js_sdk.admin.Client.throwError_"
+  },
+  {
     "filePath": "/www/apps/resources/references/js_sdk/admin/Client/properties/js_sdk.admin.Client.DEFAULT_JWT_STORAGE_KEY/page.mdx",
     "pathname": "/references/js_sdk/admin/Client/properties/js_sdk.admin.Client.DEFAULT_JWT_STORAGE_KEY"
   },
@@ -11262,6 +11270,18 @@ export const filesMap = [
   {
     "filePath": "/www/apps/resources/references/js_sdk/admin/Currency/properties/js_sdk.admin.Currency.client/page.mdx",
     "pathname": "/references/js_sdk/admin/Currency/properties/js_sdk.admin.Currency.client"
+  },
+  {
+    "filePath": "/www/apps/resources/references/js_sdk/admin/CustomStorage/methods/js_sdk.admin.CustomStorage.getItem/page.mdx",
+    "pathname": "/references/js_sdk/admin/CustomStorage/methods/js_sdk.admin.CustomStorage.getItem"
+  },
+  {
+    "filePath": "/www/apps/resources/references/js_sdk/admin/CustomStorage/methods/js_sdk.admin.CustomStorage.removeItem/page.mdx",
+    "pathname": "/references/js_sdk/admin/CustomStorage/methods/js_sdk.admin.CustomStorage.removeItem"
+  },
+  {
+    "filePath": "/www/apps/resources/references/js_sdk/admin/CustomStorage/methods/js_sdk.admin.CustomStorage.setItem/page.mdx",
+    "pathname": "/references/js_sdk/admin/CustomStorage/methods/js_sdk.admin.CustomStorage.setItem"
   },
   {
     "filePath": "/www/apps/resources/references/js_sdk/admin/Customer/methods/js_sdk.admin.Customer.batchCustomerGroups/page.mdx",
@@ -11318,6 +11338,26 @@ export const filesMap = [
   {
     "filePath": "/www/apps/resources/references/js_sdk/admin/CustomerGroup/properties/js_sdk.admin.CustomerGroup.client/page.mdx",
     "pathname": "/references/js_sdk/admin/CustomerGroup/properties/js_sdk.admin.CustomerGroup.client"
+  },
+  {
+    "filePath": "/www/apps/resources/references/js_sdk/admin/DraftOrder/methods/js_sdk.admin.DraftOrder.create/page.mdx",
+    "pathname": "/references/js_sdk/admin/DraftOrder/methods/js_sdk.admin.DraftOrder.create"
+  },
+  {
+    "filePath": "/www/apps/resources/references/js_sdk/admin/DraftOrder/methods/js_sdk.admin.DraftOrder.list/page.mdx",
+    "pathname": "/references/js_sdk/admin/DraftOrder/methods/js_sdk.admin.DraftOrder.list"
+  },
+  {
+    "filePath": "/www/apps/resources/references/js_sdk/admin/DraftOrder/methods/js_sdk.admin.DraftOrder.retrieve/page.mdx",
+    "pathname": "/references/js_sdk/admin/DraftOrder/methods/js_sdk.admin.DraftOrder.retrieve"
+  },
+  {
+    "filePath": "/www/apps/resources/references/js_sdk/admin/DraftOrder/methods/js_sdk.admin.DraftOrder.update/page.mdx",
+    "pathname": "/references/js_sdk/admin/DraftOrder/methods/js_sdk.admin.DraftOrder.update"
+  },
+  {
+    "filePath": "/www/apps/resources/references/js_sdk/admin/DraftOrder/properties/js_sdk.admin.DraftOrder.client/page.mdx",
+    "pathname": "/references/js_sdk/admin/DraftOrder/properties/js_sdk.admin.DraftOrder.client"
   },
   {
     "filePath": "/www/apps/resources/references/js_sdk/admin/Exchange/methods/js_sdk.admin.Exchange.addInboundItems/page.mdx",
@@ -12436,6 +12476,10 @@ export const filesMap = [
     "pathname": "/references/js_sdk/admin/classes/js_sdk.admin.CustomerGroup"
   },
   {
+    "filePath": "/www/apps/resources/references/js_sdk/admin/classes/js_sdk.admin.DraftOrder/page.mdx",
+    "pathname": "/references/js_sdk/admin/classes/js_sdk.admin.DraftOrder"
+  },
+  {
     "filePath": "/www/apps/resources/references/js_sdk/admin/classes/js_sdk.admin.Exchange/page.mdx",
     "pathname": "/references/js_sdk/admin/classes/js_sdk.admin.Exchange"
   },
@@ -12576,12 +12620,20 @@ export const filesMap = [
     "pathname": "/references/js_sdk/admin/classes/js_sdk.admin.WorkflowExecution"
   },
   {
+    "filePath": "/www/apps/resources/references/js_sdk/admin/interfaces/js_sdk.admin.CustomStorage/page.mdx",
+    "pathname": "/references/js_sdk/admin/interfaces/js_sdk.admin.CustomStorage"
+  },
+  {
     "filePath": "/www/apps/resources/references/js_sdk/admin/interfaces/js_sdk.admin.FetchStreamResponse/page.mdx",
     "pathname": "/references/js_sdk/admin/interfaces/js_sdk.admin.FetchStreamResponse"
   },
   {
     "filePath": "/www/apps/resources/references/js_sdk/admin/interfaces/js_sdk.admin.ServerSentEventMessage/page.mdx",
     "pathname": "/references/js_sdk/admin/interfaces/js_sdk.admin.ServerSentEventMessage"
+  },
+  {
+    "filePath": "/www/apps/resources/references/js_sdk/admin/types/js_sdk.admin.Awaitable/page.mdx",
+    "pathname": "/references/js_sdk/admin/types/js_sdk.admin.Awaitable"
   },
   {
     "filePath": "/www/apps/resources/references/js_sdk/admin/types/js_sdk.admin.ClientFetch/page.mdx",
@@ -13664,6 +13716,22 @@ export const filesMap = [
     "pathname": "/references/order/IOrderModuleService/methods/order.IOrderModuleService.updateReturns"
   },
   {
+    "filePath": "/www/apps/resources/references/order/IOrderModuleService/methods/order.IOrderModuleService.upsertOrderLineItemAdjustments/page.mdx",
+    "pathname": "/references/order/IOrderModuleService/methods/order.IOrderModuleService.upsertOrderLineItemAdjustments"
+  },
+  {
+    "filePath": "/www/apps/resources/references/order/IOrderModuleService/methods/order.IOrderModuleService.upsertOrderLineItemTaxLines/page.mdx",
+    "pathname": "/references/order/IOrderModuleService/methods/order.IOrderModuleService.upsertOrderLineItemTaxLines"
+  },
+  {
+    "filePath": "/www/apps/resources/references/order/IOrderModuleService/methods/order.IOrderModuleService.upsertOrderShippingMethodAdjustments/page.mdx",
+    "pathname": "/references/order/IOrderModuleService/methods/order.IOrderModuleService.upsertOrderShippingMethodAdjustments"
+  },
+  {
+    "filePath": "/www/apps/resources/references/order/IOrderModuleService/methods/order.IOrderModuleService.upsertOrderShippingMethodTaxLines/page.mdx",
+    "pathname": "/references/order/IOrderModuleService/methods/order.IOrderModuleService.upsertOrderShippingMethodTaxLines"
+  },
+  {
     "filePath": "/www/apps/resources/references/order/interfaces/order.BaseFilterable/page.mdx",
     "pathname": "/references/order/interfaces/order.BaseFilterable"
   },
@@ -14484,6 +14552,10 @@ export const filesMap = [
     "pathname": "/references/payment/IPaymentModuleService/methods/payment.IPaymentModuleService.softDeleteRefundReasons"
   },
   {
+    "filePath": "/www/apps/resources/references/payment/IPaymentModuleService/methods/payment.IPaymentModuleService.updateAccountHolder/page.mdx",
+    "pathname": "/references/payment/IPaymentModuleService/methods/payment.IPaymentModuleService.updateAccountHolder"
+  },
+  {
     "filePath": "/www/apps/resources/references/payment/IPaymentModuleService/methods/payment.IPaymentModuleService.updatePayment/page.mdx",
     "pathname": "/references/payment/IPaymentModuleService/methods/payment.IPaymentModuleService.updatePayment"
   },
@@ -14662,6 +14734,10 @@ export const filesMap = [
   {
     "filePath": "/www/apps/resources/references/payment/interfaces/payment.SoftDeleteReturn/page.mdx",
     "pathname": "/references/payment/interfaces/payment.SoftDeleteReturn"
+  },
+  {
+    "filePath": "/www/apps/resources/references/payment/interfaces/payment.UpdateAccountHolderDTO/page.mdx",
+    "pathname": "/references/payment/interfaces/payment.UpdateAccountHolderDTO"
   },
   {
     "filePath": "/www/apps/resources/references/payment/interfaces/payment.UpdatePaymentDTO/page.mdx",
@@ -18048,6 +18124,10 @@ export const filesMap = [
     "pathname": "/references/types/DmlTypes/types/types.DmlTypes.InferDmlEntityNameFromConfig"
   },
   {
+    "filePath": "/www/apps/resources/references/types/DmlTypes/types/types.DmlTypes.InferEntityForModuleService/page.mdx",
+    "pathname": "/references/types/DmlTypes/types/types.DmlTypes.InferEntityForModuleService"
+  },
+  {
     "filePath": "/www/apps/resources/references/types/DmlTypes/types/types.DmlTypes.InferEntityType/page.mdx",
     "pathname": "/references/types/DmlTypes/types/types.DmlTypes.InferEntityType"
   },
@@ -18074,6 +18154,10 @@ export const filesMap = [
   {
     "filePath": "/www/apps/resources/references/types/DmlTypes/types/types.DmlTypes.InferSchemaFields/page.mdx",
     "pathname": "/references/types/DmlTypes/types/types.DmlTypes.InferSchemaFields"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/DmlTypes/types/types.DmlTypes.InferSchemaFieldsForModuleServices/page.mdx",
+    "pathname": "/references/types/DmlTypes/types/types.DmlTypes.InferSchemaFieldsForModuleServices"
   },
   {
     "filePath": "/www/apps/resources/references/types/DmlTypes/types/types.DmlTypes.InferSchemaProperties/page.mdx",
@@ -18480,6 +18564,18 @@ export const filesMap = [
     "pathname": "/references/types/HttpTypes/interfaces/types.HttpTypes.AdminCreateCustomerGroup"
   },
   {
+    "filePath": "/www/apps/resources/references/types/HttpTypes/interfaces/types.HttpTypes.AdminCreateDraftOrder/page.mdx",
+    "pathname": "/references/types/HttpTypes/interfaces/types.HttpTypes.AdminCreateDraftOrder"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/HttpTypes/interfaces/types.HttpTypes.AdminCreateDraftOrderItem/page.mdx",
+    "pathname": "/references/types/HttpTypes/interfaces/types.HttpTypes.AdminCreateDraftOrderItem"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/HttpTypes/interfaces/types.HttpTypes.AdminCreateDraftOrderShippingMethod/page.mdx",
+    "pathname": "/references/types/HttpTypes/interfaces/types.HttpTypes.AdminCreateDraftOrderShippingMethod"
+  },
+  {
     "filePath": "/www/apps/resources/references/types/HttpTypes/interfaces/types.HttpTypes.AdminCreateExchange/page.mdx",
     "pathname": "/references/types/HttpTypes/interfaces/types.HttpTypes.AdminCreateExchange"
   },
@@ -18690,6 +18786,22 @@ export const filesMap = [
   {
     "filePath": "/www/apps/resources/references/types/HttpTypes/interfaces/types.HttpTypes.AdminDismissItems/page.mdx",
     "pathname": "/references/types/HttpTypes/interfaces/types.HttpTypes.AdminDismissItems"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/HttpTypes/interfaces/types.HttpTypes.AdminDraftOrder/page.mdx",
+    "pathname": "/references/types/HttpTypes/interfaces/types.HttpTypes.AdminDraftOrder"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/HttpTypes/interfaces/types.HttpTypes.AdminDraftOrderListParams/page.mdx",
+    "pathname": "/references/types/HttpTypes/interfaces/types.HttpTypes.AdminDraftOrderListParams"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/HttpTypes/interfaces/types.HttpTypes.AdminDraftOrderListResponse/page.mdx",
+    "pathname": "/references/types/HttpTypes/interfaces/types.HttpTypes.AdminDraftOrderListResponse"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/HttpTypes/interfaces/types.HttpTypes.AdminDraftOrderParams/page.mdx",
+    "pathname": "/references/types/HttpTypes/interfaces/types.HttpTypes.AdminDraftOrderParams"
   },
   {
     "filePath": "/www/apps/resources/references/types/HttpTypes/interfaces/types.HttpTypes.AdminDraftOrderResponse/page.mdx",
@@ -19636,6 +19748,10 @@ export const filesMap = [
     "pathname": "/references/types/HttpTypes/interfaces/types.HttpTypes.AdminUpdateDismissItems"
   },
   {
+    "filePath": "/www/apps/resources/references/types/HttpTypes/interfaces/types.HttpTypes.AdminUpdateDraftOrder/page.mdx",
+    "pathname": "/references/types/HttpTypes/interfaces/types.HttpTypes.AdminUpdateDraftOrder"
+  },
+  {
     "filePath": "/www/apps/resources/references/types/HttpTypes/interfaces/types.HttpTypes.AdminUpdateExchangeInboundItem/page.mdx",
     "pathname": "/references/types/HttpTypes/interfaces/types.HttpTypes.AdminUpdateExchangeInboundItem"
   },
@@ -20364,10 +20480,6 @@ export const filesMap = [
     "pathname": "/references/types/HttpTypes/types/types.HttpTypes.AdminCustomerListResponse"
   },
   {
-    "filePath": "/www/apps/resources/references/types/HttpTypes/types/types.HttpTypes.AdminDraftOrderListResponse/page.mdx",
-    "pathname": "/references/types/HttpTypes/types/types.HttpTypes.AdminDraftOrderListResponse"
-  },
-  {
     "filePath": "/www/apps/resources/references/types/HttpTypes/types/types.HttpTypes.AdminExchangeListResponse/page.mdx",
     "pathname": "/references/types/HttpTypes/types/types.HttpTypes.AdminExchangeListResponse"
   },
@@ -20878,6 +20990,10 @@ export const filesMap = [
   {
     "filePath": "/www/apps/resources/references/types/ModulesSdkTypes/types/types.ModulesSdkTypes.QueryGraphFunction/page.mdx",
     "pathname": "/references/types/ModulesSdkTypes/types/types.ModulesSdkTypes.QueryGraphFunction"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/ModulesSdkTypes/types/types.ModulesSdkTypes.QueryIndexFunction/page.mdx",
+    "pathname": "/references/types/ModulesSdkTypes/types/types.ModulesSdkTypes.QueryIndexFunction"
   },
   {
     "filePath": "/www/apps/resources/references/types/ModulesSdkTypes/types/types.ModulesSdkTypes.RemoteQueryFilters/page.mdx",

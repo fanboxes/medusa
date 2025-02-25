@@ -237,4 +237,93 @@ describe("toRemoteQuery", () => {
       },
     })
   })
+
+  it("should transform a query with filters, context and withDeleted into remote query input", () => {
+    const langContext = QueryContext({
+      context: {
+        lang: "pt-br",
+      },
+    })
+
+    const format = toRemoteQuery(
+      {
+        entity: "product",
+        fields: [
+          "id",
+          "title",
+          "description",
+          "translation.*",
+          "categories.*",
+          "categories.translation.*",
+          "variants.*",
+          "variants.translation.*",
+        ],
+        filters: {
+          id: "prod_01J742X0QPFW3R2ZFRTRC34FS8",
+        },
+        context: {
+          translation: langContext,
+          categories: {
+            translation: langContext,
+          },
+          variants: {
+            translation: langContext,
+          },
+        },
+        withDeleted: true,
+      },
+      entitiesMap
+    )
+
+    expect(format).toEqual({
+      product: {
+        __fields: ["id", "title", "description"],
+        __args: {
+          filters: {
+            id: "prod_01J742X0QPFW3R2ZFRTRC34FS8",
+          },
+          withDeleted: true,
+        },
+        translation: {
+          __args: {
+            context: {
+              context: {
+                lang: "pt-br",
+              },
+            },
+            withDeleted: true,
+          },
+          __fields: ["*"],
+        },
+        categories: {
+          translation: {
+            __args: {
+              context: {
+                context: {
+                  lang: "pt-br",
+                },
+              },
+              withDeleted: true,
+            },
+            __fields: ["*"],
+          },
+          __fields: ["*"],
+        },
+        variants: {
+          translation: {
+            __args: {
+              context: {
+                context: {
+                  lang: "pt-br",
+                },
+              },
+              withDeleted: true,
+            },
+            __fields: ["*"],
+          },
+          __fields: ["*"],
+        },
+      },
+    })
+  })
 })
