@@ -74,8 +74,8 @@ export const pricingSidebar = [
       },
       {
         type: "category",
-        title: "User Guides",
-        autogenerate_tags: "userGuides+pricing",
+        title: "Admin User Guides",
+        autogenerate_tags: "userGuide+pricing",
         initialOpen: false,
         autogenerate_as_ref: true,
         description:

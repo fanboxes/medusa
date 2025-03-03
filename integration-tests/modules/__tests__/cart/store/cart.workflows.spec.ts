@@ -36,6 +36,7 @@ import {
   Modules,
   PriceListStatus,
   PriceListType,
+  remoteQueryObjectFromString,
   RuleOperator,
 } from "@medusajs/utils"
 import {
@@ -755,6 +756,16 @@ medusaIntegrationTestRunner({
                   },
                   quantity: 1,
                 },
+                {
+                  title: "zero price item",
+                  subtitle: "zero price item",
+                  thumbnail: "some-url",
+                  requires_shipping: false,
+                  is_discountable: false,
+                  is_tax_inclusive: false,
+                  unit_price: 0,
+                  quantity: 1,
+                },
               ],
               cart_id: cart.id,
             },
@@ -840,8 +851,174 @@ medusaIntegrationTestRunner({
                   variant_sku: null,
                   variant_title: null,
                 },
+                expect.objectContaining({
+                  title: "zero price item",
+                  subtitle: "zero price item",
+                  is_custom_price: true,
+                  unit_price: 0,
+                }),
               ],
             })
+          )
+        })
+
+        it("should complete cart reserving inventory from available locations", async () => {
+          const salesChannel = await scModuleService.createSalesChannels({
+            name: "Webshop",
+          })
+
+          const location = await stockLocationModule.createStockLocations({
+            name: "Warehouse",
+          })
+
+          const location2 = await stockLocationModule.createStockLocations({
+            name: "Side Warehouse",
+          })
+
+          const [product] = await productModule.createProducts([
+            {
+              title: "Test product",
+              variants: [
+                {
+                  title: "Test variant",
+                },
+              ],
+            },
+          ])
+
+          const inventoryItem = await inventoryModule.createInventoryItems({
+            sku: "inv-1234",
+          })
+
+          await inventoryModule.createInventoryLevels([
+            {
+              inventory_item_id: inventoryItem.id,
+              location_id: location.id,
+              stocked_quantity: 1,
+              reserved_quantity: 0,
+            },
+          ])
+
+          await inventoryModule.createInventoryLevels([
+            {
+              inventory_item_id: inventoryItem.id,
+              location_id: location2.id,
+              stocked_quantity: 1,
+              reserved_quantity: 0,
+            },
+          ])
+
+          const priceSet = await pricingModule.createPriceSets({
+            prices: [
+              {
+                amount: 3000,
+                currency_code: "usd",
+              },
+            ],
+          })
+
+          await pricingModule.createPricePreferences({
+            attribute: "currency_code",
+            value: "usd",
+            is_tax_inclusive: true,
+          })
+
+          await remoteLink.create([
+            {
+              [Modules.PRODUCT]: {
+                variant_id: product.variants[0].id,
+              },
+              [Modules.PRICING]: {
+                price_set_id: priceSet.id,
+              },
+            },
+            {
+              [Modules.SALES_CHANNEL]: {
+                sales_channel_id: salesChannel.id,
+              },
+              [Modules.STOCK_LOCATION]: {
+                stock_location_id: location.id,
+              },
+            },
+            {
+              [Modules.SALES_CHANNEL]: {
+                sales_channel_id: salesChannel.id,
+              },
+              [Modules.STOCK_LOCATION]: {
+                stock_location_id: location2.id,
+              },
+            },
+            {
+              [Modules.PRODUCT]: {
+                variant_id: product.variants[0].id,
+              },
+              [Modules.INVENTORY]: {
+                inventory_item_id: inventoryItem.id,
+              },
+            },
+          ])
+
+          // complete 2 carts
+          for (let i = 1; i <= 2; i++) {
+            const cart = await cartModuleService.createCarts({
+              currency_code: "usd",
+              sales_channel_id: salesChannel.id,
+            })
+
+            await addToCartWorkflow(appContainer).run({
+              input: {
+                items: [
+                  {
+                    variant_id: product.variants[0].id,
+                    quantity: 1,
+                    requires_shipping: false,
+                  },
+                ],
+                cart_id: cart.id,
+              },
+            })
+
+            await createPaymentCollectionForCartWorkflow(appContainer).run({
+              input: {
+                cart_id: cart.id,
+              },
+            })
+
+            const [payCol] = await remoteQuery(
+              remoteQueryObjectFromString({
+                entryPoint: "cart_payment_collection",
+                variables: { filters: { cart_id: cart.id } },
+                fields: ["payment_collection_id"],
+              })
+            )
+
+            await createPaymentSessionsWorkflow(appContainer).run({
+              input: {
+                payment_collection_id: payCol.payment_collection_id,
+                provider_id: "pp_system_default",
+                context: {},
+                data: {},
+              },
+            })
+
+            await completeCartWorkflow(appContainer).run({
+              input: {
+                id: cart.id,
+              },
+            })
+          }
+
+          const reservations = await api.get(
+            `/admin/reservations`,
+            adminHeaders
+          )
+
+          const locations = reservations.data.reservations.map(
+            (r) => r.location_id
+          )
+
+          expect(locations).toEqual(
+            expect.arrayContaining([location.id, location2.id])
           )
         })
       })
@@ -1907,7 +2084,7 @@ medusaIntegrationTestRunner({
               unit_price: 4000,
               is_custom_price: true,
               quantity: 2,
-              title: "Test variant",
+              title: "Test item",
             })
           )
         })

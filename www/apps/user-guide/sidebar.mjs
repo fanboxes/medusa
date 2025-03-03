@@ -10,6 +10,11 @@ export const sidebar = sidebarAttachHrefCommonOptions([
     title: "Introduction",
   },
   {
+    type: "link",
+    path: "/reset-password",
+    title: "Reset Password",
+  },
+  {
     type: "separator",
   },
   {
@@ -97,7 +102,7 @@ export const sidebar = sidebarAttachHrefCommonOptions([
       {
         type: "link",
         title: "Manage Variants",
-        path: "/proucts/variants",
+        path: "/products/variants",
       },
       {
         type: "link",
@@ -106,7 +111,7 @@ export const sidebar = sidebarAttachHrefCommonOptions([
       },
       {
         type: "link",
-        title: "Categories",
+        title: "Manage Categories",
         path: "/products/categories",
       },
       {
@@ -231,7 +236,7 @@ export const sidebar = sidebarAttachHrefCommonOptions([
         children: [
           {
             type: "link",
-            title: "Invites",
+            title: "Manage Invites",
             path: "/settings/users/invites",
           },
         ],
@@ -273,34 +278,35 @@ export const sidebar = sidebarAttachHrefCommonOptions([
         children: [
           {
             type: "link",
-            title: "Locations",
+            title: "Manage Locations",
             path: "/settings/locations-and-shipping/locations",
           },
           {
             type: "link",
-            title: "Shipping Profiles",
+            title: "Manage Shipping Profiles",
             path: "/settings/locations-and-shipping/shipping-profiles",
           },
         ],
       },
       {
-        type: "category",
+        type: "link",
         title: "Developer Settings",
+        path: "/settings/developer",
         children: [
           {
             type: "link",
             title: "Publishable API Keys",
-            path: "#",
+            path: "/settings/developer/publishable-api-keys",
           },
           {
             type: "link",
             title: "Secret API Keys",
-            path: "#",
+            path: "/settings/developer/secret-api-keys",
           },
           {
             type: "link",
             title: "Workflows",
-            path: "/settings/executions",
+            path: "/settings/developer/workflows",
           },
         ],
       },

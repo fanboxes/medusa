@@ -1,12 +1,18 @@
 ---
 sidebar_position: 7
-sidebar_label: "Locations"
+sidebar_label: "Manage Locations"
+tags:
+    - user guide
+    - name: stock location
+      label: "Manage Locations"
+    - name: fulfillment
+      label: "Manage Shipping Options"
 ---
 
 import { EllipsisHorizontal, TaxExclusive, TaxInclusive } from "@medusajs/icons"
 
 export const metadata = {
-  title: `Manage Locations`,
+  title: `Manage Locations in Medusa Admin`,
 }
 
 # {metadata.title}
@@ -110,9 +116,9 @@ To create a shipping option:
 
 1. Go to the location's details page.
 2. In the "Pickup" or "Shipping" section, find the service zone you want to add the shipping option to.
-3. Click the "Create option" at the right of either "Shipping options" or "Return options", based on the type of shipping option you're creating.
+3. Click the "Create option" at the right of either "Shipping options", "Pickup options", or "Return options", based on the type of shipping option you're creating.
 4. In the form that opens:
-    - For the "Price type", chose **Fixed** if you want to apply fixed pricing for the shipping option, or **Calculated** if the price should be calculated dynamically during checkout. Calculated prices are useful if you're using a third-party fulfillment provider that calculates prices dynamically.
+    - If the shipping option isn't a pick-up option, you can choose the price type. Choose **Fixed** if you want to apply fixed pricing for the shipping option, or **Calculated** if the price should be calculated dynamically during checkout. Calculated prices are useful if you're using a third-party fulfillment provider that calculates prices dynamically.
         - If you chose Fixed, you'll set the price in the next step of the form.
         - If you choose Calculated and the fulfillment provider you choose doesn't support calculated prices, the shipping option creation will fail.
     - In the Name field, enter a name for the shipping option. Customers will see this option during checkout.

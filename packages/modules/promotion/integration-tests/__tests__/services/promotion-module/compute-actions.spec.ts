@@ -5009,26 +5009,31 @@ moduleIntegrationTestRunner({
               context
             )
 
-            expect(JSON.parse(JSON.stringify(result))).toEqual([
-              {
-                action: "addItemAdjustment",
-                item_id: "item_cotton_tshirt2",
-                amount: 1225,
-                code: "BUY50GET1000",
-              },
-              {
-                action: "addItemAdjustment",
-                item_id: "item_cotton_tshirt",
-                amount: 1275,
-                code: "BUY50GET1000",
-              },
-              {
-                action: "addItemAdjustment",
-                item_id: "item_cotton_tshirt2",
-                amount: 50,
-                code: "BUY10GET20",
-              },
-            ])
+            const serializedResult = JSON.parse(JSON.stringify(result))
+
+            expect(serializedResult).toHaveLength(3)
+            expect(serializedResult).toEqual(
+              expect.arrayContaining([
+                {
+                  action: "addItemAdjustment",
+                  item_id: "item_cotton_tshirt2",
+                  amount: 1225,
+                  code: "BUY50GET1000",
+                },
+                {
+                  action: "addItemAdjustment",
+                  item_id: "item_cotton_tshirt",
+                  amount: 1275,
+                  code: "BUY50GET1000",
+                },
+                {
+                  action: "addItemAdjustment",
+                  item_id: "item_cotton_tshirt2",
+                  amount: 50,
+                  code: "BUY10GET20",
+                },
+              ])
+            )
           })
 
           it("should compute adjustment accurately across items", async () => {

@@ -27,6 +27,7 @@ const redisMock = {
   lrange: () => jest.fn(),
   disconnect: () => jest.fn(),
   expire: () => jest.fn(),
+  unlink: () => jest.fn(),
 } as unknown as Redis
 
 const simpleModuleOptions = { redisUrl: "test-url" }
@@ -63,7 +64,7 @@ describe("RedisEventBusService", () => {
         {
           connection: expect.any(Object),
           prefix: "RedisEventBusService",
-          autorun: false
+          autorun: false,
         }
       )
     })
@@ -269,7 +270,7 @@ describe("RedisEventBusService", () => {
           },
         ]
 
-        redis.del = jest.fn()
+        redis.unlink = jest.fn()
 
         await eventBus.emit(events, options)
 
@@ -277,7 +278,7 @@ describe("RedisEventBusService", () => {
         // Expect 2 pushes to redis as there are 2 groups of events to push
         expect(queue.addBulk).toHaveBeenCalledTimes(1)
         expect(redis.rpush).toHaveBeenCalledTimes(2)
-        expect(redis.del).not.toHaveBeenCalled()
+        expect(redis.unlink).not.toHaveBeenCalled()
 
         const [testGroup1Event] = (eventBus as any).buildEvents(
           [events[0]],
@@ -314,12 +315,12 @@ describe("RedisEventBusService", () => {
 
         expect(queue.addBulk).toHaveBeenCalledTimes(1)
         expect(queue.addBulk).toHaveBeenCalledWith([testGroup1Event])
-        expect(redis.del).toHaveBeenCalledTimes(1)
-        expect(redis.del).toHaveBeenCalledWith("staging:test-group-1")
+        expect(redis.unlink).toHaveBeenCalledTimes(1)
+        expect(redis.unlink).toHaveBeenCalledWith("staging:test-group-1")
 
         queue = (eventBus as any).queue_
         queue.addBulk = jest.fn()
-        redis.del = jest.fn()
+        redis.unlink = jest.fn()
 
         await eventBus.releaseGroupedEvents("test-group-2")
 
@@ -328,8 +329,8 @@ describe("RedisEventBusService", () => {
           testGroup2Event,
           testGroup2Event2,
         ])
-        expect(redis.del).toHaveBeenCalledTimes(1)
-        expect(redis.del).toHaveBeenCalledWith("staging:test-group-2")
+        expect(redis.unlink).toHaveBeenCalledTimes(1)
+        expect(redis.unlink).toHaveBeenCalledWith("staging:test-group-2")
       })
     })
   })

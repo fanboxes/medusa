@@ -1,5 +1,4 @@
 import { OperatorMap } from "../../../dal"
-import { FulfillmentStatus, PaymentStatus } from "../../../order"
 import { FindParams } from "../../common"
 import { BaseOrderChangesFilters, BaseOrderFilters } from "../common"
 
@@ -12,14 +11,6 @@ export interface AdminOrderFilters extends FindParams, BaseOrderFilters {
    * Filter by sales channel IDs to retrieve their associated orders.
    */
   sales_channel_id?: string[]
-  /**
-   * Filter by fulfillment statuses.
-   */
-  fulfillment_status?: FulfillmentStatus[]
-  /**
-   * Filter by payment statuses.
-   */
-  payment_status?: PaymentStatus[]
   /**
    * Filter by region IDs to retrieve their associated orders.
    */

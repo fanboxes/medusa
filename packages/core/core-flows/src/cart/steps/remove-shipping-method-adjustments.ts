@@ -21,6 +21,11 @@ export const removeShippingMethodAdjustmentsStep = createStep(
   removeShippingMethodAdjustmentsStepId,
   async (data: RemoveShippingMethodAdjustmentsStepInput, { container }) => {
     const { shippingMethodAdjustmentIdsToRemove = [] } = data
+
+    if (!shippingMethodAdjustmentIdsToRemove?.length) {
+      return new StepResponse(void 0, [])
+    }
+
     const cartModuleService: ICartModuleService = container.resolve(
       Modules.CART
     )

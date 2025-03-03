@@ -66,7 +66,7 @@ class RedisCacheService implements ICacheService {
         return JSON.parse(cached)
       }
     } catch (err) {
-      await this.redis.del(cacheKey)
+      await this.redis.unlink(cacheKey)
     }
     return null
   }
@@ -92,7 +92,7 @@ class RedisCacheService implements ICacheService {
       if (keys.length > 0) {
         const deletePipeline = this.redis.pipeline()
         for (const key of keys) {
-          deletePipeline.del(key)
+          deletePipeline.unlink(key)
         }
 
         await deletePipeline.exec()

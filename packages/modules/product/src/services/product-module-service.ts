@@ -26,6 +26,7 @@ import { ProductCategoryService } from "@services"
 import {
   arrayDifference,
   EmitEvents,
+  generateEntityId,
   InjectManager,
   InjectTransactionManager,
   isDefined,
@@ -1568,75 +1569,82 @@ export default class ProductModuleService
       })
     )
 
-    const { entities: productData } =
-      await this.productService_.upsertWithReplace(
-        normalizedInput,
+    const tagIds = normalizedInput
+      .flatMap((d) => (d as any).tags ?? [])
+      .map((t) => t.id)
+    let existingTags: InferEntityType<typeof ProductTag>[] = []
+
+    if (tagIds.length) {
+      existingTags = await this.productTagService_.list(
         {
-          relations: ["tags", "categories"],
+          id: tagIds,
         },
+        {},
         sharedContext
       )
+    }
 
-    await promiseAll(
-      // Note: It's safe to rely on the order here as `upsertWithReplace` preserves the order of the input
-      normalizedInput.map(async (product, i) => {
-        const upsertedProduct: any = productData[i]
-        upsertedProduct.options = []
-        upsertedProduct.variants = []
+    const existingTagsMap = new Map(existingTags.map((tag) => [tag.id, tag]))
 
-        if (product.options?.length) {
-          const { entities: productOptions } =
-            await this.productOptionService_.upsertWithReplace(
-              product.options?.map((option) => ({
-                ...option,
-                product_id: upsertedProduct.id,
-              })) ?? [],
-              { relations: ["values"] },
-              sharedContext
-            )
-          upsertedProduct.options = productOptions
-        }
+    const productsToCreate = normalizedInput.map((product) => {
+      const productId = generateEntityId(product.id, "prod")
+      product.id = productId
 
-        if (product.variants?.length) {
-          const { entities: productVariants } =
-            await this.productVariantService_.upsertWithReplace(
-              ProductModuleService.assignOptionsToVariants(
-                product.variants?.map((v) => ({
-                  ...v,
-                  product_id: upsertedProduct.id,
-                })) ?? [],
-                upsertedProduct.options
-              ),
-              { relations: ["options"] },
-              sharedContext
-            )
-          upsertedProduct.variants = productVariants
-        }
+      if ((product as any).categories?.length) {
+        ;(product as any).categories = (product as any).categories.map(
+          (category: { id: string }) => category.id
+        )
+      }
 
-        if (Array.isArray(product.images)) {
-          if (product.images.length) {
-            const { entities: productImages } =
-              await this.productImageService_.upsertWithReplace(
-                product.images.map((image, rank) => ({
-                  ...image,
-                  product_id: upsertedProduct.id,
-                  rank,
-                })),
-                {},
-                sharedContext
-              )
-            upsertedProduct.images = productImages
-          } else {
-            await this.productImageService_.delete(
-              { product_id: upsertedProduct.id },
-              sharedContext
+      if (product.variants?.length) {
+        const normalizedVariants = product.variants.map((variant) => {
+          const variantId = generateEntityId((variant as any).id, "variant")
+          ;(variant as any).id = variantId
+
+          Object.entries(variant.options ?? {}).forEach(([key, value]) => {
+            const productOption = product.options?.find(
+              (option) => option.title === key
+            )!
+            const productOptionValue = productOption.values?.find(
+              (optionValue) => (optionValue as any).value === value
+            )!
+            ;(productOptionValue as any).variants ??= []
+            ;(productOptionValue as any).variants.push(variant)
+          })
+
+          delete variant.options
+
+          return variant
+        })
+
+        product.variants = normalizedVariants
+      }
+
+      if ((product as any).tags?.length) {
+        ;(product as any).tags = (product as any).tags.map(
+          (tag: { id: string }) => {
+            const existingTag = existingTagsMap.get(tag.id)
+            if (existingTag) {
+              return existingTag
+            }
+
+            throw new MedusaError(
+              MedusaError.Types.INVALID_DATA,
+              `Tag with id ${tag.id} not found. Please create the tag before associating it with the product.`
             )
           }
-        }
-      })
+        )
+      }
+
+      return product
+    })
+
+    const createdProducts = await this.productService_.create(
+      productsToCreate,
+      sharedContext
     )
 
-    return productData
+    return createdProducts
   }
 
   @InjectTransactionManager()
@@ -1916,6 +1924,17 @@ export default class ProductModuleService
       productData.thumbnail = productData.images[0].url
     }
 
+    if (productData.images?.length) {
+      productData.images = productData.images.map((image, index) =>
+        (image as { rank?: number }).rank != null
+          ? image
+          : {
+              ...image,
+              rank: index,
+            }
+      )
+    }
+
     return productData
   }
 
@@ -1929,6 +1948,7 @@ export default class ProductModuleService
     }
 
     if (productData.options?.length) {
+      // TODO: Instead of fetching per product, this should fetch for all product allowing for only one query instead of X
       const dbOptions = await this.productOptionService_.list(
         { product_id: productData.id },
         { relations: ["values"] },

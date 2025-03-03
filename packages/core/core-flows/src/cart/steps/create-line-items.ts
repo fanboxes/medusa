@@ -22,7 +22,7 @@ export interface CreateLineItemsCartStepInput {
 export const createLineItemsStepId = "create-line-items-step"
 /**
  * This step creates line item in a cart.
- * 
+ *
  * @example
  * const data = createLineItemsStep({
  *   "id": "cart_123",

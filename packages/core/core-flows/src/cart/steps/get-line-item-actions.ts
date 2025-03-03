@@ -41,7 +41,7 @@ export const getLineItemActionsStepId = "get-line-item-actions-step"
 /**
  * This step returns lists of cart line items to create or update based on the
  * provided input.
- * 
+ *
  * @example
  * const data = getLineItemActionsStep({
  *   "id": "cart_123",
@@ -56,11 +56,16 @@ export const getLineItemActionsStepId = "get-line-item-actions-step"
 export const getLineItemActionsStep = createStep(
   getLineItemActionsStepId,
   async (data: GetLineItemActionsStepInput, { container }) => {
+    if (!data.items.length) {
+      return new StepResponse({ itemsToCreate: [], itemsToUpdate: [] }, null)
+    }
+
     const cartModule = container.resolve<ICartModuleService>(Modules.CART)
 
+    const variantIds = data.items.map((d) => d.variant_id!)
     const existingVariantItems = await cartModule.listLineItems({
       cart_id: data.id,
-      variant_id: data.items.map((d) => d.variant_id!),
+      variant_id: variantIds,
     })
 
     const variantItemMap = new Map<string, CartLineItemDTO>(
@@ -99,7 +104,8 @@ export const getLineItemActionsStep = createStep(
     }
 
     return new StepResponse(
-      { itemsToCreate, itemsToUpdate } as GetLineItemActionsStepOutput
-    , null)
+      { itemsToCreate, itemsToUpdate } as GetLineItemActionsStepOutput,
+      null
+    )
   }
 )

@@ -35,6 +35,7 @@ export const updateCartPromotionsStep = createStep(
   updateCartPromotionsStepId,
   async (data: UpdateCartPromotionStepInput, { container }) => {
     const { promo_codes = [], id, action = PromotionActions.ADD } = data
+
     const remoteLink = container.resolve(ContainerRegistrationKeys.LINK)
     const remoteQuery = container.resolve(
       ContainerRegistrationKeys.REMOTE_QUERY
@@ -55,29 +56,31 @@ export const updateCartPromotionsStep = createStep(
       existingCartPromotionLinks.map((link) => [link.promotion_id, link])
     )
 
-    const promotions = await promotionService.listPromotions(
-      { code: promo_codes },
-      { select: ["id"] }
-    )
-
     const linksToCreate: any[] = []
     const linksToDismiss: any[] = []
 
-    for (const promotion of promotions) {
-      const linkObject = {
-        [Modules.CART]: { cart_id: id },
-        [Modules.PROMOTION]: { promotion_id: promotion.id },
-      }
+    if (promo_codes?.length) {
+      const promotions = await promotionService.listPromotions(
+        { code: promo_codes },
+        { select: ["id"] }
+      )
 
-      if ([PromotionActions.ADD, PromotionActions.REPLACE].includes(action)) {
-        linksToCreate.push(linkObject)
-      }
+      for (const promotion of promotions) {
+        const linkObject = {
+          [Modules.CART]: { cart_id: id },
+          [Modules.PROMOTION]: { promotion_id: promotion.id },
+        }
 
-      if (action === PromotionActions.REMOVE) {
-        const link = promotionLinkMap.get(promotion.id)
+        if ([PromotionActions.ADD, PromotionActions.REPLACE].includes(action)) {
+          linksToCreate.push(linkObject)
+        }
 
-        if (link) {
-          linksToDismiss.push(linkObject)
+        if (action === PromotionActions.REMOVE) {
+          const link = promotionLinkMap.get(promotion.id)
+
+          if (link) {
+            linksToDismiss.push(linkObject)
+          }
         }
       }
     }

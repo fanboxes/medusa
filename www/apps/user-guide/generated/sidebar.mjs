@@ -8,6 +8,14 @@ export const generatedSidebar = [
     "children": []
   },
   {
+    "loaded": true,
+    "isPathHref": true,
+    "type": "link",
+    "path": "/reset-password",
+    "title": "Reset Password",
+    "children": []
+  },
+  {
     "type": "separator"
   },
   {
@@ -22,7 +30,7 @@ export const generatedSidebar = [
         "isPathHref": true,
         "type": "link",
         "path": "/tips/bulk-editor",
-        "title": "Bulk Editor",
+        "title": "Bulk Editor in Medusa Admin",
         "description": "",
         "children": []
       },
@@ -31,7 +39,7 @@ export const generatedSidebar = [
         "isPathHref": true,
         "type": "link",
         "path": "/tips/languages",
-        "title": "Admin Languages",
+        "title": "Languages in Medusa Admin",
         "description": "",
         "children": []
       },
@@ -170,7 +178,7 @@ export const generatedSidebar = [
         "isPathHref": true,
         "type": "link",
         "title": "Manage Variants",
-        "path": "/proucts/variants",
+        "path": "/products/variants",
         "children": []
       },
       {
@@ -185,7 +193,7 @@ export const generatedSidebar = [
         "loaded": true,
         "isPathHref": true,
         "type": "link",
-        "title": "Categories",
+        "title": "Manage Categories",
         "path": "/products/categories",
         "children": []
       },
@@ -376,7 +384,7 @@ export const generatedSidebar = [
             "loaded": true,
             "isPathHref": true,
             "type": "link",
-            "title": "Invites",
+            "title": "Manage Invites",
             "path": "/settings/users/invites",
             "children": []
           }
@@ -441,7 +449,7 @@ export const generatedSidebar = [
             "loaded": true,
             "isPathHref": true,
             "type": "link",
-            "title": "Locations",
+            "title": "Manage Locations",
             "path": "/settings/locations-and-shipping/locations",
             "children": []
           },
@@ -449,7 +457,7 @@ export const generatedSidebar = [
             "loaded": true,
             "isPathHref": true,
             "type": "link",
-            "title": "Shipping Profiles",
+            "title": "Manage Shipping Profiles",
             "path": "/settings/locations-and-shipping/shipping-profiles",
             "children": []
           }
@@ -458,15 +466,16 @@ export const generatedSidebar = [
       {
         "loaded": true,
         "isPathHref": true,
-        "type": "category",
+        "type": "link",
         "title": "Developer Settings",
+        "path": "/settings/developer",
         "children": [
           {
             "loaded": true,
             "isPathHref": true,
             "type": "link",
             "title": "Publishable API Keys",
-            "path": "#",
+            "path": "/settings/developer/publishable-api-keys",
             "children": []
           },
           {
@@ -474,7 +483,7 @@ export const generatedSidebar = [
             "isPathHref": true,
             "type": "link",
             "title": "Secret API Keys",
-            "path": "#",
+            "path": "/settings/developer/secret-api-keys",
             "children": []
           },
           {
@@ -482,7 +491,7 @@ export const generatedSidebar = [
             "isPathHref": true,
             "type": "link",
             "title": "Workflows",
-            "path": "/settings/executions",
+            "path": "/settings/developer/workflows",
             "children": []
           }
         ]

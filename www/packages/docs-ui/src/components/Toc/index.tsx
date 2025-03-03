@@ -7,6 +7,7 @@ import {
   isElmWindow,
   useActiveOnScroll,
   useIsBrowser,
+  useLayout,
   useScrollController,
 } from "../.."
 import { TocList } from "./List"
@@ -20,6 +21,7 @@ export const Toc = () => {
   const { items: headingItems, activeItemId } = useActiveOnScroll({})
   const [maxHeight, setMaxHeight] = useState(0)
   const { scrollableElement } = useScrollController()
+  const { showCollapsedNavbar } = useLayout()
 
   const formatHeadingContent = (content: string | null): string => {
     return content?.replaceAll(/#$/g, "") || ""
@@ -44,10 +46,11 @@ export const Toc = () => {
   }, [headingItems])
 
   const handleResize = () => {
+    const extraMargin = showCollapsedNavbar ? 112 : 56
     const offset =
       (scrollableElement instanceof HTMLElement
         ? scrollableElement.offsetTop
-        : 0) + 56
+        : 0) + extraMargin
 
     setMaxHeight(
       (isElmWindow(scrollableElement)

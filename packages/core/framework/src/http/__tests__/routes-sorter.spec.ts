@@ -1,7 +1,7 @@
 import { RoutesSorter } from "../routes-sorter"
 
 describe("Routes sorter", () => {
-  test("sort the given routes", () => {
+  it("should sort the given routes", () => {
     const sorter = new RoutesSorter([
       {
         matcher: "/v1",
@@ -159,7 +159,7 @@ describe("Routes sorter", () => {
     `)
   })
 
-  test("handle all regex based routes", () => {
+  it("should handle all regex based routes", () => {
     const sorter = new RoutesSorter([
       {
         matcher: "/admin/:id/export",
@@ -229,7 +229,7 @@ describe("Routes sorter", () => {
     `)
   })
 
-  test("handle routes with multiple params", () => {
+  it("should handle routes with multiple params", () => {
     const sorter = new RoutesSorter([
       {
         matcher: "/admin/customers/:id/addresses",

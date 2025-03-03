@@ -28,23 +28,6 @@ export interface AdminBatchCreateInventoryItemLocationLevels {
   incoming_quantity?: number
 }
 
-export interface AdminBatchCreateInventoryItemLocationLevels {
-  /**
-   * The ID of the associated stock location.
-   */
-  location_id: string
-  /**
-   * The associated inventory item's stocked quantity in the
-   * associated stock location.
-   */
-  stocked_quantity?: number
-  /**
-   * The associated inventory item's incoming quantity in the
-   * associated stock location.
-   */
-  incoming_quantity?: number
-}
-
 export interface AdminBatchUpdateInventoryItemLocationLevels
   extends AdminBatchCreateInventoryItemLocationLevels {
   /**

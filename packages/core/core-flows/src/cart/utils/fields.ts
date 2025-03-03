@@ -35,6 +35,11 @@ export const cartFieldsForRefreshSteps = [
   "customer.*",
   "customer.groups.*",
   "promotions.code",
+  "payment_collection.id",
+  "payment_collection.raw_amount",
+  "payment_collection.amount",
+  "payment_collection.currency_code",
+  "payment_collection.payment_sessions.id",
 ]
 
 export const completeCartFields = [
@@ -106,6 +111,10 @@ export const completeCartFields = [
   "items.variant.inventory_items.inventory_item_id",
   "items.variant.inventory_items.required_quantity",
   "items.variant.inventory_items.inventory.requires_shipping",
+  "items.variant.inventory_items.inventory.location_levels.stocked_quantity",
+  "items.variant.inventory_items.inventory.location_levels.reserved_quantity",
+  "items.variant.inventory_items.inventory.location_levels.raw_stocked_quantity",
+  "items.variant.inventory_items.inventory.location_levels.raw_reserved_quantity",
   "items.variant.inventory_items.inventory.location_levels.stock_locations.id",
   "items.variant.inventory_items.inventory.location_levels.stock_locations.name",
   "items.variant.inventory_items.inventory.location_levels.stock_locations.sales_channels.id",
@@ -153,6 +162,10 @@ export const productVariantsFields = [
   "inventory_items.inventory_item_id",
   "inventory_items.required_quantity",
   "inventory_items.inventory.requires_shipping",
+  "inventory_items.inventory.location_levels.stocked_quantity",
+  "inventory_items.inventory.location_levels.reserved_quantity",
+  "inventory_items.inventory.location_levels.raw_stocked_quantity",
+  "inventory_items.inventory.location_levels.raw_reserved_quantity",
   "inventory_items.inventory.location_levels.stock_locations.id",
   "inventory_items.inventory.location_levels.stock_locations.name",
   "inventory_items.inventory.location_levels.stock_locations.sales_channels.id",

@@ -20,6 +20,11 @@ export const removeLineItemAdjustmentsStep = createStep(
   removeLineItemAdjustmentsStepId,
   async (data: RemoveLineItemAdjustmentsStepInput, { container }) => {
     const { lineItemAdjustmentIdsToRemove = [] } = data
+
+    if (!lineItemAdjustmentIdsToRemove?.length) {
+      return new StepResponse(void 0, [])
+    }
+
     const cartModuleService: ICartModuleService = container.resolve(
       Modules.CART
     )

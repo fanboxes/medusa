@@ -33,7 +33,7 @@ async function deleteKeysByPattern(pattern) {
   for await (const keys of stream) {
     if (keys.length) {
       const pipeline = redis.pipeline()
-      keys.forEach((key) => pipeline.del(key))
+      keys.forEach((key) => pipeline.unlink(key))
       await pipeline.exec()
     }
   }

@@ -1,32 +1,45 @@
 ---
 sidebar_position: 1
-sidebar_label: "Profile"
+sidebar_label: "Manage Profile"
+tags:
+    - user guide
+    - user
 ---
 
+import { EllipsisHorizontal } from "@medusajs/icons"
+
 export const metadata = {
-  title: `Manage Profile`,
+  title: `Manage Profile in Medusa Admin`,
 }
 
 # {metadata.title}
 
-In this document, you’ll learn how to manage your account including editing your account details and changing the Medusa Admin's language.
+In this guide, you’ll learn how to view and manage your profile's details and settings.
 
-## Edit Profile
+## View Profile Details
 
-To edit your profile details:
+To view your profile details, go to Settings → Profile. You can alternatively click on your name at the bottom right of the sidebar, and choose "Profile settings" from the menu.
+
+In your profile details page, you can view your profile information such as your name, email, and language settings.
+
+![Profile details page](https://res.cloudinary.com/dza7lstvk/image/upload/v1740500431/User%20Guide/Screenshot_2025-02-25_at_6.20.05_PM_lhmmxp.png)
+
+---
+
+## Edit Profile Details
+
+To edit your profile details and settings:
 
 1. Go to Settings → Profile.
-2. Click the Edit button.
-3. In the drawer that opens:
-    - You can change language of the Medusa Admin. This doesn't change the language in the whole store or for other admin users, only for your admin dashboard.
-    - Medusa collects insights to understand how you use it better and improve the product. To enable/disable collecting insights, toggle the "Usage insights" field.
-    - You can edit other profile information such as your first name.
-4. Once done, click on the Save button.
+2. Click the <InlineIcon Icon={EllipsisHorizontal} alt="three-dots" /> icon at the top right of the page.
+3. Choose "Edit" from the dropdown.
+4. In the side window that opens, you can edit your first and last name, and the Medusa Admin dashboard language. This only changes the language of the admin interface, not the language of the store. It also doesn't change the language for other users in the admin.
+5. Once you're done, click the Save button.
 
 <Note title="Tip">
 
-{/* TODO add link [here](../../contribution/admin-translations.md). */}
-
-Can't find your language? Learn how you can contribute by translating the admin to other languages here.
+Can't find your language? Learn how you can contribute by translating the admin to other languages [here](!resources!/contribution-guidelines/admin-translations).
 
 </Note>
+
+![Edit profile form](https://res.cloudinary.com/dza7lstvk/image/upload/v1740500618/User%20Guide/Screenshot_2025-02-25_at_6.23.21_PM_tbgsbg.png)

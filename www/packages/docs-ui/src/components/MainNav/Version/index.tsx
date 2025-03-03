@@ -36,35 +36,30 @@ export const MainNavVersion = () => {
   }
 
   return (
-    <>
-      <Link
-        href={version.releaseUrl}
-        target="_blank"
-        className={clsx(version.hide && "hidden")}
-      >
-        <Tooltip html="View the release notes<br/>on GitHub">
-          <span
-            className="relative text-compact-small-plus block"
-            onMouseOut={afterHover}
-          >
-            <span className="flex justify-center items-center">
-              v{version.number}
-            </span>
-            {showNewBadge && (
-              <span
-                className={clsx(
-                  "bg-medusa-tag-blue-icon w-[10px] h-[10px]",
-                  "absolute -top-docs_0.25 -right-docs_0.5",
-                  "animate-pulse rounded-full"
-                )}
-              ></span>
-            )}
+    <Link
+      href={version.releaseUrl}
+      target="_blank"
+      className={clsx(version.hide && "hidden")}
+    >
+      <Tooltip html="View the release notes<br/>on GitHub">
+        <span
+          className="relative text-compact-small-plus block"
+          onMouseOut={afterHover}
+        >
+          <span className="flex justify-center items-center">
+            v{version.number}
           </span>
-        </Tooltip>
-      </Link>
-      <span className={clsx("text-compact-small", version.hide && "hidden")}>
-        &#183;
-      </span>
-    </>
+          {showNewBadge && (
+            <span
+              className={clsx(
+                "bg-medusa-tag-blue-icon w-[10px] h-[10px]",
+                "absolute -top-docs_0.25 -right-docs_0.5",
+                "animate-pulse rounded-full"
+              )}
+            ></span>
+          )}
+        </span>
+      </Tooltip>
+    </Link>
   )
 }

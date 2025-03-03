@@ -61,8 +61,8 @@ export const salesChannelSidebar = [
       },
       {
         type: "category",
-        title: "User Guides",
-        autogenerate_tags: "userGuides+salesChannel",
+        title: "Admin User Guides",
+        autogenerate_tags: "userGuide+salesChannel",
         initialOpen: false,
         autogenerate_as_ref: true,
         description:

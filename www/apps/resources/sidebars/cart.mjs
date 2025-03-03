@@ -76,8 +76,8 @@ export const cartSidebar = [
       },
       {
         type: "category",
-        title: "User Guides",
-        autogenerate_tags: "userGuides+cart",
+        title: "Admin User Guides",
+        autogenerate_tags: "userGuide+cart",
         initialOpen: false,
         autogenerate_as_ref: true,
         description:

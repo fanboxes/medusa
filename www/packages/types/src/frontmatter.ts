@@ -6,7 +6,13 @@ export declare type FrontMatter = {
   sidebar_position?: number
   sidebar_autogenerate_exclude?: boolean
   sidebar_description?: string
-  tags?: string[]
+  tags?: (
+    | string
+    | {
+        name: string
+        label: string
+      }
+  )[]
   title?: string
   description?: string
 }

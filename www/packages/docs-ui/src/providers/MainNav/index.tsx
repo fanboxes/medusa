@@ -16,14 +16,12 @@ const MainNavContext = createContext<MainNavContext | null>(null)
 
 export type MainNavProviderProps = {
   navItems: NavigationItem[]
-  editDate?: string
   children?: React.ReactNode
 }
 
 export const MainNavProvider = ({
   navItems,
   children,
-  editDate,
 }: MainNavProviderProps) => {
   const pathname = usePathname()
   const { config } = useSiteConfig()
@@ -87,7 +85,6 @@ export const MainNavProvider = ({
       value={{
         navItems,
         activeItemIndex,
-        editDate,
         activeItem,
       }}
     >

@@ -102,6 +102,7 @@
           "keyName": "IDX_promotion_campaign_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_promotion_campaign_deleted_at\" ON \"promotion_campaign\" (deleted_at) WHERE deleted_at IS NULL"
@@ -110,6 +111,7 @@
           "keyName": "IDX_promotion_campaign_campaign_identifier_unique",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"IDX_promotion_campaign_campaign_identifier_unique\" ON \"promotion_campaign\" (campaign_identifier) WHERE deleted_at IS NULL"
@@ -120,12 +122,14 @@
             "id"
           ],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
       ],
       "checks": [],
-      "foreignKeys": {}
+      "foreignKeys": {},
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -246,6 +250,7 @@
           "keyName": "IDX_campaign_budget_type",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_campaign_budget_type\" ON \"promotion_campaign_budget\" (type) WHERE deleted_at IS NULL"
@@ -254,6 +259,7 @@
           "keyName": "IDX_promotion_campaign_budget_campaign_id_unique",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"IDX_promotion_campaign_budget_campaign_id_unique\" ON \"promotion_campaign_budget\" (campaign_id) WHERE deleted_at IS NULL"
@@ -262,6 +268,7 @@
           "keyName": "IDX_promotion_campaign_budget_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_promotion_campaign_budget_deleted_at\" ON \"promotion_campaign_budget\" (deleted_at) WHERE deleted_at IS NULL"
@@ -272,6 +279,7 @@
             "id"
           ],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
@@ -291,7 +299,8 @@
           "deleteRule": "cascade",
           "updateRule": "cascade"
         }
-      }
+      },
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -397,25 +406,10 @@
       "schema": "public",
       "indexes": [
         {
-          "keyName": "IDX_promotion_code_unique",
-          "columnNames": [],
-          "composite": false,
-          "primary": false,
-          "unique": false,
-          "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"IDX_promotion_code_unique\" ON \"promotion\" (code) WHERE deleted_at IS NULL"
-        },
-        {
-          "keyName": "IDX_promotion_code",
-          "columnNames": [],
-          "composite": false,
-          "primary": false,
-          "unique": false,
-          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_promotion_code\" ON \"promotion\" (code) WHERE deleted_at IS NULL"
-        },
-        {
           "keyName": "IDX_promotion_type",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_promotion_type\" ON \"promotion\" (type) WHERE deleted_at IS NULL"
@@ -424,6 +418,7 @@
           "keyName": "IDX_promotion_status",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_promotion_status\" ON \"promotion\" (status) WHERE deleted_at IS NULL"
@@ -432,6 +427,7 @@
           "keyName": "IDX_promotion_campaign_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_promotion_campaign_id\" ON \"promotion\" (campaign_id) WHERE deleted_at IS NULL"
@@ -440,9 +436,19 @@
           "keyName": "IDX_promotion_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_promotion_deleted_at\" ON \"promotion\" (deleted_at) WHERE deleted_at IS NULL"
+        },
+        {
+          "keyName": "IDX_unique_promotion_code",
+          "columnNames": [],
+          "composite": false,
+          "constraint": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"IDX_unique_promotion_code\" ON \"promotion\" (code) WHERE deleted_at IS NULL"
         },
         {
           "keyName": "promotion_pkey",
@@ -450,6 +456,7 @@
             "id"
           ],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
@@ -469,7 +476,8 @@
           "deleteRule": "set null",
           "updateRule": "cascade"
         }
-      }
+      },
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -625,6 +633,7 @@
           "keyName": "IDX_application_method_type",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_application_method_type\" ON \"promotion_application_method\" (type) WHERE deleted_at IS NULL"
@@ -633,6 +642,7 @@
           "keyName": "IDX_application_method_target_type",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_application_method_target_type\" ON \"promotion_application_method\" (target_type) WHERE deleted_at IS NULL"
@@ -641,6 +651,7 @@
           "keyName": "IDX_application_method_allocation",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_application_method_allocation\" ON \"promotion_application_method\" (allocation) WHERE deleted_at IS NULL"
@@ -649,6 +660,7 @@
           "keyName": "IDX_promotion_application_method_promotion_id_unique",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"IDX_promotion_application_method_promotion_id_unique\" ON \"promotion_application_method\" (promotion_id) WHERE deleted_at IS NULL"
@@ -657,6 +669,7 @@
           "keyName": "IDX_promotion_application_method_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_promotion_application_method_deleted_at\" ON \"promotion_application_method\" (deleted_at) WHERE deleted_at IS NULL"
@@ -665,6 +678,7 @@
           "keyName": "IDX_promotion_application_method_currency_code",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_promotion_application_method_currency_code\" ON \"promotion_application_method\" (currency_code) WHERE deleted_at IS NOT NULL"
@@ -675,6 +689,7 @@
             "id"
           ],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
@@ -694,7 +709,8 @@
           "deleteRule": "cascade",
           "updateRule": "cascade"
         }
-      }
+      },
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -783,6 +799,7 @@
           "keyName": "IDX_promotion_rule_attribute",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_promotion_rule_attribute\" ON \"promotion_rule\" (attribute) WHERE deleted_at IS NULL"
@@ -791,6 +808,7 @@
           "keyName": "IDX_promotion_rule_operator",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_promotion_rule_operator\" ON \"promotion_rule\" (operator) WHERE deleted_at IS NULL"
@@ -799,6 +817,7 @@
           "keyName": "IDX_promotion_rule_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_promotion_rule_deleted_at\" ON \"promotion_rule\" (deleted_at) WHERE deleted_at IS NULL"
@@ -809,12 +828,14 @@
             "id"
           ],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
       ],
       "checks": [],
-      "foreignKeys": {}
+      "foreignKeys": {},
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -847,6 +868,7 @@
             "promotion_rule_id"
           ],
           "composite": true,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
@@ -879,7 +901,8 @@
           "deleteRule": "cascade",
           "updateRule": "cascade"
         }
-      }
+      },
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -912,6 +935,7 @@
             "promotion_rule_id"
           ],
           "composite": true,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
@@ -944,7 +968,8 @@
           "deleteRule": "cascade",
           "updateRule": "cascade"
         }
-      }
+      },
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -977,6 +1002,7 @@
             "promotion_rule_id"
           ],
           "composite": true,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
@@ -1009,7 +1035,8 @@
           "deleteRule": "cascade",
           "updateRule": "cascade"
         }
-      }
+      },
+      "nativeEnums": {}
     },
     {
       "columns": {
@@ -1080,6 +1107,7 @@
           "keyName": "IDX_promotion_rule_value_promotion_rule_id",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_promotion_rule_value_promotion_rule_id\" ON \"promotion_rule_value\" (promotion_rule_id) WHERE deleted_at IS NULL"
@@ -1088,6 +1116,7 @@
           "keyName": "IDX_promotion_rule_value_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_promotion_rule_value_deleted_at\" ON \"promotion_rule_value\" (deleted_at) WHERE deleted_at IS NULL"
@@ -1098,6 +1127,7 @@
             "id"
           ],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
@@ -1117,7 +1147,9 @@
           "deleteRule": "cascade",
           "updateRule": "cascade"
         }
-      }
+      },
+      "nativeEnums": {}
     }
-  ]
+  ],
+  "nativeEnums": {}
 }

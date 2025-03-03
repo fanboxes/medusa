@@ -1,5 +1,4 @@
 import { AcademicCapSolid } from "@medusajs/icons"
-import { LearningPath } from "docs-ui"
 
 export const metadata = {
   title: `Point-of-Sale (POS) Recipe`,
@@ -68,50 +67,13 @@ To search through product variants by their barcode, create a custom API Route a
   ]}
 />
 
-<Details summaryContent="Example: Search Products By Barcode API Route">
-
-Here’s an example of creating a custom API Route at `/store/pos/search-barcode` that searches product variants by a barcode:
-
-  ```ts title="src/api/store/pos/search-barcode/route.ts" collapsibleLines="1-8" expandButtonLabel="Show Imports"
-  import type { 
-    MedusaRequest, 
-    MedusaResponse, 
-  } from "@medusajs/framework/http"
-  import { MedusaError } from "@medusajs/framework/utils"
-  import { Modules } from "@medusajs/framework/utils"
-  import { IProductModuleService } from "@medusajs/framework/types"
-
-export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
-  const barcode = (req.query.barcode as string) || ""
-  if (!barcode) {
-    throw new MedusaError(MedusaError.Types.INVALID_DATA, "Barcode is required")
-  }
-  // get product service
-  const productModuleService: IProductModuleService = req.scope.resolve(
-    Modules.PRODUCT
-  )
-
-  // retrieve product variants by barcode
-  const productVariants = await productModuleService.listProductVariants({
-    // @ts-ignore
-    barcode,
-  })
-
-  res.json({
-    product_variants: productVariants,
-  })
-}
-```
-
-</Details>
-
 ---
 
 ## Access Accurate Inventory Details
 
 As you manage an online and offline store, it's essential to separate inventory quantity across different locations.
 
-Medusa's Inventory, Stock Location, and Sales Channel modules allow merchants to manage the inventory items and their availability across locations and sales channels.
+Medusa's [Inventory](../../commerce-modules/inventory/page.mdx), [Stock Location](../../commerce-modules/stock-location/page.mdx), and [Sales Channel](../../commerce-modules/sales-channel/page.mdx) modules allow merchants to manage the inventory items and their availability across locations and sales channels.
 
 ![Using Multi-warehouse features with POS](https://res.cloudinary.com/dza7lstvk/image/upload/v1709034731/Medusa%20Book/pos-multiwarehouse_r1z48x.jpg)
 
@@ -133,22 +95,24 @@ This also opens the door for other business opportunities, such as an endless ai
       text: "Learn about the Stock Location Module.",
       icon: AcademicCapSolid,
     },
-    {
-      href: "/commerce-modules/sales-channel",
-      title: "Sales Channel Module",
-      text: "Learn about the Sales Channel Module.",
-      icon: AcademicCapSolid,
-    },
   ]}
+/>
+
+<Card
+  href="/commerce-modules/sales-channel"
+  title="Sales Channel Module"
+  text="Learn about the Sales Channel Module."
+  icon={AcademicCapSolid}
+  className="mt-1"
 />
 
 ---
 
 ## Build an Omni-channel Customer Experience
 
-Using Medusa's Customer Module, you can retrieve a customer's details from the Medusa application and place an order on the POS under their account. The customer can then view their order details on their online profile as if they had placed the order online.
+Using Medusa's [Customer Module](../../commerce-modules/customer/page.mdx), you can retrieve a customer's details from the Medusa application and place an order on the POS under their account. The customer can then view their order details on their online profile as if they had placed the order online.
 
-In addition, using Medusa's Promotion Module, store operators can create promotions on the fly for customers using the POS system and apply them to their orders.
+In addition, using Medusa's [Promotion Module](../../commerce-modules/promotion/page.mdx), store operators can create promotions on the fly for customers using the POS system and apply them to their orders.
 
 You can also create custom modules to provide features for a better customer experience, such as a rewards system or loyalty points.
 
@@ -166,13 +130,15 @@ You can also create custom modules to provide features for a better customer exp
       text: "Learn about the Promotion Module.",
       icon: AcademicCapSolid,
     },
-    {
-      href: "!docs!/learn/fundamentals/modules",
-      title: "Create a Module",
-      text: "Learn how to create a module.",
-      icon: AcademicCapSolid,
-    },
   ]}
+/>
+
+<Card
+  href="!docs!/learn/fundamentals/modules"
+  title="Create a Module"
+  text="Learn how to create a module."
+  icon={AcademicCapSolid}
+  className="mt-1"
 />
 
 ---

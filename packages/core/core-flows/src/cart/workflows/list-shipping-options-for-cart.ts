@@ -172,7 +172,7 @@ export const listShippingOptionsForCartWorkflow = createWorkflow(
 
           const itemsAtLocationWithoutAvailableQuantity = cart.items.filter(
             (item) => {
-              if (!item.variant.manage_inventory) {
+              if (!item.variant?.manage_inventory) {
                 return false
               }
 

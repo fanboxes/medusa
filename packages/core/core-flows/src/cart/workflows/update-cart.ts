@@ -27,8 +27,8 @@ import {
   findSalesChannelStep,
   updateCartsStep,
 } from "../steps"
-import { refreshCartItemsWorkflow } from "./refresh-cart-items"
 import { validateSalesChannelStep } from "../steps/validate-sales-channel"
+import { refreshCartItemsWorkflow } from "./refresh-cart-items"
 
 /**
  * The data to update the cart, along with custom data that's passed to the workflow's hooks.
@@ -278,7 +278,11 @@ export const updateCartWorkflow = createWorkflow(
     })
 
     const cart = refreshCartItemsWorkflow.runAsStep({
-      input: { cart_id: cartInput.id, promo_codes: input.promo_codes },
+      input: {
+        cart_id: cartInput.id,
+        promo_codes: input.promo_codes,
+        force_refresh: !!newRegion,
+      },
     })
 
     const cartUpdated = createHook("cartUpdated", {

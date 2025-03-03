@@ -26,6 +26,9 @@ const withMDX = mdx({
               projectPath: path.resolve("..", "ui"),
               contentPath: "src/content/docs",
             },
+            "user-guide": {
+              projectPath: path.resolve("..", "user-guide"),
+            },
           },
         },
       ],
@@ -123,6 +126,11 @@ const nextConfig = {
       {
         source: "/deployment/admin/vercel",
         destination: "/deployment",
+        permanent: true,
+      },
+      {
+        source: "/recipes/integrate-ecommerce-stack",
+        destination: "/recipes/erp",
         permanent: true,
       },
     ]

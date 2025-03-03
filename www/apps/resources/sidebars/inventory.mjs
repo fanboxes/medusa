@@ -71,8 +71,8 @@ export const inventorySidebar = [
       },
       {
         type: "category",
-        title: "User Guides",
-        autogenerate_tags: "userGuides+inventory",
+        title: "Admin User Guides",
+        autogenerate_tags: "userGuide+inventory",
         initialOpen: false,
         autogenerate_as_ref: true,
         description:

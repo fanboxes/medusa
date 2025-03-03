@@ -170,7 +170,7 @@ const getAuthContextFromSession = (
   return null
 }
 
-const getAuthContextFromJwtToken = (
+export const getAuthContextFromJwtToken = (
   authHeader: string | undefined,
   jwtSecret: string,
   authTypes: AuthType[],

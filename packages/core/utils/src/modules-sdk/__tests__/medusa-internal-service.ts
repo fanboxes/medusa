@@ -267,12 +267,7 @@ describe("Internal Module Service Factory", () => {
     })
 
     it("should delete entities successfully", async () => {
-      const entitiesToDelete = [{ id: "1", name: "Item" }]
-      containerMock[modelRepositoryName].find.mockResolvedValueOnce(
-        entitiesToDelete
-      )
-
-      await instance.delete({ selector: {} })
+      await instance.delete({ selector: { id: "1" } })
       expect(containerMock[modelRepositoryName].delete).toHaveBeenCalledWith(
         {
           $or: [

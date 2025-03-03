@@ -1,4 +1,7 @@
-import { CalculatedPriceSet, IPricingModuleService } from "@medusajs/framework/types"
+import {
+  CalculatedPriceSet,
+  IPricingModuleService,
+} from "@medusajs/framework/types"
 import { MedusaError, Modules } from "@medusajs/framework/utils"
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
 
@@ -12,7 +15,7 @@ export interface GetVariantPriceSetsStepInput {
   variantIds: string[]
   /**
    * The context to use when calculating the price sets.
-   * 
+   *
    * Learn more in [this documentation](https://docs.medusajs.com/resources/commerce-modules/product/guides/price#retrieve-calculated-price-for-a-context).
    */
   context?: Record<string, unknown>
@@ -28,18 +31,18 @@ export interface GetVariantPriceSetsStepOutput {
 export const getVariantPriceSetsStepId = "get-variant-price-sets"
 /**
  * This step retrieves the calculated price sets of the specified variants.
- * 
+ *
  * @example
  * To retrieve a variant's price sets:
- * 
+ *
  * ```ts
  * const data = getVariantPriceSetsStep({
  *   variantIds: ["variant_123"],
  * })
  * ```
- * 
+ *
  * To retrieve the calculated price sets of a variant:
- * 
+ *
  * ```ts
  * const data = getVariantPriceSetsStep({
  *   variantIds: ["variant_123"],

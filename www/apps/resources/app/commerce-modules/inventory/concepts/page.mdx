@@ -14,6 +14,12 @@ The `InventoryItem` data model mainly holds details related to the underlying st
 
 ![A diagram showcasing the relation between data models in the Inventory Module](https://res.cloudinary.com/dza7lstvk/image/upload/v1709658103/Medusa%20Resources/inventory-architecture_kxr2ql.png)
 
+### Inventory Shipping Requirement
+
+An inventory item has a `requires_shipping` field (enabled by default) that indicates whether the item requires shipping. For example, if you're selling a digital license that has limited stock quantity but doesn't require shipping.
+
+When a product variant is purchased in the Medusa application, this field is used to determine whether the item requires shipping. Learn more in [this documentation](../../product/selling-products/page.mdx).
+
 ---
 
 ## InventoryLevel

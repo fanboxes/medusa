@@ -54,8 +54,8 @@ export const regionSidebar = [
       },
       {
         type: "category",
-        title: "User Guides",
-        autogenerate_tags: "userGuides+region",
+        title: "Admin User Guides",
+        autogenerate_tags: "userGuide+region",
         initialOpen: false,
         autogenerate_as_ref: true,
         description:

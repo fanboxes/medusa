@@ -1,74 +1,78 @@
 export const store = [
   {
+    "title": "Manage Store",
+    "path": "https://docs.medusajs.com/user-guide/settings/store"
+  },
+  {
     "title": "findOneOrAnyRegionStep",
-    "path": "/references/medusa-workflows/steps/findOneOrAnyRegionStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/findOneOrAnyRegionStep"
   },
   {
     "title": "findSalesChannelStep",
-    "path": "/references/medusa-workflows/steps/findSalesChannelStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/findSalesChannelStep"
   },
   {
     "title": "createCartWorkflow",
-    "path": "/references/medusa-workflows/createCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createCartWorkflow"
   },
   {
     "title": "updateCartWorkflow",
-    "path": "/references/medusa-workflows/updateCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateCartWorkflow"
   },
   {
     "title": "createDefaultStoreStep",
-    "path": "/references/medusa-workflows/steps/createDefaultStoreStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/createDefaultStoreStep"
   },
   {
     "title": "createDefaultsWorkflow",
-    "path": "/references/medusa-workflows/createDefaultsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createDefaultsWorkflow"
   },
   {
     "title": "addOrderLineItemsWorkflow",
-    "path": "/references/medusa-workflows/addOrderLineItemsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/addOrderLineItemsWorkflow"
   },
   {
     "title": "createOrderWorkflow",
-    "path": "/references/medusa-workflows/createOrderWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createOrderWorkflow"
   },
   {
     "title": "orderClaimAddNewItemWorkflow",
-    "path": "/references/medusa-workflows/orderClaimAddNewItemWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/orderClaimAddNewItemWorkflow"
   },
   {
     "title": "orderEditAddNewItemWorkflow",
-    "path": "/references/medusa-workflows/orderEditAddNewItemWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/orderEditAddNewItemWorkflow"
   },
   {
     "title": "orderExchangeAddNewItemWorkflow",
-    "path": "/references/medusa-workflows/orderExchangeAddNewItemWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/orderExchangeAddNewItemWorkflow"
   },
   {
     "title": "createStoresStep",
-    "path": "/references/medusa-workflows/steps/createStoresStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/createStoresStep"
   },
   {
     "title": "deleteStoresStep",
-    "path": "/references/medusa-workflows/steps/deleteStoresStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/deleteStoresStep"
   },
   {
     "title": "updateStoresStep",
-    "path": "/references/medusa-workflows/steps/updateStoresStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/updateStoresStep"
   },
   {
     "title": "createStoresWorkflow",
-    "path": "/references/medusa-workflows/createStoresWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createStoresWorkflow"
   },
   {
     "title": "deleteStoresWorkflow",
-    "path": "/references/medusa-workflows/deleteStoresWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteStoresWorkflow"
   },
   {
     "title": "updateStoresWorkflow",
-    "path": "/references/medusa-workflows/updateStoresWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateStoresWorkflow"
   },
   {
     "title": "store",
-    "path": "/references/js-sdk/admin/store"
+    "path": "https://docs.medusajs.com/resources/references/js-sdk/admin/store"
   }
 ]

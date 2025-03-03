@@ -61,8 +61,14 @@ export const reserveInventoryStepId = "reserve-inventory-step"
 export const reserveInventoryStep = createStep(
   reserveInventoryStepId,
   async (data: ReserveVariantInventoryStepInput, { container }) => {
-    const inventoryService = container.resolve(Modules.INVENTORY)
+    if (!data.items.length) {
+      return new StepResponse([], {
+        reservations: [],
+        inventoryItemIds: [],
+      })
+    }
 
+    const inventoryService = container.resolve(Modules.INVENTORY)
     const locking = container.resolve(Modules.LOCKING)
 
     const inventoryItemIds: string[] = []

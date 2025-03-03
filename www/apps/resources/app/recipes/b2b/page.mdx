@@ -34,12 +34,20 @@ Use sales channels to set product availability per channel. In this case, create
 
 You can create a sales channel through the Medusa Admin or Admin REST APIs.
 
-<Card
-  href="!api!/admin#sales-channels_postsaleschannels"
-  title="Create Sales Channel"
-  text="Create the sales channel using the REST APIs."
-  icon={AcademicCapSolid}
-/>
+<CardList items={[
+  {
+    href: "!user-guide!/settings/sales-channels",
+    title: "Using Medusa Admin",
+    text: "Create the sales channel using the Medusa Admin.",
+    icon: UsersSolid,
+  },
+  {
+    href: "!api!/admin#sales-channels_postsaleschannels",
+    title: "Using Admin API",
+    text: "Create the sales channel using the REST APIs.",
+    icon: AcademicCapSolid,
+  },
+]} />
 
 ---
 
@@ -56,21 +64,37 @@ You can create a publishable API key through the Medusa Admin or the Admin REST 
 
 ### Create Key
 
-<Card
-  href="!api!/admin#api-keys_postapikeys"
-  title="Create Publishable API Key"
-  text="Create the publishable API key using the REST APIs."
-  icon={AcademicCapSolid}
-/>
+<CardList items={[
+  {
+    href: "!user-guide!/settings/developer/publishable-api-keys",
+    title: "Using Medusa Admin",
+    text: "Create the API key using the Medusa Admin.",
+    icon: UsersSolid,
+  },
+  {
+    href: "!api!/admin#api-keys_postapikeys",
+    title: "Using Admin API",
+    text: "Create the API key using the REST APIs.",
+    icon: AcademicCapSolid,
+  },
+]} />
 
 ### Associate Key with Sales Channel
 
-<Card
-  href="!api!/admin#api-keys_postapikeysidsaleschannels"
-  title="Create Publishable API Key"
-  text="Create the publishable API key using the REST APIs."
-  icon={AcademicCapSolid}
-/>
+<CardList items={[
+  {
+    href: "!user-guide!/settings/developer/publishable-api-keys#manage-publishable-api-keys-sales-channels",
+    title: "Using Medusa Admin",
+    text: "Associate the key with the sales channel using the Medusa Admin.",
+    icon: UsersSolid,
+  },
+  {
+    href: "!api!/admin#api-keys_postapikeysidsaleschannels",
+    title: "Using Admin API",
+    text: "Associate the key with the sales channel using the REST APIs.",
+    icon: AcademicCapSolid,
+  },
+]} />
 
 ---
 
@@ -80,21 +104,37 @@ You can create new products or add existing ones to the B2B sales channel using 
 
 ### Create Products
 
-<Card
-  href="!api!/admin#products_postproducts"
-  title="Create Products"
-  text="Create products using the REST APIs."
-  icon={AcademicCapSolid}
-/>
+<CardList items={[
+  {
+    href: "!user-guide!/products/create",
+    title: "Using Medusa Admin",
+    text: "Create the products using the Medusa Admin.",
+    icon: UsersSolid,
+  },
+  {
+    href: "!api!/admin#products_postproducts",
+    title: "Using Admin API",
+    text: "Create the products using the REST APIs.",
+    icon: AcademicCapSolid,
+  },
+]} />
 
 ### Add Products to Sales Channel
 
-<Card
-  href="!api!/admin#sales-channels_postsaleschannelsidproductsbatchadd"
-  title="Add to Sales Channel"
-  text="Add the products to the B2B sales channel using the REST APIs."
-  icon={AcademicCapSolid}
-/>
+<CardList items={[
+  {
+    href: "!user-guide!/settings/sales-channels#manage-products-in-sales-channel",
+    title: "Using Medusa Admin",
+    text: "Create the products using the Medusa Admin.",
+    icon: UsersSolid,
+  },
+  {
+    href: "!api!/admin#sales-channels_postsaleschannelsidproductsbatchadd",
+    title: "Using Admin API",
+    text: "Add the products to the sales channel using the REST APIs.",
+    icon: AcademicCapSolid,
+  },
+]} />
 
 ---
 
@@ -110,24 +150,16 @@ You can create a B2B module that adds necessary data models to represent a B2B c
   {
     href: "!docs!/learn/fundamentals/modules",
     title: "Create Module",
-    text: "Learn how to create a module in Medusa.",
+    text: "Learn how to create a module.",
     icon: AcademicCapSolid,
   },
   {
-    href: "!docs!/learn/fundamentals/modules#1-create-data-model",
-    title: "Create Data Models",
-    text: "Learn how to create data models.",
+    href: "!docs!/learn/fundamentals/module-links",
+    title: "Define Module Links",
+    text: "Define links between data models.",
     icon: AcademicCapSolid,
   },
 ]} />
-
-<Card
-  href="!docs!/learn/fundamentals/module-links"
-  title="Create Module Links"
-  text="Learn how to create links between modules."
-  icon={AcademicCapSolid}
-  className="mt-1"
-/>
 
 ## Add B2B Customers
 
@@ -137,21 +169,37 @@ You can do that through the Medusa Admin or Admin REST APIs.
 
 ### Create Customers
 
-<Card
-  href="!api!/admin#customers_postcustomers"
-  title="Create Customers"
-  text="Create the customers using the REST APIs."
-  icon={AcademicCapSolid}
-/>
+<CardList items={[
+  {
+    href: "!user-guide!/customers/manage",
+    title: "Using Medusa Admin",
+    text: "Create customers using the Medusa Admin.",
+    icon: UsersSolid,
+  },
+  {
+    href: "!api!/admin#customers_postcustomers",
+    title: "Using Admin API",
+    text: "Create customers using the REST APIs.",
+    icon: AcademicCapSolid,
+  },
+]} />
 
 ### Assign Customers to Groups
 
-<Card
-  href="!api!/admin#customer-groups_postcustomergroupsidcustomersbatch"
-  title="Assign Customers to Groups"
-  text="Assign the customers to the B2B customer group using the REST APIs."
-  icon={AcademicCapSolid}
-/>
+<CardList items={[
+  {
+    href: "!user-guide!/customers/manage#manage-customers-groups",
+    title: "Using Medusa Admin",
+    text: "Assign customer to groups using the Medusa Admin.",
+    icon: UsersSolid,
+  },
+  {
+    href: "!api!/admin#customer-groups_postcustomergroupsidcustomersbatch",
+    title: "Using Admin API",
+    text: "Assign customer to groups using the REST APIs.",
+    icon: AcademicCapSolid,
+  },
+]} />
 
 ---
 
@@ -161,12 +209,20 @@ Use price lists to set different prices for each B2B customer group, among other
 
 You can create a price list using the Medusa Admin or the Admin REST APIs. Make sure to set the B2B customer group as a condition.
 
-<Card
-  href="!api!/admin#price-lists_postpricelists"
-  title="Create Price List"
-  text="Create the price list using the REST APIs."
-  icon={AcademicCapSolid}
-/>
+<CardList items={[
+  {
+    href: "!user-guide!/price-lists/create",
+    title: "Using Medusa Admin",
+    text: "Create price list using the Medusa Admin.",
+    icon: UsersSolid,
+  },
+  {
+    href: "!api!/admin#price-lists_postpricelists",
+    title: "Using Admin API",
+    text: "Create price list using the REST APIs.",
+    icon: AcademicCapSolid,
+  },
+]} />
 
 ---
 

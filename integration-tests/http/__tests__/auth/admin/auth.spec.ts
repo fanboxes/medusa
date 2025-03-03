@@ -150,6 +150,9 @@ medusaIntegrationTestRunner({
           .post("/auth/user/emailpass/reset-password", {})
           .catch((e) => e)
 
+        expect(errResponse.response.data.message).toEqual(
+          "Invalid request: Field 'identifier' is required"
+        )
         expect(errResponse.response.status).toEqual(400)
       })
 
@@ -157,15 +160,6 @@ medusaIntegrationTestRunner({
         const response = await api.post("/auth/user/emailpass/reset-password", {
           identifier: "non-existing-user@medusa.js",
         })
-
-        expect(response.status).toEqual(201)
-      })
-
-      it("should fail to generate token for existing user but no provider, but still respond with 201", async () => {
-        const response = await api.post(
-          "/auth/user/non-existing-provider/reset-password",
-          { identifier: "admin@medusa.js" }
-        )
 
         expect(response.status).toEqual(201)
       })
@@ -199,10 +193,14 @@ medusaIntegrationTestRunner({
         })
 
         const response = await api.post(
-          `/auth/user/emailpass/update?token=${result}`,
+          `/auth/user/emailpass/update`,
           {
-            email: "test@medusa-commerce.com",
             password: "new_password",
+          },
+          {
+            headers: {
+              authorization: `Bearer ${result}`,
+            },
           }
         )
 
@@ -250,10 +248,15 @@ medusaIntegrationTestRunner({
         })
 
         const response = await api.post(
-          `/auth/user/emailpass/update?token=${result}`,
+          `/auth/user/emailpass/update`,
           {
             email: "test+new@medusa-commerce.com",
             password: "new_password",
+          },
+          {
+            headers: {
+              authorization: `Bearer ${result}`,
+            },
           }
         )
 
@@ -306,10 +309,17 @@ medusaIntegrationTestRunner({
         jest.advanceTimersByTime(15 * 60 * 1000)
 
         const response = await api
-          .post(`/auth/user/emailpass/update?token=${result}`, {
-            email: "test@medusa-commerce.com",
-            password: "new_password",
-          })
+          .post(
+            `/auth/user/emailpass/update`,
+            {
+              password: "new_password",
+            },
+            {
+              headers: {
+                authorization: `Bearer ${result}`,
+              },
+            }
+          )
           .catch((e) => e)
 
         expect(response.response.status).toEqual(401)
@@ -363,10 +373,17 @@ medusaIntegrationTestRunner({
         jest.advanceTimersByTime(15 * 60 * 1000)
 
         const response = await api
-          .post(`/auth/customer/emailpass/update?token=${result}`, {
-            email: "test@medusa-commerce.com",
-            password: "new_password",
-          })
+          .post(
+            `/auth/customer/emailpass/update`,
+            {
+              password: "new_password",
+            },
+            {
+              headers: {
+                authorization: `Bearer ${result}`,
+              },
+            }
+          )
           .catch((e) => e)
 
         expect(response.response.status).toEqual(401)
@@ -398,10 +415,17 @@ medusaIntegrationTestRunner({
         jest.advanceTimersByTime(15 * 60 * 1000)
 
         const response = await api
-          .post(`/auth/user/emailpass/update?token=${result}`, {
-            email: "test@medusa-commerce.com",
-            password: "new_password",
-          })
+          .post(
+            `/auth/user/emailpass/update`,
+            {
+              password: "new_password",
+            },
+            {
+              headers: {
+                authorization: `Bearer ${result}`,
+              },
+            }
+          )
           .catch((e) => e)
 
         expect(response.response.status).toEqual(401)

@@ -17,7 +17,7 @@ export function getLinkRepository(model: EntitySchema) {
       this.joinerConfig_ = joinerConfig
     }
 
-    async delete(data: any, context: Context = {}): Promise<void> {
+    async delete(data: any, context: Context = {}): Promise<string[]> {
       const filter = {}
       for (const key in data) {
         filter[key] = {
@@ -25,8 +25,7 @@ export function getLinkRepository(model: EntitySchema) {
         }
       }
 
-      const manager = this.getActiveManager<SqlEntityManager>(context)
-      await manager.nativeDelete(model, data, {})
+      return await super.delete(filter, context)
     }
 
     async create(data: object[], context: Context = {}): Promise<object[]> {

@@ -259,7 +259,7 @@ export function MedusaInternalService<
       const primaryKeys = AbstractService_.retrievePrimaryKeys(model)
       const inputArray = Array.isArray(input) ? input : [input]
 
-      const toUpdateData: { entity; update }[] = []
+      const toUpdateData: { entity: TEntity; update: Partial<TEntity> }[] = []
 
       // Only used when we receive data and no selector
       const keySelectorForDataOnly: any = {
@@ -353,10 +353,17 @@ export function MedusaInternalService<
 
       // Manage metadata if needed
       toUpdateData.forEach(({ entity, update }) => {
-        if (isPresent(update.metadata)) {
-          entity.metadata = update.metadata = mergeMetadata(
-            entity.metadata ?? {},
-            update.metadata
+        const update_ = update as (typeof toUpdateData)[number]["update"] & {
+          metadata: Record<string, unknown>
+        }
+        const entity_ = entity as InferEntityType<TEntity> & {
+          metadata?: Record<string, unknown>
+        }
+
+        if (isPresent(update_.metadata)) {
+          entity_.metadata = update_.metadata = mergeMetadata(
+            entity_.metadata ?? {},
+            update_.metadata
           )
         }
       })
@@ -367,16 +374,16 @@ export function MedusaInternalService<
       )
     }
 
-    delete(idOrSelector: string, sharedContext?: Context): Promise<void>
-    delete(idOrSelector: string[], sharedContext?: Context): Promise<void>
-    delete(idOrSelector: object, sharedContext?: Context): Promise<void>
-    delete(idOrSelector: object[], sharedContext?: Context): Promise<void>
+    delete(idOrSelector: string, sharedContext?: Context): Promise<string[]>
+    delete(idOrSelector: string[], sharedContext?: Context): Promise<string[]>
+    delete(idOrSelector: object, sharedContext?: Context): Promise<string[]>
+    delete(idOrSelector: object[], sharedContext?: Context): Promise<string[]>
     delete(
       idOrSelector: {
         selector: FilterQuery<any> | BaseFilterable<FilterQuery<any>>
       },
       sharedContext?: Context
-    ): Promise<void>
+    ): Promise<string[]>
 
     @InjectTransactionManager(propertyRepositoryName)
     async delete(
@@ -389,12 +396,12 @@ export function MedusaInternalService<
             selector: FilterQuery<any> | BaseFilterable<FilterQuery<any>>
           },
       @MedusaContext() sharedContext: Context = {}
-    ): Promise<void> {
+    ): Promise<string[]> {
       if (
         !isDefined(idOrSelector) ||
         (Array.isArray(idOrSelector) && !idOrSelector.length)
       ) {
-        return
+        return []
       }
 
       const primaryKeys = AbstractService_.retrievePrimaryKeys(model)
@@ -420,21 +427,7 @@ export function MedusaInternalService<
       }
 
       if (isObject(idOrSelector) && "selector" in idOrSelector) {
-        const entitiesToDelete = await this.list(
-          idOrSelector.selector as FilterQuery<any>,
-          {
-            select: primaryKeys,
-          },
-          sharedContext
-        )
-
-        for (const entity of entitiesToDelete) {
-          const criteria = {}
-          primaryKeys.forEach((key) => {
-            criteria[key] = entity[key]
-          })
-          deleteCriteria.$or.push(criteria)
-        }
+        deleteCriteria.$or.push(idOrSelector.selector)
       } else {
         const primaryKeysValues = Array.isArray(idOrSelector)
           ? idOrSelector
@@ -451,34 +444,18 @@ export function MedusaInternalService<
             criteria[primaryKeys[0]] = primaryKeyValue
           }
 
-          // TODO: Revisit
-          /*primaryKeys.forEach((key) => {
-            /!*if (
-              isObject(primaryKeyValue) &&
-              !isDefined(primaryKeyValue[key]) &&
-              // primaryKeys.length > 1
-            ) {
-              throw new MedusaError(
-                MedusaError.Types.INVALID_DATA,
-                `Composite key must contain all primary key fields: ${primaryKeys.join(
-                  ", "
-                )}. Found: ${Object.keys(primaryKeyValue)}`
-              )
-            }*!/
-
-            criteria[key] = isObject(primaryKeyValue)
-              ? primaryKeyValue[key]
-              : primaryKeyValue
-          })*/
           return criteria
         })
       }
 
       if (!deleteCriteria.$or.length) {
-        return
+        return []
       }
 
-      await this[propertyRepositoryName].delete(deleteCriteria, sharedContext)
+      return await this[propertyRepositoryName].delete(
+        deleteCriteria,
+        sharedContext
+      )
     }
 
     @InjectTransactionManager(propertyRepositoryName)

@@ -19,7 +19,7 @@ const Feedback = (props: FeedbackProps) => {
     <UiFeedback
       event="survey"
       pathName={feedbackPathname}
-      question="Was this chapter helpful?"
+      question="Was this guide helpful?"
       {...props}
     />
   )

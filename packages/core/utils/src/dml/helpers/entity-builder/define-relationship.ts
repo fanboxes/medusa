@@ -283,14 +283,17 @@ export function defineHasManyRelationship(
 ) {
   const shouldRemoveRelated = !!cascades.delete?.includes(relationship.name)
 
-  OneToMany({
+  const options: Parameters<typeof OneToMany>[0] = {
     entity: relatedModelName,
     orphanRemoval: true,
     mappedBy: relationship.mappedBy || camelToSnakeCase(MikroORMEntity.name),
-    cascade: shouldRemoveRelated
-      ? (["persist", "soft-remove"] as any)
-      : undefined,
-  })(MikroORMEntity.prototype, relationship.name)
+  }
+
+  if (shouldRemoveRelated) {
+    options.cascade = ["persist", "soft-remove"] as any
+  }
+
+  OneToMany(options)(MikroORMEntity.prototype, relationship.name)
 }
 
 /**

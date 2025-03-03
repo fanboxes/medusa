@@ -6,15 +6,12 @@ import {
 } from "docs-ui"
 import { useMemo } from "react"
 import { config } from "../config"
-import { generatedEditDates } from "../generated/edit-dates.mjs"
-import { usePathname } from "next/navigation"
 
 type MainNavProviderProps = {
   children?: React.ReactNode
 }
 
 export const MainNavProvider = ({ children }: MainNavProviderProps) => {
-  const pathname = usePathname()
   const navigationDropdownItems = useMemo(
     () =>
       getNavDropdownItems({
@@ -23,16 +20,8 @@ export const MainNavProvider = ({ children }: MainNavProviderProps) => {
     []
   )
 
-  const editDate = useMemo(
-    () =>
-      (generatedEditDates as Record<string, string>)[
-        `app${pathname.replace(/\/$/, "")}/page.mdx`
-      ],
-    [pathname]
-  )
-
   return (
-    <UiMainNavProvider navItems={navigationDropdownItems} editDate={editDate}>
+    <UiMainNavProvider navItems={navigationDropdownItems}>
       {children}
     </UiMainNavProvider>
   )

@@ -556,6 +556,10 @@ export const filesMap = [
     "pathname": "/commerce-modules/product"
   },
   {
+    "filePath": "/www/apps/resources/app/commerce-modules/product/selling-products/page.mdx",
+    "pathname": "/commerce-modules/product/selling-products"
+  },
+  {
     "filePath": "/www/apps/resources/app/commerce-modules/product/variant-inventory/page.mdx",
     "pathname": "/commerce-modules/product/variant-inventory"
   },
@@ -912,8 +916,12 @@ export const filesMap = [
     "pathname": "/recipes/ecommerce"
   },
   {
-    "filePath": "/www/apps/resources/app/recipes/integrate-ecommerce-stack/page.mdx",
-    "pathname": "/recipes/integrate-ecommerce-stack"
+    "filePath": "/www/apps/resources/app/recipes/erp/odoo/page.mdx",
+    "pathname": "/recipes/erp/odoo"
+  },
+  {
+    "filePath": "/www/apps/resources/app/recipes/erp/page.mdx",
+    "pathname": "/recipes/erp"
   },
   {
     "filePath": "/www/apps/resources/app/recipes/marketplace/examples/restaurant-delivery/page.mdx",
@@ -21920,6 +21928,26 @@ export const filesMap = [
     "pathname": "/references/types/interfaces/types.AdminWorkflowExecutionExecution"
   },
   {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.AuthIdentityProviderService/page.mdx",
+    "pathname": "/references/types/interfaces/types.AuthIdentityProviderService"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.AuthenticationInput/page.mdx",
+    "pathname": "/references/types/interfaces/types.AuthenticationInput"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.AuthenticationResponse/page.mdx",
+    "pathname": "/references/types/interfaces/types.AuthenticationResponse"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.AuthorizePaymentInput/page.mdx",
+    "pathname": "/references/types/interfaces/types.AuthorizePaymentInput"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.AuthorizePaymentOutput/page.mdx",
+    "pathname": "/references/types/interfaces/types.AuthorizePaymentOutput"
+  },
+  {
     "filePath": "/www/apps/resources/references/types/interfaces/types.BaseAdjustmentLine/page.mdx",
     "pathname": "/references/types/interfaces/types.BaseAdjustmentLine"
   },
@@ -22292,6 +22320,22 @@ export const filesMap = [
     "pathname": "/references/types/interfaces/types.BatchPriceListPricesWorkflowResult"
   },
   {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.CancelPaymentInput/page.mdx",
+    "pathname": "/references/types/interfaces/types.CancelPaymentInput"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.CancelPaymentOutput/page.mdx",
+    "pathname": "/references/types/interfaces/types.CancelPaymentOutput"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.CapturePaymentInput/page.mdx",
+    "pathname": "/references/types/interfaces/types.CapturePaymentInput"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.CapturePaymentOutput/page.mdx",
+    "pathname": "/references/types/interfaces/types.CapturePaymentOutput"
+  },
+  {
     "filePath": "/www/apps/resources/references/types/interfaces/types.CartWorkflowDTO/page.mdx",
     "pathname": "/references/types/interfaces/types.CartWorkflowDTO"
   },
@@ -22306,6 +22350,14 @@ export const filesMap = [
   {
     "filePath": "/www/apps/resources/references/types/interfaces/types.Context/page.mdx",
     "pathname": "/references/types/interfaces/types.Context"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.CreateAccountHolderInput/page.mdx",
+    "pathname": "/references/types/interfaces/types.CreateAccountHolderInput"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.CreateAccountHolderOutput/page.mdx",
+    "pathname": "/references/types/interfaces/types.CreateAccountHolderOutput"
   },
   {
     "filePath": "/www/apps/resources/references/types/interfaces/types.CreateCartAddressDTO/page.mdx",
@@ -22368,8 +22420,24 @@ export const filesMap = [
     "pathname": "/references/types/interfaces/types.CustomerGroupInCustomerFilters"
   },
   {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.DeleteAccountHolderInput/page.mdx",
+    "pathname": "/references/types/interfaces/types.DeleteAccountHolderInput"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.DeleteAccountHolderOutput/page.mdx",
+    "pathname": "/references/types/interfaces/types.DeleteAccountHolderOutput"
+  },
+  {
     "filePath": "/www/apps/resources/references/types/interfaces/types.DeleteFileType/page.mdx",
     "pathname": "/references/types/interfaces/types.DeleteFileType"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.DeletePaymentInput/page.mdx",
+    "pathname": "/references/types/interfaces/types.DeletePaymentInput"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.DeletePaymentOutput/page.mdx",
+    "pathname": "/references/types/interfaces/types.DeletePaymentOutput"
   },
   {
     "filePath": "/www/apps/resources/references/types/interfaces/types.DetailWidgetProps/page.mdx",
@@ -22392,12 +22460,28 @@ export const filesMap = [
     "pathname": "/references/types/interfaces/types.FixtureEntryPoints"
   },
   {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.GetPaymentStatusInput/page.mdx",
+    "pathname": "/references/types/interfaces/types.GetPaymentStatusInput"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.GetPaymentStatusOutput/page.mdx",
+    "pathname": "/references/types/interfaces/types.GetPaymentStatusOutput"
+  },
+  {
     "filePath": "/www/apps/resources/references/types/interfaces/types.GetUploadedFileType/page.mdx",
     "pathname": "/references/types/interfaces/types.GetUploadedFileType"
   },
   {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.IAuthProvider/page.mdx",
+    "pathname": "/references/types/interfaces/types.IAuthProvider"
+  },
+  {
     "filePath": "/www/apps/resources/references/types/interfaces/types.IBigNumber/page.mdx",
     "pathname": "/references/types/interfaces/types.IBigNumber"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.IFulfillmentProvider/page.mdx",
+    "pathname": "/references/types/interfaces/types.IFulfillmentProvider"
   },
   {
     "filePath": "/www/apps/resources/references/types/interfaces/types.ILinkMigrationsPlanner/page.mdx",
@@ -22420,6 +22504,22 @@ export const filesMap = [
     "pathname": "/references/types/interfaces/types.IMessageAggregator"
   },
   {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.IPaymentProvider/page.mdx",
+    "pathname": "/references/types/interfaces/types.IPaymentProvider"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.ITaxProvider/page.mdx",
+    "pathname": "/references/types/interfaces/types.ITaxProvider"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.InitiatePaymentInput/page.mdx",
+    "pathname": "/references/types/interfaces/types.InitiatePaymentInput"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.InitiatePaymentOutput/page.mdx",
+    "pathname": "/references/types/interfaces/types.InitiatePaymentOutput"
+  },
+  {
     "filePath": "/www/apps/resources/references/types/interfaces/types.InputPrice/page.mdx",
     "pathname": "/references/types/interfaces/types.InputPrice"
   },
@@ -22440,6 +22540,14 @@ export const filesMap = [
     "pathname": "/references/types/interfaces/types.JoinerServiceConfigAlias"
   },
   {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.ListPaymentMethodsInput/page.mdx",
+    "pathname": "/references/types/interfaces/types.ListPaymentMethodsInput"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.ListPaymentMethodsOutput/page.mdx",
+    "pathname": "/references/types/interfaces/types.ListPaymentMethodsOutput"
+  },
+  {
     "filePath": "/www/apps/resources/references/types/interfaces/types.ListShippingOptionsForCartWorkflowInputDTO/page.mdx",
     "pathname": "/references/types/interfaces/types.ListShippingOptionsForCartWorkflowInputDTO"
   },
@@ -22456,6 +22564,14 @@ export const filesMap = [
     "pathname": "/references/types/interfaces/types.OrderWorkflowDTO"
   },
   {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.PaymentProviderContext/page.mdx",
+    "pathname": "/references/types/interfaces/types.PaymentProviderContext"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.PaymentProviderOutput/page.mdx",
+    "pathname": "/references/types/interfaces/types.PaymentProviderOutput"
+  },
+  {
     "filePath": "/www/apps/resources/references/types/interfaces/types.PricedShippingOptionDTO/page.mdx",
     "pathname": "/references/types/interfaces/types.PricedShippingOptionDTO"
   },
@@ -22466,6 +22582,14 @@ export const filesMap = [
   {
     "filePath": "/www/apps/resources/references/types/interfaces/types.ReceiveReturnItem/page.mdx",
     "pathname": "/references/types/interfaces/types.ReceiveReturnItem"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.RefundPaymentInput/page.mdx",
+    "pathname": "/references/types/interfaces/types.RefundPaymentInput"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.RefundPaymentOutput/page.mdx",
+    "pathname": "/references/types/interfaces/types.RefundPaymentOutput"
   },
   {
     "filePath": "/www/apps/resources/references/types/interfaces/types.RefundReason/page.mdx",
@@ -22488,6 +22612,22 @@ export const filesMap = [
     "pathname": "/references/types/interfaces/types.RemoteNestedExpands"
   },
   {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.RetrievePaymentInput/page.mdx",
+    "pathname": "/references/types/interfaces/types.RetrievePaymentInput"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.RetrievePaymentOutput/page.mdx",
+    "pathname": "/references/types/interfaces/types.RetrievePaymentOutput"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.SavePaymentMethodInput/page.mdx",
+    "pathname": "/references/types/interfaces/types.SavePaymentMethodInput"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.SavePaymentMethodOutput/page.mdx",
+    "pathname": "/references/types/interfaces/types.SavePaymentMethodOutput"
+  },
+  {
     "filePath": "/www/apps/resources/references/types/interfaces/types.SessionOptions/page.mdx",
     "pathname": "/references/types/interfaces/types.SessionOptions"
   },
@@ -22500,12 +22640,28 @@ export const filesMap = [
     "pathname": "/references/types/interfaces/types.StoreCreateReturnShipping"
   },
   {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.UpdateAccountHolderInput/page.mdx",
+    "pathname": "/references/types/interfaces/types.UpdateAccountHolderInput"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.UpdateAccountHolderOutput/page.mdx",
+    "pathname": "/references/types/interfaces/types.UpdateAccountHolderOutput"
+  },
+  {
     "filePath": "/www/apps/resources/references/types/interfaces/types.UpdateCartWorkflowInputDTO/page.mdx",
     "pathname": "/references/types/interfaces/types.UpdateCartWorkflowInputDTO"
   },
   {
     "filePath": "/www/apps/resources/references/types/interfaces/types.UpdateLineItemInCartWorkflowInputDTO/page.mdx",
     "pathname": "/references/types/interfaces/types.UpdateLineItemInCartWorkflowInputDTO"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.UpdatePaymentInput/page.mdx",
+    "pathname": "/references/types/interfaces/types.UpdatePaymentInput"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.UpdatePaymentOutput/page.mdx",
+    "pathname": "/references/types/interfaces/types.UpdatePaymentOutput"
   },
   {
     "filePath": "/www/apps/resources/references/types/interfaces/types.UpdatePriceListPriceWorkflowDTO/page.mdx",
@@ -22538,6 +22694,14 @@ export const filesMap = [
   {
     "filePath": "/www/apps/resources/references/types/interfaces/types.UploadStreamDescriptorType/page.mdx",
     "pathname": "/references/types/interfaces/types.UploadStreamDescriptorType"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.WebhookActionData/page.mdx",
+    "pathname": "/references/types/interfaces/types.WebhookActionData"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/interfaces/types.WebhookActionResult/page.mdx",
+    "pathname": "/references/types/interfaces/types.WebhookActionResult"
   },
   {
     "filePath": "/www/apps/resources/references/types/types/types.AddFulfillmentShippingOptionRulesWorkflowDTO/page.mdx",
@@ -22588,6 +22752,10 @@ export const filesMap = [
     "pathname": "/references/types/types/types.BigNumberValue"
   },
   {
+    "filePath": "/www/apps/resources/references/types/types/types.CalculatedShippingOptionPrice/page.mdx",
+    "pathname": "/references/types/types/types.CalculatedShippingOptionPrice"
+  },
+  {
     "filePath": "/www/apps/resources/references/types/types/types.CamelCapitalizer/page.mdx",
     "pathname": "/references/types/types/types.CamelCapitalizer"
   },
@@ -22618,6 +22786,10 @@ export const filesMap = [
   {
     "filePath": "/www/apps/resources/references/types/types/types.CreateFlatShippingOptionInputBase/page.mdx",
     "pathname": "/references/types/types/types.CreateFlatShippingOptionInputBase"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/types/types.CreateFulfillmentResult/page.mdx",
+    "pathname": "/references/types/types/types.CreateFulfillmentResult"
   },
   {
     "filePath": "/www/apps/resources/references/types/types/types.CreateProductVariantWorkflowInputDTO/page.mdx",
@@ -22680,6 +22852,10 @@ export const filesMap = [
     "pathname": "/references/types/types/types.FlowRunOptions"
   },
   {
+    "filePath": "/www/apps/resources/references/types/types/types.FulfillmentOption/page.mdx",
+    "pathname": "/references/types/types/types.FulfillmentOption"
+  },
+  {
     "filePath": "/www/apps/resources/references/types/types/types.FulfillmentStatus/page.mdx",
     "pathname": "/references/types/types/types.FulfillmentStatus"
   },
@@ -22714,6 +22890,10 @@ export const filesMap = [
   {
     "filePath": "/www/apps/resources/references/types/types/types.IsStringLiteral/page.mdx",
     "pathname": "/references/types/types/types.IsStringLiteral"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/types/types.ItemTaxCalculationLine/page.mdx",
+    "pathname": "/references/types/types/types.ItemTaxCalculationLine"
   },
   {
     "filePath": "/www/apps/resources/references/types/types/types.Join/page.mdx",
@@ -22832,6 +23012,26 @@ export const filesMap = [
     "pathname": "/references/types/types/types.PascalCaseParser"
   },
   {
+    "filePath": "/www/apps/resources/references/types/types/types.PaymentAccountHolderDTO/page.mdx",
+    "pathname": "/references/types/types/types.PaymentAccountHolderDTO"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/types/types.PaymentActions/page.mdx",
+    "pathname": "/references/types/types/types.PaymentActions"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/types/types.PaymentAddressDTO/page.mdx",
+    "pathname": "/references/types/types/types.PaymentAddressDTO"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/types/types.PaymentCustomerDTO/page.mdx",
+    "pathname": "/references/types/types/types.PaymentCustomerDTO"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/types/types.PaymentProviderInput/page.mdx",
+    "pathname": "/references/types/types/types.PaymentProviderInput"
+  },
+  {
     "filePath": "/www/apps/resources/references/types/types/types.PaymentStatus/page.mdx",
     "pathname": "/references/types/types/types.PaymentStatus"
   },
@@ -22912,6 +23112,10 @@ export const filesMap = [
     "pathname": "/references/types/types/types.SeparatorCaseParser"
   },
   {
+    "filePath": "/www/apps/resources/references/types/types/types.ShippingTaxCalculationLine/page.mdx",
+    "pathname": "/references/types/types/types.ShippingTaxCalculationLine"
+  },
+  {
     "filePath": "/www/apps/resources/references/types/types/types.SimpleProduct/page.mdx",
     "pathname": "/references/types/types/types.SimpleProduct"
   },
@@ -22946,6 +23150,10 @@ export const filesMap = [
   {
     "filePath": "/www/apps/resources/references/types/types/types.UpdatePromotionRulesWorkflowDTO/page.mdx",
     "pathname": "/references/types/types/types.UpdatePromotionRulesWorkflowDTO"
+  },
+  {
+    "filePath": "/www/apps/resources/references/types/types/types.ValidateFulfillmentDataContext/page.mdx",
+    "pathname": "/references/types/types/types.ValidateFulfillmentDataContext"
   },
   {
     "filePath": "/www/apps/resources/references/types/types/types.WordInCamelCase/page.mdx",

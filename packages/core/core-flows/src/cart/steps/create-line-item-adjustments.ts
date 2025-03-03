@@ -18,7 +18,7 @@ export interface CreateLineItemAdjustmentsCartStepInput {
 export const createLineItemAdjustmentsStepId = "create-line-item-adjustments"
 /**
  * This step creates line item adjustments in a cart, such as when a promotion is applied.
- * 
+ *
  * @example
  * createLineItemAdjustmentsStep({
  *   lineItemAdjustmentsToCreate: [
@@ -34,6 +34,11 @@ export const createLineItemAdjustmentsStep = createStep(
   createLineItemAdjustmentsStepId,
   async (data: CreateLineItemAdjustmentsCartStepInput, { container }) => {
     const { lineItemAdjustmentsToCreate = [] } = data
+
+    if (!lineItemAdjustmentsToCreate?.length) {
+      return new StepResponse([], [])
+    }
+
     const cartModuleService: ICartModuleService = container.resolve(
       Modules.CART
     )

@@ -124,7 +124,7 @@ export const addToCartWorkflow = createWorkflow(
           isCustomPrice: isDefined(item?.unit_price),
         }
 
-        if (variant && !input.unitPrice) {
+        if (variant && !isDefined(input.unitPrice)) {
           input.unitPrice = variant.calculated_price?.calculated_amount
         }
 

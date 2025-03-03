@@ -1,5 +1,5 @@
-import { Github, PlaySolid } from "@medusajs/icons"
-import { Prerequisites } from "docs-ui"
+import { Github, PlaySolid, EllipsisHorizontal } from "@medusajs/icons"
+import { Prerequisites, InlineIcon } from "docs-ui"
 
 export const metadata = {
   title: `Subscriptions Recipe`,
@@ -19,9 +19,11 @@ In this guide, you'll customize Medusa to implement subscription-based purchases
 4. Automatic subscription expiration tracking.
 5. Allow customers to view and cancel their subscriptions.
 
+This guide uses Stripe as an example to capture the subscription payments. You're free to use a different payment provider or implement your payment logic instead.
+
 <Note>
 
-This guide provides an example of an approach to implement digital products. You're free to choose a different approach using Medusa's framework.
+This guide provides an example of an approach to implement subscriptions. You're free to choose a different approach using Medusa's framework.
 
 </Note>
 
@@ -35,7 +37,7 @@ This guide provides an example of an approach to implement digital products. You
   {
     href: "https://res.cloudinary.com/dza7lstvk/raw/upload/v1721125608/OpenApi/Subscriptions_OpenApi_b371x4.yml",
     title: "OpenApi Specs for Postman",
-    text: "Imported this OpenApi Specs file into tools like Postman.",
+    text: "Import this OpenApi Specs file into tools like Postman.",
     icon: PlaySolid,
   },
 ]} />
@@ -75,11 +77,11 @@ The Medusa application is composed of a headless Node.js server and an admin das
 
 </Note>
 
-Once the installation finishes successfully, the Medusa Admin dashboard will open with a form to create a new user. Enter the user's credential and submit the form.
+Once the installation finishes successfully, the Medusa Admin dashboard will open with a form to create a new user. Enter the user's credentials and submit the form.
 
-Afterwards, you can login with the new user and explore the dashboard. The Next.js storefront is also running at `http://localhost:8000`.
+Afterwards, you can log in with the new user and explore the dashboard. The Next.js storefront is also running at `http://localhost:8000`.
 
-<Note title="Ran to Errors?">
+<Note title="Ran into Errors?">
 
 Check out the [troubleshooting guides](../../../../troubleshooting/create-medusa-app-errors/page.mdx) for help.
 
@@ -87,7 +89,86 @@ Check out the [troubleshooting guides](../../../../troubleshooting/create-medusa
 
 ---
 
-## Step 2: Create Subscription Module
+## Step 2: Configure Stripe Module Provider
+
+As mentioned in the introduction, you'll use Stripe as the payment provider for the subscription payments. In this step, you'll configure the [Stripe Module Provider](../../../../commerce-modules/payment/payment-provider/stripe/page.mdx) in your Medusa application.
+
+<Prerequisites items={[
+  {
+    text: "Stripe account",
+    link: "https://stripe.com/"
+  },
+  {
+    text: "Stripe Secret API Key",
+    link: "https://support.stripe.com/questions/locate-api-keys-in-the-dashboard"
+  },
+]} />
+
+To add the Stripe Module Provider to the Medusa configurations, add the following to the `medusa-config.ts` file:
+
+```ts title="medusa-config.ts"
+module.exports = defineConfig({
+  // ...
+  modules: [
+    {
+      resolve: "@medusajs/medusa/payment",
+      options: {
+        providers: [
+          {
+            resolve: "@medusajs/medusa/payment-stripe",
+            id: "stripe",
+            options: {
+              apiKey: process.env.STRIPE_API_KEY,
+            },
+          },
+        ],
+      },
+    },
+  ],
+})
+```
+
+The Medusa configurations accept a `modules` property to add modules to your application. You'll learn more about modules in the next section.
+
+You add the Stripe Module Provider to the [Payment Module](../../../../commerce-modules/payment/page.mdx)'s options. Learn more about these options in the [Payment Module's options documentation](../../../../commerce-modules/payment/module-options/page.mdx).
+
+You also pass an `apiKey` option to the Stripe Module Provider and set its value to an environment variable. So, add the following to your `.env` file:
+
+```plain
+STRIPE_API_KEY=sk_test_51J...
+```
+
+Where `sk_test_51J...` is your Stripe Secret API Key.
+
+<Note>
+
+Learn more about other Stripe options and configurations in the [Stripe Module Provider documentation](../../../../commerce-modules/payment/payment-provider/stripe/page.mdx).
+
+</Note>
+
+### Enable Stripe in Regions
+
+To allow customers to use Stripe during checkout, you must enable it in at least one region. Customers can only choose from payment providers available in their region. You can enable the payment provider in the Medusa Admin dashboard.
+
+To do that, start the Medusa application:
+
+```bash npm2yarn
+npm run dev
+```
+
+Then, open the dashboard at `localhost:9000/app`. After you log in:
+
+1. Go to Settings -> Regions.
+2. Click on a region to edit.
+3. Click on the <InlineIcon Icon={EllipsisHorizontal} alt="three-dots" /> icon at the top right of the first section.
+4. In the side window that opens, edit the region's payment provider to choose "Stripe (STRIPE)". 
+5. Once you're done, click the Save button.
+
+![Choose "Stripe (STRIPE)" in the payment provider dropdown](https://res.cloudinary.com/dza7lstvk/image/upload/v1740654408/Medusa%20Resources/Screenshot_2025-02-27_at_1.06.12_PM_esql1c.png)
+
+---
+
+## Step 3: Create Subscription Module
 
 Medusa creates commerce features in modules. For example, product features and data models are created in the Product Module.
 
@@ -201,6 +282,7 @@ Finally, add the module into `medusa-config.ts`:
 module.exports = defineConfig({
   // ...
   modules: [
+    // ...
     {
       resolve: "./src/modules/subscription",
     },
@@ -216,7 +298,7 @@ module.exports = defineConfig({
 
 ---
 
-## Step 3: Define Links
+## Step 4: Define Links
 
 Modules are isolated in Medusa, making them reusable, replaceable, and integrable in your application without side effects.
 
@@ -299,7 +381,7 @@ This defines a list link to the `Order` data model since a subscription has mult
 
 ---
 
-## Step 4: Run Migrations
+## Step 5: Run Migrations
 
 To create a table for the `Subscription` data model in the database, start by generating the migrations for the Subscription Module with the following command:
 
@@ -317,7 +399,7 @@ npx medusa db:migrate
 
 ---
 
-## Step 5: Override createSubscriptions Method in Service
+## Step 6: Override createSubscriptions Method in Service
 
 Since the Subscription Module’s main service extends the service factory, it has a generic `createSubscriptions` method that creates one or more subscriptions.
 
@@ -486,7 +568,7 @@ This method is used in the next step.
 
 ---
 
-## Step 6: Create Subscription Workflow
+## Step 7: Create Subscription Workflow
 
 To implement and expose a feature that manipulates data, you create a workflow that uses services to implement the functionality, then create an API route that executes that workflow.
 
@@ -631,8 +713,8 @@ Create the file `src/workflows/create-subscription/index.ts` with the following 
 export const createSubscriptionWorkflowHighlights = [
   ["26", "completeCartWorkflow", "Complete the cart and create the order."],
   ["32", "useQueryGraphStep", "Retrieve the order's details."],
-  ["43", "createSubscriptionStep", "Create the subscription."],
-  ["50", "createRemoteLinkStep", "Create the links returned by the previous step."]
+  ["87", "createSubscriptionStep", "Create the subscription."],
+  ["94", "createRemoteLinkStep", "Create the links returned by the previous step."]
 ]
 
 ```ts title="src/workflows/create-subscription/index.ts" highlights={createSubscriptionWorkflowHighlights} collapsibleLines="1-13" expandMoreLabel="Show Imports"
@@ -669,7 +751,51 @@ const createSubscriptionWorkflow = createWorkflow(
 
     const { data: orders } = useQueryGraphStep({
       entity: "order",
-      fields: ["*", "id", "customer_id"],
+      fields: [
+        "id",
+        "status",
+        "summary",
+        "currency_code",
+        "customer_id",
+        "display_id",
+        "region_id",
+        "email",
+        "total",
+        "subtotal",
+        "tax_total",
+        "discount_total",
+        "discount_subtotal",
+        "discount_tax_total",
+        "original_total",
+        "original_tax_total",
+        "item_total",
+        "item_subtotal",
+        "item_tax_total",
+        "original_item_total",
+        "original_item_subtotal",
+        "original_item_tax_total",
+        "shipping_total",
+        "shipping_subtotal",
+        "shipping_tax_total",
+        "original_shipping_tax_total",
+        "original_shipping_subtotal",
+        "original_shipping_total",
+        "created_at",
+        "updated_at",
+        "credit_lines.*",
+        "items.*",
+        "items.tax_lines.*",
+        "items.adjustments.*",
+        "items.detail.*",
+        "items.variant.*",
+        "items.variant.product.*",
+        "shipping_address.*",
+        "billing_address.*",
+        "shipping_methods.*",
+        "shipping_methods.tax_lines.*",
+        "shipping_methods.adjustments.*",
+        "payment_collections.*",
+      ],
       filters: {
         id,
       },
@@ -700,7 +826,7 @@ export default createSubscriptionWorkflow
 This workflow accepts the cart’s ID, along with the subscription details. It executes the following steps:
 
 1. `completeCartWorkflow` from `@medusajs/medusa/core-flows` that completes a cart and creates an order.
-2. `useQueryGraphStep` from `@medusajs/medusa/core-flows` to retrieve the order's details.
+2. `useQueryGraphStep` from `@medusajs/medusa/core-flows` to retrieve the order's details. [Query](!docs!/learn/fundamentals/module-links/query) is a tool that allows you to retrieve data across modules.
 3. `createSubscriptionStep`, which is the step you created previously.
 4. `createRemoteLinkStep` from `@medusajs/medusa/core-flows`, which accepts links to create. These links are in the `linkDefs` array returned by the previous step.
 
@@ -714,21 +840,23 @@ The workflow returns the created subscription and order.
 
 ---
 
-## Step 7: Override Complete Cart API Route
+## Step 8: Custom Complete Cart API Route
 
-To expose custom commerce features to frontend applications, such as the Medusa Admin dashboard or a storefront, you expose an endpoint by creating an API route.
+To create a subscription when a customer completes their purchase, you need to expose an endpoint that executes the subscription workflow. To do that, you'll create an API route.
 
-In this step, you’ll change what happens when the [Complete Cart API route](!api!/store#carts_postcartsidcomplete) is used to complete the customer’s purchase and place an order.
+An [API Route](!docs!/learn/fundamentals/api-routes) is an endpoint that exposes commerce features to external applications and clients, such as storefronts.
 
-Create the file `src/api/store/carts/[id]/complete/route.ts` with the following content:
+In this step, you’ll create a custom API route similar to the [Complete Cart API route](!api!/store#carts_postcartsidcomplete) that uses the workflow you previously created to complete the customer's purchase and create a subscription.
+
+Create the file `src/api/store/carts/[id]/subscribe/route.ts` with the following content:
 
 export const completeCartHighlights = [
   ["17", "graph", "Retrieve the cart to retrieve the subscription details from the `metadata`."],
-  ["31", "", "If the subscription data isn't set in the cart's `metadata`, throw an error"],
-  ["38", "createSubscriptionWorkflow", "Execute the workflow created in the previous step."]
+  ["29", "", "If the subscription data isn't set in the cart's `metadata`, throw an error"],
+  ["36", "createSubscriptionWorkflow", "Execute the workflow created in the previous step."]
 ]
 
-```ts title="src/api/store/carts/[id]/complete/route.ts" highlights={completeCartHighlights} collapsibleLines="1-10" expandMoreLabel="Show Imports"
+```ts title="src/api/store/carts/[id]/subscribe/route.ts" highlights={completeCartHighlights} collapsibleLines="1-10" expandMoreLabel="Show Imports"
 import { 
   MedusaRequest, 
   MedusaResponse,
@@ -783,22 +911,86 @@ export const POST = async (
 }
 ```
 
-This overrides the API route at `/store/carts/[id]/complete`.
+Since the file exports a `POST` function, you're exposing a `POST` API route at `/store/carts/[id]/subscribe`.
 
-In the route handler, you retrieve the cart to access it's `metadata` property. If the subscription details aren't stored there, you throw an error.
+In the route handler function, you retrieve the cart to access it's `metadata` property. If the subscription details aren't stored there, you throw an error.
 
 Then, you use the `createSubscriptionWorkflow` you created to create the order, and return the created order and subscription in the response.
 
-### Storefront Customization
+In the next step, you'll customize the Next.js storefront, allowing you to test out the subscription feature.
 
-In this section, you'll customize the checkout flow in the [Next.js Starter storefront](../../../../nextjs-starter/page.mdx), which you installed in the first step, to include a subscription form.
+### Further Reads
 
-After installation, create the file `src/modules/checkout/components/subscriptions/index.tsx` with the following content:
+- [How to Create an API Route](!docs!/learn/fundamentals/api-routes)
 
-```tsx title="src/modules/checkout/components/subscriptions/index.tsx" badgeLabel="Storefront" badgeColor="orange" collapsibleLines="1-13" expandMoreLabel="Show Imports"
+---
+
+## Intermission: Payment Flow Overview
+
+Before continuing with the customizations, you must understand the payment changes you need to make to support subscriptions. In this guide, you'll get a general overview, but you can refer to the [Payment in Storefront documentation](../../../../storefront-development/checkout/payment/page.mdx) for more details.
+
+By default, the checkout flow requires you to create a [payment collection](../../../../commerce-modules/payment/payment-collection/page.mdx), then a [payment session](../../../../commerce-modules/payment/payment-session/page.mdx) in that collection. When you create the payment session, that subsequently performs the necessary action to initialize the payment in the payment provider. For example, it creates a payment intent in Stripe.
+
+![Diagram showcasing payment flow overview](https://res.cloudinary.com/dza7lstvk/image/upload/v1740657136/Medusa%20Resources/subscriptions-stripe_ycw4ig.jpg)
+
+To support subscriptions, you need to support capturing the payment each time the subscription renews. When creating the payment session using the [Initialize Payment Session API route](!api!/store#payment-collections_postpaymentcollectionsidpaymentsessions), you must pass the data that your payment provider requires to support capturing the payment again in the future. You can pass the data that the provider requires in the `data` property.
+
+<Note title="Tip">
+
+If you're using a custom payment provider, you can handle that additional data in the [initiatePayment method](!resources!/references/payment/provider#initiatepayment) of your provider's service.
+
+</Note>
+
+When you create the payment session, Medusa creates an account holder for the customer. An account holder represents a customer's saved payment information, including saved methods, in a third-party provider and may hold data from that provider. Learn more in the [Account Holder](../../../../commerce-modules/payment/account-holder/page.mdx) documentation.
+
+The account holder allows you to retrieve the saved payment method and use it to capture the payment when the subscription renews. You'll see how this works later when you implement the logic to renew the subscription.
+
+---
+
+## Step 9: Add Subscriptions to Next.js Storefront
+
+In this step, you'll customize the checkout flow in the [Next.js Starter storefront](../../../../nextjs-starter/page.mdx), which you installed in the first step, to:
+
+1. Add a subscription step to the checkout flow.
+2. Pass the additional data that Stripe requires to later capture the payment when the subscription renews, as explained in the [Payment Flow Overview](#intermission-payment-flow-overview).
+
+### Add Subscription Step
+
+Start by adding the function to update the subscription data in the cart. Add to the file `src/lib/data/cart.ts` the following:
+
+```ts title="src/lib/data/cart.ts" badgeLabel="Storefront" badgeColor="orange"
+export enum SubscriptionInterval {
+  MONTHLY = "monthly",
+  YEARLY = "yearly"
+}
+
+export async function updateSubscriptionData(
+  subscription_interval: SubscriptionInterval,
+  subscription_period: number
+) {
+  const cartId = getCartId()
+  
+  if (!cartId) {
+    throw new Error("No existing cart found when placing an order")
+  }
+
+  await updateCart({
+    metadata: {
+      subscription_interval,
+      subscription_period,
+    },
+  })
+  revalidateTag("cart")
+}
+```
+
+This updates the cart's `metadata` with the subscription details.
+
+Then, you'll add the subscription form that shows as part of the checkout to select the subscription interval and period. Create the file `src/modules/checkout/components/subscriptions/index.tsx` with the following content:
+
+```tsx title="src/modules/checkout/components/subscriptions/index.tsx" badgeLabel="Storefront" badgeColor="orange" collapsibleLines="1-12" expandMoreLabel="Show Imports"
 "use client"
 
-import { StoreCart } from "@medusajs/framework/types"
 import { Button, clx, Heading, Text } from "@medusajs/ui"
 import { CheckCircleSolid } from "@medusajs/icons"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
@@ -883,34 +1075,36 @@ const SubscriptionForm = () => {
       </div>
       <div>
         <div className={isOpen ? "block" : "hidden"}>
-          <NativeSelect 
-            placeholder="Interval" 
-            value={interval} 
-            onChange={(e) => 
-              setInterval(e.target.value as SubscriptionInterval)
-            }
-            required
-            autoComplete="interval"
-          >
-            {Object.values(SubscriptionInterval).map(
-              (intervalOption, index) => (
-                <option key={index} value={intervalOption}>
-                  {capitalize(intervalOption)}
-                </option>
-              )
-            )}
-          </NativeSelect>
-          <Input
-            label="Period"
-            name="period"
-            autoComplete="period"
-            value={period}
-            onChange={(e) => 
-              setPeriod(parseInt(e.target.value))
-            }
-            required
-            type="number"
-          />
+          <div className="flex flex-col gap-4">
+            <NativeSelect 
+              placeholder="Interval" 
+              value={interval} 
+              onChange={(e) => 
+                setInterval(e.target.value as SubscriptionInterval)
+              }
+              required
+              autoComplete="interval"
+            >
+              {Object.values(SubscriptionInterval).map(
+                (intervalOption, index) => (
+                  <option key={index} value={intervalOption}>
+                    {capitalize(intervalOption)}
+                  </option>
+                )
+              )}
+            </NativeSelect>
+            <Input
+              label="Period"
+              name="period"
+              autoComplete="period"
+              value={period}
+              onChange={(e) => 
+                setPeriod(parseInt(e.target.value))
+              }
+              required
+              type="number"
+            />
+          </div>
 
           <Button
             size="large"
@@ -919,7 +1113,7 @@ const SubscriptionForm = () => {
             isLoading={isLoading}
             disabled={!interval || !period}
           >
-            Continue to review
+            Continue to delivery
           </Button>
         </div>
       </div>
@@ -931,41 +1125,9 @@ const SubscriptionForm = () => {
 export default SubscriptionForm
 ```
 
-This adds a component that displays a form to choose the subscription's interval and period during checkout.
+This adds a component that displays a form to choose the subscription's interval and period during checkout. When the customer submits the form, you use the `updateSubscriptionData` function that sends a request to the Medusa application to update the cart with the subscription details.
 
-In the component, you use a `updateSubscriptionData` function that sends a request to the Medusa application to update the cart.
-
-To implement it, add to the file `src/lib/data/cart.ts` the following:
-
-```ts title="src/lib/data/cart.ts" badgeLabel="Storefront" badgeColor="orange"
-// other imports...
-import { SubscriptionInterval } from "../../modules/checkout/components/subscriptions"
-
-// other functions...
-
-export async function updateSubscriptionData(
-  subscription_interval: SubscriptionInterval,
-  subscription_period: number
-) {
-  const cartId = getCartId()
-  
-  if (!cartId) {
-    throw new Error("No existing cart found when placing an order")
-  }
-
-  await updateCart({
-    metadata: {
-      subscription_interval,
-      subscription_period,
-    },
-  })
-  revalidateTag("cart")
-}
-```
-
-This updates the cart's `metadata` with the subscription details.
-
-Next, change the last line of the `setAddresses` function in `src/lib/data/cart.ts` to redirect to the subscription step once the customer enters their address:
+Next, you want the subscription step to show after the address step. So, change the last line of the `setAddresses` function in `src/lib/data/cart.ts` to redirect to the subscription step once the customer enters their address:
 
 ```ts title="src/lib/data/cart.ts" badgeLabel="Storefront" badgeColor="orange"
 export async function setAddresses(currentState: unknown, formData: FormData) {
@@ -976,7 +1138,7 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
 }
 ```
 
-Finally, add the `SubscriptionForm` in `src/modules/checkout/templates/checkout-form/index.tsx` after the `Addresses` wrapper component:
+And to show the subscription form during checkout, add the `SubscriptionForm` in `src/modules/checkout/templates/checkout-form/index.tsx` after the `Addresses` wrapper component:
 
 ```tsx title="src/modules/checkout/templates/checkout-form/index.tsx" badgeLabel="Storefront" badgeColor="orange"
 // other imports...
@@ -1004,7 +1166,28 @@ export default async function CheckoutForm({
 }
 ```
 
-## Test Cart Completion and Subscription Creation
+### Pass Additional Data to Payment Provider
+
+As explained in the [Payment Flow Overview](#intermission-payment-flow-overview), you need to pass additional data to the payment provider to support subscriptions.
+
+For Stripe, you need to pass the `setup_future_usage` property in the `data` object when you create the payment session. This property allows you to capture the payment in the future, as explained in [Stripe's documentation](https://docs.stripe.com/payments/payment-intents#future-usage).
+
+To pass this data, you'll make changes in the `src/modules/checkout/components/payment/index.tsx` file. In this file, the `initiatePaymentSession` is used in two places. In each of them, pass the `data` property as follows:
+
+```tsx title="src/modules/checkout/components/payment/index.tsx" badgeLabel="Storefront" badgeColor="orange"
+await initiatePaymentSession(cart, {
+  provider_id: method,
+  data: {
+    setup_future_usage: "off_session",
+  },
+})
+```
+
+If you're integrating with a custom payment provider, you can instead pass the required data for that provider in the `data` object.
+
+The payment method can now be used later to capture the payment when the subscription renews.
+
+### Test Cart Completion and Subscription Creation
 
 To test out the cart completion flow:
 
@@ -1022,13 +1205,9 @@ npm run dev
 
 3. Add a product to the cart and place an order. During checkout, you'll see a Subscription Details step to fill out the interval and period.
 
-### Further Reads
-
-- [How to Create an API Route](!docs!/learn/fundamentals/api-routes)
-
 ---
 
-## Step 8: Add Admin API Routes for Subscription
+## Step 10: Add Admin API Routes for Subscription
 
 In this step, you’ll add two API routes for admin users:
 
@@ -1037,17 +1216,19 @@ In this step, you’ll add two API routes for admin users:
 
 ### List Subscriptions Admin API Route
 
-Create the file `src/api/admin/subscriptions/route.ts` with the following content:
+The list subscriptions API route should allow clients to retrieve subscriptions with pagination. An API route can be configured to accept pagination fields, such as `limit` and `offset`, then use them with [Query](!docs!/learn/fundamentals/module-links/query) to paginate the retrieved data.
+
+You'll start with the API route. To create it, create the file `src/api/admin/subscriptions/route.ts` with the following content:
 
 export const listSubscriptionsAdminHighlight = [
-  ["21", "graph", "Retrieve the subscriptions with their orders and customer."]
+  ["16", "graph", "Retrieve the subscriptions with their orders and customer."]
 ]
 
 ```ts title="src/api/admin/subscriptions/route.ts" highlights={listSubscriptionsAdminHighlight}
 import { 
   AuthenticatedMedusaRequest, 
   MedusaResponse,
-} from "@medusajs/framework/http"
+} from "@medusajs/framework"
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils"
 
 export const GET = async (
@@ -1055,30 +1236,13 @@ export const GET = async (
   res: MedusaResponse
 ) => {
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
-
-  const {
-    limit = 20,
-    offset = 0,
-  } = req.validatedQuery || {}
-
+  
   const { 
     data: subscriptions,
-    metadata: { count, take, skip } = {},
+    metadata: { count, take, skip },
   } = await query.graph({
     entity: "subscription",
-    fields: [
-      "*",
-      "orders.*",
-      "customer.*",
-      ...(req.validatedQuery?.fields.split(",") || []),
-    ],
-    pagination: {
-      skip: offset,
-      take: limit,
-      order: {
-        subscription_date: "DESC",
-      },
-    },
+    ...req.queryConfig,
   })
 
   res.json({
@@ -1090,15 +1254,76 @@ export const GET = async (
 }
 ```
 
-This adds a `GET` API route at `/admin/subscriptions`.
+This adds a `GET` API route at `/admin/subscriptions`. In the route handler, you use Query to retrieve the subscriptions. Notice that you pass the `req.queryConfig` object to the `query.graph` method. This object contains the pagination fields, such as `limit` and `offset`, which are combined from the configurations you'll add in the middleware, and the optional query parameters in the request.
 
-In the route handler, you use Query to retrieve a subscription with its orders and customer. 
+Then, you return the subscriptions, along with the:
 
-The API route accepts pagination parameters to paginate the subscription list. It returns the subscriptions with pagination parameters in the response.
+- `count`: The total number of subscriptions.
+- `limit`: The maximum number of subscriptions returned.
+- `offset`: The number of subscriptions skipped before retrieving the subscriptions.
+
+These fields are useful for clients to paginate the subscriptions.
+
+### Add Query Configuration Middleware
+
+To configure the pagination and retrieved fields within the route handler, and to allow passing query parameters that change these configurations in the request, you need to add the `validateAndTransformQuery` [middleware](!docs!/learn/fundamentals/api-routes/middlewares) to the route.
+
+To add a middleware, create the file `src/api/middlewares.ts` with the following content:
+
+```ts title="src/api/middlewares.ts"
+import { 
+  validateAndTransformQuery,
+  defineMiddlewares,
+} from "@medusajs/framework/http"
+import { createFindParams } from "@medusajs/medusa/api/utils/validators"
+
+export const GetCustomSchema = createFindParams()
+
+export default defineMiddlewares({
+  routes: [
+    {
+      matcher: "/admin/subscriptions",
+      method: "GET",
+      middlewares: [
+        validateAndTransformQuery(
+          GetCustomSchema,
+          {
+            defaults: [
+              "id",
+              "subscription_date",
+              "expiration_date",
+              "status",
+              "metadata.*",
+              "orders.*",
+              "customer.*",
+            ],
+            isList: true,
+          }
+        ),
+      ],
+    },
+  ],
+})
+```
+
+You add the `validateAndTransformQuery` middleware to `GET` requests sent to routes starting with `/admin/subscriptions`. This middleware accepts the following parameters:
+
+- A validation schema indicating which query parameters are accepted. You create the schema with [Zod](https://zod.dev/). Medusa has a createFindParams utility that generates a Zod schema accepting four query parameters:
+    - `fields`: The fields and relations to retrieve in the returned resources.
+    - `offset`: The number of items to skip before retrieving the returned items.
+    - `limit`: The maximum number of items to return.
+    - `order`: The fields to order the returned items by in ascending or descending order.
+- A Query configuration object. It accepts the following properties:
+    - `defaults`: An array of default fields and relations to retrieve in each resource.
+    - `isList`: A boolean indicating whether a list of items are returned in the response.
+
+The middleware combines your default configurations with the query parameters in the request to determine the fields to retrieve and the pagination settings.
+
+Refer to the [Request Query Configuration](!docs!/learn/fundamentals/module-links/query#request-query-configurations) documentation to learn more about this middleware and the query configurations.
 
 ### Get Subscription Admin API Route
 
-Create the file `src/api/admin/subscriptions/[id]/route.ts` with the following content:
+Next, you'll add the API route to retrieve a single subscription. So, create the file `src/api/admin/subscriptions/[id]/route.ts` with the following content:
 
 export const getSubscriptionsAdminHighlight = [
   ["13", "graph", "Retrieve the subscription with its orders and customer."]
@@ -1108,7 +1333,7 @@ export const getSubscriptionsAdminHighlight = [
 import { 
   AuthenticatedMedusaRequest, 
   MedusaResponse,
-} from "@medusajs/framework/http"
+} from "@medusajs/framework"
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils"
 
 export const GET = async (
@@ -1123,7 +1348,6 @@ export const GET = async (
       "*",
       "orders.*",
       "customer.*",
-      ...(req.validatedQuery?.fields.split(",") || []),
     ],
     filters: {
       id: [req.params.id],
@@ -1140,11 +1364,17 @@ This adds a `GET` API route at `/admin/subscriptions/[id]`, where `[id]` is the 
 
 In the route handler, you retrieve a subscription by its ID using Query and return it in the response.
 
-In the next section, you’ll extend the Medusa admin and use these API routes to show the subscriptions.
+<Note title="Tip">
+
+You can also use Query configuration as explained for the previous route.
+
+</Note>
+
+In the next section, you’ll extend the Medusa Admin and use these API routes to show the subscriptions.
 
 ---
 
-## Step 9: Extend Admin
+## Step 11: Extend Admin
 
 The Medusa Admin is customizable, allowing you to inject widgets into existing pages or add UI routes to create new pages.
 
@@ -1190,102 +1420,122 @@ export type SubscriptionData = {
 
 ```
 
+You define types for the subscription status and interval, as well as a `SubscriptionData` type that represents the subscription data. The `SubscriptionData` type includes the subscription's ID, status, interval, dates, metadata, and related orders and customer. You'll use these types for the subscriptions retrieved from the server.
+
+### Configure JS SDK
+
+Medusa provides a [JS SDK](../../../../js-sdk/page.mdx) that facilitates sending requests to the server. You can use this SDK in any JavaScript client-side application, including your admin customizations.
+
+To configure the JS SDK, create the file `src/admin/lib/sdk.ts` with the following content:
+
+```ts title="src/admin/lib/sdk.ts"
+import Medusa from "@medusajs/js-sdk"
+
+export const sdk = new Medusa({
+  baseUrl: import.meta.env.VITE_BACKEND_URL || "/",
+  debug: import.meta.env.DEV,
+  auth: {
+    type: "session",
+  },
+})
+```
+
+This initializes the SDK, setting the following options:
+
+- `baseUrl`: The URL of the Medusa server. You use the Vite environment variable `VITE_BACKEND_URL`.
+- `debug`: A boolean indicating whether to log debug information. You use the Vite environment variable `DEV`.
+- `auth`: An object indicating the authentication type. You use the session authentication type, which is the recommended approach for admin customizations.
+
+Learn more about other customizations in the [JS SDK documentation](../../../../js-sdk/page.mdx).
+
 ### Create Subscriptions List UI Route
 
-To create the subscriptions list UI route, create the file `src/admin/routes/subscriptions/page.tsx` with the following content:
+You'll now create the subscriptions list UI route. Since you'll show the subscriptions in a table, you'll use the [DataTable component](!ui!/components/data-table) from Medusa UI. It facilitates displaying data in a tabular format with sorting, filtering, and pagination.
+
+Start by creating the file `src/admin/routes/subscriptions/page.tsx` with the following content:
 
 export const list1Highlights = [
-  ["9", "subscriptions", "The subscriptions list to show the admin."],
-  ["15", "getBadgeColor", "Get the color to be used for the status's badge."],
-  ["28", "getStatusTitle", "Capitalize the status for the text shown in the status's badge."],
-  ["88", "label", "Show a sidebar item to access this UI route."]
+  ["10", "getBadgeColor", "Get the color to be used for the status's badge."],
+  ["23", "getStatusTitle", "Capitalize the status for the text shown in the status's badge."],
+  ["28", "columnHelper", "Prepare the column creation utility."],
+  ["30", "columns", "Define the columns for the data table."],
+  ["71", "SubscriptionsPage", "Define the component that shows the UI route's content."],
+  ["75", "config", "Export configurations to show the UI route in the sidebar."]
 ]
 
-```tsx title="src/admin/routes/subscriptions/page.tsx" highlights={list1Highlights} collapsibleLines="1-7" expandMoreLabel="Show Imports"
+```tsx title="src/admin/routes/subscriptions/page.tsx" highlights={list1Highlights} collapsibleLines="1-9" expandMoreLabel="Show Imports"
 import { defineRouteConfig } from "@medusajs/admin-sdk"
 import { ClockSolid } from "@medusajs/icons"
-import { Container, Heading, Table, Badge } from "@medusajs/ui"
-import { useState } from "react"
+import { Container, Heading, Badge, createDataTableColumnHelper, useDataTable, DataTablePaginationState, DataTable } from "@medusajs/ui"
+import { useMemo, useState } from "react"
 import { SubscriptionData, SubscriptionStatus } from "../../types"
+import { useQuery } from "@tanstack/react-query"
+import { sdk } from "../../lib/sdk"
 import { Link } from "react-router-dom"
 
+const getBadgeColor = (status: SubscriptionStatus) => {
+  switch(status) {
+    case SubscriptionStatus.CANCELED:
+      return "orange"
+    case SubscriptionStatus.FAILED:
+      return "red"
+    case SubscriptionStatus.EXPIRED:
+      return "grey"
+    default:
+      return "green"
+  }
+}
+
+const getStatusTitle = (status: SubscriptionStatus) => {
+  return status.charAt(0).toUpperCase() + 
+    status.substring(1)
+}
+
+const columnHelper = createDataTableColumnHelper<SubscriptionData>()
+
+const columns = [
+  columnHelper.accessor("id", {
+    header: "#",
+    cell: ({ getValue }) => {
+      return (
+        <Link to={`/subscriptions/${getValue()}`}>
+          {getValue()}
+        </Link>
+      )
+    },
+  }),
+  columnHelper.accessor("metadata.main_order_id", {
+    header: "Main Order",
+  }),
+  columnHelper.accessor("customer.email", {
+    header: "Customer",
+  }),
+  columnHelper.accessor("subscription_date", {
+    header: "Subscription Date",
+    cell: ({ getValue }) => {
+      return getValue().toLocaleString()
+    },
+  }),
+  columnHelper.accessor("expiration_date", {
+    header: "Expiry Date",
+    cell: ({ getValue }) => {
+      return getValue().toLocaleString()
+    },
+  }),
+  columnHelper.accessor("status", {
+    header: "Status",
+    cell: ({ getValue }) => {
+      return (
+        <Badge color={getBadgeColor(getValue())}>
+          {getStatusTitle(getValue())}
+        </Badge>
+      )
+    },
+  }),
+]
+
 const SubscriptionsPage = () => {
-  const [subscriptions, setSubscriptions] = useState<
-    SubscriptionData[]
-  >([])
-  
-  // TODO add pagination + fetch subscriptions
-
-  const getBadgeColor = (status: SubscriptionStatus) => {
-    switch(status) {
-      case SubscriptionStatus.CANCELED:
-        return "orange"
-      case SubscriptionStatus.FAILED:
-        return "red"
-      case SubscriptionStatus.EXPIRED:
-        return "grey"
-      default:
-        return "green"
-    }
-  }
-  
-  const getStatusTitle = (status: SubscriptionStatus) => {
-    return status.charAt(0).toUpperCase() + 
-      status.substring(1)
-  }
-
-  return (
-    <Container>
-      <Heading level="h1">Subscriptions</Heading>
-      <Table>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>#</Table.HeaderCell>
-            <Table.HeaderCell>Main Order</Table.HeaderCell>
-            <Table.HeaderCell>Customer</Table.HeaderCell>
-            <Table.HeaderCell>Subscription Date</Table.HeaderCell>
-            <Table.HeaderCell>Expiry Date</Table.HeaderCell>
-            <Table.HeaderCell>Status</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {subscriptions.map((subscription) => (
-            <Table.Row key={subscription.id}>
-              <Table.Cell>
-                <Link to={`/subscriptions/${subscription.id}`}>
-                {subscription.id}
-                </Link>
-              </Table.Cell>
-              <Table.Cell>
-                <Link to={`/orders/${subscription.metadata?.main_order_id}`}>
-                  View Order
-                </Link>
-              </Table.Cell>
-              <Table.Cell>
-                {subscription.customer && (
-                  <Link to={`/customers/${subscription.customer.id}`}>
-                    {subscription.customer.email}
-                  </Link>
-                )}
-              </Table.Cell>
-              <Table.Cell>
-                {(new Date(subscription.subscription_date)).toDateString()}
-              </Table.Cell>
-              <Table.Cell>
-              {(new Date(subscription.expiration_date)).toDateString()}
-              </Table.Cell>
-              <Table.Cell>
-                <Badge color={getBadgeColor(subscription.status)}>
-                  {getStatusTitle(subscription.status)}
-                </Badge>
-              </Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
-      {/* TODO add pagination */}
-    </Container>
-  )
+  // TODO add implementation
 }
 
 export const config = defineRouteConfig({
@@ -1296,132 +1546,75 @@ export const config = defineRouteConfig({
 export default SubscriptionsPage
 ```
 
-This creates a React component that displays a table of subscriptions to the admin. It also adds a new “Subscriptions” sidebar item to access the page.
+First, you define two helper functions: `getBadgeColor` to get the color for the status badge, and `getStatusTitle` to capitalize the status for the badge text.
 
-To fetch the subscriptions from the API route created in the previous step, replace the first `TODO` with the following:
+Then, you use the `createDataTableColumnHelper` utility to create a column helper. This utility simplifies defining columns for the data table. You define the columns for the data table using the helper, specifying the accessor, header, and cell for each column.
 
-export const list2Highlights = [
-  ["7", "currentPage", "The current page number"],
-  ["8", "pageLimit", "The number of subscriptions to retrieve per page."],
-  ["9", "count", "The total count of subscriptions."],
-  ["10", "pagesCount", "The number of pages based on `count` and `pageLimit`."],
-  ["13", "canNextPage", "Returns whether there’s a next page based on whether `currentPage` is greater than `pagesCount - 1`."],
-  ["17", "canPreviousPage", "Returns whether there’s a previous page based on whether `currentPage` is greater than `0`."],
-]
+The UI route file must export a React component, `SubscriptionsPage`, that shows the content of the UI route. You'll implement this component in a bit.
 
-```tsx title="src/admin/routes/subscriptions/page.tsx" highlights={list2Highlights}
-// other imports...
-import { useMemo } from "react"
+Finally, you can export the route configuration using the `defineRouteConfig` function, which shows the UI route in the sidebar with the specified label and icon.
 
-const SubscriptionsPage = () => {
-  // ...
-    
-  const [currentPage, setCurrentPage] = useState(0)
-  const pageLimit = 20
-  const [count, setCount] = useState(0)
-  const pagesCount = useMemo(() => {
-    return count / pageLimit
-  }, [count])
-  const canNextPage = useMemo(
-    () => currentPage < pagesCount - 1, 
-    []
-  )
-  const canPreviousPage = useMemo(
-    () => currentPage > 0, 
-    []
-  )
-
-  const nextPage = () => {
-    if (canNextPage) {
-      setCurrentPage((prev) => prev + 1)
-    }
-  }
-
-  const previousPage = () => {
-    if (canPreviousPage) {
-      setCurrentPage((prev) => prev - 1)
-    }
-  }
-  
-  // TODO fetch subscriptions
-    
-  // ...
-}
-```
-
-You now implement the pagination mechanism with the following variables:
-
-- `currentPage`: a state variable that holds the current page number.
-- `pageLimit`: the number of subscriptions to retrieve per page.
-- `count`: A state variable that holds the total count of subscriptions.
-- `pagesCount`: A memoized variable that holds the number of pages based on `count` and `pageLimit`.
-- `canNextPage`: A memoized variable indicating whether there’s a next page based on whether `currentPage` is greater than `pagesCount - 1`.
-- `canPreviousPage`: A memoized variable indicating whether there’s a previous page based on whether `currentPage` is greater than `0`.
-
-You also implement a `nextPage` function to increment `currentPage`, and a `previousPage` function to decrement `currentPage`.
-
-To fetch the subscriptions, replace the new `TODO` with the following:
+In the `SubscriptionsPage` component, you'll fetch the subscriptions and show them in a data table. So, replace the `SubscriptionsPage` component with the following:
 
 ```tsx title="src/admin/routes/subscriptions/page.tsx"
-// other imports...
-import { useEffect } from "react"
-
 const SubscriptionsPage = () => {
-  // ...
-    
-   useEffect(() => {
-    const query = new URLSearchParams({
-      limit: `${pageLimit}`,
-      offset: `${pageLimit * currentPage}`,
+  const [pagination, setPagination] = useState<DataTablePaginationState>({
+    pageSize: 4,
+    pageIndex: 0,
+  })
+
+  const query = useMemo(() => {
+    return new URLSearchParams({
+      limit: `${pagination.pageSize}`,
+      offset: `${pagination.pageIndex * pagination.pageSize}`,
     })
-    
-    fetch(`/admin/subscriptions?${query.toString()}`, {
-      credentials: "include",
-    })
-    .then((res) => res.json())
-    .then(({ 
-      subscriptions: data, 
-      count,
-    }) => {
-      setSubscriptions(data)
-      setCount(count)
-    })
-  }, [currentPage])
-    
-  // ...
-}
-```
+  }, [pagination])
 
-You fetch the subscriptions in `useEffect` whenever `currentPage` changes. You send a request to the `/admin/subscriptions` API route with pagination parameters, then set the `subscriptions` state variable with the received data.
+  const { data, isLoading } = useQuery<{
+    subscriptions: SubscriptionData[],
+    count: number
+  }>({
+    queryFn: () => sdk.client.fetch(`/admin/subscriptions?${query.toString()}`),
+    queryKey: ["subscriptions", query.toString()],
+  })
 
-Finally, replace the `TODO` in the return statement with the following:
+  const table = useDataTable({
+    columns,
+    data: data?.subscriptions || [],
+    getRowId: (subscription) => subscription.id,
+    rowCount: data?.count || 0,
+    isLoading,
+    pagination: {
+      state: pagination,
+      onPaginationChange: setPagination,
+    },
+  })
 
-```tsx title="src/admin/routes/subscriptions/page.tsx"
-// other imports...
-import { useEffect } from "react"
 
-const SubscriptionsPage = () => {
-  // ...
-    
   return (
     <Container>
-      {/* ... */}
-      <Table.Pagination
-        count={count}
-        pageSize={pageLimit}
-        pageIndex={currentPage}
-        pageCount={pagesCount}
-        canPreviousPage={canPreviousPage}
-        canNextPage={canNextPage}
-        previousPage={previousPage}
-        nextPage={nextPage}
-      />
+      <DataTable instance={table}>
+        <DataTable.Toolbar>
+          <Heading level="h1">Subscriptions</Heading>
+        </DataTable.Toolbar>
+				<DataTable.Table />
+        {/** This component will render the pagination controls **/}
+        <DataTable.Pagination />
+      </DataTable>
     </Container>
   )
 }
 ```
 
-You show the pagination controls to switch between pages at the end of the table.
+In the component, you first initialize a `pagination` state variable of type `DataTablePaginationState`. This is necessary for the table to manage pagination.
+
+Then, you use the `useQuery` hook from the `@tanstack/react-query` package to fetch the subscriptions. In the query function, you use the JS SDK to send a request to the `/admin/subscriptions` API route with the pagination query parameters.
+
+Next, you use the `useDataTable` hook to create a data table instance. You pass the columns, subscriptions data, row count, loading state, and pagination settings to the hook.
+
+Finally, you render the data table with the subscriptions data, along with the pagination controls.
+
+The subscriptions UI route will now show a table of subscriptions, and when you click on the ID of any of them, you can view its individual page that you'll create next.
 
 ### Create a Single Subscription UI Route
 
@@ -1433,65 +1626,60 @@ import {
   Heading,
   Table,
 } from "@medusajs/ui"
-import { useEffect, useState } from "react"
 import { useParams, Link } from "react-router-dom"
 import { SubscriptionData } from "../../../types/index.js"
+import { useQuery } from "@tanstack/react-query"
+import { sdk } from "../../../lib/sdk.js"
 
 const SubscriptionPage = () => {
   const { id } = useParams()
-  const [subscription, setSubscription] = useState<
-    SubscriptionData | undefined
-  >()
+  const { data, isLoading } = useQuery<{
+    subscription: SubscriptionData
+  }>({
+    queryFn: () => sdk.client.fetch(`/admin/subscriptions/${id}`),
+    queryKey: ["subscription", id],
+  })
 
-  useEffect(() => {
-    fetch(`/admin/subscriptions/${id}`, {
-      credentials: "include",
-    })
-    .then((res) => res.json())
-    .then(({ subscription: data }) => {
-      setSubscription(data)
-    })
-  }, [id])
-
-  return <Container>
-    {subscription && (
-      <>
-        <Heading level="h1">Orders of Subscription #{subscription.id}</Heading>
-        <Table>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>#</Table.HeaderCell>
-              <Table.HeaderCell>Date</Table.HeaderCell>
-              <Table.HeaderCell>View Order</Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {subscription.orders?.map((order) => (
-              <Table.Row key={order.id}>
-                <Table.Cell>{order.id}</Table.Cell>
-                <Table.Cell>{(new Date(order.created_at)).toDateString()}</Table.Cell>
-                <Table.Cell>
-                  <Link to={`/orders/${order.id}`}>
-                    View Order
-                  </Link>
-                </Table.Cell>
+  return (
+    <Container>
+      {isLoading && <span>Loading...</span>}
+      {data?.subscription && (
+        <>
+          <Heading level="h1">Orders of Subscription #{data.subscription.id}</Heading>
+          <Table>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell>#</Table.HeaderCell>
+                <Table.HeaderCell>Date</Table.HeaderCell>
+                <Table.HeaderCell>View Order</Table.HeaderCell>
               </Table.Row>
-            ))}
-          </Table.Body>
-        </Table>
-      </>
-    )}
-  </Container>
+            </Table.Header>
+            <Table.Body>
+              {data.subscription.orders?.map((order) => (
+                <Table.Row key={order.id}>
+                  <Table.Cell>{order.id}</Table.Cell>
+                  <Table.Cell>{(new Date(order.created_at)).toDateString()}</Table.Cell>
+                  <Table.Cell>
+                    <Link to={`/orders/${order.id}`}>
+                      View Order
+                    </Link>
+                  </Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table>
+        </>
+      )}
+    </Container>
+  )
 }
 
 export default SubscriptionPage
 ```
 
-This creates the React component used to display a subscription’s details page.
+This creates the React component used to display a subscription’s details page. Again, you use the `useQuery` hook to fetch the subscription data using the JS SDK. You pass the subscription ID from the route parameters to the hook.
 
-In this component, you retrieve the subscription’s details using the `/admin/subscriptions/[id]` API route that you created in the previous section.
-
-The component renders a table of the subscription’s orders.
+Then, you render the subscription’s orders in a table. For each order, you show the ID, date, and a link to view the order.
 
 ### Test the UI Routes
 
@@ -1504,10 +1692,11 @@ To view a subscription’s details, click on its ID, which opens the subscriptio
 ### Further Reads
 
 - [How to Create UI Routes](!docs!/learn/fundamentals/admin/ui-routes)
+- [DataTable component](!ui!/components/data-table)
 
 ---
 
-## Step 10: Create New Subscription Orders Workflow
+## Step 12: Create New Subscription Orders Workflow
 
 In this step, you’ll create a workflow to create a new subscription order. Later, you’ll execute this workflow in a scheduled job.
 
@@ -1516,7 +1705,8 @@ The workflow has eight steps:
 ```mermaid
 graph TD
   useQueryGraphStep["Retrieve Cart (useQueryGraphStep by Medusa)"] --> createPaymentCollectionStep["createPaymentCollectionStep (Medusa)"]
-  createPaymentCollectionStep["createPaymentCollectionStep (Medusa)"] --> createPaymentSessionsWorkflow["createPaymentSessionsWorkflow (Medusa)"]
+  createPaymentCollectionStep["createPaymentCollectionStep (Medusa)"] --> getPaymentMethodStep
+  getPaymentMethodStep --> createPaymentSessionsWorkflow["createPaymentSessionsWorkflow (Medusa)"]
   createPaymentSessionsWorkflow["createPaymentSessionsWorkflow (Medusa)"] --> authorizePaymentSessionStep["authorizePaymentSessionStep (Medusa)"]
   authorizePaymentSessionStep["authorizePaymentSessionStep (Medusa)"] --> createSubscriptionOrderStep
   createSubscriptionOrderStep --> createRemoteLinkStep["Create Links (createRemoteLinkStep by Medusa)"]
@@ -1526,33 +1716,111 @@ graph TD
 
 1. Retrieve the subscription’s linked cart. Medusa provides a `useQueryGraphStep` in the `@medusajs/medusa/core-flows` package that can be used as a step.
 2. Create a payment collection for the new order. Medusa provides a `createPaymentCollectionsStep` in the `@medusajs/medusa/core-flows` package that you can use.
-3. Create payment sessions in the payment collection. Medusa provides a `createPaymentSessionsWorkflow` in the `@medusajs/medusa/core-flows` package that can be used as a step.
-4. Authorize the payment session. Medusa also provides the `authorizePaymentSessionStep` in the `@medusajs/medusa/core-flows` package, which can be used.
-5. Create the subscription’s new order.
-6. Create links between the subscription and the order using the `createRemoteLinkStep` provided in the `@medusajs/medusa/core-flows` package.
-7. Capture the order’s payment using the `capturePaymentStep` provided by Medusa in the `@medusajs/medusa/core-flows` package.
-8. Update the subscription’s `last_order_date` and `next_order_date` properties.
+3. Get the customer's saved payment method. This payment method will be used to charge the customer.
+4. Create payment sessions in the payment collection. Medusa provides a `createPaymentSessionsWorkflow` in the `@medusajs/medusa/core-flows` package that can be used as a step.
+5. Authorize the payment session. Medusa also provides the `authorizePaymentSessionStep` in the `@medusajs/medusa/core-flows` package, which can be used.
+6. Create the subscription’s new order.
+7. Create links between the subscription and the order using the `createRemoteLinkStep` provided in the `@medusajs/medusa/core-flows` package.
+8. Capture the order’s payment using the `capturePaymentStep` provided by Medusa in the `@medusajs/medusa/core-flows` package.
+9. Update the subscription’s `last_order_date` and `next_order_date` properties.
 
-You’ll only implement the fifth and eighth steps.
+You’ll only implement the third, sixth, and ninth steps.
 
-<Note>
+### Create getPaymentMethodStep (Third Step)
 
-This guide doesn’t explain payment-related flows and concepts in detail. For more details, refer to the [Payment Module](../../../../commerce-modules/payment/page.mdx).
+To charge the customer using their payment method saved in Stripe, you need to retrieve that payment method. As explained in the [Payment Flow Overview](#intermission-payment-flow-overview), you customized the storefront to pass the `setup_future_usage` option to Stripe. So, the payment method was saved in Stripe and linked to the customer's [account holder](../../../../commerce-modules/payment/account-holder/page.mdx), allowing you to retrieve it later and re-capture the payment.
 
-</Note>
+To create the step, create the file `src/workflows/create-subscription-order/steps/get-payment-method.ts` with the following content:
 
-### Create createSubscriptionOrderStep (Fifth Step)
+```tsx title="src/workflows/create-subscription-order/steps/get-payment-method.ts"
+import { MedusaError, Modules } from "@medusajs/framework/utils"
+import { AccountHolderDTO, CustomerDTO, PaymentMethodDTO } from "@medusajs/framework/types"
+import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
+
+export interface GetPaymentMethodStepInput {
+  customer: CustomerDTO & {
+    account_holder: AccountHolderDTO
+  }
+}
+
+// Since we know we are using Stripe, we can get the correct creation date from their data.
+const getLatestPaymentMethod = (paymentMethods: PaymentMethodDTO[]) => {
+  return paymentMethods.sort(
+    (a, b) =>
+      ((b.data?.created as number) ?? 0) - ((a.data?.created as number) ?? 0)
+  )[0]
+}
+
+export const getPaymentMethodStep = createStep(
+  "get-payment-method",
+  async ({ customer }: GetPaymentMethodStepInput, { container }) => {
+    // TODO implement step
+  }
+)
+```
+
+You create a `getLatestPaymentMethod` function that receives an array of payment methods and returns the latest one based on the `created` date in the `data` field. This is based off of Stripe's payment method data, so if you're using a different payment provider, you may need to adjust this function.
+
+Then, you create the `getPaymentMethodStep` that receives the customer's data and account holder as an input.
+
+Next, you'll add the implemenation of the step. Replace `getPaymentMethodStep` with the following:
+
+```tsx title="src/workflows/create-subscription-order/steps/get-payment-method.ts"
+export const getPaymentMethodStep = createStep(
+  "get-payment-method",
+  async ({ customer }: GetPaymentMethodStepInput, { container }) => {
+    const paymentModuleService = container.resolve(Modules.PAYMENT)
+
+    if (!customer.account_holder) {
+      throw new MedusaError(
+        MedusaError.Types.INVALID_DATA,
+        "No account holder found for the customer while retrieving payment method"
+      )
+    }
+
+    const paymentMethods = await paymentModuleService.listPaymentMethods(
+      {
+        // you can change to other payment provider
+        provider_id: "pp_stripe_stripe",
+        context: {
+          account_holder: customer.account_holder,
+        },
+      }
+    )
+
+    if (!paymentMethods.length) {
+      throw new MedusaError(
+        MedusaError.Types.INVALID_DATA,
+        "At least one saved payment method is required for performing a payment"
+      )
+    }
+
+    const paymentMethodToUse = getLatestPaymentMethod(paymentMethods)
+
+    return new StepResponse(
+      paymentMethodToUse,
+      customer.account_holder
+    )
+  }
+)
+```
+
+In the step, you first check that the customer has an account holder, and throw an error otherwise. Then, you list the customer's payment methods using the Payment Module service's `listPaymentMethods` method. You filter the payment methods to retrieve only the ones from the Stripe provider. So, if you're using a different payment provider, you may need to adjust the `provider_id` value.
+
+If the customer doesn't have any payment methods, you throw an error. Otherwise, you return the latest payment method found using the `getLatestPaymentMethod` function.
+
+### Create createSubscriptionOrderStep (Sixth Step)
 
 Create the file `src/workflows/create-subscription-order/steps/create-subscription-order.ts` with the following content:
 
 export const createSubscriptionOrderStep1Highlights = [
-  ["22", "getOrderData", "Format the order's input data from the cart."],
-  ["32", "linkDefs", "An array of links to be created."],
-  ["34", "createOrdersWorkflow", "Use Medusa's workflow to create the order."],
-  ["57", "order", "Pass the order to the compensation function."]
+  ["21", "getOrderData", "Format the order's input data from the cart."],
+  ["31", "linkDefs", "An array of links to be created."],
+  ["33", "createOrderWorkflow", "Use Medusa's workflow to create the order."],
+  ["45", "order", "Pass the order to the compensation function."]
 ]
 
-```ts title="src/workflows/create-subscription-order/steps/create-subscription-order.ts" highlights={createSubscriptionOrderStep1Highlights} collapsibleLines="1-15" expandMoreLabel="Show Imports"
+```ts title="src/workflows/create-subscription-order/steps/create-subscription-order.ts" highlights={createSubscriptionOrderStep1Highlights} collapsibleLines="1-14" expandMoreLabel="Show Imports"
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
 import { 
   CartWorkflowDTO,
@@ -1563,7 +1831,7 @@ import {
 import { 
   Modules,
 } from "@medusajs/framework/utils"
-import { createOrdersWorkflow } from "@medusajs/medusa/core-flows"
+import { createOrderWorkflow } from "@medusajs/medusa/core-flows"
 import { SubscriptionData } from "../../../modules/subscription/types"
 import { SUBSCRIPTION_MODULE } from "../../../modules/subscription"
 
@@ -1585,7 +1853,7 @@ const createSubscriptionOrderStep = createStep(
   { container, context }) => {
     const linkDefs: LinkDefinition[] = []
 
-    const { result: order } = await createOrdersWorkflow(container)
+    const { result: order } = await createOrderWorkflow(container)
       .run({
         input: getOrderData(cart),
         context,
@@ -1696,7 +1964,7 @@ const orderModuleService: IOrderModuleService = container.resolve(
 await orderModuleService.cancel(order.id)
 ```
 
-### Create updateSubscriptionStep (Eighth Step)
+### Create updateSubscriptionStep (Ninth Step)
 
 Before creating the seventh step, add in `src/modules/subscription/service.ts` the following new method:
 
@@ -1808,18 +2076,20 @@ This updates the subscription’s `last_order_date` and `next_order_date` proper
 Finally, create the file `src/workflows/create-subscription-order/index.ts` with the following content:
 
 export const createSubscriptionOrderWorkflowHighlights = [
-  ["25", "useQueryGraphStep", "Retrieve the cart linked to the subscription."],
-  ["49", "createPaymentCollectionsStep", "Create a payment collection using the same information in the cart."],
-  ["56", "createPaymentSessionsWorkflow", "Create a payment session in the payment collection from the previous step."],
-  ["65", "authorizePaymentSessionStep", "Authorize the payment session created from the first step."],
-  ["70", "createSubscriptionOrderStep", "Create the new order for the subscription."],
-  ["76", "createRemoteLinkStep", "Create links returned by the previous step."],
-  ["78", "capturePaymentStep", "Capture the order’s payment."],
-  ["83", "updateSubscriptionStep", "Update the subscription’s `last_order_date` and `next_order_date`."]
+  ["26", "useQueryGraphStep", "Retrieve the cart linked to the subscription."],
+  ["63", "createPaymentCollectionsStep", "Create a payment collection using the same information in the cart."],
+  ["67", "getPaymentMethodStep", "Get the customer's saved payment method."],
+  ["80", "data", "Pass data required by Stripe to capture the payment."],
+  ["89", "createPaymentSessionsWorkflow", "Create a payment session in the payment collection from the previous step."],
+  ["93", "authorizePaymentSessionStep", "Authorize the payment session created from the first step."],
+  ["98", "createSubscriptionOrderStep", "Create the new order for the subscription."],
+  ["104", "createRemoteLinkStep", "Create links returned by the previous step."],
+  ["106", "capturePaymentStep", "Capture the order’s payment."],
+  ["111", "updateSubscriptionStep", "Update the subscription’s `last_order_date` and `next_order_date`."]
 ]
 
-```ts title="src/workflows/create-subscription-order/index.ts" highlights={createSubscriptionOrderWorkflowHighlights} collapsibleLines="1-25" expandMoreLabel="Show Imports"
-import { createWorkflow, WorkflowResponse } from "@medusajs/framework/workflows-sdk"
+```ts title="src/workflows/create-subscription-order/index.ts" highlights={createSubscriptionOrderWorkflowHighlights} collapsibleLines="1-18" expandMoreLabel="Show Imports"
+import { createWorkflow, transform, WorkflowResponse } from "@medusajs/framework/workflows-sdk"
 import { 
   useQueryGraphStep,
   createPaymentSessionsWorkflow,
@@ -1835,6 +2105,7 @@ import {
 } from "@medusajs/medusa/core-flows"
 import createSubscriptionOrderStep from "./steps/create-subscription-order"
 import updateSubscriptionStep from "./steps/update-subscription"
+import { getPaymentMethodStep } from "./steps/get-payment-method"
 
 type WorkflowInput = {
   subscription: SubscriptionData
@@ -1843,7 +2114,7 @@ type WorkflowInput = {
 const createSubscriptionOrderWorkflow = createWorkflow(
   "create-subscription-order",
   (input: WorkflowInput) => {
-    const { data: carts } = useQueryGraphStep({
+    const { data: subscriptions } = useQueryGraphStep({
       entity: "subscription",
       fields: [
         "*",
@@ -1858,29 +2129,56 @@ const createSubscriptionOrderWorkflow = createWorkflow(
         "cart.shipping_methods.adjustments.*",
         "cart.payment_collection.*",
         "cart.payment_collection.payment_sessions.*",
+        "cart.customer.*",
+        "cart.customer.account_holder.*",
       ],
       filters: {
-        id: [input.subscription.id],
+        id: input.subscription.id,
       },
       options: {
         throwIfKeyNotFound: true,
       },
     })
 
-    const payment_collection = createPaymentCollectionsStep([{
-      region_id: carts[0].region_id,
-      currency_code: carts[0].currency_code,
-      amount: carts[0].payment_collection.amount,
-      metadata: carts[0].payment_collection.metadata,
-    }])[0]
+    const paymentCollectionData = transform({
+      subscriptions,
+    }, (data) => {
+      const cart = data.subscriptions[0].cart
+      return {
+        currency_code: cart.currency_code,
+        amount: cart.payment_collection.amount,
+        metadata: cart.payment_collection.metadata,
+      }
+    })
+
+    const payment_collection = createPaymentCollectionsStep([
+      paymentCollectionData,
+    ])[0]
+
+    const defaultPaymentMethod = getPaymentMethodStep({
+      customer: subscriptions[0].cart.customer,
+    })
+
+    const paymentSessionData = transform({
+      payment_collection,
+      subscriptions,
+      defaultPaymentMethod,
+    }, (data) => {
+      return {
+        payment_collection_id: data.payment_collection.id,
+        provider_id: "pp_stripe_stripe",
+        customer_id: data.subscriptions[0].cart.customer.id,
+        data: {
+          payment_method: data.defaultPaymentMethod.id,
+          off_session: true,
+          confirm: true,
+          capture_method: "automatic",
+        },
+      }
+    })
 
     const paymentSession = createPaymentSessionsWorkflow.runAsStep({
-      input: {
-        payment_collection_id: payment_collection.id,
-        provider_id: carts[0].payment_collection.payment_sessions[0].provider_id,
-        data: carts[0].payment_collection.payment_sessions[0].data,
-        context: carts[0].payment_collection.payment_sessions[0].context,
-      },
+      input: paymentSessionData,
     })
 
     const payment = authorizePaymentSessionStep({
@@ -1918,12 +2216,25 @@ The workflow runs the following steps:
 
 1. `useQueryGraphStep` to retrieve the details of the cart linked to the subscription.
 2. `createPaymentCollectionsStep` to create a payment collection using the same information in the cart.
-3. `createPaymentSessionsWorkflow` to create a payment session in the payment collection from the previous step.
-4. `authorizePaymentSessionStep` to authorize the payment session created from the first step.
-5. `createSubscriptionOrderStep` to create the new order for the subscription.
-6. `createRemoteLinkStep` to create links returned by the previous step.
-7. `capturePaymentStep` to capture the order’s payment.
-8. `updateSubscriptionStep` to update the subscription’s `last_order_date` and `next_order_date`.
+3. `getPaymentMethodStep` to get the customer's saved payment method.
+4. `createPaymentSessionsWorkflow` to create a payment session in the payment collection from the previous step. You prepare the data to create the payment session using [transform](!docs!/learn/fundamentals/workflows/variable-manipulation) from the Workflows SDK.
+    - Since you're capturing the payment with Stripe, you must pass in the payment session's `data` object the following properties:
+        - `payment_method`: the ID of the payment method saved in Stripe.
+        - `off_session`: `true` to indicate that the payment is [off-session](https://docs.stripe.com/payments/payment-intents#future-usage).
+        - `confirm`: `true` to confirm the payment.
+        - `capture_method`: `automatic` to automatically capture the payment.
+    - If you're using a payment provider other than Stripe, you'll need to adjust the `provider_id` value and the `data` object properties depending on what the provider expects.
+5. `authorizePaymentSessionStep` to authorize the payment session created from the first step.
+6. `createSubscriptionOrderStep` to create the new order for the subscription.
+7. `createRemoteLinkStep` to create links returned by the previous step.
+8. `capturePaymentStep` to capture the order’s payment.
+9. `updateSubscriptionStep` to update the subscription’s `last_order_date` and `next_order_date`.
+
+<Note title="Tip">
+
+A workflow's constructor function has some constraints in implementation, which is why you need to use `transform` for data manipulation. Learn more about these constraints in [this documentation](!docs!/learn/fundamentals/workflows/constructor-constraints).
+
+</Note>
 
 In the next step, you’ll execute the workflow in a scheduled job.
 
@@ -1933,7 +2244,7 @@ In the next step, you’ll execute the workflow in a scheduled job.
 
 ---
 
-## Step 11: Create New Subscription Orders Scheduled Job
+## Step 13: Create New Subscription Orders Scheduled Job
 
 A scheduled job is an asynchronous function executed at a specified interval pattern. Use scheduled jobs to execute a task at a regular interval.
 
@@ -2050,7 +2361,7 @@ This loops over the returned subscriptions and executes the `createSubscriptionO
 
 ---
 
-## Step 12: Expire Subscriptions Scheduled Job
+## Step 14: Expire Subscriptions Scheduled Job
 
 In this step, you’ll create a scheduled job that finds subscriptions whose `expiration_date` is the current date and marks them as expired.
 
@@ -2167,7 +2478,7 @@ You also implement pagination in case there are more than `20` expired subscript
 
 ---
 
-## Step 13: Add Customer API Routes
+## Step 15: Add Customer API Routes
 
 In this step, you’ll add two API routes for authenticated customers:
 
@@ -2322,12 +2633,10 @@ To manage the orders created for a subscription, or other functionalities, use M
 
 ### Link Subscriptions to Other Data Models
 
-If your use case requires a subscription to have relations to other existing data models, you can create links to them, similar to step 2.
+If your use case requires a subscription to have relations to other existing data models, you can create links to them, similar to [step four](#step-4-define-links).
 
 For example, you can link a subscription to a promotion to offer a subscription-specific discount.
 
 ### Storefront Development
 
-Medusa provides a Next.js Starter storefront that you can customize to your use case.
-
-You can also create a custom storefront. To learn how visit the [Storefront Development](../../../../storefront-development/page.mdx) section.
+Medusa provides a Next.js Starter storefront that you can customize to your use case. You can also create a custom storefront. To learn how visit the [Storefront Development](../../../../storefront-development/page.mdx) section.

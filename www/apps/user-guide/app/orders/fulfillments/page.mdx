@@ -1,6 +1,10 @@
 ---
 sidebar_position: 3
-sidebar_label: Manage Fulfillments
+sidebar_label: "Manage Order Fulfillments"
+tags:
+    - user guide
+    - order
+    - fulfillment
 ---
 
 import { 
@@ -9,7 +13,7 @@ import {
 import { Table } from "docs-ui"
 
 export const metadata = {
-  title: `Manage Order Fulfillments`,
+  title: `Manage Order Fulfillments in Medusa Admin`,
 }
 
 # {metadata.title}
@@ -62,11 +66,11 @@ At the top of the order details page, you can see the fulfillment status of the 
     </Table.Row>
     <Table.Row>
       <Table.Cell>Partially Delivered</Table.Cell>
-      <Table.Cell>Some items in the order have been marked as delivered, but not all.</Table.Cell>
+      <Table.Cell>Some items in the order have been marked as delivered or picked-up, but not all.</Table.Cell>
     </Table.Row>
     <Table.Row>
       <Table.Cell>Delivered</Table.Cell>
-      <Table.Cell>All items in the order have been marked as delivered.</Table.Cell>
+      <Table.Cell>All items in the order have been marked as delivered or picked-up.</Table.Cell>
     </Table.Row>
     <Table.Row>
       <Table.Cell>Partially Returned</Table.Cell>
@@ -114,6 +118,12 @@ This can also change the order's fulfillment status to "Partially Fulfilled" or 
 
 ## Add a Shipment to a Fulfillment
 
+<Note>
+
+You can only add a shipment to a fulfillment if its shipping option isn't a pickup option.
+
+</Note>
+
 After you create a fulfillment, you can add a shipment to it. A shipment can have a tracking number and marks the fulfillment as shipped.
 
 <Note type="warning">
@@ -140,6 +150,12 @@ This changes the order's fulfillment status to "Partially Shipped" or "Shipped" 
 
 ## Mark Fulfillment as Delivered
 
+<Note>
+
+You can only mark a fulfillment as delivered if its shipping option isn't a pickup option.
+
+</Note>
+
 You can mark a fulfillment as delivered, even if it hasn't been shipped. This can be useful if you deliver items to the customer using external methods.
 
 <Note type="warning">
@@ -153,11 +169,34 @@ To mark the fulfillment as delivered:
 1. Open the order's details page.
 2. Scroll down to the Fulfillment section. If you have more than one fulfillment, find the fulfillment you're looking for.
 3. Click on the "Mark as delivered" button at the bottom right of the section.
-4. Confirm marking the order as delivered by clicking the "Continue" button in the pop-up
+4. Confirm marking the fulfillment as delivered by clicking the "Continue" button in the pop-up
 
 ![Mark as Delivered Pop-up](https://res.cloudinary.com/dza7lstvk/image/upload/v1739784298/User%20Guide/Screenshot_2025-02-17_at_11.24.48_AM_dpplxp.png)
 
 This changes the order's fulfillment status to "Partially Delivered" or "Delivered" depending on the items delivered.
+
+---
+
+## Mark Fulfillment as Picked Up
+
+If the fulfillment's shipping option is a pickup option, you can mark the fulfillment as picked up. This can be useful if the customer picks up the items in person.
+
+<Note type="warning">
+
+Marking a fulfillment as picked up is irreversible. You can't cancel the fulfillment or the order afterwards.
+
+</Note>
+
+To mark the fulfillment as picked up:
+
+1. Open the order's details page.
+2. Scroll down to the Fulfillment section. If you have more than one fulfillment, find the fulfillment you're looking for.
+3. Click on the "Mark as picked up" button at the bottom right of the section.
+4. Confirm marking the fulfillment as picked up by clicking the "Continue" button in the pop-up.
+
+![Mark as Picked Up Pop-up](https://res.cloudinary.com/dza7lstvk/image/upload/v1740486580/User%20Guide/Screenshot_2025-02-25_at_2.28.36_PM_ncci0m.png)
+
+This changes the order's fulfillment status to "Partially Delivered" or "Delivered" depending on the items picked up.
 
 ---
 

@@ -76,8 +76,8 @@ export const taxSidebar = [
       },
       {
         type: "category",
-        title: "User Guides",
-        autogenerate_tags: "userGuides+tax",
+        title: "Admin User Guides",
+        autogenerate_tags: "userGuide+tax",
         initialOpen: false,
         autogenerate_as_ref: true,
         description:

@@ -3,7 +3,7 @@
 import clsx from "clsx"
 import React from "react"
 import { CopyButton, Link } from "@/components"
-import { useHeadingUrl } from "../../.."
+import { useHeadingUrl, useLayout } from "../../.."
 
 type H2Props = React.HTMLAttributes<HTMLHeadingElement> & {
   id?: string
@@ -11,6 +11,8 @@ type H2Props = React.HTMLAttributes<HTMLHeadingElement> & {
 }
 
 export const H2 = ({ className, children, passRef, ...props }: H2Props) => {
+  const { showCollapsedNavbar } = useLayout()
+
   const copyText = useHeadingUrl({
     id: props.id || "",
   })
@@ -18,7 +20,11 @@ export const H2 = ({ className, children, passRef, ...props }: H2Props) => {
     <h2
       className={clsx(
         "h2-docs [&_code]:!h2-docs [&_code]:!font-mono mb-docs_1 mt-docs_2 text-medusa-fg-base",
-        props.id && "group/h2 scroll-m-56",
+        props.id && [
+          "group/h2",
+          showCollapsedNavbar && "scroll-m-docs_7",
+          !showCollapsedNavbar && "scroll-m-56",
+        ],
         className
       )}
       {...props}

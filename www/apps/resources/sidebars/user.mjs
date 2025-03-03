@@ -54,8 +54,8 @@ export const userSidebar = [
       },
       {
         type: "category",
-        title: "User Guides",
-        autogenerate_tags: "userGuides+user",
+        title: "Admin User Guides",
+        autogenerate_tags: "userGuide+user",
         initialOpen: false,
         autogenerate_as_ref: true,
         description:

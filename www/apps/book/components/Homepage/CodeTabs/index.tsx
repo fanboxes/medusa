@@ -231,11 +231,11 @@ export default defineLink(
         source: `async function orderPlaced({
   container,
 }: SubscriberArgs) {
-  const notificaitonModuleService = container.resolve(
+  const notificationModuleService = container.resolve(
     Modules.NOTIFICATION
   )
 
-  await notificaitonModuleService.createNotifications({
+  await notificationModuleService.createNotifications({
     to: "customer@gmail.com",
     channel: "email",
     template: "order-placed"
@@ -253,7 +253,7 @@ export const config: SubscriberConfig = {
           ],
           [
             "4",
-            "notificaitonModuleService",
+            "notificationModuleService",
             "Resolve a module's main service\nto use its methods.",
           ],
           ["8", "createNotification", "Send an email to a customer."],

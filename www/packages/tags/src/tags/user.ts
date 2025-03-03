@@ -1,74 +1,90 @@
 export const user = [
   {
+    "title": "Reset Password",
+    "path": "https://docs.medusajs.com/user-guide/reset-password"
+  },
+  {
+    "title": "Manage Profile",
+    "path": "https://docs.medusajs.com/user-guide/settings/profile"
+  },
+  {
+    "title": "Manage Invites",
+    "path": "https://docs.medusajs.com/user-guide/settings/users/invites"
+  },
+  {
+    "title": "Manage Users",
+    "path": "https://docs.medusajs.com/user-guide/settings/users"
+  },
+  {
     "title": "createInviteStep",
-    "path": "/references/medusa-workflows/steps/createInviteStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/createInviteStep"
   },
   {
     "title": "deleteInvitesStep",
-    "path": "/references/medusa-workflows/steps/deleteInvitesStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/deleteInvitesStep"
   },
   {
     "title": "refreshInviteTokensStep",
-    "path": "/references/medusa-workflows/steps/refreshInviteTokensStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/refreshInviteTokensStep"
   },
   {
     "title": "validateTokenStep",
-    "path": "/references/medusa-workflows/steps/validateTokenStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/validateTokenStep"
   },
   {
     "title": "acceptInviteWorkflow",
-    "path": "/references/medusa-workflows/acceptInviteWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/acceptInviteWorkflow"
   },
   {
     "title": "createInvitesWorkflow",
-    "path": "/references/medusa-workflows/createInvitesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createInvitesWorkflow"
   },
   {
     "title": "deleteInvitesWorkflow",
-    "path": "/references/medusa-workflows/deleteInvitesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteInvitesWorkflow"
   },
   {
     "title": "refreshInviteTokensWorkflow",
-    "path": "/references/medusa-workflows/refreshInviteTokensWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/refreshInviteTokensWorkflow"
   },
   {
     "title": "createUsersStep",
-    "path": "/references/medusa-workflows/steps/createUsersStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/createUsersStep"
   },
   {
     "title": "deleteUsersStep",
-    "path": "/references/medusa-workflows/steps/deleteUsersStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/deleteUsersStep"
   },
   {
     "title": "updateUsersStep",
-    "path": "/references/medusa-workflows/steps/updateUsersStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/updateUsersStep"
   },
   {
     "title": "createUserAccountWorkflow",
-    "path": "/references/medusa-workflows/createUserAccountWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createUserAccountWorkflow"
   },
   {
     "title": "createUsersWorkflow",
-    "path": "/references/medusa-workflows/createUsersWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createUsersWorkflow"
   },
   {
     "title": "deleteUsersWorkflow",
-    "path": "/references/medusa-workflows/deleteUsersWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteUsersWorkflow"
   },
   {
     "title": "removeUserAccountWorkflow",
-    "path": "/references/medusa-workflows/removeUserAccountWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/removeUserAccountWorkflow"
   },
   {
     "title": "updateUsersWorkflow",
-    "path": "/references/medusa-workflows/updateUsersWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateUsersWorkflow"
   },
   {
     "title": "invite",
-    "path": "/references/js-sdk/admin/invite"
+    "path": "https://docs.medusajs.com/resources/references/js-sdk/admin/invite"
   },
   {
     "title": "user",
-    "path": "/references/js-sdk/admin/user"
+    "path": "https://docs.medusajs.com/resources/references/js-sdk/admin/user"
   }
 ]

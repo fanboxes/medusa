@@ -1,5 +1,4 @@
 import { AcademicCapSolid, UsersSolid } from "@medusajs/icons"
-import { LearningPath } from "docs-ui"
 
 export const metadata = {
   title: `Multi-Region Store Recipe`,
@@ -27,89 +26,77 @@ Merchants specify the currency of each region. Multiple regions can have the sam
 
 When customers view your products from a region, they see the prices in the region’s currency.
 
-### Tax rates and providers
+### Tax Regions and Rates
 
-Merchants define a default tax rate and tax rates for specific conditions (for example, for a particular set of products) in a region. Each region also has a different tax provider that calculates the taxes. You can use Medusa's default tax provider or create a custom tax provider.
+Merchants can define tax regions, which are tax-related settings for a specific country. For each tax region, merchants can set a default tax rate and override it with tax rates for specific conditions, such as product types.
 
-During checkout, the taxes are calculated based on the customer's region, tax configurations, and rates.
+During checkout, Medusa calculates the taxes using the tax region settings of the customer's region and selected country in their shipping address.
 
 <CardList items={[
   {
-    href: "#",
-    title: "Manage Taxes in Medusa Admin",
-    text: "Manage taxes in Medusa Admin.",
+    href: "!user-guides!/settings/tax-regions",
+    title: "Using Medusa Admin",
+    text: "Learn how to manage tax regions in the Medusa Admin",
     icon: UsersSolid,
-    badge: {
-      variant: "blue",
-      children: "Guide Soon"
-    }
   },
   {
     href: "!api!/admin#tax-regions_posttaxregions",
-    title: "Manage Taxes Using Admin APIs",
-    text: "Manage tax settings using the Admin APIs.",
+    title: "Using Admin APIs",
+    text: "Manage tax regions using the Admin APIs.",
     icon: AcademicCapSolid,
   },
 ]} />
 
-<Card
-  href="/references/tax/provider"
-  title="Create Tax Provider"
-  text="Learn how to create a tax provider."
-  icon={AcademicCapSolid}
-  className="mt-1"
-/>
-
-
 ### Payment and Fulfillment Providers
 
-Merchants choose which payment and fulfillment providers are available in each region. For example, one region can use Payment Provider A and B while another only uses Payment Provider B.
+Merchants choose which payment providers are available in each region. For example, one region can use Payment Provider A and B while another only uses Payment Provider B. Merchants can also choose the fulfillment providers available in each stock location, and provide shipping options using the providers in those locations.
 
-During checkout, customers only see the payment providers and shipping options configured for the region. This lets you give customers a localized experience that feels familiar and instills trust.
+During checkout, customers only see the payment providers configured for the region, and they can only choose shipping options that can be used to fulfill items to their shipping address. This allows merchants to give customers a localized experience that feels familiar and instills trust.
 
 Medusa provides official module providers for payment and fulfillment. You can also create custom module providers.
 
 <CardList items={[
   {
-    href: "#",
-    title: "Manage Providers in Medusa Admin",
-    text: "Learn how to manage providers in Medusa Admin.",
+    href: "!user-guide!/settings/regions",
+    title: "Manage Payment Providers in Medusa Admin",
+    text: "Learn how to manage providers in a region.",
     icon: UsersSolid,
-    badge: {
-      variant: "blue",
-      children: "Guide Soon"
-    }
   },
   {
-    href: "/integrations",
-    title: "Integrations",
-    text: "Check out available integrations, including payment module providers.",
-    icon: AcademicCapSolid,
+    href: "!user-guide!/settings/locations-and-shipping/locations#manage-fulfillment-providers",
+    title: "Manage Fulfillment Providers in Medusa Admin",
+    text: "Learn how to manage providers in a location.",
+    icon: UsersSolid,
   },
 ]} />
+
+<Card
+  href="/integrations"
+  title="Integrations"
+  text="Check out available integrations, including payment module providers."
+  icon={AcademicCapSolid}
+  className="mt-1"
+/>
+
 
 ---
 
 ## Prices Per Region and Currency
 
-Merchants sets the price of a product price per currency and region. This also applies to adding sales or overriding prices for specific conditions using the Pricing Module's features.
+Merchants set the price of a product's variants per currency and region. This also applies to adding sales or overriding prices for specific conditions.
 
-Using the tax-inclusive feature, merchants can specify prices including taxes per currency and region. Medusa then calculates the tax amount applied to a line item in the cart based on the region's tax configurations.
+Using the tax-inclusive feature, merchants can also specify prices including taxes per currency and region. Medusa then calculates the tax amount applied to a line item in the cart based on the region's tax configurations.
 
 <CardList items={[
   {
-    href: "#",
-    title: "Setting Product Prices in Medusa Admin",
-    text: "Learn how to set a product prices in Medusa Admin.",
+    href: "!user-guide!/products/variants#edit-product-variant-prices",
+    title: "Setting Variant Prices in Medusa Admin",
+    text: "Learn how to set a variant's prices in Medusa Admin.",
     icon: UsersSolid,
-    badge: {
-      variant: "blue",
-      children: "Guide Soon"
-    }
   },
   {
     href: "/storefront-development/products/price",
-    title: "Display Product Price in Storefront",
+    title: "Display Variant Price in Storefront",
     text: "Learn how to display the correct product price in a storefront.",
     icon: AcademicCapSolid,
   },
@@ -119,32 +106,22 @@ Using the tax-inclusive feature, merchants can specify prices including taxes pe
 
 ## Multi-Warehouse Support
 
-Medusa's Inventory and Stock Location Modules provide multi-warehouse features that allow merchants to manage inventory across different locations. Merchants then control which location an item in an order is fulfilled, allowing them to keep a correct inventory count across locations and sales channels.
+Medusa's [Inventory](../../commerce-modules/inventory/page.mdx) and [Stock Location](../../commerce-modules/stock-location/page.mdx) Modules provide multi-warehouse features that allow merchants to manage inventory across different locations. Merchants then control which location an item in an order is fulfilled from, allowing them to keep a correct inventory count across locations and sales channels.
 
 A multi-regional setup lets merchants manage their inventory through Medusa across the different regions they serve. Customers are always shown accurate inventory information based on the location associated with their sales channel.
 
-{/* TODO add links */}
-
 <CardList items={[
   {
-    href: "#",
+    href: "!user-guide!/settings/locations-and-shipping/locations",
     title: "Manage Stock Locations",
     text: "Learn how to manage stock locations in the Medusa Admin.",
     icon: UsersSolid,
-    badge: {
-      variant: "blue",
-      children: "Guide Soon"
-    }
   },
   {
-    href: "#",
+    href: "!user-guide!/inventory",
     title: "Manage Inventory",
     text: "Learn how to manage inventory in the Medusa Admin.",
     icon: UsersSolid,
-    badge: {
-      variant: "blue",
-      children: "Guide Soon"
-    }
   },
 ]} />
 
@@ -154,11 +131,19 @@ A multi-regional setup lets merchants manage their inventory through Medusa acro
 
 By integrating a third-party Content Management Systems (CMS), you benefit from rich content features including managing your content in multiple languages. This allows you to cater to customers’ different languages in the regions you serve.
 
-To integrate a third-party system, create a custom module whose main service connects to that third-party service.
+To integrate a third-party system, create a custom module whose main service connects to that third-party service. You can also follow the [Sanity integration guide](../../integrations/guides/sanity/page.mdx) to integrate Sanity with Medusa.
 
-<Card
-  href="!docs!/learn/fundamentals/modules"
-  title="Create a Module"
-  text="Learn how to create a module in Medusa."
-  icon={AcademicCapSolid}
-/>
+<CardList items={[
+  {
+    href: "!docs!/learn/fundamentals/modules",
+    title: "Create a Module",
+    text: "Learn how to create a module in Medusa.",
+    icon: AcademicCapSolid,
+  },
+  {
+    href: "/integrations/guides/sanity",
+    title: "Integrate Sanity",
+    text: "Follow a step-by-step guide to integrate Sanity.",
+    icon: AcademicCapSolid,
+  },
+]} />

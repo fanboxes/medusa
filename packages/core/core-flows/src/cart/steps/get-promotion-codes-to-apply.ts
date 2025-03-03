@@ -34,7 +34,7 @@ export interface GetPromotionCodesToApplyStepInput {
 
 /**
  * The promotion codes to apply on the cart.
- * 
+ *
  * @example ["PRO10", "SHIPFREE", "NEWYEAR20"]
  */
 export type GetPromotionCodesToApplyStepOutput = string[]
@@ -42,7 +42,7 @@ export type GetPromotionCodesToApplyStepOutput = string[]
 export const getPromotionCodesToApplyId = "get-promotion-codes-to-apply"
 /**
  * This step retrieves the promotion codes to apply on a cart.
- * 
+ *
  * @example
  * const data = getPromotionCodesToApply(
  *   {
@@ -84,12 +84,14 @@ export const getPromotionCodesToApply = createStep(
     })
 
     const promotionCodesToApply: Set<string> = new Set(
-      (
-        await promotionService.listPromotions(
-          { code: adjustmentCodes },
-          { select: ["code"] }
-        )
-      ).map((p) => p.code!)
+      adjustmentCodes.length
+        ? (
+            await promotionService.listPromotions(
+              { code: adjustmentCodes },
+              { select: ["code"] }
+            )
+          ).map((p) => p.code!)
+        : []
     )
 
     if (action === PromotionActions.ADD) {

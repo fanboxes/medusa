@@ -14,6 +14,15 @@ export const metadata = {
 
 In this guide, you'll learn how inventory kits can be used in the Medusa application to support use cases like multi-part products, bundled products, and shared inventory across products.
 
+<Note title="Looking for no-code docs?">
+
+Refer to the following user guides to learn how to use the Medusa Admin dashboard to:
+
+- [Create Multi-Part Products](!user-guide!/products/create/multi-part).
+- [Create Bundled Products](!user-guide!/products/create/bundle).
+
+</Note>
+
 ## What is an Inventory Kit?
 
 An inventory kit is a collection of inventory items that are linked to a single product variant. These inventory items can be used to represent different parts of a product, or to represent a bundle of products.
@@ -42,7 +51,7 @@ Then, whenever a customer purchases a bicycle, the inventory of each part is upd
 
 ### Create Multi-Part Product
 
-Using the Medusa Admin, you can create a multi-part product by creating its inventory items first, then assigning these inventory items to the product's variant(s).
+Using the [Medusa Admin](!user-guide!/products/create/multi-part), you can create a multi-part product by creating its inventory items first, then assigning these inventory items to the product's variant(s).
 
 Using [workflows](!docs!/learn/fundamentals/workflows), you can implement this by first creating the inventory items:
 
@@ -205,7 +214,7 @@ Then, when the bundled product's variant is purchased, the inventory quantity of
 
 ### Create Bundled Product
 
-You can create a bundled product in the Medusa Admin by creating the products part of the bundle first, each having its own inventory items. Then, you create the bundled product whose variant(s) have inventory kits composed of inventory items from each of the products part of the bundle.
+You can create a bundled product in the [Medusa Admin](!user-guide!/products/create/bundle) by creating the products part of the bundle first, each having its own inventory items. Then, you create the bundled product whose variant(s) have inventory kits composed of inventory items from each of the products part of the bundle.
 
 Using [workflows](!docs!/learn/fundamentals/workflows), you can implement this by first creating the products part of the bundle:
 
