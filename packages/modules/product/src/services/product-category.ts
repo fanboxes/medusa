@@ -163,8 +163,8 @@ export default class ProductCategoryService {
   async delete(
     ids: string[],
     @MedusaContext() sharedContext: Context = {}
-  ): Promise<void> {
-    await this.productCategoryRepository_.delete(ids, sharedContext)
+  ): Promise<string[]> {
+    return await this.productCategoryRepository_.delete(ids, sharedContext)
   }
 
   @InjectTransactionManager("productCategoryRepository_")

@@ -1083,10 +1083,9 @@ export default class CartModuleService
       )
     }
 
-    const result = await this.lineItemTaxLineService_.upsert(
-      taxLines,
-      sharedContext
-    )
+    const result = taxLines.length
+      ? await this.lineItemTaxLineService_.upsert(taxLines, sharedContext)
+      : []
 
     return await this.baseRepository_.serialize<CartTypes.LineItemTaxLineDTO[]>(
       result,
@@ -1201,10 +1200,12 @@ export default class CartModuleService
       )
     }
 
-    const result = await this.shippingMethodTaxLineService_.upsert(
-      taxLines as UpdateShippingMethodTaxLineDTO[],
-      sharedContext
-    )
+    const result = taxLines.length
+      ? await this.shippingMethodTaxLineService_.upsert(
+          taxLines as UpdateShippingMethodTaxLineDTO[],
+          sharedContext
+        )
+      : []
 
     return await this.baseRepository_.serialize<
       CartTypes.ShippingMethodTaxLineDTO[]

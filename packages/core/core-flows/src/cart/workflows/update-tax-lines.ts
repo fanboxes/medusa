@@ -6,6 +6,7 @@ import {
   WorkflowData,
   createWorkflow,
   transform,
+  when,
 } from "@medusajs/framework/workflows-sdk"
 import { useRemoteQueryStep } from "../../common"
 import { getItemTaxLinesStep } from "../../tax/steps/get-item-tax-lines"
@@ -67,12 +68,16 @@ export type UpdateTaxLinesWorkflowInput = {
   /**
    * The cart's ID.
    */
-  cart_id: string
+  cart_id?: string
+  /**
+   * The Cart reference.
+   */
+  cart?: any
   /**
    * The items to update their tax lines.
    * If not specified, taxes are updated for all of the cart's
    * line items.
-   * 
+   *
    * @privateRemarks
    * This doesn't seem to be used?
    */
@@ -81,7 +86,7 @@ export type UpdateTaxLinesWorkflowInput = {
    * The shipping methods to update their tax lines.
    * If not specified, taxes are updated for all of the cart's
    * shipping methods.
-   * 
+   *
    * @privateRemarks
    * This doesn't seem to be used?
    */
@@ -90,7 +95,7 @@ export type UpdateTaxLinesWorkflowInput = {
    * Whether to force re-calculating tax amounts, which
    * may include sending requests to a third-part tax provider, depending
    * on the configurations of the cart's tax region.
-   * 
+   *
    * @defaultValue false
    */
   force_tax_calculation?: boolean
@@ -100,9 +105,9 @@ export const updateTaxLinesWorkflowId = "update-tax-lines"
 /**
  * This workflow updates a cart's tax lines that are applied on line items and shipping methods. You can update the line item's quantity, unit price, and more. This workflow is executed
  * by the [Calculate Taxes Store API Route](https://docs.medusajs.com/api/store#carts_postcartsidtaxes).
- * 
+ *
  * You can use this workflow within your own customizations or custom workflows, allowing you to update a cart's tax lines in your custom flows.
- * 
+ *
  * @example
  * const { result } = await updateTaxLinesWorkflow(container)
  * .run({
@@ -110,21 +115,28 @@ export const updateTaxLinesWorkflowId = "update-tax-lines"
  *     cart_id: "cart_123",
  *   }
  * })
- * 
+ *
  * @summary
- * 
+ *
  * Update a cart's tax lines.
  */
 export const updateTaxLinesWorkflow = createWorkflow(
   updateTaxLinesWorkflowId,
   (input: WorkflowData<UpdateTaxLinesWorkflowInput>): WorkflowData<void> => {
-    const cart = useRemoteQueryStep({
-      entry_point: "cart",
-      fields: cartFields,
-      variables: {
-        id: input.cart_id,
-      },
-      list: false,
+    const fetchCart = when({ input }, ({ input }) => {
+      return !input.cart
+    }).then(() => {
+      return useRemoteQueryStep({
+        entry_point: "cart",
+        fields: cartFields,
+        variables: { id: input.cart_id },
+        throw_if_key_not_found: true,
+        list: false,
+      })
+    })
+
+    const cart = transform({ fetchCart, input }, ({ fetchCart, input }) => {
+      return input.cart ?? fetchCart
     })
 
     const taxLineItems = getItemTaxLinesStep(

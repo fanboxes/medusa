@@ -64,16 +64,16 @@ export interface IMedusaInternalService<
     sharedContext?: Context
   ): Promise<InferEntityType<TEntity>[]>
 
-  delete(idOrSelector: string, sharedContext?: Context): Promise<void>
-  delete(idOrSelector: string[], sharedContext?: Context): Promise<void>
-  delete(idOrSelector: object, sharedContext?: Context): Promise<void>
-  delete(idOrSelector: object[], sharedContext?: Context): Promise<void>
+  delete(idOrSelector: string, sharedContext?: Context): Promise<string[]>
+  delete(idOrSelector: string[], sharedContext?: Context): Promise<string[]>
+  delete(idOrSelector: object, sharedContext?: Context): Promise<string[]>
+  delete(idOrSelector: object[], sharedContext?: Context): Promise<string[]>
   delete(
     idOrSelector: {
       selector: FilterQuery<any> | BaseFilterable<FilterQuery<any>>
     },
     sharedContext?: Context
-  ): Promise<void>
+  ): Promise<string[]>
 
   softDelete(
     idsOrFilter:

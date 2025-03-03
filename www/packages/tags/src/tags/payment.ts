@@ -1,214 +1,218 @@
 export const payment = [
   {
+    "title": "Manage Order Payments",
+    "path": "https://docs.medusajs.com/user-guide/orders/payments"
+  },
+  {
     "title": "Customize the Stripe Integration in the Next.js Starter",
-    "path": "/nextjs-starter/guides/customize-stripe"
+    "path": "https://docs.medusajs.com/resources/nextjs-starter/guides/customize-stripe"
   },
   {
     "title": "Checkout Step 5: Complete Cart",
-    "path": "/storefront-development/checkout/complete-cart"
+    "path": "https://docs.medusajs.com/resources/storefront-development/checkout/complete-cart"
   },
   {
     "title": "Checkout Step 4: Choose Payment Provider",
-    "path": "/storefront-development/checkout/payment"
+    "path": "https://docs.medusajs.com/resources/storefront-development/checkout/payment"
   },
   {
     "title": "Payment with Stripe in React Storefront",
-    "path": "/storefront-development/checkout/payment/stripe"
+    "path": "https://docs.medusajs.com/resources/storefront-development/checkout/payment/stripe"
   },
   {
     "title": "Implement Express Checkout with Medusa",
-    "path": "/storefront-development/guides/express-checkout"
+    "path": "https://docs.medusajs.com/resources/storefront-development/guides/express-checkout"
   },
   {
     "title": "createPaymentCollectionsStep",
-    "path": "/references/medusa-workflows/steps/createPaymentCollectionsStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/createPaymentCollectionsStep"
   },
   {
     "title": "addShippingMethodToCartWorkflow",
-    "path": "/references/medusa-workflows/addShippingMethodToCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/addShippingMethodToCartWorkflow"
   },
   {
     "title": "addToCartWorkflow",
-    "path": "/references/medusa-workflows/addToCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/addToCartWorkflow"
   },
   {
     "title": "completeCartWorkflow",
-    "path": "/references/medusa-workflows/completeCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/completeCartWorkflow"
   },
   {
     "title": "createCartWorkflow",
-    "path": "/references/medusa-workflows/createCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createCartWorkflow"
   },
   {
     "title": "createPaymentCollectionForCartWorkflow",
-    "path": "/references/medusa-workflows/createPaymentCollectionForCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createPaymentCollectionForCartWorkflow"
   },
   {
     "title": "refreshCartItemsWorkflow",
-    "path": "/references/medusa-workflows/refreshCartItemsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/refreshCartItemsWorkflow"
   },
   {
     "title": "refreshPaymentCollectionForCartWorkflow",
-    "path": "/references/medusa-workflows/refreshPaymentCollectionForCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/refreshPaymentCollectionForCartWorkflow"
   },
   {
     "title": "transferCartCustomerWorkflow",
-    "path": "/references/medusa-workflows/transferCartCustomerWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/transferCartCustomerWorkflow"
   },
   {
     "title": "updateCartWorkflow",
-    "path": "/references/medusa-workflows/updateCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateCartWorkflow"
   },
   {
     "title": "updateLineItemInCartWorkflow",
-    "path": "/references/medusa-workflows/updateLineItemInCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateLineItemInCartWorkflow"
   },
   {
     "title": "deleteLineItemsWorkflow",
-    "path": "/references/medusa-workflows/deleteLineItemsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteLineItemsWorkflow"
   },
   {
     "title": "cancelOrderWorkflow",
-    "path": "/references/medusa-workflows/cancelOrderWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/cancelOrderWorkflow"
   },
   {
     "title": "confirmClaimRequestWorkflow",
-    "path": "/references/medusa-workflows/confirmClaimRequestWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/confirmClaimRequestWorkflow"
   },
   {
     "title": "confirmExchangeRequestWorkflow",
-    "path": "/references/medusa-workflows/confirmExchangeRequestWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/confirmExchangeRequestWorkflow"
   },
   {
     "title": "confirmOrderEditRequestWorkflow",
-    "path": "/references/medusa-workflows/confirmOrderEditRequestWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/confirmOrderEditRequestWorkflow"
   },
   {
     "title": "confirmReturnRequestWorkflow",
-    "path": "/references/medusa-workflows/confirmReturnRequestWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/confirmReturnRequestWorkflow"
   },
   {
     "title": "createOrUpdateOrderPaymentCollectionWorkflow",
-    "path": "/references/medusa-workflows/createOrUpdateOrderPaymentCollectionWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createOrUpdateOrderPaymentCollectionWorkflow"
   },
   {
     "title": "createOrderPaymentCollectionWorkflow",
-    "path": "/references/medusa-workflows/createOrderPaymentCollectionWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createOrderPaymentCollectionWorkflow"
   },
   {
     "title": "markPaymentCollectionAsPaid",
-    "path": "/references/medusa-workflows/markPaymentCollectionAsPaid"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/markPaymentCollectionAsPaid"
   },
   {
     "title": "requestOrderEditRequestWorkflow",
-    "path": "/references/medusa-workflows/requestOrderEditRequestWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/requestOrderEditRequestWorkflow"
   },
   {
     "title": "authorizePaymentSessionStep",
-    "path": "/references/medusa-workflows/steps/authorizePaymentSessionStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/authorizePaymentSessionStep"
   },
   {
     "title": "cancelPaymentStep",
-    "path": "/references/medusa-workflows/steps/cancelPaymentStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/cancelPaymentStep"
   },
   {
     "title": "capturePaymentStep",
-    "path": "/references/medusa-workflows/steps/capturePaymentStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/capturePaymentStep"
   },
   {
     "title": "refundPaymentStep",
-    "path": "/references/medusa-workflows/steps/refundPaymentStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/refundPaymentStep"
   },
   {
     "title": "refundPaymentsStep",
-    "path": "/references/medusa-workflows/steps/refundPaymentsStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/refundPaymentsStep"
   },
   {
     "title": "capturePaymentWorkflow",
-    "path": "/references/medusa-workflows/capturePaymentWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/capturePaymentWorkflow"
   },
   {
     "title": "processPaymentWorkflow",
-    "path": "/references/medusa-workflows/processPaymentWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/processPaymentWorkflow"
   },
   {
     "title": "refundPaymentWorkflow",
-    "path": "/references/medusa-workflows/refundPaymentWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/refundPaymentWorkflow"
   },
   {
     "title": "refundPaymentsWorkflow",
-    "path": "/references/medusa-workflows/refundPaymentsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/refundPaymentsWorkflow"
   },
   {
     "title": "createPaymentAccountHolderStep",
-    "path": "/references/medusa-workflows/steps/createPaymentAccountHolderStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/createPaymentAccountHolderStep"
   },
   {
     "title": "createPaymentSessionStep",
-    "path": "/references/medusa-workflows/steps/createPaymentSessionStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/createPaymentSessionStep"
   },
   {
     "title": "createRefundReasonStep",
-    "path": "/references/medusa-workflows/steps/createRefundReasonStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/createRefundReasonStep"
   },
   {
     "title": "deletePaymentSessionsStep",
-    "path": "/references/medusa-workflows/steps/deletePaymentSessionsStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/deletePaymentSessionsStep"
   },
   {
     "title": "deleteRefundReasonsStep",
-    "path": "/references/medusa-workflows/steps/deleteRefundReasonsStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/deleteRefundReasonsStep"
   },
   {
     "title": "updatePaymentCollectionStep",
-    "path": "/references/medusa-workflows/steps/updatePaymentCollectionStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/updatePaymentCollectionStep"
   },
   {
     "title": "updateRefundReasonsStep",
-    "path": "/references/medusa-workflows/steps/updateRefundReasonsStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/updateRefundReasonsStep"
   },
   {
     "title": "createPaymentSessionsWorkflow",
-    "path": "/references/medusa-workflows/createPaymentSessionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createPaymentSessionsWorkflow"
   },
   {
     "title": "createRefundReasonsWorkflow",
-    "path": "/references/medusa-workflows/createRefundReasonsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createRefundReasonsWorkflow"
   },
   {
     "title": "deletePaymentSessionsWorkflow",
-    "path": "/references/medusa-workflows/deletePaymentSessionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deletePaymentSessionsWorkflow"
   },
   {
     "title": "deleteRefundReasonsWorkflow",
-    "path": "/references/medusa-workflows/deleteRefundReasonsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteRefundReasonsWorkflow"
   },
   {
     "title": "updateRefundReasonsWorkflow",
-    "path": "/references/medusa-workflows/updateRefundReasonsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateRefundReasonsWorkflow"
   },
   {
     "title": "setRegionsPaymentProvidersStep",
-    "path": "/references/medusa-workflows/steps/setRegionsPaymentProvidersStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/setRegionsPaymentProvidersStep"
   },
   {
     "title": "createRegionsWorkflow",
-    "path": "/references/medusa-workflows/createRegionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createRegionsWorkflow"
   },
   {
     "title": "updateRegionsWorkflow",
-    "path": "/references/medusa-workflows/updateRegionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateRegionsWorkflow"
   },
   {
     "title": "payment",
-    "path": "/references/js-sdk/admin/payment"
+    "path": "https://docs.medusajs.com/resources/references/js-sdk/admin/payment"
   },
   {
     "title": "paymentCollection",
-    "path": "/references/js-sdk/admin/paymentCollection"
+    "path": "https://docs.medusajs.com/resources/references/js-sdk/admin/paymentCollection"
   },
   {
     "title": "payment",
-    "path": "/references/js-sdk/store/payment"
+    "path": "https://docs.medusajs.com/resources/references/js-sdk/store/payment"
   }
 ]

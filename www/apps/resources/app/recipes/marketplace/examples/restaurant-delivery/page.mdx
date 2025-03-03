@@ -2366,7 +2366,7 @@ export const updateDeliveryStep = createStep(
   async ({ prevDeliveryData }, { container }) => {
     const deliveryService = container.resolve(DELIVERY_MODULE)
 
-    const { driver, ...prevDeliveryDataWithoutDriver } = prevDeliveryData;
+    const { driver, ...prevDeliveryDataWithoutDriver } = prevDeliveryData
 
     await deliveryService.updateDeliveries(prevDeliveryDataWithoutDriver)
   }

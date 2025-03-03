@@ -10,7 +10,13 @@ type ConfigItem = {
     path: string
     omitFromPath?: boolean
   }[]
+  tagBasePath?: string
 }
+
+// We need to set the base URL to solve problems
+// when linking between projects
+// TODO maybe find a better way of setting this
+const BASE_URL = "https://docs.medusajs.com"
 
 const config: ConfigItem[] = [
   {
@@ -33,6 +39,7 @@ const config: ConfigItem[] = [
         path: "references",
       },
     ],
+    tagBasePath: "/resources",
   },
   {
     path: path.resolve("..", "..", "apps", "ui"),
@@ -42,6 +49,7 @@ const config: ConfigItem[] = [
         omitFromPath: true,
       },
     ],
+    tagBasePath: "/ui",
   },
   {
     path: path.resolve("..", "..", "apps", "user-guide"),
@@ -51,6 +59,7 @@ const config: ConfigItem[] = [
         omitFromPath: true,
       },
     ],
+    tagBasePath: "/user-guide",
   },
 ]
 
@@ -90,19 +99,22 @@ export async function generateTags(basePath?: string) {
         const itemBasePath = path.join(item.path, omitPath || "")
 
         frontmatter.tags?.forEach((tag) => {
-          if (!Object.hasOwn(tags, tag)) {
-            tags[tag] = []
+          const tagName = typeof tag === "string" ? tag : tag.name
+          const tagLabel = typeof tag !== "string" ? tag.label : undefined
+          if (!Object.hasOwn(tags, tagName)) {
+            tags[tagName] = []
           }
 
-          tags[tag].push({
-            title: normalizePageTitle(
-              frontmatter.sidebar_label || findPageTitle(fullPath) || ""
-            ),
-            path:
+          tags[tagName].push({
+            title:
+              tagLabel ||
+              normalizePageTitle(
+                frontmatter.sidebar_label || findPageTitle(fullPath) || ""
+              ),
+            path: `${BASE_URL}${item.tagBasePath}${
               frontmatter.slug ||
-              fullPath
-                .replace(itemBasePath, "")
-                .replace(`/${fileBasename}`, ""),
+              fullPath.replace(itemBasePath, "").replace(`/${fileBasename}`, "")
+            }`,
           })
         })
       }

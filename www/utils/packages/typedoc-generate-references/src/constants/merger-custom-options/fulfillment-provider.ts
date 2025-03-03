@@ -33,6 +33,7 @@ For example, when the merchant creates a fulfillment for an order, the Fulfillme
 Start by creating a new directory for your module provider.
 
 If you're creating the module provider in a Medusa application, create it under the \`src/modules\` directory. For example, \`src/modules/my-fulfillment\`.
+
 If you're creating the module provider in a plugin, create it under the \`src/providers\` directory. For example, \`src/providers/my-fulfillment\`.
 
 <Note>

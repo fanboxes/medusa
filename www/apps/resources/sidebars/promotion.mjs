@@ -81,8 +81,8 @@ export const promotionSidebar = [
       },
       {
         type: "category",
-        title: "User Guides",
-        autogenerate_tags: "userGuides+promotion",
+        title: "Admin User Guides",
+        autogenerate_tags: "userGuide+promotion",
         initialOpen: false,
         autogenerate_as_ref: true,
         description:

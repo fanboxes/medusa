@@ -258,7 +258,7 @@ export class RedisLockingProvider implements ILockingProvider {
           const currentOwner = currentOwners?.[idx]?.[1]
 
           if (currentOwner === ownerId) {
-            deletePipeline.del(key)
+            deletePipeline.unlink(key)
           }
         })
 

@@ -242,13 +242,53 @@ export function getComputedActionsForBuyGet(
 
 export function sortByBuyGetType(a, b) {
   if (a.type === PromotionType.BUYGET && b.type !== PromotionType.BUYGET) {
-    return -1
+    return -1 // BuyGet promotions come first
   } else if (
     a.type !== PromotionType.BUYGET &&
     b.type === PromotionType.BUYGET
   ) {
-    return 1
+    return 1 // BuyGet promotions come first
+  } else if (a.type === b.type) {
+    // If types are equal, sort by application_method.value in descending order when types are equal
+    if (a.application_method.value < b.application_method.value) {
+      return 1 // Higher value comes first
+    } else if (a.application_method.value > b.application_method.value) {
+      return -1 // Lower value comes later
+    }
+
+    /*
+      If the promotion is a BuyGet & the value is the same, we need to sort by the following criteria:
+      - buy_rules_min_quantity in descending order
+      - apply_to_quantity in descending order
+    */
+    if (a.type === PromotionType.BUYGET) {
+      if (
+        a.application_method.buy_rules_min_quantity <
+        b.application_method.buy_rules_min_quantity
+      ) {
+        return 1
+      } else if (
+        a.application_method.buy_rules_min_quantity >
+        b.application_method.buy_rules_min_quantity
+      ) {
+        return -1
+      }
+
+      if (
+        a.application_method.apply_to_quantity <
+        b.application_method.apply_to_quantity
+      ) {
+        return 1
+      } else if (
+        a.application_method.apply_to_quantity >
+        b.application_method.apply_to_quantity
+      ) {
+        return -1
+      }
+    }
+
+    return 0 // If all criteria are equal, keep original order
   } else {
-    return 0
+    return 0 // If types are different (and not BuyGet), keep original order
   }
 }

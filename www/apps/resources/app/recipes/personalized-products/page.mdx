@@ -1,5 +1,4 @@
 import { AcademicCapSolid, NextJs } from "@medusajs/icons"
-import { LearningPath } from "docs-ui"
 
 export const metadata = {
   title: `Personalized Products Recipe`,
@@ -44,7 +43,7 @@ Two line items in the cart having different `metadata` attributes are not consid
 
 </Note>
 
-In more complex cases, you can create a custom module that stores and manages the personalization data models. You can also create a relationship between these data models and the `LineItem` data model.
+In more complex cases, you can create a custom module that stores and manages the personalization data models. You can also create a link between these data models and the `LineItem` data model.
 
 <CardList items={[
   {
@@ -54,18 +53,18 @@ In more complex cases, you can create a custom module that stores and manages th
     icon: AcademicCapSolid,
   },
   {
-    href: "!docs!/learn/fundamentals/modules#1-create-data-model",
-    title: "Create a Data Model",
-    text: "Learn how to create a data model.",
+    href: "!docs!/learn/fundamentals/module-links",
+    title: "Define Module Link",
+    text: "Define link between data models.",
     icon: AcademicCapSolid,
-  }
+  },
 ]} />
 
 ---
 
 ## Build a Custom Storefront
 
-Due to Medusa's modular architecture, there are no restrictions on the framework you use to build the storefront, or design and experience you provide customers. The storefront connects to the Medusa application using the Store API Routes.
+Medusa's modular architecture removes any restrictions on the framework you use to build the storefront, or design and experience you provide customers. The storefront connects to the Medusa application using the Store API Routes.
 
 You can build a unique experience around your products that focuses on the customer’s personalization capabilities.
 
@@ -121,7 +120,7 @@ The Fulfillment Module registers your fulfillment module provider to use it to f
 
 <Card
   href="/references/fulfillment/provider"
-  title="Create a Fulfillment Service"
+  title="Create a Fulfillment Provider"
   text="Learn how to create a fulfillment provider in Medusa."
   icon={AcademicCapSolid}
 />

@@ -93,7 +93,9 @@ function createContextualWorkflowRunner<
 
     const { eventGroupId, parentStepIdempotencyKey } = context
 
-    attachOnFinishReleaseEvents(events, flow, { logOnError })
+    if (!parentStepIdempotencyKey) {
+      attachOnFinishReleaseEvents(events, flow, { logOnError })
+    }
 
     const flowMetadata = {
       eventGroupId,

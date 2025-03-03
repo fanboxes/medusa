@@ -11,6 +11,8 @@ import { MedusaRequest, MedusaResponse } from "./types"
 
 const NOISY_ENDPOINTS_CHUNKS = ["@fs", "@id", "@vite", "@react", "node_modules"]
 
+const isHealthCheck = (req: MedusaRequest) => req.path === "/health"
+
 export async function expressLoader({ app }: { app: Express }): Promise<{
   app: Express
   shutdown: () => Promise<void>
@@ -69,6 +71,7 @@ export async function expressLoader({ app }: { app: Express }): Promise<{
   function shouldSkipHttpLog(req: MedusaRequest, res: MedusaResponse) {
     return (
       isTest ||
+      isHealthCheck(req) ||
       NOISY_ENDPOINTS_CHUNKS.some((chunk) => req.url.includes(chunk)) ||
       !logger.shouldLog("http")
     )

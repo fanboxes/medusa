@@ -1589,6 +1589,18 @@ export interface OrderReturnItemDTO {
   raw_received_quantity?: BigNumberRawValue
 
   /**
+   * The damaged quantity of the return item.
+   */
+  damaged_quantity?: number
+
+  /**
+   * The raw damaged quantity of the return item.
+   *
+   * @ignore
+   */
+  raw_damaged_quantity?: BigNumberRawValue
+
+  /**
    * Holds custom data in key-value pairs.
    */
   metadata?: Record<string, unknown> | null

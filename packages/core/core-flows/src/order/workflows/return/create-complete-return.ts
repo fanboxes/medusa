@@ -3,6 +3,7 @@ import {
   CreateOrderShippingMethodDTO,
   FulfillmentWorkflow,
   OrderDTO,
+  ReturnDTO,
   OrderWorkflow,
   ShippingOptionDTO,
   WithCalculatedPrice,
@@ -16,6 +17,7 @@ import {
 } from "@medusajs/framework/utils"
 import {
   WorkflowData,
+  WorkflowResponse,
   createStep,
   createWorkflow,
   parallelize,
@@ -308,7 +310,7 @@ export const createAndCompleteReturnOrderWorkflow = createWorkflow(
   createAndCompleteReturnOrderWorkflowId,
   function (
     input: WorkflowData<OrderWorkflow.CreateOrderReturnWorkflowInput>
-  ): WorkflowData<void> {
+  ): WorkflowResponse<ReturnDTO> {
     const order: OrderDTO = useRemoteQueryStep({
       entry_point: "orders",
       fields: [
@@ -412,5 +414,7 @@ export const createAndCompleteReturnOrderWorkflow = createWorkflow(
         },
       }).config({ name: "emit-return-received-event" })
     )
+
+    return new WorkflowResponse(returnCreated)
   }
 )

@@ -1,4 +1,5 @@
 import mdx from "@next/mdx"
+import path from "path"
 import rehypeMdxCodeProps from "rehype-mdx-code-props"
 import rehypeSlug from "rehype-slug"
 import remarkDirective from "remark-directive"
@@ -9,13 +10,32 @@ import {
   cloudinaryImgRehypePlugin,
   resolveAdmonitionsPlugin,
   crossProjectLinksPlugin,
+  prerequisitesLinkFixerPlugin,
 } from "remark-rehype-plugins"
+import bundleAnalyzer from "@next/bundle-analyzer"
 
 const withMDX = mdx({
   extension: /\.mdx?$/,
   options: {
     rehypePlugins: [
-      // TODO add V2 to path if necessary
+      [
+        brokenLinkCheckerPlugin,
+        {
+          crossProjects: {
+            docs: {
+              projectPath: path.resolve("..", "book"),
+            },
+            ui: {
+              projectPath: path.resolve("..", "ui"),
+              contentPath: "src/content/docs",
+            },
+            resources: {
+              projectPath: path.resolve("..", "resources"),
+              hasGeneratedSlugs: true,
+            },
+          },
+        },
+      ],
       [
         crossProjectLinksPlugin,
         {
@@ -40,7 +60,6 @@ const withMDX = mdx({
             process.env.VERCEL_ENV === "production",
         },
       ],
-      [brokenLinkCheckerPlugin],
       [localLinksRehypePlugin],
       [
         rehypeMdxCodeProps,
@@ -63,6 +82,12 @@ const withMDX = mdx({
           },
         },
       ],
+      [
+        prerequisitesLinkFixerPlugin,
+        {
+          checkLinksType: "value",
+        },
+      ],
     ],
     remarkPlugins: [
       [remarkFrontmatter],
@@ -79,8 +104,17 @@ const nextConfig = {
   pageExtensions: ["js", "jsx", "mdx", "ts", "tsx"],
 
   transpilePackages: ["docs-ui"],
-  // TODO uncomment if we decide on baes path
   basePath: process.env.NEXT_PUBLIC_BASE_PATH || "/user-guide",
+  outputFileTracingExcludes: {
+    "*": ["node_modules/@medusajs/icons"],
+  },
+  experimental: {
+    optimizePackageImports: ["@medusajs/icons", "@medusajs/ui"],
+  },
 }
 
-export default withMDX(nextConfig)
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+})
+
+export default withMDX(withBundleAnalyzer(nextConfig))

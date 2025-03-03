@@ -4,9 +4,11 @@ import {
   Card,
   CardProps,
   ChefHatIcon,
+  ErpIcon,
   IconHeadline,
   ImageBinaryIcon,
   Link,
+  RestockIcon,
   ScrollTextIcon,
   ShopIcon,
 } from "docs-ui"
@@ -15,8 +17,15 @@ const HomepageRecipesSection = () => {
   const cards: CardProps[] = [
     {
       type: "large",
+      title: "ERP",
+      text: "Integrate an ERP system to manage custom product prices, purchase rules, syncing orders, and more.",
+      href: "https://docs.medusajs.com/resources/recipes/erp",
+      icon: ErpIcon,
+    },
+    {
+      type: "large",
       title: "Marketplace",
-      text: "Build a marketplace with multiple vendors",
+      text: "Build a marketplace with multiple vendors.",
       href: "https://docs.medusajs.com/resources/recipes/marketplace/examples/vendors",
       icon: ShopIcon,
     },
@@ -30,7 +39,7 @@ const HomepageRecipesSection = () => {
     {
       type: "large",
       title: "Restaurant-Delivery",
-      text: "Build a restaurant marketplace inspired by UberEats, with real-time delivery handling",
+      text: "Build a restaurant marketplace inspired by UberEats, with real-time delivery handling.",
       href: "https://docs.medusajs.com/resources/recipes/marketplace/examples/restaurant-delivery",
       icon: ChefHatIcon,
     },
@@ -40,6 +49,13 @@ const HomepageRecipesSection = () => {
       text: "Sell digital products with custom fulfillment.",
       href: "https://docs.medusajs.com/resources/recipes/digital-products/examples/standard",
       icon: ImageBinaryIcon,
+    },
+    {
+      type: "large",
+      title: "Restock Notifications",
+      text: "Notify customers when a product is back in stock.",
+      href: "https://docs.medusajs.com/resources/recipes/commerce-automation/restock-notification",
+      icon: RestockIcon,
     },
   ]
   return (

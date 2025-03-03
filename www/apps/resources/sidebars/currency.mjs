@@ -54,8 +54,8 @@ export const currencySidebar = [
       },
       {
         type: "category",
-        title: "User Guides",
-        autogenerate_tags: "userGuides+currency",
+        title: "Admin User Guides",
+        autogenerate_tags: "userGuide+currency",
         initialOpen: false,
         autogenerate_as_ref: true,
         description:

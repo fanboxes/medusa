@@ -1,0 +1,125 @@
+---
+sidebar_label: "Product Shipping Requirement"
+tags:
+    - concept
+    - fulfillment
+---
+
+import { Table } from "docs-ui"
+
+export const metadata = {
+  title: `Configure Selling Products`,
+}
+
+# {metadata.title}
+
+In this guide, you'll learn how to set up and configure your products based on their shipping and inventory requirements, the product type, how you want to sell them, or your commerce ecosystem.
+
+<Note>
+
+The concepts in this guide are applicable starting from Medusa v2.5.1.
+
+</Note>
+
+## Scenario
+
+Businesses can have different selling requirements:
+
+1. They may sell physical or digital items.
+2. They may sell items that don't require shipping or inventory management, such as selling digital products, services, or booking appointments.
+3. They may sell items whose inventory is managed by an external system, such as an ERP.
+
+Medusa supports these different selling requirements by allowing you to configure shipping and inventory requirements for products and their variants. This guide explains how these configurations work, then provides examples of setting up different use cases.
+
+---
+
+## Configuring Shipping Requirements
+
+The Medusa application defines a link between the `Product` data model and a [ShippingProfile](../../fulfillment/concepts/page.mdx#shipping-profile) in the [Fulfillment Module](../../fulfillment/page.mdx), allowing you to associate a product with a shipping profile.
+
+When a product is associated with a shipping profile, its variants require shipping and fulfillment when purchased. This is useful for physical products or digital products that require custom fulfillment.
+
+If a product doesn't have an associated shipping profile, its variants don't require shipping and fulfillment when purchased. This is useful for digital products, for example, that don't require shipping.
+
+### Overriding Shipping Requirements for Variants
+
+A product variant whose inventory is managed by Medusa (its `manage_inventory` property is enabled) has an [inventory item](../../inventory/concepts/page.mdx#inventoryitem). The inventory item has a `requires_shipping` property that can be used to override its shipping requirement. This is useful if the product has an associated shipping profile but you want to disable shipping for a specific variant, or vice versa.
+
+<Note title="Tip">
+
+Learn more about product variant's inventory in [this guide](../variant-inventory/page.mdx).
+
+</Note>
+
+When a product variant is purchased, the Medusa application decides whether the purchased item requires shipping in the following order:
+
+1. The product variant has an inventory item. In this case, the Medusa application uses the inventory item's `requires_shipping` property to determine if the item requires shipping.
+2. If the product variant doesn't have an inventory item, the Medusa application checks whether the product has an associated shipping profile to determine if the item requires shipping.
+
+---
+
+## Use Case Examples
+
+By combining configurations of shipment requirements and inventory management, you can set up your products to support your use case:
+
+<Table>
+  <Table.Header>
+    <Table.Row>
+      <Table.HeaderCell>Use Case</Table.HeaderCell>
+      <Table.HeaderCell>Configurations</Table.HeaderCell>
+      <Table.HeaderCell>Example</Table.HeaderCell>
+    </Table.Row>
+  </Table.Header>
+  <Table.Body>
+    <Table.Row>
+      <Table.Cell>
+        Item that's shipped on purchase, and its variant inventory is managed by the Medusa application.
+      </Table.Cell>
+      <Table.Cell>
+        - Product has a shipping profile, or variant inventory item's `requires_shipping` property is `true`.
+        - Product variant's `manage_inventory` property is `true`.
+      </Table.Cell>
+      <Table.Cell>
+        Any stock-kept item (clothing, for example), whose inventory is managed in the Medusa application.
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        Item that's shipped on purchase, but its variant inventory is managed externally (not by Medusa) or it has infinite stock.
+      </Table.Cell>
+      <Table.Cell>
+        - Product has a shipping profile.
+        - Product variant's `manage_inventory` property is `false`.
+      </Table.Cell>
+      <Table.Cell>
+        Any stock-kept item (clothing, for example), whose inventory is managed in an ERP or has infinite stock.
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        Item that's not shipped on purchase, but its variant inventory is managed by Medusa.
+      </Table.Cell>
+      <Table.Cell>
+        - Product doesn't have a shipping profile, or variant inventory item's `requires_shipping` property is `false`.
+        - Product variant's `manage_inventory` property is `true`.
+      </Table.Cell>
+      <Table.Cell>
+        Digital products, such as licenses, that don't require shipping but have a limited quantity.
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        Item that doesn't require shipping and its variant inventory isn't managed by Medusa.
+      </Table.Cell>
+      <Table.Cell>
+        - Product doesn't have a shipping profile, or variant inventory item's `requires_shipping` property is `false`.
+        - Product variant's `manage_inventory` property is `false`.
+      </Table.Cell>
+      <Table.Cell>
+        - Digital products, such as eBooks, that don't require shipping and don't have a stock quantity.
+        - Services, such as appointments, that don't require shipping and don't have a stock quantity.
+      </Table.Cell>
+    </Table.Row>
+  </Table.Body>
+</Table>
+

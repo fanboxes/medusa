@@ -48,11 +48,11 @@ export const buildProductAndRelationsData = ({
   images,
   status,
   type_id,
-  tags,
+  tag_ids,
   options,
   variants,
   collection_id,
-}: Partial<ProductTypes.CreateProductDTO> & { tags: { value: string }[] }) => {
+}: Partial<ProductTypes.CreateProductDTO> & { tags?: { value: string }[] }) => {
   const defaultOptionTitle = "test-option"
   const defaultOptionValue = "test-value"
 
@@ -66,7 +66,7 @@ export const buildProductAndRelationsData = ({
     status: status ?? ProductStatus.PUBLISHED,
     images: (images ?? []) as ProductImage[],
     type_id,
-    tags: tags ?? [{ value: "tag-1" }],
+    tag_ids,
     collection_id,
     options: options ?? [
       {

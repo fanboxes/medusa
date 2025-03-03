@@ -15,9 +15,15 @@ export const metadata = {
 
 In this guide, you'll learn about the inventory management features related to product variants.
 
+<Note title="Looking for no-code docs?">
+
+Refer to this [Medusa Admin User Guide](!user-guide!/products/variants#manage-product-variant-inventory) to learn how to manage inventory of product variants.
+
+</Note>
+
 ## Configure Inventory Management of Product Variants
 
-A product variant, represented by the [ProductVariant](/references/product/models/ProductVariant) data model, has a `manage_inventory` field that's disabled by default. This field indicates whether you'll manage the inventory quantity of the product variant.
+A product variant, represented by the [ProductVariant](/references/product/models/ProductVariant) data model, has a `manage_inventory` field that's disabled by default. This field indicates whether you'll manage the inventory quantity of the product variant in the Medusa application. You can also keep `manage_inventory` disabled if you manage the product's inventory in an external system, such as an ERP.
 
 The Product Module doesn't provide inventory-management features. Instead, the Medusa application uses the [Inventory Module](../../inventory/page.mdx) to manage inventory for products and variants. When `manage_inventory` is disabled, the Medusa application always considers the product variant to be in stock. This is useful if your product's variants aren't items that can be stocked, such as digital products, or they don't have a limited stock quantity.
 
@@ -80,5 +86,6 @@ You can also allow customers to subscribe to restock notifications of a product 
 The following guides provide more details on inventory management in the Medusa application:
 
 - [Inventory Kits in the Inventory Module](../../inventory/inventory-kit/page.mdx): Learn how you can implement bundled or multi-part products through the Inventory Module.
+- [Configure Selling Products](../selling-products/page.mdx): Learn how to use inventory management to support different use cases when selling products.
 - [Inventory in Flows](../../inventory/inventory-in-flows/page.mdx): Learn how Medusa utilizes inventory management in different flows.
 - [Storefront guide: how to retrieve a product variant's inventory details](https://docs.medusajs.com/resources/storefront-development/products/inventory).

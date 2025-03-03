@@ -547,7 +547,7 @@ export default class InventoryModuleService
       return
     }
 
-    return await this.inventoryLevelService_.delete(inventoryLevel.id, context)
+    await this.inventoryLevelService_.delete(inventoryLevel.id, context)
   }
 
   // @ts-ignore

@@ -50,8 +50,6 @@ export const AdminGetOrdersParams = createFindParams({
       .optional(),
     name: z.union([z.string(), z.array(z.string())]).optional(),
     sales_channel_id: z.array(z.string()).optional(),
-    fulfillment_status: z.array(z.string()).optional(),
-    payment_status: z.array(z.string()).optional(),
     region_id: z.union([z.string(), z.array(z.string())]).optional(),
     customer_id: z.union([z.string(), z.array(z.string())]).optional(),
     q: z.string().optional(),

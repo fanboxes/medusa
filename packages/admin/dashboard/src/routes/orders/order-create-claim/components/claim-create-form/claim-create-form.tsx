@@ -50,10 +50,10 @@ import {
   useUpdateClaimInboundShipping,
   useUpdateClaimOutboundShipping,
 } from "../../../../../hooks/api/claims"
-import { useUpdateReturn } from "../../../../../hooks/api/returns.tsx"
+import { useUpdateReturn } from "../../../../../hooks/api/returns"
 import { sdk } from "../../../../../lib/client"
 import { currencies } from "../../../../../lib/data/currencies"
-import { ReturnShippingPlaceholder } from "../../../common/placeholders.tsx"
+import { ReturnShippingPlaceholder } from "../../../common/placeholders"
 import { ClaimOutboundSection } from "./claim-outbound-section"
 import { ItemPlaceholder } from "./item-placeholder"
 
@@ -508,10 +508,10 @@ export const ClaimCreateForm = ({
         .filter(Boolean)
 
       const variants = (
-        await sdk.admin.productVariant.list(
-          { id: variantIds },
-          { fields: "*inventory,*inventory.location_levels" }
-        )
+        await sdk.admin.productVariant.list({
+          id: variantIds,
+          fields: "*inventory.location_levels",
+        })
       ).variants
 
       variants.forEach((variant) => {
@@ -732,7 +732,6 @@ export const ClaimCreateForm = ({
                     </Form.Hint>
                   </div>
 
-                  {/* TODO: WHAT IF THE RETURN OPTION HAS COMPUTED PRICE*/}
                   <Form.Field
                     control={form.control}
                     name="inbound_option_id"

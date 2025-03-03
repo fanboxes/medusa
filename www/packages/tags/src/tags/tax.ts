@@ -1,166 +1,170 @@
 export const tax = [
   {
+    "title": "Manage Tax Regions",
+    "path": "https://docs.medusajs.com/user-guide/settings/tax-regions"
+  },
+  {
     "title": "Get Variant Price with Taxes",
-    "path": "/commerce-modules/product/guides/price-with-taxes"
+    "path": "https://docs.medusajs.com/resources/commerce-modules/product/guides/price-with-taxes"
   },
   {
     "title": "Example: Show Price with Taxes",
-    "path": "/storefront-development/products/price/examples/tax-price"
+    "path": "https://docs.medusajs.com/resources/storefront-development/products/price/examples/tax-price"
   },
   {
     "title": "addShippingMethodToCartWorkflow",
-    "path": "/references/medusa-workflows/addShippingMethodToCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/addShippingMethodToCartWorkflow"
   },
   {
     "title": "addToCartWorkflow",
-    "path": "/references/medusa-workflows/addToCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/addToCartWorkflow"
   },
   {
     "title": "createCartWorkflow",
-    "path": "/references/medusa-workflows/createCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createCartWorkflow"
   },
   {
     "title": "refreshCartItemsWorkflow",
-    "path": "/references/medusa-workflows/refreshCartItemsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/refreshCartItemsWorkflow"
   },
   {
     "title": "transferCartCustomerWorkflow",
-    "path": "/references/medusa-workflows/transferCartCustomerWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/transferCartCustomerWorkflow"
   },
   {
     "title": "updateCartWorkflow",
-    "path": "/references/medusa-workflows/updateCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateCartWorkflow"
   },
   {
     "title": "updateLineItemInCartWorkflow",
-    "path": "/references/medusa-workflows/updateLineItemInCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateLineItemInCartWorkflow"
   },
   {
     "title": "updateTaxLinesWorkflow",
-    "path": "/references/medusa-workflows/updateTaxLinesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateTaxLinesWorkflow"
   },
   {
     "title": "deleteLineItemsWorkflow",
-    "path": "/references/medusa-workflows/deleteLineItemsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteLineItemsWorkflow"
   },
   {
     "title": "createClaimShippingMethodWorkflow",
-    "path": "/references/medusa-workflows/createClaimShippingMethodWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createClaimShippingMethodWorkflow"
   },
   {
     "title": "createExchangeShippingMethodWorkflow",
-    "path": "/references/medusa-workflows/createExchangeShippingMethodWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createExchangeShippingMethodWorkflow"
   },
   {
     "title": "createOrderEditShippingMethodWorkflow",
-    "path": "/references/medusa-workflows/createOrderEditShippingMethodWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createOrderEditShippingMethodWorkflow"
   },
   {
     "title": "createOrderWorkflow",
-    "path": "/references/medusa-workflows/createOrderWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createOrderWorkflow"
   },
   {
     "title": "createReturnShippingMethodWorkflow",
-    "path": "/references/medusa-workflows/createReturnShippingMethodWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createReturnShippingMethodWorkflow"
   },
   {
     "title": "orderClaimAddNewItemWorkflow",
-    "path": "/references/medusa-workflows/orderClaimAddNewItemWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/orderClaimAddNewItemWorkflow"
   },
   {
     "title": "orderEditAddNewItemWorkflow",
-    "path": "/references/medusa-workflows/orderEditAddNewItemWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/orderEditAddNewItemWorkflow"
   },
   {
     "title": "orderExchangeAddNewItemWorkflow",
-    "path": "/references/medusa-workflows/orderExchangeAddNewItemWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/orderExchangeAddNewItemWorkflow"
   },
   {
     "title": "updateOrderTaxLinesWorkflow",
-    "path": "/references/medusa-workflows/updateOrderTaxLinesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateOrderTaxLinesWorkflow"
   },
   {
     "title": "createTaxRateRulesStep",
-    "path": "/references/medusa-workflows/steps/createTaxRateRulesStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/createTaxRateRulesStep"
   },
   {
     "title": "createTaxRatesStep",
-    "path": "/references/medusa-workflows/steps/createTaxRatesStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/createTaxRatesStep"
   },
   {
     "title": "createTaxRegionsStep",
-    "path": "/references/medusa-workflows/steps/createTaxRegionsStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/createTaxRegionsStep"
   },
   {
     "title": "deleteTaxRateRulesStep",
-    "path": "/references/medusa-workflows/steps/deleteTaxRateRulesStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/deleteTaxRateRulesStep"
   },
   {
     "title": "deleteTaxRatesStep",
-    "path": "/references/medusa-workflows/steps/deleteTaxRatesStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/deleteTaxRatesStep"
   },
   {
     "title": "deleteTaxRegionsStep",
-    "path": "/references/medusa-workflows/steps/deleteTaxRegionsStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/deleteTaxRegionsStep"
   },
   {
     "title": "getItemTaxLinesStep",
-    "path": "/references/medusa-workflows/steps/getItemTaxLinesStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/getItemTaxLinesStep"
   },
   {
     "title": "listTaxRateRuleIdsStep",
-    "path": "/references/medusa-workflows/steps/listTaxRateRuleIdsStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/listTaxRateRuleIdsStep"
   },
   {
     "title": "updateTaxRatesStep",
-    "path": "/references/medusa-workflows/steps/updateTaxRatesStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/updateTaxRatesStep"
   },
   {
     "title": "updateTaxRegionsStep",
-    "path": "/references/medusa-workflows/steps/updateTaxRegionsStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/updateTaxRegionsStep"
   },
   {
     "title": "createTaxRateRulesWorkflow",
-    "path": "/references/medusa-workflows/createTaxRateRulesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createTaxRateRulesWorkflow"
   },
   {
     "title": "createTaxRatesWorkflow",
-    "path": "/references/medusa-workflows/createTaxRatesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createTaxRatesWorkflow"
   },
   {
     "title": "createTaxRegionsWorkflow",
-    "path": "/references/medusa-workflows/createTaxRegionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createTaxRegionsWorkflow"
   },
   {
     "title": "deleteTaxRateRulesWorkflow",
-    "path": "/references/medusa-workflows/deleteTaxRateRulesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteTaxRateRulesWorkflow"
   },
   {
     "title": "deleteTaxRatesWorkflow",
-    "path": "/references/medusa-workflows/deleteTaxRatesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteTaxRatesWorkflow"
   },
   {
     "title": "deleteTaxRegionsWorkflow",
-    "path": "/references/medusa-workflows/deleteTaxRegionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteTaxRegionsWorkflow"
   },
   {
     "title": "setTaxRateRulesWorkflow",
-    "path": "/references/medusa-workflows/setTaxRateRulesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/setTaxRateRulesWorkflow"
   },
   {
     "title": "updateTaxRatesWorkflow",
-    "path": "/references/medusa-workflows/updateTaxRatesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateTaxRatesWorkflow"
   },
   {
     "title": "updateTaxRegionsWorkflow",
-    "path": "/references/medusa-workflows/updateTaxRegionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateTaxRegionsWorkflow"
   },
   {
     "title": "taxRate",
-    "path": "/references/js-sdk/admin/taxRate"
+    "path": "https://docs.medusajs.com/resources/references/js-sdk/admin/taxRate"
   },
   {
     "title": "taxRegion",
-    "path": "/references/js-sdk/admin/taxRegion"
+    "path": "https://docs.medusajs.com/resources/references/js-sdk/admin/taxRegion"
   }
 ]

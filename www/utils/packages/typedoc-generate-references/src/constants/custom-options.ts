@@ -139,7 +139,7 @@ const customOptions: Record<string, Partial<TypeDocOptions>> = {
       ...modules.map((moduleName) =>
         path.join(
           rootPathPrefix,
-          `packages/core/types/src/${moduleName}/**/!(workflows).ts`
+          `packages/core/types/src/${moduleName}/**/!(workflows|provider).ts`
         )
       ),
     ],

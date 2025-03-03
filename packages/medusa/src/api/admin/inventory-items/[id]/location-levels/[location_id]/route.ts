@@ -1,7 +1,6 @@
 import {
   ContainerRegistrationKeys,
   MedusaError,
-  remoteQueryObjectFromString,
 } from "@medusajs/framework/utils"
 import { MedusaRequest, MedusaResponse } from "@medusajs/framework/http"
 
@@ -19,20 +18,22 @@ export const DELETE = async (
 ) => {
   const { id, location_id } = req.params
 
-  const remoteQuery = req.scope.resolve(ContainerRegistrationKeys.REMOTE_QUERY)
+  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
 
-  // TODO: We probably want to move this logic to the workflow
-  const [{ id: levelId, reserved_quantity: reservedQuantity }] =
-    await remoteQuery(
-      remoteQueryObjectFromString({
-        entryPoint: "inventory_level",
-        variables: {
-          inventory_item_id: id,
-          location_id,
-        },
-        fields: ["id", "reserved_quantity"],
-      })
+  const result = await query.graph({
+    entity: "inventory_level",
+    filters: { inventory_item_id: id, location_id },
+    fields: ["id", "reserved_quantity"],
+  })
+
+  if (!result.data.length) {
+    throw new MedusaError(
+      MedusaError.Types.NOT_FOUND,
+      `Inventory Level for Item ${id} at Location ${location_id} not found`
     )
+  }
+
+  const { id: levelId, reserved_quantity: reservedQuantity } = result.data[0]
 
   if (reservedQuantity > 0) {
     throw new MedusaError(

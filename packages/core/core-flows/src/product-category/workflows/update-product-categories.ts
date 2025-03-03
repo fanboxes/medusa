@@ -1,4 +1,7 @@
-import { ProductCategoryDTO, ProductCategoryWorkflow } from "@medusajs/framework/types"
+import {
+  ProductCategoryDTO,
+  ProductCategoryWorkflow,
+} from "@medusajs/framework/types"
 import { ProductCategoryWorkflowEvents } from "@medusajs/framework/utils"
 import {
   WorkflowData,
@@ -19,10 +22,10 @@ export const updateProductCategoriesWorkflowId = "update-product-categories"
 /**
  * This workflow updates product categories matching specified filters. It's used by the
  * [Update Product Category Admin API Route](https://docs.medusajs.com/api/admin#product-categories_postproductcategoriesid).
- * 
+ *
  * You can use this workflow within your customizations or your own custom workflows, allowing you to
  * update product categories within your custom flows.
- * 
+ *
  * @example
  * const { result } = await updateProductCategoriesWorkflow(container)
  * .run({
@@ -35,16 +38,16 @@ export const updateProductCategoriesWorkflowId = "update-product-categories"
  *     }
  *   }
  * })
- * 
+ *
  * @summary
- * 
+ *
  * Update product categories.
  */
 export const updateProductCategoriesWorkflow = createWorkflow(
   updateProductCategoriesWorkflowId,
   (
     input: WorkflowData<ProductCategoryWorkflow.UpdateProductCategoriesWorkflowInput>
-  )  => {
+  ) => {
     const updatedCategories = updateProductCategoriesStep(input)
 
     const productCategoryIdEvents = transform(
@@ -66,11 +69,12 @@ export const updateProductCategoriesWorkflow = createWorkflow(
     })
 
     const categoriesUpdated = createHook("categoriesUpdated", {
-      categories: updatedCategories
+      categories: updatedCategories,
+      additional_data: input.additional_data,
     })
 
     return new WorkflowResponse(updatedCategories, {
-      hooks: [categoriesUpdated]
+      hooks: [categoriesUpdated],
     })
   }
 )

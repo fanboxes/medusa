@@ -6,11 +6,7 @@ import PromotionRule from "./promotion-rule"
 const Promotion = model
   .define("Promotion", {
     id: model.id({ prefix: "promo" }).primaryKey(),
-    code: model
-      .text()
-      .searchable()
-      .unique("IDX_promotion_code_unique")
-      .index("IDX_promotion_code"),
+    code: model.text().searchable(),
     is_automatic: model.boolean().default(false),
     type: model.enum(PromotionUtils.PromotionType).index("IDX_promotion_type"),
     status: model
@@ -35,5 +31,13 @@ const Promotion = model
   .cascades({
     delete: ["application_method"],
   })
+  .indexes([
+    {
+      name: "IDX_unique_promotion_code",
+      on: ["code"],
+      where: "deleted_at IS NULL",
+      unique: true,
+    },
+  ])
 
 export default Promotion

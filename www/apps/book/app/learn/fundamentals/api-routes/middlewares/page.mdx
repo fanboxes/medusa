@@ -222,4 +222,4 @@ In general, avoid adding trailing backslashes when sending requests to API route
 
 The Medusa application registers your middlewares first, then registers middlewares defined in Medusa's core.
 
-So, if you add a middleware for a route defined in the core, it might get overridden by the core middleware. For example, if you add a middleware to change authentication of admin wrotes, the authentication middleware defined in the core will still run, leading to your middleware not being effective.
+So, if you add a middleware for a route defined in the core, it might get overridden by the core middleware. For example, if you add a middleware to change authentication of admin routes, the authentication middleware defined in the core will still run, leading to your middleware not being effective.

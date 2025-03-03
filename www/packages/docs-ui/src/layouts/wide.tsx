@@ -1,13 +1,11 @@
 import React from "react"
 import { RootLayout, RootLayoutProps } from "./root"
 import clsx from "clsx"
-import { Breadcrumbs, Pagination } from ".."
+import { Breadcrumbs } from ".."
 
 export const WideLayout = ({
   children,
-  showPagination,
-  feedbackComponent,
-  editComponent,
+  footerComponent,
   showBreadcrumbs = true,
   ...props
 }: RootLayoutProps) => {
@@ -20,9 +18,7 @@ export const WideLayout = ({
       <main className={clsx("relative mt-4 w-full flex-1 lg:mt-7")}>
         {showBreadcrumbs && <Breadcrumbs />}
         {children}
-        {feedbackComponent}
-        {showPagination && <Pagination />}
-        {editComponent}
+        {footerComponent}
       </main>
     </RootLayout>
   )

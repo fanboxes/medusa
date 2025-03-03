@@ -9,11 +9,9 @@ export type RootLayoutProps = {
   bodyClassName?: string
   showToc?: boolean
   sidebarProps?: SidebarProps
-  showPagination?: boolean
-  feedbackComponent?: React.ReactNode
-  editComponent?: React.ReactNode
   showBreadcrumbs?: boolean
   ProvidersComponent: React.FC<{ children: React.ReactNode }>
+  footerComponent?: React.ReactNode
 } & MainContentLayoutProps
 
 export const RootLayout = ({

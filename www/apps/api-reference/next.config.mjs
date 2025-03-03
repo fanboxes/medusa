@@ -48,6 +48,9 @@ const withMDX = createMDX({
               projectPath: path.resolve("..", "ui"),
               contentPath: "src/content/docs",
             },
+            "user-guide": {
+              projectPath: path.resolve("..", "user-guide"),
+            },
           },
         },
       ],
@@ -91,4 +94,4 @@ const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE_BUNDLE === "true",
 })
 
-export default withMDX(nextConfig)
+export default withMDX(withBundleAnalyzer(nextConfig))

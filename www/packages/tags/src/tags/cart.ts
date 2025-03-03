@@ -1,166 +1,166 @@
 export const cart = [
   {
     "title": "Implement Custom Line Item Pricing in Medusa",
-    "path": "/examples/guides/custom-item-price"
+    "path": "https://docs.medusajs.com/resources/examples/guides/custom-item-price"
   },
   {
     "title": "Create Cart Context in Storefront",
-    "path": "/storefront-development/cart/context"
+    "path": "https://docs.medusajs.com/resources/storefront-development/cart/context"
   },
   {
     "title": "Create Cart in Storefront",
-    "path": "/storefront-development/cart/create"
+    "path": "https://docs.medusajs.com/resources/storefront-development/cart/create"
   },
   {
     "title": "Manage Cart's Items in Storefront",
-    "path": "/storefront-development/cart/manage-items"
+    "path": "https://docs.medusajs.com/resources/storefront-development/cart/manage-items"
   },
   {
     "title": "Retrieve Cart in Storefront",
-    "path": "/storefront-development/cart/retrieve"
+    "path": "https://docs.medusajs.com/resources/storefront-development/cart/retrieve"
   },
   {
     "title": "Update Cart in Storefront",
-    "path": "/storefront-development/cart/update"
+    "path": "https://docs.medusajs.com/resources/storefront-development/cart/update"
   },
   {
     "title": "Checkout Step 2: Set Address",
-    "path": "/storefront-development/checkout/address"
+    "path": "https://docs.medusajs.com/resources/storefront-development/checkout/address"
   },
   {
     "title": "Checkout Step 5: Complete Cart",
-    "path": "/storefront-development/checkout/complete-cart"
+    "path": "https://docs.medusajs.com/resources/storefront-development/checkout/complete-cart"
   },
   {
     "title": "Checkout Step 1: Enter Email",
-    "path": "/storefront-development/checkout/email"
+    "path": "https://docs.medusajs.com/resources/storefront-development/checkout/email"
   },
   {
     "title": "Checkout Step 4: Choose Payment Provider",
-    "path": "/storefront-development/checkout/payment"
+    "path": "https://docs.medusajs.com/resources/storefront-development/checkout/payment"
   },
   {
     "title": "Payment with Stripe in React Storefront",
-    "path": "/storefront-development/checkout/payment/stripe"
+    "path": "https://docs.medusajs.com/resources/storefront-development/checkout/payment/stripe"
   },
   {
     "title": "Checkout Step 3: Choose Shipping Method",
-    "path": "/storefront-development/checkout/shipping"
+    "path": "https://docs.medusajs.com/resources/storefront-development/checkout/shipping"
   },
   {
     "title": "Implement Express Checkout with Medusa",
-    "path": "/storefront-development/guides/express-checkout"
+    "path": "https://docs.medusajs.com/resources/storefront-development/guides/express-checkout"
   },
   {
     "title": "addShippingMethodToCartStep",
-    "path": "/references/medusa-workflows/steps/addShippingMethodToCartStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/addShippingMethodToCartStep"
   },
   {
     "title": "createCartsStep",
-    "path": "/references/medusa-workflows/steps/createCartsStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/createCartsStep"
   },
   {
     "title": "createLineItemAdjustmentsStep",
-    "path": "/references/medusa-workflows/steps/createLineItemAdjustmentsStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/createLineItemAdjustmentsStep"
   },
   {
     "title": "createLineItemsStep",
-    "path": "/references/medusa-workflows/steps/createLineItemsStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/createLineItemsStep"
   },
   {
     "title": "createShippingMethodAdjustmentsStep",
-    "path": "/references/medusa-workflows/steps/createShippingMethodAdjustmentsStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/createShippingMethodAdjustmentsStep"
   },
   {
     "title": "getLineItemActionsStep",
-    "path": "/references/medusa-workflows/steps/getLineItemActionsStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/getLineItemActionsStep"
   },
   {
     "title": "removeLineItemAdjustmentsStep",
-    "path": "/references/medusa-workflows/steps/removeLineItemAdjustmentsStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/removeLineItemAdjustmentsStep"
   },
   {
     "title": "removeShippingMethodAdjustmentsStep",
-    "path": "/references/medusa-workflows/steps/removeShippingMethodAdjustmentsStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/removeShippingMethodAdjustmentsStep"
   },
   {
     "title": "removeShippingMethodFromCartStep",
-    "path": "/references/medusa-workflows/steps/removeShippingMethodFromCartStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/removeShippingMethodFromCartStep"
   },
   {
     "title": "setTaxLinesForItemsStep",
-    "path": "/references/medusa-workflows/steps/setTaxLinesForItemsStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/setTaxLinesForItemsStep"
   },
   {
     "title": "updateCartsStep",
-    "path": "/references/medusa-workflows/steps/updateCartsStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/updateCartsStep"
   },
   {
     "title": "updateLineItemsStep",
-    "path": "/references/medusa-workflows/steps/updateLineItemsStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/updateLineItemsStep"
   },
   {
     "title": "updateShippingMethodsStep",
-    "path": "/references/medusa-workflows/steps/updateShippingMethodsStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/updateShippingMethodsStep"
   },
   {
     "title": "addShippingMethodToCartWorkflow",
-    "path": "/references/medusa-workflows/addShippingMethodToCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/addShippingMethodToCartWorkflow"
   },
   {
     "title": "addToCartWorkflow",
-    "path": "/references/medusa-workflows/addToCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/addToCartWorkflow"
   },
   {
     "title": "completeCartWorkflow",
-    "path": "/references/medusa-workflows/completeCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/completeCartWorkflow"
   },
   {
     "title": "createCartWorkflow",
-    "path": "/references/medusa-workflows/createCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createCartWorkflow"
   },
   {
     "title": "refreshCartItemsWorkflow",
-    "path": "/references/medusa-workflows/refreshCartItemsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/refreshCartItemsWorkflow"
   },
   {
     "title": "refreshCartShippingMethodsWorkflow",
-    "path": "/references/medusa-workflows/refreshCartShippingMethodsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/refreshCartShippingMethodsWorkflow"
   },
   {
     "title": "transferCartCustomerWorkflow",
-    "path": "/references/medusa-workflows/transferCartCustomerWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/transferCartCustomerWorkflow"
   },
   {
     "title": "updateCartPromotionsWorkflow",
-    "path": "/references/medusa-workflows/updateCartPromotionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateCartPromotionsWorkflow"
   },
   {
     "title": "updateCartWorkflow",
-    "path": "/references/medusa-workflows/updateCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateCartWorkflow"
   },
   {
     "title": "updateLineItemInCartWorkflow",
-    "path": "/references/medusa-workflows/updateLineItemInCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateLineItemInCartWorkflow"
   },
   {
     "title": "updateTaxLinesWorkflow",
-    "path": "/references/medusa-workflows/updateTaxLinesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateTaxLinesWorkflow"
   },
   {
     "title": "deleteLineItemsStep",
-    "path": "/references/medusa-workflows/steps/deleteLineItemsStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/deleteLineItemsStep"
   },
   {
     "title": "updateLineItemsStepWithSelector",
-    "path": "/references/medusa-workflows/steps/updateLineItemsStepWithSelector"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/updateLineItemsStepWithSelector"
   },
   {
     "title": "deleteLineItemsWorkflow",
-    "path": "/references/medusa-workflows/deleteLineItemsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteLineItemsWorkflow"
   },
   {
     "title": "cart",
-    "path": "/references/js-sdk/store/cart"
+    "path": "https://docs.medusajs.com/resources/references/js-sdk/store/cart"
   }
 ]

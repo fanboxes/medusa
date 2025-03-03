@@ -101,8 +101,8 @@ export const paymentSidebar = [
       },
       {
         type: "category",
-        title: "User Guides",
-        autogenerate_tags: "userGuides+payment",
+        title: "Admin User Guides",
+        autogenerate_tags: "userGuide+payment",
         initialOpen: false,
         autogenerate_as_ref: true,
         description:

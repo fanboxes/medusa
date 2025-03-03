@@ -65,6 +65,7 @@ export const createProductCategoriesWorkflow = createWorkflow(
 
     const categoriesCreated = createHook("categoriesCreated", {
       categories: createdCategories,
+      additional_data: input.additional_data,
     })
 
     return new WorkflowResponse(createdCategories, {

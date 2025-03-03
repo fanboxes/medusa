@@ -18,7 +18,7 @@ export interface AddShippingMethodToCartStepInput {
 export const addShippingMethodToCartStepId = "add-shipping-method-to-cart-step"
 /**
  * This step adds shipping methods to a cart.
- * 
+ *
  * @example
  * const data = addShippingMethodToCartStep({
  *   shipping_methods: [
@@ -33,8 +33,11 @@ export const addShippingMethodToCartStepId = "add-shipping-method-to-cart-step"
 export const addShippingMethodToCartStep = createStep(
   addShippingMethodToCartStepId,
   async (data: AddShippingMethodToCartStepInput, { container }) => {
-    const cartService = container.resolve<ICartModuleService>(Modules.CART)
+    if (!data.shipping_methods?.length) {
+      return new StepResponse([], [])
+    }
 
+    const cartService = container.resolve<ICartModuleService>(Modules.CART)
     const methods = await cartService.addShippingMethods(data.shipping_methods)
 
     return new StepResponse(methods, methods)

@@ -85,7 +85,7 @@ export const prepareAdjustmentsFromPromotionActionsStepId =
 /**
  * This step prepares the line item or shipping method adjustments using
  * actions computed by the Promotion Module.
- * 
+ *
  * @example
  * const data = prepareAdjustmentsFromPromotionActionsStep({
  *   "actions": [{
@@ -107,6 +107,17 @@ export const prepareAdjustmentsFromPromotionActionsStep = createStep(
     )
 
     const { actions = [] } = data
+
+    if (!actions.length) {
+      return new StepResponse({
+        lineItemAdjustmentsToCreate: [],
+        lineItemAdjustmentIdsToRemove: [],
+        shippingMethodAdjustmentsToCreate: [],
+        shippingMethodAdjustmentIdsToRemove: [],
+        computedPromotionCodes: [],
+      } as PrepareAdjustmentsFromPromotionActionsStepOutput)
+    }
+
     const promotions = await promotionModuleService.listPromotions(
       { code: actions.map((a) => a.code) },
       { select: ["id", "code"] }

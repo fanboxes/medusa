@@ -533,7 +533,7 @@ medusaIntegrationTestRunner({
         )
       })
 
-      it("should fail on non-existent product fields being present in the CSV", async () => {
+      it("should successfully skip non-existent product fields being present in the CSV", async () => {
         const subscriberExecution = TestEventUtils.waitSubscribersExecution(
           `${Modules.NOTIFICATION}.notification.${CommonEvents.CREATED}`,
           eventBus
@@ -582,8 +582,19 @@ medusaIntegrationTestRunner({
           expect.objectContaining({
             data: expect.objectContaining({
               title: "Product import",
-              description: `Failed to import products from file test.csv`,
+              description:
+                "Product import of file test.csv completed successfully!",
             }),
+          })
+        )
+
+        const [importedProduct] = (
+          await api.get("/admin/products?limit=1&order=-id", adminHeaders)
+        ).data.products
+
+        expect(importedProduct).not.toEqual(
+          expect.objectContaining({
+            field: "Test product",
           })
         )
       })

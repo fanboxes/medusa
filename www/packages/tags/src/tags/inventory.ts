@@ -1,214 +1,226 @@
 export const inventory = [
   {
+    "title": "Manage Inventory Items",
+    "path": "https://docs.medusajs.com/user-guide/inventory/inventory"
+  },
+  {
+    "title": "Inventory Overview",
+    "path": "https://docs.medusajs.com/user-guide/inventory"
+  },
+  {
+    "title": "Manage Reservations",
+    "path": "https://docs.medusajs.com/user-guide/inventory/reservations"
+  },
+  {
     "title": "Inventory Kits",
-    "path": "/commerce-modules/inventory/inventory-kit"
+    "path": "https://docs.medusajs.com/resources/commerce-modules/inventory/inventory-kit"
   },
   {
     "title": "Product Variant Inventory",
-    "path": "/commerce-modules/product/variant-inventory"
+    "path": "https://docs.medusajs.com/resources/commerce-modules/product/variant-inventory"
   },
   {
     "title": "Retrieve Product Variant's Inventory in Storefront",
-    "path": "/storefront-development/products/inventory"
+    "path": "https://docs.medusajs.com/resources/storefront-development/products/inventory"
   },
   {
     "title": "confirmInventoryStep",
-    "path": "/references/medusa-workflows/steps/confirmInventoryStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/confirmInventoryStep"
   },
   {
     "title": "reserveInventoryStep",
-    "path": "/references/medusa-workflows/steps/reserveInventoryStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/reserveInventoryStep"
   },
   {
     "title": "addToCartWorkflow",
-    "path": "/references/medusa-workflows/addToCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/addToCartWorkflow"
   },
   {
     "title": "completeCartWorkflow",
-    "path": "/references/medusa-workflows/completeCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/completeCartWorkflow"
   },
   {
     "title": "confirmVariantInventoryWorkflow",
-    "path": "/references/medusa-workflows/confirmVariantInventoryWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/confirmVariantInventoryWorkflow"
   },
   {
     "title": "createCartWorkflow",
-    "path": "/references/medusa-workflows/createCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createCartWorkflow"
   },
   {
     "title": "updateLineItemInCartWorkflow",
-    "path": "/references/medusa-workflows/updateLineItemInCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateLineItemInCartWorkflow"
   },
   {
     "title": "adjustInventoryLevelsStep",
-    "path": "/references/medusa-workflows/steps/adjustInventoryLevelsStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/adjustInventoryLevelsStep"
   },
   {
     "title": "createInventoryItemsStep",
-    "path": "/references/medusa-workflows/steps/createInventoryItemsStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/createInventoryItemsStep"
   },
   {
     "title": "createInventoryLevelsStep",
-    "path": "/references/medusa-workflows/steps/createInventoryLevelsStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/createInventoryLevelsStep"
   },
   {
     "title": "deleteInventoryItemStep",
-    "path": "/references/medusa-workflows/steps/deleteInventoryItemStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/deleteInventoryItemStep"
   },
   {
     "title": "updateInventoryItemsStep",
-    "path": "/references/medusa-workflows/steps/updateInventoryItemsStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/updateInventoryItemsStep"
   },
   {
     "title": "updateInventoryLevelsStep",
-    "path": "/references/medusa-workflows/steps/updateInventoryLevelsStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/updateInventoryLevelsStep"
   },
   {
     "title": "batchInventoryItemLevelsWorkflow",
-    "path": "/references/medusa-workflows/batchInventoryItemLevelsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/batchInventoryItemLevelsWorkflow"
   },
   {
     "title": "bulkCreateDeleteLevelsWorkflow",
-    "path": "/references/medusa-workflows/bulkCreateDeleteLevelsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/bulkCreateDeleteLevelsWorkflow"
   },
   {
     "title": "createInventoryItemsWorkflow",
-    "path": "/references/medusa-workflows/createInventoryItemsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createInventoryItemsWorkflow"
   },
   {
     "title": "createInventoryLevelsWorkflow",
-    "path": "/references/medusa-workflows/createInventoryLevelsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createInventoryLevelsWorkflow"
   },
   {
     "title": "deleteInventoryItemWorkflow",
-    "path": "/references/medusa-workflows/deleteInventoryItemWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteInventoryItemWorkflow"
   },
   {
     "title": "updateInventoryItemsWorkflow",
-    "path": "/references/medusa-workflows/updateInventoryItemsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateInventoryItemsWorkflow"
   },
   {
     "title": "updateInventoryLevelsWorkflow",
-    "path": "/references/medusa-workflows/updateInventoryLevelsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateInventoryLevelsWorkflow"
   },
   {
     "title": "addOrderLineItemsWorkflow",
-    "path": "/references/medusa-workflows/addOrderLineItemsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/addOrderLineItemsWorkflow"
   },
   {
     "title": "cancelOrderClaimWorkflow",
-    "path": "/references/medusa-workflows/cancelOrderClaimWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/cancelOrderClaimWorkflow"
   },
   {
     "title": "cancelOrderExchangeWorkflow",
-    "path": "/references/medusa-workflows/cancelOrderExchangeWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/cancelOrderExchangeWorkflow"
   },
   {
     "title": "cancelOrderFulfillmentWorkflow",
-    "path": "/references/medusa-workflows/cancelOrderFulfillmentWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/cancelOrderFulfillmentWorkflow"
   },
   {
     "title": "cancelOrderWorkflow",
-    "path": "/references/medusa-workflows/cancelOrderWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/cancelOrderWorkflow"
   },
   {
     "title": "confirmClaimRequestWorkflow",
-    "path": "/references/medusa-workflows/confirmClaimRequestWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/confirmClaimRequestWorkflow"
   },
   {
     "title": "confirmExchangeRequestWorkflow",
-    "path": "/references/medusa-workflows/confirmExchangeRequestWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/confirmExchangeRequestWorkflow"
   },
   {
     "title": "confirmOrderEditRequestWorkflow",
-    "path": "/references/medusa-workflows/confirmOrderEditRequestWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/confirmOrderEditRequestWorkflow"
   },
   {
     "title": "confirmReturnReceiveWorkflow",
-    "path": "/references/medusa-workflows/confirmReturnReceiveWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/confirmReturnReceiveWorkflow"
   },
   {
     "title": "createOrderFulfillmentWorkflow",
-    "path": "/references/medusa-workflows/createOrderFulfillmentWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createOrderFulfillmentWorkflow"
   },
   {
     "title": "createOrderWorkflow",
-    "path": "/references/medusa-workflows/createOrderWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createOrderWorkflow"
   },
   {
     "title": "orderClaimAddNewItemWorkflow",
-    "path": "/references/medusa-workflows/orderClaimAddNewItemWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/orderClaimAddNewItemWorkflow"
   },
   {
     "title": "orderEditAddNewItemWorkflow",
-    "path": "/references/medusa-workflows/orderEditAddNewItemWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/orderEditAddNewItemWorkflow"
   },
   {
     "title": "orderExchangeAddNewItemWorkflow",
-    "path": "/references/medusa-workflows/orderExchangeAddNewItemWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/orderExchangeAddNewItemWorkflow"
   },
   {
     "title": "batchProductVariantsWorkflow",
-    "path": "/references/medusa-workflows/batchProductVariantsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/batchProductVariantsWorkflow"
   },
   {
     "title": "batchProductsWorkflow",
-    "path": "/references/medusa-workflows/batchProductsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/batchProductsWorkflow"
   },
   {
     "title": "createProductVariantsWorkflow",
-    "path": "/references/medusa-workflows/createProductVariantsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createProductVariantsWorkflow"
   },
   {
     "title": "createProductsWorkflow",
-    "path": "/references/medusa-workflows/createProductsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createProductsWorkflow"
   },
   {
     "title": "deleteProductVariantsWorkflow",
-    "path": "/references/medusa-workflows/deleteProductVariantsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteProductVariantsWorkflow"
   },
   {
     "title": "deleteProductsWorkflow",
-    "path": "/references/medusa-workflows/deleteProductsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteProductsWorkflow"
   },
   {
     "title": "createReservationsStep",
-    "path": "/references/medusa-workflows/steps/createReservationsStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/createReservationsStep"
   },
   {
     "title": "deleteReservationsByLineItemsStep",
-    "path": "/references/medusa-workflows/steps/deleteReservationsByLineItemsStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/deleteReservationsByLineItemsStep"
   },
   {
     "title": "deleteReservationsStep",
-    "path": "/references/medusa-workflows/steps/deleteReservationsStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/deleteReservationsStep"
   },
   {
     "title": "updateReservationsStep",
-    "path": "/references/medusa-workflows/steps/updateReservationsStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/updateReservationsStep"
   },
   {
     "title": "createReservationsWorkflow",
-    "path": "/references/medusa-workflows/createReservationsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createReservationsWorkflow"
   },
   {
     "title": "deleteReservationsByLineItemsWorkflow",
-    "path": "/references/medusa-workflows/deleteReservationsByLineItemsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteReservationsByLineItemsWorkflow"
   },
   {
     "title": "deleteReservationsWorkflow",
-    "path": "/references/medusa-workflows/deleteReservationsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteReservationsWorkflow"
   },
   {
     "title": "updateReservationsWorkflow",
-    "path": "/references/medusa-workflows/updateReservationsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateReservationsWorkflow"
   },
   {
     "title": "inventoryItem",
-    "path": "/references/js-sdk/admin/inventoryItem"
+    "path": "https://docs.medusajs.com/resources/references/js-sdk/admin/inventoryItem"
   },
   {
     "title": "reservation",
-    "path": "/references/js-sdk/admin/reservation"
+    "path": "https://docs.medusajs.com/resources/references/js-sdk/admin/reservation"
   }
 ]

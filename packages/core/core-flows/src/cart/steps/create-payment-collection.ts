@@ -33,6 +33,10 @@ export const createPaymentCollectionsStepId = "create-payment-collections"
 export const createPaymentCollectionsStep = createStep(
   createPaymentCollectionsStepId,
   async (data: CreatePaymentCollectionCartStepInput, { container }) => {
+    if (!data?.length) {
+      return new StepResponse([], [])
+    }
+
     const service = container.resolve<IPaymentModuleService>(Modules.PAYMENT)
 
     const created = await service.createPaymentCollections(data)

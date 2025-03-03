@@ -30,7 +30,9 @@ export const usePageScrollManager = () => {
           ? document.getElementById(location.hash.replace("#", ""))
           : undefined
 
-      targetElm?.scrollIntoView()
+      scrollableElement?.scrollTo({
+        top: targetElm ? targetElm.offsetTop : 0,
+      })
     }
   }
 

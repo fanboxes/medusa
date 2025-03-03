@@ -91,8 +91,8 @@ export const authSidebar = [
       },
       {
         type: "category",
-        title: "User Guides",
-        autogenerate_tags: "userGuides+auth",
+        title: "Admin User Guides",
+        autogenerate_tags: "userGuide+auth",
         initialOpen: false,
         autogenerate_as_ref: true,
         description:

@@ -59,7 +59,7 @@ export const apiKeySidebar = [
       },
       {
         type: "category",
-        title: "User Guides",
+        title: "Admin User Guides",
         initialOpen: false,
         autogenerate_tags: "userGuide+apiKey",
         autogenerate_as_ref: true,

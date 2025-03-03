@@ -43,7 +43,7 @@ export const confirmInventoryStepId = "confirm-inventory-step"
 /**
  * This step validates that items in the cart have sufficient inventory quantity.
  * If an item doesn't have sufficient inventory, an error is thrown.
- * 
+ *
  * @example
  * confirmInventoryStep({
  *   items: [
@@ -60,6 +60,10 @@ export const confirmInventoryStepId = "confirm-inventory-step"
 export const confirmInventoryStep = createStep(
   confirmInventoryStepId,
   async (data: ConfirmVariantInventoryStepInput, { container }) => {
+    if (!data.items?.length) {
+      return new StepResponse([], [])
+    }
+
     const inventoryService = container.resolve<IInventoryService>(
       Modules.INVENTORY
     )

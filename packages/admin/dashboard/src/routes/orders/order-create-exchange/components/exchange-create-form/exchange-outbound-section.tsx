@@ -30,6 +30,7 @@ import { ItemPlaceholder } from "../../../order-create-claim/components/claim-cr
 import { AddExchangeOutboundItemsTable } from "../add-exchange-outbound-items-table"
 import { ExchangeOutboundItem } from "./exchange-outbound-item"
 import { CreateExchangeSchemaType } from "./schema"
+import { log } from "console"
 
 type ExchangeOutboundSectionProps = {
   order: AdminOrder
@@ -61,6 +62,13 @@ export const ExchangeOutboundSection = ({
     limit: 999,
     fields: "*prices,+service_zone.fulfillment_set.location.id",
   })
+
+  const outboundShippingOptions = shipping_options.filter(
+    (shippingOption) =>
+      !!shippingOption.rules.find(
+        (r) => r.attribute === "is_return" && r.value === "false"
+      )
+  )
 
   const { mutateAsync: addOutboundShipping } = useAddExchangeOutboundShipping(
     exchange.id,
@@ -268,11 +276,12 @@ export const ExchangeOutboundSection = ({
       const variantIds = outboundItems
         .map((item) => item?.variant_id)
         .filter(Boolean)
+
       const variants = (
-        await sdk.admin.productVariant.list(
-          { id: variantIds },
-          { fields: "*inventory,*inventory.location_levels" }
-        )
+        await sdk.admin.productVariant.list({
+          id: variantIds,
+          fields: "*inventory.location_levels",
+        })
       ).variants
 
       variants.forEach((variant) => {
@@ -410,11 +419,11 @@ export const ExchangeOutboundSection = ({
                           val && onShippingOptionChange(val)
                         }}
                         {...field}
-                        options={shipping_options.map((so) => ({
+                        options={outboundShippingOptions.map((so) => ({
                           label: so.name,
                           value: so.id,
                         }))}
-                        disabled={!shipping_options.length}
+                        disabled={!outboundShippingOptions.length}
                       />
                     </Form.Control>
                   </Form.Item>

@@ -21,6 +21,7 @@ import React, {
 } from "react"
 import { getScrolledTop as getScrolledTopUtil, isElmWindow } from "../../utils"
 import { useKeyboardShortcut } from "../use-keyboard-shortcut"
+import { useLayout } from "../../providers"
 
 type EventFunc = (...args: never[]) => unknown
 
@@ -73,6 +74,7 @@ function useScrollControllerContextValue({
   restoreScrollOnReload?: boolean
 }): ScrollController {
   const scrollEventsEnabledRef = useRef(true)
+  const { showCollapsedNavbar } = useLayout()
 
   const [scrollableElement, setScrollableElement] = useState<
     Element | Window | undefined
@@ -92,6 +94,11 @@ function useScrollControllerContextValue({
     scrollToTop(elm.offsetTop)
   }
 
+  const topMargin = useMemo(() => {
+    // might need a better way to set these static values
+    return showCollapsedNavbar ? 112 : 56
+  }, [showCollapsedNavbar])
+
   const scrollToTop = (top: number, parentTop?: number) => {
     const parentOffsetTop =
       parentTop !== undefined
@@ -103,9 +110,7 @@ function useScrollControllerContextValue({
             : 0
 
     scrollableElement?.scrollTo({
-      // 56 is the height of the navbar
-      // might need a better way to determine it.
-      top: top - parentOffsetTop - 56,
+      top: top - parentOffsetTop - topMargin,
       behavior: "instant",
     })
   }

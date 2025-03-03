@@ -1,78 +1,82 @@
 export const auth = [
   {
+    "title": "Reset Password",
+    "path": "https://docs.medusajs.com/user-guide/reset-password"
+  },
+  {
     "title": "Log-out Customer in Storefront",
-    "path": "/storefront-development/customers/log-out"
+    "path": "https://docs.medusajs.com/resources/storefront-development/customers/log-out"
   },
   {
     "title": "Login Customer in Storefront",
-    "path": "/storefront-development/customers/login"
+    "path": "https://docs.medusajs.com/resources/storefront-development/customers/login"
   },
   {
     "title": "Register Customer in Storefront",
-    "path": "/storefront-development/customers/register"
+    "path": "https://docs.medusajs.com/resources/storefront-development/customers/register"
   },
   {
     "title": "Reset Customer Password in Storefront",
-    "path": "/storefront-development/customers/reset-password"
+    "path": "https://docs.medusajs.com/resources/storefront-development/customers/reset-password"
   },
   {
     "title": "Retrieve Logged-In Customer in Storefront",
-    "path": "/storefront-development/customers/retrieve"
+    "path": "https://docs.medusajs.com/resources/storefront-development/customers/retrieve"
   },
   {
     "title": "Third-Party or Social Login in Storefront",
-    "path": "/storefront-development/customers/third-party-login"
+    "path": "https://docs.medusajs.com/resources/storefront-development/customers/third-party-login"
   },
   {
     "title": "setAuthAppMetadataStep",
-    "path": "/references/medusa-workflows/steps/setAuthAppMetadataStep"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/setAuthAppMetadataStep"
   },
   {
     "title": "createCustomerAccountWorkflow",
-    "path": "/references/medusa-workflows/createCustomerAccountWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createCustomerAccountWorkflow"
   },
   {
     "title": "removeCustomerAccountWorkflow",
-    "path": "/references/medusa-workflows/removeCustomerAccountWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/removeCustomerAccountWorkflow"
   },
   {
     "title": "acceptInviteWorkflow",
-    "path": "/references/medusa-workflows/acceptInviteWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/acceptInviteWorkflow"
   },
   {
     "title": "createUserAccountWorkflow",
-    "path": "/references/medusa-workflows/createUserAccountWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createUserAccountWorkflow"
   },
   {
     "title": "removeUserAccountWorkflow",
-    "path": "/references/medusa-workflows/removeUserAccountWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/removeUserAccountWorkflow"
   },
   {
     "title": "callback",
-    "path": "/references/js-sdk/auth/callback"
+    "path": "https://docs.medusajs.com/resources/references/js-sdk/auth/callback"
   },
   {
     "title": "login",
-    "path": "/references/js-sdk/auth/login"
+    "path": "https://docs.medusajs.com/resources/references/js-sdk/auth/login"
   },
   {
     "title": "logout",
-    "path": "/references/js-sdk/auth/logout"
+    "path": "https://docs.medusajs.com/resources/references/js-sdk/auth/logout"
   },
   {
     "title": "refresh",
-    "path": "/references/js-sdk/auth/refresh"
+    "path": "https://docs.medusajs.com/resources/references/js-sdk/auth/refresh"
   },
   {
     "title": "register",
-    "path": "/references/js-sdk/auth/register"
+    "path": "https://docs.medusajs.com/resources/references/js-sdk/auth/register"
   },
   {
     "title": "resetPassword",
-    "path": "/references/js-sdk/auth/resetPassword"
+    "path": "https://docs.medusajs.com/resources/references/js-sdk/auth/resetPassword"
   },
   {
     "title": "updateProvider",
-    "path": "/references/js-sdk/auth/updateProvider"
+    "path": "https://docs.medusajs.com/resources/references/js-sdk/auth/updateProvider"
   }
 ]

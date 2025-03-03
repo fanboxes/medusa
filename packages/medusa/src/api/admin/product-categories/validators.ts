@@ -7,6 +7,7 @@ import {
   createFindParams,
   createOperatorMap,
   createSelectParams,
+  WithAdditionalData,
 } from "../../utils/validators"
 
 export type AdminProductCategoryParamsType = z.infer<
@@ -44,7 +45,7 @@ export const AdminProductCategoriesParams = createFindParams({
   .merge(AdminProductCategoriesParamsFields)
   .merge(applyAndAndOrOperators(AdminProductCategoriesParamsFields))
 
-export const AdminCreateProductCategory = z
+export const CreateProductCategory = z
   .object({
     name: z.string(),
     description: z.string().optional(),
@@ -57,11 +58,15 @@ export const AdminCreateProductCategory = z
   })
   .strict()
 
+export const AdminCreateProductCategory = WithAdditionalData(
+  CreateProductCategory
+)
+
 export type AdminCreateProductCategoryType = z.infer<
-  typeof AdminCreateProductCategory
+  typeof CreateProductCategory
 >
 
-export const AdminUpdateProductCategory = z
+export const UpdateProductCategory = z
   .object({
     name: z.string().optional(),
     description: z.string().optional(),
@@ -74,6 +79,10 @@ export const AdminUpdateProductCategory = z
   })
   .strict()
 
+export const AdminUpdateProductCategory = WithAdditionalData(
+  UpdateProductCategory
+)
+
 export type AdminUpdateProductCategoryType = z.infer<
-  typeof AdminUpdateProductCategory
+  typeof UpdateProductCategory
 >

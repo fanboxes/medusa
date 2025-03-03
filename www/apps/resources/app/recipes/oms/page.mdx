@@ -48,13 +48,15 @@ For example, you can support importing orders into Medusa through a custom API R
     text: "Learn how to create a custom API Route.",
     icon: AcademicCapSolid,
   },
-  {
-    href: "!docs!/learn/fundamentals/scheduled-jobs",
-    title: "Create Scheduled Jobs",
-    text: "Learn how to create a scheduled job.",
-    icon: AcademicCapSolid,
-  }
 ]} />
+
+<Card
+  href="!docs!/learn/fundamentals/scheduled-jobs"
+  title="Create Scheduled Jobs"
+  text="Learn how to create a scheduled job."
+  icon={AcademicCapSolid}
+  className="mt-1"
+/>
 
 ---
 
@@ -68,12 +70,6 @@ Medusa uses the Fulfillment Module whenever a fulfillment action is performed, s
 
 In addition, create a subscriber that listen to fulfillment-related events, such as the `order.fulfillment_created` event, to perform actions with the third-party fulfillment provider.
 
-<Note type="soon">
-
-Emitting of event `order.fulfillment_created` isn't implemented yet.
-
-</Note>
-
 <CardList itemsPerRow={2} items={[
   {
     href: "/references/fulfillment/provider",
@@ -82,12 +78,20 @@ Emitting of event `order.fulfillment_created` isn't implemented yet.
     icon: AcademicCapSolid,
   },
   {
-    href: "!docs!/learn/fundamentals/events-and-subscribers",
-    title: "Create a Subscriber",
-    text: "Learn about create a subscriber",
+    href: "/commerce-modules/order/events",
+    title: "Order Events",
+    text: "Learn about the events emitted related to the Order Module",
     icon: AcademicCapSolid,
-  }
+  },
 ]} />
+
+<Card
+  href="!docs!/learn/fundamentals/events-and-subscribers"
+  title="Create a Subscriber"
+  text="Learn about create a subscriber"
+  icon={AcademicCapSolid}
+  className="mt-1"
+/>
 
 ---
 
@@ -95,13 +99,7 @@ Emitting of event `order.fulfillment_created` isn't implemented yet.
 
 To integrate third-party payment providers with the Medusa application, create a payment module provider.
 
-In addition, create a subscriber that listen to payment-related events, such as the `order.payment_captured` event, to perform actions in the third-party payment provider.
-
-<Note type="soon">
-
-Emitting of event `order.payment_captured` isn't implemented yet.
-
-</Note>
+In addition, create a subscriber that listen to payment-related events, such as the `payment.captured` event, to perform actions in the third-party payment provider.
 
 <CardList itemsPerRow={2} items={[
   {
@@ -111,12 +109,20 @@ Emitting of event `order.payment_captured` isn't implemented yet.
     icon: AcademicCapSolid,
   },
   {
-    href: "!docs!/learn/fundamentals/events-and-subscribers",
-    title: "Create a Subscriber",
-    text: "Learn about create a subscriber",
+    href: "/commerce-modules/payment/events",
+    title: "Payment Events",
+    text: "Learn about the events emitted related to the Payment Module",
     icon: AcademicCapSolid,
-  }
+  },
 ]} />
+
+<Card
+  href="!docs!/learn/fundamentals/events-and-subscribers"
+  title="Create a Subscriber"
+  text="Learn about create a subscriber"
+  icon={AcademicCapSolid}
+  className="mt-1"
+/>
 
 ---
 
@@ -153,23 +159,11 @@ When an order is placed, the item's quantity is reserved from the stock location
 
 ## Handle Returns, Exchanges, and Changes
 
-<Note type="soon">
-
-All types of order changes are coming soon.
-
-</Note>
-
-In Medusa, items in an order can be returned or exchanged; these can be created by the merchant or requested by the customer. A merchant can also edit an order to add, update, or delete items.
+In Medusa, items in an order can be returned or exchanged. A merchant can also edit an order to add, update, or delete items.
 
 When changes are made to an order by any of the mentioned actions, the changes are reflected on the order's totals and associated inventory. The integrated fulfillment and payment module providers are used if fulfillment or payment actions are required, such as fulfilling exchanged items.
 
 Medusa also emits events related to these actions, such as `order.return_requested`. So, you can create a subscriber that listens to these events and perform asynchronous actions, such as communicating with third-party services.
-
-<Note type="soon">
-
-Emitting of event `order.return_requested` isn't implemented yet.
-
-</Note>
 
 <CardList items={[
   {
@@ -179,9 +173,17 @@ Emitting of event `order.return_requested` isn't implemented yet.
     icon: AcademicCapSolid,
   },
   {
-    href: "!docs!/learn/fundamentals/events-and-subscribers",
-    title: "Create a Subscriber",
-    text: "Learn about create a subscriber",
+    href: "/commerce-modules/order/events",
+    title: "Order Events",
+    text: "Learn about the events emitted related to the Order Module",
     icon: AcademicCapSolid,
-  }
+  },
 ]} />
+
+<Card
+  href="!docs!/learn/fundamentals/events-and-subscribers"
+  title="Create a Subscriber"
+  text="Learn about create a subscriber"
+  icon={AcademicCapSolid}
+  className="mt-1"
+/>

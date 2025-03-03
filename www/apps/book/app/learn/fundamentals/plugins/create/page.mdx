@@ -50,6 +50,8 @@ After the installation is done, the plugin structure will look like this:
 
 ## 2. Prepare Plugin
 
+### Package Name
+
 Before developing, testing, and publishing your plugin, make sure its name in `package.json` is correct. This is the name you'll use to install the plugin in your Medusa application.
 
 For example:
@@ -61,6 +63,8 @@ For example:
 }
 ```
 
+### Package Keywords
+
 In addition, make sure that the `keywords` field in `package.json` includes the keyword `medusa-plugin` and `medusa-v2`. This helps Medusa list community plugins on the Medusa website:
 
 ```json title="package.json"
@@ -70,6 +74,42 @@ In addition, make sure that the `keywords` field in `package.json` includes the 
     "medusa-v2"
   ],
   // ...
+}
+```
+
+### Package Dependencies
+
+<Note>
+
+Your plugin project will already have the dependencies mentioned in this section. If you haven't made any changes to the dependencies, you can skip this section.
+
+</Note>
+
+In the `package.json` file you must have the Medusa dependencies as `devDependencies` and `peerDependencies`. In addition, you must have `@swc/core` as a `devDependency`, as it's used by the plugin CLI tools.
+
+For example, assuming `2.5.0` is the latest Medusa version:
+
+```json title="package.json"
+{
+  "devDependencies": {
+    "@medusajs/admin-sdk": "2.5.0",
+    "@medusajs/cli": "2.5.0",
+    "@medusajs/framework": "2.5.0",
+    "@medusajs/medusa": "2.5.0",
+    "@medusajs/test-utils": "2.5.0",
+    "@medusajs/ui": "4.0.4",
+    "@medusajs/icons": "2.5.0",
+    "@swc/core": "1.5.7",
+  },
+  "peerDependencies": {
+    "@medusajs/admin-sdk": "2.5.0",
+    "@medusajs/cli": "2.5.0",
+    "@medusajs/framework": "2.5.0",
+    "@medusajs/test-utils": "2.5.0",
+    "@medusajs/medusa": "2.5.0",
+    "@medusajs/ui": "4.0.3",
+    "@medusajs/icons": "2.5.0",
+  }
 }
 ```
 

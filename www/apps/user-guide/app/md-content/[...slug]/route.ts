@@ -16,7 +16,7 @@ type Params = {
 }
 
 export async function GET(req: NextRequest, { params }: Params) {
-  const { slug } = await params
+  const { slug = ["/"] } = await params
 
   // keep this so that Vercel keeps the files in deployment
   const basePath = path.join(process.cwd(), "app")

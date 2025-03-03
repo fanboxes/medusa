@@ -104,8 +104,8 @@ export const orderSidebar = [
       },
       {
         type: "category",
-        title: "User Guides",
-        autogenerate_tags: "userGuides+order",
+        title: "Admin User Guides",
+        autogenerate_tags: "userGuide+order",
         initialOpen: false,
         autogenerate_as_ref: true,
         description:

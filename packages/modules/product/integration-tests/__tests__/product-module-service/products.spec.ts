@@ -181,6 +181,7 @@ moduleIntegrationTestRunner<IProductModuleService>({
         })
 
         it("should update a product and upsert relations that are not created yet", async () => {
+          const tags = await service.createProductTags([{ value: "tag-1" }])
           const data = buildProductAndRelationsData({
             images,
             thumbnail: images[0].url,
@@ -190,6 +191,7 @@ moduleIntegrationTestRunner<IProductModuleService>({
                 values: ["val-1", "val-2"],
               },
             ],
+            tag_ids: [tags[0].id],
           })
 
           const variantTitle = data.variants[0].title
@@ -217,7 +219,7 @@ moduleIntegrationTestRunner<IProductModuleService>({
           productBefore.options = data.options
           productBefore.images = data.images
           productBefore.thumbnail = data.thumbnail
-          productBefore.tags = data.tags
+          productBefore.tag_ids = data.tag_ids
           const updatedProducts = await service.upsertProducts([productBefore])
           expect(updatedProducts).toHaveLength(1)
 
@@ -273,7 +275,7 @@ moduleIntegrationTestRunner<IProductModuleService>({
               tags: expect.arrayContaining([
                 expect.objectContaining({
                   id: expect.any(String),
-                  value: productBefore.tags?.[0].value,
+                  value: tags[0].value,
                 }),
               ]),
               variants: expect.arrayContaining([
@@ -856,9 +858,11 @@ moduleIntegrationTestRunner<IProductModuleService>({
       describe("create", function () {
         let images = [{ url: "image-1" }]
         it("should create a product", async () => {
+          const tags = await service.createProductTags([{ value: "tag-1" }])
           const data = buildProductAndRelationsData({
             images,
             thumbnail: images[0].url,
+            tag_ids: [tags[0].id],
           })
 
           const productsCreated = await service.createProducts([data])
@@ -917,7 +921,7 @@ moduleIntegrationTestRunner<IProductModuleService>({
               tags: expect.arrayContaining([
                 expect.objectContaining({
                   id: expect.any(String),
-                  value: data.tags[0].value,
+                  value: tags[0].value,
                 }),
               ]),
               variants: expect.arrayContaining([
@@ -971,6 +975,85 @@ moduleIntegrationTestRunner<IProductModuleService>({
           const data = buildProductAndRelationsData({
             images,
             thumbnail: images[0].url,
+            options: [
+              { title: "size", values: ["large", "small"] },
+              { title: "color", values: ["red", "blue"] },
+              { title: "material", values: ["cotton", "polyester"] },
+            ],
+            variants: [
+              {
+                title: "Large Red Cotton",
+                sku: "LRG-RED-CTN",
+                options: {
+                  size: "large",
+                  color: "red",
+                  material: "cotton",
+                },
+              },
+              {
+                title: "Large Red Polyester",
+                sku: "LRG-RED-PLY",
+                options: {
+                  size: "large",
+                  color: "red",
+                  material: "polyester",
+                },
+              },
+              {
+                title: "Large Blue Cotton",
+                sku: "LRG-BLU-CTN",
+                options: {
+                  size: "large",
+                  color: "blue",
+                  material: "cotton",
+                },
+              },
+              {
+                title: "Large Blue Polyester",
+                sku: "LRG-BLU-PLY",
+                options: {
+                  size: "large",
+                  color: "blue",
+                  material: "polyester",
+                },
+              },
+              {
+                title: "Small Red Cotton",
+                sku: "SML-RED-CTN",
+                options: {
+                  size: "small",
+                  color: "red",
+                  material: "cotton",
+                },
+              },
+              {
+                title: "Small Red Polyester",
+                sku: "SML-RED-PLY",
+                options: {
+                  size: "small",
+                  color: "red",
+                  material: "polyester",
+                },
+              },
+              {
+                title: "Small Blue Cotton",
+                sku: "SML-BLU-CTN",
+                options: {
+                  size: "small",
+                  color: "blue",
+                  material: "cotton",
+                },
+              },
+              {
+                title: "Small Blue Polyester",
+                sku: "SML-BLU-PLY",
+                options: {
+                  size: "small",
+                  color: "blue",
+                  material: "polyester",
+                },
+              },
+            ],
           })
 
           const products = await service.createProducts([data])
@@ -1070,6 +1153,26 @@ moduleIntegrationTestRunner<IProductModuleService>({
                 source: Modules.PRODUCT,
                 action: CommonEvents.DELETED,
               }),
+              composeMessage(ProductEvents.PRODUCT_VARIANT_DELETED, {
+                data: { id: [products[0].variants[0].id] },
+                object: "product_variant",
+                source: Modules.PRODUCT,
+                action: CommonEvents.DELETED,
+              }),
+              composeMessage(ProductEvents.PRODUCT_OPTION_DELETED, {
+                data: { id: [products[0].options[0].id] },
+                object: "product_option",
+                source: Modules.PRODUCT,
+                action: CommonEvents.DELETED,
+              }),
+              composeMessage(ProductEvents.PRODUCT_OPTION_VALUE_DELETED, {
+                data: {
+                  id: [products[0].options[0].values[0].id],
+                },
+                object: "product_option_value",
+                source: Modules.PRODUCT,
+                action: CommonEvents.DELETED,
+              }),
             ],
             {
               internal: true,
@@ -1164,15 +1267,17 @@ moduleIntegrationTestRunner<IProductModuleService>({
           productCollectionOne = collections[0]
           productCollectionTwo = collections[1]
 
+          const tags = await service.createProductTags([{ value: "tag-1" }])
+
           const resp = await service.createProducts([
             buildProductAndRelationsData({
               collection_id: productCollectionOne.id,
               options: [{ title: "size", values: ["large", "small"] }],
               variants: [{ title: "variant 1", options: { size: "small" } }],
+              tag_ids: [tags[0].id],
             }),
             buildProductAndRelationsData({
               collection_id: productCollectionTwo.id,
-              tags: [],
             }),
           ])
 
@@ -1312,12 +1417,15 @@ moduleIntegrationTestRunner<IProductModuleService>({
             relations: ["images"],
           })
 
-          const retrievedProductAgain = await service.retrieveProduct(product.id, {
-            relations: ["images"],
-          })
+          const retrievedProductAgain = await service.retrieveProduct(
+            product.id,
+            {
+              relations: ["images"],
+            }
+          )
 
           expect(retrievedProduct.images).toEqual(retrievedProductAgain.images)
-          
+
           expect(retrievedProduct.images).toEqual(
             Array.from({ length: 1000 }, (_, i) =>
               expect.objectContaining({
@@ -1332,7 +1440,9 @@ moduleIntegrationTestRunner<IProductModuleService>({
           // Explicitly verify sequential order
           retrievedProduct.images.forEach((img, idx) => {
             if (idx > 0) {
-              expect(img.rank).toBeGreaterThan(retrievedProduct.images[idx - 1].rank)
+              expect(img.rank).toBeGreaterThan(
+                retrievedProduct.images[idx - 1].rank
+              )
             }
           })
         })

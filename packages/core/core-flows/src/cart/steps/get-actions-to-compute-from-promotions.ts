@@ -21,13 +21,13 @@ export const getActionsToComputeFromPromotionsStepId =
 /**
  * This step retrieves the actions to compute based on the promotions
  * applied on a cart.
- * 
+ *
  * :::tip
- * 
+ *
  * You can use the {@link retrieveCartStep} to retrieve a cart's details.
- * 
+ *
  * :::
- * 
+ *
  * @example
  * const data = getActionsToComputeFromPromotionsStep({
  *   // retrieve the details of the cart from another workflow
@@ -40,6 +40,7 @@ export const getActionsToComputeFromPromotionsStep = createStep(
   getActionsToComputeFromPromotionsStepId,
   async (data: GetActionsToComputeFromPromotionsStepInput, { container }) => {
     const { cart, promotionCodesToApply = [] } = data
+
     const promotionService = container.resolve<IPromotionModuleService>(
       Modules.PROMOTION
     )

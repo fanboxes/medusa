@@ -44,6 +44,12 @@ export default defineMiddlewares([
     middlewares: [storeGlobal],
   },
   {
+    matcher: "/webhooks",
+    bodyParser: {
+      preserveRawBody: true,
+    },
+  },
+  {
     matcher: "/webhooks/*",
     method: "POST",
     bodyParser: false,

@@ -70,7 +70,10 @@ export interface RepositoryService<T = any> extends BaseRepositoryService {
     context?: Context
   ): Promise<InferRepositoryReturnType<T>[]>
 
-  delete(idsOrPKs: FindOptions<T>["where"], context?: Context): Promise<void>
+  delete(
+    idsOrPKs: FindOptions<T>["where"],
+    context?: Context
+  ): Promise<string[]>
 
   /**
    * Soft delete entities and cascade to related entities if configured.
@@ -127,7 +130,7 @@ export interface TreeRepositoryService<T = any> extends BaseRepositoryService {
     context?: Context
   ): Promise<InferRepositoryReturnType<T>[]>
 
-  delete(ids: string[], context?: Context): Promise<void>
+  delete(ids: string[], context?: Context): Promise<string[]>
 }
 
 /**

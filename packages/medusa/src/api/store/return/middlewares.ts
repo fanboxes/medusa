@@ -6,7 +6,7 @@ import {
 import * as QueryConfig from "./query-config"
 import { ReturnsParams, StorePostReturnsReqSchema } from "./validators"
 
-export const storeRegionRoutesMiddlewares: MiddlewareRoute[] = [
+export const storeReturnRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["POST"],
     matcher: "/store/returns",

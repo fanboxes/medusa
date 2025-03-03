@@ -63,6 +63,13 @@ export const ClaimOutboundSection = ({
     fields: "*prices,+service_zone.fulfillment_set.location.id",
   })
 
+  const outboundShippingOptions = shipping_options.filter(
+    (shippingOption) =>
+      !!shippingOption.rules.find(
+        (r) => r.attribute === "is_return" && r.value === "false"
+      )
+  )
+
   const { mutateAsync: addOutboundShipping } = useAddClaimOutboundShipping(
     claim.id,
     order.id
@@ -260,11 +267,12 @@ export const ClaimOutboundSection = ({
       const variantIds = outboundItems
         .map((item) => item?.variant_id)
         .filter(Boolean)
+
       const variants = (
-        await sdk.admin.productVariant.list(
-          { id: variantIds },
-          { fields: "*inventory,*inventory.location_levels" }
-        )
+        await sdk.admin.productVariant.list({
+          id: variantIds,
+          fields: "*inventory.location_levels",
+        })
       ).variants
 
       variants.forEach((variant) => {
@@ -401,11 +409,11 @@ export const ClaimOutboundSection = ({
                           val && onShippingOptionChange(val)
                         }}
                         {...field}
-                        options={shipping_options.map((so) => ({
+                        options={outboundShippingOptions.map((so) => ({
                           label: so.name,
                           value: so.id,
                         }))}
-                        disabled={!shipping_options.length}
+                        disabled={!outboundShippingOptions.length}
                         noResultsPlaceholder={<OutboundShippingPlaceholder />}
                       />
                     </Form.Control>

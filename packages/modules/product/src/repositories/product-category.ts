@@ -272,10 +272,11 @@ export class ProductCategoryRepository extends DALUtils.MikroOrmBaseTreeReposito
     return [this.sortCategoriesByRank(categoriesTree), count]
   }
 
-  async delete(ids: string[], context: Context = {}): Promise<void> {
+  async delete(ids: string[], context: Context = {}): Promise<string[]> {
     const manager = super.getActiveManager<SqlEntityManager>(context)
     await this.baseDelete(ids, context)
     await manager.nativeDelete(ProductCategory.name, { id: ids }, {})
+    return ids
   }
 
   async softDelete(

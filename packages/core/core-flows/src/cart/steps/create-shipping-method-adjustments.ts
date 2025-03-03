@@ -19,7 +19,7 @@ export const createShippingMethodAdjustmentsStepId =
   "create-shipping-method-adjustments"
 /**
  * This step creates shipping method adjustments for a cart.
- * 
+ *
  * @example
  * const data = createShippingMethodAdjustmentsStep({
  *   "shippingMethodAdjustmentsToCreate": [{
@@ -33,6 +33,11 @@ export const createShippingMethodAdjustmentsStep = createStep(
   createShippingMethodAdjustmentsStepId,
   async (data: CreateShippingMethodAdjustmentsStepInput, { container }) => {
     const { shippingMethodAdjustmentsToCreate = [] } = data
+
+    if (!shippingMethodAdjustmentsToCreate?.length) {
+      return new StepResponse(void 0, [])
+    }
+
     const cartModuleService: ICartModuleService = container.resolve(
       Modules.CART
     )

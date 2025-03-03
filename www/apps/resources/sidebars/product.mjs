@@ -27,6 +27,11 @@ export const productSidebar = [
           },
           {
             type: "link",
+            path: "/commerce-modules/product/selling-products",
+            title: "Selling Use Cases",
+          },
+          {
+            type: "link",
             path: "/commerce-modules/product/links-to-other-modules",
             title: "Links to Other Modules",
           },
@@ -78,8 +83,8 @@ export const productSidebar = [
       },
       {
         type: "category",
-        title: "User Guides",
-        autogenerate_tags: "userGuides+product",
+        title: "Admin User Guides",
+        autogenerate_tags: "userGuide+product",
         initialOpen: false,
         autogenerate_as_ref: true,
         description:

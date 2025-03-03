@@ -25,7 +25,7 @@ type Route = {
   /**
    * The HTTP methods this route is supposed to handle.
    */
-  methods?: MiddlewareVerb[]
+  methods?: MiddlewareVerb | MiddlewareVerb[]
 }
 
 /**
@@ -108,7 +108,6 @@ export class RoutesSorter {
 
   constructor(routes: Route[]) {
     this.#routesToProcess = routes
-    console.log("Processing routes", this.#routesToProcess)
   }
 
   /**

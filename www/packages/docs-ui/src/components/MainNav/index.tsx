@@ -6,14 +6,11 @@ import {
   BorderedIcon,
   Button,
   GITHUB_ISSUES_LINK,
-  LinkButton,
   SearchModalOpener,
   useLayout,
-  useMainNav,
   useSidebar,
   useSiteConfig,
 } from "../.."
-import { MainNavEditDate } from "./EditDate"
 import { MainNavItems } from "./Items"
 import { MainNavDesktopMenu } from "./DesktopMenu"
 import { SidebarLeftIcon } from "../Icons/SidebarLeft"
@@ -29,7 +26,6 @@ type MainNavProps = {
 }
 
 export const MainNav = ({ className, itemsClassName }: MainNavProps) => {
-  const { editDate } = useMainNav()
   const { setMobileSidebarOpen, isSidebarShown } = useSidebar()
   const { config } = useSiteConfig()
   const { showCollapsedNavbar } = useLayout()
@@ -69,13 +65,20 @@ export const MainNav = ({ className, itemsClassName }: MainNavProps) => {
         )}
         <div
           className={clsx(
-            "flex items-center gap-docs_0.75 my-docs_0.75",
+            "flex items-center my-docs_0.75",
             showCollapsedNavbar && "flex-grow justify-between"
           )}
         >
-          <div className="lg:flex items-center gap-docs_0.5 text-medusa-fg-subtle hidden">
+          <div className="lg:flex items-center gap-[6px] text-medusa-fg-subtle hidden">
             <MainNavVersion />
-            {editDate && <MainNavEditDate date={editDate} />}
+            <span
+              className={clsx(
+                "text-compact-small",
+                config.version.hide && "hidden"
+              )}
+            >
+              &#183;
+            </span>
             <MainNavItemDropdown
               item={{
                 type: "dropdown",
@@ -110,8 +113,11 @@ export const MainNav = ({ className, itemsClassName }: MainNavProps) => {
               className="text-medusa-fg-subtle"
               wrapperClassName="z-10"
             />
+            {!showCollapsedNavbar && (
+              <span className={clsx("text-compact-small")}>&#183;</span>
+            )}
           </div>
-          <div className="flex items-center gap-docs_0.25">
+          <div className="flex items-center">
             <AiAssistantTriggerButton />
             <SearchModalOpener />
             <MainNavDesktopMenu />

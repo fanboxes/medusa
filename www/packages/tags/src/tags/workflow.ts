@@ -1,1022 +1,1026 @@
 export const workflow = [
   {
+    "title": "Workflow Executions",
+    "path": "https://docs.medusajs.com/user-guide/settings/developer/workflows"
+  },
+  {
     "title": "createApiKeysWorkflow",
-    "path": "/references/medusa-workflows/createApiKeysWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createApiKeysWorkflow"
   },
   {
     "title": "deleteApiKeysWorkflow",
-    "path": "/references/medusa-workflows/deleteApiKeysWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteApiKeysWorkflow"
   },
   {
     "title": "linkSalesChannelsToApiKeyWorkflow",
-    "path": "/references/medusa-workflows/linkSalesChannelsToApiKeyWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/linkSalesChannelsToApiKeyWorkflow"
   },
   {
     "title": "revokeApiKeysWorkflow",
-    "path": "/references/medusa-workflows/revokeApiKeysWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/revokeApiKeysWorkflow"
   },
   {
     "title": "updateApiKeysWorkflow",
-    "path": "/references/medusa-workflows/updateApiKeysWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateApiKeysWorkflow"
   },
   {
     "title": "generateResetPasswordTokenWorkflow",
-    "path": "/references/medusa-workflows/generateResetPasswordTokenWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/generateResetPasswordTokenWorkflow"
   },
   {
     "title": "addShippingMethodToCartWorkflow",
-    "path": "/references/medusa-workflows/addShippingMethodToCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/addShippingMethodToCartWorkflow"
   },
   {
     "title": "addToCartWorkflow",
-    "path": "/references/medusa-workflows/addToCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/addToCartWorkflow"
   },
   {
     "title": "completeCartWorkflow",
-    "path": "/references/medusa-workflows/completeCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/completeCartWorkflow"
   },
   {
     "title": "confirmVariantInventoryWorkflow",
-    "path": "/references/medusa-workflows/confirmVariantInventoryWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/confirmVariantInventoryWorkflow"
   },
   {
     "title": "createCartWorkflow",
-    "path": "/references/medusa-workflows/createCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createCartWorkflow"
   },
   {
     "title": "createPaymentCollectionForCartWorkflow",
-    "path": "/references/medusa-workflows/createPaymentCollectionForCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createPaymentCollectionForCartWorkflow"
   },
   {
     "title": "listShippingOptionsForCartWithPricingWorkflow",
-    "path": "/references/medusa-workflows/listShippingOptionsForCartWithPricingWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/listShippingOptionsForCartWithPricingWorkflow"
   },
   {
     "title": "listShippingOptionsForCartWorkflow",
-    "path": "/references/medusa-workflows/listShippingOptionsForCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/listShippingOptionsForCartWorkflow"
   },
   {
     "title": "refreshCartItemsWorkflow",
-    "path": "/references/medusa-workflows/refreshCartItemsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/refreshCartItemsWorkflow"
   },
   {
     "title": "refreshCartShippingMethodsWorkflow",
-    "path": "/references/medusa-workflows/refreshCartShippingMethodsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/refreshCartShippingMethodsWorkflow"
   },
   {
     "title": "refreshPaymentCollectionForCartWorkflow",
-    "path": "/references/medusa-workflows/refreshPaymentCollectionForCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/refreshPaymentCollectionForCartWorkflow"
   },
   {
     "title": "transferCartCustomerWorkflow",
-    "path": "/references/medusa-workflows/transferCartCustomerWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/transferCartCustomerWorkflow"
   },
   {
     "title": "updateCartPromotionsWorkflow",
-    "path": "/references/medusa-workflows/updateCartPromotionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateCartPromotionsWorkflow"
   },
   {
     "title": "updateCartWorkflow",
-    "path": "/references/medusa-workflows/updateCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateCartWorkflow"
   },
   {
     "title": "updateLineItemInCartWorkflow",
-    "path": "/references/medusa-workflows/updateLineItemInCartWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateLineItemInCartWorkflow"
   },
   {
     "title": "updateTaxLinesWorkflow",
-    "path": "/references/medusa-workflows/updateTaxLinesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateTaxLinesWorkflow"
   },
   {
     "title": "batchLinksWorkflow",
-    "path": "/references/medusa-workflows/batchLinksWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/batchLinksWorkflow"
   },
   {
     "title": "createLinksWorkflow",
-    "path": "/references/medusa-workflows/createLinksWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createLinksWorkflow"
   },
   {
     "title": "dismissLinksWorkflow",
-    "path": "/references/medusa-workflows/dismissLinksWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/dismissLinksWorkflow"
   },
   {
     "title": "updateLinksWorkflow",
-    "path": "/references/medusa-workflows/updateLinksWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateLinksWorkflow"
   },
   {
     "title": "createCustomerAccountWorkflow",
-    "path": "/references/medusa-workflows/createCustomerAccountWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createCustomerAccountWorkflow"
   },
   {
     "title": "createCustomerAddressesWorkflow",
-    "path": "/references/medusa-workflows/createCustomerAddressesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createCustomerAddressesWorkflow"
   },
   {
     "title": "createCustomersWorkflow",
-    "path": "/references/medusa-workflows/createCustomersWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createCustomersWorkflow"
   },
   {
     "title": "deleteCustomerAddressesWorkflow",
-    "path": "/references/medusa-workflows/deleteCustomerAddressesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteCustomerAddressesWorkflow"
   },
   {
     "title": "deleteCustomersWorkflow",
-    "path": "/references/medusa-workflows/deleteCustomersWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteCustomersWorkflow"
   },
   {
     "title": "removeCustomerAccountWorkflow",
-    "path": "/references/medusa-workflows/removeCustomerAccountWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/removeCustomerAccountWorkflow"
   },
   {
     "title": "updateCustomerAddressesWorkflow",
-    "path": "/references/medusa-workflows/updateCustomerAddressesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateCustomerAddressesWorkflow"
   },
   {
     "title": "updateCustomersWorkflow",
-    "path": "/references/medusa-workflows/updateCustomersWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateCustomersWorkflow"
   },
   {
     "title": "createCustomerGroupsWorkflow",
-    "path": "/references/medusa-workflows/createCustomerGroupsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createCustomerGroupsWorkflow"
   },
   {
     "title": "deleteCustomerGroupsWorkflow",
-    "path": "/references/medusa-workflows/deleteCustomerGroupsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteCustomerGroupsWorkflow"
   },
   {
     "title": "linkCustomerGroupsToCustomerWorkflow",
-    "path": "/references/medusa-workflows/linkCustomerGroupsToCustomerWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/linkCustomerGroupsToCustomerWorkflow"
   },
   {
     "title": "linkCustomersToCustomerGroupWorkflow",
-    "path": "/references/medusa-workflows/linkCustomersToCustomerGroupWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/linkCustomersToCustomerGroupWorkflow"
   },
   {
     "title": "updateCustomerGroupsWorkflow",
-    "path": "/references/medusa-workflows/updateCustomerGroupsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateCustomerGroupsWorkflow"
   },
   {
     "title": "createDefaultsWorkflow",
-    "path": "/references/medusa-workflows/createDefaultsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createDefaultsWorkflow"
   },
   {
     "title": "deleteFilesWorkflow",
-    "path": "/references/medusa-workflows/deleteFilesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteFilesWorkflow"
   },
   {
     "title": "uploadFilesWorkflow",
-    "path": "/references/medusa-workflows/uploadFilesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/uploadFilesWorkflow"
   },
   {
     "title": "batchShippingOptionRulesWorkflow",
-    "path": "/references/medusa-workflows/batchShippingOptionRulesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/batchShippingOptionRulesWorkflow"
   },
   {
     "title": "calculateShippingOptionsPricesWorkflow",
-    "path": "/references/medusa-workflows/calculateShippingOptionsPricesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/calculateShippingOptionsPricesWorkflow"
   },
   {
     "title": "cancelFulfillmentWorkflow",
-    "path": "/references/medusa-workflows/cancelFulfillmentWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/cancelFulfillmentWorkflow"
   },
   {
     "title": "createFulfillmentWorkflow",
-    "path": "/references/medusa-workflows/createFulfillmentWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createFulfillmentWorkflow"
   },
   {
     "title": "createReturnFulfillmentWorkflow",
-    "path": "/references/medusa-workflows/createReturnFulfillmentWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createReturnFulfillmentWorkflow"
   },
   {
     "title": "createServiceZonesWorkflow",
-    "path": "/references/medusa-workflows/createServiceZonesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createServiceZonesWorkflow"
   },
   {
     "title": "createShipmentWorkflow",
-    "path": "/references/medusa-workflows/createShipmentWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createShipmentWorkflow"
   },
   {
     "title": "createShippingOptionsWorkflow",
-    "path": "/references/medusa-workflows/createShippingOptionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createShippingOptionsWorkflow"
   },
   {
     "title": "createShippingProfilesWorkflow",
-    "path": "/references/medusa-workflows/createShippingProfilesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createShippingProfilesWorkflow"
   },
   {
     "title": "deleteFulfillmentSetsWorkflow",
-    "path": "/references/medusa-workflows/deleteFulfillmentSetsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteFulfillmentSetsWorkflow"
   },
   {
     "title": "deleteServiceZonesWorkflow",
-    "path": "/references/medusa-workflows/deleteServiceZonesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteServiceZonesWorkflow"
   },
   {
     "title": "deleteShippingOptionsWorkflow",
-    "path": "/references/medusa-workflows/deleteShippingOptionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteShippingOptionsWorkflow"
   },
   {
     "title": "markFulfillmentAsDeliveredWorkflow",
-    "path": "/references/medusa-workflows/markFulfillmentAsDeliveredWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/markFulfillmentAsDeliveredWorkflow"
   },
   {
     "title": "updateFulfillmentWorkflow",
-    "path": "/references/medusa-workflows/updateFulfillmentWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateFulfillmentWorkflow"
   },
   {
     "title": "updateServiceZonesWorkflow",
-    "path": "/references/medusa-workflows/updateServiceZonesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateServiceZonesWorkflow"
   },
   {
     "title": "updateShippingOptionsWorkflow",
-    "path": "/references/medusa-workflows/updateShippingOptionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateShippingOptionsWorkflow"
   },
   {
     "title": "updateShippingProfilesWorkflow",
-    "path": "/references/medusa-workflows/updateShippingProfilesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateShippingProfilesWorkflow"
   },
   {
     "title": "batchInventoryItemLevelsWorkflow",
-    "path": "/references/medusa-workflows/batchInventoryItemLevelsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/batchInventoryItemLevelsWorkflow"
   },
   {
     "title": "bulkCreateDeleteLevelsWorkflow",
-    "path": "/references/medusa-workflows/bulkCreateDeleteLevelsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/bulkCreateDeleteLevelsWorkflow"
   },
   {
     "title": "createInventoryItemsWorkflow",
-    "path": "/references/medusa-workflows/createInventoryItemsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createInventoryItemsWorkflow"
   },
   {
     "title": "createInventoryLevelsWorkflow",
-    "path": "/references/medusa-workflows/createInventoryLevelsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createInventoryLevelsWorkflow"
   },
   {
     "title": "deleteInventoryItemWorkflow",
-    "path": "/references/medusa-workflows/deleteInventoryItemWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteInventoryItemWorkflow"
   },
   {
     "title": "deleteInventoryLevelsWorkflow",
-    "path": "/references/medusa-workflows/deleteInventoryLevelsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteInventoryLevelsWorkflow"
   },
   {
     "title": "updateInventoryItemsWorkflow",
-    "path": "/references/medusa-workflows/updateInventoryItemsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateInventoryItemsWorkflow"
   },
   {
     "title": "updateInventoryLevelsWorkflow",
-    "path": "/references/medusa-workflows/updateInventoryLevelsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateInventoryLevelsWorkflow"
   },
   {
     "title": "acceptInviteWorkflow",
-    "path": "/references/medusa-workflows/acceptInviteWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/acceptInviteWorkflow"
   },
   {
     "title": "createInvitesWorkflow",
-    "path": "/references/medusa-workflows/createInvitesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createInvitesWorkflow"
   },
   {
     "title": "deleteInvitesWorkflow",
-    "path": "/references/medusa-workflows/deleteInvitesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteInvitesWorkflow"
   },
   {
     "title": "refreshInviteTokensWorkflow",
-    "path": "/references/medusa-workflows/refreshInviteTokensWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/refreshInviteTokensWorkflow"
   },
   {
     "title": "deleteLineItemsWorkflow",
-    "path": "/references/medusa-workflows/deleteLineItemsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteLineItemsWorkflow"
   },
   {
     "title": "acceptOrderTransferWorkflow",
-    "path": "/references/medusa-workflows/acceptOrderTransferWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/acceptOrderTransferWorkflow"
   },
   {
     "title": "addOrderLineItemsWorkflow",
-    "path": "/references/medusa-workflows/addOrderLineItemsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/addOrderLineItemsWorkflow"
   },
   {
     "title": "archiveOrderWorkflow",
-    "path": "/references/medusa-workflows/archiveOrderWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/archiveOrderWorkflow"
   },
   {
     "title": "beginClaimOrderWorkflow",
-    "path": "/references/medusa-workflows/beginClaimOrderWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/beginClaimOrderWorkflow"
   },
   {
     "title": "beginExchangeOrderWorkflow",
-    "path": "/references/medusa-workflows/beginExchangeOrderWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/beginExchangeOrderWorkflow"
   },
   {
     "title": "beginOrderEditOrderWorkflow",
-    "path": "/references/medusa-workflows/beginOrderEditOrderWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/beginOrderEditOrderWorkflow"
   },
   {
     "title": "beginReceiveReturnWorkflow",
-    "path": "/references/medusa-workflows/beginReceiveReturnWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/beginReceiveReturnWorkflow"
   },
   {
     "title": "beginReturnOrderWorkflow",
-    "path": "/references/medusa-workflows/beginReturnOrderWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/beginReturnOrderWorkflow"
   },
   {
     "title": "cancelBeginOrderClaimWorkflow",
-    "path": "/references/medusa-workflows/cancelBeginOrderClaimWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/cancelBeginOrderClaimWorkflow"
   },
   {
     "title": "cancelBeginOrderEditWorkflow",
-    "path": "/references/medusa-workflows/cancelBeginOrderEditWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/cancelBeginOrderEditWorkflow"
   },
   {
     "title": "cancelBeginOrderExchangeWorkflow",
-    "path": "/references/medusa-workflows/cancelBeginOrderExchangeWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/cancelBeginOrderExchangeWorkflow"
   },
   {
     "title": "cancelOrderChangeWorkflow",
-    "path": "/references/medusa-workflows/cancelOrderChangeWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/cancelOrderChangeWorkflow"
   },
   {
     "title": "cancelOrderClaimWorkflow",
-    "path": "/references/medusa-workflows/cancelOrderClaimWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/cancelOrderClaimWorkflow"
   },
   {
     "title": "cancelOrderExchangeWorkflow",
-    "path": "/references/medusa-workflows/cancelOrderExchangeWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/cancelOrderExchangeWorkflow"
   },
   {
     "title": "cancelOrderFulfillmentWorkflow",
-    "path": "/references/medusa-workflows/cancelOrderFulfillmentWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/cancelOrderFulfillmentWorkflow"
   },
   {
     "title": "cancelOrderTransferRequestWorkflow",
-    "path": "/references/medusa-workflows/cancelOrderTransferRequestWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/cancelOrderTransferRequestWorkflow"
   },
   {
     "title": "cancelOrderWorkflow",
-    "path": "/references/medusa-workflows/cancelOrderWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/cancelOrderWorkflow"
   },
   {
     "title": "cancelReturnReceiveWorkflow",
-    "path": "/references/medusa-workflows/cancelReturnReceiveWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/cancelReturnReceiveWorkflow"
   },
   {
     "title": "cancelReturnRequestWorkflow",
-    "path": "/references/medusa-workflows/cancelReturnRequestWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/cancelReturnRequestWorkflow"
   },
   {
     "title": "cancelReturnWorkflow",
-    "path": "/references/medusa-workflows/cancelReturnWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/cancelReturnWorkflow"
   },
   {
     "title": "completeOrderWorkflow",
-    "path": "/references/medusa-workflows/completeOrderWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/completeOrderWorkflow"
   },
   {
     "title": "confirmClaimRequestWorkflow",
-    "path": "/references/medusa-workflows/confirmClaimRequestWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/confirmClaimRequestWorkflow"
   },
   {
     "title": "confirmExchangeRequestWorkflow",
-    "path": "/references/medusa-workflows/confirmExchangeRequestWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/confirmExchangeRequestWorkflow"
   },
   {
     "title": "confirmOrderEditRequestWorkflow",
-    "path": "/references/medusa-workflows/confirmOrderEditRequestWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/confirmOrderEditRequestWorkflow"
   },
   {
     "title": "confirmReturnReceiveWorkflow",
-    "path": "/references/medusa-workflows/confirmReturnReceiveWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/confirmReturnReceiveWorkflow"
   },
   {
     "title": "confirmReturnRequestWorkflow",
-    "path": "/references/medusa-workflows/confirmReturnRequestWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/confirmReturnRequestWorkflow"
   },
   {
     "title": "createAndCompleteReturnOrderWorkflow",
-    "path": "/references/medusa-workflows/createAndCompleteReturnOrderWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createAndCompleteReturnOrderWorkflow"
   },
   {
     "title": "createClaimShippingMethodWorkflow",
-    "path": "/references/medusa-workflows/createClaimShippingMethodWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createClaimShippingMethodWorkflow"
   },
   {
     "title": "createExchangeShippingMethodWorkflow",
-    "path": "/references/medusa-workflows/createExchangeShippingMethodWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createExchangeShippingMethodWorkflow"
   },
   {
     "title": "createOrUpdateOrderPaymentCollectionWorkflow",
-    "path": "/references/medusa-workflows/createOrUpdateOrderPaymentCollectionWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createOrUpdateOrderPaymentCollectionWorkflow"
   },
   {
     "title": "createOrderChangeActionsWorkflow",
-    "path": "/references/medusa-workflows/createOrderChangeActionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createOrderChangeActionsWorkflow"
   },
   {
     "title": "createOrderChangeWorkflow",
-    "path": "/references/medusa-workflows/createOrderChangeWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createOrderChangeWorkflow"
   },
   {
     "title": "createOrderEditShippingMethodWorkflow",
-    "path": "/references/medusa-workflows/createOrderEditShippingMethodWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createOrderEditShippingMethodWorkflow"
   },
   {
     "title": "createOrderFulfillmentWorkflow",
-    "path": "/references/medusa-workflows/createOrderFulfillmentWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createOrderFulfillmentWorkflow"
   },
   {
     "title": "createOrderPaymentCollectionWorkflow",
-    "path": "/references/medusa-workflows/createOrderPaymentCollectionWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createOrderPaymentCollectionWorkflow"
   },
   {
     "title": "createOrderShipmentWorkflow",
-    "path": "/references/medusa-workflows/createOrderShipmentWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createOrderShipmentWorkflow"
   },
   {
     "title": "createOrderWorkflow",
-    "path": "/references/medusa-workflows/createOrderWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createOrderWorkflow"
   },
   {
     "title": "createReturnShippingMethodWorkflow",
-    "path": "/references/medusa-workflows/createReturnShippingMethodWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createReturnShippingMethodWorkflow"
   },
   {
     "title": "declineOrderChangeWorkflow",
-    "path": "/references/medusa-workflows/declineOrderChangeWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/declineOrderChangeWorkflow"
   },
   {
     "title": "declineOrderTransferRequestWorkflow",
-    "path": "/references/medusa-workflows/declineOrderTransferRequestWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/declineOrderTransferRequestWorkflow"
   },
   {
     "title": "deleteOrderChangeActionsWorkflow",
-    "path": "/references/medusa-workflows/deleteOrderChangeActionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteOrderChangeActionsWorkflow"
   },
   {
     "title": "deleteOrderChangeWorkflow",
-    "path": "/references/medusa-workflows/deleteOrderChangeWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteOrderChangeWorkflow"
   },
   {
     "title": "deleteOrderPaymentCollections",
-    "path": "/references/medusa-workflows/deleteOrderPaymentCollections"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteOrderPaymentCollections"
   },
   {
     "title": "dismissItemReturnRequestWorkflow",
-    "path": "/references/medusa-workflows/dismissItemReturnRequestWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/dismissItemReturnRequestWorkflow"
   },
   {
     "title": "getOrderDetailWorkflow",
-    "path": "/references/medusa-workflows/getOrderDetailWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/getOrderDetailWorkflow"
   },
   {
     "title": "getOrdersListWorkflow",
-    "path": "/references/medusa-workflows/getOrdersListWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/getOrdersListWorkflow"
   },
   {
     "title": "markOrderFulfillmentAsDeliveredWorkflow",
-    "path": "/references/medusa-workflows/markOrderFulfillmentAsDeliveredWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/markOrderFulfillmentAsDeliveredWorkflow"
   },
   {
     "title": "markPaymentCollectionAsPaid",
-    "path": "/references/medusa-workflows/markPaymentCollectionAsPaid"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/markPaymentCollectionAsPaid"
   },
   {
     "title": "orderClaimAddNewItemWorkflow",
-    "path": "/references/medusa-workflows/orderClaimAddNewItemWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/orderClaimAddNewItemWorkflow"
   },
   {
     "title": "orderClaimItemWorkflow",
-    "path": "/references/medusa-workflows/orderClaimItemWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/orderClaimItemWorkflow"
   },
   {
     "title": "orderClaimRequestItemReturnWorkflow",
-    "path": "/references/medusa-workflows/orderClaimRequestItemReturnWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/orderClaimRequestItemReturnWorkflow"
   },
   {
     "title": "orderEditAddNewItemWorkflow",
-    "path": "/references/medusa-workflows/orderEditAddNewItemWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/orderEditAddNewItemWorkflow"
   },
   {
     "title": "orderEditUpdateItemQuantityWorkflow",
-    "path": "/references/medusa-workflows/orderEditUpdateItemQuantityWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/orderEditUpdateItemQuantityWorkflow"
   },
   {
     "title": "orderExchangeAddNewItemWorkflow",
-    "path": "/references/medusa-workflows/orderExchangeAddNewItemWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/orderExchangeAddNewItemWorkflow"
   },
   {
     "title": "orderExchangeRequestItemReturnWorkflow",
-    "path": "/references/medusa-workflows/orderExchangeRequestItemReturnWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/orderExchangeRequestItemReturnWorkflow"
   },
   {
     "title": "receiveAndCompleteReturnOrderWorkflow",
-    "path": "/references/medusa-workflows/receiveAndCompleteReturnOrderWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/receiveAndCompleteReturnOrderWorkflow"
   },
   {
     "title": "receiveItemReturnRequestWorkflow",
-    "path": "/references/medusa-workflows/receiveItemReturnRequestWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/receiveItemReturnRequestWorkflow"
   },
   {
     "title": "removeAddItemClaimActionWorkflow",
-    "path": "/references/medusa-workflows/removeAddItemClaimActionWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/removeAddItemClaimActionWorkflow"
   },
   {
     "title": "removeClaimShippingMethodWorkflow",
-    "path": "/references/medusa-workflows/removeClaimShippingMethodWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/removeClaimShippingMethodWorkflow"
   },
   {
     "title": "removeExchangeShippingMethodWorkflow",
-    "path": "/references/medusa-workflows/removeExchangeShippingMethodWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/removeExchangeShippingMethodWorkflow"
   },
   {
     "title": "removeItemClaimActionWorkflow",
-    "path": "/references/medusa-workflows/removeItemClaimActionWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/removeItemClaimActionWorkflow"
   },
   {
     "title": "removeItemExchangeActionWorkflow",
-    "path": "/references/medusa-workflows/removeItemExchangeActionWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/removeItemExchangeActionWorkflow"
   },
   {
     "title": "removeItemOrderEditActionWorkflow",
-    "path": "/references/medusa-workflows/removeItemOrderEditActionWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/removeItemOrderEditActionWorkflow"
   },
   {
     "title": "removeItemReceiveReturnActionWorkflow",
-    "path": "/references/medusa-workflows/removeItemReceiveReturnActionWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/removeItemReceiveReturnActionWorkflow"
   },
   {
     "title": "removeItemReturnActionWorkflow",
-    "path": "/references/medusa-workflows/removeItemReturnActionWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/removeItemReturnActionWorkflow"
   },
   {
     "title": "removeOrderEditShippingMethodWorkflow",
-    "path": "/references/medusa-workflows/removeOrderEditShippingMethodWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/removeOrderEditShippingMethodWorkflow"
   },
   {
     "title": "removeReturnShippingMethodWorkflow",
-    "path": "/references/medusa-workflows/removeReturnShippingMethodWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/removeReturnShippingMethodWorkflow"
   },
   {
     "title": "requestItemReturnWorkflow",
-    "path": "/references/medusa-workflows/requestItemReturnWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/requestItemReturnWorkflow"
   },
   {
     "title": "requestOrderEditRequestWorkflow",
-    "path": "/references/medusa-workflows/requestOrderEditRequestWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/requestOrderEditRequestWorkflow"
   },
   {
     "title": "requestOrderTransferWorkflow",
-    "path": "/references/medusa-workflows/requestOrderTransferWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/requestOrderTransferWorkflow"
   },
   {
     "title": "updateClaimAddItemWorkflow",
-    "path": "/references/medusa-workflows/updateClaimAddItemWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateClaimAddItemWorkflow"
   },
   {
     "title": "updateClaimItemWorkflow",
-    "path": "/references/medusa-workflows/updateClaimItemWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateClaimItemWorkflow"
   },
   {
     "title": "updateClaimShippingMethodWorkflow",
-    "path": "/references/medusa-workflows/updateClaimShippingMethodWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateClaimShippingMethodWorkflow"
   },
   {
     "title": "updateExchangeAddItemWorkflow",
-    "path": "/references/medusa-workflows/updateExchangeAddItemWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateExchangeAddItemWorkflow"
   },
   {
     "title": "updateExchangeShippingMethodWorkflow",
-    "path": "/references/medusa-workflows/updateExchangeShippingMethodWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateExchangeShippingMethodWorkflow"
   },
   {
     "title": "updateOrderChangeActionsWorkflow",
-    "path": "/references/medusa-workflows/updateOrderChangeActionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateOrderChangeActionsWorkflow"
   },
   {
     "title": "updateOrderChangesWorkflow",
-    "path": "/references/medusa-workflows/updateOrderChangesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateOrderChangesWorkflow"
   },
   {
     "title": "updateOrderEditAddItemWorkflow",
-    "path": "/references/medusa-workflows/updateOrderEditAddItemWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateOrderEditAddItemWorkflow"
   },
   {
     "title": "updateOrderEditItemQuantityWorkflow",
-    "path": "/references/medusa-workflows/updateOrderEditItemQuantityWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateOrderEditItemQuantityWorkflow"
   },
   {
     "title": "updateOrderEditShippingMethodWorkflow",
-    "path": "/references/medusa-workflows/updateOrderEditShippingMethodWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateOrderEditShippingMethodWorkflow"
   },
   {
     "title": "updateOrderTaxLinesWorkflow",
-    "path": "/references/medusa-workflows/updateOrderTaxLinesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateOrderTaxLinesWorkflow"
   },
   {
     "title": "updateOrderWorkflow",
-    "path": "/references/medusa-workflows/updateOrderWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateOrderWorkflow"
   },
   {
     "title": "updateReceiveItemReturnRequestWorkflow",
-    "path": "/references/medusa-workflows/updateReceiveItemReturnRequestWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateReceiveItemReturnRequestWorkflow"
   },
   {
     "title": "updateRequestItemReturnWorkflow",
-    "path": "/references/medusa-workflows/updateRequestItemReturnWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateRequestItemReturnWorkflow"
   },
   {
     "title": "updateReturnShippingMethodWorkflow",
-    "path": "/references/medusa-workflows/updateReturnShippingMethodWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateReturnShippingMethodWorkflow"
   },
   {
     "title": "updateReturnWorkflow",
-    "path": "/references/medusa-workflows/updateReturnWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateReturnWorkflow"
   },
   {
     "title": "capturePaymentWorkflow",
-    "path": "/references/medusa-workflows/capturePaymentWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/capturePaymentWorkflow"
   },
   {
     "title": "processPaymentWorkflow",
-    "path": "/references/medusa-workflows/processPaymentWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/processPaymentWorkflow"
   },
   {
     "title": "refundPaymentWorkflow",
-    "path": "/references/medusa-workflows/refundPaymentWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/refundPaymentWorkflow"
   },
   {
     "title": "refundPaymentsWorkflow",
-    "path": "/references/medusa-workflows/refundPaymentsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/refundPaymentsWorkflow"
   },
   {
     "title": "createPaymentSessionsWorkflow",
-    "path": "/references/medusa-workflows/createPaymentSessionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createPaymentSessionsWorkflow"
   },
   {
     "title": "createRefundReasonsWorkflow",
-    "path": "/references/medusa-workflows/createRefundReasonsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createRefundReasonsWorkflow"
   },
   {
     "title": "deletePaymentSessionsWorkflow",
-    "path": "/references/medusa-workflows/deletePaymentSessionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deletePaymentSessionsWorkflow"
   },
   {
     "title": "deleteRefundReasonsWorkflow",
-    "path": "/references/medusa-workflows/deleteRefundReasonsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteRefundReasonsWorkflow"
   },
   {
     "title": "updateRefundReasonsWorkflow",
-    "path": "/references/medusa-workflows/updateRefundReasonsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateRefundReasonsWorkflow"
   },
   {
     "title": "batchPriceListPricesWorkflow",
-    "path": "/references/medusa-workflows/batchPriceListPricesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/batchPriceListPricesWorkflow"
   },
   {
     "title": "createPriceListPricesWorkflow",
-    "path": "/references/medusa-workflows/createPriceListPricesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createPriceListPricesWorkflow"
   },
   {
     "title": "createPriceListsWorkflow",
-    "path": "/references/medusa-workflows/createPriceListsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createPriceListsWorkflow"
   },
   {
     "title": "deletePriceListsWorkflow",
-    "path": "/references/medusa-workflows/deletePriceListsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deletePriceListsWorkflow"
   },
   {
     "title": "removePriceListPricesWorkflow",
-    "path": "/references/medusa-workflows/removePriceListPricesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/removePriceListPricesWorkflow"
   },
   {
     "title": "updatePriceListPricesWorkflow",
-    "path": "/references/medusa-workflows/updatePriceListPricesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updatePriceListPricesWorkflow"
   },
   {
     "title": "updatePriceListsWorkflow",
-    "path": "/references/medusa-workflows/updatePriceListsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updatePriceListsWorkflow"
   },
   {
     "title": "createPricePreferencesWorkflow",
-    "path": "/references/medusa-workflows/createPricePreferencesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createPricePreferencesWorkflow"
   },
   {
     "title": "deletePricePreferencesWorkflow",
-    "path": "/references/medusa-workflows/deletePricePreferencesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deletePricePreferencesWorkflow"
   },
   {
     "title": "updatePricePreferencesWorkflow",
-    "path": "/references/medusa-workflows/updatePricePreferencesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updatePricePreferencesWorkflow"
   },
   {
     "title": "batchLinkProductsToCategoryWorkflow",
-    "path": "/references/medusa-workflows/batchLinkProductsToCategoryWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/batchLinkProductsToCategoryWorkflow"
   },
   {
     "title": "batchLinkProductsToCollectionWorkflow",
-    "path": "/references/medusa-workflows/batchLinkProductsToCollectionWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/batchLinkProductsToCollectionWorkflow"
   },
   {
     "title": "batchProductVariantsWorkflow",
-    "path": "/references/medusa-workflows/batchProductVariantsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/batchProductVariantsWorkflow"
   },
   {
     "title": "batchProductsWorkflow",
-    "path": "/references/medusa-workflows/batchProductsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/batchProductsWorkflow"
   },
   {
     "title": "createCollectionsWorkflow",
-    "path": "/references/medusa-workflows/createCollectionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createCollectionsWorkflow"
   },
   {
     "title": "createProductOptionsWorkflow",
-    "path": "/references/medusa-workflows/createProductOptionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createProductOptionsWorkflow"
   },
   {
     "title": "createProductTagsWorkflow",
-    "path": "/references/medusa-workflows/createProductTagsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createProductTagsWorkflow"
   },
   {
     "title": "createProductTypesWorkflow",
-    "path": "/references/medusa-workflows/createProductTypesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createProductTypesWorkflow"
   },
   {
     "title": "createProductVariantsWorkflow",
-    "path": "/references/medusa-workflows/createProductVariantsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createProductVariantsWorkflow"
   },
   {
     "title": "createProductsWorkflow",
-    "path": "/references/medusa-workflows/createProductsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createProductsWorkflow"
   },
   {
     "title": "deleteCollectionsWorkflow",
-    "path": "/references/medusa-workflows/deleteCollectionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteCollectionsWorkflow"
   },
   {
     "title": "deleteProductOptionsWorkflow",
-    "path": "/references/medusa-workflows/deleteProductOptionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteProductOptionsWorkflow"
   },
   {
     "title": "deleteProductTagsWorkflow",
-    "path": "/references/medusa-workflows/deleteProductTagsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteProductTagsWorkflow"
   },
   {
     "title": "deleteProductTypesWorkflow",
-    "path": "/references/medusa-workflows/deleteProductTypesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteProductTypesWorkflow"
   },
   {
     "title": "deleteProductVariantsWorkflow",
-    "path": "/references/medusa-workflows/deleteProductVariantsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteProductVariantsWorkflow"
   },
   {
     "title": "deleteProductsWorkflow",
-    "path": "/references/medusa-workflows/deleteProductsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteProductsWorkflow"
   },
   {
     "title": "exportProductsWorkflow",
-    "path": "/references/medusa-workflows/exportProductsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/exportProductsWorkflow"
   },
   {
     "title": "importProductsWorkflow",
-    "path": "/references/medusa-workflows/importProductsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/importProductsWorkflow"
   },
   {
     "title": "updateCollectionsWorkflow",
-    "path": "/references/medusa-workflows/updateCollectionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateCollectionsWorkflow"
   },
   {
     "title": "updateProductOptionsWorkflow",
-    "path": "/references/medusa-workflows/updateProductOptionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateProductOptionsWorkflow"
   },
   {
     "title": "updateProductTagsWorkflow",
-    "path": "/references/medusa-workflows/updateProductTagsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateProductTagsWorkflow"
   },
   {
     "title": "updateProductTypesWorkflow",
-    "path": "/references/medusa-workflows/updateProductTypesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateProductTypesWorkflow"
   },
   {
     "title": "updateProductVariantsWorkflow",
-    "path": "/references/medusa-workflows/updateProductVariantsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateProductVariantsWorkflow"
   },
   {
     "title": "updateProductsWorkflow",
-    "path": "/references/medusa-workflows/updateProductsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateProductsWorkflow"
   },
   {
     "title": "upsertVariantPricesWorkflow",
-    "path": "/references/medusa-workflows/upsertVariantPricesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/upsertVariantPricesWorkflow"
   },
   {
     "title": "createProductCategoriesWorkflow",
-    "path": "/references/medusa-workflows/createProductCategoriesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createProductCategoriesWorkflow"
   },
   {
     "title": "deleteProductCategoriesWorkflow",
-    "path": "/references/medusa-workflows/deleteProductCategoriesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteProductCategoriesWorkflow"
   },
   {
     "title": "updateProductCategoriesWorkflow",
-    "path": "/references/medusa-workflows/updateProductCategoriesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateProductCategoriesWorkflow"
   },
   {
     "title": "addOrRemoveCampaignPromotionsWorkflow",
-    "path": "/references/medusa-workflows/addOrRemoveCampaignPromotionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/addOrRemoveCampaignPromotionsWorkflow"
   },
   {
     "title": "batchPromotionRulesWorkflow",
-    "path": "/references/medusa-workflows/batchPromotionRulesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/batchPromotionRulesWorkflow"
   },
   {
     "title": "createCampaignsWorkflow",
-    "path": "/references/medusa-workflows/createCampaignsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createCampaignsWorkflow"
   },
   {
     "title": "createPromotionRulesWorkflow",
-    "path": "/references/medusa-workflows/createPromotionRulesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createPromotionRulesWorkflow"
   },
   {
     "title": "createPromotionsWorkflow",
-    "path": "/references/medusa-workflows/createPromotionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createPromotionsWorkflow"
   },
   {
     "title": "deleteCampaignsWorkflow",
-    "path": "/references/medusa-workflows/deleteCampaignsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteCampaignsWorkflow"
   },
   {
     "title": "deletePromotionRulesWorkflow",
-    "path": "/references/medusa-workflows/deletePromotionRulesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deletePromotionRulesWorkflow"
   },
   {
     "title": "deletePromotionsWorkflow",
-    "path": "/references/medusa-workflows/deletePromotionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deletePromotionsWorkflow"
   },
   {
     "title": "updateCampaignsWorkflow",
-    "path": "/references/medusa-workflows/updateCampaignsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateCampaignsWorkflow"
   },
   {
     "title": "updatePromotionRulesWorkflow",
-    "path": "/references/medusa-workflows/updatePromotionRulesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updatePromotionRulesWorkflow"
   },
   {
     "title": "updatePromotionsStatusWorkflow",
-    "path": "/references/medusa-workflows/updatePromotionsStatusWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updatePromotionsStatusWorkflow"
   },
   {
     "title": "updatePromotionsWorkflow",
-    "path": "/references/medusa-workflows/updatePromotionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updatePromotionsWorkflow"
   },
   {
     "title": "createRegionsWorkflow",
-    "path": "/references/medusa-workflows/createRegionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createRegionsWorkflow"
   },
   {
     "title": "deleteRegionsWorkflow",
-    "path": "/references/medusa-workflows/deleteRegionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteRegionsWorkflow"
   },
   {
     "title": "updateRegionsWorkflow",
-    "path": "/references/medusa-workflows/updateRegionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateRegionsWorkflow"
   },
   {
     "title": "createReservationsWorkflow",
-    "path": "/references/medusa-workflows/createReservationsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createReservationsWorkflow"
   },
   {
     "title": "deleteReservationsByLineItemsWorkflow",
-    "path": "/references/medusa-workflows/deleteReservationsByLineItemsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteReservationsByLineItemsWorkflow"
   },
   {
     "title": "deleteReservationsWorkflow",
-    "path": "/references/medusa-workflows/deleteReservationsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteReservationsWorkflow"
   },
   {
     "title": "updateReservationsWorkflow",
-    "path": "/references/medusa-workflows/updateReservationsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateReservationsWorkflow"
   },
   {
     "title": "createReturnReasonsWorkflow",
-    "path": "/references/medusa-workflows/createReturnReasonsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createReturnReasonsWorkflow"
   },
   {
     "title": "deleteReturnReasonsWorkflow",
-    "path": "/references/medusa-workflows/deleteReturnReasonsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteReturnReasonsWorkflow"
   },
   {
     "title": "updateReturnReasonsWorkflow",
-    "path": "/references/medusa-workflows/updateReturnReasonsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateReturnReasonsWorkflow"
   },
   {
     "title": "createSalesChannelsWorkflow",
-    "path": "/references/medusa-workflows/createSalesChannelsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createSalesChannelsWorkflow"
   },
   {
     "title": "deleteSalesChannelsWorkflow",
-    "path": "/references/medusa-workflows/deleteSalesChannelsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteSalesChannelsWorkflow"
   },
   {
     "title": "linkProductsToSalesChannelWorkflow",
-    "path": "/references/medusa-workflows/linkProductsToSalesChannelWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/linkProductsToSalesChannelWorkflow"
   },
   {
     "title": "updateSalesChannelsWorkflow",
-    "path": "/references/medusa-workflows/updateSalesChannelsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateSalesChannelsWorkflow"
   },
   {
     "title": "deleteShippingProfileWorkflow",
-    "path": "/references/medusa-workflows/deleteShippingProfileWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteShippingProfileWorkflow"
   },
   {
     "title": "createLocationFulfillmentSetWorkflow",
-    "path": "/references/medusa-workflows/createLocationFulfillmentSetWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createLocationFulfillmentSetWorkflow"
   },
   {
     "title": "createStockLocationsWorkflow",
-    "path": "/references/medusa-workflows/createStockLocationsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createStockLocationsWorkflow"
   },
   {
     "title": "deleteStockLocationsWorkflow",
-    "path": "/references/medusa-workflows/deleteStockLocationsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteStockLocationsWorkflow"
   },
   {
     "title": "linkSalesChannelsToStockLocationWorkflow",
-    "path": "/references/medusa-workflows/linkSalesChannelsToStockLocationWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/linkSalesChannelsToStockLocationWorkflow"
   },
   {
     "title": "updateStockLocationsWorkflow",
-    "path": "/references/medusa-workflows/updateStockLocationsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateStockLocationsWorkflow"
   },
   {
     "title": "createStoresWorkflow",
-    "path": "/references/medusa-workflows/createStoresWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createStoresWorkflow"
   },
   {
     "title": "deleteStoresWorkflow",
-    "path": "/references/medusa-workflows/deleteStoresWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteStoresWorkflow"
   },
   {
     "title": "updateStoresWorkflow",
-    "path": "/references/medusa-workflows/updateStoresWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateStoresWorkflow"
   },
   {
     "title": "createTaxRateRulesWorkflow",
-    "path": "/references/medusa-workflows/createTaxRateRulesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createTaxRateRulesWorkflow"
   },
   {
     "title": "createTaxRatesWorkflow",
-    "path": "/references/medusa-workflows/createTaxRatesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createTaxRatesWorkflow"
   },
   {
     "title": "createTaxRegionsWorkflow",
-    "path": "/references/medusa-workflows/createTaxRegionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createTaxRegionsWorkflow"
   },
   {
     "title": "deleteTaxRateRulesWorkflow",
-    "path": "/references/medusa-workflows/deleteTaxRateRulesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteTaxRateRulesWorkflow"
   },
   {
     "title": "deleteTaxRatesWorkflow",
-    "path": "/references/medusa-workflows/deleteTaxRatesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteTaxRatesWorkflow"
   },
   {
     "title": "deleteTaxRegionsWorkflow",
-    "path": "/references/medusa-workflows/deleteTaxRegionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteTaxRegionsWorkflow"
   },
   {
     "title": "setTaxRateRulesWorkflow",
-    "path": "/references/medusa-workflows/setTaxRateRulesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/setTaxRateRulesWorkflow"
   },
   {
     "title": "updateTaxRatesWorkflow",
-    "path": "/references/medusa-workflows/updateTaxRatesWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateTaxRatesWorkflow"
   },
   {
     "title": "updateTaxRegionsWorkflow",
-    "path": "/references/medusa-workflows/updateTaxRegionsWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateTaxRegionsWorkflow"
   },
   {
     "title": "createUserAccountWorkflow",
-    "path": "/references/medusa-workflows/createUserAccountWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createUserAccountWorkflow"
   },
   {
     "title": "createUsersWorkflow",
-    "path": "/references/medusa-workflows/createUsersWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createUsersWorkflow"
   },
   {
     "title": "deleteUsersWorkflow",
-    "path": "/references/medusa-workflows/deleteUsersWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteUsersWorkflow"
   },
   {
     "title": "removeUserAccountWorkflow",
-    "path": "/references/medusa-workflows/removeUserAccountWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/removeUserAccountWorkflow"
   },
   {
     "title": "updateUsersWorkflow",
-    "path": "/references/medusa-workflows/updateUsersWorkflow"
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/updateUsersWorkflow"
   },
   {
     "title": "workflowExecution",
-    "path": "/references/js-sdk/admin/workflowExecution"
+    "path": "https://docs.medusajs.com/resources/references/js-sdk/admin/workflowExecution"
   }
 ]

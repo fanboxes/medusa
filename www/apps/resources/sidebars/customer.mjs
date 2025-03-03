@@ -66,8 +66,8 @@ export const customerSidebar = [
       },
       {
         type: "category",
-        title: "User Guides",
-        autogenerate_tags: "userGuides+customer",
+        title: "Admin User Guides",
+        autogenerate_tags: "userGuide+customer",
         initialOpen: false,
         autogenerate_as_ref: true,
         description:
