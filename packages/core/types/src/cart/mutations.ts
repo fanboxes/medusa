@@ -618,6 +618,11 @@ export interface UpdateLineItemWithSelectorDTO {
   data: Partial<UpdateLineItemDTO>
 }
 
+export interface UpdateLineItemWithoutSelectorDTO
+  extends Omit<Partial<UpdateLineItemDTO>, "id"> {
+  id: string
+}
+
 /**
  * A pair of selectors and data, where the selectors determine which
  * carts to update, and the data determines what to update

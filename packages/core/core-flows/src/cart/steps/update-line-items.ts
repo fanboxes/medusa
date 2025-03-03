@@ -1,5 +1,6 @@
 import {
   ICartModuleService,
+  UpdateLineItemWithoutSelectorDTO,
   UpdateLineItemWithSelectorDTO,
 } from "@medusajs/framework/types"
 import {
@@ -19,13 +20,13 @@ export interface UpdateLineItemsStepInput {
   /**
    * The line items to update.
    */
-  items: UpdateLineItemWithSelectorDTO[]
+  items: (UpdateLineItemWithSelectorDTO | UpdateLineItemWithoutSelectorDTO)[]
 }
 
 export const updateLineItemsStepId = "update-line-items-step"
 /**
  * This step updates a cart's line items.
- * 
+ *
  * @example
  * const data = updateLineItemsStep({
  *   id: "cart_123",
@@ -53,16 +54,18 @@ export const updateLineItemsStep = createStep(
     const cartModule = container.resolve<ICartModuleService>(Modules.CART)
 
     const { selects, relations } = getSelectsAndRelationsFromObjectArray(
-      items.map((item) => item.data)
+      items.map((item) => ("data" in item ? item.data : item))
     )
 
     const itemsBeforeUpdate = await cartModule.listLineItems(
-      { id: items.map((d) => d.selector.id!) },
+      { id: items.map((d) => ("selector" in d ? d.selector.id! : d.id!)) },
       { select: selects, relations }
     )
 
     const updatedItems = items.length
-      ? await cartModule.updateLineItems(items)
+      ? await cartModule.updateLineItems(
+          items as UpdateLineItemWithoutSelectorDTO[]
+        )
       : []
 
     return new StepResponse(updatedItems, itemsBeforeUpdate)

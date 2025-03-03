@@ -51,11 +51,13 @@ export const prepareConfirmInventoryInput = (data: {
   const salesChannelId = data.input.sales_channel_id
 
   for (const updateItem of data.input.itemsToUpdate ?? []) {
+    const updateItem_ = "data" in updateItem ? updateItem.data : updateItem
+
     const item = data.input.items.find(
-      (item) => item.variant_id === updateItem.data.variant_id
+      (item) => item.variant_id === updateItem_.variant_id
     )
-    if (item && updateItem.data.quantity) {
-      item.quantity = updateItem.data.quantity!
+    if (item && updateItem_.quantity) {
+      item.quantity = updateItem_.quantity!
     }
   }
 

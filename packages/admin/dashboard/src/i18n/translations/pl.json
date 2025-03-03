@@ -1769,7 +1769,7 @@
     },
     "tabs": {
       "template": "Typ",
-      "details": "Bliższe dane",
+      "details": "Szczegóły",
       "campaign": "Kampania"
     },
     "fields": {
@@ -1787,10 +1787,10 @@
       "conditions": {
         "rules": {
           "title": "Kto może skorzystać z tego kodu?",
-          "description": "Który klient może skorzystać z kodu promocyjnego? Kod promocyjny może zostać wykorzystany przez wszystkich klientów, jeśli nie zostanie wykorzystany."
+          "description": "Który klient może skorzystać z kodu promocyjnego? Kod promocyjny może być używany przez wszystkich klientów, jeśli pozostanie nietknięty."
         },
         "target-rules": {
-          "title": "Na jakie pozycje będzie miała zastosowanie promocja?",
+          "title": "Na jakie artykuły będzie miała zastosowanie promocja?",
           "description": "Promocja zostanie zastosowana do artykułów spełniających poniższe warunki."
         },
         "buy-rules": {
@@ -1833,7 +1833,7 @@
       }
     },
     "campaign_currency": {
-      "tooltip": "To jest waluta promocji. Zmień to na karcie Szczegóły."
+      "tooltip": "To jest waluta promocji. Możesz ją zmienić na karcie Szczegóły."
     },
     "form": {
       "required": "Wymagany",
@@ -1858,17 +1858,29 @@
         }
       },
       "status": {
-        "title": "Status"
+        "label": "Status",
+        "draft": {
+          "title": "Wersja robocza",
+          "description": "Klienci nie będą w stanie użyć tego kodu promocyjnego"
+        },
+        "active": {
+          "title": "Aktywny",
+          "description": "Klienci mogą użyć tego kodu promocyjnego"
+        },
+        "inactive": {
+          "title": "Nieaktywny",
+          "description": "Klienci nie mogą już użyć tego kodu promocyjnego"
+        }
       },
       "method": {
         "label": "Metoda",
         "code": {
           "title": "Kod promocyjny",
-          "description": "Klienci muszą wpisać ten kod przy kasie"
+          "description": "Klienci muszą wpisać ten kod przy finalizacji zamówienia"
         },
         "automatic": {
           "title": "Automatyczny",
-          "description": "Klienci zobaczą tę promocję przy kasie"
+          "description": "Promocja zostanie automatycznie wyświetlona klientom przy finalizacji zamówienia."
         }
       },
       "max_quantity": {
@@ -1881,7 +1893,7 @@
           "description": "Standardowa promocja"
         },
         "buyget": {
-          "title": "Kup Zdobądź",
+          "title": "Kup Otrzymaj",
           "description": "Kup X, a otrzymasz promocję Y"
         }
       },
@@ -1904,11 +1916,11 @@
       },
       "value_type": {
         "fixed": {
-          "title": "Wartość promocyjna",
-          "description": "Kwota podlegająca rabatowi. np. 100"
+          "title": "Wartość stała",
+          "description": "Stała kwota rabatu. np. 100"
         },
         "percentage": {
-          "title": "Wartość promocyjna",
+          "title": "Wartość procentowa",
           "description": "Procent rabatu od kwoty. np. 8%"
         }
       }

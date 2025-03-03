@@ -334,21 +334,21 @@ function wrapConditionalStep(
  *   createStep,
  *   StepResponse
  * } from "@medusajs/framework/workflows-sdk"
- *
+ * 
  * interface CreateProductInput {
  *   title: string
  * }
- *
+ * 
  * export const createProductStep = createStep(
  *   "createProductStep",
  *   async function (
  *     input: CreateProductInput,
- *     context
+ *     { container }
  *   ) {
- *     const productService = context.container.resolve(
- *       "productService"
+ *     const productModuleService = container.resolve(
+ *       "product"
  *     )
- *     const product = await productService.createProducts(input)
+ *     const product = await productModuleService.createProducts(input)
  *     return new StepResponse({
  *       product
  *     }, {
@@ -357,12 +357,15 @@ function wrapConditionalStep(
  *   },
  *   async function (
  *     input,
- *     context
+ *     { container }
  *   ) {
- *     const productService = context.container.resolve(
- *       "productService"
+ *     if (!input) {
+ *       return
+ *     }
+ *     const productModuleService = container.resolve(
+ *       "product"
  *     )
- *     await productService.deleteProducts(input.product_id)
+ *     await productModuleService.deleteProducts([input.product_id])
  *   }
  * )
  */

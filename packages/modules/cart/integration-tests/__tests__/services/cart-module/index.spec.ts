@@ -676,6 +676,34 @@ moduleIntegrationTestRunner<ICartModuleService>({
           expect(updatedItem.title).toBe("test2")
         })
 
+        it("should update a line item in cart succesfully with data only approach", async () => {
+          const [createdCart] = await service.createCarts([
+            {
+              currency_code: "eur",
+            },
+          ])
+
+          const [item] = await service.addLineItems(createdCart.id, [
+            {
+              quantity: 1,
+              unit_price: 100,
+              title: "test",
+              tax_lines: [],
+            },
+          ])
+
+          expect(item.title).toBe("test")
+
+          const [updatedItem] = await service.updateLineItems([
+            {
+              id: item.id,
+              title: "test2",
+            },
+          ])
+
+          expect(updatedItem.title).toBe("test2")
+        })
+
         it("should update a line item in cart succesfully with id approach", async () => {
           const [createdCart] = await service.createCarts([
             {

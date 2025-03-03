@@ -25,7 +25,6 @@ import { MedusaRequest, MedusaResponse } from "@medusajs/framework/http"
 import {
   createProductStep,
   getProductStep,
-  createPricesStep
 } from "./steps"
 
 interface WorkflowInput {
@@ -39,7 +38,6 @@ const myWorkflow = createWorkflow(
    // during the execution. Including the data access.
 
     const product = createProductStep(input)
-    const prices = createPricesStep(product)
     return new WorkflowResponse(getProductStep(product.id))
   }
 )

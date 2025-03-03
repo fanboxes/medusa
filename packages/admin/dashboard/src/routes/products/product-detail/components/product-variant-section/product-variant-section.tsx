@@ -76,7 +76,7 @@ export const ProductVariantSection = ({
       created_at: created_at ? JSON.parse(created_at) : undefined,
       updated_at: updated_at ? JSON.parse(updated_at) : undefined,
       fields:
-        "title,sku,*options,created_at,updated_at,*inventory_items.inventory.location_levels,inventory_quantity",
+        "title,sku,*options,created_at,updated_at,*inventory_items.inventory.location_levels,inventory_quantity,manage_inventory",
     },
     {
       placeholderData: keepPreviousData,
@@ -279,6 +279,15 @@ const useColumns = (product: HttpTypes.AdminProduct) => {
       const castVariant = variant as HttpTypes.AdminProductVariant & {
         inventory_items: { inventory: HttpTypes.AdminInventoryItem }[]
       }
+
+      if (!variant.manage_inventory) {
+        return {
+          text: t("products.variant.inventory.notManaged"),
+          hasInventoryKit: false,
+          notManaged: true,
+        }
+      }
+
       const quantity = variant.inventory_quantity
 
       const inventoryItems = castVariant.inventory_items
@@ -307,7 +316,7 @@ const useColumns = (product: HttpTypes.AdminProduct) => {
             count: locationCount,
           })
 
-      return { text, hasInventoryKit, quantity }
+      return { text, hasInventoryKit, quantity, notManaged: false }
     },
     [t]
   )
@@ -331,7 +340,9 @@ const useColumns = (product: HttpTypes.AdminProduct) => {
         id: "inventory",
         header: t("fields.inventory"),
         cell: ({ row }) => {
-          const { text, hasInventoryKit, quantity } = getInventory(row.original)
+          const { text, hasInventoryKit, quantity, notManaged } = getInventory(
+            row.original
+          )
 
           return (
             <Tooltip content={text}>
@@ -339,7 +350,7 @@ const useColumns = (product: HttpTypes.AdminProduct) => {
                 {hasInventoryKit && <Component />}
                 <span
                   className={clx("truncate", {
-                    "text-ui-fg-error": !quantity,
+                    "text-ui-fg-error": !quantity && !notManaged,
                   })}
                 >
                   {text}

@@ -36,7 +36,7 @@ type ThenFunc = <ThenResolver extends () => any>(
  * } from "@medusajs/framework/workflows-sdk"
  * // step imports...
  * 
- * const workflow = createWorkflow(
+ * export const workflow = createWorkflow(
  *   "workflow", 
  *   function (input: {
  *     is_active: boolean
