@@ -106,7 +106,7 @@ export interface CreateCartCreateLineItemDTO {
   is_discountable?: boolean
 
   /**
-   * Whether the line item's price is tax inclusive. Learn more in 
+   * Whether the line item's price is tax inclusive. Learn more in
    * [this documentation](https://docs.medusajs.com/resources/commerce-modules/pricing/tax-inclusive-pricing)
    */
   is_tax_inclusive?: boolean
@@ -158,54 +158,54 @@ export interface CreateCartAddressDTO {
    * The first name of the customer associated with the address.
    */
   first_name?: string
-  
+
   /**
    * The last name of the customer associated with the address.
    */
   last_name?: string
-  
+
   /**
    * The address's phone number
    */
   phone?: string
-  
+
   /**
    * The address's company name.
    */
   company?: string
-  
+
   /**
    * The primary address line.
    */
   address_1?: string
-  
+
   /**
    * The secondary address line.
    */
   address_2?: string
-  
+
   /**
    * The city of the address.
    */
   city?: string
-  
+
   /**
    * The country code of the address.
-   * 
+   *
    * @example us
    */
   country_code?: string
-  
+
   /**
    * The province or state of the address.
    */
   province?: string
-  
+
   /**
    * The postal code of the address.
    */
   postal_code?: string
-  
+
   /**
    * Custom key-value pairs related to the address.
    */
@@ -238,7 +238,7 @@ export interface CreateCartWorkflowInputDTO {
 
   /**
    * The currency code of the cart. This defaults to the region's currency code.
-   * 
+   *
    * @example usd
    */
   currency_code?: string
@@ -329,7 +329,7 @@ export interface UpdateCartWorkflowInputDTO {
 
   /**
    * The currency code for the cart.
-   * 
+   *
    * @example usd
    */
   currency_code?: string
@@ -493,21 +493,32 @@ export interface ConfirmVariantInventoryWorkflowInputDTO {
    * The new quantity of the variant to be added to the cart.
    * This is useful when updating a variant's quantity in the cart.
    */
-  itemsToUpdate?: {
-    /**
-     * The item update's details.
-     */
-    data: {
-      /**
-       * The ID of the associated variant.
-       */
-      variant_id?: string
-      /**
-       * The variant's quantity.
-       */
-      quantity?: BigNumberInput
-    }
-  }[]
+  itemsToUpdate?:
+    | {
+        /**
+         * The item update's details.
+         */
+        data: {
+          /**
+           * The ID of the associated variant.
+           */
+          variant_id?: string
+          /**
+           * The variant's quantity.
+           */
+          quantity?: BigNumberInput
+        }
+      }[]
+    | {
+        /**
+         * The ID of the associated variant.
+         */
+        variant_id?: string
+        /**
+         * The variant's quantity.
+         */
+        quantity?: BigNumberInput
+      }[]
 }
 
 export interface CartWorkflowDTO {

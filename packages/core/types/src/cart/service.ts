@@ -36,6 +36,7 @@ import {
   UpdateCartDTO,
   UpdateLineItemDTO,
   UpdateLineItemTaxLineDTO,
+  UpdateLineItemWithoutSelectorDTO,
   UpdateLineItemWithSelectorDTO,
   UpdateShippingMethodAdjustmentDTO,
   UpdateShippingMethodDTO,
@@ -645,6 +646,25 @@ export interface ICartModuleService extends IModuleService {
    */
   updateLineItems(
     data: UpdateLineItemWithSelectorDTO[]
+  ): Promise<CartLineItemDTO[]>
+
+  /**
+   * This method updates existing line items.
+   *
+   * @param {UpdateLineItemWithoutSelectorDTO[]} data - A list of objects, each holding the data
+   * and id to update.
+   * @returns {Promise<CartLineItemDTO[]>} The updated line items.
+   *
+   * @example
+   * const lineItems = await cartModuleService.updateLineItems([
+   *   {
+   *      id: "cali_123",
+   *      quantity: 2,
+   *   },
+   * ])
+   */
+  updateLineItems(
+    data: UpdateLineItemWithoutSelectorDTO[]
   ): Promise<CartLineItemDTO[]>
 
   /**

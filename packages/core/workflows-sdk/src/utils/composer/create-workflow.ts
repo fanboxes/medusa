@@ -46,25 +46,23 @@ global[OrchestrationUtils.SymbolMedusaWorkflowComposerContext] = null
  * import {
  *   createProductStep,
  *   getProductStep,
- *   createPricesStep
  * } from "./steps"
- *
+ * 
  * interface WorkflowInput {
  *  title: string
  * }
- *
+ * 
  * const myWorkflow = createWorkflow(
  *   "my-workflow",
  *   (input: WorkflowInput) => {
  *    // Everything here will be executed and resolved later
  *    // during the execution. Including the data access.
- *
+ * 
  *     const product = createProductStep(input)
- *     const prices = createPricesStep(product)
  *     return new WorkflowResponse(getProductStep(product.id))
  *   }
  * )
- *
+ * 
  * export async function GET(
  *   req: MedusaRequest,
  *   res: MedusaResponse
@@ -75,7 +73,7 @@ global[OrchestrationUtils.SymbolMedusaWorkflowComposerContext] = null
  *         title: "Shirt"
  *       }
  *     })
- *
+ * 
  *   res.json({
  *     product
  *   })

@@ -21,7 +21,6 @@ import {
 } from "@medusajs/framework/workflows-sdk"
 import {
   createProductStep,
-  getProductStep,
   createPricesStep,
   attachProductToSalesChannelStep
 } from "./steps"
@@ -40,8 +39,10 @@ const myWorkflow = createWorkflow(
      attachProductToSalesChannelStep(product)
    )
 
-   const id = product.id
-   return new WorkflowResponse(getProductStep(product.id))
+   return new WorkflowResponse({
+    prices,
+    productSalesChannel
+   })
  }
 )
 ```

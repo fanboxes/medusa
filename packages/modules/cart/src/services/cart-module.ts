@@ -489,6 +489,12 @@ export default class CartModuleService
   updateLineItems(
     data: CartTypes.UpdateLineItemWithSelectorDTO[]
   ): Promise<CartTypes.CartLineItemDTO[]>
+
+  // @ts-ignore
+  updateLineItems(
+    data: (Partial<CartTypes.UpdateLineItemDTO> & { id: string })[]
+  ): Promise<CartTypes.CartLineItemDTO[]>
+
   // @ts-expect-error
   updateLineItems(
     selector: Partial<CartTypes.CartLineItemDTO>,
@@ -508,7 +514,8 @@ export default class CartModuleService
     lineItemIdOrDataOrSelector:
       | string
       | CartTypes.UpdateLineItemWithSelectorDTO[]
-      | Partial<CartTypes.CartLineItemDTO>,
+      | Partial<CartTypes.CartLineItemDTO>
+      | (Partial<CartTypes.UpdateLineItemDTO> & { id: string })[],
     data?: CartTypes.UpdateLineItemDTO | Partial<CartTypes.UpdateLineItemDTO>,
     @MedusaContext() sharedContext: Context = {}
   ): Promise<CartTypes.CartLineItemDTO[] | CartTypes.CartLineItemDTO> {
@@ -521,10 +528,17 @@ export default class CartModuleService
       )
 
       return await this.baseRepository_.serialize<CartTypes.CartLineItemDTO>(
-        item,
-        {
-          populate: true,
-        }
+        item
+      )
+    } else if (Array.isArray(lineItemIdOrDataOrSelector) && !data) {
+      // We received an array of data including the ids
+      const items = await this.lineItemService_.update(
+        lineItemIdOrDataOrSelector,
+        sharedContext
+      )
+
+      return await this.baseRepository_.serialize<CartTypes.CartLineItemDTO[]>(
+        items
       )
     }
 
@@ -537,7 +551,10 @@ export default class CartModuleService
           } as CartTypes.UpdateLineItemWithSelectorDTO,
         ]
 
-    items = await this.updateLineItemsWithSelector_(toUpdate, sharedContext)
+    items = await this.updateLineItemsWithSelector_(
+      toUpdate as CartTypes.UpdateLineItemWithSelectorDTO[],
+      sharedContext
+    )
 
     return await this.baseRepository_.serialize<CartTypes.CartLineItemDTO[]>(
       items,
