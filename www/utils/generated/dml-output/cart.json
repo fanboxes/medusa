@@ -132,7 +132,20 @@
 			"shipping_address": "The associated shipping_address.\n\n@expandable",
 			"billing_address": "The associated billing_address.\n\n@expandable",
 			"items": "The associated items.\n\n@expandable",
-			"shipping_methods": "The associated shipping_methods.\n\n@expandable"
+			"shipping_methods": "The associated shipping_methods.\n\n@expandable",
+			"credit_lines": "The associated credit_lines.\n\n@expandable"
+		}
+	},
+	"CreditLine": {
+		"filePath": "packages/modules/cart/src/models/credit-line.ts",
+		"properties": {
+			"id": "The ID of the credit line.",
+			"cart": "The associated cart.\n\n@expandable",
+			"reference": "The reference of the credit line",
+			"reference_id": "The reference id of the credit line",
+			"amount": "The amount of the credit line",
+			"raw_amount": "The raw amount of the credit line",
+			"metadata": "Holds custom data in key-value pairs."
 		}
 	}
 }

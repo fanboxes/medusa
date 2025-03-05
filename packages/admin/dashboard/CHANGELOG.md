@@ -1,5 +1,20 @@
 # @medusajs/dashboard
 
+## 2.6.0
+
+### Patch Changes
+
+- [#11487](https://github.com/medusajs/medusa/pull/11487) [`c28ae573e50b51bd3ef18de7c0e37b37963c423e`](https://github.com/medusajs/medusa/commit/c28ae573e50b51bd3ef18de7c0e37b37963c423e) Thanks [@kasperkristensen](https://github.com/kasperkristensen)! - fix(dashboard): Use derrived state in DataTable
+
+- [#11690](https://github.com/medusajs/medusa/pull/11690) [`954136f13a4ff00c0fa66d8159f43b2bce90355a`](https://github.com/medusajs/medusa/commit/954136f13a4ff00c0fa66d8159f43b2bce90355a) Thanks [@riqwan](https://github.com/riqwan)! - fix(dashboard): bust variant inventory cache on inventory update
+
+- [#11664](https://github.com/medusajs/medusa/pull/11664) [`e23f204b7ca0f195e36fef2ba0bae7a686b8da4f`](https://github.com/medusajs/medusa/commit/e23f204b7ca0f195e36fef2ba0bae7a686b8da4f) Thanks [@fPolic](https://github.com/fPolic)! - fix(core-flows, dashboard, medusa): prevent creatiion of a fulfilment without items
+
+- Updated dependencies []:
+  - @medusajs/admin-shared@2.6.0
+  - @medusajs/js-sdk@2.6.0
+  - @medusajs/icons@2.6.0
+
 ## 2.5.1
 
 ### Patch Changes

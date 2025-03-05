@@ -1,5 +1,13 @@
 # @medusajs/cart
 
+## 2.6.0
+
+### Patch Changes
+
+- [#11666](https://github.com/medusajs/medusa/pull/11666) [`d1efad9bf05ca80959e8b50d74b74167fc1b0064`](https://github.com/medusajs/medusa/commit/d1efad9bf05ca80959e8b50d74b74167fc1b0064) Thanks [@adrien2p](https://github.com/adrien2p)! - chore(): Improve cart update line items
+
+- [#11632](https://github.com/medusajs/medusa/pull/11632) [`caf83cf78cb6d2dbd1837f6814062dafecbd04fa`](https://github.com/medusajs/medusa/commit/caf83cf78cb6d2dbd1837f6814062dafecbd04fa) Thanks [@adrien2p](https://github.com/adrien2p)! - chore(): Prevent workflow steps to even call modules when not necessary
+
 ## 2.5.1
 
 ## 2.5.0

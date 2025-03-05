@@ -1,5 +1,27 @@
 # @medusajs/core-flows
 
+## 2.6.0
+
+### Patch Changes
+
+- [#11226](https://github.com/medusajs/medusa/pull/11226) [`93cbc6b6695f236fa39b66169de971228888f1b9`](https://github.com/medusajs/medusa/commit/93cbc6b6695f236fa39b66169de971228888f1b9) Thanks [@bouazzaayyoub](https://github.com/bouazzaayyoub)! - fix: add additionl data to product categories hook
+
+- [#11617](https://github.com/medusajs/medusa/pull/11617) [`322d108c0395757b4655a1e0055d722acf127b36`](https://github.com/medusajs/medusa/commit/322d108c0395757b4655a1e0055d722acf127b36) Thanks [@carlos-r-l-rodrigues](https://github.com/carlos-r-l-rodrigues)! - chore(core-flows): pass cart as reference to subflows
+
+- [#11666](https://github.com/medusajs/medusa/pull/11666) [`d1efad9bf05ca80959e8b50d74b74167fc1b0064`](https://github.com/medusajs/medusa/commit/d1efad9bf05ca80959e8b50d74b74167fc1b0064) Thanks [@adrien2p](https://github.com/adrien2p)! - chore(): Improve cart update line items
+
+- [#11632](https://github.com/medusajs/medusa/pull/11632) [`caf83cf78cb6d2dbd1837f6814062dafecbd04fa`](https://github.com/medusajs/medusa/commit/caf83cf78cb6d2dbd1837f6814062dafecbd04fa) Thanks [@adrien2p](https://github.com/adrien2p)! - chore(): Prevent workflow steps to even call modules when not necessary
+
+- [#11631](https://github.com/medusajs/medusa/pull/11631) [`38beeb157eadcd7dabe814119c48b5ddbc17fe20`](https://github.com/medusajs/medusa/commit/38beeb157eadcd7dabe814119c48b5ddbc17fe20) Thanks [@riqwan](https://github.com/riqwan)! - fix(core-flows): support 0 as a valid unit price for custom line items
+
+- [#11538](https://github.com/medusajs/medusa/pull/11538) [`03731c7660fe5dca3c6d3c38a2a71eb2ea89e192`](https://github.com/medusajs/medusa/commit/03731c7660fe5dca3c6d3c38a2a71eb2ea89e192) Thanks [@carlos-r-l-rodrigues](https://github.com/carlos-r-l-rodrigues)! - chore(core-flows): reserve inventory from locations with availability
+
+- [#11712](https://github.com/medusajs/medusa/pull/11712) [`7dbec10b3bdde8a9f869080d5ef2c3c97fca1077`](https://github.com/medusajs/medusa/commit/7dbec10b3bdde8a9f869080d5ef2c3c97fca1077) Thanks [@carlos-r-l-rodrigues](https://github.com/carlos-r-l-rodrigues)! - fix(order): summary raw totals
+
+- [#11602](https://github.com/medusajs/medusa/pull/11602) [`fa1793e8e92164251c776859dea7a5e312ef9432`](https://github.com/medusajs/medusa/commit/fa1793e8e92164251c776859dea7a5e312ef9432) Thanks [@carlos-r-l-rodrigues](https://github.com/carlos-r-l-rodrigues)! - chore(core-flows): avoid overfetching to refresh cart
+
+- [#11664](https://github.com/medusajs/medusa/pull/11664) [`e23f204b7ca0f195e36fef2ba0bae7a686b8da4f`](https://github.com/medusajs/medusa/commit/e23f204b7ca0f195e36fef2ba0bae7a686b8da4f) Thanks [@fPolic](https://github.com/fPolic)! - fix(core-flows, dashboard, medusa): prevent creatiion of a fulfilment without items
+
 ## 2.5.1
 
 ### Patch Changes

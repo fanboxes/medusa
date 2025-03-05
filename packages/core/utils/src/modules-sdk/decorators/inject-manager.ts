@@ -1,4 +1,5 @@
 import { Context } from "@medusajs/types"
+import { isPresent } from "../../common"
 import { MedusaContextType } from "./context-parameter"
 
 export function InjectManager(managerProperty?: string): MethodDecorator {
@@ -39,6 +40,15 @@ export function InjectManager(managerProperty?: string): MethodDecorator {
       const resourceWithManager = !managerProperty
         ? this
         : this[managerProperty]
+
+      if (
+        !isPresent(resourceWithManager) &&
+        !isPresent(originalContext.manager)
+      ) {
+        throw new Error(
+          `Could not find a manager in the context. Ensure that ${this.managerProperty} is set on your service that points to a repository.`
+        )
+      }
 
       copiedContext.manager =
         originalContext.manager ?? resourceWithManager.getFreshManager()

@@ -144,14 +144,17 @@ export async function applyChangesToOrder(
     }
 
     const orderSummary = order.summary
-    summariesToUpsert.push({
+    const upsertSummary = {
       id: orderSummary?.version === version ? orderSummary.id : undefined,
       order_id: order.id,
       version,
       totals: calculated.getSummaryFromOrder(
         calculated.order as unknown as OrderDTO
       ),
-    })
+    }
+
+    createRawPropertiesFromBigNumber(upsertSummary)
+    summariesToUpsert.push(upsertSummary)
 
     if (Object.keys(orderAttributes).length > 0) {
       orderToUpdate.push({

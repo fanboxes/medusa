@@ -2,31 +2,18 @@ import { join } from "path"
 import { dynamicImport, FileSystem } from "@medusajs/utils"
 
 import { logger } from "../logger"
-import type {
-  MiddlewaresConfig,
-  BodyParserConfigRoute,
-  ScannedMiddlewareDescriptor,
+import {
+  type MiddlewaresConfig,
+  type BodyParserConfigRoute,
+  type MiddlewareDescriptor,
+  type MedusaErrorHandlerFunction,
+  HTTP_METHODS,
 } from "./types"
 
 /**
  * File name that is used to indicate that the file is a middleware file
  */
 const MIDDLEWARE_FILE_NAME = "middlewares"
-
-const log = ({
-  activityId,
-  message,
-}: {
-  activityId?: string
-  message: string
-}) => {
-  if (activityId) {
-    logger.progress(activityId, message)
-    return
-  }
-
-  logger.debug(message)
-}
 
 /**
  * Exposes the API to scan a directory and load the `middleware.ts` file. This file contains
@@ -35,19 +22,19 @@ const log = ({
  */
 export class MiddlewareFileLoader {
   /**
-   * Middleware collected manually or by scanning directories
+   * Global error handler exported from the middleware file loader
    */
-  #middleware: ScannedMiddlewareDescriptor[] = []
-  #bodyParserConfigRoutes: BodyParserConfigRoute[] = []
+  #errorHandler?: MedusaErrorHandlerFunction
 
   /**
-   * An eventual activity id for information tracking
+   * Middleware collected manually or by scanning directories
    */
-  readonly #activityId?: string
+  #middleware: MiddlewareDescriptor[] = []
 
-  constructor({ activityId }: { activityId?: string }) {
-    this.#activityId = activityId
-  }
+  /**
+   * Route matchers on which a custom body parser config is used
+   */
+  #bodyParserConfigRoutes: BodyParserConfigRoute[] = []
 
   /**
    * Processes the middleware file and returns the middleware and the
@@ -58,25 +45,23 @@ export class MiddlewareFileLoader {
 
     const middlewareConfig = middlewareExports.default
     if (!middlewareConfig) {
-      log({
-        activityId: this.#activityId,
-        message: `No middleware configuration found in ${absolutePath}. Skipping middleware configuration.`,
-      })
+      logger.warn(
+        `No middleware configuration found in ${absolutePath}. Skipping middleware configuration.`
+      )
       return
     }
 
     const routes = middlewareConfig.routes as MiddlewaresConfig["routes"]
     if (!routes || !Array.isArray(routes)) {
-      log({
-        activityId: this.#activityId,
-        message: `Invalid default export found in ${absolutePath}. Make sure to use "defineMiddlewares" function and export its output.`,
-      })
+      logger.warn(
+        `Invalid default export found in ${absolutePath}. Make sure to use "defineMiddlewares" function and export its output.`
+      )
       return
     }
 
     const result = routes.reduce<{
       bodyParserConfigRoutes: BodyParserConfigRoute[]
-      middleware: ScannedMiddlewareDescriptor[]
+      middleware: MiddlewareDescriptor[]
     }>(
       (result, route) => {
         if (!route.matcher) {
@@ -92,9 +77,15 @@ export class MiddlewareFileLoader {
         const matcher = String(route.matcher)
 
         if ("bodyParser" in route && route.bodyParser !== undefined) {
+          const methods = route.methods || [...HTTP_METHODS]
+
+          logger.debug(
+            `using custom bodyparser config on matcher ${methods}:${route.matcher}`
+          )
+
           result.bodyParserConfigRoutes.push({
             matcher: matcher,
-            method: route.method,
+            methods,
             config: route.bodyParser,
           })
         }
@@ -104,7 +95,7 @@ export class MiddlewareFileLoader {
             result.middleware.push({
               handler: middleware,
               matcher: matcher,
-              method: route.method,
+              methods: route.methods,
             })
           })
         }
@@ -116,8 +107,16 @@ export class MiddlewareFileLoader {
       }
     )
 
-    this.#middleware = result.middleware
-    this.#bodyParserConfigRoutes = result.bodyParserConfigRoutes
+    const errorHandler =
+      middlewareConfig.errorHandler as MiddlewaresConfig["errorHandler"]
+
+    if (errorHandler) {
+      this.#errorHandler = errorHandler
+    }
+    this.#middleware = this.#middleware.concat(result.middleware)
+    this.#bodyParserConfigRoutes = this.#bodyParserConfigRoutes.concat(
+      result.bodyParserConfigRoutes
+    )
   }
 
   /**
@@ -133,9 +132,16 @@ export class MiddlewareFileLoader {
       )
     } else if (await fs.exists(`${MIDDLEWARE_FILE_NAME}.js`)) {
       await this.#processMiddlewareFile(
-        join(sourceDir, `${MIDDLEWARE_FILE_NAME}.ts`)
+        join(sourceDir, `${MIDDLEWARE_FILE_NAME}.js`)
       )
     }
+  }
+
+  /**
+   * Returns the globally registered error handler (if any)
+   */
+  getErrorHandler() {
+    return this.#errorHandler
   }
 
   /**

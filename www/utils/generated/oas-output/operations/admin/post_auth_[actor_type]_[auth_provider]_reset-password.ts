@@ -4,10 +4,13 @@
  * summary: Generate Reset Password Token for Admin User
  * x-sidebar-summary: Generate Reset Password Token
  * description: >
- *   Generate a reset password token for an admin user. This API route emits the `` event, passing it the token as a payload. You can listen to that event and send the user a notification. The notification should have a URL that accepts a `token` query parameter.
+ *   Generate a reset password token for an admin user. This API route doesn't reset the admin's password or send them the reset instructions in a notification.
  * 
  * 
- *    Use the generated token to update the user's password using the Reset Password API route.
+ *   Instead, This API route emits the `auth.password_reset` event, passing it the token as a payload. You can listen to that event in a subscriber as explained in [this guide](https://docs.medusajs.com/resources/commerce-modules/auth/reset-password), then send the user a notification. The notification is sent using a [Notification Module Provider](https://docs.medusajs.com/resources/architectural-modules/notification), and it should have the URL to reset the password in the Medusa Admin dashboard, such as `http://localhost:9000/app/reset-password?token=123`.
+ * 
+ * 
+ *    Use the generated token to update the user's password using the [Reset Password API route](https://docs.medusajs.com/api/admin#auth_postactor_typeauth_providerupdate).
  * externalDocs:
  *   url: https://docs.medusajs.com/v2/resources/commerce-modules/auth/authentication-route#generate-reset-password-token-route
  *   description: Learn more about this API route.

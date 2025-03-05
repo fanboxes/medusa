@@ -58,7 +58,14 @@ export const useActiveOnScroll = ({
       return []
     }
 
-    return root?.querySelectorAll(querySelector)
+    const filteredHeadings: Element[] = []
+    root?.querySelectorAll(querySelector).forEach((heading) => {
+      if (heading.id) {
+        filteredHeadings.push(heading)
+      }
+    })
+
+    return filteredHeadings
   }, [isBrowser, pathname, root, enable])
   const setHeadingItems = useCallback(() => {
     if (!enable) {

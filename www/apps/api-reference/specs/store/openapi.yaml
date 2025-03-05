@@ -302,3 +302,8 @@ components:
       x-displayName: Cookie Session ID
       in: cookie
       name: connect.sid
+    reset_password:
+      type: http
+      x-displayName: Reset Password Token
+      scheme: bearer
+      x-is-auth: false

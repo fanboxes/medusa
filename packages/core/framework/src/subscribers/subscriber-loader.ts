@@ -1,20 +1,12 @@
 import { Event, IEventBusModuleService, Subscriber } from "@medusajs/types"
-import {
-  dynamicImport,
-  kebabCase,
-  Modules,
-  promiseAll,
-  readDirRecursive,
-  resolveExports,
-} from "@medusajs/utils"
-import { access } from "fs/promises"
-import { join, parse } from "path"
+import { kebabCase, Modules } from "@medusajs/utils"
+import { parse } from "path"
 
-import { Dirent } from "fs"
 import { configManager } from "../config"
 import { container } from "../container"
 import { logger } from "../logger"
 import { SubscriberArgs, SubscriberConfig } from "./types"
+import { ResourceLoader } from "../utils/resource-loader"
 
 type SubscriberHandler<T> = (args: SubscriberArgs<T>) => Promise<void>
 
@@ -23,30 +15,14 @@ type SubscriberModule<T> = {
   handler: SubscriberHandler<T>
 }
 
-export class SubscriberLoader {
+export class SubscriberLoader extends ResourceLoader {
+  protected resourceName = "subscriber"
+
   /**
    * The options of the plugin from which the subscribers are being loaded
    * @private
    */
   #pluginOptions: Record<string, unknown>
-
-  /**
-   * The base directory from which to scan for the subscribers
-   * @private
-   */
-  #sourceDir: string | string[]
-
-  /**
-   * The list of file names to exclude from the subscriber scan
-   * @private
-   */
-  #excludes: RegExp[] = [
-    /index\.js/,
-    /index\.ts/,
-    /\.DS_Store/,
-    /(\.ts\.map|\.js\.map|\.d\.ts|\.md)/,
-    /^_[^/\\]*(\.[^/\\]+)?$/,
-  ]
 
   /**
    * Map of subscribers descriptors to consume in the loader
@@ -58,8 +34,26 @@ export class SubscriberLoader {
     sourceDir: string | string[],
     options: Record<string, unknown> = {}
   ) {
-    this.#sourceDir = sourceDir
+    super(sourceDir)
     this.#pluginOptions = options
+  }
+
+  protected async onFileLoaded(
+    path: string,
+    fileExports: Record<string, unknown>
+  ) {
+    const isValid = this.validateSubscriber(fileExports, path)
+
+    logger.debug(`Registering subscribers from ${path}.`)
+
+    if (!isValid) {
+      return
+    }
+
+    this.#subscriberDescriptors.set(path, {
+      config: fileExports.config,
+      handler: fileExports.default,
+    })
   }
 
   private validateSubscriber(
@@ -120,42 +114,6 @@ export class SubscriberLoader {
     }
 
     return true
-  }
-
-  private async createDescriptor(absolutePath: string) {
-    return await dynamicImport(absolutePath).then((module_) => {
-      module_ = resolveExports(module_)
-      const isValid = this.validateSubscriber(module_, absolutePath)
-
-      if (!isValid) {
-        return
-      }
-
-      this.#subscriberDescriptors.set(absolutePath, {
-        config: module_.config,
-        handler: module_.default,
-      })
-    })
-  }
-
-  private async createMap(dirPath: string) {
-    const promises = await readDirRecursive(dirPath).then(async (entries) => {
-      const fileEntries = entries.filter((entry) => {
-        return (
-          !entry.isDirectory() &&
-          !this.#excludes.some((exclude) => exclude.test(entry.name))
-        )
-      })
-
-      logger.debug(`Registering subscribers from ${dirPath}.`)
-
-      return fileEntries.flatMap(async (entry: Dirent) => {
-        const fullPath = join(entry.path, entry.name)
-        return await this.createDescriptor(fullPath)
-      })
-    })
-
-    await promiseAll(promises)
   }
 
   private inferIdentifier<T>(
@@ -222,21 +180,7 @@ export class SubscriberLoader {
   }
 
   async load() {
-    const normalizeSourcePaths = Array.isArray(this.#sourceDir)
-      ? this.#sourceDir
-      : [this.#sourceDir]
-    const promises = normalizeSourcePaths.map(async (sourcePath) => {
-      try {
-        await access(sourcePath)
-      } catch {
-        logger.info(`No subscribers to load from ${sourcePath}. skipped.`)
-        return
-      }
-
-      return await this.createMap(sourcePath)
-    })
-
-    await promiseAll(promises)
+    await super.discoverResources()
 
     for (const [
       fileName,

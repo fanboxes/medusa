@@ -39,6 +39,9 @@ export const Prerequisites = ({ items }: PrerequisitesProps) => {
     <details
       open={!collapsed}
       onClick={(event) => {
+        if (event.target instanceof HTMLAnchorElement) {
+          return
+        }
         event.preventDefault()
       }}
       onToggle={(event) => {

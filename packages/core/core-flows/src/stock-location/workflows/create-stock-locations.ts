@@ -1,6 +1,7 @@
 import {
   WorkflowData,
   WorkflowResponse,
+  createHook,
   createWorkflow,
 } from "@medusajs/framework/workflows-sdk"
 
@@ -44,6 +45,14 @@ export const createStockLocationsWorkflowId = "create-stock-locations-workflow"
 export const createStockLocationsWorkflow = createWorkflow(
   createStockLocationsWorkflowId,
   (input: WorkflowData<CreateStockLocationsWorkflowInput>) => {
-    return new WorkflowResponse(createStockLocations(input.locations))
+    const stockLocations = createStockLocations(input.locations)
+
+    const stockLocationsCreated = createHook("stockLocationsCreated", {
+      stockLocations,
+    })
+
+    return new WorkflowResponse(stockLocations, {
+      hooks: [stockLocationsCreated],
+    })
   }
 )

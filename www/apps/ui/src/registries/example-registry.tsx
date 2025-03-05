@@ -92,6 +92,13 @@ export const ExampleRegistry: ExampleRegistryType = {
     component: React.lazy(async () => import("@/examples/data-table-demo")),
     file: "src/examples/data-table-demo.tsx",
   },
+  "data-table-row-click": {
+    name: "data-table-row-click",
+    component: React.lazy(
+      async () => import("@/examples/data-table-row-click")
+    ),
+    file: "src/examples/data-table-row-click.tsx",
+  },
   "data-table-custom-cell": {
     name: "data-table-custom-cell",
     component: React.lazy(

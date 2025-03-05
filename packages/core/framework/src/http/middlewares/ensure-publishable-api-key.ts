@@ -5,7 +5,7 @@ import {
   MedusaError,
   PUBLISHABLE_KEY_HEADER,
 } from "@medusajs/utils"
-import {
+import type {
   MedusaNextFunction,
   MedusaResponse,
   MedusaStoreRequest,
@@ -13,7 +13,7 @@ import {
 
 export async function ensurePublishableApiKeyMiddleware(
   req: MedusaStoreRequest,
-  _res: MedusaResponse,
+  _: MedusaResponse,
   next: MedusaNextFunction
 ) {
   const publishableApiKey = req.get(PUBLISHABLE_KEY_HEADER)

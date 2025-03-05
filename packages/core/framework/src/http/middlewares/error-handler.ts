@@ -1,4 +1,4 @@
-import { NextFunction, Response } from "express"
+import { NextFunction, ErrorRequestHandler, Response } from "express"
 
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/utils"
 import { formatException } from "./exception-formatter"
@@ -13,12 +13,12 @@ const INVALID_REQUEST_ERROR = "invalid_request_error"
 const INVALID_STATE_ERROR = "invalid_state_error"
 
 export function errorHandler() {
-  return (
+  return function coreErrorHandler(
     err: MedusaError,
     req: MedusaRequest,
     res: Response,
-    next: NextFunction
-  ) => {
+    _: NextFunction
+  ) {
     const logger = req.scope.resolve(ContainerRegistrationKeys.LOGGER)
 
     err = formatException(err)
@@ -76,7 +76,7 @@ export function errorHandler() {
     }
 
     res.status(statusCode).json(errObj)
-  }
+  } as unknown as ErrorRequestHandler
 }
 
 /**

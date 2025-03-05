@@ -53,7 +53,7 @@ export const generatedEditDates = {
   "app/learn/fundamentals/admin/tips/page.mdx": "2025-02-24T09:52:06.901Z",
   "app/learn/fundamentals/api-routes/cors/page.mdx": "2024-12-09T13:04:04.357Z",
   "app/learn/fundamentals/admin/ui-routes/page.mdx": "2025-02-24T09:35:11.752Z",
-  "app/learn/fundamentals/api-routes/middlewares/page.mdx": "2025-02-12T17:05:20.708Z",
+  "app/learn/fundamentals/api-routes/middlewares/page.mdx": "2025-03-04T10:16:15.029Z",
   "app/learn/fundamentals/modules/isolation/page.mdx": "2024-12-09T11:02:38.087Z",
   "app/learn/fundamentals/data-models/configure-properties/page.mdx": "2024-10-21T13:30:21.368Z",
   "app/learn/fundamentals/data-models/index/page.mdx": "2024-10-21T13:30:21.368Z",

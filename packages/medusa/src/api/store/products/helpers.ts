@@ -77,6 +77,19 @@ export const wrapProductsWithTaxPrices = async <T>(
 
       variant.calculated_price.calculated_amount_with_tax = priceWithTax
       variant.calculated_price.calculated_amount_without_tax = priceWithoutTax
+
+      const {
+        priceWithTax: originalPriceWithTax,
+        priceWithoutTax: originalPriceWithoutTax,
+      } = calculateAmountsWithTax({
+        taxLines: taxRatesForVariant,
+        amount: variant.calculated_price!.original_amount!,
+        includesTax: variant.calculated_price!.is_original_price_tax_inclusive!,
+      })
+
+      variant.calculated_price.original_amount_with_tax = originalPriceWithTax
+      variant.calculated_price.original_amount_without_tax =
+        originalPriceWithoutTax
     })
   })
 }

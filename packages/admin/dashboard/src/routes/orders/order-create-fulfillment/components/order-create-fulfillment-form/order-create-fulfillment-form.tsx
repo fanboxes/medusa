@@ -122,19 +122,26 @@ export function OrderCreateFulfillmentForm({
       {} as Record<string, string | null>
     )
 
+    const items = Object.entries(data.quantity)
+      .filter(
+        ([id, value]) =>
+          !!value && itemShippingProfileMap[id] === selectedShippingProfileId
+      )
+      .map(([id, quantity]) => ({
+        id,
+        quantity,
+      }))
+
+    if (!items.length) {
+      toast.error(t("orders.fulfillment.error.noItems"))
+      return
+    }
+
     const payload: HttpTypes.AdminCreateOrderFulfillment = {
       location_id: selectedLocationId,
       shipping_option_id: shippingOptionId,
       no_notification: !data.send_notification,
-      items: Object.entries(data.quantity)
-        .filter(
-          ([id, value]) =>
-            !!value && itemShippingProfileMap[id] === selectedShippingProfileId
-        )
-        .map(([id, quantity]) => ({
-          id,
-          quantity,
-        })),
+      items,
     }
 
     try {

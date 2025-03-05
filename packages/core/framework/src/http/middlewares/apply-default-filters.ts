@@ -1,10 +1,18 @@
 import { isObject, isPresent } from "@medusajs/utils"
-import { MedusaNextFunction, MedusaRequest } from "../types"
+import type {
+  MedusaNextFunction,
+  MedusaRequest,
+  MedusaResponse,
+} from "../types"
 
 export function applyDefaultFilters<TFilter extends object>(
   filtersToApply: TFilter
 ) {
-  return async (req: MedusaRequest, _, next: MedusaNextFunction) => {
+  return async function defaultFiltersMiddleware(
+    req: MedusaRequest,
+    _: MedusaResponse,
+    next: MedusaNextFunction
+  ) {
     for (const [filter, filterValue] of Object.entries(filtersToApply)) {
       let valueToApply = filterValue
 

@@ -33,6 +33,8 @@ export const PrerequisiteItem = ({
         position === "bottom" && "rounded-tl-docs_DEFAULT rounded-bl-docs_xl",
         !link && "cursor-text"
       )}
+      target={link ? "_blank" : undefined}
+      rel={link ? "noopener noreferrer" : undefined}
     >
       {text}
       {link && "↗"}

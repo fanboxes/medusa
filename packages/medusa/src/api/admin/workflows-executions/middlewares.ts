@@ -44,18 +44,18 @@ export const adminWorkflowsExecutionsMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/workflows-executions/:id/run",
+    matcher: "/admin/workflows-executions/:workflow_id/run",
     middlewares: [validateAndTransformBody(AdminCreateWorkflowsRun)],
   },
   {
     method: ["POST"],
 
-    matcher: "/admin/workflows-executions/:id/steps/success",
+    matcher: "/admin/workflows-executions/:workflow_id/steps/success",
     middlewares: [validateAndTransformBody(AdminCreateWorkflowsAsyncResponse)],
   },
   {
     method: ["POST"],
-    matcher: "/admin/workflows-executions/:id/steps/failure",
+    matcher: "/admin/workflows-executions/:workflow_id/steps/failure",
     middlewares: [validateAndTransformBody(AdminCreateWorkflowsAsyncResponse)],
   },
 ]

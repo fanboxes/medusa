@@ -105,6 +105,7 @@ export type PropertiesObject = {
 
 export type SecuritySchemeObject = OpenAPIV3.SecuritySchemeObject & {
   "x-displayName"?: string
+  "x-is-auth"?: boolean
 }
 
 export type Parameter = OpenAPIV3.ParameterObject & {

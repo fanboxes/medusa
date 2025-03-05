@@ -3,7 +3,11 @@ import {
   ContainerRegistrationKeys,
   remoteQueryObjectFromString,
 } from "@medusajs/utils"
-import { MedusaNextFunction, MedusaRequest } from "../types"
+import type {
+  MedusaNextFunction,
+  MedusaRequest,
+  MedusaResponse,
+} from "../types"
 
 export function maybeApplyLinkFilter({
   entryPoint,
@@ -13,7 +17,7 @@ export function maybeApplyLinkFilter({
 }) {
   return async function linkFilter(
     req: MedusaRequest,
-    _,
+    _: MedusaResponse,
     next: MedusaNextFunction
   ) {
     const filterableFields = req.filterableFields

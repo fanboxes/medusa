@@ -15,7 +15,7 @@ import {
   Text,
   useDataTable,
 } from "@medusajs/ui"
-import React, { ReactNode, useCallback, useState } from "react"
+import React, { ReactNode, useCallback, useMemo } from "react"
 import { useTranslation } from "react-i18next"
 import { Link, useNavigate, useSearchParams } from "react-router-dom"
 
@@ -110,7 +110,7 @@ export const DataTable = <TData,>({
   const enableCommands = commands && commands.length > 0
   const enableSorting = columns.some((column) => column.enableSorting)
 
-  const filterIds = filters?.map((f) => f.id) ?? []
+  const filterIds = useMemo(() => filters?.map((f) => f.id) ?? [], [filters])
   const prefixedFilterIds = filterIds.map((id) => getQueryParamKey(id, prefix))
 
   const { offset, order, q, ...filterParams } = useQueryParams(
@@ -124,9 +124,11 @@ export const DataTable = <TData,>({
   )
   const [_, setSearchParams] = useSearchParams()
 
-  const [search, setSearch] = useState<string>(q ?? "")
+  const search = useMemo(() => {
+    return q ?? ""
+  }, [q])
+
   const handleSearchChange = (value: string) => {
-    setSearch(value)
     setSearchParams((prev) => {
       if (value) {
         prev.set(getQueryParamKey("q", prefix), value)
@@ -138,11 +140,13 @@ export const DataTable = <TData,>({
     })
   }
 
-  const [pagination, setPagination] = useState<DataTablePaginationState>(
-    offset ? parsePaginationState(offset, pageSize) : { pageIndex: 0, pageSize }
-  )
+  const pagination: DataTablePaginationState = useMemo(() => {
+    return offset
+      ? parsePaginationState(offset, pageSize)
+      : { pageIndex: 0, pageSize }
+  }, [offset, pageSize])
+
   const handlePaginationChange = (value: DataTablePaginationState) => {
-    setPagination(value)
     setSearchParams((prev) => {
       if (value.pageIndex === 0) {
         prev.delete(getQueryParamKey("offset", prefix))
@@ -152,18 +156,16 @@ export const DataTable = <TData,>({
           transformPaginationState(value).toString()
         )
       }
-
       return prev
     })
   }
 
-  const [filtering, setFiltering] = useState<DataTableFilteringState>(
-    parseFilterState(filterIds, filterParams)
+  const filtering: DataTableFilteringState = useMemo(
+    () => parseFilterState(filterIds, filterParams),
+    [filterIds, filterParams]
   )
 
   const handleFilteringChange = (value: DataTableFilteringState) => {
-    setFiltering(value)
-
     setSearchParams((prev) => {
       Array.from(prev.keys()).forEach((key) => {
         if (prefixedFilterIds.includes(key) && !(key in value)) {
@@ -184,11 +186,11 @@ export const DataTable = <TData,>({
     })
   }
 
-  const [sorting, setSorting] = useState<DataTableSortingState | null>(
-    order ? parseSortingState(order) : null
-  )
+  const sorting: DataTableSortingState | null = useMemo(() => {
+    return order ? parseSortingState(order) : null
+  }, [order])
+
   const handleSortingChange = (value: DataTableSortingState) => {
-    setSorting(value)
     setSearchParams((prev) => {
       if (value) {
         const valueToStore = transformSortingState(value)

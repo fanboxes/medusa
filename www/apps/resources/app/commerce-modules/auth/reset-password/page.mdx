@@ -65,7 +65,7 @@ export default async function resetPasswordTokenHandler({
 
   const urlPrefix = actor_type === "customer" ? 
     "https://storefront.com" : 
-    "https://admin.com"
+    "https://admin.com/app"
 
   await notificationModuleService.createNotifications({
     to: email,

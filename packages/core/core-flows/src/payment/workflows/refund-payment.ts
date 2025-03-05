@@ -33,14 +33,14 @@ export type ValidateRefundStepInput = {
 /**
  * This step validates that the refund is valid for the order.
  * If the order does not have an outstanding balance to refund, the step throws an error.
- * 
+ *
  * :::note
- * 
+ *
  * You can retrieve an order or payment's details using [Query](https://docs.medusajs.com/learn/fundamentals/module-links/query),
  * or [useQueryGraphStep](https://docs.medusajs.com/resources/references/medusa-workflows/steps/useQueryGraphStep).
- * 
+ *
  * :::
- * 
+ *
  * @example
  * const data = validateRefundStep({
  *   order: {
@@ -56,12 +56,11 @@ export type ValidateRefundStepInput = {
  */
 export const validateRefundStep = createStep(
   "validate-refund-step",
-  async function ({
-    order,
-    payment,
-    amount,
-  }: ValidateRefundStepInput) {
-    const pendingDifference = order.summary?.raw_pending_difference!
+  async function ({ order, payment, amount }: ValidateRefundStepInput) {
+    const pendingDifference =
+      order.summary?.raw_pending_difference! ??
+      order.summary?.pending_difference! ??
+      0
 
     if (MathBN.gte(pendingDifference, 0)) {
       throw new MedusaError(
@@ -102,12 +101,12 @@ export type RefundPaymentWorkflowInput = {
 
 export const refundPaymentWorkflowId = "refund-payment-workflow"
 /**
- * This workflow refunds a payment. It's used by the 
+ * This workflow refunds a payment. It's used by the
  * [Refund Payment Admin API Route](https://docs.medusajs.com/api/admin#payments_postpaymentsidrefund).
- * 
+ *
  * You can use this workflow within your own customizations or custom workflows, allowing you
  * to refund a payment in your custom flows.
- * 
+ *
  * @example
  * const { result } = await refundPaymentWorkflow(container)
  * .run({
@@ -115,16 +114,14 @@ export const refundPaymentWorkflowId = "refund-payment-workflow"
  *     payment_id: "payment_123",
  *   }
  * })
- * 
+ *
  * @summary
- * 
+ *
  * Refund a payment.
  */
 export const refundPaymentWorkflow = createWorkflow(
   refundPaymentWorkflowId,
-  (
-    input: WorkflowData<RefundPaymentWorkflowInput>
-  ) => {
+  (input: WorkflowData<RefundPaymentWorkflowInput>) => {
     const payment = useRemoteQueryStep({
       entry_point: "payment",
       fields: [

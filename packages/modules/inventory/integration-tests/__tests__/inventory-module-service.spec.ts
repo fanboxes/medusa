@@ -1,12 +1,25 @@
 import { IInventoryService, InventoryItemDTO } from "@medusajs/framework/types"
-import { BigNumber, Module, Modules } from "@medusajs/framework/utils"
-import { moduleIntegrationTestRunner } from "@medusajs/test-utils"
+import {
+  BigNumber,
+  CommonEvents,
+  composeMessage,
+  InventoryEvents,
+  Module,
+  Modules,
+} from "@medusajs/framework/utils"
+import {
+  MockEventBusService,
+  moduleIntegrationTestRunner,
+} from "@medusajs/test-utils"
 import { InventoryModuleService } from "../../src/services"
 
 jest.setTimeout(100000)
 
 moduleIntegrationTestRunner<IInventoryService>({
   moduleName: Modules.INVENTORY,
+  injectedDependencies: {
+    [Modules.EVENT_BUS]: new MockEventBusService(),
+  },
   testSuite: ({ service }) => {
     describe("Inventory Module Service", () => {
       it(`should export the appropriate linkable configuration`, () => {
@@ -414,6 +427,8 @@ moduleIntegrationTestRunner<IInventoryService>({
         })
 
         it("should update a reservationItem", async () => {
+          const eventBusSpy = jest.spyOn(MockEventBusService.prototype, "emit")
+
           const update = {
             id: reservationItem.id,
             quantity: 1,
@@ -422,6 +437,20 @@ moduleIntegrationTestRunner<IInventoryService>({
           const updated = await service.updateReservationItems(update)
 
           expect(updated).toEqual(expect.objectContaining(update))
+          expect(eventBusSpy).toHaveBeenNthCalledWith(
+            1,
+            [
+              composeMessage(InventoryEvents.RESERVATION_ITEM_UPDATED, {
+                data: { id: reservationItem.id },
+                object: "reservation-item",
+                source: Modules.INVENTORY,
+                action: CommonEvents.UPDATED,
+              }),
+            ],
+            {
+              internal: true,
+            }
+          )
 
           const update2 = {
             id: reservationItem.id,
@@ -431,6 +460,20 @@ moduleIntegrationTestRunner<IInventoryService>({
           const updated2 = await service.updateReservationItems(update2)
 
           expect(updated2).toEqual(expect.objectContaining(update2))
+          expect(eventBusSpy).toHaveBeenNthCalledWith(
+            2,
+            [
+              composeMessage(InventoryEvents.RESERVATION_ITEM_UPDATED, {
+                data: { id: reservationItem.id },
+                object: "reservation-item",
+                source: Modules.INVENTORY,
+                action: CommonEvents.UPDATED,
+              }),
+            ],
+            {
+              internal: true,
+            }
+          )
         })
 
         it("should adjust reserved_quantity of inventory level after updates increasing reserved quantity", async () => {

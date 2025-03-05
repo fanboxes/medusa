@@ -20,6 +20,14 @@ describe("Routes sorter", () => {
         handler: () => {},
       },
       {
+        matcher: "/admin",
+        handler: () => {},
+      },
+      {
+        matcher: "/store",
+        handler: () => {},
+      },
+      {
         matcher: "/admin/products/export",
         methods: ["GET"],
         handler: () => {},
@@ -32,12 +40,20 @@ describe("Routes sorter", () => {
       },
       {
         matcher: "/admin/products/:id",
+        isAppRoute: true,
         methods: ["GET"],
         handler: () => {},
       },
       {
+        matcher: "/admin/products/:id",
+        isAppRoute: true,
+        methods: ["POST"],
+        handler: () => {},
+      },
+      {
         matcher: "/admin/products/batch",
-        methods: ["GET"],
+        isAppRoute: true,
+        methods: ["POST"],
         handler: () => {},
       },
       {
@@ -57,6 +73,7 @@ describe("Routes sorter", () => {
       },
       {
         matcher: "/admin/:id/export",
+        isAppRoute: true,
         methods: ["GET"],
         handler: () => {},
       },
@@ -69,6 +86,14 @@ describe("Routes sorter", () => {
 
     expect(sorter.sort()).toMatchInlineSnapshot(`
       [
+        {
+          "handler": [Function],
+          "matcher": "/admin",
+        },
+        {
+          "handler": [Function],
+          "matcher": "/store",
+        },
         {
           "handler": [Function],
           "matcher": "/v1",
@@ -136,13 +161,15 @@ describe("Routes sorter", () => {
         },
         {
           "handler": [Function],
+          "isAppRoute": true,
           "matcher": "/admin/products/batch",
           "methods": [
-            "GET",
+            "POST",
           ],
         },
         {
           "handler": [Function],
+          "isAppRoute": true,
           "matcher": "/admin/products/:id",
           "methods": [
             "GET",
@@ -150,6 +177,15 @@ describe("Routes sorter", () => {
         },
         {
           "handler": [Function],
+          "isAppRoute": true,
+          "matcher": "/admin/products/:id",
+          "methods": [
+            "POST",
+          ],
+        },
+        {
+          "handler": [Function],
+          "isAppRoute": true,
           "matcher": "/admin/:id/export",
           "methods": [
             "GET",
@@ -279,6 +315,79 @@ describe("Routes sorter", () => {
         {
           "handler": [Function],
           "matcher": "/admin/customers/:id/addresses/:addressId/switch",
+          "methods": [
+            "GET",
+          ],
+        },
+      ]
+    `)
+  })
+
+  it("should sort routes with multiple params and static values", () => {
+    const sorter = new RoutesSorter([
+      {
+        matcher: "/admin/promotions/:id/:rule_type",
+        methods: ["GET"],
+        handler: () => {},
+      },
+      {
+        matcher:
+          "/admin/promotions/rule-value-options/:rule_type/:rule_attribute_id",
+        methods: ["GET"],
+        handler: () => {},
+      },
+      {
+        matcher: "/admin/promotions/rule-attribute-options/:rule_type",
+        methods: ["GET"],
+        handler: () => {},
+      },
+      {
+        matcher: "/admin/promotions/:id/:rule_type",
+        methods: ["GET"],
+        handler: () => {},
+      },
+      {
+        matcher: "/admin/promotions/rule-attribute-options/:rule_type",
+        methods: ["GET"],
+        isAppRoute: true,
+        handler: () => {},
+      },
+    ])
+
+    expect(sorter.sort()).toMatchInlineSnapshot(`
+      [
+        {
+          "handler": [Function],
+          "matcher": "/admin/promotions/rule-value-options/:rule_type/:rule_attribute_id",
+          "methods": [
+            "GET",
+          ],
+        },
+        {
+          "handler": [Function],
+          "matcher": "/admin/promotions/rule-attribute-options/:rule_type",
+          "methods": [
+            "GET",
+          ],
+        },
+        {
+          "handler": [Function],
+          "isAppRoute": true,
+          "matcher": "/admin/promotions/rule-attribute-options/:rule_type",
+          "methods": [
+            "GET",
+          ],
+        },
+        {
+          "handler": [Function],
+          "matcher": "/admin/promotions/:id/:rule_type",
+          "methods": [
+            "GET",
+          ],
+        },
+        {
+          "handler": [Function],
+          "matcher": "/admin/promotions/:id/:rule_type",
           "methods": [
             "GET",
           ],

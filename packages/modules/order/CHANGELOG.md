@@ -1,5 +1,11 @@
 # @medusajs/order
 
+## 2.6.0
+
+### Patch Changes
+
+- [#11712](https://github.com/medusajs/medusa/pull/11712) [`7dbec10b3bdde8a9f869080d5ef2c3c97fca1077`](https://github.com/medusajs/medusa/commit/7dbec10b3bdde8a9f869080d5ef2c3c97fca1077) Thanks [@carlos-r-l-rodrigues](https://github.com/carlos-r-l-rodrigues)! - fix(order): summary raw totals
+
 ## 2.5.1
 
 ### Patch Changes
