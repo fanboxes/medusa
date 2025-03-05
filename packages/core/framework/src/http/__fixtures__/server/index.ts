@@ -16,7 +16,7 @@ import { container } from "../../../container"
 import { featureFlagsLoader } from "../../../feature-flags"
 import { logger } from "../../../logger"
 import { MedusaRequest } from "../../types"
-import { RoutesLoader } from "../../router"
+import { ApiLoader } from "../../router"
 
 function asArray(resolvers) {
   return {
@@ -94,7 +94,7 @@ export const createServer = async (rootDir) => {
     next()
   })
 
-  await new RoutesLoader({
+  await new ApiLoader({
     app,
     sourceDir: rootDir,
   }).load()

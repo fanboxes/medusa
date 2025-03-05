@@ -3,11 +3,7 @@ import {
   validateAndTransformBody,
   validateAndTransformQuery,
 } from "@medusajs/framework"
-import {
-  maybeApplyLinkFilter,
-  MiddlewareRoute,
-  unlessPath,
-} from "@medusajs/framework/http"
+import { maybeApplyLinkFilter, MiddlewareRoute } from "@medusajs/framework/http"
 import multer from "multer"
 import { DEFAULT_BATCH_ENDPOINTS_SIZE_LIMIT } from "../../../utils/middlewares"
 import { createBatchBody } from "../../utils/validators"
@@ -117,12 +113,9 @@ export const adminProductRoutesMiddlewares: MiddlewareRoute[] = [
     method: ["GET"],
     matcher: "/admin/products/:id",
     middlewares: [
-      unlessPath(
-        /.*\/products\/(batch|export|import)/,
-        validateAndTransformQuery(
-          AdminGetProductParams,
-          QueryConfig.retrieveProductQueryConfig
-        )
+      validateAndTransformQuery(
+        AdminGetProductParams,
+        QueryConfig.retrieveProductQueryConfig
       ),
     ],
   },
@@ -130,16 +123,10 @@ export const adminProductRoutesMiddlewares: MiddlewareRoute[] = [
     method: ["POST"],
     matcher: "/admin/products/:id",
     middlewares: [
-      unlessPath(
-        /.*\/products\/(batch|export|import)/,
-        validateAndTransformBody(AdminUpdateProduct)
-      ),
-      unlessPath(
-        /.*\/products\/(batch|export|import)/,
-        validateAndTransformQuery(
-          AdminGetProductParams,
-          QueryConfig.retrieveProductQueryConfig
-        )
+      validateAndTransformBody(AdminUpdateProduct),
+      validateAndTransformQuery(
+        AdminGetProductParams,
+        QueryConfig.retrieveProductQueryConfig
       ),
     ],
   },
@@ -147,12 +134,9 @@ export const adminProductRoutesMiddlewares: MiddlewareRoute[] = [
     method: ["DELETE"],
     matcher: "/admin/products/:id",
     middlewares: [
-      unlessPath(
-        /.*\/products\/(batch|export|import)/,
-        validateAndTransformQuery(
-          AdminGetProductParams,
-          QueryConfig.retrieveProductQueryConfig
-        )
+      validateAndTransformQuery(
+        AdminGetProductParams,
+        QueryConfig.retrieveProductQueryConfig
       ),
     ],
   },
@@ -198,12 +182,9 @@ export const adminProductRoutesMiddlewares: MiddlewareRoute[] = [
     method: ["GET"],
     matcher: "/admin/products/:id/variants/:variant_id",
     middlewares: [
-      unlessPath(
-        /.*\/variants\/batch/,
-        validateAndTransformQuery(
-          AdminGetProductVariantParams,
-          QueryConfig.retrieveVariantConfig
-        )
+      validateAndTransformQuery(
+        AdminGetProductVariantParams,
+        QueryConfig.retrieveVariantConfig
       ),
     ],
   },
@@ -211,16 +192,10 @@ export const adminProductRoutesMiddlewares: MiddlewareRoute[] = [
     method: ["POST"],
     matcher: "/admin/products/:id/variants/:variant_id",
     middlewares: [
-      unlessPath(
-        /.*\/variants\/batch/,
-        validateAndTransformBody(AdminUpdateProductVariant)
-      ),
-      unlessPath(
-        /.*\/variants\/batch/,
-        validateAndTransformQuery(
-          AdminGetProductParams,
-          QueryConfig.retrieveProductQueryConfig
-        )
+      validateAndTransformBody(AdminUpdateProductVariant),
+      validateAndTransformQuery(
+        AdminGetProductParams,
+        QueryConfig.retrieveProductQueryConfig
       ),
     ],
   },
@@ -228,12 +203,9 @@ export const adminProductRoutesMiddlewares: MiddlewareRoute[] = [
     method: ["DELETE"],
     matcher: "/admin/products/:id/variants/:variant_id",
     middlewares: [
-      unlessPath(
-        /.*\/variants\/batch/,
-        validateAndTransformQuery(
-          AdminGetProductParams,
-          QueryConfig.retrieveProductQueryConfig
-        )
+      validateAndTransformQuery(
+        AdminGetProductParams,
+        QueryConfig.retrieveProductQueryConfig
       ),
     ],
   },

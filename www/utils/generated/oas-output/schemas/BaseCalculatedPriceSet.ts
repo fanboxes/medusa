@@ -7,6 +7,8 @@
  *   - id
  *   - calculated_amount
  *   - original_amount
+ *   - original_amount_with_tax
+ *   - original_amount_without_tax
  *   - currency_code
  * properties:
  *   id:
@@ -56,6 +58,14 @@
  *   original_price:
  *     type: object
  *     description: The original price's details.
+ *   original_amount_with_tax:
+ *     type: number
+ *     title: original_amount_with_tax
+ *     description: The amount of the original price with taxes applied.
+ *   original_amount_without_tax:
+ *     type: number
+ *     title: original_amount_without_tax
+ *     description: The amount of the original price without taxes.
  * 
 */
 

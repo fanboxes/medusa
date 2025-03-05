@@ -16,7 +16,11 @@ import zod, { ZodRawShape } from "zod"
  */
 export function defineMiddlewares<
   Route extends {
+    /**
+     * @deprecated. Instead use {@link MiddlewareRoute.methods}
+     */
     method?: MiddlewareVerb | MiddlewareVerb[]
+    methods?: MiddlewareVerb[]
     matcher: string | RegExp
     bodyParser?: ParserConfig
     additionalDataValidator?: ZodRawShape
@@ -38,7 +42,8 @@ export function defineMiddlewares<
   return {
     errorHandler,
     routes: routes.map((route) => {
-      const { middlewares, additionalDataValidator, ...rest } = route
+      let { middlewares, method, methods, additionalDataValidator, ...rest } =
+        route
       const customMiddleware: MedusaRequestHandler[] = []
 
       /**
@@ -54,8 +59,13 @@ export function defineMiddlewares<
         })
       }
 
+      if (!methods) {
+        methods = Array.isArray(method) ? method : method ? [method] : method
+      }
+
       return {
         ...rest,
+        methods,
         middlewares: customMiddleware.concat(middlewares || []),
       }
     }),

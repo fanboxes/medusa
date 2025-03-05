@@ -6,7 +6,7 @@ import {
   storeGlobalMiddlewareMock,
 } from "../__fixtures__/mocks"
 import { createServer } from "../__fixtures__/server"
-import { MedusaNextFunction, RoutesLoader } from "../index"
+import { MedusaNextFunction, ApiLoader } from "../index"
 
 jest.setTimeout(30000)
 
@@ -237,7 +237,7 @@ describe("RoutesLoader", function () {
         __dirname,
         "../__fixtures__/routers-duplicate-parameter"
       )
-      const err = await new RoutesLoader({
+      const err = await new ApiLoader({
         app,
         sourceDir: rootDir,
       })
@@ -246,7 +246,7 @@ describe("RoutesLoader", function () {
 
       expect(err).toBeDefined()
       expect(err.message).toBe(
-        "Duplicate parameters found in route /admin/customers/[id]/orders/[id] (id). Make sure that all parameters are unique."
+        "Duplicate parameters found in route /admin/customers/[id]/orders/[id]/route.ts (id). Make sure that all parameters are unique."
       )
     })
   })

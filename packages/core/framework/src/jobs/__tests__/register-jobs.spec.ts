@@ -6,13 +6,14 @@ import { JobLoader } from "../job-loader"
 describe("register jobs", () => {
   WorkflowScheduler.setStorage(new MockSchedulerStorage())
 
-  let jobLoader!: JobLoader
-
-  beforeAll(() => {
-    jobLoader = new JobLoader(join(__dirname, "../__fixtures__/plugin/jobs"))
+  afterEach(() => {
+    WorkflowManager.unregisterAll()
   })
 
-  it("registers jobs from plugins", async () => {
+  it("should registers jobs from plugins", async () => {
+    const jobLoader: JobLoader = new JobLoader(
+      join(__dirname, "../__fixtures__/plugin/jobs")
+    )
     await jobLoader.load()
     const workflow = WorkflowManager.getWorkflow("job-summarize-orders")
     expect(workflow).toBeDefined()
@@ -20,5 +21,14 @@ describe("register jobs", () => {
       cron: "* * * * * *",
       numberOfExecutions: 2,
     })
+  })
+
+  it("should not load non js/ts files", async () => {
+    const jobLoader: JobLoader = new JobLoader(
+      join(__dirname, "../__fixtures__/plugin/jobs-with-other-files")
+    )
+    await jobLoader.load()
+    const workflow = WorkflowManager.getWorkflow("job-summarize-orders")
+    expect(workflow).toBeUndefined()
   })
 })

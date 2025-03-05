@@ -2,7 +2,7 @@ import {
   validateAndTransformBody,
   validateAndTransformQuery,
 } from "@medusajs/framework"
-import { MiddlewareRoute, unlessPath } from "@medusajs/framework/http"
+import { MiddlewareRoute } from "@medusajs/framework/http"
 import { DEFAULT_BATCH_ENDPOINTS_SIZE_LIMIT } from "../../../utils/middlewares"
 import { createBatchBody } from "../../utils/validators"
 import * as QueryConfig from "./query-config"
@@ -65,12 +65,9 @@ export const adminPromotionRoutesMiddlewares: MiddlewareRoute[] = [
     method: ["GET"],
     matcher: "/admin/promotions/:id/:rule_type",
     middlewares: [
-      unlessPath(
-        /.*\/promotions\/rule-attribute-options/,
-        validateAndTransformQuery(
-          AdminGetPromotionRuleTypeParams,
-          QueryConfig.retrieveTransformQueryConfig
-        )
+      validateAndTransformQuery(
+        AdminGetPromotionRuleTypeParams,
+        QueryConfig.retrieveTransformQueryConfig
       ),
     ],
   },

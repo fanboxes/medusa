@@ -205,6 +205,9 @@ export const useUpdateInventoryLevel = (
       queryClient.invalidateQueries({
         queryKey: inventoryItemLevelsQueryKeys.detail(inventoryItemId),
       })
+      queryClient.invalidateQueries({
+        queryKey: variantsQueryKeys.details(),
+      })
       options?.onSuccess?.(data, variables, context)
     },
     ...options,

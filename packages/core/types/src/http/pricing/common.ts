@@ -47,6 +47,16 @@ export interface BaseCalculatedPriceSet {
   original_amount: number | null
 
   /**
+   * The amount of the original price with taxes included. If the original price is tax inclusive, this field will be the same as `original_amount`.
+   */
+  original_amount_with_tax: number | null
+
+  /**
+   * The amount of the original price without taxes included. If the original price is tax exclusive, this field will be the same as `original_amount`.
+   */
+  original_amount_without_tax: number | null
+
+  /**
    * The currency code of the calculated price, or null if there isn't a calculated price.
    */
   currency_code: string | null

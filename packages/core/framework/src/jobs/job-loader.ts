@@ -1,21 +1,13 @@
 import type { SchedulerOptions } from "@medusajs/orchestration"
 import { MedusaContainer } from "@medusajs/types"
-import {
-  dynamicImport,
-  isObject,
-  MedusaError,
-  promiseAll,
-  readDirRecursive,
-} from "@medusajs/utils"
+import { isObject, MedusaError } from "@medusajs/utils"
 import {
   createStep,
   createWorkflow,
   StepResponse,
 } from "@medusajs/workflows-sdk"
-import { Dirent } from "fs"
-import { access } from "fs/promises"
-import { join } from "path"
 import { logger } from "../logger"
+import { ResourceLoader } from "../utils/resource-loader"
 
 type CronJobConfig = {
   name: string
@@ -25,27 +17,26 @@ type CronJobConfig = {
 
 type CronJobHandler = (container: MedusaContainer) => Promise<any>
 
-export class JobLoader {
-  /**
-   * The directory from which to load the jobs
-   * @private
-   */
-  #sourceDir: string | string[]
-
-  /**
-   * The list of file names to exclude from the subscriber scan
-   * @private
-   */
-  #excludes: RegExp[] = [
-    /index\.js/,
-    /index\.ts/,
-    /\.DS_Store/,
-    /(\.ts\.map|\.js\.map|\.d\.ts|\.md)/,
-    /^_[^/\\]*(\.[^/\\]+)?$/,
-  ]
+export class JobLoader extends ResourceLoader {
+  protected resourceName = "job"
 
   constructor(sourceDir: string | string[]) {
-    this.#sourceDir = sourceDir
+    super(sourceDir)
+  }
+
+  protected async onFileLoaded(
+    path: string,
+    fileExports: {
+      default: CronJobHandler
+      config: CronJobConfig
+    }
+  ) {
+    this.validateConfig(fileExports.config)
+    logger.debug(`Registering job from ${path}.`)
+    this.register({
+      config: fileExports.config,
+      handler: fileExports.default,
+    })
   }
 
   /**
@@ -85,7 +76,7 @@ export class JobLoader {
    * @param handler
    * @protected
    */
-  protected registerJob({
+  protected register({
     config,
     handler,
   }: {
@@ -128,58 +119,8 @@ export class JobLoader {
    * Load cron jobs from one or multiple source paths
    */
   async load() {
-    const normalizedSourcePath = Array.isArray(this.#sourceDir)
-      ? this.#sourceDir
-      : [this.#sourceDir]
+    await super.discoverResources()
 
-    const promises = normalizedSourcePath.map(async (sourcePath) => {
-      try {
-        await access(sourcePath)
-      } catch {
-        logger.info(`No job to load from ${sourcePath}. skipped.`)
-        return
-      }
-
-      return await readDirRecursive(sourcePath).then(async (entries) => {
-        const fileEntries = entries.filter((entry: Dirent) => {
-          return (
-            !entry.isDirectory() &&
-            !this.#excludes.some((exclude) => exclude.test(entry.name))
-          )
-        })
-
-        logger.debug(`Registering jobs from ${sourcePath}.`)
-
-        return await promiseAll(
-          fileEntries.map(async (entry: Dirent) => {
-            const fullPath = join(entry.path, entry.name)
-
-            const module_ = await dynamicImport(fullPath)
-
-            const input = {
-              config: module_.config,
-              handler: module_.default,
-            }
-
-            this.validateConfig(input.config)
-            return input
-          })
-        )
-      })
-    })
-
-    const jobsInputs = await promiseAll(promises)
-    const flatJobsInput = jobsInputs.flat(1).filter(
-      (
-        job
-      ): job is {
-        config: CronJobConfig
-        handler: CronJobHandler
-      } => !!job
-    )
-
-    flatJobsInput.map(this.registerJob)
-
-    logger.debug(`Job registered.`)
+    logger.debug(`Jobs registered.`)
   }
 }

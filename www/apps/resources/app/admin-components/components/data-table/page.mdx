@@ -16,15 +16,13 @@ This component is available after [Medusa v2.4.0+](https://github.com/medusajs/m
 
 </Note>
 
-The [DataTable component in Medusa UI](!ui!/components/data-table) allows you to display data in a table with sorting, filtering, and pagination.
+The [DataTable component in Medusa UI](!ui!/components/data-table) allows you to display data in a table with sorting, filtering, and pagination. It's used across the Medusa Admin dashboard to showcase a list of items, such as a list of products.
 
-You can use this component in your Admin Extensions to display data in a table format, especially if they're retrieved from API routes of the Medusa application.
+![Example of a table in the product listing page](https://res.cloudinary.com/dza7lstvk/image/upload/v1728295658/Medusa%20Resources/list_ddt9zc.png)
 
-<Note>
+You can use this component in your Admin Extensions to display data in a table format, especially if you're retrieving them from API routes of the Medusa application.
 
-Refer to the [Medusa UI documentation](!ui!/components/data-table) for detailed information about the DataTable component and its different usages.
-
-</Note>
+This guide focuses on how to use the `DataTable` component while fetching data from the backend. Refer to the [Medusa UI documentation](!ui!/components/data-table) for detailed information about the DataTable component and its different usages.
 
 ## Example: DataTable with Data Fetching
 
@@ -215,11 +213,14 @@ import {
   // ...
   useDataTable,
 } from "@medusajs/ui"
+import { useNavigate } from "react-router-dom"
 ```
 
 Then, replace the `TODO` in the component with the following:
 
 ```tsx title="src/admin/routes/custom/page.tsx"
+const navigate = useNavigate()
+
 const table = useDataTable({
   columns,
   data: data?.products || [],
@@ -244,6 +245,10 @@ const table = useDataTable({
     state: sorting,
     onSortingChange: setSorting,
   },
+  onRowClick: (event, row) => {
+    // Handle row click, for example
+    navigate(`/products/${row.id}`)
+  },
 })
 
 // TODO render component
@@ -251,24 +256,37 @@ const table = useDataTable({
 
 The `useDataTable` hook accepts an object with the following properties:
 
-- `columns`: The columns to display in the data table. You created this using the `createDataTableColumnHelper` utility.
-- `data`: The products fetched from the Medusa application.
-- `getRowId`: A function that returns the unique ID of a row.
-- `rowCount`: The total number of products that can be retrieved. This is used to determine the number of pages.
-- `isLoading`: A boolean that indicates if the data is being fetched.
-- `pagination`: An object to configure pagination. It accepts with the following properties:
-    - `state`: The pagination React state variable.
-    - `onPaginationChange`: A function that updates the pagination state.
-- `search`: An object to configure searching. It accepts the following properties:
-    - `state`: The search query React state variable.
-    - `onSearchChange`: A function that updates the search query state.
-- `filtering`: An object to configure filtering. It accepts the following properties:
-    - `state`: The filtering React state variable.
-    - `onFilteringChange`: A function that updates the filtering state.
-- `filters`: The filters to display in the data table. You created this using the `createDataTableFilterHelper` utility.
-- `sorting`: An object to configure sorting. It accepts the following properties:
-    - `state`: The sorting React state variable.
-    - `onSortingChange`: A function that updates the sorting state.
+<TypeList
+  types={[
+    { name: "columns", type: "`array`", description: "The columns to display in the data table. You created this using the `createDataTableColumnHelper` utility." },
+    { name: "data", type: "`array`", description: "The products fetched from the Medusa application." },
+    { name: "getRowId", type: "`function`", description: "A function that returns the unique ID of a row." },
+    { name: "rowCount", type: "`number`", description: "The total number of products that can be retrieved. This is used to determine the number of pages." },
+    { name: "isLoading", type: "`boolean`", description: "A boolean that indicates if the data is being fetched." },
+    { name: "pagination", type: "`object`", description: "An object to configure pagination.", children: [
+      { name: "state", type: "`object`", description: "The pagination React state variable." },
+      { name: "onPaginationChange", type: "`function`", description: "A function that updates the pagination state." }
+    ]},
+    { name: "search", type: "`object`", description: "An object to configure searching.", children: [
+      { name: "state", type: "`string`", description: "The search query React state variable." },
+      { name: "onSearchChange", type: "`function`", description: "A function that updates the search query state." }
+    ]},
+    { name: "filtering", type: "`object`", description: "An object to configure filtering.", children: [
+      { name: "state", type: "`object`", description: "The filtering React state variable." },
+      { name: "onFilteringChange", type: "`function`", description: "A function that updates the filtering state." }
+    ]},
+    { name: "filters", type: "`array`", description: "The filters to display in the data table. You created this using the `createDataTableFilterHelper` utility." },
+    { name: "sorting", type: "`object`", description: "An object to configure sorting.", children: [
+      { name: "state", type: "`object`", description: "The sorting React state variable." },
+      { name: "onSortingChange", type: "`function`", description: "A function that updates the sorting state." }
+    ]},
+    { name: "onRowClick", type: "`function`", description: "A function that allows you to perform an action when the user clicks on a row. In this example, you navigate to the product's detail page.", children: [
+      { name: "event", type: "`mouseevent`", description: "An instance of the [MouseClickEvent](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent) object." },
+      { name: "row", type: "`object`", description: "The data of the row that was clicked." }
+    ]}
+  ]}
+  sectionTitle="Example: DataTable with Data Fetching"
+/>
 
 Finally, you'll render the data table. But first, add the following imports at the top of the page:
 

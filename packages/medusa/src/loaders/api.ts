@@ -1,7 +1,7 @@
 import { Express } from "express"
 import { join } from "path"
 import qs from "qs"
-import { RoutesLoader } from "@medusajs/framework/http"
+import { ApiLoader } from "@medusajs/framework/http"
 import { MedusaContainer, PluginDetails } from "@medusajs/framework/types"
 import { ConfigModule } from "@medusajs/framework/config"
 
@@ -39,13 +39,10 @@ export default async ({ app, container, plugins }: Options) => {
    * "/products/:id" route.
    */
   sourcePaths.push(
+    join(__dirname, "../api"),
     ...plugins.map((pluginDetails) => {
       return join(pluginDetails.resolve, "api")
-    }),
-    /**
-     * Register the Medusa CORE API routes using the file based routing.
-     */
-    join(__dirname, "../api")
+    })
   )
 
   const {
@@ -58,7 +55,7 @@ export default async ({ app, container, plugins }: Options) => {
   // Adding this here temporarily
   // Test: (packages/medusa/src/api/routes/admin/currencies/update-currency.ts)
   try {
-    await new RoutesLoader({
+    await new ApiLoader({
       app: app,
       sourceDir: sourcePaths,
       baseRestrictedFields: restrictedFields?.store,

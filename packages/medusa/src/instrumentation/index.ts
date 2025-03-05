@@ -5,7 +5,7 @@ import {
   MedusaResponse,
   Query,
 } from "@medusajs/framework"
-import { ApiRoutesLoader } from "@medusajs/framework/http"
+import { ApiLoader } from "@medusajs/framework/http"
 import { Tracer } from "@medusajs/framework/telemetry"
 import type { SpanExporter } from "@opentelemetry/sdk-trace-node"
 import type { NodeSDKConfiguration } from "@opentelemetry/sdk-node"
@@ -66,7 +66,7 @@ export function instrumentHttpLayer() {
    * Instrumenting the route handler to report traces to
    * OpenTelemetry
    */
-  ApiRoutesLoader.traceRoute = (handler) => {
+  ApiLoader.traceRoute = (handler) => {
     return async (req, res) => {
       if (shouldExcludeResource(req.originalUrl)) {
         return await handler(req, res)
@@ -95,7 +95,7 @@ export function instrumentHttpLayer() {
    * Instrumenting the middleware handler to report traces to
    * OpenTelemetry
    */
-  ApiRoutesLoader.traceMiddleware = (handler) => {
+  ApiLoader.traceMiddleware = (handler) => {
     return async (
       req: MedusaRequest<any>,
       res: MedusaResponse,

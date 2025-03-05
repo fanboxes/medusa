@@ -1,5 +1,11 @@
 # @medusajs/workflow-engine-redis
 
+## 2.6.0
+
+### Patch Changes
+
+- [#11641](https://github.com/medusajs/medusa/pull/11641) [`c250de79192bda1b1cd217bcca37f458c693de1d`](https://github.com/medusajs/medusa/commit/c250de79192bda1b1cd217bcca37f458c693de1d) Thanks [@adrien2p](https://github.com/adrien2p)! - chore(): Prevent sub workflow events release early + redis unlink
+
 ## 2.5.1
 
 ## 2.5.0

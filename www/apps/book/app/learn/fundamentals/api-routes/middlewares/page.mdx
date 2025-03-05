@@ -18,11 +18,20 @@ As Medusa's server is based on Express, you can use any [Express middleware](htt
 
 </Note>
 
+### Middleware Types
+
+There are two types of middlewares:
+
+1. Global Middleware: A middleware that applies to all routes matching a specified pattern.
+2. Route Middleware: A middleware that applies to routes matching a specified pattern and HTTP method(s).
+
+These middlewares generally have the same definition and usage, but they differ in the routes they apply to. You'll learn how to create both types in the following sections.
+
 ---
 
-## How to Create a Middleware?
+## How to Create a Global Middleware?
 
-Middlewares are defined in the special file `src/api/middlewares.ts`. Use the `defineMiddlewares` function from the Medusa Framework to define the middlewares, and export its value.
+Middlewares of all types are defined in the special file `src/api/middlewares.ts`. Use the `defineMiddlewares` function from the Medusa Framework to define the middlewares, and export its value.
 
 For example:
 
@@ -57,13 +66,11 @@ export default defineMiddlewares({
 The `defineMiddlewares` function accepts a middleware configurations object that has the property `routes`. `routes`'s value is an array of middleware route objects, each having the following properties:
 
 - `matcher`: a string or regular expression indicating the API route path to apply the middleware on. The regular expression must be compatible with [path-to-regexp](https://github.com/pillarjs/path-to-regexp).
-- `middlewares`: An array of middleware functions.
+- `middlewares`: An array of global and route middleware functions.
 
-In the example above, you define a middleware that logs the message `Received a request!` whenever a request is sent to an API route path starting with `/custom`.
+In the example above, you define a global middleware that logs the message `Received a request!` whenever a request is sent to an API route path starting with `/custom`.
 
----
-
-## Test the Middleware
+### Test the Global Middleware
 
 To test the middleware:
 
@@ -74,6 +81,64 @@ npm run dev
 ```
 
 2. Send a request to any API route starting with `/custom`.
+3. See the following message in the terminal:
+
+```bash
+Received a request!
+```
+
+---
+
+## How to Create a Route Middleware?
+
+In the previous section, you learned how to create a global middleware. You define the route middleware in the same way in `src/api/middlewares.ts`, but you specify an additional property `method` in the middleware route object. Its value is one or more HTTP methods to apply the middleware to.
+
+For example:
+
+export const highlights = [["12", "method", "Apply the middleware only on `POST` requests"]]
+
+```ts title="src/api/middlewares.ts" highlights={highlights} collapsibleLines="1-7" expandButtonLabel="Show Imports"
+import { 
+  MedusaNextFunction, 
+  MedusaRequest, 
+  MedusaResponse, 
+  defineMiddlewares,
+} from "@medusajs/framework/http"
+
+export default defineMiddlewares({
+  routes: [
+    {
+      matcher: "/custom*",
+      method: ["POST", "PUT"],
+      middlewares: [
+        (
+          req: MedusaRequest, 
+          res: MedusaResponse, 
+          next: MedusaNextFunction
+        ) => {
+          console.log("Received a request!")
+
+          next()
+        },
+      ],
+    },
+  ],
+})
+```
+
+This example applies the middleware only when a `POST` or `PUT` request is sent to an API route path starting with `/custom`, changing the middleware from a global middleware to a route middleware.
+
+### Test the Route Middleware
+
+To test the middleware:
+
+1. Start the application:
+
+```bash npm2yarn
+npm run dev
+```
+
+2. Send a `POST` request to any API route starting with `/custom`.
 3. See the following message in the terminal:
 
 ```bash
@@ -141,48 +206,13 @@ This applies a middleware to the routes defined in the file `src/api/custom/[id]
 
 ---
 
-## Restrict HTTP Methods
-
-Restrict which HTTP methods the middleware is applied to using the `method` property of the middleware route object.
-
-For example:
-
-export const highlights = [["12", "method", "Apply the middleware only on `POST` requests"]]
-
-```ts title="src/api/middlewares.ts" highlights={highlights} collapsibleLines="1-7" expandButtonLabel="Show Imports"
-import { 
-  MedusaNextFunction, 
-  MedusaRequest, 
-  MedusaResponse, 
-  defineMiddlewares,
-} from "@medusajs/framework/http"
-
-export default defineMiddlewares({
-  routes: [
-    {
-      matcher: "/custom*",
-      method: ["POST", "PUT"],
-      middlewares: [
-        // ...
-      ],
-    },
-  ],
-})
-```
-
-`method`'s value is one or more HTTP methods to apply the middleware to.
-
-This example applies the middleware only when a `POST` or `PUT` request is sent to an API route path starting with `/custom`.
-
----
-
 ## Request URLs with Trailing Backslashes
 
 A middleware whose `matcher` pattern doesn't end with a backslash won't be applied for requests to URLs with a trailing backslash.
 
 For example, consider you have the following middleware:
 
-```ts collapsibleLines="1-7" expandMoreLabel="Show Imports"
+```ts title="src/api/middlewares.ts" collapsibleLines="1-7" expandMoreLabel="Show Imports"
 import { 
   MedusaNextFunction, 
   MedusaRequest, 
@@ -218,8 +248,123 @@ In general, avoid adding trailing backslashes when sending requests to API route
 
 ---
 
-## Middlewares Precedence in Registration
+## Middlewares and Route Ordering
 
-The Medusa application registers your middlewares first, then registers middlewares defined in Medusa's core.
+<Note>
 
-So, if you add a middleware for a route defined in the core, it might get overridden by the core middleware. For example, if you add a middleware to change authentication of admin routes, the authentication middleware defined in the core will still run, leading to your middleware not being effective.
+The ordering explained in this section was added in [Medusa v2.6](https://github.com/medusajs/medusa/releases/tag/v2.6)
+
+</Note>
+
+The Medusa application registers middlewares and API route handlers in the following order:
+
+1. Global middlewares in the following order:
+    1. Global middleware defined in the Medusa's core.
+    2. Global middleware defined in the plugins (in the order the plugins are registered in).
+    3. Global middleware you define in the application.
+2. Route middlewares in the following order:
+    1. Route middleware defined in the Medusa's core.
+    2. Route middleware defined in the plugins (in the order the plugins are registered in).
+    3. Route middleware you define in the application.
+3. API routes in the following order:
+    1. API routes defined in the Medusa's core.
+    2. API routes defined in the plugins (in the order the plugins are registered in).
+    3. API routes you define in the application.
+
+### Middlewares Sorting
+
+On top of the previous ordering, Medusa sorts global and route middlewares based on their matcher pattern in the following order:
+
+1. Wildcard matchers. For example, `/custom*`.
+2. Regex matchers. For example, `/custom/(products|collections)`.
+3. Static matchers without parameters. For example, `/custom`.
+4. Static matchers with parameters. For example, `/custom/:id`.
+
+For example, if you have the following middlewares:
+
+```ts title="src/api/middlewares.ts"
+export default defineMiddlewares({
+  routes: [
+    {
+      matcher: "/custom/:id",
+      middlewares: [/* ... */],
+    },
+    {
+      matcher: "/custom",
+      middlewares: [/* ... */],
+    },
+    {
+      matcher: "/custom*",
+      method: ["GET"],
+      middlewares: [/* ... */],
+    },
+    {
+      matcher: "/custom/:id",
+      method: ["GET"],
+      middlewares: [/* ... */],
+    },
+  ],
+})
+```
+
+The global middlewares are sorted into the following order before they're registered:
+
+1. Global middleware `/custom`.
+2. Global middleware `/custom/:id`.
+
+And the route middlewares are sorted into the following order before they're registered:
+
+1. Route middleware `/custom*`.
+2. Route middleware `/custom/:id`.
+
+Then, the middlwares are registered in the order mentioned earlier, with global middlewares first, then the route middlewares.
+
+### Middlewares and Route Execution Order
+
+When a request is sent to an API route, the global middlewares are executed first, then the route middlewares, and finally the route handler.
+
+For example, consider you have the following middlewares:
+
+```ts title="src/api/middlewares.ts"
+export default defineMiddlewares({
+  routes: [
+    {
+      matcher: "/custom",
+      middlewares: [
+        (req, res, next) => {
+          console.log("Global middleware")
+          next()
+        },
+      ],
+    },
+    {
+      matcher: "/custom",
+      method: ["GET"],
+      middlewares: [
+        (req, res, next) => {
+          console.log("Route middleware")
+          next()
+        },
+      ],
+    },
+  ],
+})
+```
+
+When you send a request to `/custom` route, the following messages are logged in the terminal:
+
+```bash
+Global middleware
+Route middleware
+Hello from custom! # message logged from API route handler
+```
+
+The global middleware runs first, then the route middleware, and finally the route handler, assuming that it logs the message `Hello from custom!`.
+
+---
+
+## Overriding Middlewares
+
+A middleware can not override an existing middleware. Instead, middlewares are added to the end of the middleware stack.
+
+For example, if you define a custom validation middleware, such as `validateAndTransformBody`, on an existing route, then both the original and the custom validation middleware will run.

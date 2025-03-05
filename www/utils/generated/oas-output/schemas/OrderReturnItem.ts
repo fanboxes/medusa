@@ -51,6 +51,10 @@
  *     format: date-time
  *     title: updated_at
  *     description: The date the item was updated.
+ *   damaged_quantity:
+ *     type: number
+ *     title: damaged_quantity
+ *     description: The item's damaged quantity.
  * 
 */
 

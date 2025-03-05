@@ -1,5 +1,13 @@
 # @medusajs/inventory-next
 
+## 2.6.0
+
+### Patch Changes
+
+- [#11601](https://github.com/medusajs/medusa/pull/11601) [`b42f151be31161a5d7a73132ee6794b990403d76`](https://github.com/medusajs/medusa/commit/b42f151be31161a5d7a73132ee6794b990403d76) Thanks [@adrien2p](https://github.com/adrien2p)! - chore(): Improve internal repository delete algo
+
+- [#11714](https://github.com/medusajs/medusa/pull/11714) [`cad8b40c130e371d615d3bd953bb466fb4ac54a8`](https://github.com/medusajs/medusa/commit/cad8b40c130e371d615d3bd953bb466fb4ac54a8) Thanks [@adrien2p](https://github.com/adrien2p)! - fix(inventory): Wrong event emitted on reservation update
+
 ## 2.5.1
 
 ## 2.5.0

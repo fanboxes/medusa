@@ -4,7 +4,7 @@ import { MiddlewareFileLoader } from "../middleware-file-loader"
 describe("Middleware file loader", () => {
   it("should load routes from the filesystem", async () => {
     const BASE_DIR = resolve(__dirname, "../__fixtures__/routers-middleware")
-    const loader = new MiddlewareFileLoader({})
+    const loader = new MiddlewareFileLoader()
     await loader.scanDir(BASE_DIR)
 
     expect(loader.getBodyParserConfigRoutes()).toMatchInlineSnapshot(`
@@ -14,12 +14,22 @@ describe("Middleware file loader", () => {
             "preserveRawBody": true,
           },
           "matcher": "/webhooks",
-          "method": undefined,
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "PATCH",
+            "DELETE",
+            "OPTIONS",
+            "HEAD",
+          ],
         },
         {
           "config": false,
           "matcher": "/webhooks/*",
-          "method": "POST",
+          "methods": [
+            "POST",
+          ],
         },
       ]
     `)
@@ -28,22 +38,26 @@ describe("Middleware file loader", () => {
         {
           "handler": [Function],
           "matcher": "/customers",
-          "method": undefined,
+          "methods": undefined,
         },
         {
           "handler": [Function],
           "matcher": "/customers",
-          "method": "POST",
+          "methods": [
+            "POST",
+          ],
         },
         {
           "handler": [Function],
           "matcher": "/store/*",
-          "method": undefined,
+          "methods": undefined,
         },
         {
           "handler": [Function],
           "matcher": "/webhooks/*",
-          "method": "POST",
+          "methods": [
+            "POST",
+          ],
         },
       ]
     `)

@@ -1,4 +1,4 @@
-import { MiddlewareRoute, unlessPath } from "@medusajs/framework/http"
+import { MiddlewareRoute } from "@medusajs/framework/http"
 import {
   validateAndTransformBody,
   validateAndTransformQuery,
@@ -37,12 +37,9 @@ export const adminPaymentRoutesMiddlewares: MiddlewareRoute[] = [
     method: ["GET"],
     matcher: "/admin/payments/:id",
     middlewares: [
-      unlessPath(
-        /.*\/payments\/payment-providers/,
-        validateAndTransformQuery(
-          AdminGetPaymentParams,
-          queryConfig.retrieveTransformQueryConfig
-        )
+      validateAndTransformQuery(
+        AdminGetPaymentParams,
+        queryConfig.retrieveTransformQueryConfig
       ),
     ],
   },

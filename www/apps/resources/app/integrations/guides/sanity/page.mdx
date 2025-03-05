@@ -695,15 +695,15 @@ export const syncStep = createStep(
     const sanityModule: SanityModuleService = container.resolve(SANITY_MODULE)
     const query = container.resolve(ContainerRegistrationKeys.QUERY)
 
-    const total = 0
+    let total = 0
     const upsertMap: {
       before: any
       after: any
     }[] = []
 
     const batchSize = 200
-    const hasMore = true
-    const offset = 0
+    let hasMore = true
+    let offset = 0
     const filters = input.product_ids ? {
       id: input.product_ids,
     } : {}

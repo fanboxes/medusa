@@ -83,6 +83,13 @@ export type CreateFulfillmentValidateOrderStepInput = {
 export const createFulfillmentValidateOrder = createStep(
   "create-fulfillment-validate-order",
   ({ order, inputItems }: CreateFulfillmentValidateOrderStepInput) => {
+    if (!inputItems.length) {
+      throw new MedusaError(
+        MedusaError.Types.INVALID_DATA,
+        "No items to fulfill"
+      )
+    }
+
     throwIfOrderIsCancelled({ order })
     throwIfItemsDoesNotExistsInOrder({ order, inputItems })
     throwIfItemsAreNotGroupedByShippingRequirement({ order, inputItems })

@@ -1459,8 +1459,8 @@ export const list1Highlights = [
   ["23", "getStatusTitle", "Capitalize the status for the text shown in the status's badge."],
   ["28", "columnHelper", "Prepare the column creation utility."],
   ["30", "columns", "Define the columns for the data table."],
-  ["71", "SubscriptionsPage", "Define the component that shows the UI route's content."],
-  ["75", "config", "Export configurations to show the UI route in the sidebar."]
+  ["64", "SubscriptionsPage", "Define the component that shows the UI route's content."],
+  ["68", "config", "Export configurations to show the UI route in the sidebar."]
 ]
 
 ```tsx title="src/admin/routes/subscriptions/page.tsx" highlights={list1Highlights} collapsibleLines="1-9" expandMoreLabel="Show Imports"
@@ -1471,7 +1471,7 @@ import { useMemo, useState } from "react"
 import { SubscriptionData, SubscriptionStatus } from "../../types"
 import { useQuery } from "@tanstack/react-query"
 import { sdk } from "../../lib/sdk"
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 const getBadgeColor = (status: SubscriptionStatus) => {
   switch(status) {
@@ -1496,13 +1496,6 @@ const columnHelper = createDataTableColumnHelper<SubscriptionData>()
 const columns = [
   columnHelper.accessor("id", {
     header: "#",
-    cell: ({ getValue }) => {
-      return (
-        <Link to={`/subscriptions/${getValue()}`}>
-          {getValue()}
-        </Link>
-      )
-    },
   }),
   columnHelper.accessor("metadata.main_order_id", {
     header: "Main Order",
@@ -1558,6 +1551,7 @@ In the `SubscriptionsPage` component, you'll fetch the subscriptions and show th
 
 ```tsx title="src/admin/routes/subscriptions/page.tsx"
 const SubscriptionsPage = () => {
+  const navigate = useNavigate()
   const [pagination, setPagination] = useState<DataTablePaginationState>({
     pageSize: 4,
     pageIndex: 0,
@@ -1588,6 +1582,9 @@ const SubscriptionsPage = () => {
       state: pagination,
       onPaginationChange: setPagination,
     },
+    onRowClick(event, row) {
+      navigate(`/subscriptions/${row.id}`)
+    },
   })
 
 
@@ -1610,7 +1607,7 @@ In the component, you first initialize a `pagination` state variable of type `Da
 
 Then, you use the `useQuery` hook from the `@tanstack/react-query` package to fetch the subscriptions. In the query function, you use the JS SDK to send a request to the `/admin/subscriptions` API route with the pagination query parameters.
 
-Next, you use the `useDataTable` hook to create a data table instance. You pass the columns, subscriptions data, row count, loading state, and pagination settings to the hook.
+Next, you use the `useDataTable` hook to create a data table instance. You pass the columns, subscriptions data, row count, loading state, and pagination settings to the hook. You also navigate to the subscription details page when a row is clicked.
 
 Finally, you render the data table with the subscriptions data, along with the pagination controls.
 
@@ -1687,7 +1684,7 @@ To test the UI routes, run the Medusa application and go to `http://localhost:90
 
 After you log-in, you’ll find a new sidebar item “Subscriptions”. Once you click on it, you’ll see the list of subscription purchases.
 
-To view a subscription’s details, click on its ID, which opens the subscription details page. This page contains the subscription’s orders.
+To view a subscription’s details, click on its row, which opens the subscription details page. This page contains the subscription’s orders.
 
 ### Further Reads
 

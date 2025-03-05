@@ -1,6 +1,7 @@
 import { useBaseSpecs } from "@/providers/base-specs"
 import type { OpenAPIV3 } from "openapi-types"
 import { Card } from "docs-ui"
+import { useMemo } from "react"
 
 export type TagsOperationDescriptionSectionSecurityProps = {
   security: OpenAPIV3.SecurityRequirementObject[]
@@ -10,6 +11,15 @@ const TagsOperationDescriptionSectionSecurity = ({
   security,
 }: TagsOperationDescriptionSectionSecurityProps) => {
   const { getSecuritySchema } = useBaseSpecs()
+
+  const linkToAuth = useMemo(() => {
+    const hasNoAuth = security.some((item) => {
+      const schema = getSecuritySchema(Object.keys(item)[0])
+      return schema && schema["x-is-auth"] === false
+    })
+
+    return !hasNoAuth
+  }, [security, getSecuritySchema])
 
   const getDescription = () => {
     let str = ""
@@ -27,7 +37,7 @@ const TagsOperationDescriptionSectionSecurity = ({
       <Card
         title="Authorization"
         text={getDescription()}
-        href="#authentication"
+        href={linkToAuth ? "#authentication" : undefined}
       />
     </div>
   )

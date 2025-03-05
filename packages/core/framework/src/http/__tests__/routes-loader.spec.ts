@@ -4,7 +4,7 @@ import { RoutesLoader } from "../routes-loader"
 describe("Routes loader", () => {
   it("should load routes from the filesystem", async () => {
     const BASE_DIR = resolve(__dirname, "../__fixtures__/routers")
-    const loader = new RoutesLoader({})
+    const loader = new RoutesLoader()
     await loader.scanDir(BASE_DIR)
 
     expect(loader.getRoutes()).toMatchInlineSnapshot(`
@@ -12,10 +12,11 @@ describe("Routes loader", () => {
         {
           "absolutePath": "${BASE_DIR}/admin/orders/[id]/route.ts",
           "handler": [Function],
+          "isRoute": true,
+          "matcher": "/admin/orders/:id",
           "method": "GET",
           "optedOutOfAuth": false,
           "relativePath": "/admin/orders/[id]/route.ts",
-          "route": "/admin/orders/:id",
           "shouldAppendAdminCors": true,
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": false,
@@ -23,10 +24,11 @@ describe("Routes loader", () => {
         {
           "absolutePath": "${BASE_DIR}/admin/orders/[id]/route.ts",
           "handler": [Function],
+          "isRoute": true,
+          "matcher": "/admin/orders/:id",
           "method": "POST",
           "optedOutOfAuth": false,
           "relativePath": "/admin/orders/[id]/route.ts",
-          "route": "/admin/orders/:id",
           "shouldAppendAdminCors": true,
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": false,
@@ -34,10 +36,11 @@ describe("Routes loader", () => {
         {
           "absolutePath": "${BASE_DIR}/admin/orders/route.ts",
           "handler": [Function],
+          "isRoute": true,
+          "matcher": "/admin/orders",
           "method": "GET",
           "optedOutOfAuth": false,
           "relativePath": "/admin/orders/route.ts",
-          "route": "/admin/orders",
           "shouldAppendAdminCors": true,
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": false,
@@ -45,10 +48,11 @@ describe("Routes loader", () => {
         {
           "absolutePath": "${BASE_DIR}/admin/products/[id]/route.ts",
           "handler": [Function],
+          "isRoute": true,
+          "matcher": "/admin/products/:id",
           "method": "GET",
           "optedOutOfAuth": false,
           "relativePath": "/admin/products/[id]/route.ts",
-          "route": "/admin/products/:id",
           "shouldAppendAdminCors": true,
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": false,
@@ -56,10 +60,11 @@ describe("Routes loader", () => {
         {
           "absolutePath": "${BASE_DIR}/admin/products/route.ts",
           "handler": [Function],
+          "isRoute": true,
+          "matcher": "/admin/products",
           "method": "DELETE",
           "optedOutOfAuth": false,
           "relativePath": "/admin/products/route.ts",
-          "route": "/admin/products",
           "shouldAppendAdminCors": true,
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": false,
@@ -67,10 +72,11 @@ describe("Routes loader", () => {
         {
           "absolutePath": "${BASE_DIR}/admin/products/route.ts",
           "handler": [Function],
+          "isRoute": true,
+          "matcher": "/admin/products",
           "method": "GET",
           "optedOutOfAuth": false,
           "relativePath": "/admin/products/route.ts",
-          "route": "/admin/products",
           "shouldAppendAdminCors": true,
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": false,
@@ -78,10 +84,11 @@ describe("Routes loader", () => {
         {
           "absolutePath": "${BASE_DIR}/admin/products/route.ts",
           "handler": [Function],
+          "isRoute": true,
+          "matcher": "/admin/products",
           "method": "HEAD",
           "optedOutOfAuth": false,
           "relativePath": "/admin/products/route.ts",
-          "route": "/admin/products",
           "shouldAppendAdminCors": true,
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": false,
@@ -89,10 +96,11 @@ describe("Routes loader", () => {
         {
           "absolutePath": "${BASE_DIR}/admin/products/route.ts",
           "handler": [Function],
+          "isRoute": true,
+          "matcher": "/admin/products",
           "method": "OPTIONS",
           "optedOutOfAuth": false,
           "relativePath": "/admin/products/route.ts",
-          "route": "/admin/products",
           "shouldAppendAdminCors": true,
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": false,
@@ -100,10 +108,11 @@ describe("Routes loader", () => {
         {
           "absolutePath": "${BASE_DIR}/admin/products/route.ts",
           "handler": [Function],
+          "isRoute": true,
+          "matcher": "/admin/products",
           "method": "PATCH",
           "optedOutOfAuth": false,
           "relativePath": "/admin/products/route.ts",
-          "route": "/admin/products",
           "shouldAppendAdminCors": true,
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": false,
@@ -111,10 +120,11 @@ describe("Routes loader", () => {
         {
           "absolutePath": "${BASE_DIR}/admin/products/route.ts",
           "handler": [Function],
+          "isRoute": true,
+          "matcher": "/admin/products",
           "method": "POST",
           "optedOutOfAuth": false,
           "relativePath": "/admin/products/route.ts",
-          "route": "/admin/products",
           "shouldAppendAdminCors": true,
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": false,
@@ -122,10 +132,11 @@ describe("Routes loader", () => {
         {
           "absolutePath": "${BASE_DIR}/admin/products/route.ts",
           "handler": [Function],
+          "isRoute": true,
+          "matcher": "/admin/products",
           "method": "PUT",
           "optedOutOfAuth": false,
           "relativePath": "/admin/products/route.ts",
-          "route": "/admin/products",
           "shouldAppendAdminCors": true,
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": false,
@@ -133,10 +144,11 @@ describe("Routes loader", () => {
         {
           "absolutePath": "${BASE_DIR}/admin/route.ts",
           "handler": [Function],
+          "isRoute": true,
+          "matcher": "/admin",
           "method": "GET",
           "optedOutOfAuth": false,
           "relativePath": "/admin/route.ts",
-          "route": "/admin",
           "shouldAppendAdminCors": true,
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": false,
@@ -144,10 +156,11 @@ describe("Routes loader", () => {
         {
           "absolutePath": "${BASE_DIR}/admin/route.ts",
           "handler": [Function],
+          "isRoute": true,
+          "matcher": "/admin",
           "method": "POST",
           "optedOutOfAuth": false,
           "relativePath": "/admin/route.ts",
-          "route": "/admin",
           "shouldAppendAdminCors": true,
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": false,
@@ -155,10 +168,11 @@ describe("Routes loader", () => {
         {
           "absolutePath": "${BASE_DIR}/customers/[customer_id]/orders/[order_id]/route.ts",
           "handler": [Function],
+          "isRoute": true,
+          "matcher": "/customers/:customer_id/orders/:order_id",
           "method": "GET",
           "optedOutOfAuth": false,
           "relativePath": "/customers/[customer_id]/orders/[order_id]/route.ts",
-          "route": "/customers/:customer_id/orders/:order_id",
           "shouldAppendAdminCors": false,
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": false,
@@ -166,10 +180,11 @@ describe("Routes loader", () => {
         {
           "absolutePath": "${BASE_DIR}/customers/route.ts",
           "handler": [Function],
+          "isRoute": true,
+          "matcher": "/customers",
           "method": "GET",
           "optedOutOfAuth": false,
           "relativePath": "/customers/route.ts",
-          "route": "/customers",
           "shouldAppendAdminCors": false,
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": false,
@@ -184,7 +199,7 @@ describe("Routes loader", () => {
       __dirname,
       "../__fixtures__/routers-with-duplicates"
     )
-    const loader = new RoutesLoader({})
+    const loader = new RoutesLoader()
     await loader.scanDir(BASE_DIR)
     await loader.scanDir(BASE_DIR_2)
 
@@ -193,10 +208,11 @@ describe("Routes loader", () => {
         {
           "absolutePath": "${BASE_DIR}/admin/orders/[id]/route.ts",
           "handler": [Function],
+          "isRoute": true,
+          "matcher": "/admin/orders/:id",
           "method": "GET",
           "optedOutOfAuth": false,
           "relativePath": "/admin/orders/[id]/route.ts",
-          "route": "/admin/orders/:id",
           "shouldAppendAdminCors": true,
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": false,
@@ -204,10 +220,11 @@ describe("Routes loader", () => {
         {
           "absolutePath": "${BASE_DIR}/admin/orders/[id]/route.ts",
           "handler": [Function],
+          "isRoute": true,
+          "matcher": "/admin/orders/:id",
           "method": "POST",
           "optedOutOfAuth": false,
           "relativePath": "/admin/orders/[id]/route.ts",
-          "route": "/admin/orders/:id",
           "shouldAppendAdminCors": true,
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": false,
@@ -215,10 +232,11 @@ describe("Routes loader", () => {
         {
           "absolutePath": "${BASE_DIR}/admin/orders/route.ts",
           "handler": [Function],
+          "isRoute": true,
+          "matcher": "/admin/orders",
           "method": "GET",
           "optedOutOfAuth": false,
           "relativePath": "/admin/orders/route.ts",
-          "route": "/admin/orders",
           "shouldAppendAdminCors": true,
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": false,
@@ -226,10 +244,11 @@ describe("Routes loader", () => {
         {
           "absolutePath": "${BASE_DIR_2}/admin/products/[id]/route.ts",
           "handler": [Function],
+          "isRoute": true,
+          "matcher": "/admin/products/:id",
           "method": "GET",
           "optedOutOfAuth": true,
           "relativePath": "/admin/products/[id]/route.ts",
-          "route": "/admin/products/:id",
           "shouldAppendAdminCors": true,
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": false,
@@ -237,10 +256,11 @@ describe("Routes loader", () => {
         {
           "absolutePath": "${BASE_DIR}/admin/products/route.ts",
           "handler": [Function],
+          "isRoute": true,
+          "matcher": "/admin/products",
           "method": "DELETE",
           "optedOutOfAuth": false,
           "relativePath": "/admin/products/route.ts",
-          "route": "/admin/products",
           "shouldAppendAdminCors": true,
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": false,
@@ -248,10 +268,11 @@ describe("Routes loader", () => {
         {
           "absolutePath": "${BASE_DIR_2}/admin/products/route.ts",
           "handler": [Function],
+          "isRoute": true,
+          "matcher": "/admin/products",
           "method": "GET",
           "optedOutOfAuth": true,
           "relativePath": "/admin/products/route.ts",
-          "route": "/admin/products",
           "shouldAppendAdminCors": true,
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": false,
@@ -259,10 +280,11 @@ describe("Routes loader", () => {
         {
           "absolutePath": "${BASE_DIR}/admin/products/route.ts",
           "handler": [Function],
+          "isRoute": true,
+          "matcher": "/admin/products",
           "method": "HEAD",
           "optedOutOfAuth": false,
           "relativePath": "/admin/products/route.ts",
-          "route": "/admin/products",
           "shouldAppendAdminCors": true,
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": false,
@@ -270,10 +292,11 @@ describe("Routes loader", () => {
         {
           "absolutePath": "${BASE_DIR}/admin/products/route.ts",
           "handler": [Function],
+          "isRoute": true,
+          "matcher": "/admin/products",
           "method": "OPTIONS",
           "optedOutOfAuth": false,
           "relativePath": "/admin/products/route.ts",
-          "route": "/admin/products",
           "shouldAppendAdminCors": true,
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": false,
@@ -281,10 +304,11 @@ describe("Routes loader", () => {
         {
           "absolutePath": "${BASE_DIR}/admin/products/route.ts",
           "handler": [Function],
+          "isRoute": true,
+          "matcher": "/admin/products",
           "method": "PATCH",
           "optedOutOfAuth": false,
           "relativePath": "/admin/products/route.ts",
-          "route": "/admin/products",
           "shouldAppendAdminCors": true,
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": false,
@@ -292,10 +316,11 @@ describe("Routes loader", () => {
         {
           "absolutePath": "${BASE_DIR_2}/admin/products/route.ts",
           "handler": [Function],
+          "isRoute": true,
+          "matcher": "/admin/products",
           "method": "POST",
           "optedOutOfAuth": true,
           "relativePath": "/admin/products/route.ts",
-          "route": "/admin/products",
           "shouldAppendAdminCors": true,
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": false,
@@ -303,10 +328,11 @@ describe("Routes loader", () => {
         {
           "absolutePath": "${BASE_DIR}/admin/products/route.ts",
           "handler": [Function],
+          "isRoute": true,
+          "matcher": "/admin/products",
           "method": "PUT",
           "optedOutOfAuth": false,
           "relativePath": "/admin/products/route.ts",
-          "route": "/admin/products",
           "shouldAppendAdminCors": true,
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": false,
@@ -314,10 +340,11 @@ describe("Routes loader", () => {
         {
           "absolutePath": "${BASE_DIR}/admin/route.ts",
           "handler": [Function],
+          "isRoute": true,
+          "matcher": "/admin",
           "method": "GET",
           "optedOutOfAuth": false,
           "relativePath": "/admin/route.ts",
-          "route": "/admin",
           "shouldAppendAdminCors": true,
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": false,
@@ -325,10 +352,11 @@ describe("Routes loader", () => {
         {
           "absolutePath": "${BASE_DIR}/admin/route.ts",
           "handler": [Function],
+          "isRoute": true,
+          "matcher": "/admin",
           "method": "POST",
           "optedOutOfAuth": false,
           "relativePath": "/admin/route.ts",
-          "route": "/admin",
           "shouldAppendAdminCors": true,
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": false,
@@ -336,10 +364,11 @@ describe("Routes loader", () => {
         {
           "absolutePath": "${BASE_DIR}/customers/[customer_id]/orders/[order_id]/route.ts",
           "handler": [Function],
+          "isRoute": true,
+          "matcher": "/customers/:customer_id/orders/:order_id",
           "method": "GET",
           "optedOutOfAuth": false,
           "relativePath": "/customers/[customer_id]/orders/[order_id]/route.ts",
-          "route": "/customers/:customer_id/orders/:order_id",
           "shouldAppendAdminCors": false,
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": false,
@@ -347,10 +376,11 @@ describe("Routes loader", () => {
         {
           "absolutePath": "${BASE_DIR}/customers/route.ts",
           "handler": [Function],
+          "isRoute": true,
+          "matcher": "/customers",
           "method": "GET",
           "optedOutOfAuth": false,
           "relativePath": "/customers/route.ts",
-          "route": "/customers",
           "shouldAppendAdminCors": false,
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": false,
@@ -358,10 +388,11 @@ describe("Routes loader", () => {
         {
           "absolutePath": "${BASE_DIR_2}/store/[customer_id]/orders/[order_id]/route.ts",
           "handler": [Function],
+          "isRoute": true,
+          "matcher": "/store/:customer_id/orders/:order_id",
           "method": "GET",
           "optedOutOfAuth": false,
           "relativePath": "/store/[customer_id]/orders/[order_id]/route.ts",
-          "route": "/store/:customer_id/orders/:order_id",
           "shouldAppendAdminCors": false,
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": true,
@@ -376,7 +407,7 @@ describe("Routes loader", () => {
       "../__fixtures__/routers-duplicate-parameter"
     )
 
-    const loader = new RoutesLoader({})
+    const loader = new RoutesLoader()
     await expect(() => loader.scanDir(BASE_DIR)).rejects.toThrow(
       "Duplicate parameters found in route /admin/customers/[id]/orders/[id]/route.ts (id). Make sure that all parameters are unique."
     )

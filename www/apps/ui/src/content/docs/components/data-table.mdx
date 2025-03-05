@@ -66,7 +66,7 @@ The `createDataTableColumnHelper` utility is a function that returns a helper us
 For each column in the table, use the `accessor` method of the column helper to specify configurations for a specific column. The `accessor` method accepts the column's key in the table's data as the first parameter, and an object with the following properties as the second parameter:
 
 - `header`: The table header text for the column.
-- `enableSorting`: (optional) A boolean that indicates whether data in the table can be sorted by this column. More on sorting in [this section](#datatable-with-sorting).
+- `enableSorting`: (optional) A boolean that indicates whether data in the table can be sorted by this column. More on sorting in [this section](#configure-sorting-in-datatable).
 
 ### Create Table Instance
 
@@ -146,6 +146,39 @@ Refer to the examples later on this page to learn how to add pagination, filteri
 
 Refer to [this Admin Components guide](https://docs.medusajs.com/resources/admin-components/components/data-table) for an example on using the `DataTable` component with data fetching from the Medusa application.
 
+## Handle Row Click
+
+---
+
+<ComponentExample name="data-table-row-click" disableCenterAlignPreview />
+
+In many cases, you want to perform an action when a row is clicked. Most commonly, you may want to open the details page of the row when it's clicked.
+
+<Note>
+
+For bulk actions, such as deleting multiple rows, use the [Command Bar](#perform-bulk-actions-on-datatable-rows) instead.
+
+</Note>
+
+The `useDataTable` hook accepts an `onRowClick` property that you can use to handle row clicks:
+
+```tsx
+const navigate = useNavigate()
+
+const table = useDataTable({
+  // ...
+  onRowClick(event, row) {
+    navigate(`/author/${row.id}`)
+  },
+})
+```
+
+The value of `onRowClick` is a function that accepts two parameters:
+
+- `event`: An instance of the [MouseClickEvent](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent) object.
+- `row`: The data of the row that was clicked.
+
+In the above example, you use a `navigate` function, retrieved through the `useNavigate` hook from `react-router-dom`, to navigate to the details page of the row that was clicked.
 
 ## Configure Cell Rendering
 
@@ -193,7 +226,7 @@ const columns = [
 
 The `cell` property's value is a function that returns a string or a React node to be rendered in the cell. The function receives as a parameter an object having a `getValue` property to get the raw value of the cell.
 
-## DataTable with Search
+## Configure Search in DataTable
 
 ---
 
@@ -261,7 +294,7 @@ return (
 
 This will show a search input at the top of the table, in the data table's toolbar.
 
-## DataTable with Pagination
+## Configure Pagination in DataTable
 
 ---
 
@@ -357,7 +390,7 @@ return (
 
 This will show the pagination controls at the end of the table.
 
-## DataTable with Filters
+## Configure Filters in DataTable
 
 ---
 
@@ -626,7 +659,7 @@ const [filtering, setFiltering] = useState<DataTableFilteringState>({
 
 The user can still change the filter values, but the initial values will be applied when the table is first rendered.
 
-## DataTable with Sorting
+## Configure Sorting in DataTable
 
 ---
 
@@ -767,7 +800,7 @@ const [sorting, setSorting] = useState<DataTableSortingState | null>({
 
 The user can still change the sort values, but the initial values will be applied when the table is first rendered.
 
-## DataTable with Command Bar
+## Perform Bulk Actions on DataTable Rows
 
 ---
 

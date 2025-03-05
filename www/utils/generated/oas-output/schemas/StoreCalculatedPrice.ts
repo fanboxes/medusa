@@ -7,6 +7,8 @@
  *   - id
  *   - calculated_amount
  *   - original_amount
+ *   - original_amount_with_tax
+ *   - original_amount_without_tax
  *   - currency_code
  * properties:
  *   id:
@@ -113,6 +115,14 @@
  *         type: number
  *         title: max_quantity
  *         description: The maximum quantity required in the cart for the price to apply.
+ *   original_amount_with_tax:
+ *     type: number
+ *     title: original_amount_with_tax
+ *     description: The original amount with taxes applied.
+ *   original_amount_without_tax:
+ *     type: number
+ *     title: original_amount_without_tax
+ *     description: The original amount without taxes.
  * 
 */
 

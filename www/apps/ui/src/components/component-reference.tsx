@@ -2,10 +2,11 @@ import { Documentation } from "react-docgen"
 import { Suspense } from "react"
 import { Spinner } from "@medusajs/icons"
 import { PropTable } from "./props-table"
-import { Container, clx } from "@medusajs/ui"
+import { Container } from "@medusajs/ui"
 import { Feedback } from "./feedback"
-import { MarkdownContent } from "docs-ui"
+import { H3, MarkdownContent } from "docs-ui"
 import { components } from "./mdx-components"
+import slugify from "slugify"
 
 type ComponentReferenceProps = {
   mainComponent: string
@@ -32,6 +33,11 @@ const ComponentReference = ({
         )
         const hasProps =
           componentSpec?.props && Object.keys(componentSpec.props).length > 0
+        const componentName =
+          componentsToShow.length > 1
+            ? componentSpec?.displayName || component
+            : ""
+        const componentSlug = slugify(componentName)
         return (
           <Suspense
             fallback={
@@ -44,9 +50,7 @@ const ComponentReference = ({
             {componentSpec && (
               <>
                 {componentsToShow.length > 1 && (
-                  <h3 className={clx("h3-docs mb-2 mt-10 text-medusa-fg-base")}>
-                    {componentSpec.displayName || component}
-                  </h3>
+                  <H3 id={componentSlug}>{componentName}</H3>
                 )}
                 {componentSpec.description && (
                   <MarkdownContent components={components}>

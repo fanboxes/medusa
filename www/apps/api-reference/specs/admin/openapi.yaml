@@ -1044,3 +1044,8 @@ components:
       in: cookie
       name: connect.sid
       x-displayName: Cookie Session ID
+    reset_password:
+      type: http
+      x-displayName: Reset Password Token
+      scheme: bearer
+      x-is-auth: false

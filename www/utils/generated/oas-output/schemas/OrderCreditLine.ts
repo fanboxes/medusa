@@ -7,6 +7,7 @@
  *   - id
  *   - order_id
  *   - order
+ *   - amount
  *   - reference
  *   - reference_id
  *   - metadata
@@ -44,6 +45,10 @@
  *     format: date-time
  *     title: updated_at
  *     description: The date the credit line was updated.
+ *   amount:
+ *     type: number
+ *     title: amount
+ *     description: The credit line's amount.
  * 
 */
 

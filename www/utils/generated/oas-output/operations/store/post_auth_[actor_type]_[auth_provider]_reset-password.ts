@@ -4,10 +4,13 @@
  * summary: Generate Reset Password Token for Customer
  * x-sidebar-summary: Generate Reset Password Token
  * description: >
- *   Generate a reset password token for a customer. This API route emits the `auth.password_reset` event, passing it the token as a payload. You can listen to that event and send the user a notification. The notification should have a URL that accepts a `token` query parameter.
+ *   Generate a reset password token for a customer. This API route doesn't reset the customer password or send them the reset instructions in a notification.
  * 
  * 
- *    Use the generated token to update the user's password using the Reset Password API route.
+ *   Instead, This API route emits the `auth.password_reset` event, passing it the token as a payload. You can listen to that event in a subscriber as explained in [this guide](https://docs.medusajs.com/resources/commerce-modules/auth/reset-password), then send the customer a notification. The notification is sent using a [Notification Module Provider](https://docs.medusajs.com/resources/architectural-modules/notification), and it should have a URL that accepts a `token` query parameter, allowing the customer to reset their password from the storefront.
+ * 
+ * 
+ *    Use the generated token to update the customer's password using the [Reset Password API route](https://docs.medusajs.com/api/store#auth_postactor_typeauth_providerupdate).
  * externalDocs:
  *   url: https://docs.medusajs.com/v2/resources/storefront-development/customers/reset-password#1-request-reset-password-page
  *   description: "Storefront development: How to create the request reset password page."

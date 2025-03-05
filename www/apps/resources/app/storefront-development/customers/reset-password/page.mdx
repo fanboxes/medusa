@@ -167,8 +167,8 @@ export const resetPasswordFetchHighlights = [
   ["3", "email", "Receive the email from a query parameter."],
   ["9", "password", "Assuming the password is retrieved from an input field."],
   ["14", "fetch", "Send a request to update the customer's password."],
-  ["14", "token", "Pass the token as a query parameter."],
-  ["20", "body", "Pass the email and password in the request body."]
+  ["19", "token", "Pass the token in the Authorization header."],
+  ["21", "body", "Pass the email and password in the request body."]
 ]
 
   ```ts highlights={resetPasswordFetchHighlights}
@@ -185,11 +185,12 @@ export const resetPasswordFetchHighlights = [
       return
     }
 
-    fetch(`http://localhost:9000/auth/customer/emailpass/update?token=${token}`, {
+    fetch(`http://localhost:9000/auth/customer/emailpass/update`, {
       credentials: "include",
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
       },
       body: JSON.stringify({
         email,
@@ -210,8 +211,8 @@ export const resetPasswordHighlights = [
   ["18", "token", "Receive the token from a query parameter."],
   ["21", "email", "Receive the email from a query parameter."],
   ["35", "fetch", "Send a request to update the customer's password."],
-  ["35", "token", "Pass the token as a query parameter."],
-  ["41", "body", "Pass the email and password in the request body."]
+  ["40", "token", "Pass the token in the Authorization header."],
+  ["42", "body", "Pass the email and password in the request body."]
 ]
 
   ```tsx highlights={resetPasswordHighlights}
@@ -249,11 +250,12 @@ export const resetPasswordHighlights = [
       }
       setLoading(true)
 
-      fetch(`http://localhost:9000/auth/customer/emailpass/update?token=${token}`, {
+      fetch(`http://localhost:9000/auth/customer/emailpass/update`, {
         credentials: "include",
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
         },
         body: JSON.stringify({
           email,
@@ -289,4 +291,10 @@ export const resetPasswordHighlights = [
 
 In this example, you receive the `token` and `email` from the page's query parameters.
 
-Then, when the form that has the password field is submitted, you send a request to the `http://localhost:9000/auth/customer/emailpass/update` API route. You pass it the token as a query parameter, and the email and password in the request body.
+Then, when the form that has the password field is submitted, you send a request to the `http://localhost:9000/auth/customer/emailpass/update` API route. You pass it the token as in the Authorization header as a bearer token, and the email and password in the request body.
+
+<Note>
+
+Before [Medusa v2.6](https://github.com/medusajs/medusa/releases/tag/v2.6), you passed the token as a query parameter. Now, you must pass it in the `Authorization` header.
+
+</Note>

@@ -2207,6 +2207,15 @@ export const generatedSidebar = [
                         "loaded": true,
                         "isPathHref": true,
                         "type": "link",
+                        "path": "/references/cart/models/CreditLine",
+                        "title": "CreditLine",
+                        "description": "",
+                        "children": []
+                      },
+                      {
+                        "loaded": true,
+                        "isPathHref": true,
+                        "type": "link",
                         "path": "/references/cart/models/LineItem",
                         "title": "LineItem",
                         "description": "",
@@ -7393,6 +7402,15 @@ export const generatedSidebar = [
                         "type": "link",
                         "path": "/references/order/createOrderClaims",
                         "title": "createOrderClaims",
+                        "description": "",
+                        "children": []
+                      },
+                      {
+                        "loaded": true,
+                        "isPathHref": true,
+                        "type": "link",
+                        "path": "/references/order/createOrderCreditLines",
+                        "title": "createOrderCreditLines",
                         "description": "",
                         "children": []
                       },
@@ -19259,6 +19277,15 @@ export const generatedSidebar = [
                     "loaded": true,
                     "isPathHref": true,
                     "type": "link",
+                    "path": "/references/medusa-workflows/createCartCreditLinesWorkflow",
+                    "title": "createCartCreditLinesWorkflow",
+                    "description": "",
+                    "children": []
+                  },
+                  {
+                    "loaded": true,
+                    "isPathHref": true,
+                    "type": "link",
                     "path": "/references/medusa-workflows/createCartWorkflow",
                     "title": "createCartWorkflow",
                     "description": "Create a cart specifying region, items, and more.",
@@ -19271,6 +19298,15 @@ export const generatedSidebar = [
                     "path": "/references/medusa-workflows/createPaymentCollectionForCartWorkflow",
                     "title": "createPaymentCollectionForCartWorkflow",
                     "description": "Create payment collection for cart.",
+                    "children": []
+                  },
+                  {
+                    "loaded": true,
+                    "isPathHref": true,
+                    "type": "link",
+                    "path": "/references/medusa-workflows/deleteCartCreditLinesWorkflow",
+                    "title": "deleteCartCreditLinesWorkflow",
+                    "description": "",
                     "children": []
                   },
                   {

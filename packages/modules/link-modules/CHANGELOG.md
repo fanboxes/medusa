@@ -1,5 +1,13 @@
 # @medusajs/link-modules
 
+## 2.6.0
+
+### Patch Changes
+
+- [#11643](https://github.com/medusajs/medusa/pull/11643) [`228b7b608dfa935618179684fa3d005f7a9aaf01`](https://github.com/medusajs/medusa/commit/228b7b608dfa935618179684fa3d005f7a9aaf01) Thanks [@adrien2p](https://github.com/adrien2p)! - Chore/link module serialization
+
+- [#11601](https://github.com/medusajs/medusa/pull/11601) [`b42f151be31161a5d7a73132ee6794b990403d76`](https://github.com/medusajs/medusa/commit/b42f151be31161a5d7a73132ee6794b990403d76) Thanks [@adrien2p](https://github.com/adrien2p)! - chore(): Improve internal repository delete algo
+
 ## 2.5.1
 
 ## 2.5.0

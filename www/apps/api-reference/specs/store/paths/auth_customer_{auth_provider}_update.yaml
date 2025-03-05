@@ -3,13 +3,15 @@ post:
   summary: Reset a Customer's Password
   x-sidebar-summary: Reset Password
   description: >-
-    Reset a customer's password. Generate the reset password token first using
-    the Get Reset Password Token API route.
+    Reset a customer's password using a reset-password token generated with the
+    [Generate Reset Password Token API
+    route](https://docs.medusajs.com/api/store#auth_postactor_typeauth_providerresetpassword).
+    You pass the token as a bearer token in the request's Authorization header.
   externalDocs:
     url: >-
       https://docs.medusajs.com/v2/resources/storefront-development/customers/reset-password#2-reset-password-page
     description: 'Storefront development: How to create the reset password page.'
-  x-authenticated: false
+  x-authenticated: true
   parameters:
     - name: auth_provider
       in: path
@@ -18,14 +20,6 @@ post:
       schema:
         type: string
         example: emailpass
-    - name: token
-      in: query
-      description: >-
-        The reset password token received using the Get Reset Password API
-        route.
-      required: true
-      schema:
-        type: string
   requestBody:
     content:
       application/json:
@@ -44,6 +38,8 @@ post:
       label: cURL
       source:
         $ref: ../code_samples/Shell/auth_customer_{auth_provider}_update/post.sh
+  security:
+    - reset_password: []
   tags:
     - Auth
   responses:

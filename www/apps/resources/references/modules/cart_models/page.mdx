@@ -14,6 +14,7 @@ This documentation provides a reference to the data models in the Cart Module
 ```mermaid
 erDiagram
 	Cart ||--|| LineItem : items
+	Cart ||--|| CreditLine : credit_lines
 	Cart ||--|| ShippingMethod : shipping_methods
 	LineItem ||--|| LineItemAdjustment : adjustments
 	LineItem ||--|| LineItemTaxLine : tax_lines
@@ -26,6 +27,7 @@ erDiagram
 
 - [Address](../../cart_models/variables/cart_models.Address/page.mdx)
 - [Cart](../../cart_models/variables/cart_models.Cart/page.mdx)
+- [CreditLine](../../cart_models/variables/cart_models.CreditLine/page.mdx)
 - [LineItem](../../cart_models/variables/cart_models.LineItem/page.mdx)
 - [LineItemAdjustment](../../cart_models/variables/cart_models.LineItemAdjustment/page.mdx)
 - [LineItemTaxLine](../../cart_models/variables/cart_models.LineItemTaxLine/page.mdx)
