@@ -20,6 +20,11 @@ export type RedisWorkflowsOptions = {
   queueName?: string
 
   /**
+   * Queue name used for job execution
+   */
+  jobQueueName?: string
+
+  /**
    * Redis client options
    */
   options?: RedisOptions

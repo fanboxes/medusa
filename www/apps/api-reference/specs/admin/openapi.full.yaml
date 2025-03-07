@@ -17443,7 +17443,7 @@ paths:
       operationId: GetInvites
       summary: List Invites
       description: Retrieve a list of invites. The invites can be filtered by fields such as `id`. The invites can also be sorted or paginated.
-      x-authenticated: false
+      x-authenticated: true
       parameters:
         - name: fields
           in: query
@@ -17950,11 +17950,15 @@ paths:
           $ref: '#/components/responses/invalid_request_error'
         '500':
           $ref: '#/components/responses/500_error'
+      security:
+        - api_token: []
+        - cookie_auth: []
+        - jwt_token: []
     post:
       operationId: PostInvites
       summary: Create Invite
       description: Create a invite.
-      x-authenticated: false
+      x-authenticated: true
       parameters:
         - name: fields
           in: query
@@ -18014,6 +18018,10 @@ paths:
         '500':
           $ref: '#/components/responses/500_error'
       x-workflow: createInvitesWorkflow
+      security:
+        - api_token: []
+        - cookie_auth: []
+        - jwt_token: []
   /admin/invites/accept:
     post:
       operationId: PostInvitesAccept
@@ -18021,7 +18029,7 @@ paths:
       description: |
         Accept an invite and create a new user.
         Since the user isn't created yet, the JWT token used in the authorization header is retrieved from the `/auth/user/emailpass/register` API route (or a provider other than `emailpass`). The user can then authenticate using the `/auth/user/emailpass` API route.
-      x-authenticated: false
+      x-authenticated: true
       requestBody:
         content:
           application/json:
@@ -18091,12 +18099,15 @@ paths:
         '500':
           $ref: '#/components/responses/500_error'
       x-workflow: acceptInviteWorkflow
+      security:
+        - cookie_auth: []
+        - jwt_token: []
   /admin/invites/{id}:
     get:
       operationId: GetInvitesId
       summary: Get an Invite
       description: Retrieve an invite by its ID. You can expand the invite's relations or select the fields that should be returned.
-      x-authenticated: false
+      x-authenticated: true
       parameters:
         - name: id
           in: path
@@ -18139,11 +18150,15 @@ paths:
           $ref: '#/components/responses/invalid_request_error'
         '500':
           $ref: '#/components/responses/500_error'
+      security:
+        - api_token: []
+        - cookie_auth: []
+        - jwt_token: []
     delete:
       operationId: DeleteInvitesId
       summary: Delete Invite
       description: Delete an invite.
-      x-authenticated: false
+      x-authenticated: true
       parameters:
         - name: id
           in: path
@@ -18196,12 +18211,16 @@ paths:
         '500':
           $ref: '#/components/responses/500_error'
       x-workflow: deleteInvitesWorkflow
+      security:
+        - api_token: []
+        - cookie_auth: []
+        - jwt_token: []
   /admin/invites/{id}/resend:
     post:
       operationId: PostInvitesIdResend
       summary: Refresh Invite Token
       description: Refresh the token of an invite.
-      x-authenticated: false
+      x-authenticated: true
       parameters:
         - name: id
           in: path
@@ -18245,6 +18264,10 @@ paths:
         '500':
           $ref: '#/components/responses/500_error'
       x-workflow: refreshInviteTokensWorkflow
+      security:
+        - api_token: []
+        - cookie_auth: []
+        - jwt_token: []
   /admin/notifications:
     get:
       operationId: GetNotifications
@@ -41910,7 +41933,7 @@ paths:
       operationId: GetUsers
       summary: List Users
       description: Retrieve a list of users. The users can be filtered by fields such as `id`. The users can also be sorted or paginated.
-      x-authenticated: false
+      x-authenticated: true
       parameters:
         - name: fields
           in: query
@@ -42379,12 +42402,15 @@ paths:
           $ref: '#/components/responses/invalid_request_error'
         '500':
           $ref: '#/components/responses/500_error'
+      security:
+        - cookie_auth: []
+        - jwt_token: []
   /admin/users/me:
     get:
       operationId: GetUsersMe
       summary: Get Logged-In User
       description: Retrieve the logged-in user's details.
-      x-authenticated: false
+      x-authenticated: true
       parameters:
         - name: fields
           in: query
@@ -42421,12 +42447,15 @@ paths:
           $ref: '#/components/responses/invalid_request_error'
         '500':
           $ref: '#/components/responses/500_error'
+      security:
+        - cookie_auth: []
+        - jwt_token: []
   /admin/users/{id}:
     get:
       operationId: GetUsersId
       summary: Get a User
       description: Retrieve a user by its ID. You can expand the user's relations or select the fields that should be returned.
-      x-authenticated: false
+      x-authenticated: true
       parameters:
         - name: id
           in: path
@@ -42469,11 +42498,14 @@ paths:
           $ref: '#/components/responses/invalid_request_error'
         '500':
           $ref: '#/components/responses/500_error'
+      security:
+        - cookie_auth: []
+        - jwt_token: []
     post:
       operationId: PostUsersId
       summary: Update a User
       description: Update a user's details.
-      x-authenticated: false
+      x-authenticated: true
       parameters:
         - name: id
           in: path
@@ -42529,11 +42561,14 @@ paths:
         '500':
           $ref: '#/components/responses/500_error'
       x-workflow: updateUsersWorkflow
+      security:
+        - cookie_auth: []
+        - jwt_token: []
     delete:
       operationId: DeleteUsersId
       summary: Delete a User
       description: Delete a user.
-      x-authenticated: false
+      x-authenticated: true
       parameters:
         - name: id
           in: path
@@ -42567,6 +42602,9 @@ paths:
         '500':
           $ref: '#/components/responses/500_error'
       x-workflow: removeUserAccountWorkflow
+      security:
+        - cookie_auth: []
+        - jwt_token: []
   /admin/workflows-executions:
     get:
       operationId: GetWorkflowsExecutions

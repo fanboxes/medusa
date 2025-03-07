@@ -1,14 +1,15 @@
-import { LoaderOptions } from "@medusajs/framework/types"
+import {
+  InternalModuleDeclaration,
+  LoaderOptions,
+} from "@medusajs/framework/types"
 import { asValue } from "awilix"
 import Redis from "ioredis"
 import { RedisWorkflowsOptions } from "../types"
 
-export default async ({
-  container,
-  logger,
-  options,
-  dataLoaderOnly,
-}: LoaderOptions): Promise<void> => {
+export default async (
+  { container, logger, options, dataLoaderOnly }: LoaderOptions,
+  moduleDeclaration: InternalModuleDeclaration
+): Promise<void> => {
   const {
     url,
     options: redisOptions,
@@ -25,6 +26,7 @@ export default async ({
   const cnnPubSub = pubsub ?? { url, options: redisOptions }
 
   const queueName = options?.queueName ?? "medusa-workflows"
+  const jobQueueName = options?.jobQueueName ?? "medusa-workflows-jobs"
 
   let connection
   let redisPublisher
@@ -59,12 +61,14 @@ export default async ({
   }
 
   container.register({
+    isWorkerMode: asValue(moduleDeclaration.worker_mode !== "server"),
     partialLoading: asValue(true),
     redisConnection: asValue(connection),
     redisWorkerConnection: asValue(workerConnection),
     redisPublisher: asValue(redisPublisher),
     redisSubscriber: asValue(redisSubscriber),
     redisQueueName: asValue(queueName),
+    redisJobQueueName: asValue(jobQueueName),
     redisDisconnectHandler: asValue(async () => {
       connection.disconnect()
       workerConnection.disconnect()

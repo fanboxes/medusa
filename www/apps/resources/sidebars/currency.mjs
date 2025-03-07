@@ -31,6 +31,7 @@ export const currencySidebar = [
         autogenerate_tags: "server+currency",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to use the Currency Module in your customizations on the Medusa application server.",
       },
@@ -40,6 +41,7 @@ export const currencySidebar = [
         autogenerate_tags: "storefront+currency,-jsSdk",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to integrate the Currency Module's features into your storefront.",
       },
@@ -49,6 +51,7 @@ export const currencySidebar = [
         autogenerate_tags: "admin+currency,-jsSdk",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to utilize administative features of the Currency Module.",
       },
@@ -58,6 +61,7 @@ export const currencySidebar = [
         autogenerate_tags: "userGuide+currency",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to utilize and manage Currency features in the Medusa Admin dashboard.",
       },
@@ -81,6 +85,7 @@ export const currencySidebar = [
                 description:
                   "The following methods or properties are used to send requests to Store API Routes related to the Currency Module.",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
               {
                 type: "sub-category",
@@ -89,6 +94,7 @@ export const currencySidebar = [
                 description:
                   "The following methods or properties are used to send requests to Admin API Routes related to the Currency Module.",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
             ],
           },

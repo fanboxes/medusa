@@ -38,6 +38,7 @@ export const stockLocationSidebar = [
         autogenerate_tags: "server+stockLocation",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to use the Stock Location Module in your customizations on the Medusa application server.",
       },
@@ -47,6 +48,7 @@ export const stockLocationSidebar = [
         autogenerate_tags: "storefront+stockLocation,-jsSdk",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to integrate the Stock Location Module's features into your storefront.",
       },
@@ -56,6 +58,7 @@ export const stockLocationSidebar = [
         autogenerate_tags: "admin+stockLocation,-jsSdk",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to utilize administative features of the Stock Location Module.",
       },
@@ -65,6 +68,7 @@ export const stockLocationSidebar = [
         autogenerate_tags: "userGuide+stockLocation",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to utilize and manage Stock Location features in the Medusa Admin dashboard.",
       },
@@ -86,12 +90,14 @@ export const stockLocationSidebar = [
                 title: "Workflows",
                 autogenerate_tags: "workflow+stockLocation",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
               {
                 type: "category",
                 title: "Steps",
                 autogenerate_tags: "step+stockLocation",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
             ],
           },
@@ -108,6 +114,7 @@ export const stockLocationSidebar = [
                 description:
                   "The following methods or properties are used to send requests to Store API Routes related to the Stock Location Module.",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
               {
                 type: "sub-category",
@@ -116,6 +123,7 @@ export const stockLocationSidebar = [
                 description:
                   "The following methods or properties are used to send requests to Admin API Routes related to the Stock Location Module.",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
             ],
           },

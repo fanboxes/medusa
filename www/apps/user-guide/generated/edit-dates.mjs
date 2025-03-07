@@ -1,5 +1,5 @@
 export const generatedEditDates = {
-  "app/tips/languages/page.mdx": "2025-02-14T14:16:04.867Z",
+  "app/tips/languages/page.mdx": "2025-03-06T08:49:32.514Z",
   "app/tips/bulk-editor/page.mdx": "2025-02-14T14:16:04.867Z",
   "app/tips/lists/page.mdx": "2025-02-14T14:16:04.867Z",
   "app/settings/sales-channels/page.mdx": "2025-02-19T17:33:55.584Z",
@@ -12,7 +12,7 @@ export const generatedEditDates = {
   "app/orders/page.mdx": "2025-02-17T15:13:42.484Z",
   "app/settings/users/invites/page.mdx": "2025-02-19T11:38:54.009Z",
   "app/settings/developer/page.mdx": "2025-02-25T15:11:55.392Z",
-  "app/settings/profile/page.mdx": "2025-02-25T16:24:21.165Z",
+  "app/settings/profile/page.mdx": "2025-03-06T08:49:28.814Z",
   "app/settings/store/page.mdx": "2025-02-26T10:33:07.346Z",
   "app/products/import/page.mdx": "2025-02-18T12:15:03.830Z",
   "app/products/categories/page.mdx": "2025-02-19T10:21:42.058Z",

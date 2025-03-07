@@ -110,26 +110,18 @@ export function instrumentHttpLayer() {
       }`
 
       await HTTPTracer.trace(traceName, async (span) => {
-        return new Promise<void>((resolve, reject) => {
-          const _next = (error?: any) => {
-            if (error) {
-              span.setStatus({
-                code: SpanStatusCode.ERROR,
-                message: error.message || "Failed",
-              })
-              span.end()
-              reject(error)
-            } else {
-              span.end()
-              resolve()
-            }
-          }
-
-          handler(req, res, _next)
-        })
+        try {
+          await handler(req, res, next)
+        } catch (error) {
+          span.setStatus({
+            code: SpanStatusCode.ERROR,
+            message: error.message || "Failed",
+          })
+          throw error
+        } finally {
+          span.end()
+        }
       })
-        .catch(next)
-        .then(next)
     }
   }
 }

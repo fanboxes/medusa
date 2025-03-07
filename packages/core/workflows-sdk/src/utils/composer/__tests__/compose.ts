@@ -19,10 +19,12 @@ import {
   StepFunction,
   StepResponse,
   transform,
+  when,
   WorkflowResponse,
 } from ".."
 import { MedusaWorkflow } from "../../../medusa-workflow"
 import { createHook } from "../create-hook"
+import { setTimeout } from "timers/promises"
 
 jest.setTimeout(30000)
 
@@ -740,6 +742,71 @@ describe("Workflow composer", function () {
         ],
         obj: "return from 4",
       })
+    })
+
+    it("should compose a new workflow with conditional parallelized steps", async () => {
+      const stepResults: string[] = []
+
+      const mockStep1Fn = jest.fn().mockImplementation(async () => {
+        await setTimeout(100)
+        stepResults.push("step1")
+        return new StepResponse(true)
+      }) as any
+      const mockStep2Fn = jest.fn().mockImplementation(() => {
+        stepResults.push("step2")
+        return new StepResponse(true)
+      }) as any
+      const mockStep3Fn = jest.fn().mockImplementation(() => {
+        stepResults.push("step3")
+        return new StepResponse(true)
+      }) as any
+      const mockStep4Fn = jest.fn().mockImplementation(() => {
+        stepResults.push("step4")
+        return new StepResponse(true)
+      }) as any
+
+      const step1 = createStep("step1", mockStep1Fn)
+      const step2 = createStep("step2", mockStep2Fn)
+      const step3 = createStep("step3", mockStep3Fn)
+      const step4 = createStep("step4", mockStep4Fn)
+
+      const callStep2IfNeeded = () => {
+        return when({}, () => false).then(() => {
+          return step2()
+        })
+      }
+
+      const callStep3IfNeeded = () => {
+        return when({}, () => false).then(() => {
+          return step4()
+        })
+      }
+
+      const workflow = createWorkflow("workflow1", function (input) {
+        const [ret1, ret2, ret3, ret4] = parallelize(
+          step1(),
+          callStep2IfNeeded(),
+          step3(),
+          callStep3IfNeeded()
+        )
+        return new WorkflowResponse({ ret1, ret2, ret3, ret4 })
+      })
+
+      const { result: workflowResult } = await workflow().run()
+
+      expect(mockStep1Fn).toHaveBeenCalledTimes(1)
+      expect(mockStep2Fn).toHaveBeenCalledTimes(0)
+      expect(mockStep3Fn).toHaveBeenCalledTimes(1)
+      expect(mockStep4Fn).toHaveBeenCalledTimes(0)
+
+      expect(workflowResult).toEqual({
+        ret1: true,
+        ret2: undefined,
+        ret3: true,
+        ret4: undefined,
+      })
+
+      expect(stepResults).toEqual(["step3", "step1"])
     })
 
     it("should compose a new workflow with parallelize steps and rollback them all in case of error", async () => {

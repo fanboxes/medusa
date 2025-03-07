@@ -87,10 +87,6 @@ export const Breadcrumbs = () => {
             ""
         )
       }
-      tempBreadcrumbItems.set(
-        getLinkPath(sidebarActiveItem) || "/",
-        sidebarActiveItem.chapterTitle || sidebarActiveItem.title || ""
-      )
     }
 
     return tempBreadcrumbItems

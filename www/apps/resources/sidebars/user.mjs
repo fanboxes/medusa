@@ -24,6 +24,7 @@ export const userSidebar = [
         autogenerate_tags: "server+user",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to use the User Module in your customizations on the Medusa application server.",
         children: [
@@ -40,6 +41,7 @@ export const userSidebar = [
         autogenerate_tags: "storefront+user,-jsSdk",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to integrate the User Module's features into your storefront.",
       },
@@ -49,6 +51,7 @@ export const userSidebar = [
         autogenerate_tags: "admin+user,-jsSdk",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to utilize administative features of the User Module.",
       },
@@ -58,6 +61,7 @@ export const userSidebar = [
         autogenerate_tags: "userGuide+user",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to utilize and manage User features in the Medusa Admin dashboard.",
       },
@@ -79,12 +83,14 @@ export const userSidebar = [
                 title: "Workflows",
                 autogenerate_tags: "workflow+user",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
               {
                 type: "category",
                 title: "Steps",
                 autogenerate_tags: "step+user",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
             ],
           },
@@ -101,6 +107,7 @@ export const userSidebar = [
                 description:
                   "The following methods or properties are used to send requests to Store API Routes related to the User Module.",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
               {
                 type: "sub-category",
@@ -109,6 +116,7 @@ export const userSidebar = [
                 description:
                   "The following methods or properties are used to send requests to Admin API Routes related to the User Module.",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
             ],
           },

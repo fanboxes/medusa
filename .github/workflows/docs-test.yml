@@ -88,7 +88,7 @@ jobs:
       - name: Get Directories to Scan
         if: ${{ steps.pr-files.outputs.files_lt_threshold == 'true' }}
         working-directory: www/vale
-        run: ./get-files.sh book app
+        run: ./get-files.sh book/app/learn resources
         id: directories
 
       - name: Vale Linter
@@ -145,7 +145,7 @@ jobs:
 
       - name: Get Directories to Scan
         working-directory: www/vale
-        run: ./get-files.sh resources app contribution-guidelines usage
+        run: ./get-files.sh resources/app
         id: directories
 
       - name: Vale Linter
@@ -202,7 +202,7 @@ jobs:
 
       - name: Get Directories to Scan
         working-directory: www/vale
-        run: ./get-files.sh user-guide app
+        run: ./get-files.sh user-guide/app
         id: directories
 
       - name: Vale Linter
@@ -260,7 +260,7 @@ jobs:
       - name: Get Directories to Scan
         if: ${{ steps.pr-files.outputs.files_lt_threshold == 'true' }}
         working-directory: www/vale
-        run: ./get-files.sh ui src/content/docs
+        run: ./get-files.sh ui/src/content/docs
         id: directories
 
       - name: Vale Linter
@@ -318,7 +318,7 @@ jobs:
       - name: Get Directories to Scan
         if: ${{ steps.pr-files.outputs.files_lt_threshold == 'true' }}
         working-directory: www/vale
-        run: ./get-files.sh api-reference markdown
+        run: ./get-files.sh api-reference/markdown
         id: directories
 
       - name: Vale Linter

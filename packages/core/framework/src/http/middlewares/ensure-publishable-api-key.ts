@@ -19,14 +19,11 @@ export async function ensurePublishableApiKeyMiddleware(
   const publishableApiKey = req.get(PUBLISHABLE_KEY_HEADER)
 
   if (!isPresent(publishableApiKey)) {
-    try {
-      throw new MedusaError(
-        MedusaError.Types.NOT_ALLOWED,
-        `Publishable API key required in the request header: ${PUBLISHABLE_KEY_HEADER}. You can manage your keys in settings in the dashboard.`
-      )
-    } catch (e) {
-      return next(e)
-    }
+    const error = new MedusaError(
+      MedusaError.Types.NOT_ALLOWED,
+      `Publishable API key required in the request header: ${PUBLISHABLE_KEY_HEADER}. You can manage your keys in settings in the dashboard.`
+    )
+    return next(error)
   }
 
   let apiKey

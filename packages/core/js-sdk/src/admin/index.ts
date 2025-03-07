@@ -128,7 +128,7 @@ export class Admin {
    */
   public order: Order
   /**
-   * @tags draft order
+   * @tags order
    */
   public draftOrder: DraftOrder
   /**

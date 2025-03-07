@@ -723,10 +723,8 @@ moduleIntegrationTestRunner<IProductModuleService>({
         })
 
         it("should throw because variant doesn't have all options set", async () => {
-          let error
-
-          try {
-            await service.createProducts([
+          const error = await service
+            .createProducts([
               {
                 title: "Product with variants and options",
                 options: [
@@ -741,9 +739,7 @@ moduleIntegrationTestRunner<IProductModuleService>({
                 ],
               },
             ])
-          } catch (e) {
-            error = e
-          }
+            .catch((e) => e)
 
           expect(error.message).toEqual(
             `Product "Product with variants and options" has variants with missing options: [missing option]`

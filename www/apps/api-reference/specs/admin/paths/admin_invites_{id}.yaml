@@ -4,7 +4,7 @@ get:
   description: >-
     Retrieve an invite by its ID. You can expand the invite's relations or
     select the fields that should be returned.
-  x-authenticated: false
+  x-authenticated: true
   parameters:
     - name: id
       in: path
@@ -56,11 +56,15 @@ get:
       $ref: ../components/responses/invalid_request_error.yaml
     '500':
       $ref: ../components/responses/500_error.yaml
+  security:
+    - api_token: []
+    - cookie_auth: []
+    - jwt_token: []
 delete:
   operationId: DeleteInvitesId
   summary: Delete Invite
   description: Delete an invite.
-  x-authenticated: false
+  x-authenticated: true
   parameters:
     - name: id
       in: path
@@ -114,3 +118,7 @@ delete:
     '500':
       $ref: ../components/responses/500_error.yaml
   x-workflow: deleteInvitesWorkflow
+  security:
+    - api_token: []
+    - cookie_auth: []
+    - jwt_token: []

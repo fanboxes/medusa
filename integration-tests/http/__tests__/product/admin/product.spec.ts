@@ -3100,6 +3100,25 @@ medusaIntegrationTestRunner({
           )
         })
 
+        it("should successfully delete products", async () => {
+          const response = await api.post(
+            "/admin/products/batch",
+            { delete: [baseProduct.id] },
+            adminHeaders
+          )
+
+          expect(response.status).toEqual(200)
+          expect(response.data.created).toHaveLength(0)
+          expect(response.data.updated).toHaveLength(0)
+          expect(response.data.deleted.ids).toHaveLength(1)
+
+          expect(response.data.created).toEqual([])
+          expect(response.data.updated).toEqual([])
+          expect(response.data.deleted).toEqual(
+            expect.objectContaining({ ids: [baseProduct.id] })
+          )
+        })
+
         it("successfully creates, updates, and deletes product variants", async () => {
           const productWithMultipleVariants = getProductFixture({
             title: "Test batch variants",

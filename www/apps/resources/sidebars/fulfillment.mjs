@@ -58,6 +58,7 @@ export const fulfillmentSidebar = [
         autogenerate_tags: "server+fulfillment",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to use the Fulfillment Module in your customizations on the Medusa application server.",
         children: [
@@ -79,6 +80,7 @@ export const fulfillmentSidebar = [
         autogenerate_tags: "storefront+fulfillment,-jsSdk",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to integrate the Fulfillment Module's features into your storefront.",
       },
@@ -88,6 +90,7 @@ export const fulfillmentSidebar = [
         autogenerate_tags: "admin+fulfillment,-jsSdk",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to utilize administative features of the Fulfillment Module.",
       },
@@ -97,6 +100,7 @@ export const fulfillmentSidebar = [
         autogenerate_tags: "userGuide+fulfillment",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to utilize and manage Fulfillment features in the Medusa Admin dashboard.",
       },
@@ -118,12 +122,14 @@ export const fulfillmentSidebar = [
                 title: "Workflows",
                 autogenerate_tags: "workflow+fulfillment",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
               {
                 type: "category",
                 title: "Steps",
                 autogenerate_tags: "step+fulfillment",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
             ],
           },
@@ -140,6 +146,7 @@ export const fulfillmentSidebar = [
                 description:
                   "The following methods or properties are used to send requests to Store API Routes related to the Fulfillment Module.",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
               {
                 type: "sub-category",
@@ -148,6 +155,7 @@ export const fulfillmentSidebar = [
                 description:
                   "The following methods or properties are used to send requests to Admin API Routes related to the Fulfillment Module.",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
             ],
           },

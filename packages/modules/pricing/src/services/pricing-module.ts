@@ -40,6 +40,7 @@ import {
   promiseAll,
   removeNullish,
   simpleHash,
+  upperCaseFirst,
 } from "@medusajs/framework/utils"
 
 import {
@@ -472,6 +473,7 @@ export default class PricingModuleService
   ): Promise<PriceSetDTO>
 
   @InjectManager()
+  @EmitEvents()
   async upsertPriceSets(
     data: UpsertPriceSetDTO | UpsertPriceSetDTO[],
     @MedusaContext() sharedContext: Context = {}
@@ -513,6 +515,7 @@ export default class PricingModuleService
   ): Promise<PriceSetDTO[]>
 
   @InjectManager()
+  @EmitEvents()
   // @ts-expect-error
   async updatePriceSets(
     idOrSelector: string | PricingTypes.FilterablePriceSetProps,
@@ -563,12 +566,18 @@ export default class PricingModuleService
     })
 
     const prices = normalizedData.flatMap((priceSet) => priceSet.prices || [])
-    const { entities: upsertedPrices } =
+    const { entities: upsertedPrices, performedActions } =
       await this.priceService_.upsertWithReplace(
         prices,
         { relations: ["price_rules"] },
         sharedContext
       )
+
+    composeAllEvents({
+      eventBuilders,
+      performedActions,
+      sharedContext,
+    })
 
     const priceSetsToUpsert = normalizedData.map((priceSet) => {
       const { prices, ...rest } = priceSet
@@ -594,12 +603,18 @@ export default class PricingModuleService
       }
     })
 
-    const { entities: priceSets } =
+    const { entities: priceSets, performedActions: priceSetPerformedActions } =
       await this.priceSetService_.upsertWithReplace(
         priceSetsToUpsert,
         { relations: ["prices"] },
         sharedContext
       )
+
+    composeAllEvents({
+      eventBuilders,
+      performedActions: priceSetPerformedActions,
+      sharedContext,
+    })
 
     return priceSets.map((ps) => {
       if (ps.prices) {
@@ -747,6 +762,7 @@ export default class PricingModuleService
   }
 
   @InjectTransactionManager()
+  @EmitEvents()
   // @ts-ignore
   async updatePriceLists(
     data: PricingTypes.UpdatePriceListDTO[],
@@ -760,6 +776,7 @@ export default class PricingModuleService
   }
 
   @InjectManager()
+  @EmitEvents()
   async updatePriceListPrices(
     data: PricingTypes.UpdatePriceListPricesDTO[],
     @MedusaContext() sharedContext: Context = {}
@@ -770,6 +787,7 @@ export default class PricingModuleService
   }
 
   @InjectManager()
+  @EmitEvents()
   async removePrices(
     ids: string[],
     @MedusaContext() sharedContext: Context = {}
@@ -789,6 +807,7 @@ export default class PricingModuleService
   }
 
   @InjectManager()
+  @EmitEvents()
   async setPriceListRules(
     data: PricingTypes.SetPriceListRulesDTO,
     @MedusaContext() sharedContext: Context = {}
@@ -801,6 +820,7 @@ export default class PricingModuleService
   }
 
   @InjectManager()
+  @EmitEvents()
   async removePriceListRules(
     data: PricingTypes.RemovePriceListRulesDTO,
     @MedusaContext() sharedContext: Context = {}
@@ -852,6 +872,7 @@ export default class PricingModuleService
   ): Promise<PricePreferenceDTO>
 
   @InjectManager()
+  @EmitEvents()
   async upsertPricePreferences(
     data: UpsertPricePreferenceDTO | UpsertPricePreferenceDTO[],
     @MedusaContext() sharedContext: Context = {}
@@ -1081,29 +1102,10 @@ export default class PricingModuleService
         { relations: ["price_rules"] },
         sharedContext
       )
-    eventBuilders.createdPrice({
-      data: performedActions.created[Price.name] ?? [],
-      sharedContext,
-    })
-    eventBuilders.updatedPrice({
-      data: performedActions.updated[Price.name] ?? [],
-      sharedContext,
-    })
-    eventBuilders.deletedPrice({
-      data: performedActions.deleted[Price.name] ?? [],
-      sharedContext,
-    })
 
-    eventBuilders.createdPriceRule({
-      data: performedActions.created[PriceRule.name] ?? [],
-      sharedContext,
-    })
-    eventBuilders.updatedPriceRule({
-      data: performedActions.updated[PriceRule.name] ?? [],
-      sharedContext,
-    })
-    eventBuilders.deletedPriceRule({
-      data: performedActions.deleted[PriceRule.name] ?? [],
+    composeAllEvents({
+      eventBuilders,
+      performedActions,
       sharedContext,
     })
 
@@ -1277,12 +1279,16 @@ export default class PricingModuleService
       }
     )
 
-    const { entities } = await this.priceListService_.upsertWithReplace(
-      normalizedData,
-      {
+    const { entities, performedActions } =
+      await this.priceListService_.upsertWithReplace(normalizedData, {
         relations: ["price_list_rules"],
-      }
-    )
+      })
+
+    composeAllEvents({
+      eventBuilders,
+      performedActions,
+      sharedContext,
+    })
 
     return entities
   }
@@ -1326,11 +1332,18 @@ export default class PricingModuleService
       }
     }
 
-    const { entities } = await this.priceService_.upsertWithReplace(
-      pricesToUpsert,
-      { relations: ["price_rules"] },
-      sharedContext
-    )
+    const { entities, performedActions } =
+      await this.priceService_.upsertWithReplace(
+        pricesToUpsert,
+        { relations: ["price_rules"] },
+        sharedContext
+      )
+
+    composeAllEvents({
+      eventBuilders,
+      performedActions,
+      sharedContext,
+    })
 
     return entities
   }
@@ -1388,29 +1401,9 @@ export default class PricingModuleService
         sharedContext
       )
 
-    eventBuilders.createdPrice({
-      data: performedActions.created[Price.name] ?? [],
-      sharedContext,
-    })
-    eventBuilders.updatedPrice({
-      data: performedActions.updated[Price.name] ?? [],
-      sharedContext,
-    })
-    eventBuilders.deletedPrice({
-      data: performedActions.deleted[Price.name] ?? [],
-      sharedContext,
-    })
-
-    eventBuilders.createdPriceRule({
-      data: performedActions.created[PriceRule.name] ?? [],
-      sharedContext,
-    })
-    eventBuilders.updatedPriceRule({
-      data: performedActions.updated[PriceRule.name] ?? [],
-      sharedContext,
-    })
-    eventBuilders.deletedPriceRule({
-      data: performedActions.deleted[PriceRule.name] ?? [],
+    composeAllEvents({
+      eventBuilders,
+      performedActions,
       sharedContext,
     })
 
@@ -1472,11 +1465,18 @@ export default class PricingModuleService
       })
       .filter(Boolean)
 
-    const { entities } = await this.priceListService_.upsertWithReplace(
-      priceListsUpsert,
-      { relations: ["price_list_rules"] },
-      sharedContext
-    )
+    const { entities, performedActions } =
+      await this.priceListService_.upsertWithReplace(
+        priceListsUpsert,
+        { relations: ["price_list_rules"] },
+        sharedContext
+      )
+
+    composeAllEvents({
+      eventBuilders,
+      performedActions,
+      sharedContext,
+    })
 
     return entities
   }
@@ -1539,11 +1539,18 @@ export default class PricingModuleService
       })
       .filter(Boolean)
 
-    const { entities } = await this.priceListService_.upsertWithReplace(
-      priceListsUpsert,
-      { relations: ["price_list_rules"] },
-      sharedContext
-    )
+    const { entities, performedActions } =
+      await this.priceListService_.upsertWithReplace(
+        priceListsUpsert,
+        { relations: ["price_list_rules"] },
+        sharedContext
+      )
+
+    composeAllEvents({
+      eventBuilders,
+      performedActions,
+      sharedContext,
+    })
 
     return entities
   }
@@ -1578,6 +1585,26 @@ export default class PricingModuleService
         populateWhere: { prices: { price_list_id: null } },
       },
       ...config,
+    }
+  }
+}
+
+const composeAllEvents = ({
+  eventBuilders,
+  performedActions,
+  sharedContext,
+}) => {
+  for (const action of Object.keys(performedActions)) {
+    for (const entity of Object.keys(performedActions[action])) {
+      const eventName = action + upperCaseFirst(entity)
+      if (!eventBuilders[eventName]) {
+        continue
+      }
+
+      eventBuilders[eventName]({
+        data: performedActions[action][entity] ?? [],
+        sharedContext,
+      })
     }
   }
 }

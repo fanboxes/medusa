@@ -2,8 +2,8 @@
 
 list=""
 app="www/"
-path="../apps/$1/$2"
-exceptions=("${@:3}")
+path="../apps/$1"
+exceptions=("${@:2}")
 exceptionsCommand=""
 
 for index in ${!exceptions[@]}

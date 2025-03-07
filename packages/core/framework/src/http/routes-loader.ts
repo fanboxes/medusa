@@ -1,7 +1,7 @@
-import { join, parse, sep } from "path"
 import { dynamicImport, readDirRecursive } from "@medusajs/utils"
+import { join, parse, sep } from "path"
 import { logger } from "../logger"
-import { type RouteVerb, HTTP_METHODS, type RouteDescriptor } from "./types"
+import { HTTP_METHODS, type RouteDescriptor, type RouteVerb } from "./types"
 
 /**
  * File name that is used to indicate that the file is a route file

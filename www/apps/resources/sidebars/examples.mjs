@@ -31,6 +31,7 @@ export const examplesSidebar = [
         title: "Server Examples",
         autogenerate_tags: "example+server",
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         children: [
           {
             type: "link",
@@ -44,6 +45,7 @@ export const examplesSidebar = [
         title: "Admin Examples",
         autogenerate_tags: "example+admin",
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         children: [],
       },
       {
@@ -51,6 +53,7 @@ export const examplesSidebar = [
         title: "Storefront Examples",
         autogenerate_tags: "example+storefront",
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         children: [],
       },
     ],

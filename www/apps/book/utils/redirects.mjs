@@ -113,6 +113,16 @@ const redirects = async () => {
       destination: "/learn/fundamentals/module-links/link",
       permanent: true,
     },
+    {
+      source: "/learn/debugging-and-testing",
+      destination: "/learn/debugging-and-testing/testing-tools",
+      permanent: true,
+    },
+    {
+      source: "/learn/more-resources",
+      destination: "/learn/resources/contribution-guidelines/docs",
+      permanent: true,
+    },
   ]
 }
 

@@ -109,14 +109,14 @@ async function main() {
   const documentationTeam = await linearClient.teams({
     filter: {
       name: {
-        eqIgnoreCase: "Documentation",
+        eqIgnoreCase: "DX",
       },
     },
     first: 1,
   })
 
   if (!documentationTeam.nodes.length) {
-    console.log("Please add Documentation team in Linear first then try again")
+    console.log("Please add DX team in Linear first then try again")
     process.exit(1)
   }
 
@@ -138,7 +138,7 @@ async function main() {
 
   if (!freshnessCheckLabel.nodes.length) {
     console.log(
-      "Please add freshness check label in Linear under the documentation team first then try again"
+      "Please add freshness check label in Linear under the DX team first then try again"
     )
     process.exit(1)
   }
@@ -150,6 +150,12 @@ async function main() {
   )
   await scanDirectory(
     path.join(__dirname, "..", "..", "..", "..", "apps", "resources", "app")
+  )
+  await scanDirectory(
+    path.join(__dirname, "..", "..", "..", "..", "apps", "user-guide", "app")
+  )
+  await scanDirectory(
+    path.join(__dirname, "..", "..", "..", "..", "apps", "ui", "src", "content", "docs")
   )
 }
 

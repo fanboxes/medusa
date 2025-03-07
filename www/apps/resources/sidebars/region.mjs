@@ -31,6 +31,7 @@ export const regionSidebar = [
         autogenerate_tags: "server+region",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to use the Region Module in your customizations on the Medusa application server.",
       },
@@ -40,6 +41,7 @@ export const regionSidebar = [
         autogenerate_tags: "storefront+region,-jsSdk",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to integrate the Region Module's features into your storefront.",
       },
@@ -49,6 +51,7 @@ export const regionSidebar = [
         autogenerate_tags: "admin+region,-jsSdk",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to utilize administative features of the Region Module.",
       },
@@ -58,6 +61,7 @@ export const regionSidebar = [
         autogenerate_tags: "userGuide+region",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to utilize and manage Region features in the Medusa Admin dashboard.",
       },
@@ -79,12 +83,14 @@ export const regionSidebar = [
                 title: "Workflows",
                 autogenerate_tags: "workflow+region",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
               {
                 type: "category",
                 title: "Steps",
                 autogenerate_tags: "step+region",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
             ],
           },
@@ -101,6 +107,7 @@ export const regionSidebar = [
                 description:
                   "The following methods or properties are used to send requests to Store API Routes related to the Region Module.",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
               {
                 type: "sub-category",
@@ -109,6 +116,7 @@ export const regionSidebar = [
                 description:
                   "The following methods or properties are used to send requests to Admin API Routes related to the Region Module.",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
             ],
           },

@@ -110,6 +110,7 @@ export const createServer = async (rootDir) => {
         `${url}${queryParams ? "?" + queryParams : ""}`
       )
       headers.Cookie = headers.Cookie || ""
+
       if (opts.adminSession) {
         const token = generateJwtToken(
           {

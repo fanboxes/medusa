@@ -10,6 +10,18 @@ describe("Routes loader", () => {
     expect(loader.getRoutes()).toMatchInlineSnapshot(`
       [
         {
+          "absolutePath": "${BASE_DIR}/admin/fail/route.ts",
+          "handler": [Function],
+          "isRoute": true,
+          "matcher": "/admin/fail",
+          "method": "GET",
+          "optedOutOfAuth": false,
+          "relativePath": "/admin/fail/route.ts",
+          "shouldAppendAdminCors": true,
+          "shouldAppendAuthCors": false,
+          "shouldAppendStoreCors": false,
+        },
+        {
           "absolutePath": "${BASE_DIR}/admin/orders/[id]/route.ts",
           "handler": [Function],
           "isRoute": true,
@@ -189,6 +201,18 @@ describe("Routes loader", () => {
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": false,
         },
+        {
+          "absolutePath": "${BASE_DIR}/store/custom/route.ts",
+          "handler": [Function],
+          "isRoute": true,
+          "matcher": "/store/custom",
+          "method": "GET",
+          "optedOutOfAuth": false,
+          "relativePath": "/store/custom/route.ts",
+          "shouldAppendAdminCors": false,
+          "shouldAppendAuthCors": false,
+          "shouldAppendStoreCors": true,
+        },
       ]
     `)
   })
@@ -205,6 +229,18 @@ describe("Routes loader", () => {
 
     expect(loader.getRoutes()).toMatchInlineSnapshot(`
       [
+        {
+          "absolutePath": "${BASE_DIR}/admin/fail/route.ts",
+          "handler": [Function],
+          "isRoute": true,
+          "matcher": "/admin/fail",
+          "method": "GET",
+          "optedOutOfAuth": false,
+          "relativePath": "/admin/fail/route.ts",
+          "shouldAppendAdminCors": true,
+          "shouldAppendAuthCors": false,
+          "shouldAppendStoreCors": false,
+        },
         {
           "absolutePath": "${BASE_DIR}/admin/orders/[id]/route.ts",
           "handler": [Function],
@@ -384,6 +420,18 @@ describe("Routes loader", () => {
           "shouldAppendAdminCors": false,
           "shouldAppendAuthCors": false,
           "shouldAppendStoreCors": false,
+        },
+        {
+          "absolutePath": "${BASE_DIR}/store/custom/route.ts",
+          "handler": [Function],
+          "isRoute": true,
+          "matcher": "/store/custom",
+          "method": "GET",
+          "optedOutOfAuth": false,
+          "relativePath": "/store/custom/route.ts",
+          "shouldAppendAdminCors": false,
+          "shouldAppendAuthCors": false,
+          "shouldAppendStoreCors": true,
         },
         {
           "absolutePath": "${BASE_DIR_2}/store/[customer_id]/orders/[order_id]/route.ts",

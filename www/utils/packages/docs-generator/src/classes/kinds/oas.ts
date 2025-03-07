@@ -52,6 +52,8 @@ type AuthRequests = {
   exact?: string
   startsWith?: string
   requiresAuthentication: boolean
+  allowedAuthTypes?: string[]
+  httpMethods?: string[]
 }
 
 /**
@@ -98,6 +100,21 @@ class OasKindGenerator extends FunctionKindGenerator {
     {
       exact: "store/orders/[id]/transfer/cancel",
       requiresAuthentication: true,
+    },
+    {
+      exact: "admin/invites/accept",
+      httpMethods: ["post"],
+      requiresAuthentication: true,
+      allowedAuthTypes: ["cookie_auth", "jwt_token"],
+    },
+    {
+      startsWith: "admin/invites",
+      requiresAuthentication: true,
+    },
+    {
+      startsWith: "admin/users",
+      requiresAuthentication: true,
+      allowedAuthTypes: ["cookie_auth", "jwt_token"],
     },
   ]
   readonly RESPONSE_TYPE_NAMES = ["MedusaResponse"]
@@ -275,8 +292,12 @@ class OasKindGenerator extends FunctionKindGenerator {
     const { oasPath, normalized: normalizedOasPath } = this.getOasPath(node)
     const splitOasPath = oasPath.split("/")
     const oasPrefix = this.getOasPrefix(methodName, normalizedOasPath)
-    const { isAdminAuthenticated, isStoreAuthenticated, isAuthenticated } =
-      this.getAuthenticationDetails(node, oasPath)
+    const {
+      isAdminAuthenticated,
+      isStoreAuthenticated,
+      isAuthenticated,
+      allowedAuthTypes,
+    } = this.getAuthenticationDetails(node, oasPath, methodName)
     const tagName = this.getTagName(splitOasPath)
     const { summary, description } =
       this.knowledgeBaseFactory.tryToGetOasMethodSummaryAndDescription({
@@ -370,7 +391,11 @@ class OasKindGenerator extends FunctionKindGenerator {
     }
 
     // add security details if applicable
-    oas.security = this.getSecurity({ isAdminAuthenticated, isAuthenticated })
+    oas.security = this.getSecurity({
+      isAdminAuthenticated,
+      isAuthenticated,
+      auth_types: allowedAuthTypes,
+    })
 
     if (tagName) {
       oas.tags = [tagName]
@@ -484,11 +509,19 @@ class OasKindGenerator extends FunctionKindGenerator {
     }
 
     // check if authentication details (including security) should be updated
-    const { isAdminAuthenticated, isStoreAuthenticated, isAuthenticated } =
-      this.getAuthenticationDetails(node, oasPath)
+    const {
+      isAdminAuthenticated,
+      isStoreAuthenticated,
+      isAuthenticated,
+      allowedAuthTypes,
+    } = this.getAuthenticationDetails(node, oasPath, methodName)
 
     oas["x-authenticated"] = isAuthenticated
-    oas.security = this.getSecurity({ isAdminAuthenticated, isAuthenticated })
+    oas.security = this.getSecurity({
+      isAdminAuthenticated,
+      isAuthenticated,
+      auth_types: allowedAuthTypes,
+    })
 
     let parametersUpdated = false
 
@@ -815,7 +848,8 @@ class OasKindGenerator extends FunctionKindGenerator {
    */
   getAuthenticationDetails(
     node: FunctionNode,
-    oasPath: string
+    oasPath: string,
+    httpMethod: string
   ): {
     /**
      * Whether the OAS operation requires admin authentication.
@@ -829,34 +863,42 @@ class OasKindGenerator extends FunctionKindGenerator {
      * Whether the OAS operation requires authentication in genral.
      */
     isAuthenticated: boolean
+    /**
+     * Override the default security requirements.
+     */
+    allowedAuthTypes?: string[]
   } {
     const isAuthenticationDisabled = node
       .getSourceFile()
       .statements.some((statement) =>
         statement.getText().includes("AUTHENTICATE = false")
       )
-    const hasAuthenticationOverride =
-      this.AUTH_REQUESTS.find((authRequest) => {
-        return (
-          authRequest.exact === oasPath ||
-          (authRequest.startsWith && oasPath.startsWith(authRequest.startsWith))
-        )
-      })?.requiresAuthentication === true
+    const hasAuthenticationOverride = this.AUTH_REQUESTS.find((authRequest) => {
+      const pathMatch =
+        authRequest.exact === oasPath ||
+        (authRequest.startsWith && oasPath.startsWith(authRequest.startsWith))
+      const httpMethodMatch =
+        !authRequest.httpMethods || authRequest.httpMethods.includes(httpMethod)
+      return pathMatch && httpMethodMatch
+    })
+    const isAuthRequired =
+      hasAuthenticationOverride?.requiresAuthentication === true
     const isAdminAuthenticated =
-      (!isAuthenticationDisabled || hasAuthenticationOverride) &&
+      (!isAuthenticationDisabled || isAuthRequired) &&
       oasPath.startsWith("admin")
-    const isStoreAuthenticated = hasAuthenticationOverride
+    const isStoreAuthenticated = isAuthRequired
       ? oasPath.startsWith("store")
       : !isAuthenticationDisabled &&
-        hasAuthenticationOverride &&
+        isAuthRequired &&
         oasPath.startsWith("store")
     const isAuthenticated =
-      isAdminAuthenticated || isStoreAuthenticated || hasAuthenticationOverride
+      isAdminAuthenticated || isStoreAuthenticated || isAuthRequired
 
     return {
       isAdminAuthenticated,
       isStoreAuthenticated,
       isAuthenticated,
+      allowedAuthTypes: hasAuthenticationOverride?.allowedAuthTypes,
     }
   }
 
@@ -903,6 +945,7 @@ class OasKindGenerator extends FunctionKindGenerator {
   getSecurity({
     isAdminAuthenticated,
     isAuthenticated,
+    auth_types,
   }: {
     /**
      * Whether the operation requires admin authentication.
@@ -912,22 +955,35 @@ class OasKindGenerator extends FunctionKindGenerator {
      * Whether the operation requires general authentication.
      */
     isAuthenticated: boolean
+    /**
+     * Override the default security requirements.
+     */
+    auth_types?: string[]
   }): OpenAPIV3.SecurityRequirementObject[] | undefined {
     const security: OpenAPIV3.SecurityRequirementObject[] = []
-    if (isAdminAuthenticated) {
+    const allowed_auth_types =
+      auth_types ||
+      [
+        "cookie_auth",
+        "jwt_token",
+        isAdminAuthenticated ? "api_token" : undefined,
+      ].filter(Boolean)
+    if (isAdminAuthenticated && allowed_auth_types.includes("api_token")) {
       security.push({
         api_token: [],
       })
     }
     if (isAuthenticated) {
-      security.push(
-        {
+      if (allowed_auth_types.includes("cookie_auth")) {
+        security.push({
           cookie_auth: [],
-        },
-        {
+        })
+      }
+      if (allowed_auth_types.includes("jwt_token")) {
+        security.push({
           jwt_token: [],
-        }
-      )
+        })
+      }
     }
 
     return security.length ? security : undefined

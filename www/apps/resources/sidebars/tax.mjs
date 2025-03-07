@@ -46,6 +46,7 @@ export const taxSidebar = [
         autogenerate_tags: "server+tax",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to use the Tax Module in your customizations on the Medusa application server.",
         children: [
@@ -62,6 +63,7 @@ export const taxSidebar = [
         autogenerate_tags: "storefront+tax,-jsSdk",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to integrate the Tax Module's features into your storefront.",
       },
@@ -71,6 +73,7 @@ export const taxSidebar = [
         autogenerate_tags: "admin+tax,-jsSdk",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to utilize administative features of the Tax Module.",
       },
@@ -80,6 +83,7 @@ export const taxSidebar = [
         autogenerate_tags: "userGuide+tax",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to utilize and manage Tax features in the Medusa Admin dashboard.",
       },
@@ -101,12 +105,14 @@ export const taxSidebar = [
                 title: "Workflows",
                 autogenerate_tags: "workflow+tax",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
               {
                 type: "category",
                 title: "Steps",
                 autogenerate_tags: "step+tax",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
             ],
           },
@@ -123,6 +129,7 @@ export const taxSidebar = [
                 description:
                   "The following methods or properties are used to send requests to Store API Routes related to the Tax Module.",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
               {
                 type: "sub-category",
@@ -131,6 +138,7 @@ export const taxSidebar = [
                 description:
                   "The following methods or properties are used to send requests to Admin API Routes related to the Tax Module.",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
             ],
           },

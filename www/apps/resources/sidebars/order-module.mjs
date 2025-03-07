@@ -81,6 +81,7 @@ export const orderSidebar = [
         autogenerate_tags: "server+order",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to use the Order Module in your customizations on the Medusa application server.",
       },
@@ -90,6 +91,7 @@ export const orderSidebar = [
         autogenerate_tags: "storefront+order,-jsSdk",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to integrate the Order Module's features into your storefront.",
       },
@@ -99,6 +101,7 @@ export const orderSidebar = [
         autogenerate_tags: "admin+order,-jsSdk",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to utilize administative features of the Order Module.",
       },
@@ -108,6 +111,7 @@ export const orderSidebar = [
         autogenerate_tags: "userGuide+order",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to utilize and manage Order features in the Medusa Admin dashboard.",
       },
@@ -129,12 +133,14 @@ export const orderSidebar = [
                 title: "Workflows",
                 autogenerate_tags: "workflow+order",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
               {
                 type: "category",
                 title: "Steps",
                 autogenerate_tags: "step+order",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
             ],
           },
@@ -151,6 +157,7 @@ export const orderSidebar = [
                 description:
                   "The following methods or properties are used to send requests to Store API Routes related to the Order Module.",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
               {
                 type: "sub-category",
@@ -159,6 +166,7 @@ export const orderSidebar = [
                 description:
                   "The following methods or properties are used to send requests to Admin API Routes related to the Order Module.",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
             ],
           },

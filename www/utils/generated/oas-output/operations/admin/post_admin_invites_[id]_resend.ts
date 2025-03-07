@@ -3,7 +3,7 @@
  * operationId: PostInvitesIdResend
  * summary: Refresh Invite Token
  * description: Refresh the token of an invite.
- * x-authenticated: false
+ * x-authenticated: true
  * parameters:
  *   - name: id
  *     in: path
@@ -49,6 +49,10 @@
  *   "500":
  *     $ref: "#/components/responses/500_error"
  * x-workflow: refreshInviteTokensWorkflow
+ * security:
+ *   - api_token: []
+ *   - cookie_auth: []
+ *   - jwt_token: []
  * 
 */
 

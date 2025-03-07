@@ -764,14 +764,6 @@ export const filesMap = [
     "pathname": "/commerce-modules/user/workflows"
   },
   {
-    "filePath": "/www/apps/resources/app/contribution-guidelines/admin-translations/page.mdx",
-    "pathname": "/contribution-guidelines/admin-translations"
-  },
-  {
-    "filePath": "/www/apps/resources/app/contribution-guidelines/docs/page.mdx",
-    "pathname": "/contribution-guidelines/docs"
-  },
-  {
     "filePath": "/www/apps/resources/app/create-medusa-app/page.mdx",
     "pathname": "/create-medusa-app"
   },
@@ -1266,10 +1258,6 @@ export const filesMap = [
   {
     "filePath": "/www/apps/resources/app/troubleshooting/workflow-errors/page.mdx",
     "pathname": "/troubleshooting/workflow-errors"
-  },
-  {
-    "filePath": "/www/apps/resources/app/usage/page.mdx",
-    "pathname": "/usage"
   },
   {
     "filePath": "/www/apps/resources/references/api_key/IApiKeyModuleService/methods/api_key.IApiKeyModuleService.authenticate/page.mdx",

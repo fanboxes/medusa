@@ -4,7 +4,7 @@ get:
   description: >-
     Retrieve a list of invites. The invites can be filtered by fields such as
     `id`. The invites can also be sorted or paginated.
-  x-authenticated: false
+  x-authenticated: true
   parameters:
     - name: fields
       in: query
@@ -589,11 +589,15 @@ get:
       $ref: ../components/responses/invalid_request_error.yaml
     '500':
       $ref: ../components/responses/500_error.yaml
+  security:
+    - api_token: []
+    - cookie_auth: []
+    - jwt_token: []
 post:
   operationId: PostInvites
   summary: Create Invite
   description: Create a invite.
-  x-authenticated: false
+  x-authenticated: true
   parameters:
     - name: fields
       in: query
@@ -657,3 +661,7 @@ post:
     '500':
       $ref: ../components/responses/500_error.yaml
   x-workflow: createInvitesWorkflow
+  security:
+    - api_token: []
+    - cookie_auth: []
+    - jwt_token: []

@@ -3,7 +3,7 @@
  * operationId: GetInvitesId
  * summary: Get an Invite
  * description: Retrieve an invite by its ID. You can expand the invite's relations or select the fields that should be returned.
- * x-authenticated: false
+ * x-authenticated: true
  * parameters:
  *   - name: id
  *     in: path
@@ -48,6 +48,10 @@
  *     $ref: "#/components/responses/invalid_request_error"
  *   "500":
  *     $ref: "#/components/responses/500_error"
+ * security:
+ *   - api_token: []
+ *   - cookie_auth: []
+ *   - jwt_token: []
  * 
 */
 
