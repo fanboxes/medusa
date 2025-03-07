@@ -14,8 +14,5 @@ export const config: DocsConfig = {
     title: "Documentation",
     key: "book",
   },
-  breadcrumbOptions: {
-    showCategories: false,
-  },
   logo: `${process.env.NEXT_PUBLIC_BASE_PATH}/images/logo.png`,
 }

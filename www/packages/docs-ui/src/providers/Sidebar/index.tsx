@@ -21,7 +21,7 @@ import {
   InteractiveSidebarItem,
   SidebarItemCategory,
   SidebarItemLinkWithParent,
-  SidebarItemTypes,
+  InteractiveSidebarItemTypes,
 } from "types"
 import { useIsBrowser } from "../BrowserProvider"
 
@@ -71,7 +71,7 @@ export const SidebarContext = createContext<SidebarContextType | null>(null)
 export type ActionOptionsType = {
   section?: SidebarItemSections
   parent?: {
-    type: SidebarItemTypes
+    type: InteractiveSidebarItemTypes
     path: string
     title: string
     changeLoaded?: boolean

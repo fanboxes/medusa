@@ -88,7 +88,7 @@ export class ProductCollection {
    * This method retrieves a paginated list of collections. It sends a request to the 
    * [List Collections](https://docs.medusajs.com/api/admin#collections_getcollections) API route.
    * 
-   * @param query - Filters and pagination configurations.
+   * @param queryParams - Filters and pagination configurations.
    * @param headers - Headers to pass in the request.
    * @returns The paginated list of collections.
    * 

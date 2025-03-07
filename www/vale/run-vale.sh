@@ -2,9 +2,9 @@
 
 list=""
 app="www/"
-path="../apps/$1/$2"
-alertLevel=$3
-exceptions=("${@:4}")
+path="../apps/$1"
+alertLevel=$2
+exceptions=("${@:3}")
 exceptionsCommand=""
 
 for index in ${!exceptions[@]}

@@ -51,6 +51,7 @@ export const promotionSidebar = [
         autogenerate_tags: "server+promotion",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to use the Promotion Module in your customizations on the Medusa application server.",
         children: [
@@ -67,6 +68,7 @@ export const promotionSidebar = [
         autogenerate_tags: "storefront+promotion,-jsSdk",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to integrate the Promotion Module's features into your storefront.",
       },
@@ -76,6 +78,7 @@ export const promotionSidebar = [
         autogenerate_tags: "admin+promotion,-jsSdk",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to utilize administative features of the Promotion Module.",
       },
@@ -85,6 +88,7 @@ export const promotionSidebar = [
         autogenerate_tags: "userGuide+promotion",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to utilize and manage Promotion features in the Medusa Admin dashboard.",
       },
@@ -106,12 +110,14 @@ export const promotionSidebar = [
                 title: "Workflows",
                 autogenerate_tags: "workflow+promotion",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
               {
                 type: "category",
                 title: "Steps",
                 autogenerate_tags: "step+promotion",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
             ],
           },
@@ -128,6 +134,7 @@ export const promotionSidebar = [
                 description:
                   "The following methods or properties are used to send requests to Store API Routes related to the Promotion Module.",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
               {
                 type: "sub-category",
@@ -136,6 +143,7 @@ export const promotionSidebar = [
                 description:
                   "The following methods or properties are used to send requests to Admin API Routes related to the Promotion Module.",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
             ],
           },

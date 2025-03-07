@@ -5,6 +5,7 @@ import { getSidebarItemLink, sidebarAttachHrefCommonOptions } from "./index.js"
 import getCoreFlowsRefSidebarChildren from "./utils/get-core-flows-ref-sidebar-children.js"
 import { parseTags } from "./utils/parse-tags.js"
 import numberSidebarItems from "./utils/number-sidebar-items.js"
+import { sortSidebarItems } from "./utils/sidebar-sorting.js"
 
 export type ItemsToAdd = SidebarItem & {
   sidebar_position?: number
@@ -159,6 +160,11 @@ async function checkItem(item: RawSidebarItem): Promise<RawSidebarItem> {
   } else if (item.children) {
     item.children = await checkItems(item.children)
   }
+
+  item.children = sortSidebarItems({
+    items: item.children as RawSidebarItem[],
+    type: item.sort_sidebar,
+  })
 
   return item
 }

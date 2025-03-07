@@ -66,6 +66,7 @@ export const paymentSidebar = [
         autogenerate_tags: "server+payment",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to use the Payment Module in your customizations on the Medusa application server.",
         children: [
@@ -87,6 +88,7 @@ export const paymentSidebar = [
         autogenerate_tags: "storefront+payment,-jsSdk",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to integrate the Payment Module's features into your storefront.",
       },
@@ -96,6 +98,7 @@ export const paymentSidebar = [
         autogenerate_tags: "admin+payment,-jsSdk",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to utilize administative features of the Payment Module.",
       },
@@ -105,6 +108,7 @@ export const paymentSidebar = [
         autogenerate_tags: "userGuide+payment",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to utilize and manage Payment features in the Medusa Admin dashboard.",
       },
@@ -138,12 +142,14 @@ export const paymentSidebar = [
                 title: "Workflows",
                 autogenerate_tags: "workflow+payment",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
               {
                 type: "category",
                 title: "Steps",
                 autogenerate_tags: "step+payment",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
             ],
           },
@@ -160,6 +166,7 @@ export const paymentSidebar = [
                 description:
                   "The following methods or properties are used to send requests to Store API Routes related to the Payment Module.",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
               {
                 type: "sub-category",
@@ -168,6 +175,7 @@ export const paymentSidebar = [
                 description:
                   "The following methods or properties are used to send requests to Admin API Routes related to the Payment Module.",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
             ],
           },

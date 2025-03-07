@@ -133,6 +133,16 @@ const nextConfig = {
         destination: "/recipes/erp",
         permanent: true,
       },
+      {
+        source: "/contribution-guidelines/:path",
+        destination: `${process.env.NEXT_PUBLIC_BASE_URL}/learn/resources/contribution-guidelines/:path`,
+        permanent: true,
+      },
+      {
+        source: "/usage",
+        destination: `${process.env.NEXT_PUBLIC_BASE_URL}/learn/resources/usage`,
+        permanent: true,
+      },
     ]
   },
   outputFileTracingExcludes: {

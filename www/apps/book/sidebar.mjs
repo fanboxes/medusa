@@ -3,10 +3,14 @@ import { sidebarAttachHrefCommonOptions } from "./utils/sidebar-attach-common-op
 /** @type {import('@/types').SidebarItem[]} */
 export const sidebar = sidebarAttachHrefCommonOptions([
   {
-    type: "link",
-    path: "/learn",
-    title: "Introduction",
+    type: "category",
+    title: "Get Started",
     children: [
+      {
+        type: "link",
+        path: "/learn",
+        title: "Introduction",
+      },
       {
         type: "link",
         path: "/learn/installation",
@@ -21,7 +25,7 @@ export const sidebar = sidebarAttachHrefCommonOptions([
   },
   {
     type: "category",
-    title: "Customize",
+    title: "Customization Tutorial",
     children: [
       {
         type: "link",
@@ -120,7 +124,7 @@ export const sidebar = sidebarAttachHrefCommonOptions([
   },
   {
     type: "category",
-    title: "Fundamentals",
+    title: "Framework",
     children: [
       {
         type: "link",
@@ -448,43 +452,6 @@ export const sidebar = sidebarAttachHrefCommonOptions([
       },
       {
         type: "link",
-        path: "/learn/fundamentals/admin",
-        title: "Admin Development",
-        children: [
-          {
-            type: "link",
-            path: "/learn/fundamentals/admin/widgets",
-            title: "Admin Widgets",
-          },
-          {
-            type: "link",
-            path: "/learn/fundamentals/admin/ui-routes",
-            title: "Admin UI Routes",
-          },
-          {
-            type: "link",
-            path: "/learn/fundamentals/admin/environment-variables",
-            title: "Environment Variables",
-          },
-          {
-            type: "link",
-            path: "/learn/fundamentals/admin/routing",
-            title: "Routing Customizations",
-          },
-          {
-            type: "link",
-            path: "/learn/fundamentals/admin/constraints",
-            title: "Constraints",
-          },
-          {
-            type: "link",
-            path: "/learn/fundamentals/admin/tips",
-            title: "Tips",
-          },
-        ],
-      },
-      {
-        type: "link",
         path: "/learn/fundamentals/plugins",
         title: "Plugins",
         children: [
@@ -507,10 +474,46 @@ export const sidebar = sidebarAttachHrefCommonOptions([
           },
         ],
       },
+    ],
+  },
+  {
+    type: "category",
+    title: "Admin Development",
+    children: [
       {
         type: "link",
+        path: "/learn/fundamentals/admin",
+        title: "Overview",
+      },
+      {
+        type: "link",
+        path: "/learn/fundamentals/admin/widgets",
+        title: "Admin Widgets",
+      },
+      {
+        type: "link",
+        path: "/learn/fundamentals/admin/ui-routes",
+        title: "Admin UI Routes",
+      },
+      {
+        type: "link",
+        path: "/learn/fundamentals/admin/environment-variables",
         title: "Environment Variables",
-        path: "/learn/fundamentals/environment-variables",
+      },
+      {
+        type: "link",
+        path: "/learn/fundamentals/admin/routing",
+        title: "Routing Customizations",
+      },
+      {
+        type: "link",
+        path: "/learn/fundamentals/admin/constraints",
+        title: "Constraints",
+      },
+      {
+        type: "link",
+        path: "/learn/fundamentals/admin/tips",
+        title: "Tips",
       },
     ],
   },
@@ -522,8 +525,13 @@ export const sidebar = sidebarAttachHrefCommonOptions([
   },
   {
     type: "category",
-    title: "Conventions",
+    title: "Configurations",
     children: [
+      {
+        type: "link",
+        title: "Environment Variables",
+        path: "/learn/fundamentals/environment-variables",
+      },
       {
         type: "link",
         title: "Type Aliases",
@@ -532,10 +540,8 @@ export const sidebar = sidebarAttachHrefCommonOptions([
     ],
   },
   {
-    type: "link",
-    path: "/learn/debugging-and-testing",
-    title: "Debugging and Testing",
-    chapterTitle: "Debugging & Testing",
+    type: "category",
+    title: "Debugging & Testing",
     children: [
       {
         type: "link",
@@ -602,14 +608,46 @@ export const sidebar = sidebarAttachHrefCommonOptions([
     ],
   },
   {
-    type: "link",
-    path: "/learn/update",
-    title: "Updating Medusa",
-    chapterTitle: "Updates",
+    type: "category",
+    title: "Upgrade",
+    children: [
+      {
+        type: "link",
+        path: "/learn/update",
+        title: "Update Medusa",
+      },
+      {
+        type: "external",
+        path: "https://github.com/medusajs/medusa/releases",
+        title: "Release Notes",
+      },
+    ],
   },
   {
-    type: "link",
-    path: "/learn/more-resources",
-    title: "More Resources",
+    type: "category",
+    title: "Resources",
+    children: [
+      {
+        type: "sub-category",
+        title: "Contribution Guidelines",
+        children: [
+          {
+            type: "link",
+            path: "/resources/contribution-guidelines/docs",
+            title: "Docs",
+          },
+          {
+            type: "link",
+            path: "/resources//contribution-guidelines/admin-translations",
+            title: "Admin Translations",
+          },
+        ],
+      },
+      {
+        type: "link",
+        path: "/resources/usage",
+        title: "Usage",
+      },
+    ],
   },
 ])

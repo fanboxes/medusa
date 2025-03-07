@@ -31,6 +31,7 @@ export const storeSidebar = [
         autogenerate_tags: "server+store",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to use the Store Module in your customizations on the Medusa application server.",
       },
@@ -40,6 +41,7 @@ export const storeSidebar = [
         autogenerate_tags: "storefront+store,-jsSdk",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to integrate the Store Module's features into your storefront.",
       },
@@ -49,6 +51,7 @@ export const storeSidebar = [
         autogenerate_tags: "admin+store,-jsSdk",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to utilize administative features of the Store Module.",
       },
@@ -58,6 +61,7 @@ export const storeSidebar = [
         autogenerate_tags: "userGuide+store",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to utilize and manage Store features in the Medusa Admin dashboard.",
       },
@@ -79,12 +83,14 @@ export const storeSidebar = [
                 title: "Workflows",
                 autogenerate_tags: "workflow+store",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
               {
                 type: "category",
                 title: "Steps",
                 autogenerate_tags: "step+store",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
             ],
           },
@@ -101,6 +107,7 @@ export const storeSidebar = [
                 description:
                   "The following methods or properties are used to send requests to Store API Routes related to the Store Module.",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
               {
                 type: "sub-category",
@@ -109,6 +116,7 @@ export const storeSidebar = [
                 description:
                   "The following methods or properties are used to send requests to Admin API Routes related to the Store Module.",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
             ],
           },

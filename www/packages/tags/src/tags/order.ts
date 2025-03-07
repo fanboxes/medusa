@@ -540,6 +540,10 @@ export const order = [
     "path": "https://docs.medusajs.com/resources/references/js-sdk/admin/claim"
   },
   {
+    "title": "draftOrder",
+    "path": "https://docs.medusajs.com/resources/references/js-sdk/admin/draftOrder"
+  },
+  {
     "title": "exchange",
     "path": "https://docs.medusajs.com/resources/references/js-sdk/admin/exchange"
   },

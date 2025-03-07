@@ -3,7 +3,7 @@
  * operationId: GetUsers
  * summary: List Users
  * description: Retrieve a list of users. The users can be filtered by fields such as `id`. The users can also be sorted or paginated.
- * x-authenticated: false
+ * x-authenticated: true
  * parameters:
  *   - name: fields
  *     in: query
@@ -474,6 +474,9 @@
  *     $ref: "#/components/responses/invalid_request_error"
  *   "500":
  *     $ref: "#/components/responses/500_error"
+ * security:
+ *   - cookie_auth: []
+ *   - jwt_token: []
  * 
 */
 

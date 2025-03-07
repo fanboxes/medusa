@@ -147,11 +147,15 @@ cd www/vale
 
 ```bash
 # to lint content for the main documentation
-./run-vale.sh docs content error references
+./run-vale.sh book/app/learn error resources
+# to lint content for the resources documentation
+./run-vale.sh resources/app error
 # to lint content for the API reference
-./run-vale.sh api-reference app/_mdx error
+./run-vale.sh api-reference/markdown error
 # to lint content for the Medusa UI documentation
-./run-vale.sh ui src/content/docs error
+./run-vale.sh ui/src/content/docs error
+# to lint content for the user guide
+./run-vale.sh user-guide/app error
 ```
 
 {/* TODO need to enable MDX v1 comments first. */}

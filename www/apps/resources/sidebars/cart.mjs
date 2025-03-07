@@ -46,6 +46,7 @@ export const cartSidebar = [
         autogenerate_tags: "server+cart",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to use the Cart Module in your customizations on the Medusa application server.",
         children: [
@@ -62,6 +63,7 @@ export const cartSidebar = [
         autogenerate_tags: "storefront+cart,-jsSdk",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to integrate the Cart Module's features into your storefront.",
       },
@@ -71,6 +73,7 @@ export const cartSidebar = [
         autogenerate_tags: "admin+cart,-jsSdk",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to utilize administative features of the Cart Module.",
       },
@@ -80,6 +83,7 @@ export const cartSidebar = [
         autogenerate_tags: "userGuide+cart",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to utilize and manage Cart features in the Medusa Admin dashboard.",
       },
@@ -101,12 +105,14 @@ export const cartSidebar = [
                 title: "Workflows",
                 autogenerate_tags: "workflow+cart",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
               {
                 type: "category",
                 title: "Steps",
                 autogenerate_tags: "step+cart",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
             ],
           },
@@ -123,6 +129,7 @@ export const cartSidebar = [
                 description:
                   "The following methods or properties are used to send requests to Store API Routes related to the Cart Module.",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
               {
                 type: "sub-category",
@@ -131,6 +138,7 @@ export const cartSidebar = [
                 description:
                   "The following methods or properties are used to send requests to Admin API Routes related to the Cart Module.",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
             ],
           },

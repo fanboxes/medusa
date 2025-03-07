@@ -104,7 +104,9 @@ export type CreateWorkflowComposerContext = {
     fn: StepFunctionResult
   ) => WorkflowData<TOutput>
   hookBinder: (name: string, fn: () => HookHandler) => void
-  parallelizeBinder: <TOutput extends WorkflowData[] = WorkflowData[]>(
+  parallelizeBinder: <
+    TOutput extends (WorkflowData | undefined)[] = WorkflowData[]
+  >(
     fn: (this: CreateWorkflowComposerContext) => TOutput
   ) => TOutput
 }

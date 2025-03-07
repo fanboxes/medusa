@@ -17,10 +17,12 @@ export default function numberSidebarItems(
     }
 
     // append current number to the item's title
-    item.chapterTitle = `${numbering.join(".")}. ${
+    const currentNumbering = `${numbering.join(".")}.`
+    item.chapterTitle = `${currentNumbering} ${
       item.chapterTitle?.trim() || item.title?.trim()
     }`
     item.title = item.title.trim()
+    item.number = currentNumbering
 
     if (isTopItems) {
       // Add chapter category

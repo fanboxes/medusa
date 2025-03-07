@@ -44,12 +44,20 @@ export const workflow = [
     "path": "https://docs.medusajs.com/resources/references/medusa-workflows/confirmVariantInventoryWorkflow"
   },
   {
+    "title": "createCartCreditLinesWorkflow",
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createCartCreditLinesWorkflow"
+  },
+  {
     "title": "createCartWorkflow",
     "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createCartWorkflow"
   },
   {
     "title": "createPaymentCollectionForCartWorkflow",
     "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createPaymentCollectionForCartWorkflow"
+  },
+  {
+    "title": "deleteCartCreditLinesWorkflow",
+    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteCartCreditLinesWorkflow"
   },
   {
     "title": "listShippingOptionsForCartWithPricingWorkflow",

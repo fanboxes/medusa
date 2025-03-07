@@ -104,25 +104,25 @@ export class ApiLoader {
     if ("isRoute" in route) {
       logger.debug(`registering route ${route.method} ${route.matcher}`)
       const handler = ApiLoader.traceRoute
-        ? ApiLoader.traceRoute(wrapHandler(route.handler), {
+        ? ApiLoader.traceRoute(route.handler, {
             route: route.matcher,
             method: route.method,
           })
-        : wrapHandler(route.handler)
+        : route.handler
 
-      this.#app[route.method.toLowerCase()](route.matcher, handler)
+      this.#app[route.method.toLowerCase()](route.matcher, wrapHandler(handler))
       return
     }
 
     if (!route.methods) {
       logger.debug(`registering global middleware for ${route.matcher}`)
       const handler = ApiLoader.traceMiddleware
-        ? (ApiLoader.traceMiddleware(wrapHandler(route.handler), {
+        ? (ApiLoader.traceMiddleware(route.handler, {
             route: route.matcher,
           }) as RequestHandler)
-        : (wrapHandler(route.handler) as RequestHandler)
+        : (route.handler as RequestHandler)
 
-      this.#app.use(route.matcher, handler)
+      this.#app.use(route.matcher, wrapHandler(handler))
       return
     }
 
@@ -173,6 +173,7 @@ export class ApiLoader {
     return {
       origin: parseCorsOrigins(origin),
       credentials: true,
+      preflightContinue: false,
     }
   }
 
@@ -194,11 +195,13 @@ export class ApiLoader {
       res,
       next
     ) {
+      let method: string = req.method
+      if (req.method === "OPTIONS") {
+        method = req.headers["access-control-request-method"] ?? req.method
+      }
+
       const path = `${namespace}${req.path}`
-      const matchingRoute = routesFinder.find(
-        path,
-        req.method as MiddlewareVerb
-      )
+      const matchingRoute = routesFinder.find(path, method as MiddlewareVerb)
       if (matchingRoute && matchingRoute[toggleKey] === true) {
         return corsFn(req, res, next)
       }
@@ -213,7 +216,7 @@ export class ApiLoader {
         ? (ApiLoader.traceMiddleware(corsMiddleware, {
             route: namespace,
           }) as RequestHandler)
-        : cors(corsOptions)
+        : corsMiddleware
     )
   }
 
@@ -334,16 +337,17 @@ export class ApiLoader {
       "api-key",
     ])
 
-    /**
-     * Publishable key check, CORS and auth setup for store routes.
-     */
-    this.#applyStorePublishableKeyMiddleware("/store")
     this.#applyCorsMiddleware(
       routesFinder,
       "/store",
       "shouldAppendStoreCors",
       this.#createCorsOptions(configManager.config.projectConfig.http.storeCors)
     )
+    /**
+     * Publishable key check, CORS and auth setup for store routes.
+     */
+    this.#applyStorePublishableKeyMiddleware("/store")
+
     this.#applyAuthMiddleware(
       routesFinder,
       "/store",

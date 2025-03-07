@@ -4,7 +4,7 @@ get:
   description: >-
     Retrieve a user by its ID. You can expand the user's relations or select the
     fields that should be returned.
-  x-authenticated: false
+  x-authenticated: true
   parameters:
     - name: id
       in: path
@@ -56,11 +56,14 @@ get:
       $ref: ../components/responses/invalid_request_error.yaml
     '500':
       $ref: ../components/responses/500_error.yaml
+  security:
+    - cookie_auth: []
+    - jwt_token: []
 post:
   operationId: PostUsersId
   summary: Update a User
   description: Update a user's details.
-  x-authenticated: false
+  x-authenticated: true
   parameters:
     - name: id
       in: path
@@ -118,11 +121,14 @@ post:
     '500':
       $ref: ../components/responses/500_error.yaml
   x-workflow: updateUsersWorkflow
+  security:
+    - cookie_auth: []
+    - jwt_token: []
 delete:
   operationId: DeleteUsersId
   summary: Delete a User
   description: Delete a user.
-  x-authenticated: false
+  x-authenticated: true
   parameters:
     - name: id
       in: path
@@ -157,3 +163,6 @@ delete:
     '500':
       $ref: ../components/responses/500_error.yaml
   x-workflow: removeUserAccountWorkflow
+  security:
+    - cookie_auth: []
+    - jwt_token: []

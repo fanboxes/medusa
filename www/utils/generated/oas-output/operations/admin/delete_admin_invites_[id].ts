@@ -3,7 +3,7 @@
  * operationId: DeleteInvitesId
  * summary: Delete Invite
  * description: Delete an invite.
- * x-authenticated: false
+ * x-authenticated: true
  * parameters:
  *   - name: id
  *     in: path
@@ -56,6 +56,10 @@
  *   "500":
  *     $ref: "#/components/responses/500_error"
  * x-workflow: deleteInvitesWorkflow
+ * security:
+ *   - api_token: []
+ *   - cookie_auth: []
+ *   - jwt_token: []
  * 
 */
 

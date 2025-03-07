@@ -51,6 +51,7 @@ export const authSidebar = [
         autogenerate_tags: "server+auth",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to use the Auth Module in your customizations on the Medusa application server.",
         children: [
@@ -77,6 +78,7 @@ export const authSidebar = [
         autogenerate_tags: "storefront+auth,-jsSdk",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to integrate the Auth Module's features into your storefront.",
       },
@@ -86,6 +88,7 @@ export const authSidebar = [
         autogenerate_tags: "admin+auth,-jsSdk",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to utilize administative features of the Auth Module.",
       },
@@ -95,6 +98,7 @@ export const authSidebar = [
         autogenerate_tags: "userGuide+auth",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to utilize and manage Auth features in the Medusa Admin dashboard.",
       },
@@ -138,12 +142,14 @@ export const authSidebar = [
                 title: "Workflows",
                 autogenerate_tags: "workflow+auth",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
               {
                 type: "category",
                 title: "Steps",
                 autogenerate_tags: "step+auth",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
             ],
           },
@@ -154,6 +160,7 @@ export const authSidebar = [
             hideChildren: true,
             autogenerate_tags: "jsSdk+auth",
             autogenerate_as_ref: true,
+            sort_sidebar: "alphabetize",
           },
           {
             type: "link",

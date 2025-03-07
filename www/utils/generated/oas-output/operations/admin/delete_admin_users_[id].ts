@@ -3,7 +3,7 @@
  * operationId: DeleteUsersId
  * summary: Delete a User
  * description: Delete a user.
- * x-authenticated: false
+ * x-authenticated: true
  * parameters:
  *   - name: id
  *     in: path
@@ -37,6 +37,9 @@
  *   "500":
  *     $ref: "#/components/responses/500_error"
  * x-workflow: removeUserAccountWorkflow
+ * security:
+ *   - cookie_auth: []
+ *   - jwt_token: []
  * 
 */
 

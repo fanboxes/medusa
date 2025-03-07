@@ -3,7 +3,7 @@
  * operationId: PostInvites
  * summary: Create Invite
  * description: Create a invite.
- * x-authenticated: false
+ * x-authenticated: true
  * parameters:
  *   - name: fields
  *     in: query
@@ -65,6 +65,10 @@
  *   "500":
  *     $ref: "#/components/responses/500_error"
  * x-workflow: createInvitesWorkflow
+ * security:
+ *   - api_token: []
+ *   - cookie_auth: []
+ *   - jwt_token: []
  * 
 */
 

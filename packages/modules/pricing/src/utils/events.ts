@@ -36,11 +36,11 @@ export const eventBuilders = {
     object: "price_list_rule",
     eventName: PricingEvents.PRICE_LIST_RULE_CREATED,
   }),
-  attachedPriceListRule: moduleEventBuilderFactory({
+  updatedPriceSet: moduleEventBuilderFactory({
     source: Modules.PRICING,
-    action: CommonEvents.ATTACHED,
-    object: "price_list_rule",
-    eventName: PricingEvents.PRICE_LIST_RULE_ATTACHED,
+    action: CommonEvents.UPDATED,
+    object: "price_set",
+    eventName: PricingEvents.PRICE_SET_UPDATED,
   }),
   updatedPrice: moduleEventBuilderFactory({
     source: Modules.PRICING,
@@ -48,17 +48,47 @@ export const eventBuilders = {
     object: "price",
     eventName: PricingEvents.PRICE_UPDATED,
   }),
+  updatedPriceList: moduleEventBuilderFactory({
+    source: Modules.PRICING,
+    action: CommonEvents.UPDATED,
+    object: "price_list",
+    eventName: PricingEvents.PRICE_LIST_UPDATED,
+  }),
+  updatedPriceListRule: moduleEventBuilderFactory({
+    source: Modules.PRICING,
+    action: CommonEvents.UPDATED,
+    object: "price_list_rule",
+    eventName: PricingEvents.PRICE_LIST_RULE_UPDATED,
+  }),
   updatedPriceRule: moduleEventBuilderFactory({
     source: Modules.PRICING,
     action: CommonEvents.UPDATED,
     object: "price_rule",
     eventName: PricingEvents.PRICE_RULE_UPDATED,
   }),
+  deletedPriceSet: moduleEventBuilderFactory({
+    source: Modules.PRICING,
+    action: CommonEvents.DELETED,
+    object: "price_set",
+    eventName: PricingEvents.PRICE_SET_DELETED,
+  }),
   deletedPrice: moduleEventBuilderFactory({
     source: Modules.PRICING,
     action: CommonEvents.DELETED,
     object: "price",
     eventName: PricingEvents.PRICE_DELETED,
+  }),
+  deletedPriceList: moduleEventBuilderFactory({
+    source: Modules.PRICING,
+    action: CommonEvents.DELETED,
+    object: "price_list",
+    eventName: PricingEvents.PRICE_LIST_DELETED,
+  }),
+  deletedPriceListRule: moduleEventBuilderFactory({
+    source: Modules.PRICING,
+    action: CommonEvents.DELETED,
+    object: "price_list_rule",
+    eventName: PricingEvents.PRICE_LIST_RULE_DELETED,
   }),
   deletedPriceRule: moduleEventBuilderFactory({
     source: Modules.PRICING,

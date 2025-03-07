@@ -4,7 +4,7 @@ get:
   description: >-
     Retrieve a list of users. The users can be filtered by fields such as `id`.
     The users can also be sorted or paginated.
-  x-authenticated: false
+  x-authenticated: true
   parameters:
     - name: fields
       in: query
@@ -547,3 +547,6 @@ get:
       $ref: ../components/responses/invalid_request_error.yaml
     '500':
       $ref: ../components/responses/500_error.yaml
+  security:
+    - cookie_auth: []
+    - jwt_token: []

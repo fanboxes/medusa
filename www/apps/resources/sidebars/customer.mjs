@@ -36,6 +36,7 @@ export const customerSidebar = [
         autogenerate_tags: "server+customer",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to use the Customer Module in your customizations on the Medusa application server.",
         children: [
@@ -52,6 +53,7 @@ export const customerSidebar = [
         autogenerate_tags: "storefront+customer,-jsSdk",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to integrate the Customer Module's features into your storefront.",
       },
@@ -61,6 +63,7 @@ export const customerSidebar = [
         autogenerate_tags: "admin+customer,-jsSdk",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to utilize administative features of the Customer Module.",
       },
@@ -70,6 +73,7 @@ export const customerSidebar = [
         autogenerate_tags: "userGuide+customer",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to utilize and manage Customer features in the Medusa Admin dashboard.",
       },
@@ -91,12 +95,14 @@ export const customerSidebar = [
                 title: "Workflows",
                 autogenerate_tags: "workflow+customer",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
               {
                 type: "category",
                 title: "Steps",
                 autogenerate_tags: "step+customer",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
             ],
           },
@@ -113,6 +119,7 @@ export const customerSidebar = [
                 description:
                   "The following methods or properties are used to send requests to Store API Routes related to the Customer Module.",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
               {
                 type: "sub-category",
@@ -121,6 +128,7 @@ export const customerSidebar = [
                 description:
                   "The following methods or properties are used to send requests to Admin API Routes related to the Customer Module.",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
             ],
           },

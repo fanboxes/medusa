@@ -3,7 +3,7 @@
  * operationId: PostUsersId
  * summary: Update a User
  * description: Update a user's details.
- * x-authenticated: false
+ * x-authenticated: true
  * parameters:
  *   - name: id
  *     in: path
@@ -61,6 +61,9 @@
  *   "500":
  *     $ref: "#/components/responses/500_error"
  * x-workflow: updateUsersWorkflow
+ * security:
+ *   - cookie_auth: []
+ *   - jwt_token: []
  * 
 */
 

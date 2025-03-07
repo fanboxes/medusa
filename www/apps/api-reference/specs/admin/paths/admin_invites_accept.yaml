@@ -8,7 +8,7 @@ post:
     header is retrieved from the `/auth/user/emailpass/register` API route (or a
     provider other than `emailpass`). The user can then authenticate using the
     `/auth/user/emailpass` API route.
-  x-authenticated: false
+  x-authenticated: true
   requestBody:
     content:
       application/json:
@@ -72,3 +72,6 @@ post:
     '500':
       $ref: ../components/responses/500_error.yaml
   x-workflow: acceptInviteWorkflow
+  security:
+    - cookie_auth: []
+    - jwt_token: []

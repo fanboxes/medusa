@@ -3,7 +3,7 @@
  * operationId: GetInvites
  * summary: List Invites
  * description: Retrieve a list of invites. The invites can be filtered by fields such as `id`. The invites can also be sorted or paginated.
- * x-authenticated: false
+ * x-authenticated: true
  * parameters:
  *   - name: fields
  *     in: query
@@ -512,6 +512,10 @@
  *     $ref: "#/components/responses/invalid_request_error"
  *   "500":
  *     $ref: "#/components/responses/500_error"
+ * security:
+ *   - api_token: []
+ *   - cookie_auth: []
+ *   - jwt_token: []
  * 
 */
 

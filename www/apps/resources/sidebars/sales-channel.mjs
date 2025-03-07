@@ -38,6 +38,7 @@ export const salesChannelSidebar = [
         autogenerate_tags: "server+salesChannel",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to use the Sales Channel Module in your customizations on the Medusa application server.",
       },
@@ -47,6 +48,7 @@ export const salesChannelSidebar = [
         autogenerate_tags: "storefront+salesChannel,-jsSdk",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to integrate the Sales Channel Module's features into your storefront.",
       },
@@ -56,6 +58,7 @@ export const salesChannelSidebar = [
         autogenerate_tags: "admin+salesChannel,-jsSdk",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to utilize administative features of the Sales Channel Module.",
       },
@@ -65,6 +68,7 @@ export const salesChannelSidebar = [
         autogenerate_tags: "userGuide+salesChannel",
         initialOpen: false,
         autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         description:
           "Learn how to utilize and manage Sales Channel features in the Medusa Admin dashboard.",
       },
@@ -86,12 +90,14 @@ export const salesChannelSidebar = [
                 title: "Workflows",
                 autogenerate_tags: "workflow+salesChannel",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
               {
                 type: "category",
                 title: "Steps",
                 autogenerate_tags: "step+salesChannel",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
             ],
           },
@@ -108,6 +114,7 @@ export const salesChannelSidebar = [
                 description:
                   "The following methods or properties are used to send requests to Store API Routes related to the Sales Channel Module.",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
               {
                 type: "sub-category",
@@ -116,6 +123,7 @@ export const salesChannelSidebar = [
                 description:
                   "The following methods or properties are used to send requests to Admin API Routes related to the Sales Channel Module.",
                 autogenerate_as_ref: true,
+                sort_sidebar: "alphabetize",
               },
             ],
           },

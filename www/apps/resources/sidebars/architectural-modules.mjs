@@ -121,11 +121,6 @@ export const architecturalModulesSidebar = [
         children: [
           {
             type: "link",
-            path: "/architectural-modules/notification/send-notification",
-            title: "Send Notification",
-          },
-          {
-            type: "link",
             path: "/references/notification-provider-module",
             title: "Create Notification Provider",
           },
@@ -133,6 +128,11 @@ export const architecturalModulesSidebar = [
             type: "link",
             path: "/integrations/guides/resend",
             title: "Integrate Resend",
+          },
+          {
+            type: "link",
+            path: "/architectural-modules/notification/send-notification",
+            title: "Send Notification",
           },
         ],
       },

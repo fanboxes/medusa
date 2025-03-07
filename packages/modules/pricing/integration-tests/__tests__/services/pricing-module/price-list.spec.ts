@@ -825,6 +825,32 @@ moduleIntegrationTestRunner<IPricingModuleService>({
             },
           ])
 
+          const events = eventBusEmitSpy.mock.calls[2][0]
+          expect(events).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({
+                name: "pricing.price-rule.created",
+              }),
+              expect.objectContaining({
+                name: "pricing.price-rule.created",
+              }),
+              expect.objectContaining({
+                name: "pricing.price.updated",
+                metadata: {
+                  source: "pricing",
+                  object: "price",
+                  action: "updated",
+                },
+                data: {
+                  id: "test-price-id",
+                },
+              }),
+              expect.objectContaining({
+                name: "pricing.price-rule.deleted",
+              }),
+            ])
+          )
+
           const [priceList] = await service.listPriceLists(
             { id: ["price-list-1"] },
             {

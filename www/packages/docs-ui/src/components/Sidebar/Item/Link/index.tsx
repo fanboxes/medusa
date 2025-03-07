@@ -119,6 +119,8 @@ export const SidebarItemLink = ({
             "flex justify-between items-center gap-[6px]",
             className
           )}
+          target={item.type === "external" ? "_blank" : undefined}
+          rel={item.type === "external" ? "noopener noreferrer" : undefined}
           {...item.linkProps}
         >
           <span

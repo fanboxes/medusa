@@ -19,21 +19,21 @@ import { OrchestrationUtils } from "@medusajs/utils"
  *   createPricesStep,
  *   attachProductToSalesChannelStep
  * } from "./steps"
- * 
+ *
  * interface WorkflowInput {
  *   title: string
  * }
- * 
+ *
  * const myWorkflow = createWorkflow(
  *   "my-workflow",
  *   (input: WorkflowInput) => {
  *    const product = createProductStep(input)
- * 
+ *
  *    const [prices, productSalesChannel] = parallelize(
  *      createPricesStep(product),
  *      attachProductToSalesChannelStep(product)
  *    )
- * 
+ *
  *    return new WorkflowResponse({
  *     prices,
  *     productSalesChannel
@@ -41,7 +41,7 @@ import { OrchestrationUtils } from "@medusajs/utils"
  *  }
  * )
  */
-export function parallelize<TResult extends WorkflowData[]>(
+export function parallelize<TResult extends (WorkflowData | undefined)[]>(
   ...steps: TResult
 ): TResult {
   if (!global[OrchestrationUtils.SymbolMedusaWorkflowComposerContext]) {
@@ -64,7 +64,7 @@ export function parallelize<TResult extends WorkflowData[]>(
     const stepOntoMerge = steps.shift()!
     this.flow.mergeActions(
       stepOntoMerge.__step__,
-      ...steps.map((step) => step.__step__)
+      ...steps.map((step) => step!.__step__)
     )
 
     return resultSteps as unknown as TResult

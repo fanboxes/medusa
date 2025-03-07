@@ -3,7 +3,7 @@
  * operationId: GetUsersMe
  * summary: Get Logged-In User
  * description: Retrieve the logged-in user's details.
- * x-authenticated: false
+ * x-authenticated: true
  * parameters:
  *   - name: fields
  *     in: query
@@ -42,6 +42,9 @@
  *     $ref: "#/components/responses/invalid_request_error"
  *   "500":
  *     $ref: "#/components/responses/500_error"
+ * security:
+ *   - cookie_auth: []
+ *   - jwt_token: []
  * 
 */
 

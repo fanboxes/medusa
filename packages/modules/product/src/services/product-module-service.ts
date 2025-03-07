@@ -1558,18 +1558,16 @@ export default class ProductModuleService
     data: ProductTypes.CreateProductDTO[],
     @MedusaContext() sharedContext: Context = {}
   ): Promise<InferEntityType<typeof Product>[]> {
-    const normalizedInput = await promiseAll(
-      data.map(async (d) => {
-        const normalized = await this.normalizeCreateProductInput(
-          d,
-          sharedContext
-        )
-        this.validateProductCreatePayload(normalized)
-        return normalized
-      })
+    const normalizedProducts = await this.normalizeCreateProductInput(
+      data,
+      sharedContext
     )
 
-    const tagIds = normalizedInput
+    for (const product of normalizedProducts) {
+      this.validateProductCreatePayload(product)
+    }
+
+    const tagIds = normalizedProducts
       .flatMap((d) => (d as any).tags ?? [])
       .map((t) => t.id)
     let existingTags: InferEntityType<typeof ProductTag>[] = []
@@ -1586,7 +1584,7 @@ export default class ProductModuleService
 
     const existingTagsMap = new Map(existingTags.map((tag) => [tag.id, tag]))
 
-    const productsToCreate = normalizedInput.map((product) => {
+    const productsToCreate = normalizedProducts.map((product) => {
       const productId = generateEntityId(product.id, "prod")
       product.id = productId
 
@@ -1652,20 +1650,18 @@ export default class ProductModuleService
     data: UpdateProductInput[],
     @MedusaContext() sharedContext: Context = {}
   ): Promise<InferEntityType<typeof Product>[]> {
-    const normalizedInput = await promiseAll(
-      data.map(async (d) => {
-        const normalized = await this.normalizeUpdateProductInput(
-          d,
-          sharedContext
-        )
-        this.validateProductUpdatePayload(normalized)
-        return normalized
-      })
+    const normalizedProducts = await this.normalizeUpdateProductInput(
+      data,
+      sharedContext
     )
+
+    for (const product of normalizedProducts) {
+      this.validateProductUpdatePayload(product)
+    }
 
     const { entities: productData } =
       await this.productService_.upsertWithReplace(
-        normalizedInput,
+        normalizedProducts,
         {
           relations: ["tags", "categories"],
         },
@@ -1675,7 +1671,7 @@ export default class ProductModuleService
     // There is more than 1-level depth of relations here, so we need to handle the options and variants manually
     await promiseAll(
       // Note: It's safe to rely on the order here as `upsertWithReplace` preserves the order of the input
-      normalizedInput.map(async (product, i) => {
+      normalizedProducts.map(async (product, i) => {
         const upsertedProduct: any = productData[i]
         let allOptions: any[] = []
 
@@ -1903,91 +1899,125 @@ export default class ProductModuleService
     this.validateProductPayload(productData)
   }
 
-  protected async normalizeCreateProductInput(
-    product: ProductTypes.CreateProductDTO,
+  protected async normalizeCreateProductInput<
+    T extends ProductTypes.CreateProductDTO | ProductTypes.CreateProductDTO[],
+    TOutput = T extends ProductTypes.CreateProductDTO[]
+      ? ProductTypes.CreateProductDTO[]
+      : ProductTypes.CreateProductDTO
+  >(
+    products: T,
     @MedusaContext() sharedContext: Context = {}
-  ): Promise<ProductTypes.CreateProductDTO> {
-    const productData = (await this.normalizeUpdateProductInput(
-      product as UpdateProductInput,
+  ): Promise<TOutput> {
+    const products_ = Array.isArray(products) ? products : [products]
+
+    const normalizedProducts = (await this.normalizeUpdateProductInput(
+      products_ as UpdateProductInput[],
       sharedContext
-    )) as ProductTypes.CreateProductDTO
+    )) as ProductTypes.CreateProductDTO[]
 
-    if (!productData.handle && productData.title) {
-      productData.handle = toHandle(productData.title)
+    for (const productData of normalizedProducts) {
+      if (!productData.handle && productData.title) {
+        productData.handle = toHandle(productData.title)
+      }
+
+      if (!productData.status) {
+        productData.status = ProductStatus.DRAFT
+      }
+
+      if (!productData.thumbnail && productData.images?.length) {
+        productData.thumbnail = productData.images[0].url
+      }
+
+      if (productData.images?.length) {
+        productData.images = productData.images.map((image, index) =>
+          (image as { rank?: number }).rank != null
+            ? image
+            : {
+                ...image,
+                rank: index,
+              }
+        )
+      }
     }
 
-    if (!productData.status) {
-      productData.status = ProductStatus.DRAFT
-    }
-
-    if (!productData.thumbnail && productData.images?.length) {
-      productData.thumbnail = productData.images[0].url
-    }
-
-    if (productData.images?.length) {
-      productData.images = productData.images.map((image, index) =>
-        (image as { rank?: number }).rank != null
-          ? image
-          : {
-              ...image,
-              rank: index,
-            }
-      )
-    }
-
-    return productData
+    return (
+      Array.isArray(products) ? normalizedProducts : normalizedProducts[0]
+    ) as TOutput
   }
 
-  protected async normalizeUpdateProductInput(
-    product: UpdateProductInput,
+  protected async normalizeUpdateProductInput<
+    T extends UpdateProductInput | UpdateProductInput[],
+    TOutput = T extends UpdateProductInput[]
+      ? UpdateProductInput[]
+      : UpdateProductInput
+  >(
+    products: T,
     @MedusaContext() sharedContext: Context = {}
-  ): Promise<UpdateProductInput> {
-    const productData = { ...product }
-    if (productData.is_giftcard) {
-      productData.discountable = false
-    }
+  ): Promise<TOutput> {
+    const products_ = Array.isArray(products) ? products : [products]
+    const productsIds = products_.map((p) => p.id).filter(Boolean)
 
-    if (productData.options?.length) {
-      // TODO: Instead of fetching per product, this should fetch for all product allowing for only one query instead of X
-      const dbOptions = await this.productOptionService_.list(
-        { product_id: productData.id },
+    let dbOptions: InferEntityType<typeof ProductOption>[] = []
+
+    if (productsIds.length) {
+      dbOptions = await this.productOptionService_.list(
+        { product_id: productsIds },
         { relations: ["values"] },
         sharedContext
       )
-
-      ;(productData as any).options = productData.options?.map((option) => {
-        const dbOption = dbOptions.find((o) => o.title === option.title)
-        return {
-          title: option.title,
-          values: option.values?.map((value) => {
-            const dbValue = dbOption?.values?.find((val) => val.value === value)
-            return {
-              value: value,
-              ...(dbValue ? { id: dbValue.id } : {}),
-            }
-          }),
-          ...(dbOption ? { id: dbOption.id } : {}),
-        }
-      })
     }
 
-    if (productData.tag_ids) {
-      ;(productData as any).tags = productData.tag_ids.map((cid) => ({
-        id: cid,
-      }))
-      delete productData.tag_ids
-    }
+    const normalizedProducts: UpdateProductInput[] = []
 
-    if (productData.category_ids) {
-      ;(productData as any).categories = productData.category_ids.map(
-        (cid) => ({
-          id: cid,
+    for (const product of products_) {
+      const productData = { ...product }
+      if (productData.is_giftcard) {
+        productData.discountable = false
+      }
+
+      if (productData.options?.length) {
+        ;(productData as any).options = productData.options?.map((option) => {
+          const dbOption = dbOptions.find(
+            (o) => o.title === option.title && o.product_id === productData.id
+          )
+          return {
+            title: option.title,
+            values: option.values?.map((value) => {
+              const dbValue = dbOption?.values?.find(
+                (val) => val.value === value
+              )
+              return {
+                value: value,
+                ...(dbValue ? { id: dbValue.id } : {}),
+              }
+            }),
+            ...(dbOption ? { id: dbOption.id } : {}),
+          }
         })
-      )
-      delete productData.category_ids
+      }
+
+      if (productData.tag_ids) {
+        ;(productData as any).tags = productData.tag_ids.map((cid) => ({
+          id: cid,
+        }))
+        delete productData.tag_ids
+      }
+
+      if (productData.category_ids) {
+        ;(productData as any).categories = productData.category_ids.map(
+          (cid) => ({
+            id: cid,
+          })
+        )
+        delete productData.category_ids
+      }
+
+      normalizedProducts.push(productData)
     }
 
-    return productData
+    return (
+      Array.isArray(products) ? normalizedProducts : normalizedProducts[0]
+    ) as TOutput
   }
 
   protected static normalizeCreateProductCollectionInput(
