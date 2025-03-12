@@ -1,17 +1,26 @@
 "use client"
 
-import React from "react"
+import React, { useMemo } from "react"
 import clsx from "clsx"
-import { InteractiveSidebarItem } from "types"
 import { ArrowUturnLeft } from "@medusajs/icons"
-import { useSidebar } from "../../.."
+import { useSidebar } from "../../../providers"
 
-type SidebarTitleProps = {
-  item: InteractiveSidebarItem
-}
+export const SidebarChild = () => {
+  const { goBack, shownSidebar } = useSidebar()
 
-export const SidebarChild = ({ item }: SidebarTitleProps) => {
-  const { goBack } = useSidebar()
+  const title = useMemo(() => {
+    if (!shownSidebar) {
+      return ""
+    }
+
+    return "childSidebarTitle" in shownSidebar
+      ? shownSidebar.childSidebarTitle || shownSidebar.title
+      : shownSidebar.title
+  }, [shownSidebar])
+
+  if (!shownSidebar) {
+    return <></>
+  }
 
   return (
     <div className="px-docs_0.75">
@@ -25,9 +34,7 @@ export const SidebarChild = ({ item }: SidebarTitleProps) => {
         tabIndex={-1}
       >
         <ArrowUturnLeft />
-        <span className="truncate flex-1">
-          {item.childSidebarTitle || item.title}
-        </span>
+        <span className="truncate flex-1">{title}</span>
       </div>
     </div>
   )

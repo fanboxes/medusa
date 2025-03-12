@@ -1,19 +1,19 @@
+import checkbox from "@inquirer/checkbox"
+import { MedusaAppLoader } from "@medusajs/framework"
+import { LinkLoader } from "@medusajs/framework/links"
+import { logger } from "@medusajs/framework/logger"
+import { LinkMigrationsPlannerAction } from "@medusajs/framework/types"
+import {
+  ContainerRegistrationKeys,
+  getResolvedPlugins,
+  mergePluginModules,
+} from "@medusajs/framework/utils"
 import boxen from "boxen"
 import chalk from "chalk"
 import { join } from "path"
-import checkbox from "@inquirer/checkbox"
-import {
-  ContainerRegistrationKeys,
-  mergePluginModules,
-} from "@medusajs/framework/utils"
-import { LinkMigrationsPlannerAction } from "@medusajs/framework/types"
-import { LinkLoader } from "@medusajs/framework/links"
-import { logger } from "@medusajs/framework/logger"
-import { MedusaAppLoader } from "@medusajs/framework"
 
-import { ensureDbExists } from "../utils"
 import { initializeContainer } from "../../loaders"
-import { getResolvedPlugins } from "../../loaders/helpers/resolve-plugins"
+import { ensureDbExists } from "../utils"
 
 /**
  * Groups action tables by their "action" property

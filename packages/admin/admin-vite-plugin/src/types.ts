@@ -56,6 +56,7 @@ export type LoadModuleOptions =
 
 export interface MedusaVitePluginOptions {
   sources?: string[]
+  pluginMode?: boolean
 }
 
 export type MedusaVitePlugin = (config?: MedusaVitePluginOptions) => Vite.Plugin

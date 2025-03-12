@@ -3,94 +3,53 @@
 import React, { useMemo } from "react"
 import clsx from "clsx"
 import Link from "next/link"
-import { SidebarItemLink } from "types"
-import {
-  CurrentItemsState,
-  isSidebarItemLink,
-  useSidebar,
-  useSiteConfig,
-} from "../../providers"
+import { useSidebar, useSiteConfig } from "../../providers"
 import { Button } from "../Button"
 import { TriangleRightMini } from "@medusajs/icons"
+import { Sidebar } from "types"
+
+type BreadcrumbItems = {
+  title: string
+  link: string
+}[]
 
 export const Breadcrumbs = () => {
-  const { currentItems, activeItem: sidebarActiveItem } = useSidebar()
+  const { sidebarHistory, getSidebarFirstLinkChild, getSidebar } = useSidebar()
   const {
-    config: { breadcrumbOptions, project, baseUrl, basePath },
+    config: { breadcrumbOptions },
   } = useSiteConfig()
 
-  const getLinkPath = (item?: SidebarItemLink): string | undefined => {
-    if (!item) {
-      return
-    }
+  const getLinkPath = (item: Sidebar.SidebarItemLink): string => {
     return item.isPathHref ? item.path : `#${item.path}`
   }
 
-  const getBreadcrumbsOfItem = (
-    item: CurrentItemsState
-  ): Map<string, string> => {
-    let tempBreadcrumbItems: Map<string, string> = new Map()
-    if (item.previousSidebar) {
-      tempBreadcrumbItems = getBreadcrumbsOfItem(item.previousSidebar)
-    }
-
-    const parentPath = isSidebarItemLink(item.parentItem)
-      ? getLinkPath(item.parentItem)
-      : (item.parentItem?.type === "category" &&
-            breadcrumbOptions?.showCategories) ||
-          item.parentItem?.type === "sub-category"
-        ? "#"
-        : undefined
-    const firstItemPath = isSidebarItemLink(item.default[0])
-      ? getLinkPath(item.default[0])
-      : (item.default[0].type === "category" &&
-            breadcrumbOptions?.showCategories) ||
-          item.default[0].type === "sub-category"
-        ? "#"
-        : undefined
-
-    const breadcrumbPath = parentPath || firstItemPath || "/"
-
-    tempBreadcrumbItems.set(
-      breadcrumbPath,
-      item.parentItem?.childSidebarTitle ||
-        item.parentItem?.chapterTitle ||
-        item.parentItem?.title ||
-        ""
-    )
-
-    return tempBreadcrumbItems
-  }
-
   const breadcrumbItems = useMemo(() => {
-    const tempBreadcrumbItems: Map<string, string> = new Map()
-    tempBreadcrumbItems.set(`${baseUrl}${basePath}`, project.title)
-
-    if (currentItems) {
-      getBreadcrumbsOfItem(currentItems).forEach((value, key) =>
-        tempBreadcrumbItems.set(key, value)
-      )
+    const items: BreadcrumbItems = []
+    if (breadcrumbOptions?.startItems) {
+      items.push(...breadcrumbOptions.startItems)
     }
 
-    if (sidebarActiveItem) {
-      if (
-        sidebarActiveItem.parentItem &&
-        (sidebarActiveItem.parentItem.type !== "category" ||
-          breadcrumbOptions?.showCategories)
-      ) {
-        tempBreadcrumbItems.set(
-          isSidebarItemLink(sidebarActiveItem.parentItem)
-            ? getLinkPath(sidebarActiveItem.parentItem) || "#"
-            : "#",
-          sidebarActiveItem.parentItem.chapterTitle ||
-            sidebarActiveItem.parentItem.title ||
-            ""
-        )
+    sidebarHistory.forEach((sidebar_id) => {
+      const sidebar = getSidebar(sidebar_id)
+
+      if (!sidebar) {
+        return
       }
-    }
 
-    return tempBreadcrumbItems
-  }, [currentItems, sidebarActiveItem, breadcrumbOptions])
+      const sidebarFirstChild = getSidebarFirstLinkChild(sidebar)
+
+      if (!sidebarFirstChild) {
+        return
+      }
+
+      items.push({
+        title: sidebar.title,
+        link: getLinkPath(sidebarFirstChild),
+      })
+    })
+
+    return items
+  }, [sidebarHistory, breadcrumbOptions])
 
   return (
     <div
@@ -100,7 +59,7 @@ export const Breadcrumbs = () => {
         "mb-docs_1 flex-wrap"
       )}
     >
-      {Array.from(breadcrumbItems).map(([link, title], index) => (
+      {breadcrumbItems.map(({ title, link }, index) => (
         <React.Fragment key={link}>
           {index > 0 && <TriangleRightMini />}
           <Button

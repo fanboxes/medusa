@@ -157,6 +157,7 @@ export default [
       "@typescript-eslint/ban-types": "off",
       "@typescript-eslint/no-unused-expressions": "warn",
       "@typescript-eslint/no-require-imports": "off",
+      "@typescript-eslint/no-empty-object-type": "warn",
     },
   },
 ]

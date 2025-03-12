@@ -22,8 +22,15 @@ export type MenuItemCustom = {
   content: React.ReactNode
 }
 
+export type MenuItemSubMenu = {
+  type: "sub-menu"
+  items: MenuItem[]
+  title: string
+}
+
 export type MenuItem =
   | MenuItemLink
   | MenuItemDivider
   | MenuItemAction
   | MenuItemCustom
+  | MenuItemSubMenu

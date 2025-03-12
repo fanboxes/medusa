@@ -3,13 +3,13 @@
 import { useScrollController, useSidebar, H2 as UiH2 } from "docs-ui"
 import { useEffect, useMemo, useRef, useState } from "react"
 import getSectionId from "../../../utils/get-section-id"
-import { SidebarItem } from "types"
+import { Sidebar } from "types"
 
 type H2Props = React.HTMLAttributes<HTMLHeadingElement>
 
 const H2 = ({ children, ...props }: H2Props) => {
   const headingRef = useRef<HTMLHeadingElement>(null)
-  const { activePath, addItems, removeItems } = useSidebar()
+  const { activePath, addItems, removeItems, shownSidebar } = useSidebar()
   const { scrollableElement, scrollToElement } = useScrollController()
   const [scrolledFirstTime, setScrolledFirstTime] = useState(false)
 
@@ -29,7 +29,10 @@ const H2 = ({ children, ...props }: H2Props) => {
   }, [scrollableElement, headingRef, id])
 
   useEffect(() => {
-    const item: SidebarItem[] = [
+    if (!shownSidebar) {
+      return
+    }
+    const items: Sidebar.SidebarItem[] = [
       {
         type: "link",
         path: `${id}`,
@@ -37,12 +40,17 @@ const H2 = ({ children, ...props }: H2Props) => {
         loaded: true,
       },
     ]
-    addItems(item)
+    addItems(items, {
+      sidebar_id: shownSidebar.sidebar_id,
+    })
 
     return () => {
-      removeItems(item)
+      removeItems({
+        items,
+        sidebar_id: shownSidebar.sidebar_id,
+      })
     }
-  }, [id])
+  }, [id, shownSidebar?.sidebar_id])
 
   return (
     <UiH2 {...props} id={id} passRef={headingRef}>

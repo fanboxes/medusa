@@ -50,11 +50,18 @@ export type FormattingOptionsType = {
   [k: string]: FormattingOptionType
 }
 
+export type Tag =
+  | string
+  | {
+      name: string
+      label: string
+    }
+
 export type FrontmatterData = {
   slug?: string
   sidebar_label?: string
   displayed_sidebar?: string
-  tags?: string[]
+  tags?: Tag[]
   [k: string]: unknown
 }
 

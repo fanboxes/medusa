@@ -39,7 +39,7 @@ export interface AddShippingMethodToCartWorkflowInput {
     id: string
     /**
      * Custom data useful for the fulfillment provider processing the shipping option or method.
-     * 
+     *
      * Learn more in [this documentation](https://docs.medusajs.com/resources/commerce-modules/fulfillment/shipping-option#data-property).
      */
     data?: Record<string, unknown>
@@ -48,11 +48,11 @@ export interface AddShippingMethodToCartWorkflowInput {
 
 export const addShippingMethodToCartWorkflowId = "add-shipping-method-to-cart"
 /**
- * This workflow adds a shipping method to a cart. It's executed by the 
+ * This workflow adds a shipping method to a cart. It's executed by the
  * [Add Shipping Method Store API Route](https://docs.medusajs.com/api/store#carts_postcartsidshippingmethods).
- * 
+ *
  * You can use this workflow within your own customizations or custom workflows, allowing you to wrap custom logic around adding a shipping method to the cart.
- * 
+ *
  * @example
  * const { result } = await addShippingMethodToCartWorkflow(container)
  * .run({
@@ -71,11 +71,11 @@ export const addShippingMethodToCartWorkflowId = "add-shipping-method-to-cart"
  *     ]
  *   }
  * })
- * 
+ *
  * @summary
- * 
+ *
  * Add a shipping method to a cart.
- * 
+ *
  * @property hooks.validate - This hook is executed before all operations. You can consume this hook to perform any custom validation. If validation fails, you can throw an error to stop the workflow execution.
  */
 export const addShippingMethodToCartWorkflow = createWorkflow(
@@ -186,7 +186,7 @@ export const addShippingMethodToCartWorkflow = createWorkflow(
       cart.shipping_methods.map((sm) => sm.id)
     )
 
-    parallelize(
+    const [, createdShippingMethods] = parallelize(
       removeShippingMethodFromCartStep({
         shipping_method_ids: currentShippingMethods,
       }),
@@ -200,7 +200,7 @@ export const addShippingMethodToCartWorkflow = createWorkflow(
     )
 
     refreshCartItemsWorkflow.runAsStep({
-      input: { cart_id: cart.id },
+      input: { cart_id: cart.id, shipping_methods: createdShippingMethods },
     })
 
     return new WorkflowResponse(void 0, {

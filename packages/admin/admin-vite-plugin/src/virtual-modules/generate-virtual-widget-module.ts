@@ -2,7 +2,10 @@ import outdent from "outdent"
 import { generateModule } from "../utils"
 import { generateWidgets } from "../widgets"
 
-export async function generateVirtualWidgetModule(sources: Set<string>) {
+export async function generateVirtualWidgetModule(
+  sources: Set<string>,
+  pluginMode = false
+) {
   const widgets = await generateWidgets(sources)
 
   const imports = [...widgets.imports]
@@ -10,8 +13,10 @@ export async function generateVirtualWidgetModule(sources: Set<string>) {
   const code = outdent`
     ${imports.join("\n")}
 
-    export default {
-        ${widgets.code},
+    ${
+      pluginMode
+        ? `const widgetModule = { ${widgets.code} }`
+        : `export default { ${widgets.code} }`
     }
   `
 

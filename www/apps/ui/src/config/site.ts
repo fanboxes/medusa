@@ -1,5 +1,6 @@
 import { globalConfig } from "docs-ui"
 import { DocsConfig } from "types"
+import { sidebars } from "./sidebar"
 
 type SiteConfig = {
   name: string
@@ -16,17 +17,18 @@ export const siteConfig: SiteConfig = {
   basePath: process.env.NEXT_PUBLIC_BASE_PATH,
   url: `${baseUrl}/${process.env.NEXT_PUBLIC_BASE_PATH}`,
   description: "Primitives for building Medusa applications.",
-  // sidebar is defined in docs.tsx
-  sidebar: {
-    default: [],
-    mobile: [],
-  },
+  sidebars,
   project: {
     title: "Medusa UI",
     key: "ui",
   },
   breadcrumbOptions: {
-    showCategories: true,
+    startItems: [
+      {
+        title: "Documentation",
+        link: baseUrl,
+      },
+    ],
   },
   logo: `${process.env.NEXT_PUBLIC_BASE_PATH}/images/logo.png`,
   version: {

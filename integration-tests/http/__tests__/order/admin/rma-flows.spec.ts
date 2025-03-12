@@ -17,6 +17,7 @@ medusaIntegrationTestRunner({
     let location
     let item
     let returnShippingOption
+    let outboundShippingOption
     const shippingProviderId = "manual_test-provider"
 
     beforeEach(async () => {
@@ -135,7 +136,7 @@ medusaIntegrationTestRunner({
         prices: [
           {
             currency_code: "usd",
-            amount: 20,
+            amount: 0, // Free shipping
           },
         ],
         rules: [
@@ -160,7 +161,7 @@ medusaIntegrationTestRunner({
         )
       ).data.shipping_option
 
-      const outboundShippingOption = (
+      outboundShippingOption = (
         await api.post(
           "/admin/shipping-options",
           outboundShippingOptionPayload,
@@ -286,6 +287,15 @@ medusaIntegrationTestRunner({
               },
             ],
           },
+          adminHeaders
+        )
+
+        // If claim has outbound items, we need to set the outbound shipping method for reservation to be created
+        // TODO: change condition in confirm workfow to crate reservation depending on shipping since we can have
+        // reservations for inventory items that don't require shipping
+        await api.post(
+          `/admin/claims/${singleOutboundClaim.id}/outbound/shipping-method`,
+          { shipping_option_id: outboundShippingOption.id },
           adminHeaders
         )
 

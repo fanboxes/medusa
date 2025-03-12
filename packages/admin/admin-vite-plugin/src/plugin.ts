@@ -1,5 +1,6 @@
 import { SourceMap } from "magic-string"
-import path from "path"
+import { rm, writeFile } from "node:fs/promises"
+import path from "node:path"
 import type * as Vite from "vite"
 import { generateCustomFieldHashes } from "./custom-fields"
 import { generateRouteHashes } from "./routes"
@@ -22,9 +23,16 @@ import {
 } from "./vmod"
 import { generateWidgetHash } from "./widgets"
 
+enum Mode {
+  PLUGIN = "plugin",
+  APPLICATION = "application",
+}
+
 export const medusaVitePlugin: MedusaVitePlugin = (options) => {
   const hashMap = new Map<VirtualModule, string>()
   const _sources = new Set<string>(options?.sources ?? [])
+
+  const mode = options?.pluginMode ? Mode.PLUGIN : Mode.APPLICATION
 
   let watcher: Vite.FSWatcher | undefined
 
@@ -66,9 +74,73 @@ export const medusaVitePlugin: MedusaVitePlugin = (options) => {
     }
   }
 
+  // Function to generate the index.js file
+  async function generatePluginEntryModule(
+    sources: Set<string>
+  ): Promise<string> {
+    // Generate all the module content
+    const widgetModule = await generateVirtualWidgetModule(sources, true)
+    const routeModule = await generateVirtualRouteModule(sources, true)
+    const menuItemModule = await generateVirtualMenuItemModule(sources, true)
+    const formModule = await generateVirtualFormModule(sources, true)
+    const displayModule = await generateVirtualDisplayModule(sources, true)
+
+    // Create the index.js content that re-exports everything
+    return `
+      // Auto-generated index file for Medusa Admin UI extensions
+    ${widgetModule.code}
+    ${routeModule.code}
+    ${menuItemModule.code}
+    ${formModule.code}
+    ${displayModule.code}
+    
+    const plugin = {
+      widgetModule,
+      routeModule,
+      menuItemModule,
+      formModule,
+      displayModule
+    }
+
+    export default plugin
+    `
+  }
+
+  const pluginEntryFile = path.resolve(
+    process.cwd(),
+    "src/admin/__admin-extensions__.js"
+  )
+
   return {
     name: "@medusajs/admin-vite-plugin",
     enforce: "pre",
+    async buildStart() {
+      switch (mode) {
+        case Mode.PLUGIN: {
+          const code = await generatePluginEntryModule(_sources)
+          await writeFile(pluginEntryFile, code, "utf-8")
+          break
+        }
+        case Mode.APPLICATION: {
+          break
+        }
+      }
+    },
+    async buildEnd() {
+      switch (mode) {
+        case Mode.PLUGIN: {
+          try {
+            await rm(pluginEntryFile, { force: true })
+          } catch (error) {
+            // Ignore the error if the file doesn't exist
+          }
+          break
+        }
+        case Mode.APPLICATION: {
+          break
+        }
+      }
+    },
     configureServer(server) {
       watcher = server.watcher
       watcher?.add(Array.from(_sources))

@@ -16,6 +16,10 @@ export const promotion = [
     "path": "https://docs.medusajs.com/user-guide/promotions"
   },
   {
+    "title": "Extend Promotion",
+    "path": "https://docs.medusajs.com/resources/commerce-modules/promotion/extend"
+  },
+  {
     "title": "getActionsToComputeFromPromotionsStep",
     "path": "https://docs.medusajs.com/resources/references/medusa-workflows/steps/getActionsToComputeFromPromotionsStep"
   },

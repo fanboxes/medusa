@@ -2075,4 +2075,123 @@ export interface ICartModuleService extends IModuleService {
     config?: RestoreReturn<TReturnableLinkableKeys>,
     sharedContext?: Context
   ): Promise<Record<TReturnableLinkableKeys, string[]> | void>
+
+  /**
+   * This method upserts line item adjustments.
+   *
+   * @param {UpsertLineItemAdjustmentDTO[]} data - The line item adjustments to create or update. If the `id` property is provided
+   * in an object, it means an existing line item adjustment will be updated. Otherwise, a new one is created.
+   * @param {Context} sharedContext - A context used to share resources, such as transaction manager, between the application and the module.
+   * @returns {Promise<LineItemAdjustmentDTO[]>} The line item adjustments.
+   *
+   * @example
+   * const lineItemAdjustments = await orderModuleService.upsertLineItemAdjustments(
+   *   [
+   *     {
+   *       item_id: "1234",
+   *       amount: 10
+   *     },
+   *     {
+   *       id: "123",
+   *       item_id: "4321",
+   *       amount: 20
+   *     }
+   *   ]
+   * )
+   *
+   */
+  upsertLineItemAdjustments(
+    data: UpsertLineItemAdjustmentDTO[],
+    sharedContext?: Context
+  ): Promise<LineItemAdjustmentDTO[]>
+
+  /**
+   * This method upserts shipping method adjustments.
+   *
+   * @param {(CreateShippingMethodAdjustmentDTO | UpdateShippingMethodAdjustmentDTO)[]} data - The shipping method adjustments to be created
+   * or updated. If an adjustment object has an `id` property, it's updated. Otherwise, a new adjustment is created.
+   * @param {Context} sharedContext - A context used to share resources, such as transaction manager, between the application and the module.
+   * @returns {Promise<ShippingMethodAdjustmentDTO[]>} The shipping method adjustments.
+   *
+   * @example
+   * const shippingMethodAdjustments = await orderModuleService
+   *   .upsertShippingMethodAdjustments(
+   *     [
+   *       {
+   *         shipping_method_id: "123",
+   *         code: "50OFF",
+   *         amount: 5
+   *       },
+   *       {
+   *         id: "321",
+   *         amount: 5
+   *       }
+   *     ]
+   *   )
+   *
+   */
+  upsertShippingMethodAdjustments(
+    data: (
+      | CreateShippingMethodAdjustmentDTO
+      | UpdateShippingMethodAdjustmentDTO
+    )[],
+    sharedContext?: Context
+  ): Promise<ShippingMethodAdjustmentDTO[]>
+
+  /**
+   * This method upserts line item tax lines.
+   *
+   * @param {(CreateLineItemTaxLineDTO | UpdateLineItemTaxLineDTO)[]} taxLines - The line item tax lines to create or update. If the
+   * tax line object has an `id` property, it'll be updated. Otherwise, a tax line is created.
+   * @param {Context} sharedContext - A context used to share resources, such as transaction manager, between the application and the module.
+   * @returns {Promise<LineItemTaxLineDTO[]>} The line item tax lines.
+   *
+   * @example
+   * const lineItemTaxLines = await orderModuleService
+   *   .upsertLineItemTaxLines(
+   *     [
+   *       {
+   *         code: "123",
+   *         rate: 2
+   *       }
+   *     ]
+   *   )
+   *
+   */
+  upsertLineItemTaxLines(
+    taxLines: (CreateLineItemTaxLineDTO | UpdateLineItemTaxLineDTO)[],
+    sharedContext?: Context
+  ): Promise<LineItemTaxLineDTO[]>
+
+  /**
+   * This method upsert shipping method tax lines.
+   *
+   * @param {(CreateShippingMethodTaxLineDTO | UpdateShippingMethodTaxLineDTO)[]} taxLines - The shipping method tax lines to create or update.
+   * If a tax line object has an `id` property, it's updated. Otherwise, a tax line is created.
+   * @param {Context} sharedContext - A context used to share resources, such as transaction manager, between the application and the module.
+   * @returns {Promise<ShippingMethodTaxLineDTO[]>} The shipping method tax lines.
+   *
+   * @example
+   * const shippingMethodTaxLines = await orderModuleService
+   *   .upsertShippingMethodTaxLines(
+   *     [
+   *       {
+   *         code: "123",
+   *         rate: 2
+   *       },
+   *       {
+   *         id: "321",
+   *         rate: 2
+   *       }
+   *     ]
+   *   )
+   *
+   */
+  upsertShippingMethodTaxLines(
+    taxLines: (
+      | CreateShippingMethodTaxLineDTO
+      | UpdateShippingMethodTaxLineDTO
+    )[],
+    sharedContext?: Context
+  ): Promise<ShippingMethodTaxLineDTO[]>
 }

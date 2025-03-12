@@ -166,5 +166,9 @@ export const tax = [
   {
     "title": "taxRegion",
     "path": "https://docs.medusajs.com/resources/references/js-sdk/admin/taxRegion"
+  },
+  {
+    "title": "Create Tax Provider",
+    "path": "https://docs.medusajs.com/resources/references/tax/provider"
   }
 ]

@@ -1,5 +1,11 @@
 # @medusajs/types
 
+## 2.6.1
+
+### Patch Changes
+
+- [#11715](https://github.com/medusajs/medusa/pull/11715) [`b7678983a9b3e5c4d88282054b37b6c517329bd7`](https://github.com/medusajs/medusa/commit/b7678983a9b3e5c4d88282054b37b6c517329bd7) Thanks [@carlos-r-l-rodrigues](https://github.com/carlos-r-l-rodrigues)! - chore: improve tax lines
+
 ## 2.6.0
 
 ### Patch Changes

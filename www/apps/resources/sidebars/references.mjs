@@ -1,26 +1,49 @@
-/** @type {import('types').RawSidebarItem[]} */
+/** @type {import('types').Sidebar.SidebarItem[]} */
 export const referencesSidebar = [
   {
     type: "link",
-    path: "/references/workflows",
-    title: "Workflows SDK",
-    childSidebarTitle: "Workflows SDK Reference",
-    isChildSidebar: true,
-    children: [
-      {
-        type: "category",
-        title: "Functions",
-        autogenerate_path: "/references/workflows/functions",
-      },
-    ],
+    path: "/references-overview",
+    title: "Overview",
+  },
+  {
+    type: "separator",
   },
   {
     type: "link",
-    path: "/references/data-model",
+    path: "/admin-widget-injection-zones",
+    title: "Admin Widget Injection Zones",
+    description: "List of injection zones you can add widgets in.",
+  },
+  {
+    type: "link",
+    path: "/medusa-container-resources",
+    title: "Container Resources",
+    description:
+      "Resources you can access through the Medusa and Module containers.",
+  },
+  {
+    type: "sidebar",
+    sidebar_id: "core-flows",
+    title: "Core Workflows",
+    custom_autogenerate: "core-flows",
+    description:
+      "Built-in workflows and steps you can use in your customizations.",
+  },
+  {
+    type: "sidebar",
+    sidebar_id: "dml-reference",
     title: "Data Model Language",
     childSidebarTitle: "Data Model Language Reference",
-    isChildSidebar: true,
+    description: "API reference of the Data Model Langauge (DML).",
     children: [
+      {
+        type: "link",
+        path: "/references/data-model",
+        title: "Overview",
+      },
+      {
+        type: "separator",
+      },
       {
         type: "link",
         path: "/references/data-model/define",
@@ -54,45 +77,79 @@ export const referencesSidebar = [
   },
   {
     type: "link",
-    path: "/service-factory-reference",
-    title: "Service Factory",
-    isChildSidebar: true,
+    path: "/events-reference",
+    title: "Events",
+    description: "List of events emitted by Medusa's Commerce Modules.",
+  },
+  {
+    type: "sidebar",
+    sidebar_id: "helper-steps-reference",
+    title: "Helper Steps",
+    description: "Steps to query data, emit events, create links, and more.",
     children: [
+      {
+        type: "link",
+        path: "/references/helper-steps",
+        title: "Overview",
+      },
+      {
+        type: "separator",
+      },
+      {
+        type: "category",
+        title: "Steps",
+        autogenerate_path: "/references/helper_steps/functions",
+        initialOpen: true,
+      },
+    ],
+  },
+  {
+    type: "sidebar",
+    sidebar_id: "service-factory-reference",
+    title: "Service Factory",
+    description:
+      "List of methods in your service extending the service factory.",
+    children: [
+      {
+        type: "link",
+        path: "/service-factory-reference",
+        title: "Overview",
+      },
+      {
+        type: "separator",
+      },
       {
         type: "category",
         title: "Methods",
+        initialOpen: true,
         autogenerate_path: "/service-factory-reference/methods",
       },
       {
         type: "category",
         title: "Tips",
+        initialOpen: true,
         autogenerate_path: "/service-factory-reference/tips",
       },
     ],
   },
   {
-    type: "link",
-    path: "/references/helper-steps",
-    title: "Helper Steps",
-    isChildSidebar: true,
-    autogenerate_path: "/references/helper_steps/functions",
-  },
-  {
-    type: "link",
-    title: "Core Workflows",
-    path: "/medusa-workflows-reference",
-    isChildSidebar: true,
-    custom_autogenerate: "core-flows",
-  },
-  {
-    type: "link",
+    type: "sidebar",
+    sidebar_id: "test-tools-reference",
     title: "Testing Framework",
-    path: "/test-tools-reference",
-    isChildSidebar: true,
+    description: "API reference of functions you can use to write tests.",
     children: [
+      {
+        type: "link",
+        path: "/test-tools-reference",
+        title: "Overview",
+      },
+      {
+        type: "separator",
+      },
       {
         type: "category",
         title: "Functions",
+        initialOpen: true,
         children: [
           {
             type: "link",
@@ -105,6 +162,29 @@ export const referencesSidebar = [
             path: "/test-tools-reference/moduleIntegrationTestRunner",
           },
         ],
+      },
+    ],
+  },
+  {
+    type: "sidebar",
+    sidebar_id: "workflows-sdk-reference",
+    title: "Workflows SDK",
+    childSidebarTitle: "Workflows SDK Reference",
+    description: "API reference of the Workflow SDK functions and helpers.",
+    children: [
+      {
+        type: "link",
+        path: "/references/workflows",
+        title: "Overview",
+      },
+      {
+        type: "separator",
+      },
+      {
+        type: "category",
+        title: "Functions",
+        initialOpen: true,
+        autogenerate_path: "/references/workflows/functions",
       },
     ],
   },

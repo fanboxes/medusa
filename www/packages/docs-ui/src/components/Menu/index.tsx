@@ -4,6 +4,7 @@ import { MenuItem as MenuItemType } from "types"
 import { MenuItem } from "./Item"
 import { MenuDivider } from "./Divider"
 import { MenuAction } from "./Action"
+import { MenuSubMenu } from "./SubMenu"
 
 export type MenuProps = {
   items: MenuItemType[]
@@ -30,6 +31,9 @@ export const Menu = ({ items, className, itemsOnClick }: MenuProps) => {
           )}
           {item.type === "divider" && <MenuDivider />}
           {item.type === "custom" && item.content}
+          {item.type === "sub-menu" && (
+            <MenuSubMenu item={item} itemsOnClick={itemsOnClick} />
+          )}
         </React.Fragment>
       ))}
     </div>

@@ -9,6 +9,8 @@ const paymentProviderOptions: FormattingOptionsType = {
     reflectionDescription: `In this document, you’ll learn how to create a Payment Provider to be used with the Payment Module.`,
     frontmatterData: {
       slug: "/references/payment/provider",
+      tags: ["payment", "server", "how to"],
+      sidebar_label: "Create Payment Provider",
     },
     reflectionTitle: {
       fullReplacement: "How to Create a Payment Provider",

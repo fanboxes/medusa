@@ -196,7 +196,9 @@ function checkLink({
 
   const projectOptions = options.crossProjects[parsedLink.area]
 
-  const isReferenceLink = parsedLink.path.startsWith("/references")
+  const isReferenceLink =
+    parsedLink.path.startsWith("/references") &&
+    parsedLink.path !== "/references-overview"
   const baseDir = isReferenceLink
     ? "references"
     : projectOptions.contentPath || "app"

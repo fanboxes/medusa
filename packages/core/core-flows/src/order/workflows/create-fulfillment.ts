@@ -241,10 +241,14 @@ function prepareInventoryUpdate({
   }[] = []
 
   const allItems = itemsList ?? order.items
-  for (const item of allItems) {
+  const itemsToFulfill = allItems.filter((i) => i.id in inputItemsMap)
+
+  // iterate over items that are being fulfilled
+  for (const item of itemsToFulfill) {
     const reservation = reservationMap[item.id]
+
     if (!reservation) {
-      if (item.manage_inventory) {
+      if (item.variant?.manage_inventory) {
         throw new Error(
           `No stock reservation found for item ${item.id} - ${item.title} (${item.variant_title})`
         )
@@ -345,6 +349,7 @@ export const createOrderFulfillmentWorkflow = createWorkflow(
         "items.variant.height",
         "items.variant.width",
         "items.variant.material",
+        "items.variant_title",
         "shipping_address.*",
         "shipping_methods.id",
         "shipping_methods.shipping_option_id",
@@ -394,9 +399,11 @@ export const createOrderFulfillmentWorkflow = createWorkflow(
     }).config({ name: "get-shipping-option" })
 
     const lineItemIds = transform(
-      { order, itemsList: input.items_list },
-      ({ order, itemsList }) => {
-        return (itemsList ?? order.items)!.map((i) => i.id)
+      { order, itemsList: input.items_list, inputItemsMap },
+      ({ order, itemsList, inputItemsMap }) => {
+        return (itemsList ?? order.items)!
+          .map((i) => i.id)
+          .filter((i) => i in inputItemsMap)
       }
     )
     const reservations = useRemoteQueryStep({

@@ -1,8 +1,17 @@
-/** @type {import('types').RawSidebarItem[]} */
+/** @type {import('types').Sidebar.SidebarItem[]} */
 export const troubleshootingSidebar = [
+  {
+    type: "link",
+    path: "/troubleshooting",
+    title: "Overview",
+  },
+  {
+    type: "separator",
+  },
   {
     type: "category",
     title: "Installation",
+    initialOpen: true,
     children: [
       {
         type: "link",
@@ -24,6 +33,7 @@ export const troubleshootingSidebar = [
   {
     type: "category",
     title: "Medusa Application",
+    initialOpen: true,
     children: [
       {
         type: "link",
@@ -55,6 +65,7 @@ export const troubleshootingSidebar = [
   {
     type: "category",
     title: "Admin Development",
+    initialOpen: true,
     children: [
       {
         type: "link",
@@ -66,6 +77,7 @@ export const troubleshootingSidebar = [
   {
     type: "category",
     title: "Upgrade",
+    initialOpen: true,
     children: [
       {
         type: "link",
@@ -77,6 +89,7 @@ export const troubleshootingSidebar = [
   {
     type: "category",
     title: "Frontend",
+    initialOpen: true,
     children: [
       {
         type: "link",
@@ -88,7 +101,7 @@ export const troubleshootingSidebar = [
   {
     type: "category",
     title: "Integrations",
-    hasTitleStyling: true,
+    initialOpen: true,
     children: [
       {
         type: "link",

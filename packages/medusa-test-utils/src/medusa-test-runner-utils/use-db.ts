@@ -1,7 +1,10 @@
 import type { MedusaAppLoader } from "@medusajs/framework"
-import { join } from "path"
 import { MedusaContainer } from "@medusajs/framework/types"
-import { ContainerRegistrationKeys } from "@medusajs/framework/utils"
+import {
+  ContainerRegistrationKeys,
+  getResolvedPlugins,
+} from "@medusajs/framework/utils"
+import { join } from "path"
 
 /**
  * Initiates the database connection
@@ -53,11 +56,6 @@ export async function syncLinks(
 }
 
 async function loadCustomLinks(directory: string, container: MedusaContainer) {
-  // TODO: move to framework once settle down
-  const {
-    getResolvedPlugins,
-  } = require("@medusajs/medusa/loaders/helpers/resolve-plugins")
-
   const configModule = container.resolve(
     ContainerRegistrationKeys.CONFIG_MODULE
   )

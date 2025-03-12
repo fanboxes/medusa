@@ -1,9 +1,9 @@
-/** @type {import('types').RawSidebarItem[]} */
+/** @type {import('types').Sidebar.SidebarItem[]} */
 export const storeSidebar = [
   {
-    type: "category",
+    type: "sidebar",
+    sidebar_id: "store",
     title: "Store Module",
-    isChildSidebar: true,
     children: [
       {
         type: "link",
@@ -16,7 +16,6 @@ export const storeSidebar = [
       {
         type: "category",
         title: "Concepts",
-        initialOpen: false,
         children: [
           {
             type: "link",
@@ -29,7 +28,6 @@ export const storeSidebar = [
         type: "category",
         title: "Server Guides",
         autogenerate_tags: "server+store",
-        initialOpen: false,
         autogenerate_as_ref: true,
         sort_sidebar: "alphabetize",
         description:
@@ -39,7 +37,6 @@ export const storeSidebar = [
         type: "category",
         title: "Storefront Guides",
         autogenerate_tags: "storefront+store,-jsSdk",
-        initialOpen: false,
         autogenerate_as_ref: true,
         sort_sidebar: "alphabetize",
         description:
@@ -49,7 +46,6 @@ export const storeSidebar = [
         type: "category",
         title: "Admin Guides",
         autogenerate_tags: "admin+store,-jsSdk",
-        initialOpen: false,
         autogenerate_as_ref: true,
         sort_sidebar: "alphabetize",
         description:
@@ -59,7 +55,6 @@ export const storeSidebar = [
         type: "category",
         title: "Admin User Guides",
         autogenerate_tags: "userGuide+store",
-        initialOpen: false,
         autogenerate_as_ref: true,
         sort_sidebar: "alphabetize",
         description:
@@ -68,7 +63,6 @@ export const storeSidebar = [
       {
         type: "category",
         title: "References",
-        initialOpen: false,
         description:
           "Find references for tools and resources related to the Store Module, such as data models, methods, and more. These are useful for your customizations.",
         children: [
@@ -126,12 +120,19 @@ export const storeSidebar = [
             title: "Admin Widget Zones",
           },
           {
-            type: "link",
-            path: "/references/store",
+            type: "sidebar",
+            sidebar_id: "store-service-reference",
             title: "Main Service Reference",
-            isChildSidebar: true,
             childSidebarTitle: "Store Module's Main Service Reference",
             children: [
+              {
+                type: "link",
+                path: "/references/store",
+                title: "Reference Overview",
+              },
+              {
+                type: "separator",
+              },
               {
                 type: "category",
                 title: "Methods",
@@ -141,12 +142,19 @@ export const storeSidebar = [
             ],
           },
           {
-            type: "link",
-            path: "/references/store/models",
+            type: "sidebar",
+            sidebar_id: "store-models-reference",
             title: "Data Models Reference",
-            isChildSidebar: true,
             childSidebarTitle: "Store Module Data Models Reference",
             children: [
+              {
+                type: "link",
+                path: "/references/store/models",
+                title: "Reference Overview",
+              },
+              {
+                type: "separator",
+              },
               {
                 type: "category",
                 title: "Data Models",

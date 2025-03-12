@@ -1,16 +1,16 @@
-import { join } from "path"
+import { MedusaAppLoader } from "@medusajs/framework"
+import { LinkLoader } from "@medusajs/framework/links"
+import { logger } from "@medusajs/framework/logger"
 import {
   ContainerRegistrationKeys,
+  getResolvedPlugins,
   MedusaError,
   mergePluginModules,
 } from "@medusajs/framework/utils"
-import { LinkLoader } from "@medusajs/framework/links"
-import { logger } from "@medusajs/framework/logger"
-import { MedusaAppLoader } from "@medusajs/framework"
+import { join } from "path"
 
-import { ensureDbExists } from "../utils"
 import { initializeContainer } from "../../loaders"
-import { getResolvedPlugins } from "../../loaders/helpers/resolve-plugins"
+import { ensureDbExists } from "../utils"
 
 const TERMINAL_SIZE = process.stdout.columns
 

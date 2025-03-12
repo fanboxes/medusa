@@ -6,8 +6,9 @@ import {
 } from "@mikro-orm/migrations"
 import { defineConfig, PostgreSqlDriver } from "@mikro-orm/postgresql"
 import { EventEmitter } from "events"
-import { access, mkdir, writeFile } from "fs/promises"
-import { dirname } from "path"
+import { access, mkdir, rename, writeFile } from "fs/promises"
+import { dirname, join } from "path"
+import { readDir } from "../common"
 
 /**
  * Events emitted by the migrations class
@@ -62,6 +63,7 @@ export class Migrations extends EventEmitter<MigrationsEvents> {
     const migrator = connection.getMigrator()
 
     try {
+      await this.migrateSnapshotFile(migrator["snapshotPath"])
       await this.ensureSnapshot(migrator["snapshotPath"])
       return await migrator.createMigration()
     } finally {
@@ -138,6 +140,33 @@ export class Migrations extends EventEmitter<MigrationsEvents> {
     } finally {
       migrator["umzug"].clearListeners()
       await connection.close(true)
+    }
+  }
+
+  /**
+   * Migrates the existing snapshot file of a module to follow to be
+   * named after the current snapshot file.
+   *
+   * If there are multiple snapshot files inside the directory, then
+   * the first one will be used.
+   */
+  protected async migrateSnapshotFile(snapshotPath: string): Promise<void> {
+    const entries = await readDir(dirname(snapshotPath), {
+      ignoreMissing: true,
+    })
+
+    /**
+     * We assume all JSON files are snapshot files in this directory
+     */
+    const snapshotFile = entries.find(
+      (entry) => entry.isFile() && entry.name.endsWith(".json")
+    )
+
+    if (snapshotFile) {
+      const absoluteName = join(snapshotFile.path, snapshotFile.name)
+      if (absoluteName !== snapshotPath) {
+        await rename(absoluteName, snapshotPath)
+      }
     }
   }
 

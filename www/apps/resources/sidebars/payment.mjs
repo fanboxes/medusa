@@ -1,9 +1,9 @@
-/** @type {import('types').RawSidebarItem[]} */
+/** @type {import('types').Sidebar.SidebarItem[]} */
 export const paymentSidebar = [
   {
-    type: "category",
+    type: "sidebar",
+    sidebar_id: "payment",
     title: "Payment Module",
-    isChildSidebar: true,
     children: [
       {
         type: "link",
@@ -21,7 +21,6 @@ export const paymentSidebar = [
       {
         type: "category",
         title: "Concepts",
-        initialOpen: false,
         children: [
           {
             type: "link",
@@ -64,7 +63,6 @@ export const paymentSidebar = [
         type: "category",
         title: "Server Guides",
         autogenerate_tags: "server+payment",
-        initialOpen: false,
         autogenerate_as_ref: true,
         sort_sidebar: "alphabetize",
         description:
@@ -86,7 +84,6 @@ export const paymentSidebar = [
         type: "category",
         title: "Storefront Guides",
         autogenerate_tags: "storefront+payment,-jsSdk",
-        initialOpen: false,
         autogenerate_as_ref: true,
         sort_sidebar: "alphabetize",
         description:
@@ -96,7 +93,6 @@ export const paymentSidebar = [
         type: "category",
         title: "Admin Guides",
         autogenerate_tags: "admin+payment,-jsSdk",
-        initialOpen: false,
         autogenerate_as_ref: true,
         sort_sidebar: "alphabetize",
         description:
@@ -106,7 +102,6 @@ export const paymentSidebar = [
         type: "category",
         title: "Admin User Guides",
         autogenerate_tags: "userGuide+payment",
-        initialOpen: false,
         autogenerate_as_ref: true,
         sort_sidebar: "alphabetize",
         description:
@@ -115,7 +110,6 @@ export const paymentSidebar = [
       {
         type: "category",
         title: "Providers",
-        initialOpen: false,
         children: [
           {
             type: "link",
@@ -127,7 +121,6 @@ export const paymentSidebar = [
       {
         type: "category",
         title: "References",
-        initialOpen: false,
         description:
           "Find references for tools and resources related to the Payment Module, such as data models, methods, and more. These are useful for your customizations.",
         children: [
@@ -185,12 +178,19 @@ export const paymentSidebar = [
             title: "Events Reference",
           },
           {
-            type: "link",
-            path: "/references/payment",
+            type: "sidebar",
+            sidebar_id: "payment-service-reference",
             title: "Main Service Reference",
-            isChildSidebar: true,
             childSidebarTitle: "Payment Module's Main Service Reference",
             children: [
+              {
+                type: "link",
+                path: "/references/payment",
+                title: "Reference Overview",
+              },
+              {
+                type: "separator",
+              },
               {
                 type: "category",
                 title: "Methods",
@@ -200,12 +200,19 @@ export const paymentSidebar = [
             ],
           },
           {
-            type: "link",
-            path: "/references/payment/models",
+            type: "sidebar",
+            sidebar_id: "payment-models-reference",
             title: "Data Models Reference",
-            isChildSidebar: true,
             childSidebarTitle: "Payment Module Data Models Reference",
             children: [
+              {
+                type: "link",
+                path: "/references/payment/models",
+                title: "Reference Overview",
+              },
+              {
+                type: "separator",
+              },
               {
                 type: "category",
                 title: "Data Models",

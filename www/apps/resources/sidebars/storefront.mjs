@@ -1,5 +1,13 @@
-/** @type {import('types').RawSidebarItem[]} */
-export const storefrontGuidesSidebar = [
+/** @type {import('types').Sidebar.SidebarItem[]} */
+export const storefrontDevelopmentSidebar = [
+  {
+    type: "link",
+    path: "/storefront-development",
+    title: "Overview",
+  },
+  {
+    type: "separator",
+  },
   {
     type: "category",
     title: "General",
@@ -18,7 +26,9 @@ export const storefrontGuidesSidebar = [
   },
   {
     type: "category",
-    title: "Examples",
+    title: "Tutorials",
+    description:
+      "The following tutorials guide you to build a storefront for different kinds of use cases.",
     children: [
       {
         type: "link",
@@ -30,6 +40,8 @@ export const storefrontGuidesSidebar = [
   {
     type: "category",
     title: "Regions",
+    description:
+      "Regions are different areas you sell products in. Learn how to use regions in your storefront.",
     children: [
       {
         type: "link",
@@ -56,6 +68,8 @@ export const storefrontGuidesSidebar = [
   {
     type: "category",
     title: "Products",
+    description:
+      "Learn how to show products and related data in your storefront.",
     children: [
       {
         type: "link",
@@ -88,6 +102,7 @@ export const storefrontGuidesSidebar = [
   {
     type: "category",
     title: "Product Categories",
+    description: "Learn how to show product categories in your storefront.",
     children: [
       {
         type: "link",
@@ -114,6 +129,7 @@ export const storefrontGuidesSidebar = [
   {
     type: "category",
     title: "Product Collections",
+    description: "Learn how to show product collections in your storefront.",
     children: [
       {
         type: "link",
@@ -135,6 +151,8 @@ export const storefrontGuidesSidebar = [
   {
     type: "category",
     title: "Carts",
+    description:
+      "Learn how to manage carts in your storefront. These carts are later used to implement the checkout flow.",
     children: [
       {
         type: "link",
@@ -166,6 +184,8 @@ export const storefrontGuidesSidebar = [
   {
     type: "category",
     title: "Checkout",
+    description:
+      "Learn how to implement the different steps of the checkout flow in your storefront. By following the checkout flow, customers can complete their purchase.",
     children: [
       {
         type: "link",
@@ -209,51 +229,69 @@ export const storefrontGuidesSidebar = [
   {
     type: "category",
     title: "Customers",
+    description:
+      "Learn how to allow customers to register, login, and manage their profile in your storefront.",
     children: [
       {
-        type: "link",
-        path: "/storefront-development/customers/register",
-        title: "Register Customer",
+        type: "sub-category",
+        title: "Authentication",
+        description:
+          "Learn how to authenticate customers in your storefront. This includes basic email-password authentication and third-party (social) login.",
+        children: [
+          {
+            type: "link",
+            path: "/storefront-development/customers/register",
+            title: "Register Customer",
+          },
+          {
+            type: "link",
+            path: "/storefront-development/customers/login",
+            title: "Login Customer",
+          },
+          {
+            type: "link",
+            path: "/storefront-development/customers/third-party-login",
+            title: "Third-Party (Social) Login",
+          },
+          {
+            type: "link",
+            path: "/storefront-development/customers/reset-password",
+            title: "Reset Password",
+          },
+        ],
       },
       {
-        type: "link",
-        path: "/storefront-development/customers/login",
-        title: "Login Customer",
-      },
-      {
-        type: "link",
-        path: "/storefront-development/customers/third-party-login",
-        title: "Third-Party (Social) Login",
-      },
-      {
-        type: "link",
-        path: "/storefront-development/customers/reset-password",
-        title: "Reset Password",
-      },
-      {
-        type: "link",
-        path: "/storefront-development/customers/retrieve",
-        title: "Retrieve Customer",
-      },
-      {
-        type: "link",
-        path: "/storefront-development/customers/context",
-        title: "Customer React Context",
-      },
-      {
-        type: "link",
-        path: "/storefront-development/customers/profile",
-        title: "Edit Customer Profile",
-      },
-      {
-        type: "link",
-        path: "/storefront-development/customers/addresses",
-        title: "Manage Customer Addresses",
-      },
-      {
-        type: "link",
-        path: "/storefront-development/customers/log-out",
-        title: "Log-out Customer",
+        type: "sub-category",
+        title: "Profile",
+        description:
+          "Learn how to retrieve a customer, manage their customer profile, and log them out in your storefront.",
+        children: [
+          {
+            type: "link",
+            path: "/storefront-development/customers/retrieve",
+            title: "Retrieve Customer",
+          },
+          {
+            type: "link",
+            path: "/storefront-development/customers/context",
+            title: "Customer React Context",
+          },
+          {
+            type: "link",
+            path: "/storefront-development/customers/profile",
+            title: "Edit Customer Profile",
+          },
+          {
+            type: "link",
+            path: "/storefront-development/customers/addresses",
+            title: "Manage Customer Addresses",
+          },
+          {
+            type: "link",
+            path: "/storefront-development/customers/log-out",
+            title: "Log-out Customer",
+          },
+        ],
       },
     ],
   },

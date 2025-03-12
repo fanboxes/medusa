@@ -331,6 +331,17 @@ medusaIntegrationTestRunner({
         },
       ])
 
+      // create reservation for inventory item that is initially on the order
+      const inventoryModule = container.resolve(Modules.INVENTORY)
+      await inventoryModule.createReservationItems([
+        {
+          inventory_item_id: inventoryItem.id,
+          location_id: location.id,
+          quantity: 2,
+          line_item_id: order.items[0].id,
+        },
+      ])
+
       const shippingOptionPayload = {
         name: "Return shipping",
         service_zone_id: fulfillmentSet.service_zones[0].id,

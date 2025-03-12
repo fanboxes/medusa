@@ -12,7 +12,7 @@ export const CommerceModuleSections = () => {
       showItems: ["Server Guides"],
       defaultItemsPerRow: 2,
     })
-  if (serverGuideItems?.default.length) {
+  if (serverGuideItems?.length) {
     guideComponents.push(serverGuidesComponent)
   }
   const { items: storefrontGuideItems, component: storefrontGuidesComponent } =
@@ -20,7 +20,7 @@ export const CommerceModuleSections = () => {
       showItems: ["Storefront Guides"],
       defaultItemsPerRow: 2,
     })
-  if (storefrontGuideItems?.default.length) {
+  if (storefrontGuideItems?.length) {
     guideComponents.push(storefrontGuidesComponent)
   }
   const { items: adminGuideItems, component: adminGuidesComponent } =
@@ -28,7 +28,7 @@ export const CommerceModuleSections = () => {
       showItems: ["Admin Guides"],
       defaultItemsPerRow: 2,
     })
-  if (adminGuideItems?.default.length) {
+  if (adminGuideItems?.length) {
     guideComponents.push(adminGuidesComponent)
   }
   const { items: userGuideItems, component: userGuidesComponent } =
@@ -36,14 +36,14 @@ export const CommerceModuleSections = () => {
       showItems: ["User Guides"],
       defaultItemsPerRow: 2,
     })
-  if (userGuideItems?.default.length) {
+  if (userGuideItems?.length) {
     guideComponents.push(userGuidesComponent)
   }
   const { items: jsSdkItems, component: jsSdkComponent } = useChildDocs({
     showItems: ["JS SDK"],
     itemsPerRow: 2,
   })
-  if (jsSdkItems?.default.length) {
+  if (jsSdkItems?.length) {
     referenceComponents.push(jsSdkComponent)
   }
   const { items: referenceItems, component: referencesComponent } =
@@ -51,7 +51,7 @@ export const CommerceModuleSections = () => {
       showItems: ["References"],
       defaultItemsPerRow: 2,
     })
-  if (referenceItems?.default.length) {
+  if (referenceItems?.length) {
     referenceComponents.push(referencesComponent)
   }
 

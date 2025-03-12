@@ -1639,6 +1639,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@medusajs/icons@npm:2.6.0":
+  version: 2.6.0
+  resolution: "@medusajs/icons@npm:2.6.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
+  checksum: cb8628018398aba010bb7b1f653cb7dc91d9bd59a40f1e7ee4cdc7732559e75062db790fb609fd3f748a9b80ccc0f421267a414ed9f5a7a4e079ef643e65333e
+  languageName: node
+  linkType: hard
+
 "@medusajs/icons@npm:^2.5.1, @medusajs/icons@npm:~2.5.1":
   version: 2.5.1
   resolution: "@medusajs/icons@npm:2.5.1"
@@ -1648,19 +1657,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@medusajs/ui-preset@npm:~2.5.1":
-  version: 2.5.1
-  resolution: "@medusajs/ui-preset@npm:2.5.1"
+"@medusajs/ui-preset@npm:2.6.0":
+  version: 2.6.0
+  resolution: "@medusajs/ui-preset@npm:2.6.0"
   dependencies:
     "@tailwindcss/forms": ^0.5.3
     tailwindcss-animate: ^1.0.6
   peerDependencies:
     tailwindcss: ">=3.0.0"
-  checksum: 7aee7a7e9f0acc8f6329434f1b502d1c5eabecb3a60b3207f435da17ce8c681e85cb0466a1f861f98eb0bd89e7f8363b5865c0f70ad546dfb6aaacb22887b182
+  checksum: 8ea576d2f2f8b2805c943b28636800c8d950b4df3e3fe785476dbeceb04735d4ce618cf9acdf34dca0ec0c2fec2334d522bdeca24e535ceed065bab961617114
   languageName: node
   linkType: hard
 
-"@medusajs/ui@npm:~4.0.6":
+"@medusajs/ui@npm:4.0.6":
   version: 4.0.6
   resolution: "@medusajs/ui@npm:4.0.6"
   dependencies:
@@ -5871,8 +5880,8 @@ __metadata:
   dependencies:
     "@mdx-js/loader": ^3.1.0
     "@mdx-js/react": ^3.1.0
-    "@medusajs/icons": ~2.5.1
-    "@medusajs/ui": ~4.0.6
+    "@medusajs/icons": 2.6.0
+    "@medusajs/ui": 4.0.6
     "@next/bundle-analyzer": 15.0.4
     "@next/mdx": 15.0.4
     "@react-hook/resize-observer": ^2.0.2
@@ -7508,8 +7517,8 @@ __metadata:
   resolution: "docs-ui@workspace:packages/docs-ui"
   dependencies:
     "@emotion/is-prop-valid": ^1.3.1
-    "@medusajs/icons": ~2.5.1
-    "@medusajs/ui": ~4.0.6
+    "@medusajs/icons": 2.6.0
+    "@medusajs/ui": 4.0.6
     "@next/third-parties": 15.0.4
     "@octokit/request": ^8.1.1
     "@react-hook/resize-observer": ^1.2.6
@@ -14819,7 +14828,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "tailwind@workspace:packages/tailwind"
   dependencies:
-    "@medusajs/ui-preset": ~2.5.1
+    "@medusajs/ui-preset": 2.6.0
     tailwindcss-animate: ^1.0.7
   peerDependencies:
     docs-ui: "*"
@@ -15376,7 +15385,7 @@ turbo@latest:
   version: 0.0.0-use.local
   resolution: "types@workspace:packages/types"
   dependencies:
-    "@medusajs/icons": ~2.5.1
+    "@medusajs/icons": 2.6.0
     "@types/node": ^20.11.20
     rimraf: ^5.0.5
     tsconfig: "*"
@@ -15464,9 +15473,9 @@ turbo@latest:
   dependencies:
     "@faker-js/faker": ^8.0.2
     "@mdx-js/react": ^3.1.0
-    "@medusajs/icons": ~2.5.1
-    "@medusajs/ui": ~4.0.6
-    "@medusajs/ui-preset": ~2.5.1
+    "@medusajs/icons": 2.6.0
+    "@medusajs/ui": 4.0.6
+    "@medusajs/ui-preset": 2.6.0
     "@types/node": 20.4.9
     "@types/react": "npm:types-react@rc"
     "@types/react-dom": "npm:types-react@rc"

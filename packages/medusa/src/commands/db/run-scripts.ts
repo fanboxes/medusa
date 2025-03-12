@@ -4,6 +4,7 @@ import { logger } from "@medusajs/framework/logger"
 import { MigrationScriptsMigrator } from "@medusajs/framework/migrations"
 import {
   ContainerRegistrationKeys,
+  getResolvedPlugins,
   mergePluginModules,
 } from "@medusajs/framework/utils"
 import { dirname, join } from "path"
@@ -11,7 +12,6 @@ import { dirname, join } from "path"
 import { MedusaModule } from "@medusajs/framework/modules-sdk"
 import { MedusaContainer, PluginDetails } from "@medusajs/types"
 import { initializeContainer } from "../../loaders"
-import { getResolvedPlugins } from "../../loaders/helpers/resolve-plugins"
 import { ensureDbExists } from "../utils"
 
 const TERMINAL_SIZE = process.stdout.columns

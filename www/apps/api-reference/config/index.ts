@@ -8,17 +8,20 @@ export const config: DocsConfig = {
   baseUrl,
   basePath: process.env.NEXT_PUBLIC_BASE_PATH,
   // sidebar is auto generated
-  sidebar: {
-    default: [
-      {
-        type: "link",
-        title: "Introduction",
-        path: "introduction",
-        loaded: true,
-      },
-    ],
-    mobile: [],
-  },
+  sidebars: [
+    {
+      sidebar_id: "api-ref",
+      title: "API Reference",
+      items: [
+        {
+          type: "link",
+          title: "Introduction",
+          path: "introduction",
+          loaded: true,
+        },
+      ],
+    },
+  ],
   project: {
     title: "API Reference",
     key: "api-reference",

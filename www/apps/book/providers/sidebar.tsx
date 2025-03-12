@@ -15,13 +15,8 @@ const SidebarProvider = ({ children }: SidebarProviderProps) => {
 
   return (
     <UiSidebarProvider
-      shouldHandlePathChange={true}
-      shouldHandleHashChange={false}
       scrollableElement={scrollableElement}
-      initialItems={config.sidebar}
-      staticSidebarItems={true}
-      disableActiveTransition={true}
-      projectName="docs"
+      sidebars={config.sidebars}
     >
       {children}
     </UiSidebarProvider>

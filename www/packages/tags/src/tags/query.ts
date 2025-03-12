@@ -96,10 +96,6 @@ export const query = [
     "path": "https://docs.medusajs.com/resources/references/medusa-workflows/batchProductVariantsWorkflow"
   },
   {
-    "title": "batchProductsWorkflow",
-    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/batchProductsWorkflow"
-  },
-  {
     "title": "deleteProductVariantsWorkflow",
     "path": "https://docs.medusajs.com/resources/references/medusa-workflows/deleteProductVariantsWorkflow"
   },

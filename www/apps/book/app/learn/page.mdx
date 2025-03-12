@@ -1,11 +1,12 @@
 import { CheckCircleSolid, BuildingStorefront, BuildingsSolid, ComputerDesktop, FlyingBox } from "@medusajs/icons"
 import { config } from "@/config"
+import { Table } from "docs-ui"
 
 export const metadata = {
-  title: `${pageNumber} Introduction - ${config.titleSuffix}`,
+  title: `${pageNumber} Introduction`,
 }
 
-# {pageNumber} Introduction
+# {metadata.title}
 
 Medusa is a digital commerce platform with a built-in framework for customization.
 
@@ -78,10 +79,72 @@ By following this documentation, you'll be able to create custom commerce experi
 
 This documentation is split into the following sections:
 
-1. The main documentation, which is the one you're currently reading. It's recommended to follow the chapters in this documentation to understand the core concepts of Medusa and how to use them.
-2. The [Development Resources documentation](!resources!) provides guides and resources useful during your development, such as tools, API references, recipes, step-by-step guides and examples, and more.
-3. The [Store](!api!/store) and [Admin](!api!/admin) API references provide a reference to the Medusa application's endpoints and instructions related to authentication, parameter types in requests, and more.
-4. The [User Guide](!user-guide!) introduces you to the Medusa Admin dashboard and helps merchants and store managers understand how to use the dashboard to manage their store.
+<Table>
+  <Table.Header>
+    <Table.Row>
+      <Table.HeaderCell>Section</Table.HeaderCell>
+      <Table.HeaderCell className="w-2/3">Description</Table.HeaderCell>
+    </Table.Row>
+  </Table.Header>
+  <Table.Body>
+    <Table.Row>
+      <Table.Cell>
+        [Main Documentation](./page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        The documentation you're currently reading. It's recommended to follow the chapters in this documentation to understand the core concepts of Medusa and how to use them before jumping into the other sections.
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        Product
+      </Table.Cell>
+      <Table.Cell>
+        Documentation for the [Commerce](!resources!/commerce-modules) and [Architectural](!resources!/architectural-modules) Modules. You can browse those to learn more about Medusa's commerce and architectural features, and find guides specific to each of these modules.
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        Build
+      </Table.Cell>
+      <Table.Cell>
+        [Recipes](!resources!/recipes), [How-To & Tutorials](!resources!/how-to-tutorials), [Integrations](!resources!/integrations), and [Storefront Development](!resources!/storefront-development) guides. You can follow these guides after you've learned Medusa's core concepts.
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [Tools](!resources!/tools)
+      </Table.Cell>
+      <Table.Cell>
+        Guides on how to setup and use Medusa's CLI tools, [JS SDK](!resources!/js-sdk), [Next.js Starter](!resources!/nextjs-starter), and [Medusa UI](!ui!)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        API Routes References
+      </Table.Cell>
+      <Table.Cell>
+        References of the [Store](!api!/store) and [Admin](!api!/admin) API routes in Medusa. They also include instructions related to authentication, parameter types in requests, and more.
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [References](!resources!/references-overview)
+      </Table.Cell>
+      <Table.Cell>
+        Useful during your development with Medusa to learn about different APIs and how to use them. Its references include the [Events Reference](!resources!/events-reference), [Core Workflows Reference](!resources!/medusa-workflows-reference), and more.
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [User Guide](!user-guide!)
+      </Table.Cell>
+      <Table.Cell>
+        Guides that introduce merchants and store managers to the Medusa Admin dashboard and helps them understand how to use the dashboard to manage their store.
+      </Table.Cell>
+    </Table.Row>
+  </Table.Body>
+</Table>
 
 To get started, check out the [Installation chapter](./installation/page.mdx).
 

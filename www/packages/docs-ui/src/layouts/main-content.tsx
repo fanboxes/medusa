@@ -1,9 +1,8 @@
 "use client"
 
 import React, { useEffect } from "react"
-import { useSidebar } from "../providers/Sidebar"
 import clsx from "clsx"
-import { MainNav, useIsBrowser, useLayout } from ".."
+import { MainNav, useIsBrowser, useLayout, useSidebar } from ".."
 
 export type MainContentLayoutProps = {
   mainWrapperClasses?: string

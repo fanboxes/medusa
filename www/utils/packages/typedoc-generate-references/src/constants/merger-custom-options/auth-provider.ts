@@ -9,6 +9,8 @@ const authProviderOptions: FormattingOptionsType = {
     reflectionDescription: `In this document, you’ll learn how to create an auth provider module and the methods you must implement in its main service.`,
     frontmatterData: {
       slug: "/references/auth/provider",
+      tags: ["auth", "server", "how to"],
+      sidebar_label: "Create Auth Provider",
     },
     reflectionTitle: {
       fullReplacement: "How to Create an Auth Provider Module",

@@ -1,5 +1,19 @@
 # @medusajs/dashboard
 
+## 2.6.1
+
+### Patch Changes
+
+- [#11731](https://github.com/medusajs/medusa/pull/11731) [`4c28efaadc01fd0782721924c3c2eff0f6f9ba7a`](https://github.com/medusajs/medusa/commit/4c28efaadc01fd0782721924c3c2eff0f6f9ba7a) Thanks [@fPolic](https://github.com/fPolic)! - fix(dashboard): correctly format date cell time
+
+- [#11738](https://github.com/medusajs/medusa/pull/11738) [`3b470f41427e487c68f89b8ee8155de716ffe861`](https://github.com/medusajs/medusa/commit/3b470f41427e487c68f89b8ee8155de716ffe861) Thanks [@olivermrbl](https://github.com/olivermrbl)! - chore: Remove ranges on Medusa packages
+
+- Updated dependencies [[`3b470f41427e487c68f89b8ee8155de716ffe861`](https://github.com/medusajs/medusa/commit/3b470f41427e487c68f89b8ee8155de716ffe861)]:
+  - @medusajs/icons@2.6.1
+  - @medusajs/ui@4.0.7
+  - @medusajs/js-sdk@2.6.1
+  - @medusajs/admin-shared@2.6.1
+
 ## 2.6.0
 
 ### Patch Changes

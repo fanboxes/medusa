@@ -26,6 +26,7 @@ import { refreshCartShippingMethodsWorkflow } from "./refresh-cart-shipping-meth
 import { refreshPaymentCollectionForCartWorkflow } from "./refresh-payment-collection"
 import { updateCartPromotionsWorkflow } from "./update-cart-promotions"
 import { updateTaxLinesWorkflow } from "./update-tax-lines"
+import { upsertTaxLinesWorkflow } from "./upsert-tax-lines"
 
 /**
  * The details of the cart to refresh.
@@ -44,6 +45,23 @@ export type RefreshCartItemsWorkflowInput = {
    * Force refresh the cart items
    */
   force_refresh?: boolean
+
+  /**
+   * The items to refresh.
+   */
+  items?: any[]
+
+  /**
+   * The shipping methods to refresh.
+   */
+  shipping_methods?: any[]
+
+  /**
+   * Whether to force re-calculating tax amounts, which
+   * may include sending requests to a third-part tax provider, depending
+   * on the configurations of the cart's tax region.
+   */
+  force_tax_calculation?: boolean
 }
 
 export const refreshCartItemsWorkflowId = "refresh-cart-items"
@@ -162,8 +180,33 @@ export const refreshCartItemsWorkflow = createWorkflow(
       input: refreshCartInput,
     })
 
-    updateTaxLinesWorkflow.runAsStep({
-      input: refreshCartInput,
+    when({ input }, ({ input }) => {
+      return !!input.force_refresh
+    }).then(() => {
+      updateTaxLinesWorkflow.runAsStep({
+        input: refreshCartInput,
+      })
+    })
+
+    when({ input }, ({ input }) => {
+      return (
+        !input.force_refresh &&
+        (!!input.items?.length || !!input.shipping_methods?.length)
+      )
+    }).then(() => {
+      upsertTaxLinesWorkflow.runAsStep({
+        input: transform(
+          { refetchedCart, input },
+          ({ refetchedCart, input }) => {
+            return {
+              cart: refetchedCart,
+              items: input.items ?? [],
+              shipping_methods: input.shipping_methods ?? [],
+              force_tax_calculation: input.force_tax_calculation,
+            }
+          }
+        ),
+      })
     })
 
     const cartPromoCodes = transform(

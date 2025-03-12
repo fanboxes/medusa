@@ -1,5 +1,65 @@
 # Change Log
 
+## 2.6.1
+
+### Patch Changes
+
+- [#11789](https://github.com/medusajs/medusa/pull/11789) [`62e429178f3abe0a528f7a574eb6a09ac525bf9c`](https://github.com/medusajs/medusa/commit/62e429178f3abe0a528f7a574eb6a09ac525bf9c) Thanks [@kasperkristensen](https://github.com/kasperkristensen)! - fix(medusa): Use correct query config for customer address
+
+- [#11788](https://github.com/medusajs/medusa/pull/11788) [`90964a404edbb079d7de332a11ab97c4f5643d67`](https://github.com/medusajs/medusa/commit/90964a404edbb079d7de332a11ab97c4f5643d67) Thanks [@kasperkristensen](https://github.com/kasperkristensen)! - fix(medusa): Apply middleware to GET customers/:id/addresses/:address_id
+
+- [#11724](https://github.com/medusajs/medusa/pull/11724) [`cc1309d3709b251683a0cda0ced448f8bf9f514e`](https://github.com/medusajs/medusa/commit/cc1309d3709b251683a0cda0ced448f8bf9f514e) Thanks [@adrien2p](https://github.com/adrien2p)! - chore(product): Improve product normalization
+
+- [#11738](https://github.com/medusajs/medusa/pull/11738) [`3b470f41427e487c68f89b8ee8155de716ffe861`](https://github.com/medusajs/medusa/commit/3b470f41427e487c68f89b8ee8155de716ffe861) Thanks [@olivermrbl](https://github.com/olivermrbl)! - chore: Remove ranges on Medusa packages
+
+- [#11759](https://github.com/medusajs/medusa/pull/11759) [`2a0bd86204c9dd51a012763016f2de822d3c45b6`](https://github.com/medusajs/medusa/commit/2a0bd86204c9dd51a012763016f2de822d3c45b6) Thanks [@thetutlage](https://github.com/thetutlage)! - chore: pin swc to 1.5.7
+
+- Updated dependencies [[`b7678983a9b3e5c4d88282054b37b6c517329bd7`](https://github.com/medusajs/medusa/commit/b7678983a9b3e5c4d88282054b37b6c517329bd7), [`cc1309d3709b251683a0cda0ced448f8bf9f514e`](https://github.com/medusajs/medusa/commit/cc1309d3709b251683a0cda0ced448f8bf9f514e), [`70eaaa91965dbe3a641dc634b4e81069d73846ed`](https://github.com/medusajs/medusa/commit/70eaaa91965dbe3a641dc634b4e81069d73846ed), [`3b470f41427e487c68f89b8ee8155de716ffe861`](https://github.com/medusajs/medusa/commit/3b470f41427e487c68f89b8ee8155de716ffe861), [`20cd59e622463fbd46506275648ce681869adcdf`](https://github.com/medusajs/medusa/commit/20cd59e622463fbd46506275648ce681869adcdf), [`84f991192ec288f90af36c5352448b2785901d1a`](https://github.com/medusajs/medusa/commit/84f991192ec288f90af36c5352448b2785901d1a), [`16d7294de805e314f36b302c7b3bbdb126ae5c96`](https://github.com/medusajs/medusa/commit/16d7294de805e314f36b302c7b3bbdb126ae5c96), [`cc8422d3a163d18492e1bd6de50e0796ca34a41f`](https://github.com/medusajs/medusa/commit/cc8422d3a163d18492e1bd6de50e0796ca34a41f)]:
+  - @medusajs/core-flows@2.6.1
+  - @medusajs/cart@2.6.1
+  - @medusajs/product@2.6.1
+  - @medusajs/framework@2.6.1
+  - @medusajs/notification-sendgrid@2.6.1
+  - @medusajs/fulfillment-manual@2.6.1
+  - @medusajs/notification-local@2.6.1
+  - @medusajs/locking-postgres@2.6.1
+  - @medusajs/auth-emailpass@2.6.1
+  - @medusajs/payment-stripe@2.6.1
+  - @medusajs/workflow-engine-inmemory@2.6.1
+  - @medusajs/locking-redis@2.6.1
+  - @medusajs/auth-github@2.6.1
+  - @medusajs/auth-google@2.6.1
+  - @medusajs/workflow-engine-redis@2.6.1
+  - @medusajs/file-local@2.6.1
+  - @medusajs/file-s3@2.6.1
+  - @medusajs/event-bus-local@2.6.1
+  - @medusajs/event-bus-redis@2.6.1
+  - @medusajs/cache-inmemory@2.6.1
+  - @medusajs/stock-location@2.6.1
+  - @medusajs/sales-channel@2.6.1
+  - @medusajs/link-modules@2.6.1
+  - @medusajs/notification@2.6.1
+  - @medusajs/admin-bundler@2.6.1
+  - @medusajs/cache-redis@2.6.1
+  - @medusajs/fulfillment@2.6.1
+  - @medusajs/inventory@2.6.1
+  - @medusajs/promotion@2.6.1
+  - @medusajs/currency@2.6.1
+  - @medusajs/customer@2.6.1
+  - @medusajs/api-key@2.6.1
+  - @medusajs/locking@2.6.1
+  - @medusajs/payment@2.6.1
+  - @medusajs/pricing@2.6.1
+  - @medusajs/region@2.6.1
+  - @medusajs/index@2.6.1
+  - @medusajs/order@2.6.1
+  - @medusajs/store@2.6.1
+  - @medusajs/auth@2.6.1
+  - @medusajs/file@2.6.1
+  - @medusajs/user@2.6.1
+  - @medusajs/tax@2.6.1
+  - @medusajs/telemetry@2.6.1
+
 ## 2.6.0
 
 ### Minor Changes

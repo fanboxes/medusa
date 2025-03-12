@@ -1,19 +1,17 @@
-import { ShoppingBag, TriangleRightMini } from "@medusajs/icons"
-import { Container, Heading, Text } from "@medusajs/ui"
+import { ShoppingBag } from "@medusajs/icons"
+import { Container, Heading } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
-import { Link, useLoaderData } from "react-router-dom"
+import { useLoaderData } from "react-router-dom"
 
 import { useStockLocations } from "../../../hooks/api/stock-locations"
 import LocationListItem from "./components/location-list-item/location-list-item"
 import { LOCATION_LIST_FIELDS } from "./constants"
 import { shippingListLoader } from "./loader"
 
-import { ReactNode } from "react"
-import { IconAvatar } from "../../../components/common/icon-avatar"
-import { TwoColumnPage } from "../../../components/layout/pages"
-import { useDashboardExtension } from "../../../extensions"
-import { LocationListHeader } from "./components/location-list-header"
 import { SidebarLink } from "../../../components/common/sidebar-link/sidebar-link"
+import { TwoColumnPage } from "../../../components/layout/pages"
+import { useExtension } from "../../../providers/extension-provider"
+import { LocationListHeader } from "./components/location-list-header"
 
 export function LocationList() {
   const initialData = useLoaderData() as Awaited<
@@ -31,7 +29,7 @@ export function LocationList() {
     { initialData }
   )
 
-  const { getWidgets } = useDashboardExtension()
+  const { getWidgets } = useExtension()
 
   if (isError) {
     throw error

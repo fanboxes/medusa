@@ -239,7 +239,7 @@ function extractShippingOption({ orderPreview, orderClaim, returnId }) {
 
     for (const action of modifiedShippingMethod_.actions) {
       if (action.action === ChangeActionType.SHIPPING_ADD) {
-        if (action.return?.id === returnId) {
+        if (!!action.return_id && action.return_id === returnId) {
           returnShippingMethod = shippingMethod
         } else if (action.claim_id === orderClaim.id) {
           claimShippingMethod = shippingMethod

@@ -1,9 +1,9 @@
-/** @type {import('types').RawSidebarItem[]} */
+/** @type {import('types').Sidebar.SidebarItem[]} */
 export const salesChannelSidebar = [
   {
-    type: "category",
+    type: "sidebar",
+    sidebar_id: "sales-channel",
     title: "Sales Channel Module",
-    isChildSidebar: true,
     children: [
       {
         type: "link",
@@ -16,7 +16,6 @@ export const salesChannelSidebar = [
       {
         type: "category",
         title: "Concepts",
-        initialOpen: false,
         autogenerate_tags: "concept+salesChannel",
         autogenerate_as_ref: true,
         children: [
@@ -36,7 +35,6 @@ export const salesChannelSidebar = [
         type: "category",
         title: "Server Guides",
         autogenerate_tags: "server+salesChannel",
-        initialOpen: false,
         autogenerate_as_ref: true,
         sort_sidebar: "alphabetize",
         description:
@@ -46,7 +44,6 @@ export const salesChannelSidebar = [
         type: "category",
         title: "Storefront Guides",
         autogenerate_tags: "storefront+salesChannel,-jsSdk",
-        initialOpen: false,
         autogenerate_as_ref: true,
         sort_sidebar: "alphabetize",
         description:
@@ -56,7 +53,6 @@ export const salesChannelSidebar = [
         type: "category",
         title: "Admin Guides",
         autogenerate_tags: "admin+salesChannel,-jsSdk",
-        initialOpen: false,
         autogenerate_as_ref: true,
         sort_sidebar: "alphabetize",
         description:
@@ -66,7 +62,6 @@ export const salesChannelSidebar = [
         type: "category",
         title: "Admin User Guides",
         autogenerate_tags: "userGuide+salesChannel",
-        initialOpen: false,
         autogenerate_as_ref: true,
         sort_sidebar: "alphabetize",
         description:
@@ -75,7 +70,6 @@ export const salesChannelSidebar = [
       {
         type: "category",
         title: "References",
-        initialOpen: false,
         description:
           "Find references for tools and resources related to the Sales Channel Module, such as data models, methods, and more. These are useful for your customizations.",
         children: [
@@ -138,12 +132,16 @@ export const salesChannelSidebar = [
             title: "Admin Widget Zones",
           },
           {
-            type: "link",
-            path: "/references/sales-channel",
+            type: "sidebar",
+            sidebar_id: "sales-channel-service-reference",
             title: "Main Service Reference",
-            isChildSidebar: true,
             childSidebarTitle: "Sales Channel Module's Main Service Reference",
             children: [
+              {
+                type: "link",
+                path: "/references/sales-channel",
+                title: "Reference Overview",
+              },
               {
                 type: "category",
                 title: "Methods",
@@ -153,12 +151,19 @@ export const salesChannelSidebar = [
             ],
           },
           {
-            type: "link",
-            path: "/references/sales-channel/models",
+            type: "sidebar",
+            sidebar_id: "sales-channel-models-reference",
             title: "Data Models Reference",
-            isChildSidebar: true,
             childSidebarTitle: "Sales Channel Module Data Models Reference",
             children: [
+              {
+                type: "link",
+                path: "/references/sales-channel/models",
+                title: "Reference Overview",
+              },
+              {
+                type: "separator",
+              },
               {
                 type: "category",
                 title: "Data Models",

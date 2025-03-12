@@ -486,6 +486,9 @@ medusaIntegrationTestRunner({
       it("should revert an order fulfillment when it fails and recreate it when tried again", async () => {
         const order = await createOrderFixture({ container, product, location })
 
+        const itemId = order.items?.find((i) => i.title === "Custom Item 2")!
+          .id as string
+
         // Create a fulfillment
         const createOrderFulfillmentData: OrderWorkflow.CreateOrderFulfillmentWorkflowInput =
           {
@@ -493,7 +496,7 @@ medusaIntegrationTestRunner({
             created_by: "user_1",
             items: [
               {
-                id: order.items![0].id,
+                id: itemId,
                 quantity: 1,
               },
             ],
@@ -540,12 +543,14 @@ medusaIntegrationTestRunner({
 
         const [orderFulfill] = await remoteQuery(remoteQueryObject)
 
+        const fulfilledItem = orderFulfill.items?.find((i) => i.id === itemId)
+
         expect(orderFulfill.fulfillments).toHaveLength(1)
-        expect(orderFulfill.items[0].detail.fulfilled_quantity).toEqual(1)
+        expect(fulfilledItem?.detail.fulfilled_quantity).toEqual(1)
 
         const inventoryModule = container.resolve(Modules.INVENTORY)
         const reservation = await inventoryModule.listReservationItems({
-          line_item_id: order.items![0].id,
+          line_item_id: itemId,
         })
         expect(reservation).toHaveLength(0)
 

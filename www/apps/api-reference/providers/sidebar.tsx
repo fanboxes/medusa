@@ -20,10 +20,12 @@ const SidebarProvider = ({ children }: SidebarProviderProps) => {
       isLoading={isLoading}
       setIsLoading={setIsLoading}
       shouldHandleHashChange={true}
+      shouldHandlePathChange={false}
       scrollableElement={scrollableElement}
-      initialItems={config.sidebar}
-      persistState={false}
-      projectName="api"
+      sidebars={config.sidebars}
+      persistCategoryState={false}
+      disableActiveTransition={false}
+      isSidebarStatic={false}
     >
       {children}
     </UiSidebarProvider>

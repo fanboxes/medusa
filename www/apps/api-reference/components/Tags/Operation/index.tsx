@@ -60,11 +60,12 @@ const TagOperation = ({
   }, [isBrowser, scrollableElement])
 
   const scrollIntoView = useCallback(() => {
-    if (!isBrowser) {
+    if (!isBrowser || !nodeRef.current) {
+      // repeat timeout
+      setTimeout(scrollIntoView, 200)
       return
     }
-
-    if (nodeRef.current && !checkElementInViewport(nodeRef.current, 0)) {
+    if (!checkElementInViewport(nodeRef.current, 0)) {
       const elm = nodeRef.current as HTMLElement
       scrollToTop(
         elm.offsetTop + (elm.offsetParent as HTMLElement)?.offsetTop,

@@ -7,7 +7,7 @@ import { TaxRegionProvinceSection } from "./components/tax-region-province-secti
 
 import { useState } from "react"
 import { SingleColumnPageSkeleton } from "../../../components/common/skeleton"
-import { useDashboardExtension } from "../../../extensions"
+import { useExtension } from "../../../providers/extension-provider"
 import { TaxRegionOverrideSection } from "./components/tax-region-override-section"
 import { TaxRegionSublevelAlert } from "./components/tax-region-sublevel-alert"
 import { taxRegionLoader } from "./loader"
@@ -27,7 +27,7 @@ export const TaxRegionDetail = () => {
     error,
   } = useTaxRegion(id!, undefined, { initialData })
 
-  const { getWidgets } = useDashboardExtension()
+  const { getWidgets } = useExtension()
 
   if (isLoading || !taxRegion) {
     return <SingleColumnPageSkeleton sections={4} showJSON />

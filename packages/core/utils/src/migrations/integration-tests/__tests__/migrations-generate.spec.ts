@@ -134,4 +134,50 @@ describe("Generate migrations", () => {
 
     expect(run1.fileName).not.toEqual(run2.fileName)
   })
+
+  test("rename existing snapshot file to the new filename", async () => {
+    await fs.createJson(".snapshot-foo.json", {
+      tables: [],
+      namespaces: [],
+    })
+
+    function run(entities: DmlEntity<any, any>[]) {
+      const config = defineMikroOrmCliConfig(moduleName, {
+        entities,
+        dbName: dbName,
+        migrations: {
+          path: fs.basePath,
+        },
+        ...pgGodCredentials,
+      })
+
+      const migrations = new Migrations(config)
+      return migrations.generate()
+    }
+
+    const User = model.define("User", {
+      id: model.id().primaryKey(),
+      email: model.text().unique(),
+      fullName: model.text().nullable(),
+    })
+
+    const run1 = await run([User])
+    expect(await fs.exists(run1.fileName))
+    expect(await fs.exists(".snapshot-foo.json")).toBeFalsy()
+    expect(
+      await fs.exists(".snapshot-medusa-my-test-generate.json")
+    ).toBeTruthy()
+
+    const Car = model.define("Car", {
+      id: model.id().primaryKey(),
+      name: model.text(),
+    })
+
+    await setTimeout(1000)
+
+    const run2 = await run([User, Car])
+    expect(await fs.exists(run2.fileName))
+
+    expect(run1.fileName).not.toEqual(run2.fileName)
+  })
 })
