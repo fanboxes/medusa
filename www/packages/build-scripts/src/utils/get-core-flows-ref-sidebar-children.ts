@@ -92,7 +92,6 @@ export default async function getCoreFlowsRefSidebarChildren(): Promise<
         title: directory.name.replaceAll("_", " "),
         children: [],
         loaded: true,
-        initialOpen: false,
       }
 
       if (workflowItems.length) {

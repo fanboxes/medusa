@@ -1,9 +1,9 @@
-/** @type {import('types').RawSidebarItem[]} */
+/** @type {import('types').Sidebar.SidebarItem[]} */
 export const taxSidebar = [
   {
-    type: "category",
+    type: "sidebar",
+    sidebar_id: "tax",
     title: "Tax Module",
-    isChildSidebar: true,
     children: [
       {
         type: "link",
@@ -21,7 +21,6 @@ export const taxSidebar = [
       {
         type: "category",
         title: "Concepts",
-        initialOpen: false,
         children: [
           {
             type: "link",
@@ -44,7 +43,6 @@ export const taxSidebar = [
         type: "category",
         title: "Server Guides",
         autogenerate_tags: "server+tax",
-        initialOpen: false,
         autogenerate_as_ref: true,
         sort_sidebar: "alphabetize",
         description:
@@ -61,7 +59,6 @@ export const taxSidebar = [
         type: "category",
         title: "Storefront Guides",
         autogenerate_tags: "storefront+tax,-jsSdk",
-        initialOpen: false,
         autogenerate_as_ref: true,
         sort_sidebar: "alphabetize",
         description:
@@ -71,7 +68,6 @@ export const taxSidebar = [
         type: "category",
         title: "Admin Guides",
         autogenerate_tags: "admin+tax,-jsSdk",
-        initialOpen: false,
         autogenerate_as_ref: true,
         sort_sidebar: "alphabetize",
         description:
@@ -81,7 +77,6 @@ export const taxSidebar = [
         type: "category",
         title: "Admin User Guides",
         autogenerate_tags: "userGuide+tax",
-        initialOpen: false,
         autogenerate_as_ref: true,
         sort_sidebar: "alphabetize",
         description:
@@ -90,7 +85,6 @@ export const taxSidebar = [
       {
         type: "category",
         title: "References",
-        initialOpen: false,
         description:
           "Find references for tools and resources related to the Tax Module, such as data models, methods, and more. These are useful for your customizations.",
         children: [
@@ -148,12 +142,19 @@ export const taxSidebar = [
             title: "Admin Widget Zones",
           },
           {
-            type: "link",
-            path: "/references/tax",
+            type: "sidebar",
+            sidebar_id: "tax-service-reference",
             title: "Main Service Reference",
-            isChildSidebar: true,
             childSidebarTitle: "Tax Module's Main Service Reference",
             children: [
+              {
+                type: "link",
+                path: "/references/tax",
+                title: "Reference Overview",
+              },
+              {
+                type: "separator",
+              },
               {
                 type: "category",
                 title: "Methods",
@@ -162,12 +163,19 @@ export const taxSidebar = [
             ],
           },
           {
-            type: "link",
-            path: "/references/tax/models",
+            type: "sidebar",
+            sidebar_id: "tax-models-reference",
             title: "Data Models Reference",
-            isChildSidebar: true,
             childSidebarTitle: "Tax Module Data Models Reference",
             children: [
+              {
+                type: "link",
+                path: "/references/tax/models",
+                title: "Reference Overview",
+              },
+              {
+                type: "separator",
+              },
               {
                 type: "category",
                 title: "Data Models",

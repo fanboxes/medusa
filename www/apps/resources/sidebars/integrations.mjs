@@ -1,16 +1,25 @@
-/** @type {import('types').RawSidebarItem[]} */
+/** @type {import('types').Sidebar.SidebarItem[]} */
 export const integrationsSidebar = [
+  {
+    type: "link",
+    path: "/integrations",
+    title: "Overview",
+  },
+  {
+    type: "separator",
+  },
   {
     type: "category",
     title: "Auth",
+    initialOpen: true,
     children: [
       {
-        type: "link",
+        type: "ref",
         path: "/commerce-modules/auth/auth-providers/google",
         title: "Google",
       },
       {
-        type: "link",
+        type: "ref",
         path: "/commerce-modules/auth/auth-providers/github",
         title: "GitHub",
       },
@@ -19,6 +28,7 @@ export const integrationsSidebar = [
   {
     type: "category",
     title: "CMS",
+    initialOpen: true,
     children: [
       {
         type: "link",
@@ -29,10 +39,23 @@ export const integrationsSidebar = [
   },
   {
     type: "category",
-    title: "File",
+    title: "ERP",
+    initialOpen: true,
     children: [
       {
-        type: "link",
+        type: "ref",
+        path: "/recipes/erp/odoo",
+        title: "Odoo",
+      },
+    ],
+  },
+  {
+    type: "category",
+    title: "File",
+    initialOpen: true,
+    children: [
+      {
+        type: "ref",
         path: "/architectural-modules/file/s3",
         title: "AWS",
       },
@@ -41,6 +64,7 @@ export const integrationsSidebar = [
   {
     type: "category",
     title: "Fulfillment",
+    initialOpen: true,
     children: [
       {
         type: "link",
@@ -52,25 +76,27 @@ export const integrationsSidebar = [
   {
     type: "category",
     title: "Notification",
+    initialOpen: true,
     children: [
-      {
-        type: "link",
-        path: "/architectural-modules/notification/sendgrid",
-        title: "SendGrid",
-      },
       {
         type: "link",
         path: "/integrations/guides/resend",
         title: "Resend",
+      },
+      {
+        type: "ref",
+        path: "/architectural-modules/notification/sendgrid",
+        title: "SendGrid",
       },
     ],
   },
   {
     type: "category",
     title: "Payment",
+    initialOpen: true,
     children: [
       {
-        type: "link",
+        type: "ref",
         path: "/commerce-modules/payment/payment-provider/stripe",
         title: "Stripe",
       },

@@ -1,9 +1,9 @@
-import path from "path"
-import chokidar from "chokidar"
-import type tsStatic from "typescript"
-import { FileSystem, getConfigFile } from "@medusajs/utils"
-import { rm, access, constants, copyFile } from "fs/promises"
 import type { AdminOptions, ConfigModule, Logger } from "@medusajs/types"
+import { FileSystem, getConfigFile, getResolvedPlugins } from "@medusajs/utils"
+import chokidar from "chokidar"
+import { access, constants, copyFile, rm } from "fs/promises"
+import path from "path"
+import type tsStatic from "typescript"
 
 /**
  * The compiler exposes the opinionated APIs for compiling Medusa
@@ -25,7 +25,6 @@ export class Compiler {
   #logger: Logger
   #projectRoot: string
   #tsConfigPath: string
-  #adminSourceFolder: string
   #pluginsDistFolder: string
   #backendIgnoreFiles: string[]
   #adminOnlyDistFolder: string
@@ -35,7 +34,6 @@ export class Compiler {
     this.#projectRoot = projectRoot
     this.#logger = logger
     this.#tsConfigPath = path.join(this.#projectRoot, "tsconfig.json")
-    this.#adminSourceFolder = path.join(this.#projectRoot, "src/admin")
     this.#adminOnlyDistFolder = path.join(this.#projectRoot, ".medusa/admin")
     this.#pluginsDistFolder = path.join(this.#projectRoot, ".medusa/server")
     this.#backendIgnoreFiles = [
@@ -335,6 +333,7 @@ export class Compiler {
       build: (
         options: AdminOptions & {
           sources: string[]
+          plugins: string[]
           outDir: string
         }
       ) => Promise<void>
@@ -372,11 +371,30 @@ export class Compiler {
       )
     }
 
+    const plugins = await getResolvedPlugins(
+      this.#projectRoot,
+      configFile.configModule,
+      true
+    )
+
+    const adminSources = plugins
+      .map((plugin) =>
+        plugin.admin?.type === "local" ? plugin.admin.resolve : undefined
+      )
+      .filter(Boolean) as string[]
+
+    const adminPlugins = plugins
+      .map((plugin) =>
+        plugin.admin?.type === "package" ? plugin.admin.resolve : undefined
+      )
+      .filter(Boolean) as string[]
+
     try {
       this.#logger.info("Compiling frontend source...")
       await adminBundler.build({
         disable: false,
-        sources: [this.#adminSourceFolder],
+        sources: adminSources,
+        plugins: adminPlugins,
         ...configFile.configModule.admin,
         outDir: adminOnly
           ? this.#adminOnlyDistFolder

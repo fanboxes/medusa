@@ -8,11 +8,11 @@ import clsx from "clsx"
 import { SelectedMenu } from ".."
 
 type MainNavMobileMainMenu = {
-  setSelectedMenu: (menu: SelectedMenu) => void
+  setSelectedMenus: React.Dispatch<React.SetStateAction<SelectedMenu>>
 }
 
 export const MainNavMobileMainMenu = ({
-  setSelectedMenu,
+  setSelectedMenus: setSelectedMenu,
 }: MainNavMobileMainMenu) => {
   const { navItems } = useMainNav()
 
@@ -34,14 +34,17 @@ export const MainNavMobileMainMenu = ({
                 return
               }
 
-              setSelectedMenu({
-                title: item.title,
-                menu: item.children,
-              })
+              setSelectedMenu((prev) => [
+                ...prev,
+                {
+                  title: item.title,
+                  menu: item.children,
+                },
+              ])
             }}
           >
             {item.type === "link" && (
-              <Link href={item.path} className="block w-full">
+              <Link href={item.link} className="block w-full">
                 {item.title}
               </Link>
             )}

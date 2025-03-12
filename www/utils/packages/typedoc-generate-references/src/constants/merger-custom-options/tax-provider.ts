@@ -8,6 +8,8 @@ const taxProviderOptions: FormattingOptionsType = {
     reflectionDescription: `In this document, you’ll learn how to create a tax provider to use with the Tax Module, and the methods to implement.`,
     frontmatterData: {
       slug: "/references/tax/provider",
+      tags: ["tax", "server", "how to"],
+      sidebar_label: "Create Tax Provider",
     },
     reflectionTitle: {
       fullReplacement: "How to Create a Tax Provider",

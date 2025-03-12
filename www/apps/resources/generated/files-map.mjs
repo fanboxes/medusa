@@ -788,8 +788,16 @@ export const filesMap = [
     "pathname": "/examples/guides/custom-item-price"
   },
   {
+    "filePath": "/www/apps/resources/app/examples/guides/quote-management/page.mdx",
+    "pathname": "/examples/guides/quote-management"
+  },
+  {
     "filePath": "/www/apps/resources/app/examples/page.mdx",
     "pathname": "/examples"
+  },
+  {
+    "filePath": "/www/apps/resources/app/how-to-tutorials/page.mdx",
+    "pathname": "/how-to-tutorials"
   },
   {
     "filePath": "/www/apps/resources/app/integrations/guides/resend/page.mdx",
@@ -872,16 +880,8 @@ export const filesMap = [
     "pathname": "/nextjs-starter"
   },
   {
-    "filePath": "/www/apps/resources/app/page.mdx",
-    "pathname": "/"
-  },
-  {
     "filePath": "/www/apps/resources/app/plugins/guides/wishlist/page.mdx",
     "pathname": "/plugins/guides/wishlist"
-  },
-  {
-    "filePath": "/www/apps/resources/app/plugins/page.mdx",
-    "pathname": "/plugins"
   },
   {
     "filePath": "/www/apps/resources/app/recipes/b2b/page.mdx",
@@ -958,6 +958,10 @@ export const filesMap = [
   {
     "filePath": "/www/apps/resources/app/recipes/subscriptions/page.mdx",
     "pathname": "/recipes/subscriptions"
+  },
+  {
+    "filePath": "/www/apps/resources/app/references-overview/page.mdx",
+    "pathname": "/references-overview"
   },
   {
     "filePath": "/www/apps/resources/app/service-factory-reference/methods/create/page.mdx",
@@ -1206,6 +1210,10 @@ export const filesMap = [
   {
     "filePath": "/www/apps/resources/app/test-tools-reference/page.mdx",
     "pathname": "/test-tools-reference"
+  },
+  {
+    "filePath": "/www/apps/resources/app/tools/page.mdx",
+    "pathname": "/tools"
   },
   {
     "filePath": "/www/apps/resources/app/troubleshooting/cors-errors/page.mdx",
@@ -1882,6 +1890,22 @@ export const filesMap = [
   {
     "filePath": "/www/apps/resources/references/cart/ICartModuleService/methods/cart.ICartModuleService.updateShippingMethods/page.mdx",
     "pathname": "/references/cart/ICartModuleService/methods/cart.ICartModuleService.updateShippingMethods"
+  },
+  {
+    "filePath": "/www/apps/resources/references/cart/ICartModuleService/methods/cart.ICartModuleService.upsertLineItemAdjustments/page.mdx",
+    "pathname": "/references/cart/ICartModuleService/methods/cart.ICartModuleService.upsertLineItemAdjustments"
+  },
+  {
+    "filePath": "/www/apps/resources/references/cart/ICartModuleService/methods/cart.ICartModuleService.upsertLineItemTaxLines/page.mdx",
+    "pathname": "/references/cart/ICartModuleService/methods/cart.ICartModuleService.upsertLineItemTaxLines"
+  },
+  {
+    "filePath": "/www/apps/resources/references/cart/ICartModuleService/methods/cart.ICartModuleService.upsertShippingMethodAdjustments/page.mdx",
+    "pathname": "/references/cart/ICartModuleService/methods/cart.ICartModuleService.upsertShippingMethodAdjustments"
+  },
+  {
+    "filePath": "/www/apps/resources/references/cart/ICartModuleService/methods/cart.ICartModuleService.upsertShippingMethodTaxLines/page.mdx",
+    "pathname": "/references/cart/ICartModuleService/methods/cart.ICartModuleService.upsertShippingMethodTaxLines"
   },
   {
     "filePath": "/www/apps/resources/references/cart/IMessageAggregator/methods/cart.IMessageAggregator.clearMessages/page.mdx",

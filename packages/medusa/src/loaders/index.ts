@@ -15,6 +15,7 @@ import {
 } from "@medusajs/framework/types"
 import {
   ContainerRegistrationKeys,
+  getResolvedPlugins,
   GraphQLSchema,
   mergePluginModules,
   promiseAll,
@@ -27,7 +28,6 @@ import requestIp from "request-ip"
 import { v4 } from "uuid"
 import adminLoader from "./admin"
 import apiLoader from "./api"
-import { getResolvedPlugins } from "./helpers/resolve-plugins"
 
 type Options = {
   directory: string

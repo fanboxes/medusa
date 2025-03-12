@@ -21,12 +21,16 @@ export const getLocalSearch = <T extends BaseSearchRecord = BaseSearchRecord>({
   docs,
   searchableFields,
   options,
-}: GetLocalSearchInput<T>): LocalSearch<T> => {
-  const miniSearch = new MiniSearch({
-    fields: searchableFields,
-    ...options,
-  })
-  miniSearch.addAll(docs)
+}: GetLocalSearchInput<T>): LocalSearch<T> | undefined => {
+  try {
+    const miniSearch = new MiniSearch({
+      fields: searchableFields,
+      ...options,
+    })
+    miniSearch.addAll(docs)
 
-  return miniSearch as LocalSearch<T>
+    return miniSearch as LocalSearch<T>
+  } catch (e) {
+    console.warn(e)
+  }
 }

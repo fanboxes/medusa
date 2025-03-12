@@ -695,15 +695,15 @@ export const syncStep = createStep(
     const sanityModule: SanityModuleService = container.resolve(SANITY_MODULE)
     const query = container.resolve(ContainerRegistrationKeys.QUERY)
 
-    let total = 0
+    const total = 0
     const upsertMap: {
       before: any
       after: any
     }[] = []
 
     const batchSize = 200
-    let hasMore = true
-    let offset = 0
+    const hasMore = true
+    const offset = 0
     const filters = input.product_ids ? {
       id: input.product_ids,
     } : {}
@@ -1950,5 +1950,3 @@ You've now integrated Medusa with Sanity and can benefit from powerful commerce 
 If you're new to Medusa, check out the [main documentation](!docs!/learn), where you'll get a more in-depth learning of all the concepts you've used in this guide and more.
 
 To learn more about the commerce features that Medusa provides, check out Medusa's [Commerce Modules](../../../commerce-modules/page.mdx).
-
-For other general guides related to deployment, storefront development, integrations, and more, check out the [Development Resources](../../../page.mdx).

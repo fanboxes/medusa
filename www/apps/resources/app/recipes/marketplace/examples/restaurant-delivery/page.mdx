@@ -503,21 +503,22 @@ The workflow only has one step that creates a restaurant.
 To implement the step, create the file `src/workflows/restaurant/steps/create-restaurant.ts` with the following content:
 
 export const createRestaurantHighlight = [
-  ["14", "createRestaurants", "Create the restaurant."],
-  ["23", "deleteRestaurants", "Delete the restaurant if an error occurs in the workflow."]
+  ["15", "createRestaurants", "Create the restaurant."],
+  ["24", "deleteRestaurants", "Delete the restaurant if an error occurs in the workflow."]
 ]
 
-```ts title="src/workflows/restaurant/steps/create-restaurant.ts" highlights={createRestaurantHighlight} collapsibleLines="1-6" expandMoreLabel="Show Imports"
+```ts title="src/workflows/restaurant/steps/create-restaurant.ts" highlights={createRestaurantHighlight} collapsibleLines="1-7" expandMoreLabel="Show Imports"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 import { 
   CreateRestaurantDTO,
 } from "../../../modules/restaurant/types/mutations"
 import { RESTAURANT_MODULE } from "../../../modules/restaurant"
+import RestaurantModuleService from "../../../modules/restaurant/service"
 
 export const createRestaurantStep = createStep(
   "create-restaurant-step",
   async function (data: CreateRestaurantDTO, { container }) {
-    const restaurantModuleService = container.resolve(
+    const restaurantModuleService: RestaurantModuleService = container.resolve(
       RESTAURANT_MODULE
     )
 
@@ -526,7 +527,7 @@ export const createRestaurantStep = createStep(
     return new StepResponse(restaurant, restaurant.id)
   },
   function (id: string, { container }) {
-    const restaurantModuleService = container.resolve(
+    const restaurantModuleService: RestaurantModuleService = container.resolve(
       RESTAURANT_MODULE
     )
 
@@ -755,6 +756,7 @@ To implement the first step, create the file `src/workflows/user/steps/create-re
 ```ts title="src/workflows/user/steps/create-restaurant-admin.ts"
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
 import { RESTAURANT_MODULE } from "../../../modules/restaurant"
+import RestaurantModuleService from "../../../modules/restaurant/service"
 
 export type CreateRestaurantAdminInput = {
   restaurant_id: string;
@@ -769,7 +771,9 @@ export const createRestaurantAdminStep = createStep(
     data: CreateRestaurantAdminInput,
     { container }
   ) => {
-    const restaurantModuleService = container.resolve(RESTAURANT_MODULE)
+    const restaurantModuleService: RestaurantModuleService = container.resolve(
+      RESTAURANT_MODULE
+    )
     const restaurantAdmin = await restaurantModuleService.createRestaurantAdmins(
       data
     )
@@ -781,9 +785,10 @@ export const createRestaurantAdminStep = createStep(
       return
     }
 
-    const service = container.resolve(RESTAURANT_MODULE)
+    const restaurantModuleService: RestaurantModuleService = 
+      container.resolve(RESTAURANT_MODULE)
 
-      await service.deleteRestaurantAdmins(id)
+    await restaurantModuleService.deleteRestaurantAdmins(id)
   }
 )
 
@@ -797,8 +802,8 @@ Then, to implement the step that creates a driver, create the file `src/workflow
 
 ```ts title="src/workflows/user/steps/create-driver.ts"
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
-import { RESTAURANT_MODULE } from "../../../modules/restaurant"
 import { DELIVERY_MODULE } from "../../../modules/delivery"
+import DeliveryModuleService from "../../../modules/delivery/service"
 
 export type CreateDriverInput = {
   email: string;
@@ -814,7 +819,9 @@ export const createDriverStep = createStep(
     data: CreateDriverInput,
     { container }
   ) => {
-    const deliveryModuleService = container.resolve(DELIVERY_MODULE)
+    const deliveryModuleService: DeliveryModuleService = container.resolve(
+      DELIVERY_MODULE
+    )
     
     const driver = await deliveryModuleService.createDrivers(data)
 
@@ -825,9 +832,11 @@ export const createDriverStep = createStep(
       return
     }
 
-    const service = container.resolve(RESTAURANT_MODULE)
+    const deliveryModuleService: DeliveryModuleService = container.resolve(
+      DELIVERY_MODULE
+    )
 
-    await service.deleteRestaurantAdmins(id)
+    await deliveryModuleService.deleteDrivers(id)
   }
 )
 ```
@@ -1098,11 +1107,12 @@ import {
 } from "@medusajs/framework/workflows-sdk"
 import { RESTAURANT_MODULE } from "../../../modules/restaurant"
 import { DeleteRestaurantAdminWorkflow } from "../workflows/delete-restaurant-admin"
+import RestaurantModuleService from "../../../modules/restaurant/service"
 
 export const deleteRestaurantAdminStep = createStep(
   "delete-restaurant-admin",
   async ({ id }: DeleteRestaurantAdminWorkflow, { container }) => {
-    const restaurantModuleService = container.resolve(
+    const restaurantModuleService: RestaurantModuleService = container.resolve(
       RESTAURANT_MODULE
     )
 
@@ -1113,7 +1123,7 @@ export const deleteRestaurantAdminStep = createStep(
     return new StepResponse(undefined, { admin })
   },
   async ({ admin }, { container }) => {
-    const restaurantModuleService = container.resolve(
+    const restaurantModuleService: RestaurantModuleService = container.resolve(
       RESTAURANT_MODULE
     )
 
@@ -1442,6 +1452,7 @@ import {
   createStep,
 } from "@medusajs/framework/workflows-sdk"
 import { RESTAURANT_MODULE } from "../../../modules/restaurant"
+import RestaurantModuleService from "../../../modules/restaurant/service"
 
 type ValidateRestaurantStepInput = {
   restaurant_id: string
@@ -1450,7 +1461,7 @@ type ValidateRestaurantStepInput = {
 export const validateRestaurantStep = createStep(
   "validate-restaurant",
   async ({ restaurant_id }: ValidateRestaurantStepInput, { container }) => {
-    const restaurantModuleService = container.resolve(
+    const restaurantModuleService: RestaurantModuleService = container.resolve(
       RESTAURANT_MODULE
     )
 
@@ -1469,31 +1480,35 @@ This step tries to retrieve the restaurant using the Restaurant Module’s main 
 Next, create the file `src/workflows/delivery/steps/create-delivery.ts` with the following content to create the second step:
 
 export const createDeliveryStepHighlights = [
-  ["9", "createDeliveries", "Create the delivery."],
-  ["18", "softDeleteDeliveries", "Delete the delivery if an error occurs in the workflow."]
+  ["11", "createDeliveries", "Create the delivery."],
+  ["21", "softDeleteDeliveries", "Delete the delivery if an error occurs in the workflow."]
 ]
 
 ```ts title="src/workflows/delivery/steps/create-delivery.ts" highlights={createDeliveryStepHighlights}
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 import { DELIVERY_MODULE } from "../../../modules/delivery"
+import DeliveryModuleService from "../../../modules/delivery/service"
 
 export const createDeliveryStep = createStep(
   "create-delivery-step",
   async function (_, { container }) {
-    const service = container.resolve(DELIVERY_MODULE)
+    const deliverModuleService: DeliveryModuleService = 
+      container.resolve(DELIVERY_MODULE)
 
-    const delivery = await service.createDeliveries()
+    const delivery = await deliverModuleService.createDeliveries({})
 
     return new StepResponse(delivery, {
       delivery_id: delivery.id,
     })
   },
   async function ({ delivery_id }, { container }) {
-    const service = container.resolve(DELIVERY_MODULE)
+    const deliverModuleService: DeliveryModuleService = 
+      container.resolve(DELIVERY_MODULE)
 
-    service.softDeleteDeliveries(delivery_id)
+    deliverModuleService.softDeleteDeliveries(delivery_id)
   }
 )
+
 ```
 
 This step creates a delivery and returns it. In the compensation function, it deletes the delivery.
@@ -1672,20 +1687,26 @@ You’ll implement these steps next.
 Create the file `src/workflows/delivery/steps/set-transaction-id.ts` with the following content:
 
 export const setTransactionIdStepHighlights = [
-  ["9", "updateDeliveries", "Update the delivery with the workflow's transaction ID."],
-  ["19", "updateDeliveries", "Update the delivery to remove the transaction ID if an error occurs."]
+  ["15", "updateDeliveries", "Update the delivery with the workflow's transaction ID."],
+  ["26", "updateDeliveries", "Update the delivery to remove the transaction ID if an error occurs."]
 ]
 
 ```ts title="src/workflows/delivery/steps/set-transaction-id.ts" highlights={setTransactionIdStepHighlights}
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 import { DELIVERY_MODULE } from "../../../modules/delivery"
+import DeliveryModuleService from "../../../modules/delivery/service"
+
+export type SetTransactionIdStepInput = {
+  delivery_id: string;
+};
 
 export const setTransactionIdStep = createStep(
   "create-delivery-step",
   async function (deliveryId: string, { container, context }) {
-    const service = container.resolve(DELIVERY_MODULE)
+    const deliverModuleService: DeliveryModuleService = 
+      container.resolve(DELIVERY_MODULE)
 
-    const delivery = await service.updateDeliveries({
+    const delivery = await deliverModuleService.updateDeliveries({
       id: deliveryId,
       transaction_id: context.transactionId,
     })
@@ -1693,15 +1714,15 @@ export const setTransactionIdStep = createStep(
     return new StepResponse(delivery, delivery.id)
   },
   async function (delivery_id: string, { container }) {
-    const service = container.resolve(DELIVERY_MODULE)
+    const deliverModuleService: DeliveryModuleService = 
+      container.resolve(DELIVERY_MODULE)
 
-    await service.updateDeliveries({
+    await deliverModuleService.updateDeliveries({
       id: delivery_id,
       transaction_id: null,
     })
   }
 )
-
 ```
 
 In this step, you update the `transaction_id` property of the delivery to the current workflow execution’s transaction ID. It can be found in the `context` property passed in the second object parameter of the step.
@@ -2334,15 +2355,16 @@ The workflow has the following steps:
 So, start by creating the first step at `src/workflows/delivery/steps/update-delivery.ts`:
 
 export const updateDeliveryStepHighlights = [
-  ["14", "prevDeliveryData", "Retrieve the previous data of the delivery for the compensation."],
-  ["17", "updateDeliveries", "Update the delivery."],
-  ["27", "updateDeliveries", "Update the delivery with the old data if an error occurs in the workflow."]
+  ["16", "prevDeliveryData", "Retrieve the previous data of the delivery for the compensation."],
+  ["19", "updateDeliveries", "Update the delivery."],
+  ["35", "updateDeliveries", "Update the delivery with the old data if an error occurs in the workflow."]
 ]
 
 ```ts title="src/workflows/delivery/steps/update-delivery.ts" highlights={updateDeliveryStepHighlights}
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
 import { DELIVERY_MODULE } from "../../../modules/delivery"
 import { UpdateDelivery } from "../../../modules/delivery/types"
+import DeliveryModuleService from "../../../modules/delivery/service"
 
 type UpdateDeliveryStepInput = {
   data: UpdateDelivery;
@@ -2351,11 +2373,12 @@ type UpdateDeliveryStepInput = {
 export const updateDeliveryStep = createStep(
   "update-delivery-step",
   async function ({ data }: UpdateDeliveryStepInput, { container }) {
-    const deliveryService = container.resolve(DELIVERY_MODULE)
+    const deliveryModuleService: DeliveryModuleService = 
+      container.resolve(DELIVERY_MODULE)
 
-    const prevDeliveryData = await deliveryService.retrieveDelivery(data.id)
+    const prevDeliveryData = await deliveryModuleService.retrieveDelivery(data.id)
 
-    const delivery = await deliveryService
+    const delivery = await deliveryModuleService
       .updateDeliveries([data])
       .then((res) => res[0])
 
@@ -2364,11 +2387,15 @@ export const updateDeliveryStep = createStep(
     })
   },
   async ({ prevDeliveryData }, { container }) => {
-    const deliveryService = container.resolve(DELIVERY_MODULE)
+    const deliverModuleService: DeliveryModuleService = 
+      container.resolve(DELIVERY_MODULE)
 
-    const { driver, ...prevDeliveryDataWithoutDriver } = prevDeliveryData
+    const { 
+      driver, 
+      ...prevDeliveryDataWithoutDriver
+    } = prevDeliveryData
 
-    await deliveryService.updateDeliveries(prevDeliveryDataWithoutDriver)
+    await deliverModuleService.updateDeliveries(prevDeliveryDataWithoutDriver)
   }
 )
 ```
@@ -2606,12 +2633,12 @@ The above API route should only be accessed by the admin of the restaurant assoc
 Start by creating the file `src/api/utils/is-delivery-restaurant.ts` with the following content:
 
 export const isDeliveryRestaurantHighlights = [
-  ["21", "restaurantAdmin", "Retrieve the logged-in restaurant admin."],
-  ["28", "graph", "Retrieve the delivery based on the ID in the path parameter."],
-  ["40", "", "If the restaurant admin doesn't belong to the delivery's restaurant, return an unauthorized response."]
+  ["22", "restaurantAdmin", "Retrieve the logged-in restaurant admin."],
+  ["29", "graph", "Retrieve the delivery based on the ID in the path parameter."],
+  ["41", "", "If the restaurant admin doesn't belong to the delivery's restaurant, return an unauthorized response."]
 ]
 
-```ts title="src/api/utils/is-delivery-restaurant.ts" highlights={isDeliveryRestaurantHighlights} collapsibleLines="1-10" expandButtonLabel="Show Imports"
+```ts title="src/api/utils/is-delivery-restaurant.ts" highlights={isDeliveryRestaurantHighlights} collapsibleLines="1-11" expandButtonLabel="Show Imports"
 import { 
   AuthenticatedMedusaRequest, 
   MedusaNextFunction, 
@@ -2621,6 +2648,7 @@ import {
   ContainerRegistrationKeys,
 } from "@medusajs/framework/utils"
 import { RESTAURANT_MODULE } from "../../modules/restaurant"
+import RestaurantModuleService from "../../modules/restaurant/service"
 
 export const isDeliveryRestaurant = async (
   req: AuthenticatedMedusaRequest,
@@ -2628,7 +2656,7 @@ export const isDeliveryRestaurant = async (
   next: MedusaNextFunction
 ) => {
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
-  const restaurantModuleService = req.scope.resolve(
+  const restaurantModuleService: RestaurantModuleService = req.scope.resolve(
     RESTAURANT_MODULE
   )
 
@@ -3109,24 +3137,25 @@ The above route should only be accessed by the driver associated with the delive
 So, create the file `src/api/utils/is-delivery-driver.ts` holding the middleware function that performs the check:
 
 export const isDeliveryDriverHighlights = [
-  ["17", "retrieveDelivery", "Retrieve the delivery using the ID in the path parameter."],
-  ["24", "", "If the currently logged-in driver isn't associated with the delivery, return an unauthorized response."]
+  ["18", "retrieveDelivery", "Retrieve the delivery using the ID in the path parameter."],
+  ["25", "", "If the currently logged-in driver isn't associated with the delivery, return an unauthorized response."]
 ]
 
-```ts title="src/api/utils/is-delivery-driver.ts" highlights={isDeliveryDriverHighlights} collapsibleLines="1-7" expandButtonLabel="Show Imports"
+```ts title="src/api/utils/is-delivery-driver.ts" highlights={isDeliveryDriverHighlights} collapsibleLines="1-8" expandButtonLabel="Show Imports"
 import { 
   AuthenticatedMedusaRequest, 
   MedusaNextFunction, 
   MedusaResponse,
 } from "@medusajs/framework/http"
 import { DELIVERY_MODULE } from "../../modules/delivery"
+import DeliveryModuleService from "../../modules/delivery/service"
 
 export const isDeliveryDriver = async (
   req: AuthenticatedMedusaRequest,
   res: MedusaResponse,
   next: MedusaNextFunction
 ) => {
-  const deliveryModuleService = req.scope.resolve(
+  const deliveryModuleService: DeliveryModuleService = req.scope.resolve(
     DELIVERY_MODULE
   )
 
@@ -3298,7 +3327,7 @@ Before adding the storefront UI, you need an API route that allows a client to s
 
 So, create the file `src/api/deliveries/[id]/subscribe/route.ts` with the following content:
 
-```ts title="src/api/deliveries/[id]/subscribe/route.ts" collapsibleLines="1-12" expandButtonLabel="Show Imports"
+```ts title="src/api/deliveries/[id]/subscribe/route.ts" collapsibleLines="1-13" expandButtonLabel="Show Imports"
 import { 
   MedusaRequest, 
   MedusaResponse,
@@ -3310,12 +3339,13 @@ import {
   handleDeliveryWorkflowId,
 } from "../../../../../workflows/delivery/workflows/handle-delivery"
 import { DELIVERY_MODULE } from "../../../../../modules/delivery"
+import DeliveryModuleService from "../../../../modules/delivery/service"
 
 export const GET = async (
   req: MedusaRequest,
   res: MedusaResponse
 ) => {
-  const deliveryModuleService = req.scope.resolve(
+  const deliveryModuleService: DeliveryModuleService = req.scope.resolve(
     DELIVERY_MODULE
   )
 
@@ -3383,9 +3413,11 @@ Create the file `src/api/deliveries/[id]/route.ts` with the following content:
 ```ts title="src/api/deliveries/[id]/route.ts"
 import { MedusaRequest, MedusaResponse } from "@medusajs/framework/http"
 import { DELIVERY_MODULE } from "../../../../modules/delivery"
+import DeliveryModuleService from "../../../../modules/delivery/service"
 
 export async function GET(req: MedusaRequest, res: MedusaResponse) {
-  const deliveryModuleService = req.scope.resolve(DELIVERY_MODULE)
+  const deliveryModuleService: DeliveryModuleService = 
+    req.scope.resolve(DELIVERY_MODULE)
 
   const delivery = await deliveryModuleService.retrieveDelivery(
     req.params.id

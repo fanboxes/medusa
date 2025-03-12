@@ -8,13 +8,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <TightLayout
-      sidebarProps={{
-        expandItems: true,
-      }}
-      ProvidersComponent={Providers}
-      footerComponent={<Footer />}
-    >
+    <TightLayout ProvidersComponent={Providers} footerComponent={<Footer />}>
       {children}
     </TightLayout>
   )

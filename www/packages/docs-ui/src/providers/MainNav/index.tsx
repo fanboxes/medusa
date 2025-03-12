@@ -59,7 +59,7 @@ export const MainNavProvider = ({
         return false
       }
 
-      const isItemActive = currentUrl.startsWith(item.path)
+      const isItemActive = currentUrl.startsWith(item.link)
 
       if (isItemActive && item.useAsFallback && fallbackIndex === undefined) {
         fallbackIndex = index

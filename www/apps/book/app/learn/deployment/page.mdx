@@ -31,6 +31,19 @@ Your server connects to a PostgreSQL database, Redis, and other services relevan
 
 When you deploy your Medusa application, you also deploy the Medusa Admin. For optimal experience, your hosting provider and plan must offer at least 2GB of RAM.
 
+### Deploy Server and Worker Instances
+
+By default, Medusa runs all processes in a single instance. This includes the server that handles incoming requests and the worker that processes background tasks. While this works for development, it’s not optimal for production environments as many background tasks can be long-running or resource-heavy.
+
+Instead, you should deploy two instances:
+
+- A server instance, which handles incoming requests to the application’s API routes.
+- A worker instance, which processes background tasks, including scheduled jobs and subscribers.
+
+You don’t need to set up different projects for each instance. Instead, you can configure the Medusa application to run in different modes based on environment variables.
+
+Learn more about worker modes and how to configure them in the [Worker Mode chapter](../production/worker-mode/page.mdx).
+
 ### How to Deploy Medusa?
 
 Medusa Cloud is our managed services offering that makes deploying and operating Medusa applications possible without having to worry about configuring, scaling, and maintaining infrastructure. Medusa Cloud hosts your server, Admin dashboard, database, and Redis instance.

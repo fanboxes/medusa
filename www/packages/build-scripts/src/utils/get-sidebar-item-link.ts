@@ -1,6 +1,6 @@
 import { getFrontMatter, findPageTitle } from "docs-utils"
-import { ItemsToAdd, sidebarAttachHrefCommonOptions } from "../index.js"
-import { InteractiveSidebarItem } from "types"
+import { ItemsToAdd, sidebarAttachCommonOptions } from "../index.js"
+import { Sidebar } from "types"
 
 export async function getSidebarItemLink({
   filePath,
@@ -16,7 +16,7 @@ export async function getSidebarItemLink({
     return
   }
 
-  const newItem = sidebarAttachHrefCommonOptions([
+  const newItem = sidebarAttachCommonOptions([
     {
       type: "link",
       path:
@@ -25,7 +25,7 @@ export async function getSidebarItemLink({
       title: frontmatter.sidebar_label || findPageTitle(filePath) || "",
       description: frontmatter.sidebar_description || "",
     },
-  ])[0] as InteractiveSidebarItem
+  ])[0] as Sidebar.InteractiveSidebarItem
 
   return {
     ...newItem,

@@ -1,3 +1,11 @@
+---
+sidebar_label: "Build Wishlist Plugin"
+tags:
+    - product
+    - tutorial
+    - server
+---
+
 import { Github, PlaySolid } from "@medusajs/icons"
 import { Prerequisites, CardList, WorkflowDiagram } from "docs-ui"
 
@@ -1796,7 +1804,7 @@ return res.json({
 })
 ```
 
-You first retrieve the [http Medusa configuration](/references/medusa-config#http) which holds configurations related to JWT secrets and expiration times. You then use the `jsonwebtoken` package to sign a token containing the wishlist ID. You return the token in the response.
+You first retrieve the [http Medusa configuration](!docs!/learn/configurations/medusa-config#http) which holds configurations related to JWT secrets and expiration times. You then use the `jsonwebtoken` package to sign a token containing the wishlist ID. You return the token in the response.
 
 ### Test API Route
 
@@ -2165,5 +2173,3 @@ You've now implemented the wishlist functionality in a Medusa plugin. You can pu
 If you're new to Medusa, check out the [main documentation](!docs!/learn), where you'll get a more in-depth learning of all the concepts you've used in this guide and more.
 
 To learn more about the commerce features that Medusa provides, check out Medusa's [Commerce Modules](../../../commerce-modules/page.mdx).
-
-For other general guides related to [deployment](../../../deployment/page.mdx), [storefront development](../../../storefront-development/page.mdx), [integrations](../../../integrations/page.mdx), and more, check out the [Development Resources](../../../page.mdx).

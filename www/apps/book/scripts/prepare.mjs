@@ -1,6 +1,6 @@
 import "dotenv/config"
 import path from "path"
-import { sidebar } from "../sidebar.mjs"
+import { sidebars } from "../sidebar.mjs"
 import {
   generateEditedDates,
   generateLlmsFull,
@@ -15,7 +15,7 @@ import {
 
 async function main() {
   await generateEditedDates()
-  await generateSidebar(sidebar, {
+  await generateSidebar(sidebars, {
     addNumbering: true,
   })
   const baseUrl =

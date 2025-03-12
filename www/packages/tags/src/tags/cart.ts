@@ -1,7 +1,15 @@
 export const cart = [
   {
+    "title": "Extend Cart",
+    "path": "https://docs.medusajs.com/resources/commerce-modules/cart/extend"
+  },
+  {
     "title": "Implement Custom Line Item Pricing in Medusa",
     "path": "https://docs.medusajs.com/resources/examples/guides/custom-item-price"
+  },
+  {
+    "title": "Implement Quote Management",
+    "path": "https://docs.medusajs.com/resources/examples/guides/quote-management"
   },
   {
     "title": "Create Cart Context in Storefront",

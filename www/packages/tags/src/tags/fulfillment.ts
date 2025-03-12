@@ -268,6 +268,10 @@ export const fulfillment = [
     "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createLocationFulfillmentSetWorkflow"
   },
   {
+    "title": "Create Fulfillment Provider",
+    "path": "https://docs.medusajs.com/resources/references/fulfillment/provider"
+  },
+  {
     "title": "fulfillment",
     "path": "https://docs.medusajs.com/resources/references/js-sdk/admin/fulfillment"
   },

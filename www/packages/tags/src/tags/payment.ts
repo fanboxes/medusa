@@ -214,5 +214,9 @@ export const payment = [
   {
     "title": "payment",
     "path": "https://docs.medusajs.com/resources/references/js-sdk/store/payment"
+  },
+  {
+    "title": "Create Payment Provider",
+    "path": "https://docs.medusajs.com/resources/references/payment/provider"
   }
 ]

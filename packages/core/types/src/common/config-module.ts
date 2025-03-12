@@ -962,12 +962,17 @@ export type InputConfig = Partial<
   }
 >
 
+type PluginAdminDetails = {
+  type: "local" | "package"
+  resolve: string
+}
+
 export type PluginDetails = {
   resolve: string
-  adminResolve: string
   name: string
   id: string
   options: Record<string, unknown>
   version: string
+  admin?: PluginAdminDetails
   modules?: InputConfigModules
 }

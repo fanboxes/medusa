@@ -1,31 +1,38 @@
 "use client"
 
 import { usePathname } from "next/navigation"
-import { useMemo } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { EditButton as UiEditButton } from "docs-ui"
-import { filesMap } from "../../generated/files-map.mjs"
-import { generatedEditDates } from "../../generated/edit-dates.mjs"
 
 const EditButton = () => {
   const pathname = usePathname()
-  const filePath = useMemo(
-    () => filesMap.find((file) => file.pathname === pathname),
-    [pathname]
-  )
+  const [editDate, setEditDate] = useState<string | undefined>()
+  const [filePath, setFilePath] = useState<string | undefined>()
 
-  const editDate = useMemo(
-    () =>
-      (generatedEditDates as Record<string, string>)[
+  const loadData = useCallback(async () => {
+    const filesMap = await import("../../generated/files-map.mjs")
+    const generatedEditDates = await import("../../generated/edit-dates.mjs")
+
+    setFilePath(
+      filesMap.filesMap.find((file) => file.pathname === pathname)?.filePath ||
+        undefined
+    )
+    setEditDate(
+      (generatedEditDates.generatedEditDates as Record<string, string>)[
         `app${pathname.replace(/\/$/, "")}/page.mdx`
-      ],
-    [pathname]
-  )
+      ]
+    )
+  }, [pathname])
 
-  if (!filePath) {
+  useEffect(() => {
+    void loadData()
+  }, [loadData])
+
+  if (!editDate || !filePath) {
     return <></>
   }
 
-  return <UiEditButton filePath={filePath.filePath} editDate={editDate} />
+  return <UiEditButton filePath={filePath} editDate={editDate} />
 }
 
 export default EditButton

@@ -1,8 +1,17 @@
-/** @type {import('types').RawSidebarItem[]} */
+/** @type {import('types').Sidebar.SidebarItem[]} */
 export const architecturalModulesSidebar = [
+  {
+    type: "link",
+    path: "/architectural-modules",
+    title: "Overview",
+  },
+  {
+    type: "separator",
+  },
   {
     type: "category",
     title: "Cache Modules",
+    initialOpen: true,
     children: [
       {
         type: "link",
@@ -35,6 +44,7 @@ export const architecturalModulesSidebar = [
   {
     type: "category",
     title: "Event Modules",
+    initialOpen: true,
     children: [
       {
         type: "link",
@@ -67,6 +77,7 @@ export const architecturalModulesSidebar = [
   {
     type: "category",
     title: "File Module Providers",
+    initialOpen: true,
     children: [
       {
         type: "link",
@@ -99,6 +110,7 @@ export const architecturalModulesSidebar = [
   {
     type: "category",
     title: "Notification Module Providers",
+    initialOpen: true,
     children: [
       {
         type: "link",
@@ -141,6 +153,7 @@ export const architecturalModulesSidebar = [
   {
     type: "category",
     title: "Workflow Engine Modules",
+    initialOpen: true,
     children: [
       {
         type: "link",

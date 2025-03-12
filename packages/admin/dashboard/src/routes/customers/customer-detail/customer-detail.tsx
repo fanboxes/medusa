@@ -2,8 +2,8 @@ import { useLoaderData, useParams } from "react-router-dom"
 
 import { SingleColumnPageSkeleton } from "../../../components/common/skeleton"
 import { SingleColumnPage } from "../../../components/layout/pages"
-import { useDashboardExtension } from "../../../extensions"
 import { useCustomer } from "../../../hooks/api/customers"
+import { useExtension } from "../../../providers/extension-provider"
 import { CustomerGeneralSection } from "./components/customer-general-section"
 import { CustomerGroupSection } from "./components/customer-group-section"
 import { CustomerOrderSection } from "./components/customer-order-section"
@@ -19,7 +19,7 @@ export const CustomerDetail = () => {
     initialData,
   })
 
-  const { getWidgets } = useDashboardExtension()
+  const { getWidgets } = useExtension()
 
   if (isLoading || !customer) {
     return <SingleColumnPageSkeleton sections={2} showJSON showMetadata />

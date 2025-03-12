@@ -8,12 +8,10 @@ import {
   useRouteModal,
 } from "../../../../../components/modals"
 import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
-import {
-  useDashboardExtension,
-  useExtendableForm,
-} from "../../../../../extensions"
+import { useExtendableForm } from "../../../../../dashboard-app/forms/hooks"
 import { useCreateProduct } from "../../../../../hooks/api/products"
 import { sdk } from "../../../../../lib/client"
+import { useExtension } from "../../../../../providers/extension-provider"
 import {
   PRODUCT_CREATE_FORM_DEFAULTS,
   ProductCreateSchema,
@@ -58,7 +56,7 @@ export const ProductCreateForm = ({
 
   const { t } = useTranslation()
   const { handleSuccess } = useRouteModal()
-  const { getFormConfigs } = useDashboardExtension()
+  const { getFormConfigs } = useExtension()
   const configs = getFormConfigs("product", "create")
 
   const form = useExtendableForm({

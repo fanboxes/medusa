@@ -430,12 +430,24 @@ export interface UpdateTaxLineDTO {
 /**
  * The shipping method tax line to be created.
  */
-export interface CreateShippingMethodTaxLineDTO extends CreateTaxLineDTO {}
+export interface CreateShippingMethodTaxLineDTO
+  extends Omit<CreateTaxLineDTO, "item_id"> {
+  /**
+   * The associated shipping method's ID.
+   */
+  shipping_method_id: string
+}
 
 /**
  * The attributes to update in the shipping method tax line.
  */
-export interface UpdateShippingMethodTaxLineDTO extends UpdateTaxLineDTO {}
+export interface UpdateShippingMethodTaxLineDTO
+  extends Omit<UpdateTaxLineDTO, "item_id"> {
+  /**
+   * The associated shipping method's ID.
+   */
+  shipping_method_id?: string
+}
 
 /**
  * The line item tax line to be created.

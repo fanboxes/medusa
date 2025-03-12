@@ -4,13 +4,6 @@ sidebar_label: batchProductsWorkflow
 sidebar_description: Manage products in bulk.
 tags:
   - workflow
-  - product
-  - link
-  - event bus
-  - pricing
-  - inventory
-  - remote query
-  - query
 ---
 
 import { TypeList, WorkflowDiagram } from "docs-ui"
@@ -25,7 +18,7 @@ This workflow creates, updates, or deletes products. It's used by the
 You can use this workflow within your own customizations or custom workflows to manage products in bulk. This is
 also useful when writing a [seed script](https://docs.medusajs.com/learn/fundamentals/custom-cli-scripts/seed-data) or a custom import script.
 
-<SourceCodeLink link="https://github.com/medusajs/medusa/blob/9e410be04a62c50f8ca8cd772f567640c60a3d0e/packages/core/core-flows/src/product/workflows/batch-products.ts#L78" />
+<SourceCodeLink link="https://github.com/medusajs/medusa/blob/b9edc066c8486e8ec52e4f505968db1c558bc7b8/packages/core/core-flows/src/product/workflows/batch-products.ts#L96" />
 
 ## Examples
 
@@ -215,10 +208,6 @@ const myWorkflow = createWorkflow(
 
     </CodeTab>
   </CodeTabs>
-
-## Steps
-
-<WorkflowDiagram workflow={{"name":"batchProductsWorkflow","steps":[{"type":"workflow","name":"createProductsWorkflow","description":"Create one or more products with options and variants.","link":"../core_flows.Product.Workflows_Product.createProductsWorkflow/page.mdx","depth":1},{"type":"workflow","name":"updateProductsWorkflow","description":"Update one or more products with options and variants.","link":"../core_flows.Product.Workflows_Product.updateProductsWorkflow/page.mdx","depth":1},{"type":"workflow","name":"deleteProductsWorkflow","description":"Delete one or more products.","link":"../core_flows.Product.Workflows_Product.deleteProductsWorkflow/page.mdx","depth":1}]}} />
 
 ## Input
 

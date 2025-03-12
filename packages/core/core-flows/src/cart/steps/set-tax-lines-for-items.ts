@@ -6,7 +6,7 @@ import {
   ItemTaxLineDTO,
   ShippingTaxLineDTO,
 } from "@medusajs/framework/types"
-import { Modules } from "@medusajs/framework/utils"
+import { Modules, promiseAll } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
 /**
@@ -30,13 +30,13 @@ export interface SetTaxLinesForItemsStepInput {
 export const setTaxLinesForItemsStepId = "set-tax-lines-for-items"
 /**
  * This step sets the tax lines of shipping methods and line items in a cart.
- * 
+ *
  * :::tip
- * 
+ *
  * You can use the {@link retrieveCartStep} to retrieve a cart's details.
- * 
+ *
  * :::
- * 
+ *
  * @example
  * const data = setTaxLinesForItemsStep({
  *   // retrieve the details of the cart from another workflow
@@ -64,21 +64,31 @@ export const setTaxLinesForItemsStep = createStep(
     const { cart, item_tax_lines, shipping_tax_lines } = data
     const cartService = container.resolve<ICartModuleService>(Modules.CART)
 
-    const existingShippingMethodTaxLines =
-      await cartService.listShippingMethodTaxLines({
-        shipping_method_id: shipping_tax_lines.map((t) => t.shipping_line_id),
-      })
+    const [existingShippingMethodTaxLines, existingLineItemTaxLines] =
+      await promiseAll([
+        shipping_tax_lines.length
+          ? cartService.listShippingMethodTaxLines({
+              shipping_method_id: shipping_tax_lines.map(
+                (t) => t.shipping_line_id
+              ),
+            })
+          : [],
 
-    const existingLineItemTaxLines = await cartService.listLineItemTaxLines({
-      item_id: item_tax_lines.map((t) => t.line_item_id),
-    })
+        item_tax_lines.length
+          ? cartService.listLineItemTaxLines({
+              item_id: item_tax_lines.map((t) => t.line_item_id),
+            })
+          : [],
+      ])
 
     const itemsTaxLinesData = normalizeItemTaxLinesForCart(item_tax_lines)
-    await cartService.setLineItemTaxLines(cart.id, itemsTaxLinesData)
-
     const shippingTaxLinesData =
       normalizeShippingTaxLinesForCart(shipping_tax_lines)
-    await cartService.setShippingMethodTaxLines(cart.id, shippingTaxLinesData)
+
+    await promiseAll([
+      cartService.setLineItemTaxLines(cart.id, itemsTaxLinesData),
+      cartService.setShippingMethodTaxLines(cart.id, shippingTaxLinesData),
+    ])
 
     return new StepResponse(null, {
       cart,

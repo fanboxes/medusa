@@ -1,0 +1,106 @@
+import { CodeTabs, CodeTab } from "docs-ui"
+
+export const metadata = {
+  title: `${pageNumber} Worker Mode of Medusa Instance`,
+}
+
+# {metadata.title}
+
+In this chapter, you'll learn about the different modes of running a Medusa instance and how to configure the mode.
+
+## What is Worker Mode?
+
+By default, the Medusa application runs both the server, which handles all incoming requests, and the worker, which processes background tasks, in a single process. While this setup is suitable for development, it is not optimal for production environments where background tasks can be long-running or resource-intensive.
+
+In a production environment, you should deploy two separate instances of your Medusa application:
+
+1. A server instance that handles incoming requests to the application's API routes.
+2. A worker instance that processes background tasks. This includes scheduled jobs and subscribers.
+
+You don't need to set up different projects for each instance. Instead, you can configure the Medusa application to run in different modes based on environment variables, as you'll see later in this chapter.
+
+This separation ensures that the server instance remains responsive to incoming requests, while the worker instance processes tasks in the background.
+
+![Diagram showcasing how the server and worker work together](https://res.cloudinary.com/dza7lstvk/image/upload/fl_lossy/f_auto/r_16/ar_16:9,c_pad/v1/Medusa%20Book/medusa-worker_klkbch.jpg?_a=BATFJtAA0)
+
+---
+
+## How to Set Worker Mode
+
+You can set the worker mode of your application using the `projectConfig.workerMode` configuration in the `medusa-config.ts`. The `workerMode` configuration accepts the following values:
+
+- `shared`: (default) run the application in a single process, meaning the worker and server run in the same process.
+- `worker`: run a worker process only.
+- `server`: run the application server only.
+
+Instead of creating different projects with different worker mode configurations, you can set the worker mode using an environment variable. Then, the worker mode configuration will change based on the environment variable.
+
+For example, set the worker mode in `medusa-config.ts` to the following:
+
+```ts title="medusa-config.ts"
+module.exports = defineConfig({
+  projectConfig: {
+    workerMode: process.env.WORKER_MODE || "shared",
+    // ...
+  },
+  // ...
+})
+```
+
+You set the worker mode configuration to the `process.env.WORKER_MODE` environment variable and set a default value of `shared`.
+
+Then, in the deployed server Medusa instance, set `WORKER_MODE` to `server`, and in the worker Medusa instance, set `WORKER_MODE` to `worker`:
+
+<CodeTabs group="worker-mode-env">
+  <CodeTab label="Server Medusa Instance" value="server">
+
+```bash
+WORKER_MODE=server
+```
+
+  </CodeTab>
+  <CodeTab label="Worker Medusa Instance" value="worker">
+
+```bash
+WORKER_MODE=worker
+```
+
+  </CodeTab>
+</CodeTabs>
+
+### Disable Admin in Worker Mode
+
+Since the worker instance only processes background tasks, you should disable the admin interface in it. That will save resources in the worker instance.
+
+To disable the admin interface, set the `admin.disable` configuration in the `medusa-config.ts` file:
+
+```ts title="medusa-config.ts"
+module.exports = defineConfig({
+  admin: {
+    disable: process.env.ADMIN_DISABLED === "true" ||
+      false,
+  },
+  // ...
+})
+```
+
+Similar to before, you set the value in an environment variable, allowing you to enable or disable the admin interface based on the environment.
+
+Then, in the deployed server Medusa instance, set `ADMIN_DISABLED` to `false`, and in the worker Medusa instance, set `ADMIN_DISABLED` to `true`:
+
+<CodeTabs group="worker-mode-env">
+  <CodeTab label="Server Medusa Instance" value="server">
+
+```bash
+ADMIN_DISABLED=false
+```
+
+  </CodeTab>
+  <CodeTab label="Worker Medusa Instance" value="worker">
+
+```bash
+ADMIN_DISABLED=true
+```
+
+  </CodeTab>
+</CodeTabs>

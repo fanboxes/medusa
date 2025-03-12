@@ -9,6 +9,8 @@ const notificationOptions: FormattingOptionsType = {
     reflectionDescription: `In this document, you’ll learn how to create a notification provider module and the methods you must implement in it.`,
     frontmatterData: {
       slug: "/references/notification-provider-module",
+      tags: ["notification", "server", "how to"],
+      sidebar_label: "Create Notification Provider",
     },
     reflectionTitle: {
       fullReplacement: "How to Create a Notification Provider Module",

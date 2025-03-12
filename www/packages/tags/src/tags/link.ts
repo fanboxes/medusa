@@ -160,10 +160,6 @@ export const link = [
     "path": "https://docs.medusajs.com/resources/references/medusa-workflows/batchProductVariantsWorkflow"
   },
   {
-    "title": "batchProductsWorkflow",
-    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/batchProductsWorkflow"
-  },
-  {
     "title": "createProductVariantsWorkflow",
     "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createProductVariantsWorkflow"
   },

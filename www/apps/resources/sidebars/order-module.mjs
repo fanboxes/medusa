@@ -1,9 +1,9 @@
-/** @type {import('types').RawSidebarItem[]} */
+/** @type {import('types').Sidebar.SidebarItem[]} */
 export const orderSidebar = [
   {
-    type: "category",
+    type: "sidebar",
+    sidebar_id: "order",
     title: "Order Module",
-    isChildSidebar: true,
     children: [
       {
         type: "link",
@@ -16,7 +16,6 @@ export const orderSidebar = [
       {
         type: "category",
         title: "Concepts",
-        initialOpen: false,
         children: [
           {
             type: "link",
@@ -79,7 +78,6 @@ export const orderSidebar = [
         type: "category",
         title: "Server Guides",
         autogenerate_tags: "server+order",
-        initialOpen: false,
         autogenerate_as_ref: true,
         sort_sidebar: "alphabetize",
         description:
@@ -89,7 +87,6 @@ export const orderSidebar = [
         type: "category",
         title: "Storefront Guides",
         autogenerate_tags: "storefront+order,-jsSdk",
-        initialOpen: false,
         autogenerate_as_ref: true,
         sort_sidebar: "alphabetize",
         description:
@@ -99,7 +96,6 @@ export const orderSidebar = [
         type: "category",
         title: "Admin Guides",
         autogenerate_tags: "admin+order,-jsSdk",
-        initialOpen: false,
         autogenerate_as_ref: true,
         sort_sidebar: "alphabetize",
         description:
@@ -109,7 +105,6 @@ export const orderSidebar = [
         type: "category",
         title: "Admin User Guides",
         autogenerate_tags: "userGuide+order",
-        initialOpen: false,
         autogenerate_as_ref: true,
         sort_sidebar: "alphabetize",
         description:
@@ -118,7 +113,6 @@ export const orderSidebar = [
       {
         type: "category",
         title: "References",
-        initialOpen: false,
         description:
           "Find references for tools and resources related to the Order Module, such as data models, methods, and more. These are useful for your customizations.",
         children: [
@@ -181,12 +175,19 @@ export const orderSidebar = [
             title: "Admin Widget Zones",
           },
           {
-            type: "link",
-            path: "/references/order",
+            type: "sidebar",
+            sidebar_id: "order-service-reference",
             title: "Main Service Reference",
-            isChildSidebar: true,
             childSidebarTitle: "Order Module's Main Service Reference",
             children: [
+              {
+                type: "link",
+                path: "/references/order",
+                title: "Reference Overview",
+              },
+              {
+                type: "separator",
+              },
               {
                 type: "category",
                 title: "Methods",
@@ -196,12 +197,19 @@ export const orderSidebar = [
             ],
           },
           {
-            type: "link",
-            path: "/references/order/models",
+            type: "sidebar",
+            sidebar_id: "order-models-reference",
             title: "Data Models Reference",
-            isChildSidebar: true,
             childSidebarTitle: "Order Module Data Models Reference",
             children: [
+              {
+                type: "link",
+                path: "/references/order/models",
+                title: "Reference Overview",
+              },
+              {
+                type: "separator",
+              },
               {
                 type: "category",
                 title: "Data Models",

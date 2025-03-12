@@ -1,9 +1,9 @@
-/** @type {import('types').RawSidebarItem[]} */
+/** @type {import('types').Sidebar.SidebarItem[]} */
 export const authSidebar = [
   {
-    type: "category",
+    type: "sidebar",
+    sidebar_id: "auth",
     title: "Auth Module",
-    isChildSidebar: true,
     children: [
       {
         type: "link",
@@ -21,7 +21,6 @@ export const authSidebar = [
       {
         type: "category",
         title: "Concepts",
-        initialOpen: false,
         children: [
           {
             type: "link",
@@ -49,7 +48,6 @@ export const authSidebar = [
         type: "category",
         title: "Server Guides",
         autogenerate_tags: "server+auth",
-        initialOpen: false,
         autogenerate_as_ref: true,
         sort_sidebar: "alphabetize",
         description:
@@ -76,7 +74,6 @@ export const authSidebar = [
         type: "category",
         title: "Storefront Guides",
         autogenerate_tags: "storefront+auth,-jsSdk",
-        initialOpen: false,
         autogenerate_as_ref: true,
         sort_sidebar: "alphabetize",
         description:
@@ -86,7 +83,6 @@ export const authSidebar = [
         type: "category",
         title: "Admin Guides",
         autogenerate_tags: "admin+auth,-jsSdk",
-        initialOpen: false,
         autogenerate_as_ref: true,
         sort_sidebar: "alphabetize",
         description:
@@ -96,7 +92,6 @@ export const authSidebar = [
         type: "category",
         title: "Admin User Guides",
         autogenerate_tags: "userGuide+auth",
-        initialOpen: false,
         autogenerate_as_ref: true,
         sort_sidebar: "alphabetize",
         description:
@@ -105,7 +100,6 @@ export const authSidebar = [
       {
         type: "category",
         title: "Providers",
-        initialOpen: false,
         children: [
           {
             type: "link",
@@ -127,7 +121,6 @@ export const authSidebar = [
       {
         type: "category",
         title: "References",
-        initialOpen: false,
         description:
           "Find references for tools and resources related to the Auth Module, such as data models, methods, and more. These are useful for your customizations.",
         children: [
@@ -173,12 +166,19 @@ export const authSidebar = [
             title: "Admin Widget Zones",
           },
           {
-            type: "link",
-            path: "/references/auth",
+            type: "sidebar",
+            sidebar_id: "auth-service-reference",
             title: "Main Service Reference",
-            isChildSidebar: true,
             childSidebarTitle: "Auth Module's Main Service Reference",
             children: [
+              {
+                type: "link",
+                path: "/references/auth",
+                title: "Reference Overview",
+              },
+              {
+                type: "separator",
+              },
               {
                 type: "category",
                 title: "Methods",
@@ -188,12 +188,19 @@ export const authSidebar = [
             ],
           },
           {
-            type: "link",
-            path: "/references/auth/models",
+            type: "sidebar",
+            sidebar_id: "auth-models-reference",
             title: "Data Models Reference",
-            isChildSidebar: true,
             childSidebarTitle: "Auth Module Data Models Reference",
             children: [
+              {
+                type: "link",
+                path: "/references/auth/models",
+                title: "Reference Overview",
+              },
+              {
+                type: "separator",
+              },
               {
                 type: "category",
                 title: "Data Models",

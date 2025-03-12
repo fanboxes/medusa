@@ -3,6 +3,7 @@ import { LinkLoader } from "@medusajs/framework/links"
 import { logger } from "@medusajs/framework/logger"
 import {
   ContainerRegistrationKeys,
+  getResolvedPlugins,
   mergePluginModules,
 } from "@medusajs/framework/utils"
 import { join } from "path"
@@ -10,7 +11,6 @@ import { join } from "path"
 import { fork } from "child_process"
 import path from "path"
 import { initializeContainer } from "../../loaders"
-import { getResolvedPlugins } from "../../loaders/helpers/resolve-plugins"
 import { ensureDbExists } from "../utils"
 import { syncLinks } from "./sync-links"
 const TERMINAL_SIZE = process.stdout.columns

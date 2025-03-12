@@ -4,6 +4,10 @@ export const auth = [
     "path": "https://docs.medusajs.com/user-guide/reset-password"
   },
   {
+    "title": "Create Actor Type",
+    "path": "https://docs.medusajs.com/resources/commerce-modules/auth/create-actor-type"
+  },
+  {
     "title": "Log-out Customer in Storefront",
     "path": "https://docs.medusajs.com/resources/storefront-development/customers/log-out"
   },
@@ -26,6 +30,10 @@ export const auth = [
   {
     "title": "Third-Party or Social Login in Storefront",
     "path": "https://docs.medusajs.com/resources/storefront-development/customers/third-party-login"
+  },
+  {
+    "title": "Create Auth Provider",
+    "path": "https://docs.medusajs.com/resources/references/auth/provider"
   },
   {
     "title": "setAuthAppMetadataStep",

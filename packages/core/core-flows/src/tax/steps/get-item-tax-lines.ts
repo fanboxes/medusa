@@ -129,14 +129,14 @@ function normalizeLineItemsForShipping(
 export const getItemTaxLinesStepId = "get-item-tax-lines"
 /**
  * This step retrieves the tax lines for an order or cart's line items and shipping methods.
- * 
+ *
  * :::note
- * 
+ *
  * You can retrieve an order, cart, item, shipping method, and address details using [Query](https://docs.medusajs.com/learn/fundamentals/module-links/query),
  * or [useQueryGraphStep](https://docs.medusajs.com/resources/references/medusa-workflows/steps/useQueryGraphStep).
- * 
+ *
  * :::
- * 
+ *
  * @example
  * const data = getItemTaxLinesStep({
  *   orderOrCart: {

@@ -1,8 +1,8 @@
 import { MetadataRoute } from "next"
 
-import { docsConfig } from "@/config/docs"
+import { sidebars } from "@/config/sidebar"
 import { absoluteUrl } from "@/lib/absolute-url"
-import { SidebarItem } from "types"
+import { Sidebar } from "types"
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date()
@@ -12,7 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified?: string | Date
   }> = []
 
-  function pushItems(newItems: SidebarItem[]) {
+  function pushItems(newItems: Sidebar.SidebarItem[]) {
     newItems.forEach((item) => {
       if (item.type !== "link") {
         return
@@ -29,7 +29,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })
   }
 
-  pushItems(docsConfig.sidebar.default)
+  sidebars.forEach((sidebar) => pushItems(sidebar.items))
 
   return items
 }

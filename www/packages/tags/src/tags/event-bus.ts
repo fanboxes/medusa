@@ -140,10 +140,6 @@ export const eventBus = [
     "path": "https://docs.medusajs.com/resources/references/medusa-workflows/batchProductVariantsWorkflow"
   },
   {
-    "title": "batchProductsWorkflow",
-    "path": "https://docs.medusajs.com/resources/references/medusa-workflows/batchProductsWorkflow"
-  },
-  {
     "title": "createCollectionsWorkflow",
     "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createCollectionsWorkflow"
   },

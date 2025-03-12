@@ -25,16 +25,10 @@ export const SiteConfigProvider = ({
     Object.assign(
       {
         baseUrl: "",
-        sidebar: {
-          default: [],
-          mobile: [],
-        },
+        sidebars: [],
         project: {
           title: "",
           key: "",
-        },
-        breadcrumbOptions: {
-          showCategories: true,
         },
         reportIssueLink: GITHUB_ISSUES_LINK,
         logo: "",

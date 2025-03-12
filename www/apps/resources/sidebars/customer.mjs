@@ -1,9 +1,9 @@
-/** @type {import('types').RawSidebarItem[]} */
+/** @type {import('types').Sidebar.SidebarItem[]} */
 export const customerSidebar = [
   {
-    type: "category",
+    type: "sidebar",
+    sidebar_id: "customer",
     title: "Customer Module",
-    isChildSidebar: true,
     children: [
       {
         type: "link",
@@ -16,7 +16,6 @@ export const customerSidebar = [
       {
         type: "category",
         title: "Concepts",
-        initialOpen: false,
         children: [
           {
             type: "link",
@@ -34,7 +33,6 @@ export const customerSidebar = [
         type: "category",
         title: "Server Guides",
         autogenerate_tags: "server+customer",
-        initialOpen: false,
         autogenerate_as_ref: true,
         sort_sidebar: "alphabetize",
         description:
@@ -51,7 +49,6 @@ export const customerSidebar = [
         type: "category",
         title: "Storefront Guides",
         autogenerate_tags: "storefront+customer,-jsSdk",
-        initialOpen: false,
         autogenerate_as_ref: true,
         sort_sidebar: "alphabetize",
         description:
@@ -61,7 +58,6 @@ export const customerSidebar = [
         type: "category",
         title: "Admin Guides",
         autogenerate_tags: "admin+customer,-jsSdk",
-        initialOpen: false,
         autogenerate_as_ref: true,
         sort_sidebar: "alphabetize",
         description:
@@ -71,7 +67,6 @@ export const customerSidebar = [
         type: "category",
         title: "Admin User Guides",
         autogenerate_tags: "userGuide+customer",
-        initialOpen: false,
         autogenerate_as_ref: true,
         sort_sidebar: "alphabetize",
         description:
@@ -80,7 +75,6 @@ export const customerSidebar = [
       {
         type: "category",
         title: "References",
-        initialOpen: false,
         description:
           "Find references for tools and resources related to the Customer Module, such as data models, methods, and more. These are useful for your customizations.",
         children: [
@@ -143,12 +137,19 @@ export const customerSidebar = [
             title: "Admin Widget Zones",
           },
           {
-            type: "link",
-            path: "/references/customer",
+            type: "sidebar",
+            sidebar_id: "customer-service-reference",
             title: "Main Service Reference",
-            isChildSidebar: true,
             childSidebarTitle: "Customer Module's Main Service Reference",
             children: [
+              {
+                type: "link",
+                path: "/references/customer",
+                title: "Reference Overview",
+              },
+              {
+                type: "separator",
+              },
               {
                 type: "category",
                 title: "Methods",
@@ -158,12 +159,19 @@ export const customerSidebar = [
             ],
           },
           {
-            type: "link",
-            path: "/references/customer/models",
+            type: "sidebar",
+            sidebar_id: "customer-models-reference",
             title: "Data Models Reference",
-            isChildSidebar: true,
             childSidebarTitle: "Customer Module Data Models Reference",
             children: [
+              {
+                type: "link",
+                path: "/references/customer/models",
+                title: "Reference Overview",
+              },
+              {
+                type: "separator",
+              },
               {
                 type: "category",
                 title: "Data Models",

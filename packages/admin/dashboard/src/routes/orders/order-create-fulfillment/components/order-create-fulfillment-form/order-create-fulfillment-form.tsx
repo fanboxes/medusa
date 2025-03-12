@@ -111,30 +111,28 @@ export function OrderCreateFulfillmentForm({
       return
     }
 
-    const selectedShippingProfileId =
-      selectedShippingOption?.shipping_profile_id
-
-    const itemShippingProfileMap = order.items.reduce(
-      (acc, item) => {
-        acc[item.id] = item.variant?.product?.shipping_profile?.id
-        return acc
-      },
-      {} as Record<string, string | null>
-    )
-
-    const items = Object.entries(data.quantity)
-      .filter(
-        ([id, value]) =>
-          !!value && itemShippingProfileMap[id] === selectedShippingProfileId
-      )
+    let items = Object.entries(data.quantity)
       .map(([id, quantity]) => ({
         id,
         quantity,
       }))
+      .filter(({ quantity }) => !!quantity)
 
-    if (!items.length) {
-      toast.error(t("orders.fulfillment.error.noItems"))
-      return
+    /**
+     * If items require shipping fulfill only items with matching shipping profile.
+     */
+    if (requiresShipping) {
+      const selectedShippingProfileId =
+        selectedShippingOption?.shipping_profile_id
+
+      const itemShippingProfileMap = order.items.reduce((acc, item) => {
+        acc[item.id] = item.variant?.product?.shipping_profile?.id
+        return acc
+      }, {} as any)
+
+      items = items.filter(
+        ({ id }) => itemShippingProfileMap[id] === selectedShippingProfileId
+      )
     }
 
     const payload: HttpTypes.AdminCreateOrderFulfillment = {
@@ -357,7 +355,9 @@ export function OrderCreateFulfillmentForm({
                             form={form}
                             item={item}
                             locationId={selectedLocationId}
-                            disabled={!isShippingProfileMatching}
+                            disabled={
+                              requiresShipping && !isShippingProfileMatching
+                            }
                             itemReservedQuantitiesMap={
                               itemReservedQuantitiesMap
                             }

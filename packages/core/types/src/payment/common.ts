@@ -553,6 +553,16 @@ export interface PaymentSessionDTO {
   authorized_at?: Date
 
   /**
+   * When the payment session was created
+   */
+  created_at: Date | string
+
+  /**
+   * When the payment session was updated
+   */
+  updated_at: Date | string
+
+  /**
    * The ID of the associated payment collection.
    */
   payment_collection_id: string

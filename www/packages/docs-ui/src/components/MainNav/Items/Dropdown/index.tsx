@@ -5,6 +5,7 @@ import clsx from "clsx"
 import React, { useRef, useState } from "react"
 import { NavigationItemDropdown } from "types"
 import { Menu } from "../../../.."
+import { MainNavItemLink } from "../Link"
 
 type MainNavItemDropdownProps = {
   item: NavigationItemDropdown
@@ -22,13 +23,26 @@ export const MainNavItemDropdown = ({
   const [isOpen, setIsOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
 
-  return (
-    <div
-      className={clsx("relative", wrapperClassName)}
-      ref={ref}
-      onMouseOver={() => setIsOpen(true)}
-      onMouseLeave={() => setIsOpen(false)}
-    >
+  const getItemContent = () => {
+    if (item.link) {
+      return (
+        <MainNavItemLink
+          item={{
+            ...item,
+            link: item.link!,
+            type: "link",
+          }}
+          isActive={isActive}
+          icon={
+            <TriangleDownMini
+              className={clsx("transition-transform", isOpen && "rotate-180")}
+            />
+          }
+        />
+      )
+    }
+
+    return (
       <div
         className={clsx(
           "cursor-pointer flex gap-docs_0.25 items-center",
@@ -46,6 +60,17 @@ export const MainNavItemDropdown = ({
           className={clsx("transition-transform", isOpen && "rotate-180")}
         />
       </div>
+    )
+  }
+
+  return (
+    <div
+      className={clsx("relative", wrapperClassName)}
+      ref={ref}
+      onMouseOver={() => setIsOpen(true)}
+      onMouseLeave={() => setIsOpen(false)}
+    >
+      {getItemContent()}
       <div className="absolute top-full -left-docs_0.75 pt-docs_0.25">
         <Menu
           className={clsx("min-w-[190px]", !isOpen && "hidden")}

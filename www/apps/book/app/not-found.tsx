@@ -6,13 +6,7 @@ import Footer from "../components/Footer"
 
 const NotFoundPage = () => {
   return (
-    <TightLayout
-      sidebarProps={{
-        expandItems: true,
-      }}
-      footerComponent={<Footer />}
-      ProvidersComponent={Providers}
-    >
+    <TightLayout footerComponent={<Footer />} ProvidersComponent={Providers}>
       {/* @ts-ignore React v19 doesn't recognize MDX import as component */}
       <NotFoundContent />
     </TightLayout>

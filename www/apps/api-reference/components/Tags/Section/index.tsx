@@ -85,23 +85,24 @@ const TagSectionComponent = ({ tag }: TagSectionProps) => {
   )
 
   useEffect(() => {
-    if (!isBrowser) {
+    if (!isBrowser || !activePath || !activePath.includes(slugTagName)) {
       return
     }
 
-    if (activePath && activePath.includes(slugTagName)) {
-      const tagName = activePath.split("_")
-      if (tagName.length === 1 && tagName[0] === slugTagName) {
-        const elm = document.getElementById(tagName[0])
-        if (elm && !checkElementInViewport(elm, 0)) {
-          scrollToTop(
-            elm.offsetTop + (elm.offsetParent as HTMLElement)?.offsetTop,
-            0
-          )
-        }
-      } else if (tagName.length > 1 && tagName[0] === slugTagName) {
-        setLoadData(true)
+    const tagName = activePath.split("_")
+    if (tagName[0] !== slugTagName) {
+      return
+    }
+    if (tagName.length === 1) {
+      const elm = document.getElementById(tagName[0])
+      if (elm && !checkElementInViewport(elm, 0)) {
+        scrollToTop(
+          elm.offsetTop + (elm.offsetParent as HTMLElement)?.offsetTop,
+          0
+        )
       }
+    } else if (tagName.length > 1) {
+      setLoadData(true)
     }
   }, [slugTagName, activePath, isBrowser])
 

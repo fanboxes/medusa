@@ -123,6 +123,11 @@ const redirects = async () => {
       destination: "/learn/resources/contribution-guidelines/docs",
       permanent: true,
     },
+    {
+      source: "/learn/conventions/:path*",
+      destination: "/learn/configurations/:path*",
+      permanent: true,
+    },
   ]
 }
 

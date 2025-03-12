@@ -10,7 +10,6 @@ import {
 } from "remark-rehype-plugins"
 import MDXComponents from "@/components/MDXComponents"
 import mdxOptions from "../../../mdx-options.mjs"
-import { slugChanges } from "../../../generated/slug-changes.mjs"
 import { filesMap } from "../../../generated/files-map.mjs"
 import { Metadata } from "next"
 import { cache } from "react"
@@ -112,6 +111,8 @@ const loadFile = cache(
     const monoRepoPath = path.resolve("..", "..", "..")
 
     const pathname = `/references/${slug.join("/")}`
+    const slugChanges = (await import("../../../generated/slug-changes.mjs"))
+      .slugChanges
     const fileDetails =
       slugChanges.find((f) => f.newSlug === pathname) ||
       filesMap.find((f) => f.pathname === pathname)

@@ -3,8 +3,8 @@ import { MarkdownTheme } from "../../theme.js"
 import { stringify } from "yaml"
 import { replaceTemplateVariables } from "../../utils/reflection-template-strings.js"
 import { Reflection } from "typedoc"
-import { FrontmatterData } from "types"
-import { getTagComments, getTagsAsArray, getUniqueStrArray } from "utils"
+import { FrontmatterData, Tag } from "types"
+import { getTagComments, getTagsAsArray } from "utils"
 
 export default function (theme: MarkdownTheme) {
   Handlebars.registerHelper("frontmatter", function (this: Reflection) {
@@ -30,9 +30,7 @@ export default function (theme: MarkdownTheme) {
       resolvedFrontmatter["tags"]?.push(...tagContent)
     })
     if (resolvedFrontmatter["tags"]?.length) {
-      resolvedFrontmatter["tags"] = getUniqueStrArray(
-        resolvedFrontmatter["tags"]
-      )
+      resolvedFrontmatter["tags"] = getUniqueTags(resolvedFrontmatter["tags"])
     }
 
     return `---\n${stringify(resolvedFrontmatter).trim()}\n---\n\n`
@@ -56,4 +54,15 @@ function resolveFrontmatterVariables(
   })
 
   return tempFrontmatterData
+}
+
+function getUniqueTags(tags: Tag[]): Tag[] {
+  const tagsMap = new Map<string, Tag>()
+  tags.forEach((tag) => {
+    const tagName = typeof tag === "string" ? tag : tag.name
+
+    tagsMap.set(tagName, tag)
+  })
+
+  return Array.from(tagsMap.values())
 }

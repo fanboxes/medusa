@@ -1,17 +1,18 @@
 "use client"
 
 import React from "react"
-import { SidebarItem as SidebarItemType } from "types"
-import { SidebarItemCategory } from "./Category"
+import { Sidebar } from "types"
 import { SidebarItemLink } from "./Link"
 import { SidebarItemSubCategory } from "./SubCategory"
 import { DottedSeparator } from "../.."
+import { SidebarItemCategory } from "./Category"
+import { SidebarItemSidebar } from "./Sidebar"
 
 export type SidebarItemProps = {
-  item: SidebarItemType
+  item: Sidebar.SidebarItem
   nested?: boolean
-  expandItems?: boolean
   hasNextItems?: boolean
+  isParentCategoryOpen?: boolean
 } & React.AllHTMLAttributes<HTMLElement>
 
 export const SidebarItem = ({
@@ -33,6 +34,8 @@ export const SidebarItem = ({
     case "ref":
     case "external":
       return <SidebarItemLink item={item} {...props} />
+    case "sidebar":
+      return <SidebarItemSidebar item={item} {...props} />
     case "separator":
       return <DottedSeparator />
   }

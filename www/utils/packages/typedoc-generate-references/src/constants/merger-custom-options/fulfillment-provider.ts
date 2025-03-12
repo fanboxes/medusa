@@ -9,6 +9,8 @@ const fulfillmentProviderOptions: FormattingOptionsType = {
     reflectionDescription: `In this document, you’ll learn how to create a fulfillment provider module and the methods you must implement in its main service.`,
     frontmatterData: {
       slug: "/references/fulfillment/provider",
+      tags: ["fulfillment", "server", "how to"],
+      sidebar_label: "Create Fulfillment Provider",
     },
     reflectionTitle: {
       fullReplacement: "How to Create a Fulfillment Provider Module",

@@ -7,11 +7,12 @@ export type NavigationItemDropdown = {
     useAsFallback?: boolean
   })[]
   project?: string
+  link?: string
 }
 
 export type NavigationItemLink = {
   type: "link"
-  path: string
+  link: string
   title: string
   project?: string
   useAsFallback?: boolean
