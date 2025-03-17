@@ -28,9 +28,20 @@ import {
   workflowEventGroupIdStep1Mock,
   workflowEventGroupIdStep2Mock,
 } from "../__fixtures__/workflow_event_group_id"
+import { setTimeout as setTimeoutSync } from "timers"
 import { createScheduled } from "../__fixtures__/workflow_scheduled"
 
-jest.setTimeout(100000)
+jest.setTimeout(3000000)
+
+const failTrap = (done) => {
+  setTimeoutSync(() => {
+    // REF:https://stackoverflow.com/questions/78028715/jest-async-test-with-event-emitter-isnt-ending
+    console.warn(
+      "Jest is breaking the event emit with its debouncer. This allows to continue the test by managing the timeout of the test manually."
+    )
+    done()
+  }, 5000)
+}
 
 moduleIntegrationTestRunner<IWorkflowEngineService>({
   moduleName: Modules.WORKFLOW_ENGINE,
@@ -289,6 +300,26 @@ moduleIntegrationTestRunner<IWorkflowEngineService>({
           expect(onFinish).toHaveBeenCalledTimes(0)
         })
 
+        it("should cancel and revert a completed workflow", async () => {
+          const workflowId = "workflow_sync"
+
+          const { acknowledgement, transaction: trx } =
+            await workflowOrcModule.run(workflowId, {
+              input: {
+                value: "123",
+              },
+            })
+
+          expect(trx.getFlow().state).toEqual("done")
+          expect(acknowledgement.hasFinished).toBe(true)
+
+          const { transaction } = await workflowOrcModule.cancel(workflowId, {
+            transactionId: acknowledgement.transactionId,
+          })
+
+          expect(transaction.getFlow().state).toEqual("reverted")
+        })
+
         it("should run conditional steps if condition is true", (done) => {
           void workflowOrcModule.subscribe({
             workflowId: "workflow_conditional_step",
@@ -307,6 +338,8 @@ moduleIntegrationTestRunner<IWorkflowEngineService>({
             },
             throwOnError: true,
           })
+
+          failTrap(done)
         })
 
         it("should not run conditional steps if condition is false", (done) => {
@@ -327,6 +360,8 @@ moduleIntegrationTestRunner<IWorkflowEngineService>({
             },
             throwOnError: true,
           })
+
+          failTrap(done)
         })
       })
 

@@ -1,4 +1,4 @@
-import { CodeTabs, CodeTab } from "docs-ui"
+import { CodeTabs, CodeTab, Table } from "docs-ui"
 
 export const metadata = {
   title: `Links between Product Module and Other Modules`,
@@ -18,12 +18,110 @@ Read-only links are used to query data across modules, but the relations aren't 
 
 </Note>
 
-- [`Product` data model \<\> `Cart` data model of Cart Module](#cart-module). (Read-only).
-- [`Product` data model \<\> `ShippingProfile` data model of Fulfillment Module](#fulfillment-module).
-- [`ProductVariant` data model \<\> `InventoryItem` data model of Inventory Module](#inventory-module).
-- [`Product` data model \<\> `Order` data model of Order Module](#order-module). (Read-only).
-- [`ProductVariant` data model \<\> `PriceSet` data model of Pricing Module](#pricing-module).
-- [`Product` data model \<\> `SalesChannel` data model of Sales Channel Module](#sales-channel-module).
+<Table>
+  <Table.Header>
+    <Table.Row>
+      <Table.HeaderCell>
+        First Data Model
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Second Data Model
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Type
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Description
+      </Table.HeaderCell>
+    </Table.Row>
+  </Table.Header>
+  <Table.Body>
+    <Table.Row>
+      <Table.Cell>
+        [Cart](/references/cart/models/Cart) in [Cart Module](../../cart/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        [Product](/references/product/models/Product)
+      </Table.Cell>
+      <Table.Cell>
+        Read-only
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#cart-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [Product](/references/product/models/Product)
+      </Table.Cell>
+      <Table.Cell>
+        [ShippingProfile](/references/fulfillment/models/ShippingProfile) in [Fulfillment Module](../../fulfillment/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        Stored
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#fulfillment-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [ProductVariant](/references/product/models/ProductVariant)
+      </Table.Cell>
+      <Table.Cell>
+        [InventoryItem](/references/inventory/models/InventoryItem) in [Inventory Module](../../inventory/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        Stored
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#inventory-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [Order](/references/order/models/Order) in [Order Module](../../order/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        [Product](/references/product/models/Product)
+      </Table.Cell>
+      <Table.Cell>
+        Read-only
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#order-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [ProductVariant](/references/product/models/ProductVariant)
+      </Table.Cell>
+      <Table.Cell>
+        [PriceSet](/references/pricing/models/PriceSet) in [Pricing Module](../../pricing/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        Stored
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#pricing-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [Product](/references/product/models/Product)
+      </Table.Cell>
+      <Table.Cell>
+        [SalesChannel](/references/sales-channel/models/SalesChannel) in [Sales Channel Module](../../sales-channel/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        Stored
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#sales-channel-module)
+      </Table.Cell>
+    </Table.Row>
+  </Table.Body>
+</Table>
 
 ---
 
@@ -31,16 +129,16 @@ Read-only links are used to query data across modules, but the relations aren't 
 
 Medusa defines read-only links between:
 
-- The `Product` data model and the [Cart Module](../../cart/page.mdx)'s `LineItem` data model. This means you can retrieve the details of a line item's product, but you don't manage the links in a pivot table in the database. The product of a line item is determined by the `product_id` property of the `LineItem` data model.
-- The `ProductVariant` data model and the [Cart Module](../../cart/page.mdx)'s `LineItem` data model. This means you can retrieve the details of a line item's variant, but you don't manage the links in a pivot table in the database. The variant of a line item is determined by the `variant_id` property of the `LineItem` data model.
+- The [Cart Module](../../cart/page.mdx)'s `LineItem` data model and the `Product` data model. Because the link is read-only from the `LineItem`'s side, you can only retrieve the product of a line item, and not the other way around.
+- The `ProductVariant` data model and the [Cart Module](../../cart/page.mdx)'s `LineItem` data model. Because the link is read-only from the `LineItem`'s side, you can only retrieve the variant of a line item, and not the other way around.
 
 ### Retrieve with Query
 
-To retrieve the line items of a variant with [Query](!docs!/learn/fundamentals/module-links/query), pass `line_items.*` in `fields`:
+To retrieve the variant of a line item with [Query](!docs!/learn/fundamentals/module-links/query), pass `variant.*` in `fields`:
 
 <Note>
 
-To retrieve the line items of a product, pass `line_items.*` in `fields`.
+To retrieve the product, pass `product.*` in `fields`.
 
 </Note>
 
@@ -48,14 +146,14 @@ To retrieve the line items of a product, pass `line_items.*` in `fields`.
   <CodeTab label="query.graph" value="method">
 
 ```ts
-const { data: variants } = await query.graph({
-  entity: "variant",
+const { data: lineItems } = await query.graph({
+  entity: "line_item",
   fields: [
-    "line_items.*",
+    "variant.*",
   ],
 })
 
-// variants.line_items
+// lineItems.variant
 ```
 
   </CodeTab>
@@ -66,14 +164,14 @@ import { useQueryGraphStep } from "@medusajs/medusa/core-flows"
 
 // ...
 
-const { data: variants } = useQueryGraphStep({
-  entity: "variant",
+const { data: lineItems } = useQueryGraphStep({
+  entity: "line_item",
   fields: [
-    "line_items.*",
+    "variant.*",
   ],
 })
 
-// variants.line_items
+// lineItems.variant
 ```
 
   </CodeTab>
@@ -281,16 +379,16 @@ createRemoteLinkStep({
 
 Medusa defines read-only links between:
 
-- the `Product` data model and the [Order Module](../../order/page.mdx)'s `OrderLineItem` data model. This means you can retrieve the details of a line item's product, but you don't manage the links in a pivot table in the database. The product of a line item is determined by the `product_id` property of the `OrderLineItem` data model.
-- the `ProductVariant` data model and the [Order Module](../../order/page.mdx)'s `OrderLineItem` data model. This means you can retrieve the details of a line item's variant, but you don't manage the links in a pivot table in the database. The variant of a line item is determined by the `variant_id` property of the `OrderLineItem` data model.
+- the [Order Module](../../order/page.mdx)'s `OrderLineItem` data model and the `Product` data model. Because the link is read-only from the `OrderLineItem`'s side, you can only retrieve the product of an order line item, and not the other way around.
+- the [Order Module](../../order/page.mdx)'s `OrderLineItem` data model and the `ProductVariant` data model. Because the link is read-only from the `OrderLineItem`'s side, you can only retrieve the variant of an order line item, and not the other way around.
 
 ### Retrieve with Query
 
-To retrieve the order line items of a variant with [Query](!docs!/learn/fundamentals/module-links/query), pass `order_items.*` in `fields`:
+To retrieve the variant of a line item with [Query](!docs!/learn/fundamentals/module-links/query), pass `variant.*` in `fields`:
 
 <Note>
 
-To retrieve a product's order line items, pass `order_items.*` in `fields`.
+To retrieve the product, pass `product.*` in `fields`.
 
 </Note>
 
@@ -298,14 +396,14 @@ To retrieve a product's order line items, pass `order_items.*` in `fields`.
   <CodeTab label="query.graph" value="method">
 
 ```ts
-const { data: variants } = await query.graph({
-  entity: "variant",
+const { data: lineItems } = await query.graph({
+  entity: "order_line_item",
   fields: [
-    "order_items.*",
+    "variant.*",
   ],
 })
 
-// variants.order_items
+// lineItems.variant
 ```
 
   </CodeTab>
@@ -316,14 +414,14 @@ import { useQueryGraphStep } from "@medusajs/medusa/core-flows"
 
 // ...
 
-const { data: variants } = useQueryGraphStep({
-  entity: "variant",
+const { data: lineItems } = useQueryGraphStep({
+  entity: "order_line_item",
   fields: [
-    "order_items.*",
+    "variant.*",
   ],
 })
 
-// variants.order_items
+// lineItems.variant
 ```
 
   </CodeTab>

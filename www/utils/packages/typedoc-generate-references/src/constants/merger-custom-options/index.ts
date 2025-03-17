@@ -13,6 +13,7 @@ import workflowsOptions from "./workflows.js"
 import dmlOptions from "./dml.js"
 import coreFlowsOptions from "./core-flows.js"
 import jsSdkOptions from "./js-sdk.js"
+import lockingOptions from "./locking.js"
 
 const mergerCustomOptions: FormattingOptionsType = {
   ...authProviderOptions,
@@ -22,6 +23,7 @@ const mergerCustomOptions: FormattingOptionsType = {
   ...fulfillmentProviderOptions,
   ...helperStepsOptions,
   ...jsSdkOptions,
+  ...lockingOptions,
   ...medusaConfigOptions,
   ...medusaOptions,
   ...notificationOptions,

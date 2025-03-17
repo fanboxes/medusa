@@ -1,4 +1,4 @@
-import { CodeTabs, CodeTab } from "docs-ui"
+import { CodeTabs, CodeTab, Table } from "docs-ui"
 
 export const metadata = {
   title: `Links between Fulfillment Module and Other Modules`,
@@ -12,12 +12,110 @@ This document showcases the module links defined between the Fulfillment Module 
 
 The Fulfillment Module has the following links to other modules:
 
-- [`Order` data model of the Order Module \<\> `Fulfillment` data model](#order-module).
-- [`Return` data model of the Order Module \<\> `Fulfillment` data model](#order-module).
-- [`PriceSet` data model of the Pricing Module \<\> `ShippingOption` data model](#pricing-module).
-- [`Product` data model of the Product Module \<\> `ShippingProfile` data model](#product-module).
-- [`StockLocation` data model of the Stock Location Module \<\> `FulfillmentProvider` data model](#stock-location-module).
-- [`StockLocation` data model of the Stock Location Module \<\> `FulfillmentSet` data model](#stock-location-module).
+<Table>
+  <Table.Header>
+    <Table.Row>
+      <Table.HeaderCell>
+        First Data Model
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Second Data Model
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Type
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Description
+      </Table.HeaderCell>
+    </Table.Row>
+  </Table.Header>
+  <Table.Body>
+    <Table.Row>
+      <Table.Cell>
+        [Order](/references/order/models/Order) in [Order Module](../../order/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        [Fulfillment](/references/fulfillment/models/Fulfillment)
+      </Table.Cell>
+      <Table.Cell>
+        Stored
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#order-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [Return](/references/order/models/Return) in [Order Module](../../order/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        [Fulfillment](/references/fulfillment/models/Fulfillment)
+      </Table.Cell>
+      <Table.Cell>
+        Stored
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#order-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [PriceSet](/references/pricing/models/PriceSet) in [Pricing Module](../../pricing/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        [ShippingOption](/references/fulfillment/models/ShippingOption)
+      </Table.Cell>
+      <Table.Cell>
+        Stored
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#pricing-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [Product](/references/product/models/Product) in [Product Module](../../product/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        [ShippingProfile](/references/fulfillment/models/ShippingProfile)
+      </Table.Cell>
+      <Table.Cell>
+        Stored
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#product-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [StockLocation](/references/stock-location/models/StockLocation) in [Stock Location Module](../../stock-location/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        [FulfillmentProvider](/references/fulfillment/models/FulfillmentProvider)
+      </Table.Cell>
+      <Table.Cell>
+        Stored
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#stock-location-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [StockLocation](/references/stock-location/models/StockLocation) in [Stock Location Module](../../stock-location/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        [FulfillmentSet](/references/fulfillment/models/FulfillmentSet)
+      </Table.Cell>
+      <Table.Cell>
+        Stored
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#stock-location-module)
+      </Table.Cell>
+    </Table.Row>
+  </Table.Body>
+</Table>
 
 ---
 

@@ -19,7 +19,7 @@ import { Context } from "../shared-context"
  * }
  *
  * type Options = {
- *   apiKey: string
+ *   url: string
  * }
  *
  * class MyLockingProviderService implements ILockingProvider {
@@ -54,7 +54,7 @@ import { Context } from "../shared-context"
  * For example:
  * 
  * ```ts
- * class MyLockingProviderService extends ILockingProvider {
+ * class MyLockingProviderService implements ILockingProvider {
  *   static identifier = "my-lock"
  *   // ...
  * }
@@ -73,6 +73,7 @@ export interface ILockingProvider {
    * @param args - Additional arguments for the job execution.
    * @param sharedContext - A context used to share resources, such as transaction manager, between the application and the module.
    * @returns The result of the job.
+   * @typeParam T - The type of the job's result.
    * 
    * @example
    * An example of how to implement the `execute` method:
@@ -169,6 +170,7 @@ export interface ILockingProvider {
    * @param keys - The keys to acquire the lock on.
    * @param args - Additional arguments for acquiring the lock.
    * @param sharedContext - A context used to share resources, such as transaction manager, between the application and the module.
+   * @returns Resolves when the lock is acquired.
    * 
    * @example
    * An example of how to implement the `acquire` method:
@@ -250,6 +252,7 @@ export interface ILockingProvider {
    * @param keys - The keys to release the lock from.
    * @param args - Additional arguments for releasing the lock.
    * @param sharedContext - A context used to share resources, such as transaction manager, between the application and the module.
+   * @returns Whether the lock was successfully released. If the lock has a different owner than the one passed, the method returns `false`.
    * 
    * @example
    * An example of how to implement the `release` method:
@@ -346,6 +349,7 @@ export interface ILockingModule {
    * @param args - Additional arguments for the job execution.
    * @param sharedContext - A context used to share resources, such as transaction manager, between the application and the module.
    * @returns The result of the job execution.
+   * @typeParam T - The type of the job's result.
    * 
    * @example
    * For example, to use the lock module when deleting a product:
@@ -397,6 +401,7 @@ export interface ILockingModule {
    * @param keys - The keys to acquire the lock on.
    * @param args - Additional arguments for acquiring the lock.
    * @param sharedContext - A context used to share resources, such as transaction manager, between the application and the module.
+   * @returns Resolves when the lock is acquired.
    * 
    * @example
    * For example, to acquire a lock on a product with ID `prod_123` for a user with ID `user_123`:

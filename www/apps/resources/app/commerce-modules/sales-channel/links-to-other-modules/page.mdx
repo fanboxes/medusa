@@ -1,4 +1,4 @@
-import { CodeTabs, CodeTab } from "docs-ui"
+import { CodeTabs, CodeTab, Table } from "docs-ui"
 
 export const metadata = {
   title: `Links between Sales Channel Module and Other Modules`,
@@ -18,11 +18,96 @@ Read-only links are used to query data across modules, but the relations aren't 
 
 </Note>
 
-- [`ApiKey` data model of the API Key Module \<\> `SalesChannel` data model](#api-key-module).
-- [`SalesChannel` data model \<\> `Cart` data model of the Cart Module](#cart-module). (Read-only)
-- [`SalesChannel` data model \<\> `Order` data model of the Order Module](#order-module). (Read-only)
-- [`Product` data model of the Product Module \<\> `SalesChannel` data model](#product-module).
-- [`SalesChannel` data model \<\> `StockLocation` data model of the Stock Location Module](#stock-location-module).
+<Table>
+  <Table.Header>
+    <Table.Row>
+      <Table.HeaderCell>
+        First Data Model
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Second Data Model
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Type
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Description
+      </Table.HeaderCell>
+    </Table.Row>
+  </Table.Header>
+  <Table.Body>
+    <Table.Row>
+      <Table.Cell>
+        [ApiKey](/references/api-key/models/ApiKey) in [API Key Module](../../api-key/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        [SalesChannel](/references/sales-channel/models/SalesChannel)
+      </Table.Cell>
+      <Table.Cell>
+        Stored
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#api-key-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [Cart](/references/cart/models/Cart) in [Cart Module](../../cart/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        [SalesChannel](/references/sales-channel/models/SalesChannel)
+      </Table.Cell>
+      <Table.Cell>
+        Read-only
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#cart-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [Order](/references/order/models/Order) in [Order Module](../../order/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        [SalesChannel](/references/sales-channel/models/SalesChannel)
+      </Table.Cell>
+      <Table.Cell>
+        Read-only
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#order-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [Product](/references/product/models/Product) in [Product Module](../../product/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        [SalesChannel](/references/sales-channel/models/SalesChannel)
+      </Table.Cell>
+      <Table.Cell>
+        Stored
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#product-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [SalesChannel](/references/sales-channel/models/SalesChannel)
+      </Table.Cell>
+      <Table.Cell>
+        [StockLocation](/references/stock-location/models/StockLocation) in [Stock Location Module](../../stock-location/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        Stored
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#stock-location-module)
+      </Table.Cell>
+    </Table.Row>
+  </Table.Body>
+</Table>
 
 ---
 
@@ -121,24 +206,24 @@ createRemoteLinkStep({
 
 ## Cart Module
 
-Medusa defines a read-only link between the `SalesChannel` data model and the [Cart Module](../../cart/page.mdx)'s `Cart` data model. This means you can retrieve the details of a sales channel's carts, but you don't manage the links in a pivot table in the database. The sales channel of a cart is determined by the `sales_channel_id` property of the `Cart` data model.
+Medusa defines a read-only link between the [Cart Module](../../cart/page.mdx)'s `Cart` data model and the `SalesChannel` data model. Because the link is read-only from the `Cart`'s side, you can only retrieve the sales channel of a cart, and not the other way around.
 
 ### Retrieve with Query
 
-To retrieve the carts of a sales channel with [Query](!docs!/learn/fundamentals/module-links/query), pass `carts.*` in `fields`:
+To retrieve the sales channel of a cart with [Query](!docs!/learn/fundamentals/module-links/query), pass `sales_channel.*` in `fields`:
 
 <CodeTabs group="relation-query">
   <CodeTab label="query.graph" value="method">
 
 ```ts
-const { data: salesChannels } = await query.graph({
-  entity: "sales_channel",
+const { data: carts } = await query.graph({
+  entity: "cart",
   fields: [
-    "carts.*",
+    "sales_channel.*",
   ],
 })
 
-// salesChannels.carts
+// carts.sales_channel
 ```
 
   </CodeTab>
@@ -149,14 +234,14 @@ import { useQueryGraphStep } from "@medusajs/medusa/core-flows"
 
 // ...
 
-const { data: salesChannels } = useQueryGraphStep({
-  entity: "sales_channel",
+const { data: carts } = useQueryGraphStep({
+  entity: "cart",
   fields: [
-    "carts.*",
+    "sales_channel.*",
   ],
 })
 
-// salesChannels.carts
+// carts.sales_channel
 ```
 
   </CodeTab>
@@ -166,24 +251,24 @@ const { data: salesChannels } = useQueryGraphStep({
 
 ## Order Module
 
-Medusa defines a read-only link between the `SalesChannel` data model and the [Order Module](../../order/page.mdx)'s `Order` data model. This means you can retrieve the details of a sales channel's orders, but you don't manage the links in a pivot table in the database. The sales channel of an order is determined by the `sales_channel_id` property of the `Order` data model.
+Medusa defines a read-only link between the [Order Module](../../order/page.mdx)'s `Order` data model and the `SalesChannel` data model. Because the link is read-only from the `Order`'s side, you can only retrieve the sales channel of an order, and not the other way around.
 
 ### Retrieve with Query
 
-To retrieve the orders of a sales channel with [Query](!docs!/learn/fundamentals/module-links/query), pass `orders.*` in `fields`:
+To retrieve the sales channel of an order with [Query](!docs!/learn/fundamentals/module-links/query), pass `sales_channel.*` in `fields`:
 
 <CodeTabs group="relation-query">
   <CodeTab label="query.graph" value="method">
 
 ```ts
-const { data: salesChannels } = await query.graph({
-  entity: "sales_channel",
+const { data: orders } = await query.graph({
+  entity: "order",
   fields: [
-    "orders.*",
+    "sales_channel.*",
   ],
 })
 
-// salesChannels.orders
+// orders.sales_channel
 ```
 
   </CodeTab>
@@ -194,14 +279,14 @@ import { useQueryGraphStep } from "@medusajs/medusa/core-flows"
 
 // ...
 
-const { data: salesChannels } = useQueryGraphStep({
-  entity: "sales_channel",
+const { data: orders } = useQueryGraphStep({
+  entity: "order",
   fields: [
-    "orders.*",
+    "sales_channel.*",
   ],
 })
 
-// salesChannels.orders
+// orders.sales_channel
 ```
 
   </CodeTab>

@@ -64,6 +64,14 @@ export const server = [
     "path": "https://docs.medusajs.com/resources/references/fulfillment/provider"
   },
   {
+    "title": "Use Locking Module",
+    "path": "https://docs.medusajs.com/resources/references/locking-service"
+  },
+  {
+    "title": "Create Locking Provider",
+    "path": "https://docs.medusajs.com/resources/references/locking-module-provider"
+  },
+  {
     "title": "Create Notification Provider",
     "path": "https://docs.medusajs.com/resources/references/notification-provider-module"
   },

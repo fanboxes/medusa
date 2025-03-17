@@ -11,7 +11,7 @@ import { ResourceLoader } from "../utils/resource-loader"
 
 type CronJobConfig = {
   name: string
-  schedule: string
+  schedule: string | SchedulerOptions
   numberOfExecutions?: SchedulerOptions["numberOfExecutions"]
 }
 

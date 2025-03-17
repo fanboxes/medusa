@@ -38,6 +38,7 @@ export const MainNavItemDropdown = ({
               className={clsx("transition-transform", isOpen && "rotate-180")}
             />
           }
+          className="!flex"
         />
       )
     }

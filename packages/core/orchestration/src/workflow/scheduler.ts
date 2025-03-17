@@ -24,9 +24,8 @@ class WorkflowScheduler {
             concurrency: "forbid",
           }
         : {
-            cron: schedule.cron,
-            concurrency: schedule.concurrency || "forbid",
-            numberOfExecutions: schedule.numberOfExecutions,
+            concurrency: "forbid",
+            ...schedule,
           }
 
     await WorkflowScheduler.storage.schedule(workflow.id, normalizedSchedule)

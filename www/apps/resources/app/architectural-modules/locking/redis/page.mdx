@@ -1,0 +1,289 @@
+import { Table, Prerequisites } from "docs-ui"
+
+export const metadata = {
+  title: `Redis Locking Module Provider`,
+}
+
+# {metadata.title}
+
+The Redis Locking Module Provider uses Redis to manage locks across multiple instances of Medusa. Redis ensures that locks are globally available, which is ideal for distributed environments.
+
+This provider is recommended for production environments where Medusa is running in a multi-instance setup.
+
+---
+
+## Register the Redis Locking Module Provider
+
+<Prerequisites
+  items={[
+    {
+      text: "A redis server set up locally or a database in your deployed application.",
+      link: "https://redis.io/download",
+    }
+  ]}
+/>
+
+To register the Redis Locking Module Provider, add it to the list of providers of the Locking Module in `medusa-config.ts`:
+
+```ts title="medusa-config.ts"
+module.exports = defineConfig({
+  // ...
+  modules: [
+    {
+      resolve: "@medusajs/medusa/locking",
+      options: {
+        providers: [
+          {
+            resolve: "@medusajs/medusa/locking-redis",
+            id: "redis-lock",
+            // set this if you want this provider to be used by default
+            // and you have other Locking Module Providers registered.
+            is_default: true,
+            options: {
+              redisUrl: process.env.LOCKING_REDIS_URL,
+            }
+          },
+        ]
+      }
+    }
+  ]
+})
+```
+
+### Environment Variables
+
+Make sure to add the following environment variable:
+
+```bash
+LOCKING_REDIS_URL=<YOUR_LOCKING_REDIS_URL>
+```
+
+Where `<YOUR_LOCKING_REDIS_URL>` is the URL of your Redis server, either locally or in the deployed environment.
+
+<Note title="Tip">
+
+The default Redis URL in a local environment is `redis://localhost:6379`.
+
+</Note>
+
+### Redis Locking Module Provider Options
+
+<Table>
+  <Table.Header>
+    <Table.Row>
+      <Table.HeaderCell>Option</Table.HeaderCell>
+      <Table.HeaderCell>Description</Table.HeaderCell>
+      <Table.HeaderCell>Required</Table.HeaderCell>
+      <Table.HeaderCell>Default</Table.HeaderCell>
+    </Table.Row>
+  </Table.Header>
+  <Table.Body>
+    <Table.Row>
+      <Table.Cell>
+      
+      `redisUrl`
+      
+      </Table.Cell>
+      <Table.Cell>
+      
+      A string indicating the Redis connection URL.
+      
+      </Table.Cell>
+      <Table.Cell>
+      
+      Yes
+      
+      </Table.Cell>
+      <Table.Cell>
+      
+      \-
+      
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+      
+      `redisOptions`
+      
+      </Table.Cell>
+      <Table.Cell>
+      
+      An object of Redis options. Refer to the [Redis API Reference](https://redis.github.io/ioredis/index.html#RedisOptions) for details on accepted properties.
+      
+      </Table.Cell>
+      <Table.Cell>
+      
+      No
+      
+      </Table.Cell>
+      <Table.Cell>
+      
+      \-
+      
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+      
+      `namespace`
+      
+      </Table.Cell>
+      <Table.Cell>
+      
+      A string used to prefix all locked keys with `{namespace}`.
+      
+      </Table.Cell>
+      <Table.Cell>
+      
+      No
+      
+      </Table.Cell>
+      <Table.Cell>
+      
+      `medusa_lock:`. So, all locked keys are prefixed with `medusa_lock:`.
+      
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+      
+      `waitLockingTimeout`
+      
+      </Table.Cell>
+      <Table.Cell>
+      
+      A number indicating the default timeout (in seconds) to wait while acquiring a lock. This timeout is used when no timeout is specified when executing an asynchronous job or acquiring a lock.
+      
+      </Table.Cell>
+      <Table.Cell>
+      
+      No
+      
+      </Table.Cell>
+      <Table.Cell>
+      
+      `5`
+      
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+      
+      `defaultRetryInterval`
+      
+      </Table.Cell>
+      <Table.Cell>
+      
+      A number indicating the time (in milliseconds) to wait before retrying to acquire a lock.
+      
+      </Table.Cell>
+      <Table.Cell>
+      
+      No
+      
+      </Table.Cell>
+      <Table.Cell>
+      
+      `5`
+      
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+      
+      `maximumRetryInterval`
+      
+      </Table.Cell>
+      <Table.Cell>
+      
+      A number indicating the maximum time (in milliseconds) to wait before retrying to acquire a lock.
+      
+      </Table.Cell>
+      <Table.Cell>
+      
+      No
+      
+      </Table.Cell>
+      <Table.Cell>
+      
+      `200`
+      
+      </Table.Cell>
+    </Table.Row>
+  </Table.Body>
+</Table>
+
+---
+
+## Test out the Module
+
+To test out the Redis Locking Module Provider, start the Medusa application:
+
+```bash npm2yarn
+npm run dev
+```
+
+You'll see the following message logged in the terminal:
+
+```bash
+info:    Connection to Redis in "locking-redis" provider established
+```
+
+This message indicates that the Redis Locking Module Provider has successfully connected to the Redis server.
+
+If you set the `is_default` flag to `true` in the provider options or you only registered the Redis Locking Module Provider, the Locking Module will use it by default for all locking operations.
+
+---
+
+## Use Provider with Locking Module
+
+The Redis Locking Module Provider will be the default provider if you don't register any other providers, or if you set the `is_default` flag to `true`:
+
+export const defaultHighlights = [
+  ["11", "is_default"]
+]
+
+```ts title="medusa-config.ts" highlights={defaultHighlights}
+module.exports = defineConfig({
+  // ...
+  modules: [
+    {
+      resolve: "@medusajs/medusa/locking",
+      options: {
+        providers: [
+          {
+            resolve: "@medusajs/medusa/locking-redis",
+            id: "redis-lock",
+            is_default: true,
+            options: {
+              // ...
+            }
+          },
+        ]
+      }
+    }
+  ]
+})
+```
+
+If you use the Locking Module in your customizations, the Redis Locking Module Provider will be used by default in this case. You can also explicitly use this provider by passing its identifier `lp_locking-redis` to the Locking Module's service methods.
+
+For example, when using the `acquire` method in a [workflow step](!docs!/learn/fundamentals/workflows):
+
+```ts
+import { Modules } from "@medusajs/framework/utils"
+import { createStep } from "@medusajs/framework/workflows-sdk"
+
+const step1 = createStep(
+  "step-1",
+  async ({}, { container }) => {
+    const lockingModuleService = container.resolve(
+      Modules.LOCKING
+    )
+
+    await lockingModuleService.acquire("prod_123", {
+      provider: "lp_locking-redis",
+    })
+  } 
+)
+```

@@ -6,17 +6,17 @@ export const metadata = {
 
 # {metadata.title}
 
-Medusa's architectural functionalities, such as emitting and subscribing to events or caching data, are all implemented in architectural modules. An architectural module is a package that can be installed and used in any Medusa application. These modules allow you to choose and integrate custom services for architectural purposes.
+Medusa's architectural functionalities, such as emitting and subscribing to events or caching data, are all implemented in Architectural Modules. An Architectural Module is a package that can be installed and used in any Medusa application. These modules allow you to choose and integrate custom services for architectural purposes.
 
-For example, you can use our [Redis Event Module](./event/redis/page.mdx) to handle event functionalities, or create a custom module that implements these functionalities with Memcached. Learn more about Medusa's architecture in [this documentation](!docs!/learn/introduction/architecture).
+For example, you can use our [Redis Event Module](./event/redis/page.mdx) to handle event functionalities, or create a custom module that implements these functionalities with Memcached. Learn more in [the Architecture documentation](!docs!/learn/introduction/architecture).
 
-This section of the documentation showcases official architectural modules and how to configure them in your application.
+This section of the documentation showcases Medusa's Architectural Modules, how they work, and how to use them in your Medusa application.
 
-## Cache Modules
+## Cache Module
 
 A Cache Module is used to cache the results of computations such as price selection or various tax calculations. Learn more in [this documentation](./cache/page.mdx).
 
-The following modules are provided by Medusa. You can also create your own cache module as explained in [this guide](./cache/create/page.mdx).
+The following Cache modules are provided by Medusa. You can also create your own cache module as explained in [this guide](./cache/create/page.mdx).
 
 <CardList
   items={[
@@ -41,11 +41,11 @@ The following modules are provided by Medusa. You can also create your own cache
 
 ---
 
-## Event Modules
+## Event Module
 
 An Event Module implements the underlying publish/subscribe system that handles queueing events, emitting them, and executing their subscribers.  Learn more in [this documentation](./event/page.mdx).
 
-The following modules are provided by Medusa. You can also create your own event module as explained in [this guide](./event/create/page.mdx).
+The following Event modules are provided by Medusa. You can also create your own event module as explained in [this guide](./event/create/page.mdx).
 
 <CardList
   items={[
@@ -70,11 +70,11 @@ The following modules are provided by Medusa. You can also create your own event
 
 ---
 
-## File Module Providers
+## File Module
 
-A file module provider implements the logic of handling uploads and downloads of assets, such as integrating third-party services. Learn more in [this documentation](./file/page.mdx).
+The File Module handles file upload and storage of assets, such as product images. Refer to the [File Module documentation](./file/page.mdx) to learn more about it.
 
-The following modules are provided by Medusa. You can also create your own file module as explained in [this guide](/references/file-provider-module).
+The File Module has module providers that implement the underlying logic of handling uploads and downloads of assets, such as integrating third-party services. The following File Module Providers are provided by Medusa. You can also create a custom provider as explained in the [Create File Module Provider guide](/references/file-provider-module).
 
 <CardList
   items={[
@@ -99,11 +99,36 @@ The following modules are provided by Medusa. You can also create your own file 
 
 ---
 
-## Notification Module Providers
+## Locking Module
 
-A notification module provider implements the logic of sending notifications, typically through integrating a third-party service. Learn more in [this documentation](./notification/page.mdx).
+The Locking Module manages access to shared resources by multiple processes or threads. It prevents conflicts between processes and ensures data consistency. Refer to the [Locking Module documentation](./locking/page.mdx) to learn more about it.
 
-The following modules are provided by Medusa. You can also create your own file module as explained in [this guide](/references/notification-provider-module).
+The Locking Module uses module providers that implement the underlying logic of the locking mechanism. The following Locking Module Providers are provided by Medusa. You can also create a custom provider as explained in the [Create Locking Module Provider guide](/references/locking-provider-module).
+
+<CardList
+  items={[
+    {
+      title: "Redis",
+      href: "/architectural-modules/locking/redis",
+      badge: {
+        variant: "green",
+        children: "Recommended"
+      }
+    },
+    {
+      title: "PostgreSQL",
+      href: "/architectural-modules/locking/postgres",
+    }
+  ]}
+/>
+
+---
+
+## Notification Module
+
+The Notification Module handles sending notifications to users or customers, such as reset password instructions or newsletters. Refer to the [Notifcation Module documentation](./notification/page.mdx) to learn more about it.
+
+The Notification Module has module providers that implement the underlying logic of sending notifications, typically through integrating a third-party service. The following modules are provided by Medusa. You can also create a custom provider as explained in the [Create Notification Module Provider guide](/references/notification-provider-module).
 
 <CardList
   items={[
@@ -151,11 +176,11 @@ The following modules are provided by Medusa. You can also create your own file 
 
 ---
 
-## Workflow Engine Modules
+## Workflow Engine Module
 
-Workflow engine modules handle tracking and recording the transactions and statuses of workflows and their steps. Learn more in [this documentation](./workflow-engine/page.mdx).
+A Workflow Engine Module handles tracking and recording the transactions and statuses of workflows and their steps. Learn more about it in the [Worklow Engine Module documentation](./workflow-engine/page.mdx).
 
-The following modules are provided by Medusa.
+The following Workflow Engine modules are provided by Medusa.
 
 <CardList
   items={[

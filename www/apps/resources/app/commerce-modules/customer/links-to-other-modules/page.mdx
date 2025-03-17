@@ -1,4 +1,4 @@
-import { CodeTabs, CodeTab } from "docs-ui"
+import { CodeTabs, CodeTab, Table } from "docs-ui"
 
 export const metadata = {
   title: `Links between Customer Module and Other Modules`,
@@ -18,9 +18,69 @@ Read-only links are used to query data across modules, but the relations aren't 
 
 </Note>
 
-- [`Customer` data model \<\> `AccountHolder` data model of Payment Module](#payment-module).
-- [`Cart` data model of Cart Module \<\> `Customer` data model](#cart-module). (Read-only).
-- [`Order` data model of Order Module \<\> `Customer` data model](#order-module). (Read-only).
+<Table>
+  <Table.Header>
+    <Table.Row>
+      <Table.HeaderCell>
+        First Data Model
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Second Data Model
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Type
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Description
+      </Table.HeaderCell>
+    </Table.Row>
+  </Table.Header>
+  <Table.Body>
+    <Table.Row>
+      <Table.Cell>
+        [Customer](/references/customer/models/Customer)
+      </Table.Cell>
+      <Table.Cell>
+        [AccountHolder](/references/payment/models/AccountHolder) in [Payment Module](../../payment/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        Stored
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#payment-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [Cart](/references/cart/models/Cart) in [Cart Module](../../cart/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        [Customer](/references/customer/models/Customer)
+      </Table.Cell>
+      <Table.Cell>
+        Read-only
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#cart-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [Order](/references/order/models/Order) in [Order Module](../../order/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        [Customer](/references/customer/models/Customer)
+      </Table.Cell>
+      <Table.Cell>
+        Read-only
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#order-module)
+      </Table.Cell>
+    </Table.Row>
+  </Table.Body>
+</Table>
+
 
 ---
 
@@ -120,24 +180,24 @@ createRemoteLinkStep({
 
 ## Cart Module
 
-Medusa defines a read-only link between the `Customer` data model and the [Cart Module](../../cart/page.mdx)'s `Cart` data model. This means you can retrieve the details of a customer's carts, but you don't manage the links in a pivot table in the database. The customer of a cart is determined by the `customer_id` property of the `Cart` data model.
+Medusa defines a read-only link between the [Cart Module](../../cart/page.mdx)'s `Cart` data model and the `Customer` data model. Because the link is read-only from the `Cart`'s side, you can only retrieve the customer of a cart, and not the other way around.
 
 ### Retrieve with Query
 
-To retrieve a customer's carts with [Query](!docs!/learn/fundamentals/module-links/query), pass `carts.*` in `fields`:
+To retrieve the customer of a cart with [Query](!docs!/learn/fundamentals/module-links/query), pass `customer.*` in `fields`:
 
 <CodeTabs group="relation-query">
   <CodeTab label="query.graph" value="method">
 
 ```ts
-const { data: customers } = await query.graph({
-  entity: "customer",
+const { data: carts } = await query.graph({
+  entity: "cart",
   fields: [
-    "carts.*",
+    "customer.*",
   ],
 })
 
-// customers.carts
+// carts.customer
 ```
 
   </CodeTab>
@@ -148,14 +208,14 @@ import { useQueryGraphStep } from "@medusajs/medusa/core-flows"
 
 // ...
 
-const { data: customers } = useQueryGraphStep({
-  entity: "customer",
+const { data: carts } = useQueryGraphStep({
+  entity: "cart",
   fields: [
-    "carts.*",
+    "customer.*",
   ],
 })
 
-// customers.carts
+// carts.customer
 ```
 
   </CodeTab>
@@ -165,24 +225,24 @@ const { data: customers } = useQueryGraphStep({
 
 ## Order Module
 
-Medusa defines a read-only link between the `Customer` data model and the [Order Module](../../order/page.mdx)'s `Order` data model. This means you can retrieve the details of a customer's orders, but you don't manage the links in a pivot table in the database. The customer of an order is determined by the `customer_id` property of the `Order` data model.
+Medusa defines a read-only link between the [Order Module](../../order/page.mdx)'s `Order` data model and the `Customer` data model. Because the link is read-only from the `Order`'s side, you can only retrieve the customer of an order, and not the other way around.
 
 ### Retrieve with Query
 
-To retrieve a customer's orders with [Query](!docs!/learn/fundamentals/module-links/query), pass `orders.*` in `fields`:
+To retrieve the customer of an order with [Query](!docs!/learn/fundamentals/module-links/query), pass `customer.*` in `fields`:
 
 <CodeTabs group="relation-query">
   <CodeTab label="query.graph" value="method">
 
 ```ts
-const { data: customers } = await query.graph({
-  entity: "customer",
+const { data: orders } = await query.graph({
+  entity: "order",
   fields: [
-    "orders.*",
+    "customer.*",
   ],
 })
 
-// customers.orders
+// orders.customer
 ```
 
   </CodeTab>
@@ -193,14 +253,14 @@ import { useQueryGraphStep } from "@medusajs/medusa/core-flows"
 
 // ...
 
-const { data: customers } = useQueryGraphStep({
-  entity: "customer",
+const { data: orders } = useQueryGraphStep({
+  entity: "order",
   fields: [
-    "orders.*",
+    "customer.*",
   ],
 })
 
-// customers.orders
+// orders.customer
 ```
 
   </CodeTab>

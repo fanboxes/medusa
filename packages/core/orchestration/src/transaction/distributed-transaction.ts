@@ -2,6 +2,7 @@ import { isDefined } from "@medusajs/utils"
 import { EventEmitter } from "events"
 import { IDistributedTransactionStorage } from "./datastore/abstract-storage"
 import { BaseInMemoryDistributedTransactionStorage } from "./datastore/base-in-memory-storage"
+import { NonSerializableCheckPointError } from "./errors"
 import { TransactionOrchestrator } from "./transaction-orchestrator"
 import { TransactionStep, TransactionStepHandler } from "./transaction-step"
 import {
@@ -9,7 +10,6 @@ import {
   TransactionHandlerType,
   TransactionState,
 } from "./types"
-import { NonSerializableCheckPointError } from "./errors"
 
 /**
  * @typedef TransactionMetadata
@@ -229,6 +229,7 @@ class DistributedTransaction extends EventEmitter {
     )
 
     const options = TransactionOrchestrator.getWorkflowOptions(modelId)
+
     const loadedData = await DistributedTransaction.keyValueStore.get(
       key,
       options
@@ -248,7 +249,6 @@ class DistributedTransaction extends EventEmitter {
       return
     }
 
-    await this.saveCheckpoint()
     await DistributedTransaction.keyValueStore.scheduleRetry(
       this,
       step,
@@ -267,7 +267,6 @@ class DistributedTransaction extends EventEmitter {
       return
     }
 
-    await this.saveCheckpoint()
     await DistributedTransaction.keyValueStore.scheduleTransactionTimeout(
       this,
       Date.now(),

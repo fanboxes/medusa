@@ -1,5 +1,5 @@
 import { FindConfig } from "../common"
-import { IModuleService } from "../modules-sdk"
+import { ContainerLike, IModuleService } from "../modules-sdk"
 import { Context } from "../shared-context"
 import {
   FilterableWorkflowExecutionProps,
@@ -26,6 +26,15 @@ export type Acknowledgement = {
 export interface WorkflowOrchestratorRunDTO<T = unknown>
   extends FlowRunOptions<T> {
   transactionId?: string
+}
+
+export interface WorkflowOrchestratorCancelOptionsDTO {
+  transactionId: string
+  context?: Context
+  throwOnError?: boolean
+  logOnError?: boolean
+  events?: Record<string, Function>
+  container?: ContainerLike
 }
 
 export type IdempotencyKeyParts = {
@@ -63,17 +72,11 @@ export interface IWorkflowEngineService extends IModuleService {
     workflowId: string,
     options?: WorkflowOrchestratorRunDTO,
     sharedContext?: Context
-  ): Promise<{
-    errors: Error[]
-    transaction: object
-    result: any
-    acknowledgement: Acknowledgement
-  }>
+  )
 
   getRunningTransaction(
     workflowId: string,
     transactionId: string,
-    options?: Record<string, any>,
     sharedContext?: Context
   ): Promise<unknown>
 
@@ -119,6 +122,12 @@ export interface IWorkflowEngineService extends IModuleService {
       transactionId?: string
       subscriberOrId: string | Function
     },
+    sharedContext?: Context
+  )
+
+  cancel(
+    workflowId: string,
+    options: WorkflowOrchestratorCancelOptionsDTO,
     sharedContext?: Context
   )
 }

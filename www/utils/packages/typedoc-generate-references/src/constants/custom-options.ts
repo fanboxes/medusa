@@ -27,6 +27,11 @@ const customOptions: Record<string, Partial<TypeDocOptions>> = {
     name: "auth-provider",
     parentIgnore: true,
   }),
+  locking: getOptions({
+    entryPointPath: "packages/core/types/src/locking/index.ts",
+    tsConfigName: "types.json",
+    name: "locking",
+  }),
   dml: getOptions({
     entryPointPath: [
       "packages/core/utils/src/dml/entity-builder.ts",

@@ -1,12 +1,12 @@
 import { Table, Prerequisites } from "docs-ui"
 
 export const metadata = {
-  title: `Redis Event Bus Module`,
+  title: `Redis Event Module`,
 }
 
 # {metadata.title}
 
-The Redis Event Bus Module uses Redis to implement Medusa's pub/sub events system.
+The Redis Event Module uses Redis to implement Medusa's pub/sub events system.
 
 It's powered by BullMQ and `io-redis`. BullMQ is responsible for the message queue and worker, and `io-redis` is the underlying Redis client that BullMQ connects to for events storage.
 
@@ -14,7 +14,7 @@ In production, it's recommended to use this module.
 
 ---
 
-## Register the Redis Events Bus Module
+## Register the Redis Event Module
 
 <Prerequisites items={[
   {
@@ -55,7 +55,7 @@ Make sure to add the following environment variables:
 EVENTS_REDIS_URL=<YOUR_REDIS_URL>
 ```
 
-### Redis Event Bus Module Options
+### Redis Event Module Options
 
 <Table>
   <Table.Header>

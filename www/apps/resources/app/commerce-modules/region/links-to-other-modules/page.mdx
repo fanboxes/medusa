@@ -1,4 +1,4 @@
-import { CodeTabs, CodeTab } from "docs-ui"
+import { CodeTabs, CodeTab, Table } from "docs-ui"
 
 export const metadata = {
   title: `Links between Region Module and Other Modules`,
@@ -18,32 +18,91 @@ Read-only links are used to query data across modules, but the relations aren't 
 
 </Note>
 
-- [`Region` data model \<\> `Cart` data model of the Cart Module](#cart-module). (Read-only)
-- [`Region` data model \<\> `Order` data model of the Order Module](#order-module). (Read-only)
-- [`Region` data model \<\> `PaymentProvider` data model of the Payment Module](#payment-module).
+<Table>
+  <Table.Header>
+    <Table.Row>
+      <Table.HeaderCell>
+        First Data Model
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Second Data Model
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Type
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Description
+      </Table.HeaderCell>
+    </Table.Row>
+  </Table.Header>
+  <Table.Body>
+    <Table.Row>
+      <Table.Cell>
+        [Cart](/references/cart/models/Cart) in [Cart Module](../../cart/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        [Region](/references/region/models/Region)
+      </Table.Cell>
+      <Table.Cell>
+        Read-only
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#cart-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [Order](/references/order/models/Order) in [Order Module](../../order/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        [Region](/references/region/models/Region)
+      </Table.Cell>
+      <Table.Cell>
+        Read-only
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#order-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [Region](/references/region/models/Region)
+      </Table.Cell>
+      <Table.Cell>
+        [PaymentProvider](/references/payment/models/PaymentProvider) in [Payment Module](../../payment/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        Stored
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#payment-module)
+      </Table.Cell>
+    </Table.Row>
+  </Table.Body>
+</Table>
 
 ---
 
 ## Cart Module
 
-Medusa defines a read-only link between the `Region` data model and the [Cart Module](../../cart/page.mdx)'s `Cart` data model. This means you can retrieve the details of a region's carts, but you don't manage the links in a pivot table in the database. The region of a cart is determined by the `region_id` property of the `Cart` data model.
+Medusa defines a read-only link between the [Cart Module](../../cart/page.mdx)'s `Cart` data model and the `Region` data model. Because the link is read-only from the `Cart`'s side, you can only retrieve the region of a cart, and not the other way around.
 
 ### Retrieve with Query
 
-To retrieve the carts of a region with [Query](!docs!/learn/fundamentals/module-links/query), pass `carts.*` in `fields`:
+To retrieve the region of a cart with [Query](!docs!/learn/fundamentals/module-links/query), pass `region.*` in `fields`:
 
 <CodeTabs group="relation-query">
   <CodeTab label="query.graph" value="method">
 
 ```ts
-const { data: regions } = await query.graph({
-  entity: "region",
+const { data: carts } = await query.graph({
+  entity: "cart",
   fields: [
-    "carts.*",
+    "region.*",
   ],
 })
 
-// regions.carts
+// carts.region
 ```
 
   </CodeTab>
@@ -54,14 +113,14 @@ import { useQueryGraphStep } from "@medusajs/medusa/core-flows"
 
 // ...
 
-const { data: regions } = useQueryGraphStep({
-  entity: "region",
+const { data: carts } = useQueryGraphStep({
+  entity: "cart",
   fields: [
-    "carts.*",
+    "region.*",
   ],
 })
 
-// regions.carts
+// carts.region
 ```
 
   </CodeTab>
@@ -71,24 +130,24 @@ const { data: regions } = useQueryGraphStep({
 
 ## Order Module
 
-Medusa defines a read-only link between the `Region` data model and the [Cart Module](../../cart/page.mdx)'s `Cart` data model. This means you can retrieve the details of a region's orders, but you don't manage the links in a pivot table in the database. The region of an order is determined by the `region_id` property of the `Order` data model.
+Medusa defines a read-only link between the [Order Module](../../order/page.mdx)'s `Order` data model and the `Region` data model. Because the link is read-only from the `Order`'s side, you can only retrieve the region of an order, and not the other way around.
 
 ### Retrieve with Query
 
-To retrieve the orders of a region with [Query](!docs!/learn/fundamentals/module-links/query), pass `orders.*` in `fields`:
+To retrieve the region of an order with [Query](!docs!/learn/fundamentals/module-links/query), pass `region.*` in `fields`:
 
 <CodeTabs group="relation-query">
   <CodeTab label="query.graph" value="method">
 
 ```ts
-const { data: regions } = await query.graph({
-  entity: "region",
+const { data: orders } = await query.graph({
+  entity: "order",
   fields: [
-    "orders.*",
+    "region.*",
   ],
 })
 
-// regions.orders
+// orders.region
 ```
 
   </CodeTab>
@@ -99,14 +158,14 @@ import { useQueryGraphStep } from "@medusajs/medusa/core-flows"
 
 // ...
 
-const { data: regions } = useQueryGraphStep({
-  entity: "region",
+const { data: orders } = useQueryGraphStep({
+  entity: "order",
   fields: [
-    "orders.*",
+    "region.*",
   ],
 })
 
-// regions.orders
+// orders.region
 ```
 
   </CodeTab>

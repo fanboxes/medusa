@@ -195,7 +195,7 @@ export const createOrderShipmentWorkflow = createWorkflow(
 
     emitEventStep({
       eventName: FulfillmentEvents.SHIPMENT_CREATED,
-      data: { id: shipment.id },
+      data: { id: shipment.id, no_notification: input.no_notification },
     })
 
     const shipmentCreated = createHook("shipmentCreated", {

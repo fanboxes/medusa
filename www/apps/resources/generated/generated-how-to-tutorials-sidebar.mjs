@@ -82,6 +82,14 @@ const generatedgeneratedHowToTutorialsSidebarSidebar = {
               "loaded": true,
               "isPathHref": true,
               "type": "ref",
+              "title": "Create Locking Provider",
+              "path": "https://docs.medusajs.com/resources/references/locking-module-provider",
+              "children": []
+            },
+            {
+              "loaded": true,
+              "isPathHref": true,
+              "type": "ref",
               "title": "Create Notification Provider",
               "path": "https://docs.medusajs.com/resources/references/notification-provider-module",
               "children": []
@@ -132,6 +140,14 @@ const generatedgeneratedHowToTutorialsSidebarSidebar = {
               "type": "ref",
               "title": "Send Notification",
               "path": "https://docs.medusajs.com/resources/architectural-modules/notification/send-notification",
+              "children": []
+            },
+            {
+              "loaded": true,
+              "isPathHref": true,
+              "type": "ref",
+              "title": "Use Locking Module",
+              "path": "https://docs.medusajs.com/resources/references/locking-service",
               "children": []
             }
           ]

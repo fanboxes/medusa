@@ -91,7 +91,7 @@ export function ManageVariantInventoryItemsForm({
     queryFn: (params) => sdk.admin.inventoryItem.list(params),
     getOptions: (data) =>
       data.inventory_items.map((item) => ({
-        label: item.title || item.sku!,
+        label: `${item.title} (${item.sku})`,
         value: item.id!,
       })),
     defaultValue: variant.inventory_items?.[0]?.inventory_item_id,

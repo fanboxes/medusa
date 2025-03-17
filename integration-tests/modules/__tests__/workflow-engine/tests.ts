@@ -185,7 +185,7 @@ export const workflowEngineTestSuite = (
                   hasAsyncSteps: true,
                   hasFailedSteps: false,
                   hasSkippedSteps: false,
-                  hasWaitingSteps: false,
+                  hasWaitingSteps: true,
                   hasRevertedSteps: false,
                 }),
                 context: expect.objectContaining({
@@ -236,6 +236,13 @@ export const workflowEngineTestSuite = (
                 workflow_id: "my-workflow-name",
                 transaction_id: "trx_123",
                 state: "done",
+                execution: expect.objectContaining({
+                  hasAsyncSteps: true,
+                  hasFailedSteps: false,
+                  hasSkippedSteps: false,
+                  hasWaitingSteps: false,
+                  hasRevertedSteps: false,
+                }),
                 context: expect.objectContaining({
                   data: expect.objectContaining({
                     invoke: expect.objectContaining({

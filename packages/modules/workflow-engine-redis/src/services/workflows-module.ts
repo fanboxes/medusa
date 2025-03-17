@@ -17,7 +17,10 @@ import type {
 } from "@medusajs/framework/workflows-sdk"
 import { SqlEntityManager } from "@mikro-orm/postgresql"
 import { WorkflowExecution } from "@models"
-import { WorkflowOrchestratorService } from "@services"
+import {
+  WorkflowOrchestratorCancelOptions,
+  WorkflowOrchestratorService,
+} from "@services"
 
 type InjectedDependencies = {
   manager: SqlEntityManager
@@ -75,7 +78,9 @@ export class WorkflowsModuleService<
 
       await this.clearExpiredExecutions()
       this.clearTimeout_ = setInterval(async () => {
-        await this.clearExpiredExecutions()
+        try {
+          await this.clearExpiredExecutions()
+        } catch {}
       }, 1000 * 60 * 60)
     },
   }
@@ -90,11 +95,13 @@ export class WorkflowsModuleService<
     > = {},
     @MedusaContext() context: Context = {}
   ) {
+    options ??= {}
+    options.context ??= context
     const ret = await this.workflowOrchestratorService_.run<
       TWorkflow extends ReturnWorkflow<any, any, any>
         ? UnwrapWorkflowInputDataType<TWorkflow>
         : unknown
-    >(workflowIdOrWorkflow, options, context)
+    >(workflowIdOrWorkflow, options)
 
     return ret as any
   }
@@ -125,14 +132,14 @@ export class WorkflowsModuleService<
     },
     @MedusaContext() context: Context = {}
   ) {
-    return await this.workflowOrchestratorService_.setStepSuccess(
-      {
-        idempotencyKey,
-        stepResponse,
-        options,
-      } as any,
-      context
-    )
+    options ??= {}
+    options.context ??= context
+
+    return await this.workflowOrchestratorService_.setStepSuccess({
+      idempotencyKey,
+      stepResponse,
+      options,
+    } as any)
   }
 
   @InjectSharedContext()
@@ -148,14 +155,14 @@ export class WorkflowsModuleService<
     },
     @MedusaContext() context: Context = {}
   ) {
-    return await this.workflowOrchestratorService_.setStepFailure(
-      {
-        idempotencyKey,
-        stepResponse,
-        options,
-      } as any,
-      context
-    )
+    options ??= {}
+    options.context ??= context
+
+    return await this.workflowOrchestratorService_.setStepFailure({
+      idempotencyKey,
+      stepResponse,
+      options,
+    } as any)
   }
 
   @InjectSharedContext()
@@ -168,7 +175,7 @@ export class WorkflowsModuleService<
     },
     @MedusaContext() context: Context = {}
   ) {
-    return this.workflowOrchestratorService_.subscribe(args as any, context)
+    return this.workflowOrchestratorService_.subscribe(args as any)
   }
 
   @InjectSharedContext()
@@ -180,7 +187,7 @@ export class WorkflowsModuleService<
     },
     @MedusaContext() context: Context = {}
   ) {
-    return this.workflowOrchestratorService_.unsubscribe(args as any, context)
+    return this.workflowOrchestratorService_.unsubscribe(args as any)
   }
 
   private async clearExpiredExecutions() {
@@ -189,5 +196,14 @@ export class WorkflowsModuleService<
       WHERE retention_time IS NOT NULL AND
       updated_at <= (CURRENT_TIMESTAMP - INTERVAL '1 second' * retention_time);
     `)
+  }
+
+  @InjectSharedContext()
+  async cancel(
+    workflowId: string,
+    options: WorkflowOrchestratorCancelOptions,
+    @MedusaContext() context: Context = {}
+  ) {
+    return this.workflowOrchestratorService_.cancel(workflowId, options)
   }
 }

@@ -84,3 +84,12 @@ export class NonSerializableCheckPointError extends Error {
     this.name = "NonSerializableCheckPointError"
   }
 }
+
+export class SkipExecutionError extends Error {
+  static isSkipExecutionError(error: Error): error is SkipExecutionError {
+    return (
+      error instanceof SkipExecutionError ||
+      error?.name === "SkipExecutionError"
+    )
+  }
+}

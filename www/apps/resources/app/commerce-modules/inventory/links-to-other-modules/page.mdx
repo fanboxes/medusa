@@ -1,4 +1,4 @@
-import { CodeTabs, CodeTab } from "docs-ui"
+import { CodeTabs, CodeTab, Table } from "docs-ui"
 
 export const metadata = {
   title: `Links between Inventory Module and Other Modules`,
@@ -18,8 +18,54 @@ Read-only links are used to query data across modules, but the relations aren't 
 
 </Note>
 
-- [`ProductVariant` data model of Product Module \<\> `InventoryItem` data model](#product-module).
-- [`InventoryLevel` data model \<\> `StockLocation` data model of Stock Location Module](#stock-location-module). (Read-only).
+<Table>
+  <Table.Header>
+    <Table.Row>
+      <Table.HeaderCell>
+        First Data Model
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Second Data Model
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Type
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Description
+      </Table.HeaderCell>
+    </Table.Row>
+  </Table.Header>
+  <Table.Body>
+    <Table.Row>
+      <Table.Cell>
+        [ProductVariant](/references/product/models/ProductVariant) in [Product Module](../../product/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        [InventoryItem](/references/inventory/models/InventoryItem)
+      </Table.Cell>
+      <Table.Cell>
+        Stored
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#product-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [InventoryLevel](/references/inventory/models/InventoryLevel)
+      </Table.Cell>
+      <Table.Cell>
+        [StockLocation](/references/stock-location/models/StockLocation) in [Stock Location Module](../../stock-location/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        Read-only
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#stock-location-module)
+      </Table.Cell>
+    </Table.Row>
+  </Table.Body>
+</Table>
 
 ---
 

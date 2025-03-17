@@ -6,14 +6,14 @@ const fulfillmentProviderOptions: FormattingOptionsType = {
     reflectionGroups: {
       Constructors: false,
     },
-    reflectionDescription: `In this document, you’ll learn how to create a fulfillment provider module and the methods you must implement in its main service.`,
+    reflectionDescription: `In this document, you’ll learn how to create a Fulfillment Module Provider and the methods you must implement in its main service.`,
     frontmatterData: {
       slug: "/references/fulfillment/provider",
       tags: ["fulfillment", "server", "how to"],
       sidebar_label: "Create Fulfillment Provider",
     },
     reflectionTitle: {
-      fullReplacement: "How to Create a Fulfillment Provider Module",
+      fullReplacement: "How to Create a Fulfillment Module Provider",
     },
     shouldIncrementAfterStartSections: true,
     expandMembers: true,
@@ -24,11 +24,11 @@ const fulfillmentProviderOptions: FormattingOptionsType = {
       reflection_typeParameters: false,
     },
     startSections: [
-      `## Understanding Fulfillment Provider Implementation
+      `## Understanding Fulfillment Module Provider Implementation
 
-The Fulfillment Module Provider handles processing fulfillments and shipments with a third-party provirder. However, it's not responsible for managing fulfillment concepts within Medusa, such as creating a fulfillment or its shipments. The Fulfillment Module uses your fulfillment provider within core operations.
+The Fulfillment Module Provider handles processing fulfillments and shipments with a third-party provirder. However, it's not responsible for managing fulfillment concepts within Medusa, such as creating a fulfillment or its shipments. The Fulfillment Module uses your Fulfillment Module Provider within core operations.
 
-For example, when the merchant creates a fulfillment for an order, the Fulfillment Module uses your fulfillment provider to create the fulfillment in the third-party system, then creates the fulfillment in Medusa. So, you only have to implement the third-party fulfillment processing logic in your fulfillment provider.
+For example, when the merchant creates a fulfillment for an order, the Fulfillment Module uses your Fulfillment Module Provider to create the fulfillment in the third-party system, then creates the fulfillment in Medusa. So, you only have to implement the third-party fulfillment processing logic in your Fulfillment Module Provider.
 `,
       `## 1. Create Module Provider Directory
 
@@ -43,9 +43,9 @@ If you're creating the module provider in a plugin, create it under the \`src/pr
 The rest of this guide always uses the \`src/modules/my-fulfillment\` directory as an example.
 
 </Note>`,
-      `## 2. Create the Fulfillment Provider Service
+      `## 2. Create the Fulfillment Module Provider Service
 
-Create the file \`src/modules/my-fulfillment/service.ts\` that holds the module's main service. It must extend the \`AbstractFulfillmentProviderService\` class imported from \`@medusajs/framework/utils\`:
+Create the file \`src/modules/my-fulfillment/service.ts\` that holds the module provider's main service. It must extend the \`AbstractFulfillmentProviderService\` class imported from \`@medusajs/framework/utils\`:
 
 \`\`\`ts title="src/modules/my-fulfillment/service.ts"
 import { AbstractFulfillmentProviderService } from "@medusajs/framework/utils"
@@ -58,7 +58,7 @@ export default MyFulfillmentProviderService
 \`\`\``,
     ],
     endSections: [
-      `## 3. Create Module Definition File
+      `## 3. Create Module Provider Definition File
 
 Create the file \`src/modules/my-fulfillment/index.ts\` with the following content:
 
@@ -74,8 +74,8 @@ export default ModuleProvider(Modules.FULFILLMENT, {
 })
 \`\`\`
 
-This exports the module's definition, indicating that the \`MyFulfillmentProviderService\` is the module's service.`,
-      `## 4. Use Module
+This exports the module provider's definition, indicating that the \`MyFulfillmentProviderService\` is the module provider's service.`,
+      `## 4. Use Module Provider
 
 To use your Fulfillment Module Provider, add it to the \`providers\` array of the Fulfillment Module in \`medusa-config.ts\`:
 
@@ -109,9 +109,9 @@ module.exports = defineConfig({
 `,
       `## 5. Test it Out
 
-Before you use your fulfillment provider, in the Medusa Admin:
+Before you use your Fulfillment Module Provider, in the Medusa Admin:
 
-1. Add the fulfillment provider to a location.
+1. Add the Fulfillment Module Provider to a location.
 2. Add in the location a delivery shipping option that uses the provider.
 
 Then, place an order, choosing the shipping option you created during checkout, and create a fulfillment in the Medusa Admin. The fulfillment is created using your provider.

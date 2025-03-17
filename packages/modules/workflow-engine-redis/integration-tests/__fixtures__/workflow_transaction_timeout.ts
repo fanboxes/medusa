@@ -33,6 +33,8 @@ createWorkflow(
   {
     name: "workflow_transaction_timeout_async",
     timeout: 0.1, // 0.1 second
+    idempotent: true,
+    retentionTime: 5,
   },
   function (input) {
     const resp = step_1(input).config({

@@ -30,6 +30,7 @@ export const navDropdownItems: NavigationItem[] = [
   {
     type: "dropdown",
     title: "Build",
+    project: "resources",
     children: [
       {
         type: "link",
@@ -57,6 +58,7 @@ export const navDropdownItems: NavigationItem[] = [
     type: "dropdown",
     title: "Tools",
     link: "/resources/tools",
+    project: "resources",
     children: [
       {
         type: "sub-menu",
@@ -94,6 +96,8 @@ export const navDropdownItems: NavigationItem[] = [
   {
     type: "dropdown",
     title: "Reference",
+    project: "resources",
+    link: "/resources/references-overview",
     children: [
       {
         type: "link",

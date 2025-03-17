@@ -42,13 +42,17 @@ export const CustomerAccountHolder: ModuleJoinerConfig = {
       serviceName: Modules.CUSTOMER,
       entity: "Customer",
       fieldAlias: {
-        account_holder: "account_holder_link.account_holder",
+        account_holders: {
+          path: "account_holder_link.account_holder",
+          isList: true,
+        },
       },
       relationship: {
         serviceName: LINKS.CustomerAccountHolder,
         primaryKey: "customer_id",
         foreignKey: "id",
         alias: "account_holder_link",
+        isList: true,
       },
     },
     {

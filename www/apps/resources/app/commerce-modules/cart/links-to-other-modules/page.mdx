@@ -1,4 +1,4 @@
-import { CodeTabs, CodeTab } from "docs-ui"
+import { CodeTabs, CodeTab, Table } from "docs-ui"
 
 export const metadata = {
   title: `Links between Cart Module and Other Modules`,
@@ -18,14 +18,140 @@ Read-only links are used to query data across modules, but the relations aren't 
 
 </Note>
 
-- [`Cart` data model \<\> `Customer` data model of Customer Module](#customer-module). (Read-only).
-- [`Order` data model of Order Module \<\> `Cart` data model](#order-module).
-- [`Cart` data model \<\> `PaymentCollection` data model of Payment Module](#payment-module).
-- [`LineItem` data model \<\> `Product` data model of Product Module](#product-module). (Read-only).
-- [`LineItem` data model \<\> `ProductVariant` data model of Product Module](#product-module). (Read-only).
-- [`Cart` data model \<\> `Promotion` data model of Promotion Module](#promotion-module).
-- [`Cart` data model \<\> `Region` data model of Region Module](#region-module). (Read-only).
-- [`Cart` data model \<\> `SalesChannel` data model of Sales Channel Module](#sales-channel-module). (Read-only).
+<Table>
+  <Table.Header>
+    <Table.Row>
+      <Table.HeaderCell>
+        First Data Model
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Second Data Model
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Type
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Description
+      </Table.HeaderCell>
+    </Table.Row>
+  </Table.Header>
+  <Table.Body>
+    <Table.Row>
+      <Table.Cell>
+        [Cart](/references/cart/models/Cart)
+      </Table.Cell>
+      <Table.Cell>
+        [Customer](/references/customer/models/Customer) in [Customer Module](../../customer/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        Read-only
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#customer-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [Order](/references/order/models/Order) in [Order Module](../../order/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        [Cart](/references/cart/models/Cart)
+      </Table.Cell>
+      <Table.Cell>
+        Stored
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#order-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [Cart](/references/cart/models/Cart)
+      </Table.Cell>
+      <Table.Cell>
+        [PaymentCollection](/references/payment/models/PaymentCollection) in [Payment Module](../../payment/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        Stored
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#payment-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [LineItem](/references/cart/models/LineItem)
+      </Table.Cell>
+      <Table.Cell>
+        [Product](/references/product/models/Product) in [Product Module](../../product/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        Read-only
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#product-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [LineItem](/references/cart/models/LineItem)
+      </Table.Cell>
+      <Table.Cell>
+        [ProductVariant](/references/product/models/ProductVariant) in [Product Module](../../product/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        Read-only
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#product-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [Cart](/references/cart/models/Cart)
+      </Table.Cell>
+      <Table.Cell>
+        [Promotion](/references/promotion/models/Promotion) in [Promotion Module](../../promotion/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        Stored
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#promotion-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [Cart](/references/cart/models/Cart)
+      </Table.Cell>
+      <Table.Cell>
+        [Region](/references/region/models/Region) in [Region Module](../../region/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        Read-only
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#region-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [Cart](/references/cart/models/Cart)
+      </Table.Cell>
+      <Table.Cell>
+        [SalesChannel](/references/sales-channel/models/SalesChannel) in [Sales Channel Module](../../sales-channel/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        Read-only
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#sales-channel-module)
+      </Table.Cell>
+    </Table.Row>
+  </Table.Body>
+</Table>
+
+
 
 ---
 

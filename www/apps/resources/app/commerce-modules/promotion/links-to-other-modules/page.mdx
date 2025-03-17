@@ -1,4 +1,4 @@
-import { CodeTabs, CodeTab } from "docs-ui"
+import { CodeTabs, CodeTab, Table } from "docs-ui"
 
 export const metadata = {
   title: `Links between Promotion Module and Other Modules`,
@@ -18,9 +18,68 @@ Read-only links are used to query data across modules, but the relations aren't 
 
 </Note>
 
-- [`Cart` data model of the Cart Module \<\> `Promotion` data model](#cart-module).
-- [`LineItemAdjustment` data model of the Cart Module \<\> `Promotion` data model](#cart-module). (Read-only).
-- [`Order` data model of the Order Module \<\> `Promotion` data model](#order-module).
+<Table>
+  <Table.Header>
+    <Table.Row>
+      <Table.HeaderCell>
+        First Data Model
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Second Data Model
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Type
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Description
+      </Table.HeaderCell>
+    </Table.Row>
+  </Table.Header>
+  <Table.Body>
+    <Table.Row>
+      <Table.Cell>
+        [Cart](/references/cart/models/Cart) in [Cart Module](../../cart/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        [Promotion](/references/promotion/models/Promotion)
+      </Table.Cell>
+      <Table.Cell>
+        Stored
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#cart-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [LineItemAdjustment](/references/cart/models/LineItemAdjustment) in [Cart Module](../../cart/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        [Promotion](/references/promotion/models/Promotion)
+      </Table.Cell>
+      <Table.Cell>
+        Read-only
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#cart-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [Order](/references/order/models/Order) in [Order Module](../../order/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        [Promotion](/references/promotion/models/Promotion)
+      </Table.Cell>
+      <Table.Cell>
+        Stored
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#order-module)
+      </Table.Cell>
+    </Table.Row>
+  </Table.Body>
+</Table>
 
 ---
 
@@ -30,7 +89,7 @@ A promotion can be applied on line items and shipping methods of a cart. Medusa 
 
 ![A diagram showcasing an example of how data models from the Cart and Promotion modules are linked](https://res.cloudinary.com/dza7lstvk/image/upload/v1711538015/Medusa%20Resources/cart-promotion_kuh9vm.jpg)
 
-Medusa also defines a read-only link between the `Promotion` data model and the [Cart Module](../../cart/page.mdx)'s `LineItemAdjustment` data model. This means you can retrieve the details of the promotion applied on a line item, but you don't manage the links in a pivot table in the database. The promotion of a line item is determined by the `promotion_id` property of the `LineItemAdjustment` data model.
+Medusa also defines a read-only link between the [Cart Module](../../cart/page.mdx)'s `LineItemAdjustment` data model and the `Promotion` data model. Because the link is read-only from the `LineItemAdjustment`'s side, you can only retrieve the promotion applied on a line item, and not the other way around.
 
 ### Retrieve with Query
 
@@ -38,7 +97,7 @@ To retrieve the carts that a promotion is applied on with [Query](!docs!/learn/f
 
 <Note>
 
-To retrieve the line item adjustments of a promotion, pass `line_item_adjustments.*` in `fields`.
+To retrieve the promotion of a line item adjustment, pass `promotion.*` in `fields`.
 
 </Note>
 
