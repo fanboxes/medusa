@@ -17,7 +17,7 @@ const generatedgeneratedArchitecturalModulesSidebarSidebar = {
       "loaded": true,
       "isPathHref": true,
       "type": "category",
-      "title": "Cache Modules",
+      "title": "Cache Module",
       "initialOpen": true,
       "children": [
         {
@@ -31,18 +31,26 @@ const generatedgeneratedArchitecturalModulesSidebarSidebar = {
         {
           "loaded": true,
           "isPathHref": true,
-          "type": "link",
-          "path": "/architectural-modules/cache/in-memory",
-          "title": "In-Memory",
-          "children": []
-        },
-        {
-          "loaded": true,
-          "isPathHref": true,
-          "type": "link",
-          "path": "/architectural-modules/cache/redis",
-          "title": "Redis",
-          "children": []
+          "type": "sub-category",
+          "title": "Modules",
+          "children": [
+            {
+              "loaded": true,
+              "isPathHref": true,
+              "type": "link",
+              "path": "/architectural-modules/cache/in-memory",
+              "title": "In-Memory",
+              "children": []
+            },
+            {
+              "loaded": true,
+              "isPathHref": true,
+              "type": "link",
+              "path": "/architectural-modules/cache/redis",
+              "title": "Redis",
+              "children": []
+            }
+          ]
         },
         {
           "loaded": true,
@@ -66,7 +74,7 @@ const generatedgeneratedArchitecturalModulesSidebarSidebar = {
       "loaded": true,
       "isPathHref": true,
       "type": "category",
-      "title": "Event Modules",
+      "title": "Event Module",
       "initialOpen": true,
       "children": [
         {
@@ -80,18 +88,26 @@ const generatedgeneratedArchitecturalModulesSidebarSidebar = {
         {
           "loaded": true,
           "isPathHref": true,
-          "type": "link",
-          "path": "/architectural-modules/event/local",
-          "title": "Local",
-          "children": []
-        },
-        {
-          "loaded": true,
-          "isPathHref": true,
-          "type": "link",
-          "path": "/architectural-modules/event/redis",
-          "title": "Redis",
-          "children": []
+          "type": "sub-category",
+          "title": "Modules",
+          "children": [
+            {
+              "loaded": true,
+              "isPathHref": true,
+              "type": "link",
+              "path": "/architectural-modules/event/local",
+              "title": "Local",
+              "children": []
+            },
+            {
+              "loaded": true,
+              "isPathHref": true,
+              "type": "link",
+              "path": "/architectural-modules/event/redis",
+              "title": "Redis",
+              "children": []
+            }
+          ]
         },
         {
           "loaded": true,
@@ -115,7 +131,7 @@ const generatedgeneratedArchitecturalModulesSidebarSidebar = {
       "loaded": true,
       "isPathHref": true,
       "type": "category",
-      "title": "File Module Providers",
+      "title": "File Module",
       "initialOpen": true,
       "children": [
         {
@@ -129,18 +145,26 @@ const generatedgeneratedArchitecturalModulesSidebarSidebar = {
         {
           "loaded": true,
           "isPathHref": true,
-          "type": "link",
-          "path": "/architectural-modules/file/local",
-          "title": "Local",
-          "children": []
-        },
-        {
-          "loaded": true,
-          "isPathHref": true,
-          "type": "link",
-          "path": "/architectural-modules/file/s3",
-          "title": "AWS S3 (and Compatible APIs)",
-          "children": []
+          "type": "sub-category",
+          "title": "Providers",
+          "children": [
+            {
+              "loaded": true,
+              "isPathHref": true,
+              "type": "link",
+              "path": "/architectural-modules/file/local",
+              "title": "Local",
+              "children": []
+            },
+            {
+              "loaded": true,
+              "isPathHref": true,
+              "type": "link",
+              "path": "/architectural-modules/file/s3",
+              "title": "AWS S3 (and Compatible APIs)",
+              "children": []
+            }
+          ]
         },
         {
           "loaded": true,
@@ -164,7 +188,72 @@ const generatedgeneratedArchitecturalModulesSidebarSidebar = {
       "loaded": true,
       "isPathHref": true,
       "type": "category",
-      "title": "Notification Module Providers",
+      "title": "Locking Module",
+      "initialOpen": true,
+      "children": [
+        {
+          "loaded": true,
+          "isPathHref": true,
+          "type": "link",
+          "path": "/architectural-modules/locking",
+          "title": "Overview",
+          "children": []
+        },
+        {
+          "loaded": true,
+          "isPathHref": true,
+          "type": "sub-category",
+          "title": "Providers",
+          "children": [
+            {
+              "loaded": true,
+              "isPathHref": true,
+              "type": "link",
+              "path": "/architectural-modules/locking/redis",
+              "title": "Redis",
+              "children": []
+            },
+            {
+              "loaded": true,
+              "isPathHref": true,
+              "type": "link",
+              "path": "/architectural-modules/locking/postgres",
+              "title": "PostgreSQL",
+              "children": []
+            }
+          ]
+        },
+        {
+          "loaded": true,
+          "isPathHref": true,
+          "type": "sub-category",
+          "title": "Guides",
+          "children": [
+            {
+              "loaded": true,
+              "isPathHref": true,
+              "type": "link",
+              "path": "/references/locking-module-provider",
+              "title": "Create Locking Provider",
+              "children": []
+            },
+            {
+              "loaded": true,
+              "isPathHref": true,
+              "type": "link",
+              "path": "/references/locking-service",
+              "title": "Use Locking Module",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "loaded": true,
+      "isPathHref": true,
+      "type": "category",
+      "title": "Notification Module",
       "initialOpen": true,
       "children": [
         {
@@ -178,18 +267,26 @@ const generatedgeneratedArchitecturalModulesSidebarSidebar = {
         {
           "loaded": true,
           "isPathHref": true,
-          "type": "link",
-          "path": "/architectural-modules/notification/local",
-          "title": "Local",
-          "children": []
-        },
-        {
-          "loaded": true,
-          "isPathHref": true,
-          "type": "link",
-          "path": "/architectural-modules/notification/sendgrid",
-          "title": "SendGrid",
-          "children": []
+          "type": "sub-category",
+          "title": "Providers",
+          "children": [
+            {
+              "loaded": true,
+              "isPathHref": true,
+              "type": "link",
+              "path": "/architectural-modules/notification/local",
+              "title": "Local",
+              "children": []
+            },
+            {
+              "loaded": true,
+              "isPathHref": true,
+              "type": "link",
+              "path": "/architectural-modules/notification/sendgrid",
+              "title": "SendGrid",
+              "children": []
+            }
+          ]
         },
         {
           "loaded": true,
@@ -208,7 +305,7 @@ const generatedgeneratedArchitecturalModulesSidebarSidebar = {
             {
               "loaded": true,
               "isPathHref": true,
-              "type": "link",
+              "type": "ref",
               "path": "/integrations/guides/resend",
               "title": "Integrate Resend",
               "children": []
@@ -229,7 +326,7 @@ const generatedgeneratedArchitecturalModulesSidebarSidebar = {
       "loaded": true,
       "isPathHref": true,
       "type": "category",
-      "title": "Workflow Engine Modules",
+      "title": "Workflow Engine Module",
       "initialOpen": true,
       "children": [
         {
@@ -243,18 +340,26 @@ const generatedgeneratedArchitecturalModulesSidebarSidebar = {
         {
           "loaded": true,
           "isPathHref": true,
-          "type": "link",
-          "path": "/architectural-modules/workflow-engine/in-memory",
-          "title": "In-Memory",
-          "children": []
-        },
-        {
-          "loaded": true,
-          "isPathHref": true,
-          "type": "link",
-          "path": "/architectural-modules/workflow-engine/redis",
-          "title": "Redis",
-          "children": []
+          "type": "sub-category",
+          "title": "Modules",
+          "children": [
+            {
+              "loaded": true,
+              "isPathHref": true,
+              "type": "link",
+              "path": "/architectural-modules/workflow-engine/in-memory",
+              "title": "In-Memory",
+              "children": []
+            },
+            {
+              "loaded": true,
+              "isPathHref": true,
+              "type": "link",
+              "path": "/architectural-modules/workflow-engine/redis",
+              "title": "Redis",
+              "children": []
+            }
+          ]
         }
       ]
     }

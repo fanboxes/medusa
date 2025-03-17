@@ -61,6 +61,47 @@ const sidebarMappings: {
   },
   {
     module: async () =>
+      import(
+        "@/generated/generated-architectural-modules-sidebar.mjs"
+      ) as Promise<{
+        default: Sidebar.Sidebar
+      }>,
+    paths: [
+      "/architectural-modules",
+      "/references/file-provider-module",
+      "/references/locking",
+      "/references/notification-provider-module",
+    ],
+  },
+  {
+    module: async () =>
+      import("@/generated/generated-commerce-modules-sidebar.mjs") as Promise<{
+        default: Sidebar.Sidebar
+      }>,
+    paths: [
+      "/commerce-modules",
+      "/references/api-key",
+      "/references/auth",
+      "/references/cart",
+      "/references/currency",
+      "/references/customer",
+      "/references/fulfillment",
+      "/references/inventory",
+      "/references/order",
+      "/references/payment",
+      "/references/pricing",
+      "/references/product",
+      "/references/promotion",
+      "/references/region",
+      "/references/sales-channel",
+      "/references/stock-location",
+      "/references/store",
+      "/references/tax",
+      "/references/user",
+    ],
+  },
+  {
+    module: async () =>
       import("@/generated/generated-references-sidebar.mjs") as Promise<{
         default: Sidebar.Sidebar
       }>,
@@ -77,22 +118,6 @@ const sidebarMappings: {
       "/references/workflows",
       "/references-overview",
     ],
-  },
-  {
-    module: async () =>
-      import(
-        "@/generated/generated-architectural-modules-sidebar.mjs"
-      ) as Promise<{
-        default: Sidebar.Sidebar
-      }>,
-    paths: ["/architectural-modules"],
-  },
-  {
-    module: async () =>
-      import("@/generated/generated-commerce-modules-sidebar.mjs") as Promise<{
-        default: Sidebar.Sidebar
-      }>,
-    paths: ["/commerce-modules"],
   },
   {
     module: async () =>

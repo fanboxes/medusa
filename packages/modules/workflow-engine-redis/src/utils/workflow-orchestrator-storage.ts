@@ -4,18 +4,22 @@ import {
   IDistributedSchedulerStorage,
   IDistributedTransactionStorage,
   SchedulerOptions,
+  SkipExecutionError,
   TransactionCheckpoint,
+  TransactionFlow,
   TransactionOptions,
   TransactionStep,
 } from "@medusajs/framework/orchestration"
 import { Logger, ModulesSdkTypes } from "@medusajs/framework/types"
 import {
+  isPresent,
   MedusaError,
   promiseAll,
   TransactionState,
+  TransactionStepState,
 } from "@medusajs/framework/utils"
 import { WorkflowOrchestratorService } from "@services"
-import { Queue, Worker } from "bullmq"
+import { Queue, RepeatOptions, Worker } from "bullmq"
 import Redis from "ioredis"
 
 enum JobType {
@@ -28,7 +32,6 @@ enum JobType {
 export class RedisDistributedTransactionStorage
   implements IDistributedTransactionStorage, IDistributedSchedulerStorage
 {
-  private static TTL_AFTER_COMPLETED = 60 * 2 // 2 minutes
   private workflowExecutionService_: ModulesSdkTypes.IMedusaInternalService<any>
   private logger_: Logger
   private workflowOrchestratorService_: WorkflowOrchestratorService
@@ -99,9 +102,18 @@ export class RedisDistributedTransactionStorage
         this.redisWorkerConnection /*, runRetryDelay: 100000 for tests */,
     }
 
+    // TODO: Remove this once we have released to all clients (Added: v2.6+)
+    // Remove all repeatable jobs from the old queue since now we have a queue dedicated to scheduled jobs
+    await this.removeAllRepeatableJobs(this.queue)
+
     this.worker = new Worker(
       this.queueName,
       async (job) => {
+        this.logger_.debug(
+          `executing job ${job.name} from queue ${
+            this.queueName
+          } with the following data: ${JSON.stringify(job.data)}`
+        )
         if (allowedJobs.includes(job.name as JobType)) {
           await this.executeTransaction(
             job.data.workflowId,
@@ -121,7 +133,14 @@ export class RedisDistributedTransactionStorage
       this.jobWorker = new Worker(
         this.jobQueueName,
         async (job) => {
-          await this.executeScheduledJob(
+          this.logger_.debug(
+            `executing scheduled job ${job.data.jobId} from queue ${
+              this.jobQueueName
+            } with the following options: ${JSON.stringify(
+              job.data.schedulerOptions
+            )}`
+          )
+          return await this.executeScheduledJob(
             job.data.jobId,
             job.data.schedulerOptions
           )
@@ -175,9 +194,8 @@ export class RedisDistributedTransactionStorage
     try {
       // TODO: In the case of concurrency being forbidden, we want to generate a predictable transaction ID and rely on the idempotency
       // of the transaction to ensure that the transaction is only executed once.
-      return await this.workflowOrchestratorService_.run(jobId, {
+      await this.workflowOrchestratorService_.run(jobId, {
         logOnError: true,
-        throwOnError: false,
       })
     } catch (e) {
       if (e instanceof MedusaError && e.type === MedusaError.Types.NOT_FOUND) {
@@ -263,6 +281,12 @@ export class RedisDistributedTransactionStorage
 
     const { retentionTime, idempotent } = options ?? {}
 
+    await this.#preventRaceConditionExecutionIfNecessary({
+      data,
+      key,
+      options,
+    })
+
     if (hasFinished) {
       Object.assign(data, {
         retention_time: retentionTime,
@@ -286,12 +310,7 @@ export class RedisDistributedTransactionStorage
     }
 
     if (hasFinished) {
-      await this.redisClient.set(
-        key,
-        stringifiedData,
-        "EX",
-        RedisDistributedTransactionStorage.TTL_AFTER_COMPLETED
-      )
+      await this.redisClient.unlink(key)
     }
   }
 
@@ -422,6 +441,23 @@ export class RedisDistributedTransactionStorage
     const jobId =
       typeof jobDefinition === "string" ? jobDefinition : jobDefinition.jobId
 
+    if ("cron" in schedulerOptions && "interval" in schedulerOptions) {
+      throw new Error(
+        `Unable to register a job with both scheduler options interval and cron.`
+      )
+    }
+
+    const repeatOptions: RepeatOptions = {
+      limit: schedulerOptions.numberOfExecutions,
+      key: `${JobType.SCHEDULE}_${jobId}`,
+    }
+
+    if ("cron" in schedulerOptions) {
+      repeatOptions.pattern = schedulerOptions.cron
+    } else {
+      repeatOptions.every = schedulerOptions.interval
+    }
+
     // If it is the same key (eg. the same workflow name), the old one will get overridden.
     await this.jobQueue?.add(
       JobType.SCHEDULE,
@@ -430,11 +466,7 @@ export class RedisDistributedTransactionStorage
         schedulerOptions,
       },
       {
-        repeat: {
-          pattern: schedulerOptions.cron,
-          limit: schedulerOptions.numberOfExecutions,
-          key: `${JobType.SCHEDULE}_${jobId}`,
-        },
+        repeat: repeatOptions,
         removeOnComplete: {
           age: 86400,
           count: 1000,
@@ -452,9 +484,125 @@ export class RedisDistributedTransactionStorage
   }
 
   async removeAll(): Promise<void> {
-    const repeatableJobs = (await this.jobQueue?.getRepeatableJobs()) ?? []
+    return await this.removeAllRepeatableJobs(this.jobQueue!)
+  }
+
+  private async removeAllRepeatableJobs(queue: Queue): Promise<void> {
+    const repeatableJobs = (await queue.getRepeatableJobs()) ?? []
     await promiseAll(
-      repeatableJobs.map((job) => this.jobQueue?.removeRepeatableByKey(job.key))
+      repeatableJobs.map((job) => queue.removeRepeatableByKey(job.key))
     )
+  }
+
+  async #preventRaceConditionExecutionIfNecessary({
+    data,
+    key,
+    options,
+  }: {
+    data: TransactionCheckpoint
+    key: string
+    options?: TransactionOptions
+  }) {
+    let isInitialCheckpoint = false
+
+    if (data.flow.state === TransactionState.NOT_STARTED) {
+      isInitialCheckpoint = true
+    }
+
+    /**
+     * In case many execution can succeed simultaneously, we need to ensure that the latest
+     * execution does continue if a previous execution is considered finished
+     */
+    const currentFlow = data.flow
+    const { flow: latestUpdatedFlow } =
+      (await this.get(key, options)) ??
+      ({ flow: {} } as { flow: TransactionFlow })
+
+    if (!isInitialCheckpoint && !isPresent(latestUpdatedFlow)) {
+      /**
+       * the initial checkpoint expect no other checkpoint to have been stored.
+       * In case it is not the initial one and another checkpoint is trying to
+       * find if a concurrent execution has finished, we skip the execution.
+       * The already finished execution would have deleted the checkpoint already.
+       */
+      throw new SkipExecutionError("Already finished by another execution")
+    }
+
+    const currentFlowLastInvokingStepIndex = Object.values(
+      currentFlow.steps
+    ).findIndex((step) => {
+      return [
+        TransactionStepState.INVOKING,
+        TransactionStepState.NOT_STARTED,
+      ].includes(step.invoke?.state)
+    })
+
+    const latestUpdatedFlowLastInvokingStepIndex = !latestUpdatedFlow.steps
+      ? 1 // There is no other execution, so the current execution is the latest
+      : Object.values(
+          (latestUpdatedFlow.steps as Record<string, TransactionStep>) ?? {}
+        ).findIndex((step) => {
+          return [
+            TransactionStepState.INVOKING,
+            TransactionStepState.NOT_STARTED,
+          ].includes(step.invoke?.state)
+        })
+
+    const currentFlowLastCompensatingStepIndex = Object.values(
+      currentFlow.steps
+    )
+      .reverse()
+      .findIndex((step) => {
+        return [
+          TransactionStepState.COMPENSATING,
+          TransactionStepState.NOT_STARTED,
+        ].includes(step.compensate?.state)
+      })
+
+    const latestUpdatedFlowLastCompensatingStepIndex = !latestUpdatedFlow.steps
+      ? -1
+      : Object.values(
+          (latestUpdatedFlow.steps as Record<string, TransactionStep>) ?? {}
+        )
+          .reverse()
+          .findIndex((step) => {
+            return [
+              TransactionStepState.COMPENSATING,
+              TransactionStepState.NOT_STARTED,
+            ].includes(step.compensate?.state)
+          })
+
+    const isLatestExecutionFinishedIndex = -1
+    const invokeShouldBeSkipped =
+      (latestUpdatedFlowLastInvokingStepIndex ===
+        isLatestExecutionFinishedIndex ||
+        currentFlowLastInvokingStepIndex <
+          latestUpdatedFlowLastInvokingStepIndex) &&
+      currentFlowLastInvokingStepIndex !== isLatestExecutionFinishedIndex
+
+    const compensateShouldBeSkipped =
+      currentFlowLastCompensatingStepIndex <
+        latestUpdatedFlowLastCompensatingStepIndex &&
+      currentFlowLastCompensatingStepIndex !== isLatestExecutionFinishedIndex &&
+      latestUpdatedFlowLastCompensatingStepIndex !==
+        isLatestExecutionFinishedIndex
+
+    if (
+      (data.flow.state !== TransactionState.COMPENSATING &&
+        invokeShouldBeSkipped) ||
+      (data.flow.state === TransactionState.COMPENSATING &&
+        compensateShouldBeSkipped) ||
+      (latestUpdatedFlow.state === TransactionState.COMPENSATING &&
+        ![TransactionState.REVERTED, TransactionState.FAILED].includes(
+          currentFlow.state
+        ) &&
+        currentFlow.state !== latestUpdatedFlow.state) ||
+      (latestUpdatedFlow.state === TransactionState.REVERTED &&
+        currentFlow.state !== TransactionState.REVERTED) ||
+      (latestUpdatedFlow.state === TransactionState.FAILED &&
+        currentFlow.state !== TransactionState.FAILED)
+    ) {
+      throw new SkipExecutionError("Already finished by another execution")
+    }
   }
 }

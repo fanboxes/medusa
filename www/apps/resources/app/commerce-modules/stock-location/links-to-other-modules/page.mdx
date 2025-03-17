@@ -1,4 +1,4 @@
-import { CodeTabs, CodeTab } from "docs-ui"
+import { CodeTabs, CodeTab, Table } from "docs-ui"
 
 export const metadata = {
   title: `Links between Stock Location Module and Other Modules`,
@@ -18,10 +18,82 @@ Read-only links are used to query data across modules, but the relations aren't 
 
 </Note>
 
-- [`FulfillmentSet` data model of the Fulfillment Module \<\> `StockLocation` data model](#fulfillment-module).
-- [`FulfillmentProvider` data model of the Fulfillment Module \<\> `StockLocation` data model](#fulfillment-module).
-- [`StockLocation` data model \<\> `Inventory` data model of the Inventory Module](#inventory-module).
-- [`SalesChannel` data model of the Sales Channel Module \<\> `StockLocation` data model](#sales-channel-module).
+<Table>
+  <Table.Header>
+    <Table.Row>
+      <Table.HeaderCell>
+        First Data Model
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Second Data Model
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Type
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Description
+      </Table.HeaderCell>
+    </Table.Row>
+  </Table.Header>
+  <Table.Body>
+    <Table.Row>
+      <Table.Cell>
+        [FulfillmentSet](/references/fulfillment/models/FulfillmentSet) in [Fulfillment Module](../../fulfillment/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        [StockLocation](/references/stock-location/models/StockLocation)
+      </Table.Cell>
+      <Table.Cell>
+        Stored
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#fulfillment-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [FulfillmentProvider](/references/fulfillment/models/FulfillmentProvider) in [Fulfillment Module](../../fulfillment/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        [StockLocation](/references/stock-location/models/StockLocation)
+      </Table.Cell>
+      <Table.Cell>
+        Stored
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#fulfillment-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [Inventory](/references/inventory/models/Inventory) in [Inventory Module](../../inventory/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        [StockLocation](/references/stock-location/models/StockLocation)
+      </Table.Cell>
+      <Table.Cell>
+        Stored
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#inventory-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [SalesChannel](/references/sales-channel/models/SalesChannel) in [Sales Channel Module](../../sales-channel/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        [StockLocation](/references/stock-location/models/StockLocation)
+      </Table.Cell>
+      <Table.Cell>
+        Stored
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#sales-channel-module)
+      </Table.Cell>
+    </Table.Row>
+  </Table.Body>
+</Table>
 
 ---
 
@@ -130,24 +202,24 @@ createRemoteLinkStep({
 
 ## Inventory Module
 
-Medusa defines a read-only link between the `StockLocation` data model and the [Inventory Module](../../inventory/page.mdx)'s `InventoryLevel` data model. This means you can retrieve the details of a stock location's inventory levels, but you don't manage the links in a pivot table in the database. The stock location of an inventory level is determined by the `location_id` property of the `InventoryLevel` data model.
+Medusa defines a read-only link between the [Inventory Module](../../inventory/page.mdx)'s `InventoryLevel` data model and the `StockLocation` data model. Because the link is read-only from the `InventoryLevel`'s side, you can only retrieve the stock location of an inventory level, and not the other way around.
 
 ### Retrieve with Query
 
-To retrieve the inventory levels of a stock location with [Query](!docs!/learn/fundamentals/module-links/query), pass `inventory_levels.*` in `fields`:
+To retrieve the stock locations of an inventory level with [Query](!docs!/learn/fundamentals/module-links/query), pass `stock_locations.*` in `fields`:
 
 <CodeTabs group="relation-query">
   <CodeTab label="query.graph" value="method">
 
 ```ts
-const { data: stockLocations } = await query.graph({
-  entity: "stock_location",
+const { data: inventoryLevels } = await query.graph({
+  entity: "inventory_level",
   fields: [
-    "inventory_levels.*",
+    "stock_locations.*",
   ],
 })
 
-// stockLocations.inventory_levels
+// inventoryLevels.stock_locations
 ```
 
   </CodeTab>
@@ -158,14 +230,14 @@ import { useQueryGraphStep } from "@medusajs/medusa/core-flows"
 
 // ...
 
-const { data: stockLocations } = useQueryGraphStep({
-  entity: "stock_location",
+const { data: inventoryLevels } = useQueryGraphStep({
+  entity: "inventory_level",
   fields: [
-    "inventory_levels.*",
+    "stock_locations.*",
   ],
 })
 
-// stockLocations.inventory_levels
+// inventoryLevels.stock_locations
 ```
 
   </CodeTab>

@@ -1,0 +1,2945 @@
+{
+	"id": 0,
+	"name": "locking",
+	"variant": "project",
+	"kind": 1,
+	"flags": {},
+	"children": [
+		{
+			"id": 1,
+			"name": "ILockingProvider",
+			"variant": "declaration",
+			"kind": 256,
+			"flags": {},
+			"comment": {
+				"summary": [
+					{
+						"kind": "text",
+						"text": "### constructor\n\nThe constructor allows you to access resources from the module's container using the first parameter,\nand the module's options using the second parameter.\n\nIf you're creating a client or establishing a connection with a third-party service, do it in the constructor.\n\n#### Example\n\n"
+					},
+					{
+						"kind": "code",
+						"text": "```ts\nimport { ILockingProvider } from \"@medusajs/framework/types\"\nimport { Logger } from \"@medusajs/framework/types\"\n\ntype InjectedDependencies = {\n  logger: Logger\n}\n\ntype Options = {\n  url: string\n}\n\nclass MyLockingProviderService implements ILockingProvider {\n  static identifier = \"my-lock\"\n  protected logger_: Logger\n  protected options_: Options\n  // assuming you're initializing a client\n  protected client\n\n  constructor (\n    { logger }: InjectedDependencies,\n    options: Options\n  ) {\n    this.logger_ = logger\n    this.options_ = options\n\n    // assuming you're initializing a client\n    this.client = new Client(options)\n  }\n\n  // ...\n}\n\nexport default MyLockingProviderService\n```"
+					},
+					{
+						"kind": "text",
+						"text": "\n\n### Identifier\n\nEvery locking module provider must have an "
+					},
+					{
+						"kind": "code",
+						"text": "`identifier`"
+					},
+					{
+						"kind": "text",
+						"text": " static property. The provider's ID\nwill be stored as "
+					},
+					{
+						"kind": "code",
+						"text": "`lp_{identifier}`"
+					},
+					{
+						"kind": "text",
+						"text": ".\n\nFor example:\n\n"
+					},
+					{
+						"kind": "code",
+						"text": "```ts\nclass MyLockingProviderService implements ILockingProvider {\n  static identifier = \"my-lock\"\n  // ...\n}\n```"
+					}
+				]
+			},
+			"children": [
+				{
+					"id": 2,
+					"name": "execute",
+					"variant": "declaration",
+					"kind": 2048,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "index.ts",
+							"line": 146,
+							"character": 2,
+							"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L146"
+						}
+					],
+					"signatures": [
+						{
+							"id": 3,
+							"name": "execute",
+							"variant": "signature",
+							"kind": 4096,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "This method executes a given asynchronous job with a lock on the given keys. The Locking Module uses this method\nwhen you call its "
+									},
+									{
+										"kind": "code",
+										"text": "`execute`"
+									},
+									{
+										"kind": "text",
+										"text": " method and your provider is the default provider, or you pass your provider's identifier to its "
+									},
+									{
+										"kind": "code",
+										"text": "`execute`"
+									},
+									{
+										"kind": "text",
+										"text": " method.\n\nIn the method, you should first try to acquire the lock on the given keys before the specified timeout passes.\nThen, once the lock is acquired, you execute the job. Otherwise, if the timeout passes before the lock is acquired, you cancel the job."
+									}
+								],
+								"blockTags": [
+									{
+										"tag": "@returns",
+										"content": [
+											{
+												"kind": "text",
+												"text": "The result of the job."
+											}
+										]
+									},
+									{
+										"tag": "@example",
+										"content": [
+											{
+												"kind": "text",
+												"text": "An example of how to implement the "
+											},
+											{
+												"kind": "code",
+												"text": "`execute`"
+											},
+											{
+												"kind": "text",
+												"text": " method:\n\n"
+											},
+											{
+												"kind": "code",
+												"text": "```ts\n// other imports...\nimport { Context } from \"@medusajs/framework/types\"\nimport { setTimeout } from \"node:timers/promises\"\n\nclass MyLockingProviderService implements ILockingProvider {\n  // ...\nasync execute<T>(\n    keys: string | string[], \n    job: () => Promise<T>, \n    args?: { timeout?: number }, \n    sharedContext?: Context\n  ): Promise<T> {\n    // TODO you can add actions using the third-party client you initialized in the constructor\n    const timeout = Math.max(args?.timeout ?? 5, 1)\n    const timeoutSeconds = Number.isNaN(timeout) ? 1 : timeout\n    const cancellationToken = { cancelled: false }\n    const promises: Promise<any>[] = []\n\n    if (timeoutSeconds > 0) {\n      promises.push(this.getTimeout(timeoutSeconds, cancellationToken))\n    }\n\n    promises.push(\n      this.acquire_(\n        keys,\n        {\n          expire: args?.timeout ? timeoutSeconds : 0,\n        },\n        cancellationToken\n      )\n    )\n\n    await Promise.race(promises)\n\n    try {\n      return await job()\n    } finally {\n      await this.release(keys)\n    }\n  }\n\n  private async getTimeout(\n    seconds: number,\n    cancellationToken: { cancelled: boolean }\n  ): Promise<void> {\n    return new Promise(async (_, reject) => {\n      await setTimeout(seconds * 1000)\n      cancellationToken.cancelled = true\n      reject(new Error(\"Timed-out acquiring lock.\"))\n    })\n  }\n}\n```"
+											},
+											{
+												"kind": "text",
+												"text": "\n\nIn this example, you first determine the timeout for acquiring the lock. You also create a "
+											},
+											{
+												"kind": "code",
+												"text": "`cancellationToken`"
+											},
+											{
+												"kind": "text",
+												"text": " object that you'll use to determine if the lock aquisition has timed out.\n\nYou then create an array of the following promises:\n\n- A timeout promise that, if the lock acquisition takes longer than the timeout, sets the "
+											},
+											{
+												"kind": "code",
+												"text": "`cancelled`"
+											},
+											{
+												"kind": "text",
+												"text": " property of the "
+											},
+											{
+												"kind": "code",
+												"text": "`cancellationToken`"
+											},
+											{
+												"kind": "text",
+												"text": " object to "
+											},
+											{
+												"kind": "code",
+												"text": "`true`"
+											},
+											{
+												"kind": "text",
+												"text": ".\n- A promise that acquires the lock. You use a private "
+											},
+											{
+												"kind": "code",
+												"text": "`acquire_`"
+											},
+											{
+												"kind": "text",
+												"text": " method which you can find its implementation in the "
+											},
+											{
+												"kind": "code",
+												"text": "`aquire`"
+											},
+											{
+												"kind": "text",
+												"text": " method's example. If the first promise \nresolves and cancels the lock acquisition, the lock will not be acquired.\n\nFinally, if the lock is acquired, you execute the job and release the lock after the job is done using the "
+											},
+											{
+												"kind": "code",
+												"text": "`release`"
+											},
+											{
+												"kind": "text",
+												"text": " method."
+											}
+										]
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "index.ts",
+									"line": 146,
+									"character": 2,
+									"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L146"
+								}
+							],
+							"typeParameters": [
+								{
+									"id": 4,
+									"name": "T",
+									"variant": "typeParam",
+									"kind": 131072,
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "The type of the job's result."
+											}
+										]
+									}
+								}
+							],
+							"parameters": [
+								{
+									"id": 5,
+									"name": "keys",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "The keys to lock during the job's execution."
+											}
+										]
+									},
+									"type": {
+										"type": "union",
+										"types": [
+											{
+												"type": "intrinsic",
+												"name": "string"
+											},
+											{
+												"type": "array",
+												"elementType": {
+													"type": "intrinsic",
+													"name": "string"
+												}
+											}
+										]
+									}
+								},
+								{
+									"id": 6,
+									"name": "job",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "The asynchronous job to execute while the keys are locked."
+											}
+										]
+									},
+									"type": {
+										"type": "reflection",
+										"declaration": {
+											"id": 7,
+											"name": "__type",
+											"variant": "declaration",
+											"kind": 65536,
+											"flags": {},
+											"sources": [
+												{
+													"fileName": "index.ts",
+													"line": 148,
+													"character": 9,
+													"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L148"
+												}
+											],
+											"signatures": [
+												{
+													"id": 8,
+													"name": "__type",
+													"variant": "signature",
+													"kind": 4096,
+													"flags": {},
+													"sources": [
+														{
+															"fileName": "index.ts",
+															"line": 148,
+															"character": 9,
+															"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L148"
+														}
+													],
+													"type": {
+														"type": "reference",
+														"target": {
+															"sourceFileName": "../../node_modules/typescript/lib/lib.es5.d.ts",
+															"qualifiedName": "Promise"
+														},
+														"typeArguments": [
+															{
+																"type": "reference",
+																"target": 4,
+																"name": "T",
+																"package": "@medusajs/types",
+																"refersToTypeParameter": true
+															}
+														],
+														"name": "Promise",
+														"package": "typescript"
+													}
+												}
+											]
+										}
+									}
+								},
+								{
+									"id": 9,
+									"name": "args",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {
+										"isOptional": true
+									},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "Additional arguments for the job execution."
+											}
+										]
+									},
+									"type": {
+										"type": "reflection",
+										"declaration": {
+											"id": 10,
+											"name": "__type",
+											"variant": "declaration",
+											"kind": 65536,
+											"flags": {},
+											"children": [
+												{
+													"id": 11,
+													"name": "timeout",
+													"variant": "declaration",
+													"kind": 1024,
+													"flags": {
+														"isOptional": true
+													},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "The timeout (in seconds) for acquiring the lock. If the time out is passed, the job is canceled and the lock is released."
+															}
+														]
+													},
+													"sources": [
+														{
+															"fileName": "index.ts",
+															"line": 153,
+															"character": 6,
+															"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L153"
+														}
+													],
+													"type": {
+														"type": "intrinsic",
+														"name": "number"
+													}
+												}
+											],
+											"groups": [
+												{
+													"title": "Properties",
+													"children": [
+														11
+													]
+												}
+											],
+											"sources": [
+												{
+													"fileName": "index.ts",
+													"line": 149,
+													"character": 11,
+													"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L149"
+												}
+											]
+										}
+									}
+								},
+								{
+									"id": 12,
+									"name": "sharedContext",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {
+										"isOptional": true
+									},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "A context used to share resources, such as transaction manager, between the application and the module."
+											}
+										]
+									},
+									"type": {
+										"type": "reference",
+										"target": {
+											"sourceFileName": "../../../../packages/core/types/src/shared-context.ts",
+											"qualifiedName": "Context"
+										},
+										"name": "Context",
+										"package": "@medusajs/types"
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"target": {
+									"sourceFileName": "../../node_modules/typescript/lib/lib.es5.d.ts",
+									"qualifiedName": "Promise"
+								},
+								"typeArguments": [
+									{
+										"type": "reference",
+										"target": 4,
+										"name": "T",
+										"package": "@medusajs/types",
+										"refersToTypeParameter": true
+									}
+								],
+								"name": "Promise",
+								"package": "typescript"
+							}
+						}
+					]
+				},
+				{
+					"id": 13,
+					"name": "acquire",
+					"variant": "declaration",
+					"kind": 2048,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "index.ts",
+							"line": 231,
+							"character": 2,
+							"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L231"
+						}
+					],
+					"signatures": [
+						{
+							"id": 14,
+							"name": "acquire",
+							"variant": "signature",
+							"kind": 4096,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "This method acquires a lock on the given keys. The Locking Module uses this method when you call its "
+									},
+									{
+										"kind": "code",
+										"text": "`acquire`"
+									},
+									{
+										"kind": "text",
+										"text": " method and your provider is the default provider,\nor you pass your provider's identifier to its "
+									},
+									{
+										"kind": "code",
+										"text": "`acquire`"
+									},
+									{
+										"kind": "text",
+										"text": " method.\n\nIn this method, you should only aquire the lock if the timeout hasn't passed. As explained in the "
+									},
+									{
+										"kind": "inline-tag",
+										"tag": "@link",
+										"text": "execute",
+										"target": 2
+									},
+									{
+										"kind": "text",
+										"text": " method's example,\nyou can use a "
+									},
+									{
+										"kind": "code",
+										"text": "`cancellationToken`"
+									},
+									{
+										"kind": "text",
+										"text": " object to determine if the lock acquisition has timed out.\n\nIf the lock aquisition isn't canceled, you should aquire the lock, setting its expiry and owner. You should account for the following scenarios:\n\n- The lock doesn't have an owner and you don't pass an owner, in which case the lock can be extended or released by anyone.\n- The lock doesn't have an owner or has the same owner that you pass, in which case you can extend the lock's expiration time and set the owner.\n- The lock has an owner, but you pass a different owner, in which case the method should throw an error."
+									}
+								],
+								"blockTags": [
+									{
+										"tag": "@returns",
+										"content": [
+											{
+												"kind": "text",
+												"text": "Resolves when the lock is acquired."
+											}
+										]
+									},
+									{
+										"tag": "@example",
+										"content": [
+											{
+												"kind": "text",
+												"text": "An example of how to implement the "
+											},
+											{
+												"kind": "code",
+												"text": "`acquire`"
+											},
+											{
+												"kind": "text",
+												"text": " method:\n\n"
+											},
+											{
+												"kind": "code",
+												"text": "```ts\ntype ResolvablePromise = {\n  promise: Promise<any>\n  resolve: () => void\n}\n\nclass MyLockingProviderService implements ILockingProvider {\n  // ...\n  async acquire(\n    keys: string | string[],\n    args?: {\n      ownerId?: string | null\n      expire?: number\n      awaitQueue?: boolean\n    }\n  ): Promise<void> {\n    return this.acquire_(keys, args)\n  }\n\n  async acquire_(\n    keys: string | string[],\n    args?: {\n      ownerId?: string | null\n      expire?: number\n      awaitQueue?: boolean\n    },\n    cancellationToken?: { cancelled: boolean }\n  ): Promise<void> {\n    keys = Array.isArray(keys) ? keys : [keys]\n    const { ownerId, expire } = args ?? {}\n\n    for (const key of keys) {\n      if (cancellationToken?.cancelled) {\n        throw new Error(\"Timed-out acquiring lock.\")\n      }\n\n      // assuming your client has this method and it validates the owner and expiration\n      const result = await this.client.acquireLock(key, ownerId, expire)\n\n      if (result !== 1) {\n        throw new Error(`Failed to acquire lock for key \"${key}\"`)\n      }\n    }\n  }\n}\n```"
+											},
+											{
+												"kind": "text",
+												"text": "\n\nIn this example, you add a private "
+											},
+											{
+												"kind": "code",
+												"text": "`acquire_`"
+											},
+											{
+												"kind": "text",
+												"text": " method that you use to acquire the lock. This method accepts an additional "
+											},
+											{
+												"kind": "code",
+												"text": "`cancellationToken`"
+											},
+											{
+												"kind": "text",
+												"text": " argument that you can use to determine if the lock acquisition has timed out.\nYou can then use this method in other methods, such as the "
+											},
+											{
+												"kind": "code",
+												"text": "`execute`"
+											},
+											{
+												"kind": "text",
+												"text": " method.\n\nIn the "
+											},
+											{
+												"kind": "code",
+												"text": "`acquire_`"
+											},
+											{
+												"kind": "text",
+												"text": " method, you loop through the keys and try to acquire the lock on each key if the lock acquisition hasn't timed out. If the lock acquisition fails, you throw an error.\nThis method assumes that the client you're integrating has a method called "
+											},
+											{
+												"kind": "code",
+												"text": "`acquireLock`"
+											},
+											{
+												"kind": "text",
+												"text": " that validates the owner and expiration time, and returns "
+											},
+											{
+												"kind": "code",
+												"text": "`1`"
+											},
+											{
+												"kind": "text",
+												"text": " if the lock is successfully acquired."
+											}
+										]
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "index.ts",
+									"line": 231,
+									"character": 2,
+									"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L231"
+								}
+							],
+							"parameters": [
+								{
+									"id": 15,
+									"name": "keys",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "The keys to acquire the lock on."
+											}
+										]
+									},
+									"type": {
+										"type": "union",
+										"types": [
+											{
+												"type": "intrinsic",
+												"name": "string"
+											},
+											{
+												"type": "array",
+												"elementType": {
+													"type": "intrinsic",
+													"name": "string"
+												}
+											}
+										]
+									}
+								},
+								{
+									"id": 16,
+									"name": "args",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {
+										"isOptional": true
+									},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "Additional arguments for acquiring the lock."
+											}
+										]
+									},
+									"type": {
+										"type": "reflection",
+										"declaration": {
+											"id": 17,
+											"name": "__type",
+											"variant": "declaration",
+											"kind": 65536,
+											"flags": {},
+											"children": [
+												{
+													"id": 18,
+													"name": "ownerId",
+													"variant": "declaration",
+													"kind": 1024,
+													"flags": {
+														"isOptional": true
+													},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "The ID of the lock's owner. If specified, only the owner can release the lock or extend its expiration time."
+															}
+														]
+													},
+													"sources": [
+														{
+															"fileName": "index.ts",
+															"line": 237,
+															"character": 6,
+															"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L237"
+														}
+													],
+													"type": {
+														"type": "union",
+														"types": [
+															{
+																"type": "literal",
+																"value": null
+															},
+															{
+																"type": "intrinsic",
+																"name": "string"
+															}
+														]
+													}
+												},
+												{
+													"id": 19,
+													"name": "expire",
+													"variant": "declaration",
+													"kind": 1024,
+													"flags": {
+														"isOptional": true
+													},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "The expiration time (in seconds) for the lock. If the lock is already acquired and the owner is the same, the expiration time is extended\nby the value passed. If not specified, the lock does not expire."
+															}
+														]
+													},
+													"sources": [
+														{
+															"fileName": "index.ts",
+															"line": 242,
+															"character": 6,
+															"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L242"
+														}
+													],
+													"type": {
+														"type": "intrinsic",
+														"name": "number"
+													}
+												}
+											],
+											"groups": [
+												{
+													"title": "Properties",
+													"children": [
+														18,
+														19
+													]
+												}
+											],
+											"sources": [
+												{
+													"fileName": "index.ts",
+													"line": 233,
+													"character": 11,
+													"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L233"
+												}
+											]
+										}
+									}
+								},
+								{
+									"id": 20,
+									"name": "sharedContext",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {
+										"isOptional": true
+									},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "A context used to share resources, such as transaction manager, between the application and the module."
+											}
+										]
+									},
+									"type": {
+										"type": "reference",
+										"target": {
+											"sourceFileName": "../../../../packages/core/types/src/shared-context.ts",
+											"qualifiedName": "Context"
+										},
+										"name": "Context",
+										"package": "@medusajs/types"
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"target": {
+									"sourceFileName": "../../node_modules/typescript/lib/lib.es5.d.ts",
+									"qualifiedName": "Promise"
+								},
+								"typeArguments": [
+									{
+										"type": "intrinsic",
+										"name": "void"
+									}
+								],
+								"name": "Promise",
+								"package": "typescript"
+							}
+						}
+					]
+				},
+				{
+					"id": 21,
+					"name": "release",
+					"variant": "declaration",
+					"kind": 2048,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "index.ts",
+							"line": 290,
+							"character": 2,
+							"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L290"
+						}
+					],
+					"signatures": [
+						{
+							"id": 22,
+							"name": "release",
+							"variant": "signature",
+							"kind": 4096,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "This method releases a lock on the given keys. The Locking Module uses this method when you call its "
+									},
+									{
+										"kind": "code",
+										"text": "`release`"
+									},
+									{
+										"kind": "text",
+										"text": " method and your provider is the default provider,\nor you pass your provider's identifier to its "
+									},
+									{
+										"kind": "code",
+										"text": "`release`"
+									},
+									{
+										"kind": "text",
+										"text": " method.\n\nIn this method, you should release the lock on the given keys. If the lock has an owner, you should only release the lock if the owner is the same as the one passed."
+									}
+								],
+								"blockTags": [
+									{
+										"tag": "@returns",
+										"content": [
+											{
+												"kind": "text",
+												"text": "Whether the lock was successfully released. If the lock has a different owner than the one passed, the method returns "
+											},
+											{
+												"kind": "code",
+												"text": "`false`"
+											},
+											{
+												"kind": "text",
+												"text": "."
+											}
+										]
+									},
+									{
+										"tag": "@example",
+										"content": [
+											{
+												"kind": "text",
+												"text": "An example of how to implement the "
+											},
+											{
+												"kind": "code",
+												"text": "`release`"
+											},
+											{
+												"kind": "text",
+												"text": " method:\n\n"
+											},
+											{
+												"kind": "code",
+												"text": "```ts\n// other imports...\nimport { promiseAll } from \"@medusajs/framework/utils\"\n\nclass MyLockingProviderService implements ILockingProvider {\n  // ...\n  async release(\n    keys: string | string[], \n    args?: { ownerId?: string | null }, \n    sharedContext?: Context\n  ): Promise<boolean> {\n    const ownerId = args?.ownerId ?? \"*\"\n    keys = Array.isArray(keys) ? keys : [keys]\n\n    const releasePromises = keys.map(async (key) => {\n      // assuming your client has this method and it validates the owner\n      const result = await this.client.releaseLock(key, ownerId)\n      return result === 1\n    })\n\n    const results = await promiseAll(releasePromises)\n\n    return results.every((released) => released)\n  }\n}\n```"
+											},
+											{
+												"kind": "text",
+												"text": "\n\nIn this example, you loop through the keys and try to release the lock on each key using the client you're integrating. This implementation assumes that the client validates\nownership of the lock and returns a result of "
+											},
+											{
+												"kind": "code",
+												"text": "`1`"
+											},
+											{
+												"kind": "text",
+												"text": " if the lock is successfully released."
+											}
+										]
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "index.ts",
+									"line": 290,
+									"character": 2,
+									"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L290"
+								}
+							],
+							"parameters": [
+								{
+									"id": 23,
+									"name": "keys",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "The keys to release the lock from."
+											}
+										]
+									},
+									"type": {
+										"type": "union",
+										"types": [
+											{
+												"type": "intrinsic",
+												"name": "string"
+											},
+											{
+												"type": "array",
+												"elementType": {
+													"type": "intrinsic",
+													"name": "string"
+												}
+											}
+										]
+									}
+								},
+								{
+									"id": 24,
+									"name": "args",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {
+										"isOptional": true
+									},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "Additional arguments for releasing the lock."
+											}
+										]
+									},
+									"type": {
+										"type": "reflection",
+										"declaration": {
+											"id": 25,
+											"name": "__type",
+											"variant": "declaration",
+											"kind": 65536,
+											"flags": {},
+											"children": [
+												{
+													"id": 26,
+													"name": "ownerId",
+													"variant": "declaration",
+													"kind": 1024,
+													"flags": {
+														"isOptional": true
+													},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "The ID of the lock's owner. The lock can be released either if it doesn't have an owner, or\nif its owner ID matches the one passed in this property."
+															}
+														]
+													},
+													"sources": [
+														{
+															"fileName": "index.ts",
+															"line": 297,
+															"character": 6,
+															"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L297"
+														}
+													],
+													"type": {
+														"type": "union",
+														"types": [
+															{
+																"type": "literal",
+																"value": null
+															},
+															{
+																"type": "intrinsic",
+																"name": "string"
+															}
+														]
+													}
+												}
+											],
+											"groups": [
+												{
+													"title": "Properties",
+													"children": [
+														26
+													]
+												}
+											],
+											"sources": [
+												{
+													"fileName": "index.ts",
+													"line": 292,
+													"character": 11,
+													"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L292"
+												}
+											]
+										}
+									}
+								},
+								{
+									"id": 27,
+									"name": "sharedContext",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {
+										"isOptional": true
+									},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "A context used to share resources, such as transaction manager, between the application and the module."
+											}
+										]
+									},
+									"type": {
+										"type": "reference",
+										"target": {
+											"sourceFileName": "../../../../packages/core/types/src/shared-context.ts",
+											"qualifiedName": "Context"
+										},
+										"name": "Context",
+										"package": "@medusajs/types"
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"target": {
+									"sourceFileName": "../../node_modules/typescript/lib/lib.es5.d.ts",
+									"qualifiedName": "Promise"
+								},
+								"typeArguments": [
+									{
+										"type": "intrinsic",
+										"name": "boolean"
+									}
+								],
+								"name": "Promise",
+								"package": "typescript"
+							}
+						}
+					]
+				},
+				{
+					"id": 28,
+					"name": "releaseAll",
+					"variant": "declaration",
+					"kind": 2048,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "index.ts",
+							"line": 330,
+							"character": 2,
+							"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L330"
+						}
+					],
+					"signatures": [
+						{
+							"id": 29,
+							"name": "releaseAll",
+							"variant": "signature",
+							"kind": 4096,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "This method releases all locks. The Locking Module uses this method when you call its "
+									},
+									{
+										"kind": "code",
+										"text": "`releaseAll`"
+									},
+									{
+										"kind": "text",
+										"text": " method and your provider is the default provider,\nor you pass your provider's identifier to its "
+									},
+									{
+										"kind": "code",
+										"text": "`releaseAll`"
+									},
+									{
+										"kind": "text",
+										"text": " method.\n\nIn this method, you should release all locks if no owner is passed. If an owner is passed, you should only release the locks that the owner has acquired."
+									}
+								],
+								"blockTags": [
+									{
+										"tag": "@example",
+										"content": [
+											{
+												"kind": "text",
+												"text": "An example of how to implement the "
+											},
+											{
+												"kind": "code",
+												"text": "`releaseAll`"
+											},
+											{
+												"kind": "text",
+												"text": " method:\n\n"
+											},
+											{
+												"kind": "code",
+												"text": "```ts\nclass MyLockingProviderService implements ILockingProvider {\n  // ...\n  async releaseAll(\n    args?: { ownerId?: string | null }, \n    sharedContext?: Context\n  ): Promise<void> {\n    const ownerId = args?.ownerId ?? \"*\"\n\n    await this.client.releaseAllLock(ownerId)\n  }\n}\n```"
+											},
+											{
+												"kind": "text",
+												"text": "\n\nIn this example, you release all locks either of all owners or the owner passed as an argument. This implementation assumes that the client you're integrating has a method called "
+											},
+											{
+												"kind": "code",
+												"text": "`releaseAllLock`"
+											},
+											{
+												"kind": "text",
+												"text": " that releases all locks\nfor all owners or a specific owner."
+											}
+										]
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "index.ts",
+									"line": 330,
+									"character": 2,
+									"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L330"
+								}
+							],
+							"parameters": [
+								{
+									"id": 30,
+									"name": "args",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {
+										"isOptional": true
+									},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "Additional arguments for releasing the locks."
+											}
+										]
+									},
+									"type": {
+										"type": "reflection",
+										"declaration": {
+											"id": 31,
+											"name": "__type",
+											"variant": "declaration",
+											"kind": 65536,
+											"flags": {},
+											"children": [
+												{
+													"id": 32,
+													"name": "ownerId",
+													"variant": "declaration",
+													"kind": 1024,
+													"flags": {
+														"isOptional": true
+													},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "The ID of a lock owner. If specified, all locks that the owner has acquired are released."
+															}
+														]
+													},
+													"sources": [
+														{
+															"fileName": "index.ts",
+															"line": 335,
+															"character": 6,
+															"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L335"
+														}
+													],
+													"type": {
+														"type": "union",
+														"types": [
+															{
+																"type": "literal",
+																"value": null
+															},
+															{
+																"type": "intrinsic",
+																"name": "string"
+															}
+														]
+													}
+												}
+											],
+											"groups": [
+												{
+													"title": "Properties",
+													"children": [
+														32
+													]
+												}
+											],
+											"sources": [
+												{
+													"fileName": "index.ts",
+													"line": 331,
+													"character": 11,
+													"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L331"
+												}
+											]
+										}
+									}
+								},
+								{
+									"id": 33,
+									"name": "sharedContext",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {
+										"isOptional": true
+									},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "A context used to share resources, such as transaction manager, between the application and the module."
+											}
+										]
+									},
+									"type": {
+										"type": "reference",
+										"target": {
+											"sourceFileName": "../../../../packages/core/types/src/shared-context.ts",
+											"qualifiedName": "Context"
+										},
+										"name": "Context",
+										"package": "@medusajs/types"
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"target": {
+									"sourceFileName": "../../node_modules/typescript/lib/lib.es5.d.ts",
+									"qualifiedName": "Promise"
+								},
+								"typeArguments": [
+									{
+										"type": "intrinsic",
+										"name": "void"
+									}
+								],
+								"name": "Promise",
+								"package": "typescript"
+							}
+						}
+					]
+				}
+			],
+			"groups": [
+				{
+					"title": "Methods",
+					"children": [
+						2,
+						13,
+						21,
+						28
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "index.ts",
+					"line": 63,
+					"character": 17,
+					"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L63"
+				}
+			]
+		},
+		{
+			"id": 34,
+			"name": "ILockingModule",
+			"variant": "declaration",
+			"kind": 256,
+			"flags": {},
+			"children": [
+				{
+					"id": 35,
+					"name": "execute",
+					"variant": "declaration",
+					"kind": 2048,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "index.ts",
+							"line": 377,
+							"character": 2,
+							"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L377"
+						}
+					],
+					"signatures": [
+						{
+							"id": 36,
+							"name": "execute",
+							"variant": "signature",
+							"kind": 4096,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "This method executes a giuven asynchronous job with a lock on the given keys. You can optionally pass a \nprovider name to be used for locking. If no provider is passed, the default provider (in-memory or the \nprovider configuerd in "
+									},
+									{
+										"kind": "code",
+										"text": "`medusa-config.ts`"
+									},
+									{
+										"kind": "text",
+										"text": ") will be used."
+									}
+								],
+								"blockTags": [
+									{
+										"tag": "@returns",
+										"content": [
+											{
+												"kind": "text",
+												"text": "The result of the job execution."
+											}
+										]
+									},
+									{
+										"tag": "@example",
+										"content": [
+											{
+												"kind": "text",
+												"text": "For example, to use the lock module when deleting a product:\n\n"
+											},
+											{
+												"kind": "code",
+												"text": "```ts\nawait lockingModuleService.execute(\"prod_123\", async () => {\n   // assuming you've resolved the product service from the container\n   await productModuleService.delete(\"prod_123\")\n})\n```"
+											},
+											{
+												"kind": "text",
+												"text": "\n\nIn the above example, the product of ID "
+											},
+											{
+												"kind": "code",
+												"text": "`prod_123`"
+											},
+											{
+												"kind": "text",
+												"text": " is locked while it's being deleted.\n\nTo specify the provider to use for locking, you can pass the provider name in the "
+											},
+											{
+												"kind": "code",
+												"text": "`args`"
+											},
+											{
+												"kind": "text",
+												"text": " argument:\n\n"
+											},
+											{
+												"kind": "code",
+												"text": "```ts\nawait lockingModuleService.execute(\"prod_123\", async () => {\n  // assuming you've resolved the product service from the container\n  await productModuleService.delete(\"prod_123\")\n}, {\n  provider: \"lp_my-lock\"\n})\n```"
+											}
+										]
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "index.ts",
+									"line": 377,
+									"character": 2,
+									"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L377"
+								}
+							],
+							"typeParameters": [
+								{
+									"id": 37,
+									"name": "T",
+									"variant": "typeParam",
+									"kind": 131072,
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "The type of the job's result."
+											}
+										]
+									}
+								}
+							],
+							"parameters": [
+								{
+									"id": 38,
+									"name": "keys",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "The keys to lock durng the job's execution."
+											}
+										]
+									},
+									"type": {
+										"type": "union",
+										"types": [
+											{
+												"type": "intrinsic",
+												"name": "string"
+											},
+											{
+												"type": "array",
+												"elementType": {
+													"type": "intrinsic",
+													"name": "string"
+												}
+											}
+										]
+									}
+								},
+								{
+									"id": 39,
+									"name": "job",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "The asynchronous job to execute while the keys are locked."
+											}
+										]
+									},
+									"type": {
+										"type": "reflection",
+										"declaration": {
+											"id": 40,
+											"name": "__type",
+											"variant": "declaration",
+											"kind": 65536,
+											"flags": {},
+											"sources": [
+												{
+													"fileName": "index.ts",
+													"line": 379,
+													"character": 9,
+													"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L379"
+												}
+											],
+											"signatures": [
+												{
+													"id": 41,
+													"name": "__type",
+													"variant": "signature",
+													"kind": 4096,
+													"flags": {},
+													"sources": [
+														{
+															"fileName": "index.ts",
+															"line": 379,
+															"character": 9,
+															"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L379"
+														}
+													],
+													"type": {
+														"type": "reference",
+														"target": {
+															"sourceFileName": "../../node_modules/typescript/lib/lib.es5.d.ts",
+															"qualifiedName": "Promise"
+														},
+														"typeArguments": [
+															{
+																"type": "reference",
+																"target": 37,
+																"name": "T",
+																"package": "@medusajs/types",
+																"refersToTypeParameter": true
+															}
+														],
+														"name": "Promise",
+														"package": "typescript"
+													}
+												}
+											]
+										}
+									}
+								},
+								{
+									"id": 42,
+									"name": "args",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {
+										"isOptional": true
+									},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "Additional arguments for the job execution."
+											}
+										]
+									},
+									"type": {
+										"type": "reflection",
+										"declaration": {
+											"id": 43,
+											"name": "__type",
+											"variant": "declaration",
+											"kind": 65536,
+											"flags": {},
+											"children": [
+												{
+													"id": 44,
+													"name": "timeout",
+													"variant": "declaration",
+													"kind": 1024,
+													"flags": {
+														"isOptional": true
+													},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "The timeout (in seconds) for acquiring the lock. If the time out is passed, the job is canceled and the lock is released.\nIts value defaults to "
+															},
+															{
+																"kind": "code",
+																"text": "`5`"
+															},
+															{
+																"kind": "text",
+																"text": " seconds if no value is passed or if you pass a value less than "
+															},
+															{
+																"kind": "code",
+																"text": "`1`"
+															},
+															{
+																"kind": "text",
+																"text": "."
+															}
+														]
+													},
+													"sources": [
+														{
+															"fileName": "index.ts",
+															"line": 385,
+															"character": 6,
+															"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L385"
+														}
+													],
+													"type": {
+														"type": "intrinsic",
+														"name": "number"
+													}
+												},
+												{
+													"id": 45,
+													"name": "provider",
+													"variant": "declaration",
+													"kind": 1024,
+													"flags": {
+														"isOptional": true
+													},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "The provider name to use for locking. If no provider is passed, the default provider (in-memory or the provider configuerd in "
+															},
+															{
+																"kind": "code",
+																"text": "`medusa-config.ts`"
+															},
+															{
+																"kind": "text",
+																"text": ") will be used."
+															}
+														]
+													},
+													"sources": [
+														{
+															"fileName": "index.ts",
+															"line": 389,
+															"character": 6,
+															"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L389"
+														}
+													],
+													"type": {
+														"type": "intrinsic",
+														"name": "string"
+													}
+												}
+											],
+											"groups": [
+												{
+													"title": "Properties",
+													"children": [
+														44,
+														45
+													]
+												}
+											],
+											"sources": [
+												{
+													"fileName": "index.ts",
+													"line": 380,
+													"character": 11,
+													"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L380"
+												}
+											]
+										}
+									}
+								},
+								{
+									"id": 46,
+									"name": "sharedContext",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {
+										"isOptional": true
+									},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "A context used to share resources, such as transaction manager, between the application and the module."
+											}
+										]
+									},
+									"type": {
+										"type": "reference",
+										"target": {
+											"sourceFileName": "../../../../packages/core/types/src/shared-context.ts",
+											"qualifiedName": "Context"
+										},
+										"name": "Context",
+										"package": "@medusajs/types"
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"target": {
+									"sourceFileName": "../../node_modules/typescript/lib/lib.es5.d.ts",
+									"qualifiedName": "Promise"
+								},
+								"typeArguments": [
+									{
+										"type": "reference",
+										"target": 37,
+										"name": "T",
+										"package": "@medusajs/types",
+										"refersToTypeParameter": true
+									}
+								],
+								"name": "Promise",
+								"package": "typescript"
+							}
+						}
+					]
+				},
+				{
+					"id": 47,
+					"name": "acquire",
+					"variant": "declaration",
+					"kind": 2048,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "index.ts",
+							"line": 429,
+							"character": 2,
+							"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L429"
+						}
+					],
+					"signatures": [
+						{
+							"id": 48,
+							"name": "acquire",
+							"variant": "signature",
+							"kind": 4096,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "This method acquires a lock on the given keys. You can optionally pass a provider name to be used for locking. \nIf no provider is passed, the default provider (in-memory or the provider configuerd in "
+									},
+									{
+										"kind": "code",
+										"text": "`medusa-config.ts`"
+									},
+									{
+										"kind": "text",
+										"text": ") will be used.\n\nYou can pass an owner for the lock, which limits who can extend or release the acquired lock. Then, if you use this method again\npassing the same owner, the lock's expiration time is extended with the value passed in the "
+									},
+									{
+										"kind": "code",
+										"text": "`expire`"
+									},
+									{
+										"kind": "text",
+										"text": " argument. Otherwise, if you pass a\ndifferent owner, the method throws an error."
+									}
+								],
+								"blockTags": [
+									{
+										"tag": "@returns",
+										"content": [
+											{
+												"kind": "text",
+												"text": "Resolves when the lock is acquired."
+											}
+										]
+									},
+									{
+										"tag": "@example",
+										"content": [
+											{
+												"kind": "text",
+												"text": "For example, to acquire a lock on a product with ID "
+											},
+											{
+												"kind": "code",
+												"text": "`prod_123`"
+											},
+											{
+												"kind": "text",
+												"text": " for a user with ID "
+											},
+											{
+												"kind": "code",
+												"text": "`user_123`"
+											},
+											{
+												"kind": "text",
+												"text": ":\n\n"
+											},
+											{
+												"kind": "code",
+												"text": "```ts\nawait lockingModuleService.acquire(\"prod_123\", {\n  ownerId: \"user_123\",\n  expire: 60\n})\n```"
+											},
+											{
+												"kind": "text",
+												"text": "\n\nIn this example, you acquire a lock on the product with ID "
+											},
+											{
+												"kind": "code",
+												"text": "`prod_123`"
+											},
+											{
+												"kind": "text",
+												"text": " for the user with ID "
+											},
+											{
+												"kind": "code",
+												"text": "`user_123`"
+											},
+											{
+												"kind": "text",
+												"text": ". You extend the \nlock's expiration time by "
+											},
+											{
+												"kind": "code",
+												"text": "`60`"
+											},
+											{
+												"kind": "text",
+												"text": " seconds.\n\nTo specify the provider to use for locking, you can pass the provider name in the "
+											},
+											{
+												"kind": "code",
+												"text": "`args`"
+											},
+											{
+												"kind": "text",
+												"text": " argument:\n\n"
+											},
+											{
+												"kind": "code",
+												"text": "```ts\nawait lockingModuleService.acquire(\"prod_123\", {\n  ownerId: \"user_123\",\n  expire: 60,\n  provider: \"lp_my-lock\"\n})\n```"
+											}
+										]
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "index.ts",
+									"line": 429,
+									"character": 2,
+									"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L429"
+								}
+							],
+							"parameters": [
+								{
+									"id": 49,
+									"name": "keys",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "The keys to acquire the lock on."
+											}
+										]
+									},
+									"type": {
+										"type": "union",
+										"types": [
+											{
+												"type": "intrinsic",
+												"name": "string"
+											},
+											{
+												"type": "array",
+												"elementType": {
+													"type": "intrinsic",
+													"name": "string"
+												}
+											}
+										]
+									}
+								},
+								{
+									"id": 50,
+									"name": "args",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {
+										"isOptional": true
+									},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "Additional arguments for acquiring the lock."
+											}
+										]
+									},
+									"type": {
+										"type": "reflection",
+										"declaration": {
+											"id": 51,
+											"name": "__type",
+											"variant": "declaration",
+											"kind": 65536,
+											"flags": {},
+											"children": [
+												{
+													"id": 52,
+													"name": "ownerId",
+													"variant": "declaration",
+													"kind": 1024,
+													"flags": {
+														"isOptional": true
+													},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "The owner ID for the lock. If specified, only the owner can release the lock or extend its expiration time."
+															}
+														]
+													},
+													"sources": [
+														{
+															"fileName": "index.ts",
+															"line": 435,
+															"character": 6,
+															"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L435"
+														}
+													],
+													"type": {
+														"type": "union",
+														"types": [
+															{
+																"type": "literal",
+																"value": null
+															},
+															{
+																"type": "intrinsic",
+																"name": "string"
+															}
+														]
+													}
+												},
+												{
+													"id": 53,
+													"name": "expire",
+													"variant": "declaration",
+													"kind": 1024,
+													"flags": {
+														"isOptional": true
+													},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "The expiration time (in seconds) for the lock. If the lock is already acquired and the owner is the same, the expiration time is extended\nby the value passed. If not specified, the lock does not expire."
+															}
+														]
+													},
+													"sources": [
+														{
+															"fileName": "index.ts",
+															"line": 440,
+															"character": 6,
+															"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L440"
+														}
+													],
+													"type": {
+														"type": "intrinsic",
+														"name": "number"
+													}
+												},
+												{
+													"id": 54,
+													"name": "provider",
+													"variant": "declaration",
+													"kind": 1024,
+													"flags": {
+														"isOptional": true
+													},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "The provider name to use for locking. If no provider is passed, the default provider (in-memory or the provider configuerd in "
+															},
+															{
+																"kind": "code",
+																"text": "`medusa-config.ts`"
+															},
+															{
+																"kind": "text",
+																"text": ") will be used."
+															}
+														]
+													},
+													"sources": [
+														{
+															"fileName": "index.ts",
+															"line": 444,
+															"character": 6,
+															"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L444"
+														}
+													],
+													"type": {
+														"type": "intrinsic",
+														"name": "string"
+													}
+												}
+											],
+											"groups": [
+												{
+													"title": "Properties",
+													"children": [
+														52,
+														53,
+														54
+													]
+												}
+											],
+											"sources": [
+												{
+													"fileName": "index.ts",
+													"line": 431,
+													"character": 11,
+													"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L431"
+												}
+											]
+										}
+									}
+								},
+								{
+									"id": 55,
+									"name": "sharedContext",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {
+										"isOptional": true
+									},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "A context used to share resources, such as transaction manager, between the application and the module."
+											}
+										]
+									},
+									"type": {
+										"type": "reference",
+										"target": {
+											"sourceFileName": "../../../../packages/core/types/src/shared-context.ts",
+											"qualifiedName": "Context"
+										},
+										"name": "Context",
+										"package": "@medusajs/types"
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"target": {
+									"sourceFileName": "../../node_modules/typescript/lib/lib.es5.d.ts",
+									"qualifiedName": "Promise"
+								},
+								"typeArguments": [
+									{
+										"type": "intrinsic",
+										"name": "void"
+									}
+								],
+								"name": "Promise",
+								"package": "typescript"
+							}
+						}
+					]
+				},
+				{
+					"id": 56,
+					"name": "release",
+					"variant": "declaration",
+					"kind": 2048,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "index.ts",
+							"line": 479,
+							"character": 2,
+							"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L479"
+						}
+					],
+					"signatures": [
+						{
+							"id": 57,
+							"name": "release",
+							"variant": "signature",
+							"kind": 4096,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "This method releases a lock on the given keys. You can optionally pass a provider name to be used for locking.\nIf no provider is passed, the default provider (in-memory or the provider configuerd in "
+									},
+									{
+										"kind": "code",
+										"text": "`medusa-config.ts`"
+									},
+									{
+										"kind": "text",
+										"text": ") will be used.\n\nIf the lock has an owner, you must pass the same owner to release the lock."
+									}
+								],
+								"blockTags": [
+									{
+										"tag": "@returns",
+										"content": [
+											{
+												"kind": "text",
+												"text": "Whether the lock was successfully released. If the lock has a different owner than the one passed, the method returns "
+											},
+											{
+												"kind": "code",
+												"text": "`false`"
+											},
+											{
+												"kind": "text",
+												"text": "."
+											}
+										]
+									},
+									{
+										"tag": "@example",
+										"content": [
+											{
+												"kind": "text",
+												"text": "For example, to release a lock on a product with ID "
+											},
+											{
+												"kind": "code",
+												"text": "`prod_123`"
+											},
+											{
+												"kind": "text",
+												"text": " for a user with ID "
+											},
+											{
+												"kind": "code",
+												"text": "`user_123`"
+											},
+											{
+												"kind": "text",
+												"text": ":\n\n"
+											},
+											{
+												"kind": "code",
+												"text": "```ts\nawait lockingModuleService.release(\"prod_123\", {\n  ownerId: \"user_123\"\n})\n```"
+											},
+											{
+												"kind": "text",
+												"text": "\n\nIn this example, you release the lock on the product with ID "
+											},
+											{
+												"kind": "code",
+												"text": "`prod_123`"
+											},
+											{
+												"kind": "text",
+												"text": " for the user with ID "
+											},
+											{
+												"kind": "code",
+												"text": "`user_123`"
+											},
+											{
+												"kind": "text",
+												"text": ".\n\nTo specify the provider to use for locking, you can pass the provider name in the "
+											},
+											{
+												"kind": "code",
+												"text": "`args`"
+											},
+											{
+												"kind": "text",
+												"text": " argument:\n\n"
+											},
+											{
+												"kind": "code",
+												"text": "```ts\nawait lockingModuleService.release(\"prod_123\", {\n  ownerId: \"user_123\",\n  provider: \"lp_my-lock\"\n})\n```"
+											}
+										]
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "index.ts",
+									"line": 479,
+									"character": 2,
+									"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L479"
+								}
+							],
+							"parameters": [
+								{
+									"id": 58,
+									"name": "keys",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "The keys to release the lock from."
+											}
+										]
+									},
+									"type": {
+										"type": "union",
+										"types": [
+											{
+												"type": "intrinsic",
+												"name": "string"
+											},
+											{
+												"type": "array",
+												"elementType": {
+													"type": "intrinsic",
+													"name": "string"
+												}
+											}
+										]
+									}
+								},
+								{
+									"id": 59,
+									"name": "args",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {
+										"isOptional": true
+									},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "Additional arguments for releasing the lock."
+											}
+										]
+									},
+									"type": {
+										"type": "reflection",
+										"declaration": {
+											"id": 60,
+											"name": "__type",
+											"variant": "declaration",
+											"kind": 65536,
+											"flags": {},
+											"children": [
+												{
+													"id": 61,
+													"name": "ownerId",
+													"variant": "declaration",
+													"kind": 1024,
+													"flags": {
+														"isOptional": true
+													},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "The ID of the lock's owner. The lock can be released either if it doesn't have an owner, or \nif its owner ID matches the one passed in this property."
+															}
+														]
+													},
+													"sources": [
+														{
+															"fileName": "index.ts",
+															"line": 486,
+															"character": 6,
+															"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L486"
+														}
+													],
+													"type": {
+														"type": "union",
+														"types": [
+															{
+																"type": "literal",
+																"value": null
+															},
+															{
+																"type": "intrinsic",
+																"name": "string"
+															}
+														]
+													}
+												},
+												{
+													"id": 62,
+													"name": "provider",
+													"variant": "declaration",
+													"kind": 1024,
+													"flags": {
+														"isOptional": true
+													},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "The provider name to use for locking. If no provider is passed, the default provider (in-memory or the provider configuerd in "
+															},
+															{
+																"kind": "code",
+																"text": "`medusa-config.ts`"
+															},
+															{
+																"kind": "text",
+																"text": ") will be used."
+															}
+														]
+													},
+													"sources": [
+														{
+															"fileName": "index.ts",
+															"line": 490,
+															"character": 6,
+															"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L490"
+														}
+													],
+													"type": {
+														"type": "intrinsic",
+														"name": "string"
+													}
+												}
+											],
+											"groups": [
+												{
+													"title": "Properties",
+													"children": [
+														61,
+														62
+													]
+												}
+											],
+											"sources": [
+												{
+													"fileName": "index.ts",
+													"line": 481,
+													"character": 11,
+													"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L481"
+												}
+											]
+										}
+									}
+								},
+								{
+									"id": 63,
+									"name": "sharedContext",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {
+										"isOptional": true
+									},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "A context used to share resources, such as transaction manager, between the application and the module."
+											}
+										]
+									},
+									"type": {
+										"type": "reference",
+										"target": {
+											"sourceFileName": "../../../../packages/core/types/src/shared-context.ts",
+											"qualifiedName": "Context"
+										},
+										"name": "Context",
+										"package": "@medusajs/types"
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"target": {
+									"sourceFileName": "../../node_modules/typescript/lib/lib.es5.d.ts",
+									"qualifiedName": "Promise"
+								},
+								"typeArguments": [
+									{
+										"type": "intrinsic",
+										"name": "boolean"
+									}
+								],
+								"name": "Promise",
+								"package": "typescript"
+							}
+						}
+					]
+				},
+				{
+					"id": 64,
+					"name": "releaseAll",
+					"variant": "declaration",
+					"kind": 2048,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "index.ts",
+							"line": 522,
+							"character": 2,
+							"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L522"
+						}
+					],
+					"signatures": [
+						{
+							"id": 65,
+							"name": "releaseAll",
+							"variant": "signature",
+							"kind": 4096,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "This method releases all locks. If you specify an owner ID, then all locks that the owner has acquired are released.\n\nYou can also pass a provider name to be used for locking. If no provider is passed, the default provider (in-memory or the provider configuerd in "
+									},
+									{
+										"kind": "code",
+										"text": "`medusa-config.ts`"
+									},
+									{
+										"kind": "text",
+										"text": ") will be used."
+									}
+								],
+								"blockTags": [
+									{
+										"tag": "@example",
+										"content": [
+											{
+												"kind": "text",
+												"text": "For example, to release all locks for a user with ID "
+											},
+											{
+												"kind": "code",
+												"text": "`user_123`"
+											},
+											{
+												"kind": "text",
+												"text": ":\n\n"
+											},
+											{
+												"kind": "code",
+												"text": "```ts\nawait lockingModuleService.releaseAll({\n  ownerId: \"user_123\"\n})\n```"
+											},
+											{
+												"kind": "text",
+												"text": "\n\nIn this example, you release all locks for the user with ID "
+											},
+											{
+												"kind": "code",
+												"text": "`user_123`"
+											},
+											{
+												"kind": "text",
+												"text": ".\n\nTo specify the provider to use for locking, you can pass the provider name in the "
+											},
+											{
+												"kind": "code",
+												"text": "`args`"
+											},
+											{
+												"kind": "text",
+												"text": " argument:\n\n"
+											},
+											{
+												"kind": "code",
+												"text": "```ts\nawait lockingModuleService.releaseAll({\n  ownerId: \"user_123\",\n  provider: \"lp_my-lock\"\n})\n```"
+											}
+										]
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "index.ts",
+									"line": 522,
+									"character": 2,
+									"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L522"
+								}
+							],
+							"parameters": [
+								{
+									"id": 66,
+									"name": "args",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {
+										"isOptional": true
+									},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "Additional arguments for releasing the locks."
+											}
+										]
+									},
+									"type": {
+										"type": "reflection",
+										"declaration": {
+											"id": 67,
+											"name": "__type",
+											"variant": "declaration",
+											"kind": 65536,
+											"flags": {},
+											"children": [
+												{
+													"id": 68,
+													"name": "ownerId",
+													"variant": "declaration",
+													"kind": 1024,
+													"flags": {
+														"isOptional": true
+													},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "The ID of a lock owner. If specified, all locks that the owner has acquired are released."
+															}
+														]
+													},
+													"sources": [
+														{
+															"fileName": "index.ts",
+															"line": 527,
+															"character": 6,
+															"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L527"
+														}
+													],
+													"type": {
+														"type": "union",
+														"types": [
+															{
+																"type": "literal",
+																"value": null
+															},
+															{
+																"type": "intrinsic",
+																"name": "string"
+															}
+														]
+													}
+												},
+												{
+													"id": 69,
+													"name": "provider",
+													"variant": "declaration",
+													"kind": 1024,
+													"flags": {
+														"isOptional": true
+													},
+													"comment": {
+														"summary": [
+															{
+																"kind": "text",
+																"text": "The provider name to use for locking. If no provider is passed, the default provider (in-memory or the provider configuerd in "
+															},
+															{
+																"kind": "code",
+																"text": "`medusa-config.ts`"
+															},
+															{
+																"kind": "text",
+																"text": ") will be used."
+															}
+														]
+													},
+													"sources": [
+														{
+															"fileName": "index.ts",
+															"line": 531,
+															"character": 6,
+															"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L531"
+														}
+													],
+													"type": {
+														"type": "intrinsic",
+														"name": "string"
+													}
+												}
+											],
+											"groups": [
+												{
+													"title": "Properties",
+													"children": [
+														68,
+														69
+													]
+												}
+											],
+											"sources": [
+												{
+													"fileName": "index.ts",
+													"line": 523,
+													"character": 11,
+													"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L523"
+												}
+											]
+										}
+									}
+								},
+								{
+									"id": 70,
+									"name": "sharedContext",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {
+										"isOptional": true
+									},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "A context used to share resources, such as transaction manager, between the application and the module."
+											}
+										]
+									},
+									"type": {
+										"type": "reference",
+										"target": {
+											"sourceFileName": "../../../../packages/core/types/src/shared-context.ts",
+											"qualifiedName": "Context"
+										},
+										"name": "Context",
+										"package": "@medusajs/types"
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"target": {
+									"sourceFileName": "../../node_modules/typescript/lib/lib.es5.d.ts",
+									"qualifiedName": "Promise"
+								},
+								"typeArguments": [
+									{
+										"type": "intrinsic",
+										"name": "void"
+									}
+								],
+								"name": "Promise",
+								"package": "typescript"
+							}
+						}
+					]
+				}
+			],
+			"groups": [
+				{
+					"title": "Methods",
+					"children": [
+						35,
+						47,
+						56,
+						64
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "index.ts",
+					"line": 341,
+					"character": 17,
+					"url": "https://github.com/medusajs/medusa/blob/0466ae8c989e5eab7ae1e11ee63d16595ebf32eb/packages/core/types/src/locking/index.ts#L341"
+				}
+			]
+		}
+	],
+	"groups": [
+		{
+			"title": "Interfaces",
+			"children": [
+				1,
+				34
+			]
+		}
+	],
+	"packageName": "@medusajs/types",
+	"symbolIdMap": {
+		"0": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": ""
+		},
+		"1": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "ILockingProvider"
+		},
+		"2": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "ILockingProvider.execute"
+		},
+		"3": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "ILockingProvider.execute"
+		},
+		"4": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "T"
+		},
+		"5": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "keys"
+		},
+		"6": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "job"
+		},
+		"7": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "__type"
+		},
+		"8": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "__type"
+		},
+		"9": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "args"
+		},
+		"10": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "__type"
+		},
+		"11": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "__type.timeout"
+		},
+		"12": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "sharedContext"
+		},
+		"13": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "ILockingProvider.acquire"
+		},
+		"14": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "ILockingProvider.acquire"
+		},
+		"15": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "keys"
+		},
+		"16": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "args"
+		},
+		"17": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "__type"
+		},
+		"18": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "__type.ownerId"
+		},
+		"19": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "__type.expire"
+		},
+		"20": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "sharedContext"
+		},
+		"21": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "ILockingProvider.release"
+		},
+		"22": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "ILockingProvider.release"
+		},
+		"23": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "keys"
+		},
+		"24": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "args"
+		},
+		"25": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "__type"
+		},
+		"26": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "__type.ownerId"
+		},
+		"27": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "sharedContext"
+		},
+		"28": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "ILockingProvider.releaseAll"
+		},
+		"29": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "ILockingProvider.releaseAll"
+		},
+		"30": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "args"
+		},
+		"31": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "__type"
+		},
+		"32": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "__type.ownerId"
+		},
+		"33": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "sharedContext"
+		},
+		"34": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "ILockingModule"
+		},
+		"35": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "ILockingModule.execute"
+		},
+		"36": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "ILockingModule.execute"
+		},
+		"37": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "T"
+		},
+		"38": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "keys"
+		},
+		"39": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "job"
+		},
+		"40": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "__type"
+		},
+		"41": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "__type"
+		},
+		"42": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "args"
+		},
+		"43": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "__type"
+		},
+		"44": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "__type.timeout"
+		},
+		"45": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "__type.provider"
+		},
+		"46": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "sharedContext"
+		},
+		"47": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "ILockingModule.acquire"
+		},
+		"48": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "ILockingModule.acquire"
+		},
+		"49": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "keys"
+		},
+		"50": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "args"
+		},
+		"51": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "__type"
+		},
+		"52": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "__type.ownerId"
+		},
+		"53": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "__type.expire"
+		},
+		"54": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "__type.provider"
+		},
+		"55": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "sharedContext"
+		},
+		"56": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "ILockingModule.release"
+		},
+		"57": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "ILockingModule.release"
+		},
+		"58": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "keys"
+		},
+		"59": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "args"
+		},
+		"60": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "__type"
+		},
+		"61": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "__type.ownerId"
+		},
+		"62": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "__type.provider"
+		},
+		"63": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "sharedContext"
+		},
+		"64": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "ILockingModule.releaseAll"
+		},
+		"65": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "ILockingModule.releaseAll"
+		},
+		"66": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "args"
+		},
+		"67": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "__type"
+		},
+		"68": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "__type.ownerId"
+		},
+		"69": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "__type.provider"
+		},
+		"70": {
+			"sourceFileName": "../../../../packages/core/types/src/locking/index.ts",
+			"qualifiedName": "sharedContext"
+		}
+	},
+	"files": {
+		"entries": {
+			"1": "../../../../packages/core/types/src/locking/index.ts"
+		},
+		"reflections": {
+			"1": 0
+		}
+	}
+}

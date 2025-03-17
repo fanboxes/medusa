@@ -200,10 +200,12 @@ export function getComputedActionsForBuyGet(
     const appliedPromoValue =
       methodIdPromoValueMap.get(item.id) ?? MathBN.convert(0)
     const multiplier = MathBN.min(targetItem.quantity, remainingQtyToApply)
-    const amount = MathBN.mult(
+    const applicableAmount = MathBN.mult(
       MathBN.div(item.subtotal, item.quantity),
       multiplier
     )
+    const applicablePercentage = promotion.application_method?.value ?? 100
+    const amount = MathBN.mult(applicableAmount, applicablePercentage).div(100)
 
     const newRemainingQtyToApply = MathBN.sub(remainingQtyToApply, multiplier)
 

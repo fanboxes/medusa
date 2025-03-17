@@ -38,6 +38,7 @@ const allReferences = [
   "types",
   "utils",
   "workflows",
+  "locking",
 ]
 
 export default allReferences

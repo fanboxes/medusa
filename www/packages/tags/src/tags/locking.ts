@@ -42,5 +42,13 @@ export const locking = [
   {
     "title": "createReservationsWorkflow",
     "path": "https://docs.medusajs.com/resources/references/medusa-workflows/createReservationsWorkflow"
+  },
+  {
+    "title": "Use Locking Module",
+    "path": "https://docs.medusajs.com/resources/references/locking-service"
+  },
+  {
+    "title": "Create Locking Provider",
+    "path": "https://docs.medusajs.com/resources/references/locking-module-provider"
   }
 ]

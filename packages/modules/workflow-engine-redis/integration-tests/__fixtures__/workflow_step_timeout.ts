@@ -8,7 +8,7 @@ import { setTimeout } from "timers/promises"
 const step_1 = createStep(
   "step_1",
   jest.fn(async (input) => {
-    await setTimeout(200)
+    await setTimeout(1000)
 
     return new StepResponse(input, { compensate: 123 })
   })
@@ -42,6 +42,8 @@ createWorkflow(
 createWorkflow(
   {
     name: "workflow_step_timeout_async",
+    idempotent: true,
+    retentionTime: 5,
   },
   function (input) {
     const resp = step_1_async(input)

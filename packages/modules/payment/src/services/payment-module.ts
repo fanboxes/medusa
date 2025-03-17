@@ -504,6 +504,11 @@ export default class PaymentModuleService
       status !== PaymentSessionStatus.AUTHORIZED &&
       status !== PaymentSessionStatus.CAPTURED
     ) {
+      await this.paymentSessionService_.update({
+        id: session.id,
+        status,
+        data,
+    }, sharedContext);
       throw new MedusaError(
         MedusaError.Types.NOT_ALLOWED,
         `Session: ${session.id} was not authorized with the provider.`

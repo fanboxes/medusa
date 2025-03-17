@@ -92,6 +92,18 @@ export const filesMap = [
     "pathname": "/architectural-modules/file/s3"
   },
   {
+    "filePath": "/www/apps/resources/app/architectural-modules/locking/page.mdx",
+    "pathname": "/architectural-modules/locking"
+  },
+  {
+    "filePath": "/www/apps/resources/app/architectural-modules/locking/postgres/page.mdx",
+    "pathname": "/architectural-modules/locking/postgres"
+  },
+  {
+    "filePath": "/www/apps/resources/app/architectural-modules/locking/redis/page.mdx",
+    "pathname": "/architectural-modules/locking/redis"
+  },
+  {
     "filePath": "/www/apps/resources/app/architectural-modules/notification/local/page.mdx",
     "pathname": "/architectural-modules/notification/local"
   },
@@ -12800,6 +12812,14 @@ export const filesMap = [
     "pathname": "/references/js_sdk/store/classes/js_sdk.store.Store"
   },
   {
+    "filePath": "/www/apps/resources/references/locking/interfaces/locking.ILockingModule/page.mdx",
+    "pathname": "/references/locking/interfaces/locking.ILockingModule"
+  },
+  {
+    "filePath": "/www/apps/resources/references/locking/interfaces/locking.ILockingProvider/page.mdx",
+    "pathname": "/references/locking/interfaces/locking.ILockingProvider"
+  },
+  {
     "filePath": "/www/apps/resources/references/medusa/classes/medusa.RestrictedFields/page.mdx",
     "pathname": "/references/medusa/classes/medusa.RestrictedFields"
   },
@@ -13010,6 +13030,10 @@ export const filesMap = [
   {
     "filePath": "/www/apps/resources/references/modules/js_sdk/page.mdx",
     "pathname": "/references/modules/js_sdk"
+  },
+  {
+    "filePath": "/www/apps/resources/references/modules/locking/page.mdx",
+    "pathname": "/references/modules/locking"
   },
   {
     "filePath": "/www/apps/resources/references/modules/medusa/page.mdx",

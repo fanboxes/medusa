@@ -71,11 +71,12 @@ You can replace any of the third-party services mentioned above to build your pr
 
 [Architectural modules](!resources!/architectural-modules) integrate third-party services and systems for architectural features. Medusa has the following Architectural modules:
 
-- [Workflow Engine Module](!resources!/architectural-modules/workflow-engine): Orchestrates workflows that hold the business logic of your application. You can integrate [Redis](!resources!/architectural-modules/workflow-engine/redis) to orchestrate workflows.
 - [Cache Module](!resources!/architectural-modules/cache): Caches data that require heavy computation. You can integrate a custom module to handle the caching with services like Memcached, or use the existing [Redis Cache Module](!resources!/architectural-modules/cache/redis).
 - [Event Module](!resources!/architectural-modules/event): A pub/sub system that allows you to subscribe to events and trigger them. You can integrate [Redis](!resources!/architectural-modules/event/redis) as the pub/sub system.
 - [File Module](!resources!/architectural-modules/file): Manages file uploads and storage, such as upload of product images. You can integrate [AWS S3](!resources!/architectural-modules/file/s3) for file storage.
+- [Locking Module](!resources!/architectural-modules/locking): Manages access to shared resources by multiple processes or threads, preventing conflict between processes and ensuring data consistency. You can integrate [Redis](!resources!/architectural-modules/locking/redis) for locking.
 - [Notification Module](!resources!/architectural-modules/notification): Sends notifications to customers and users, such as for order updates or newsletters. You can integrate [SendGrid](!resources!/architectural-modules/notification/sendgrid) for sending emails.
+- [Workflow Engine Module](!resources!/architectural-modules/workflow-engine): Orchestrates workflows that hold the business logic of your application. You can integrate [Redis](!resources!/architectural-modules/workflow-engine/redis) to orchestrate workflows.
 
 All of the third-party services mentioned above can be replaced to help you build your preferred architecture and ecosystem.
 

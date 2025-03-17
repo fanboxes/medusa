@@ -31,9 +31,14 @@ export type FlowRegisterStepFailureOptions<TData = unknown> =
     response?: TData
   }
 
-export type FlowCancelOptions = BaseFlowRunOptions & {
+export type FlowCancelOptions = {
   transaction?: DistributedTransactionType
   transactionId?: string
+  context?: Context
+  throwOnError?: boolean
+  logOnError?: boolean
+  events?: DistributedTransactionEvents
+  container?: LoadedModule[] | MedusaContainer
 }
 
 /**

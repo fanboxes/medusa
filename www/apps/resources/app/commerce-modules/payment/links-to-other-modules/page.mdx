@@ -1,4 +1,4 @@
-import { CodeTabs, CodeTab } from "docs-ui"
+import { CodeTabs, CodeTab, Table } from "docs-ui"
 
 export const metadata = {
   title: `Links between Payment Module and Other Modules`,
@@ -12,12 +12,110 @@ This document showcases the module links defined between the Payment Module and 
 
 The Payment Module has the following links to other modules:
 
-- [`Cart` data model of Cart Module \<\> `PaymentCollection` data model](#cart-module).
-- [`Customer` data model of Customer Module \<\> `AccountHolder` data model](#customer-module).
-- [`Order` data model of Order Module \<\> `PaymentCollection` data model](#order-module).
-- [`OrderClaim` data model of Order Module \<\> `PaymentCollection` data model](#order-module).
-- [`OrderExchange` data model of Order Module \<\> `PaymentCollection` data model](#order-module).
-- [`Region` data model of Region Module \<\> `PaymentProvider` data model](#region-module).
+<Table>
+  <Table.Header>
+    <Table.Row>
+      <Table.HeaderCell>
+        First Data Model
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Second Data Model
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Type
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Description
+      </Table.HeaderCell>
+    </Table.Row>
+  </Table.Header>
+  <Table.Body>
+    <Table.Row>
+      <Table.Cell>
+        [Cart](/references/cart/models/Cart) in [Cart Module](../../cart/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        [PaymentCollection](/references/payment/models/PaymentCollection)
+      </Table.Cell>
+      <Table.Cell>
+        Stored
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#cart-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [Customer](/references/customer/models/Customer) in [Customer Module](../../customer/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        [AccountHolder](/references/payment/models/AccountHolder)
+      </Table.Cell>
+      <Table.Cell>
+        Stored
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#customer-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [Order](/references/order/models/Order) in [Order Module](../../order/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        [PaymentCollection](/references/payment/models/PaymentCollection)
+      </Table.Cell>
+      <Table.Cell>
+        Stored
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#order-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [OrderClaim](/references/order/models/OrderClaim) in [Order Module](../../order/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        [PaymentCollection](/references/payment/models/PaymentCollection)
+      </Table.Cell>
+      <Table.Cell>
+        Stored
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#order-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [OrderExchange](/references/order/models/OrderExchange) in [Order Module](../../order/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        [PaymentCollection](/references/payment/models/PaymentCollection)
+      </Table.Cell>
+      <Table.Cell>
+        Stored
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#order-module)
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        [Region](/references/region/models/Region) in [Region Module](../../region/page.mdx)
+      </Table.Cell>
+      <Table.Cell>
+        [PaymentProvider](/references/payment/models/PaymentProvider)
+      </Table.Cell>
+      <Table.Cell>
+        Stored
+      </Table.Cell>
+      <Table.Cell>
+        [Learn more](#region-module)
+      </Table.Cell>
+    </Table.Row>
+  </Table.Body>
+</Table>
 
 ---
 

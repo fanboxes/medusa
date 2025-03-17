@@ -111,20 +111,21 @@ export type TransactionModelOptions = {
 
   /**
    * If true, the state of the transaction will be persisted.
-   * 
+   *
    * Learn more in [this documentation](https://docs.medusajs.com/learn/fundamentals/workflows/store-executions).
    */
   store?: boolean
 
   /**
    * The number of seconds that the workflow execution should be stored in the database.
-   * 
+   *
    * Learn more in [this documentation](https://docs.medusajs.com/learn/fundamentals/workflows/store-executions).
    */
   retentionTime?: number
 
   /**
    * If true, the execution details of each step will be stored.
+   * @deprecated no longer needed.
    */
   storeExecution?: boolean
 
@@ -144,10 +145,6 @@ export type TransactionModelOptions = {
 
 export type SchedulerOptions = {
   /**
-   * The cron expression to schedule the workflow execution.
-   */
-  cron: string
-  /**
    * Setting whether to allow concurrent executions (eg. if the previous execution is still running, should the new one be allowed to run or not)
    * By default concurrent executions are not allowed.
    */
@@ -157,7 +154,20 @@ export type SchedulerOptions = {
    * Optionally limit the number of executions for the scheduled workflow. If not set, the workflow will run indefinitely.
    */
   numberOfExecutions?: number
-}
+} & (
+  | {
+      /**
+       * The cron expression to schedule the workflow execution.
+       */
+      cron: string
+    }
+  | {
+      /**
+       * The interval (in ms) to schedule the workflow execution.
+       */
+      interval: number
+    }
+)
 
 export type TransactionModel = {
   id: string

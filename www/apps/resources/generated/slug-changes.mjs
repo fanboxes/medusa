@@ -4705,6 +4705,16 @@ export const slugChanges = [
     "filePath": "/www/apps/resources/references/js_sdk/store/classes/js_sdk.store.Store/page.mdx"
   },
   {
+    "origSlug": "/references/locking/interfaces/locking.ILockingModule",
+    "newSlug": "/references/locking-service",
+    "filePath": "/www/apps/resources/references/locking/interfaces/locking.ILockingModule/page.mdx"
+  },
+  {
+    "origSlug": "/references/locking/interfaces/locking.ILockingProvider",
+    "newSlug": "/references/locking-module-provider",
+    "filePath": "/www/apps/resources/references/locking/interfaces/locking.ILockingProvider/page.mdx"
+  },
+  {
     "origSlug": "/references/medusa_config/interfaces/medusa_config.ConfigModule",
     "newSlug": "/references/medusa-config",
     "filePath": "/www/apps/resources/references/medusa_config/interfaces/medusa_config.ConfigModule/page.mdx"

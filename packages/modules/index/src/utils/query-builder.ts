@@ -1,6 +1,7 @@
 import { IndexTypes } from "@medusajs/framework/types"
 import {
   GraphQLUtils,
+  isDefined,
   isObject,
   isPresent,
   isString,
@@ -276,13 +277,17 @@ export class QueryBuilder {
 
         value = this.transformValueToType(attr, field, value)
         if (Array.isArray(value)) {
+          if (value.length === 0) {
+            return
+          }
+
           const castType = this.getPostgresCastType(attr, field).cast
           const inPlaceholders = value.map(() => "?").join(",")
           builder.whereRaw(
             `(${aliasMapping[attr]}.data${nested}->>?)${castType} IN (${inPlaceholders})`,
             [...field, ...value]
           )
-        } else {
+        } else if (isDefined(value)) {
           const operator = value === null ? "IS" : "="
 
           if (operator === "=") {

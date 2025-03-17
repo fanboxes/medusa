@@ -3,11 +3,12 @@ import {
   InjectManager,
   InjectTransactionManager,
   MedusaContext,
+  MikroOrmBaseRepository,
   ModulesSdkUtils,
 } from "@medusajs/framework/utils"
 
 type InjectedDependencies = {
-  linkRepository: any
+  linkRepository: MikroOrmBaseRepository
 }
 
 export default class LinkService<TEntity> {

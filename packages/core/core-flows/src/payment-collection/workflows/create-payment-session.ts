@@ -89,7 +89,7 @@ export const createPaymentSessionsWorkflow = createWorkflow(
         return !!data.input.customer_id
       }
     ).then(() => {
-      const customer: CustomerDTO & { account_holder: AccountHolderDTO } =
+      const customer: CustomerDTO & { account_holders: AccountHolderDTO[] } =
         useRemoteQueryStep({
           entry_point: "customer",
           fields: [
@@ -100,7 +100,7 @@ export const createPaymentSessionsWorkflow = createWorkflow(
             "last_name",
             "phone",
             "addresses.*",
-            "account_holder.*",
+            "account_holders.*",
             "metadata",
           ],
           variables: { id: input.customer_id },
@@ -116,11 +116,17 @@ export const createPaymentSessionsWorkflow = createWorkflow(
         }
       })
 
+      const existingAccountHolder = transform({ customer, input }, (data) => {
+        return data.customer.account_holders.find(
+          (ac) => ac.provider_id === data.input.provider_id
+        )
+      })
+
       const accountHolderInput = {
         provider_id: input.provider_id,
         context: {
           // The module is idempotent, so if there already is a linked account holder, the module will simply return it back.
-          account_holder: customer.account_holder,
+          account_holder: existingAccountHolder,
           customer: paymentCustomer,
         },
       }
@@ -131,11 +137,14 @@ export const createPaymentSessionsWorkflow = createWorkflow(
 
     when(
       "account-holder-created",
-      { paymentCustomer, accountHolder },
+      { paymentCustomer, accountHolder, input },
       (data) => {
         return (
-          !isPresent(data.paymentCustomer?.account_holder) &&
-          isPresent(data.accountHolder)
+          !isPresent(
+            data.paymentCustomer?.account_holders.find(
+              (ac) => ac.provider_id === data.input.provider_id
+            )
+          ) && isPresent(data.accountHolder)
         )
       }
     ).then(() => {

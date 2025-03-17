@@ -39,7 +39,7 @@ export async function POST(
   const { result } = await updateOrderChangesWorkflow(req.scope)
     .run({
       input: [{
-        "id": "id_HCKR2lBPbpaAtaU"
+        "id": "id_5n831DKhYtSIYgCvx"
       }]
     })
 
@@ -64,7 +64,7 @@ export default async function handleOrderPlaced({
   const { result } = await updateOrderChangesWorkflow(container)
     .run({
       input: [{
-        "id": "id_HCKR2lBPbpaAtaU"
+        "id": "id_5n831DKhYtSIYgCvx"
       }]
     })
 
@@ -89,7 +89,7 @@ export default async function myCustomJob(
   const { result } = await updateOrderChangesWorkflow(container)
     .run({
       input: [{
-        "id": "id_HCKR2lBPbpaAtaU"
+        "id": "id_5n831DKhYtSIYgCvx"
       }]
     })
 
@@ -115,7 +115,7 @@ const myWorkflow = createWorkflow(
     const result = updateOrderChangesWorkflow
       .runAsStep({
         input: [{
-          "id": "id_HCKR2lBPbpaAtaU"
+          "id": "id_5n831DKhYtSIYgCvx"
         }]
       })
   }
