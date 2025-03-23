@@ -1,10 +1,10 @@
 import { CodeBlock } from "docs-ui"
-import type { ExampleObject, ResponseObject } from "@/types/openapi"
+import type { OpenAPI } from "types"
 import { useEffect, useState } from "react"
 import useSchemaExample from "../../../../../../hooks/use-schema-example"
 
 export type TagsOperationCodeSectionResponsesSampleProps = {
-  response: ResponseObject
+  response: OpenAPI.ResponseObject
 } & React.AllHTMLAttributes<HTMLDivElement>
 
 const TagsOperationCodeSectionResponsesSample = ({
@@ -20,7 +20,7 @@ const TagsOperationCodeSectionResponsesSample = ({
     schemaExamples: contentSchema?.examples,
   })
   const [selectedExample, setSelectedExample] = useState<
-    ExampleObject | undefined
+    OpenAPI.ExampleObject | undefined
   >()
 
   useEffect(() => {

@@ -1,7 +1,7 @@
-import { OpenAPIV3 } from "openapi-types"
+import { OpenAPI } from "types"
 
 export default function getSecuritySchemaTypeName(
-  securitySchema: OpenAPIV3.SecuritySchemeObject
+  securitySchema: OpenAPI.OpenAPIV3.SecuritySchemeObject
 ) {
   switch (securitySchema.type) {
     case "apiKey":

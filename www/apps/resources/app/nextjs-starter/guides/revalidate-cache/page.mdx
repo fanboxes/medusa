@@ -1,0 +1,88 @@
+export const metadata = {
+  title: `Revalidate Cache in Next.js Starter Storefront`,
+}
+
+# {metadata.title}
+
+In this guide, you'll learn about the general approach to revalidating cache in the Next.js Starter Storefront when data is updated in the Medusa application.
+
+## Approach Overview
+
+By default, the data that the Next.js Starter Storefront retrieves from the Medusa application is cached in the browser. This cache is used to improve the performance and speed of the storefront.
+
+In some cases, you may need to revalidate the cache in the storefront when data is updated in the Medusa application. For example, when a product variant's price is updated in the Medusa application, you may want to revalidate the cache in the storefront to reflect the updated price.
+
+You're free to choose the approach that works for your use case, custom requirements, and tech stack. The approach that Medusa recommends is:
+
+1. Create a [subscriber](!docs!/learn/fundamentals/events-and-subscribers) in the Medusa application that listens for the event that triggers the data update. For example, you can listen to the `product.updated` event.
+2. In the subscriber, send a request to a custom endpoint in the Next.js Starter Storefront to trigger the cache revalidation.
+3. Create the custom endpoint in the Next.js Starter Storefront that listens for the request from the subscriber and revalidates the cache.
+
+<Note title="Tip">
+
+Refer to the [Events Reference](../../../events-reference/page.mdx) for a full list of events that the Medusa application emits.
+
+</Note>
+
+---
+
+## Example: Revalidating Cache for Product Update
+
+Consider you want to revalidate the cache in the Next.js Starter Storefront whenever a product is updated. 
+
+Start by creating the following subscriber in the Medusa application:
+
+```ts
+import type {
+  SubscriberArgs,
+  SubscriberConfig,
+} from "@medusajs/framework"
+
+export default async function productUpdatedHandler({
+  event: { data },
+  container,
+}: SubscriberArgs<{ id: string }>) {
+  // send request to next.js storefront to revalidate cache
+  await fetch(`${process.env.STOREFRONT_URL}/api/revalidate?tags=products`)
+}
+
+export const config: SubscriberConfig = {
+  event: "product.updated",
+}
+```
+
+In the subscriber, you send a request to the custom endpoint `/api/revalidate` in the Next.js Starter Storefront. The request includes the query parameter `tags=product-${data.id}` to specify the cache that needs to be revalidated.
+
+<Note>
+
+Make sure to set the `STOREFRONT_URL` environment variable in the Medusa application to the URL of the Next.js Starter Storefront.
+
+</Note>
+
+Then, create in the Next.js Starter Storefront the custom endpoint that listens for the request and revalidates the cache:
+
+```ts title="src/app/api/revalidate/route.ts"
+import { NextRequest, NextResponse } from "next/server"
+import { revalidateTag } from "next/cache"
+import { getCacheTag } from "../../../lib/data/cookies"
+
+export async function GET(req: NextRequest) {
+  const searchParams = req.nextUrl.searchParams
+  const tags = searchParams.get("tags") as string
+
+  if (!tags) {
+    return NextResponse.json({ error: "No tags provided" }, { status: 400 })
+  }
+
+  const tagsArray = tags.split(",")
+  await Promise.all(
+    tagsArray.map(async (tag) => {
+      const cacheTag = await getCacheTag(tag)
+      // revalidate cache for the tag
+      revalidateTag(cacheTag)
+    })
+  )
+
+  return NextResponse.json({ message: "Revalidated" }, { status: 200 })
+}
+```

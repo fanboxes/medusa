@@ -1,0 +1,23 @@
+If you get the following error after creating a new data model in your Medusa application:
+
+```bash
+error:   Error: Cannot define field(s) "created_at,updated_at,deleted_at" as they are implicitly defined on every model
+```
+
+The error may include the three fields, or only some of them, based on which fields you're trying to define in the data model.
+
+## Why this Error Occurred
+
+This error occurs because you're trying to define the `created_at`, `updated_at`, or `deleted_at` properties on a new data model. These properties are implicitly defined on every data model in Medusa and can't be redefined.
+
+---
+
+## How to Fix it
+
+To resolve this error, remove the `created_at`, `updated_at`, and `deleted_at` properties from your data model definition. You'll still be able to use these properties in your application, but you can't redefine them in your data models.
+
+---
+
+## Additional Resources
+
+- [Data Model's Default Properties](!docs!/learn/fundamentals/data-models/properties#data-models-default-properties)

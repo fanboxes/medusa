@@ -179,6 +179,11 @@ export const storefrontDevelopmentSidebar = [
         path: "/storefront-development/cart/manage-items",
         title: "Manage Line Items",
       },
+      {
+        type: "link",
+        path: "/storefront-development/cart/totals",
+        title: "Show Totals",
+      },
     ],
   },
   {
@@ -223,6 +228,11 @@ export const storefrontDevelopmentSidebar = [
         type: "link",
         path: "/storefront-development/checkout/complete-cart",
         title: "5. Complete Cart",
+      },
+      {
+        type: "link",
+        path: "/storefront-development/checkout/order-confirmation",
+        title: "Show Order Confirmation",
       },
     ],
   },

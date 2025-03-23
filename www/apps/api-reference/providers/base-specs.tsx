@@ -1,33 +1,35 @@
 "use client"
 
-import { ExpandedDocument, SecuritySchemeObject } from "@/types/openapi"
+import { OpenAPI } from "types"
 import { ReactNode, createContext, useContext, useEffect, useMemo } from "react"
 import { Sidebar } from "types"
-import getSectionId from "../utils/get-section-id"
 import getTagChildSidebarItems from "../utils/get-tag-child-sidebar-items"
 import { useRouter } from "next/navigation"
-import { useSidebar } from "docs-ui"
+import { UpdateActionType, UpdateSidebarItemTypes, useSidebar } from "docs-ui"
+import { getSectionId } from "docs-utils"
 
 type BaseSpecsContextType = {
-  baseSpecs: ExpandedDocument | undefined
-  getSecuritySchema: (securityName: string) => SecuritySchemeObject | null
+  baseSpecs: OpenAPI.ExpandedDocument | undefined
+  getSecuritySchema: (
+    securityName: string
+  ) => OpenAPI.SecuritySchemeObject | null
 }
 
 const BaseSpecsContext = createContext<BaseSpecsContextType | null>(null)
 
 type BaseSpecsProviderProps = {
-  baseSpecs: ExpandedDocument | undefined
+  baseSpecs: OpenAPI.ExpandedDocument | undefined
   children?: ReactNode
 }
 
 const BaseSpecsProvider = ({ children, baseSpecs }: BaseSpecsProviderProps) => {
   const router = useRouter()
-  const { activePath, addItems, setActivePath, resetItems, shownSidebar } =
+  const { activePath, setActivePath, resetItems, shownSidebar, updateItems } =
     useSidebar()
 
   const getSecuritySchema = (
     securityName: string
-  ): SecuritySchemeObject | null => {
+  ): OpenAPI.SecuritySchemeObject | null => {
     if (
       baseSpecs?.components?.securitySchemes &&
       Object.prototype.hasOwnProperty.call(
@@ -44,16 +46,12 @@ const BaseSpecsProvider = ({ children, baseSpecs }: BaseSpecsProviderProps) => {
     return null
   }
 
-  const itemsToAdd = useMemo(() => {
+  const itemsToUpdate = useMemo(() => {
     if (!baseSpecs) {
       return []
     }
 
-    const itemsToAdd: Sidebar.SidebarItem[] = [
-      {
-        type: "separator",
-      },
-    ]
+    const itemsToUpdate: UpdateActionType["items"] = []
 
     baseSpecs.tags?.forEach((tag) => {
       const tagPathName = getSectionId([tag.name.toLowerCase()])
@@ -62,37 +60,44 @@ const BaseSpecsProvider = ({ children, baseSpecs }: BaseSpecsProviderProps) => {
         Object.hasOwn(baseSpecs.expandedTags, tagPathName)
           ? getTagChildSidebarItems(baseSpecs.expandedTags[tagPathName])
           : []
-      itemsToAdd.push({
-        type: "category",
-        title: tag.name,
-        children: childItems,
-        loaded: childItems.length > 0,
-        showLoadingIfEmpty: true,
-        onOpen: () => {
-          if (location.hash !== tagPathName) {
-            router.push(`#${tagPathName}`, {
-              scroll: false,
-            })
-          }
-          if (activePath !== tagPathName) {
-            setActivePath(tagPathName)
-          }
+      itemsToUpdate.push({
+        existingItem: {
+          type: "category",
+          title: tag.name,
+        },
+        newItem: {
+          children: childItems,
+          loaded: childItems.length > 0,
+          onOpen: () => {
+            if (location.hash !== tagPathName) {
+              router.push(`#${tagPathName}`, {
+                scroll: false,
+              })
+            }
+            if (activePath !== tagPathName) {
+              setActivePath(tagPathName)
+            }
+          },
+        },
+        options: {
+          setChildrenBehavior: "merge",
         },
       })
     })
 
-    return itemsToAdd
+    return itemsToUpdate
   }, [baseSpecs])
 
   useEffect(() => {
-    if (!itemsToAdd.length || !shownSidebar) {
+    if (!itemsToUpdate.length || !shownSidebar) {
       return
     }
 
-    addItems(itemsToAdd, {
+    updateItems({
       sidebar_id: shownSidebar.sidebar_id,
+      items: itemsToUpdate,
     })
-  }, [itemsToAdd, shownSidebar?.sidebar_id])
+  }, [itemsToUpdate, shownSidebar?.sidebar_id])
 
   useEffect(() => {
     return () => {

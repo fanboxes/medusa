@@ -21,7 +21,7 @@ export const WorkflowDiagramList = ({
           <WorkflowDiagramListDepth cluster={cluster} next={next} key={depth} />
         )
       })}
-      {!hideLegend && <WorkflowDiagramLegend />}
+      <WorkflowDiagramLegend hideLegend={hideLegend} />
     </div>
   )
 }

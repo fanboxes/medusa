@@ -1854,11 +1854,7 @@ moduleIntegrationTestRunner<IPricingModuleService>({
               }),
             ])
 
-            const test = await service.softDeletePrices(
-              priceList.prices.map((p) => p.id)
-            )
-
-            console.log("test -- ", JSON.stringify(test, null, 4))
+            await service.softDeletePrices(priceList.prices.map((p) => p.id))
 
             const priceSetsResult2 = await service.calculatePrices(
               { id: ["price-set-EUR", "price-set-PLN"] },

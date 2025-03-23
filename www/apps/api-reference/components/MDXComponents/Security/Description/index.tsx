@@ -1,6 +1,6 @@
 import type { MDXContentClientProps } from "@/components/MDXContent/Client"
 import type { MDXContentServerProps } from "@/components/MDXContent/Server"
-import type { SecuritySchemeObject } from "@/types/openapi"
+import type { OpenAPI } from "types"
 import getSecuritySchemaTypeName from "@/utils/get-security-schema-type-name"
 import clsx from "clsx"
 import { Loading } from "docs-ui"
@@ -21,7 +21,7 @@ const MDXContentServer = dynamic<MDXContentServerProps>(
 ) as React.FC<MDXContentServerProps>
 
 export type SecurityDescriptionProps = {
-  securitySchema: SecuritySchemeObject
+  securitySchema: OpenAPI.SecuritySchemeObject
   isServer?: boolean
 }
 

@@ -1,10 +1,10 @@
 import { useBaseSpecs } from "@/providers/base-specs"
-import type { OpenAPIV3 } from "openapi-types"
+import type { OpenAPI } from "types"
 import { Card } from "docs-ui"
 import { useMemo } from "react"
 
 export type TagsOperationDescriptionSectionSecurityProps = {
-  security: OpenAPIV3.SecurityRequirementObject[]
+  security: OpenAPI.OpenAPIV3.SecurityRequirementObject[]
 }
 
 const TagsOperationDescriptionSectionSecurity = ({

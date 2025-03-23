@@ -293,6 +293,14 @@ const generatedgeneratedStorefrontDevelopmentSidebarSidebar = {
           "path": "/storefront-development/cart/manage-items",
           "title": "Manage Line Items",
           "children": []
+        },
+        {
+          "loaded": true,
+          "isPathHref": true,
+          "type": "link",
+          "path": "/storefront-development/cart/totals",
+          "title": "Show Totals",
+          "children": []
         }
       ]
     },
@@ -358,6 +366,14 @@ const generatedgeneratedStorefrontDevelopmentSidebarSidebar = {
           "type": "link",
           "path": "/storefront-development/checkout/complete-cart",
           "title": "5. Complete Cart",
+          "children": []
+        },
+        {
+          "loaded": true,
+          "isPathHref": true,
+          "type": "link",
+          "path": "/storefront-development/checkout/order-confirmation",
+          "title": "Show Order Confirmation",
           "children": []
         }
       ]

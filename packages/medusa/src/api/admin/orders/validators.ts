@@ -144,3 +144,13 @@ export const AdminUpdateOrder = z.object({
   billing_address: AddressPayload.optional(),
   metadata: z.record(z.unknown()).nullish(),
 })
+
+export type AdminCreateOrderCreditLinesType = z.infer<
+  typeof AdminCreateOrderCreditLines
+>
+export const AdminCreateOrderCreditLines = z.object({
+  amount: z.number(),
+  reference: z.string(),
+  reference_id: z.string(),
+  metadata: z.record(z.unknown()).nullish(),
+})

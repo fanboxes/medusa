@@ -101,24 +101,25 @@ jest.setTimeout(60 * 1000)
 
 ## Test a POST API Route
 
-Suppose you have a `hello` module whose main service extends the service factory, and that has the following model:
+Suppose you have a `blog` module whose main service extends the service factory, and that has the following model:
 
-```ts title="src/modules/hello/models/my-custom.ts"
+```ts title="src/modules/blog/models/my-custom.ts"
 import { model } from "@medusajs/framework/utils"
 
-const MyCustom = model.define("my_custom", {
+const Post = model.define("post", {
   id: model.id().primaryKey(),
   name: model.text(),
 })
 
-export default MyCustom
+export default Post
 ```
 
 And consider that the file `src/api/custom/route.ts` defines another route handler for `POST` requests:
 
 ```ts title="src/api/custom/route.ts"
 // other imports...
-import HelloModuleService from "../../../modules/hello/service"
+import BlogModuleService from "../../../modules/blog/service"
+import { BLOG_MODULE } from "../../../modules/blog"
 
 // ...
 
@@ -126,21 +127,21 @@ export async function POST(
   req: MedusaRequest,
   res: MedusaResponse
 ) {
-  const helloModuleService: HelloModuleService = req.scope.resolve(
-    "helloModuleService"
+  const blogModuleService: BlogModuleService = req.scope.resolve(
+    BLOG_MODULE
   )
 
-  const myCustom = await helloModuleService.createMyCustoms(
+  const post = await blogModuleService.createPosts(
     req.body
   )
 
   res.json({
-    my_custom: myCustom,
+    post,
   })
 }
 ```
 
-This API route creates a new record of `MyCustom`.
+This API route creates a new record of `Post`.
 
 To write tests for this API route, add the following at the end of the `testSuite` function in `integration-tests/http/custom-routes.spec.ts`:
 
@@ -150,7 +151,7 @@ export const postHighlights = [
 
 ```ts title="integration-tests/http/custom-routes.spec.ts" highlights={postHighlights}
 // other imports...
-import HelloModuleService from "../../src/modules/hello/service"
+import BlogModuleService from "../../src/modules/blog/service"
 
 medusaIntegrationTestRunner({
   testSuite: ({ api, getContainer }) => {
@@ -171,8 +172,8 @@ medusaIntegrationTestRunner({
           )
   
           expect(response.status).toEqual(200)
-          expect(response.data).toHaveProperty("my_custom")
-          expect(response.data.my_custom).toEqual({
+          expect(response.data).toHaveProperty("post")
+          expect(response.data.post).toEqual({
             id,
             name: "Test",
             created_at: expect.any(String),
@@ -190,7 +191,7 @@ This adds a test for the `POST /custom` API route. It uses `api.post` to send th
 The test passes if the response has:
 
 - Status code `200`.
-- A `my_custom` property in its data.
+- A `post` property in its data.
 - Its `id` and `name` match the ones provided to the request.
 
 ### Tear Down Created Record
@@ -203,7 +204,8 @@ So, add an `afterAll` hook in the `describe` block for `POST /custom`:
 
 ```ts title="integration-tests/http/custom-routes.spec.ts"
 // other imports...
-import HelloModuleService from "../../src/modules/hello/service"
+import BlogModuleService from "../../src/modules/blog/service"
+import { BLOG_MODULE } from "../../src/modules/blog"
 
 medusaIntegrationTestRunner({
   testSuite: ({ api, getContainer }) => {
@@ -213,11 +215,11 @@ medusaIntegrationTestRunner({
       describe("POST /custom", () => {
         // ...
         afterAll(() => async () => {
-          const helloModuleService: HelloModuleService = getContainer().resolve(
-            "helloModuleService"
+          const blogModuleService: BlogModuleService = getContainer().resolve(
+            BLOG_MODULE
           )
 
-          await helloModuleService.deleteMyCustoms(id)
+          await blogModuleService.deletePosts(id)
         })
       })
     })
@@ -225,7 +227,7 @@ medusaIntegrationTestRunner({
 })
 ```
 
-The `afterAll` hook resolves the `HelloModuleService` and use its `deleteMyCustoms` to delete the record created by the test.
+The `afterAll` hook resolves the `BlogModuleService` and use its `deletePosts` to delete the record created by the test.
 
 ---
 
@@ -235,17 +237,18 @@ Consider a `/custom/:id` API route created at `src/api/custom/[id]/route.ts`:
 
 ```ts title="src/api/custom/[id]/route.ts"
 import { MedusaRequest, MedusaResponse } from "@medusajs/framework/http"
-import HelloModuleService from "../../../modules/hello/service"
+import BlogModuleService from "../../../modules/blog/service"
+import { BLOG_MODULE } from "../../../modules/blog"
 
 export async function DELETE(
   req: MedusaRequest,
   res: MedusaResponse
 ) {
-  const helloModuleService: HelloModuleService = req.scope.resolve(
-    "helloModuleService"
+  const blogModuleService: BlogModuleService = req.scope.resolve(
+    BLOG_MODULE
   )
 
-  await helloModuleService.deleteMyCustoms(req.params.id)
+  await blogModuleService.deletePosts(req.params.id)
 
   res.json({
     success: true,
@@ -253,7 +256,7 @@ export async function DELETE(
 }
 ```
 
-This API route accepts an ID path parameter, and uses the `HelloModuleService` to delete a `MyCustom` record by that ID.
+This API route accepts an ID path parameter, and uses the `BlogModuleService` to delete a `Post` record by that ID.
 
 To add tests for this API route, add the following to `integration-tests/http/custom-routes.spec.ts`:
 
@@ -271,11 +274,11 @@ medusaIntegrationTestRunner({
         const id = "1"
 
         beforeAll(() => async () => {
-          const helloModuleService: HelloModuleService = getContainer().resolve(
-            "helloModuleService"
+          const blogModuleService: BlogModuleService = getContainer().resolve(
+            BLOG_MODULE
           )
 
-          await helloModuleService.createMyCustoms({
+          await blogModuleService.createPosts({
             id,
             name: "Test",
           })
@@ -296,7 +299,7 @@ medusaIntegrationTestRunner({
 })
 ```
 
-This adds a new test for the `DELETE /custom/:id` API route. You use the `beforeAll` hook to create a `MyCustom` record using the `HelloModuleService`.
+This adds a new test for the `DELETE /custom/:id` API route. You use the `beforeAll` hook to create a `Post` record using the `BlogModuleService`.
 
 In the test, you use the `api.delete` method to send a `DELETE` request to `/custom/:id`. The test passes if the response:
 

@@ -254,7 +254,7 @@ The `Wishlist` model has the following properties:
 
 <Note>
 
-Learn more about data model [properties](!docs!/learn/fundamentals/data-models/property-types) and [relations](!docs!/learn/fundamentals/data-models/relationships).
+Learn more about data model [properties](!docs!/learn/fundamentals/data-models/properties) and [relations](!docs!/learn/fundamentals/data-models/relationships).
 
 </Note>
 
@@ -1418,7 +1418,7 @@ The response will contain a list of products. You can use the `id` of a product'
 Then, send a `POST` request to the `/store/customers/me/wishlists/items` API route to add the variant to the wishlist:
 
 ```bash
-curl -X GET 'localhost:9000/store/customers/me/wishlists/items' \
+curl -X POST 'localhost:9000/store/customers/me/wishlists/items' \
 --header 'Content-Type: application/json'  \
 --header 'x-publishable-api-key: {api_key}' \
 --header 'Authorization: Bearer {token}' \

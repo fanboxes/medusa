@@ -61,6 +61,7 @@ export const MainContentLayout = ({
             "pt-docs_4 lg:pt-docs_6 pb-docs_8 lg:pb-docs_4",
             contentClassName
           )}
+          id="content"
         >
           {children}
         </div>

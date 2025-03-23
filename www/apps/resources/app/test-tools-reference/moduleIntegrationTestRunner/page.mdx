@@ -12,14 +12,14 @@ This document provides a reference to the `moduleIntegrationTestRunner` function
 
 ```ts
 import { moduleIntegrationTestRunner } from "@medusajs/test-utils"
-import { HELLO_MODULE } from ".."
-import HelloModuleService from "../service"
-import MyCustom from "../models/my-custom"
+import { BLOG_MODULE } from ".."
+import BlogModuleService from "../service"
+import Post from "../models/post"
 
-moduleIntegrationTestRunner<HelloModuleService>({
-  moduleName: HELLO_MODULE,
-  moduleModels: [MyCustom],
-  resolve: "./src/modules/hello",
+moduleIntegrationTestRunner<BlogModuleService>({
+  moduleName: BLOG_MODULE,
+  moduleModels: [Post],
+  resolve: "./src/modules/blog",
   testSuite: ({ service }) => {
     // TODO write tests
   },

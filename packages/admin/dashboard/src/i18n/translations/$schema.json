@@ -134,6 +134,9 @@
         "areYouSure": {
           "type": "string"
         },
+        "areYouSureDescription": {
+          "type": "string"
+        },
         "noRecordsFound": {
           "type": "string"
         },
@@ -1346,6 +1349,9 @@
     "addresses": {
       "type": "object",
       "properties": {
+        "title": {
+          "type": "string"
+        },
         "shippingAddress": {
           "type": "object",
           "properties": {
@@ -3491,6 +3497,84 @@
         },
         "hasAccount": {
           "type": "string"
+        },
+        "addresses": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "fields": {
+              "type": "object",
+              "properties": {
+                "addressName": {
+                  "type": "string"
+                },
+                "address1": {
+                  "type": "string"
+                },
+                "address2": {
+                  "type": "string"
+                },
+                "city": {
+                  "type": "string"
+                },
+                "province": {
+                  "type": "string"
+                },
+                "postalCode": {
+                  "type": "string"
+                },
+                "country": {
+                  "type": "string"
+                },
+                "phone": {
+                  "type": "string"
+                },
+                "company": {
+                  "type": "string"
+                },
+                "countryCode": {
+                  "type": "string"
+                },
+                "provinceCode": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "addressName",
+                "address1",
+                "address2",
+                "city",
+                "province",
+                "postalCode",
+                "country",
+                "phone",
+                "company",
+                "countryCode",
+                "provinceCode"
+              ],
+              "additionalProperties": false
+            },
+            "create": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "string"
+                },
+                "hint": {
+                  "type": "string"
+                },
+                "successToast": {
+                  "type": "string"
+                }
+              },
+              "required": ["header", "hint", "successToast"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["title", "create"],
+          "additionalProperties": false
         }
       },
       "required": [

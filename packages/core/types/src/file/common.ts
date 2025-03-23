@@ -3,11 +3,12 @@
  */
 export interface FileDTO {
   /**
-   * The ID of the File.
+   * The ID of the file. You can use this ID later to
+   * retrieve or delete the file.
    */
   id: string
   /**
-   * The URL of the File.
+   * The URL of the file.
    */
   url: string
 }

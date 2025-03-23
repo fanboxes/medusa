@@ -756,7 +756,7 @@ const generatedgeneratedToolsSidebarSidebar = {
               "loaded": true,
               "isPathHref": true,
               "type": "category",
-              "title": "Payment",
+              "title": "How-to Guides",
               "initialOpen": true,
               "children": [
                 {
@@ -765,6 +765,14 @@ const generatedgeneratedToolsSidebarSidebar = {
                   "type": "link",
                   "path": "/nextjs-starter/guides/customize-stripe",
                   "title": "Customize Stripe Integration",
+                  "children": []
+                },
+                {
+                  "loaded": true,
+                  "isPathHref": true,
+                  "type": "link",
+                  "path": "/nextjs-starter/guides/revalidate-cache",
+                  "title": "Revalidate Cache",
                   "children": []
                 }
               ]

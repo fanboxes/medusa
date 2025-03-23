@@ -301,6 +301,12 @@ export declare type DmlFile = {
   }
 }
 
+export declare type RouteExamples = {
+  [k: string]: {
+    [k: string]: string
+  }
+}
+
 export declare type NamespaceGenerateDetails = {
   /**
    * The namespace's names.

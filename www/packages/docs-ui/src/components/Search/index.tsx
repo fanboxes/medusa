@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useMemo, useRef, useState } from "react"
 import { InstantSearch, SearchBox } from "react-instantsearch"
 import clsx from "clsx"
 import { SearchEmptyQueryBoundary } from "./EmptyQueryBoundary"
@@ -8,8 +8,7 @@ import { SearchSuggestions, type SearchSuggestionType } from "./Suggestions"
 import { AlgoliaProps, useSearch } from "@/providers"
 import { checkArraySameElms } from "@/utils"
 import { SearchHitsWrapper } from "./Hits"
-import { Button, SelectBadge, SpinnerLoading } from "@/components"
-import { XMark } from "@medusajs/icons"
+import { SelectBadge, SpinnerLoading } from "@/components"
 import { useSearchNavigation, type OptionType } from "@/hooks"
 import { SearchFooter } from "./Footer"
 
@@ -28,8 +27,7 @@ export const Search = ({
   checkInternalPattern,
   filterOptions = [],
 }: SearchProps) => {
-  const { isOpen, setIsOpen, defaultFilters, searchClient, modalRef } =
-    useSearch()
+  const { isOpen, defaultFilters, searchClient, modalRef } = useSearch()
   const [filters, setFilters] = useState<string[]>(defaultFilters)
   const searchBoxRef = useRef<HTMLFormElement>(null)
 
@@ -59,6 +57,14 @@ export const Search = ({
     }
   }, [isOpen])
 
+  const facetFilters = useMemo(() => {
+    const filtersToUse =
+      !filters.length || filters[0] === "all"
+        ? filterOptions.map((option) => option.value)
+        : filters
+    return filtersToUse.map((filter) => "_tags:" + filter)
+  }, [filters, defaultFilters])
+
   useSearchNavigation({
     getInputElm: () =>
       searchBoxRef.current?.querySelector("input") as HTMLInputElement,
@@ -70,7 +76,7 @@ export const Search = ({
 
   return (
     <div className="h-full flex flex-col">
-      {filterOptions.length && (
+      {filterOptions.length > 0 && (
         <SelectBadge
           multiple
           options={filterOptions}
@@ -134,7 +140,15 @@ export const Search = ({
             loadingIconComponent={() => <SpinnerLoading />}
           />
         </div>
-        <div className="md:flex-initial h-[calc(100%-95px)] lg:max-h-[calc(100%-140px)] lg:min-h-[calc(100%-140px)]">
+        <div
+          className={clsx(
+            "md:flex-initial",
+            filterOptions.length > 0 &&
+              "h-[calc(100%-95px)] lg:max-h-[calc(100%-140px)] lg:min-h-[calc(100%-140px)]",
+            filterOptions.length === 0 &&
+              "h-[calc(100%-75px)] lg:max-h-[calc(100%-100px)] lg:min-h-[calc(100%-100px)]"
+          )}
+        >
           <SearchEmptyQueryBoundary
             fallback={<SearchSuggestions suggestions={suggestions} />}
           >
@@ -143,7 +157,8 @@ export const Search = ({
                 // filters array has to be wrapped
                 // in another array for an OR condition
                 // to be applied between the items.
-                tagFilters: [filters],
+                facetFilters: [facetFilters],
+                getRankingInfo: true,
               }}
               indices={algolia.indices}
               checkInternalPattern={checkInternalPattern}

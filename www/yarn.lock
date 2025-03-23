@@ -267,6 +267,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@apidevtools/json-schema-ref-parser@npm:^11.9.2":
+  version: 11.9.3
+  resolution: "@apidevtools/json-schema-ref-parser@npm:11.9.3"
+  dependencies:
+    "@jsdevtools/ono": ^7.1.3
+    "@types/json-schema": ^7.0.15
+    js-yaml: ^4.1.0
+  checksum: 5745813b3d964279f387677b7a903ba6634cdeaf879ff3a331a694392cbc923763f398506df190be114f2574b8b570baab3e367c2194bb35f50147ff6cf27d7a
+  languageName: node
+  linkType: hard
+
 "@apidevtools/openapi-schemas@npm:^2.1.0":
   version: 2.1.0
   resolution: "@apidevtools/openapi-schemas@npm:2.1.0"
@@ -288,6 +299,17 @@ __metadata:
     "@babel/highlight": ^7.23.4
     chalk: ^2.4.2
   checksum: a10e843595ddd9f97faa99917414813c06214f4d9205294013e20c70fbdf4f943760da37dec1d998bf3e6fc20fa2918a47c0e987a7e458663feb7698063ad7c6
+  languageName: node
+  linkType: hard
+
+"@babel/code-frame@npm:^7.22.5":
+  version: 7.26.2
+  resolution: "@babel/code-frame@npm:7.26.2"
+  dependencies:
+    "@babel/helper-validator-identifier": ^7.25.9
+    js-tokens: ^4.0.0
+    picocolors: ^1.0.0
+  checksum: 7d79621a6849183c415486af99b1a20b84737e8c11cd55b6544f688c51ce1fd710e6d869c3dd21232023da272a79b91efb3e83b5bc2dc65c1187c5fcd1b72ea8
   languageName: node
   linkType: hard
 
@@ -442,6 +464,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/helper-validator-identifier@npm:^7.25.9":
+  version: 7.25.9
+  resolution: "@babel/helper-validator-identifier@npm:7.25.9"
+  checksum: 4fc6f830177b7b7e887ad3277ddb3b91d81e6c4a24151540d9d1023e8dc6b1c0505f0f0628ae653601eb4388a8db45c1c14b2c07a9173837aef7e4116456259d
+  languageName: node
+  linkType: hard
+
 "@babel/helper-validator-option@npm:^7.23.5":
   version: 7.23.5
   resolution: "@babel/helper-validator-option@npm:7.23.5"
@@ -486,6 +515,15 @@ __metadata:
   dependencies:
     regenerator-runtime: ^0.14.0
   checksum: e71205fdd7082b2656512cc98e647d9ea7e222e4fe5c36e9e5adc026446fcc3ba7b3cdff8b0b694a0b78bb85db83e7b1e3d4c56ef90726682b74f13249cf952d
+  languageName: node
+  linkType: hard
+
+"@babel/runtime@npm:^7.22.5":
+  version: 7.26.10
+  resolution: "@babel/runtime@npm:7.26.10"
+  dependencies:
+    regenerator-runtime: ^0.14.0
+  checksum: 6dc6d88c7908f505c4f7770fb4677dfa61f68f659b943c2be1f2a99cb6680343462867abf2d49822adc435932919b36c77ac60125793e719ea8745f2073d3745
   languageName: node
   linkType: hard
 
@@ -4941,6 +4979,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@readme/better-ajv-errors@npm:^2.3.2":
+  version: 2.3.2
+  resolution: "@readme/better-ajv-errors@npm:2.3.2"
+  dependencies:
+    "@babel/code-frame": ^7.22.5
+    "@babel/runtime": ^7.22.5
+    "@humanwhocodes/momoa": ^2.0.3
+    jsonpointer: ^5.0.0
+    leven: ^3.1.0
+    picocolors: ^1.1.1
+  peerDependencies:
+    ajv: 4.11.8 - 8
+  checksum: 0c16c686a5663e557321cb04f1ff26699b7f69cb38e47f8f7e78310178131d2423328201b74816f63a427dc814ba74d711f879e1b63581c8a82f9bbaacdad5f1
+  languageName: node
+  linkType: hard
+
 "@readme/json-schema-ref-parser@npm:^1.2.0":
   version: 1.2.1
   resolution: "@readme/json-schema-ref-parser@npm:1.2.1"
@@ -4968,6 +5022,29 @@ __metadata:
   peerDependencies:
     openapi-types: ">=7"
   checksum: 4a70eae10c79f5a26ca0df8c558daf6547d0089c111b6b68e4bf6ee251be6f4fe0c4b6c7cbb731a90aaccdee4c21ed89a081bc28cbc464dce2fd7fa4add87661
+  languageName: node
+  linkType: hard
+
+"@readme/openapi-parser@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "@readme/openapi-parser@npm:3.0.1"
+  dependencies:
+    "@apidevtools/json-schema-ref-parser": ^11.9.2
+    "@readme/better-ajv-errors": ^2.3.2
+    "@readme/openapi-schemas": ^3.1.0
+    "@types/json-schema": ^7.0.15
+    ajv: ^8.12.0
+    ajv-draft-04: ^1.0.0
+  peerDependencies:
+    openapi-types: ">=7"
+  checksum: 447360bfc1f49b217569f76d084f508d6353463a80069ccf877115da7cd5d1ffcaba637bc1353154239c6bdf18cd5a3efb374d13495eb3254b6bc5afec20da74
+  languageName: node
+  linkType: hard
+
+"@readme/openapi-schemas@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "@readme/openapi-schemas@npm:3.1.0"
+  checksum: 88d28d181b463b296c98bc288f2fc8975c302ec488edd1018ce8843c3eedbf3bb423ced934c6fd09bce4a0203fe9ea050bf2b3fa39a1bf665e41f87224dd71c5
   languageName: node
   linkType: hard
 
@@ -5907,7 +5984,6 @@ __metadata:
     next: 15.0.4
     next-mdx-remote: 5.0.0
     openapi-sampler: ^1.3.1
-    openapi-types: ^12.1.3
     pluralize: ^8.0.0
     postcss: 8.4.27
     prism-react-renderer: 2.4.0
@@ -6306,9 +6382,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "build-scripts@workspace:packages/build-scripts"
   dependencies:
+    "@readme/openapi-parser": ^3.0.1
     "@types/node": ^20.11.20
     docs-utils: "*"
     fdir: ^6.4.3
+    pluralize: ^8.0.0
     rimraf: ^5.0.5
     slugify: ^1.6.6
     tags: "*"
@@ -7573,6 +7651,7 @@ __metadata:
     remark-parse: ^11.0.0
     remark-stringify: ^11.0.0
     rimraf: ^5.0.5
+    slugify: ^1.6.6
     to-vfile: ^8.0.0
     tsconfig: "*"
     types: "*"
@@ -12818,6 +12897,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"picocolors@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "picocolors@npm:1.1.1"
+  checksum: e2e3e8170ab9d7c7421969adaa7e1b31434f789afb9b3f115f6b96d91945041ac3ceb02e9ec6fe6510ff036bcc0bf91e69a1772edc0b707e12b19c0f2d6bcf58
+  languageName: node
+  linkType: hard
+
 "picomatch@npm:^2.0.4, picomatch@npm:^2.2.1, picomatch@npm:^2.3.1":
   version: 2.3.1
   resolution: "picomatch@npm:2.3.1"
@@ -15387,6 +15473,7 @@ turbo@latest:
   dependencies:
     "@medusajs/icons": 2.6.0
     "@types/node": ^20.11.20
+    openapi-types: ^12.1.3
     rimraf: ^5.0.5
     tsconfig: "*"
     typescript: ^5.3.3
@@ -15480,6 +15567,7 @@ turbo@latest:
     "@types/react": "npm:types-react@rc"
     "@types/react-dom": "npm:types-react@rc"
     autoprefixer: 10.4.14
+    build-scripts: "*"
     clsx: ^2.0.0
     contentlayer: ^0.3.4
     date-fns: ^3.3.1

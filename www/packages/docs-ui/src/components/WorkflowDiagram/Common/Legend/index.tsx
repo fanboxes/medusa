@@ -1,14 +1,50 @@
 import React from "react"
 import { InlineCode } from "../../../InlineCode"
 import { Text } from "@medusajs/ui"
-import { Bolt, InformationCircle } from "@medusajs/icons"
+import { Bolt, CursorArrowRays, InformationCircle } from "@medusajs/icons"
 
-export const WorkflowDiagramLegend = () => {
+type WorkflowDiagramLegendProps = {
+  hideLegend?: boolean
+}
+
+export const WorkflowDiagramLegend = ({
+  hideLegend = false,
+}: WorkflowDiagramLegendProps) => {
   return (
     <div className="flex gap-docs_0.5 mt-1">
+      {!hideLegend && (
+        <>
+          <div className="flex items-center gap-docs_0.5">
+            <div className="flex size-[20px] items-center justify-center text-medusa-tag-orange-icon">
+              <Bolt />
+            </div>
+            <Text
+              size="xsmall"
+              leading="compact"
+              weight="plus"
+              className="select-none"
+            >
+              Workflow hook
+            </Text>
+          </div>
+          <div className="flex items-center gap-docs_0.5">
+            <div className="flex size-[20px] items-center justify-center text-medusa-tag-green-icon">
+              <InformationCircle />
+            </div>
+            <Text
+              size="xsmall"
+              leading="compact"
+              weight="plus"
+              className="select-none"
+            >
+              Step conditioned by <InlineCode>when</InlineCode>
+            </Text>
+          </div>
+        </>
+      )}
       <div className="flex items-center gap-docs_0.5">
-        <div className="flex size-[20px] items-center justify-center text-medusa-tag-orange-icon">
-          <Bolt />
+        <div className="flex size-[20px] items-center justify-center">
+          <CursorArrowRays />
         </div>
         <Text
           size="xsmall"
@@ -16,20 +52,7 @@ export const WorkflowDiagramLegend = () => {
           weight="plus"
           className="select-none"
         >
-          Workflow Hook
-        </Text>
-      </div>
-      <div className="flex items-center gap-docs_0.5">
-        <div className="flex size-[20px] items-center justify-center text-medusa-tag-green-icon">
-          <InformationCircle />
-        </div>
-        <Text
-          size="xsmall"
-          leading="compact"
-          weight="plus"
-          className="select-none"
-        >
-          Step conditioned by <InlineCode>when</InlineCode>
+          View step details
         </Text>
       </div>
     </div>

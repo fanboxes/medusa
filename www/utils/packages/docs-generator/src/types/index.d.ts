@@ -13,7 +13,7 @@ export declare type OpenApiOperation = Partial<OpenAPIV3.OperationObject> & {
 }
 
 export declare type CommonCliOptions = {
-  type: "all" | "oas" | "docs" | "dml"
+  type: "all" | "oas" | "docs" | "dml" | "route-examples"
   generateExamples?: boolean
   tag?: string
 }

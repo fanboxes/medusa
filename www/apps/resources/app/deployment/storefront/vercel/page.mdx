@@ -2,7 +2,8 @@
 sidebar_label: "Vercel"
 ---
 
-import { Prerequisites } from "docs-ui"
+import RewritesError from "../../../troubleshooting/_sections/storefront/rewrites.mdx"
+import { Prerequisites, DetailsList } from "docs-ui"
 
 export const metadata = {
   title: `Deploy Medusa Next.js to Vercel`,
@@ -143,3 +144,12 @@ Once the redeployment is done, test out the storefront by going to its URL. Try 
 ## Troubleshooting
 
 If you’re running into issues in your storefront, find the logs in your Vercel project’s dashboard under the Logs tab.
+
+<DetailsList
+  sections={[
+    {
+      title: "Login Page Error",
+      content: <RewritesError />
+    }
+  ]}
+/>

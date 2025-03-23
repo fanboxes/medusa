@@ -50,7 +50,7 @@ export const SelectBadge = ({
         (!Array.isArray(value) && !value) ||
         (Array.isArray(value) && !value.length)
       ) {
-        str = "None selected"
+        str = "No Filters Selected"
       } else {
         str = selectedOptions[0].label
       }

@@ -21,18 +21,18 @@ In this chapter, you'll learn about `moduleIntegrationTestRunner` from Medusa's 
 
 `moduleIntegrationTestRunner` creates integration tests for a module. The integration tests run on a test Medusa application with only the specified module enabled.
 
-For example, assuming you have a `hello` module, create a test file at `src/modules/hello/__tests__/service.spec.ts`:
+For example, assuming you have a `blog` module, create a test file at `src/modules/blog/__tests__/service.spec.ts`:
 
-```ts title="src/modules/hello/__tests__/service.spec.ts"
+```ts title="src/modules/blog/__tests__/service.spec.ts"
 import { moduleIntegrationTestRunner } from "@medusajs/test-utils"
-import { HELLO_MODULE } from ".."
-import HelloModuleService from "../service"
-import MyCustom from "../models/my-custom"
+import { BLOG_MODULE } from ".."
+import BlogModuleService from "../service"
+import Post from "../models/post"
 
-moduleIntegrationTestRunner<HelloModuleService>({
-  moduleName: HELLO_MODULE,
-  moduleModels: [MyCustom],
-  resolve: "./src/modules/hello",
+moduleIntegrationTestRunner<BlogModuleService>({
+  moduleName: BLOG_MODULE,
+  moduleModels: [Post],
+  resolve: "./src/modules/blog",
   testSuite: ({ service }) => {
     // TODO write tests
   },
@@ -86,9 +86,9 @@ For example:
 
 ```ts
 import { moduleIntegrationTestRunner } from "@medusajs/test-utils"
-import HelloModuleService from "../service"
+import BlogModuleService from "../service"
 
-moduleIntegrationTestRunner<HelloModuleService>({
+moduleIntegrationTestRunner<BlogModuleService>({
   moduleOptions: {
     apiKey: "123",
   },
@@ -106,14 +106,14 @@ For example:
 
 ```ts
 import { moduleIntegrationTestRunner } from "@medusajs/test-utils"
-import HelloModuleService from "../service"
+import BlogModuleService from "../service"
 import { model } from "@medusajs/framework/utils"
 
 const DummyModel = model.define("dummy_model", {
   id: model.id().primaryKey(),
 })
 
-moduleIntegrationTestRunner<HelloModuleService>({
+moduleIntegrationTestRunner<BlogModuleService>({
   moduleModels: [DummyModel],
   // ...
 })

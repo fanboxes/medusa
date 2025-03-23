@@ -12,14 +12,7 @@ export const config: DocsConfig = {
     {
       sidebar_id: "api-ref",
       title: "API Reference",
-      items: [
-        {
-          type: "link",
-          title: "Introduction",
-          path: "introduction",
-          loaded: true,
-        },
-      ],
+      items: [],
     },
   ],
   project: {

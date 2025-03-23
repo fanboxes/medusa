@@ -1,9 +1,9 @@
-import type { RequestObject } from "@/types/openapi"
+import type { OpenAPI } from "types"
 import TagOperationParameters from "../../Parameters"
 import { DetailsSummary } from "docs-ui"
 
 export type TagsOperationDescriptionSectionRequestProps = {
-  requestBody: RequestObject
+  requestBody: OpenAPI.RequestObject
 }
 
 const TagsOperationDescriptionSectionRequest = ({

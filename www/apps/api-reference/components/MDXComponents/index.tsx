@@ -1,11 +1,11 @@
 import type { MDXComponents } from "mdx/types"
 import Security from "./Security"
-import type { OpenAPIV3 } from "openapi-types"
+import type { OpenAPI } from "types"
 import H2 from "./H2"
 import { Link, MDXComponents as UiMDXComponents } from "docs-ui"
 
 export type ScopeType = {
-  specs?: OpenAPIV3.Document
+  specs?: OpenAPI.OpenAPIV3.Document
   addToSidebar?: boolean
 }
 

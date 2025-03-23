@@ -6,6 +6,7 @@ import { GitManager } from "../classes/helpers/git-manager.js"
 import OasGenerator from "../classes/generators/oas.js"
 import { CommonCliOptions } from "../types/index.js"
 import DmlGenerator from "../classes/generators/dml.js"
+import RouteExamplesGenerator from "../classes/generators/route-examples.js"
 
 export default async function ({ type, tag, ...options }: CommonCliOptions) {
   const gitManager = new GitManager()
@@ -57,6 +58,15 @@ export default async function ({ type, tag, ...options }: CommonCliOptions) {
     })
 
     await dmlGenerator.run()
+  }
+
+  if (type === "all" || type === "route-examples") {
+    const routeExamplesGenerator = new RouteExamplesGenerator({
+      paths: filteredFiles,
+      ...options,
+    })
+
+    await routeExamplesGenerator.run()
   }
 
   console.log(`Finished generating docs for ${filteredFiles.length} files.`)

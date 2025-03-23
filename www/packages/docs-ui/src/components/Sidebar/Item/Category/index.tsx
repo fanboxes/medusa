@@ -4,7 +4,7 @@
 
 import React, { useEffect, useMemo, useState } from "react"
 import { Sidebar } from "types"
-import { Loading, SidebarItem, useSidebar } from "../../../.."
+import { Badge, Loading, SidebarItem, useSidebar } from "../../../.."
 import clsx from "clsx"
 import { MinusMini, PlusMini } from "@medusajs/icons"
 
@@ -106,6 +106,9 @@ export const SidebarItemCategory = ({
             {item.title}
           </span>
           {item.additionalElms}
+          {item.badge && (
+            <Badge variant={item.badge.variant}>{item.badge.text}</Badge>
+          )}
           {!item.additionalElms && (
             <>
               {open && <MinusMini />}
@@ -123,13 +126,6 @@ export const SidebarItemCategory = ({
             !open && "overflow-hidden m-0 h-0"
           )}
         >
-          {showLoading && (
-            <Loading
-              count={3}
-              className="!mb-0 !px-docs_0.5"
-              barClassName="h-[20px]"
-            />
-          )}
           {item.children?.map((childItem, index) => (
             <SidebarItem
               item={childItem}
@@ -137,6 +133,13 @@ export const SidebarItemCategory = ({
               isParentCategoryOpen={open}
             />
           ))}
+          {showLoading && (
+            <Loading
+              count={3}
+              className="!mb-0 !px-docs_0.5"
+              barClassName="h-[20px]"
+            />
+          )}
         </ul>
       )}
     </div>

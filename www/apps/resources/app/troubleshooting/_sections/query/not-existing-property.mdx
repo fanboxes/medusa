@@ -1,0 +1,55 @@
+If you get the following error in your Medusa application's terminal:
+
+```bash
+Trying to query by not existing property LinkModel.X.
+```
+
+Where `X` is the name of a data model. For example, `LinkModel.cart`.
+
+## Why this Error Occurred
+
+This error occurs when you're using Query and you're trying to filter by a linked module, which isn't allowed.
+
+For example, assuming you have a `Post` data model and you linked it to the `Cart` data model, this isn't allowed:
+
+```ts
+const { data } = await query.graph({
+  entity: "post",
+  fields: ["*"],
+  filter: {
+    cart: {
+      id: "cart_123",
+    },
+  },
+})
+```
+
+You can't filter your custom `post` data model by the ID of their linked cart.
+
+---
+
+## How to Fix it
+
+You need to query the link's table directly and apply the filters on its ID columns. For example:
+
+```ts
+import PostCartLink from "../links/post-cart"
+
+// ...
+
+const { data } = await query.graph({
+  entity: PostCartLink.entryPoint,
+  fields: ["post.*", "cart.*"],
+  filters: {
+    cart_id: "cart_123",
+  },
+})
+```
+
+In the above example, you query the `PostCartLink` data model directly and apply the filters to the `cart_id` field, which holds the ID of the cart linked to the post. You'll then only retrieve the posts linked to the cart with the ID `cart_123`.
+
+---
+
+## Additional Resources
+
+- [Query](!docs!/learn/fundamentals/module-links/query#apply-filters-and-pagination-on-linked-records)

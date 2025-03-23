@@ -1,0 +1,2085 @@
+---
+sidebar_label: "Product Reviews"
+tags:
+    - name: product
+      label: "Implement Product Reviews"
+    - server
+    - tutorial
+---
+
+import { Github, PlaySolid } from "@medusajs/icons"
+import { Prerequisites, WorkflowDiagram } from "docs-ui"
+
+export const ogImage = "https://res.cloudinary.com/dza7lstvk/image/upload/v1742389227/Medusa%20Resources/product-reviews_zia79g.jpg"
+
+export const metadata = {
+  title: `Implement Product Reviews in Medusa`,
+  openGraph: {
+    images: [
+      {
+        url: ogImage,
+        width: 1600,
+        height: 836,
+        type: "image/jpeg"
+      }
+    ],
+  },
+  twitter: {
+    images: [
+      {
+        url: ogImage,
+        width: 1600,
+        height: 836,
+        type: "image/jpeg"
+      }
+    ]
+  }
+}
+
+# {metadata.title}
+
+In this tutorial, you'll learn how to implement product reviews in Medusa.
+
+When you install a Medusa application, you get a fully-fledged commerce platform with a framework for customization. The Medusa application's commerce features are built around [commerce modules](../../../commerce-modules/page.mdx) which are available out-of-the-box. The features include product-management features.
+
+Medusa doesn't provide product reviews out-of-the-box, but Medusa's framework facilitate implementing customizations like product reviews. In this tutorial, you'll learn how to customize the Medusa server, admin dashboard, and Next.js Starter Storefront to implement product reviews.
+
+You can follow this guide whether you're new to Medusa or an advanced Medusa developer.
+
+### Summary
+
+By following this tutorial, you'll learn how to:
+
+- Install and set up Medusa.
+- Define product reviews models and implement their management features in the Medusa server.
+- Customize the Medusa Admin to allow merchants to view and manage product reviews.
+- Customize the Next.js storefront to display product reviews and allow customers to submit reviews.
+
+![Diagram showcasing the product review features in the storefront and admin](https://res.cloudinary.com/dza7lstvk/image/upload/v1741941058/Medusa%20Resources/reviews-overview_nufybf.jpg)
+
+<CardList items={[
+  {
+    href: "https://github.com/medusajs/examples/tree/main/product-reviews",
+    title: "Product Reviews Repository",
+    text: "Find the full code for this guide in this repository.",
+    icon: Github,
+  },
+  {
+    href: "https://res.cloudinary.com/dza7lstvk/raw/upload/v1741941475/OpenApi/product-reviews_jh8ohj.yaml",
+    title: "OpenApi Specs for Postman",
+    text: "Import this OpenApi Specs file into tools like Postman.",
+    icon: PlaySolid,
+  },
+]} />
+
+---
+
+## Step 1: Install a Medusa Application
+
+<Prerequisites items={[
+  {
+    text: "Node.js v20+",
+    link: "https://nodejs.org/en/download"
+  },
+  {
+    text: "Git CLI tool",
+    link: "https://git-scm.com/downloads"
+  },
+  {
+    text: "PostgreSQL",
+    link: "https://www.postgresql.org/download/"
+  }
+]} />
+
+Start by installing the Medusa application on your machine with the following command:
+
+```bash
+npx create-medusa-app@latest
+```
+
+You'll first be asked for the project's name. Then, when asked whether you want to install the [Next.js starter storefront](../../../nextjs-starter/page.mdx), choose Yes.
+
+Afterwards, the installation process will start, which will install the Medusa application in a directory with your project's name, and the Next.js Starter Storefront in a separate directory with the `{project-name}-storefront` name.
+
+<Note title="Why is the storefront installed separately">
+
+The Medusa application is composed of a headless Node.js server and an admin dashboard. The storefront is installed or custom-built separately and connects to the Medusa application through its REST endpoints, called [API routes](!docs!/learn/fundamentals/api-routes). Learn more in [Medusa's Architecture documentation](!docs!/learn/introduction/architecture).
+
+</Note>
+
+Once the installation finishes successfully, the Medusa Admin dashboard will open with a form to create a new user. Enter the user's credentials and submit the form. Afterwards, you can log in with the new user and explore the dashboard.
+
+<Note title="Ran into Errors">
+
+Check out the [troubleshooting guides](../../../troubleshooting/create-medusa-app-errors/page.mdx) for help.
+
+</Note>
+
+---
+
+## Step 2: Add Product Review Module
+
+In Medusa, you can build custom features in a [module](!docs!/learn/fundamentals/modules). A module is a reusable package with functionalities related to a single feature or domain. Medusa integrates the module into your application without implications or side effects on your setup.
+
+In the module, you define the data models necessary for a feature and the logic to manage these data models. Later, you can build commerce flows around your module.
+
+In this step, you'll build a Product Review Module that defines the necessary data models to store and manage product reviews.
+
+<Note>
+
+Refer to the [Modules documentation](!docs!/learn/fundamentals/modules) to learn more.
+
+</Note>
+
+### Create Module Directory
+
+A module is created under the `src/modules` directory of your Medusa application. So, create the directory `src/modules/review`.
+
+### Create Data Models 
+
+A data model represents a table in the database. You create data models using Medusa's Data Model Language (DML). It simplifies defining a table's columns, relations, and indexes with straightforward methods and configurations.
+
+<Note>
+
+Refer to the [Data Models documentation](!docs!/learn/fundamentals/modules#1-create-data-model) to learn more.
+
+</Note>
+
+For the Product Review Module, you need to define a `Review` data model that represents a product review. So, create the file `src/modules/review/models/review.ts` with the following content:
+
+```ts title="src/modules/review/models/review.ts"
+import { model } from "@medusajs/framework/utils"
+
+const Review = model.define("review", {
+  id: model.id().primaryKey(),
+  title: model.text().nullable(),
+  content: model.text(),
+  rating: model.float(),
+  first_name: model.text(),
+  last_name: model.text(),
+  status: model.enum(["pending", "approved", "rejected"]).default("pending"),
+  product_id: model.text().index("IDX_REVIEW_PRODUCT_ID"),
+  customer_id: model.text().nullable(),
+})
+.checks([
+  {
+    name: "rating_range", 
+    expression: (columns) => `${columns.rating} >= 1 AND ${columns.rating} <= 5`,
+  },
+])
+
+export default Review
+```
+
+You define the `Review` data model using the `model.define` method of the DML. It accepts the data model's table name as a first parameter, and the model's schema object as a second parameter.
+
+The `Review` data model has the following properties:
+
+- `id`: A unique ID for the review.
+- `title`: The review's title.
+- `content`: The review's content.
+- `rating`: The review's rating. You also add a [check constraint](!docs!/learn/fundamentals/data-models/check-constraints) to ensure the rating is between 1 and 5.
+- `first_name`: The first name of the reviewer.
+- `last_name`: The last name of the reviewer.
+- `status`: The review's status, which can be `pending`, `approved`, or `rejected`.
+- `product_id`: The ID of the product the review is for.
+- `customer_id`: The ID of the customer who submitted the review.
+
+<Note>
+
+Learn more about defining data model properties in the [Property Types documentation](/learn/fundamentals/data-models/property-types).
+
+</Note>
+
+### Create Module's Service
+
+You now have the necessary data model in the Review Module, but you'll need to manage its records. You do this by creating a service in the module.
+
+A service is a TypeScript or JavaScript class that the module exports. In the service's methods, you can connect to the database, allowing you to manage your data models, or connect to a third-party service, which is useful if you're integrating with external services.
+
+<Note>
+
+Refer to the [Module Service documentation](!docs!/learn/fundamentals/modules#2-create-service) to learn more.
+
+</Note>
+
+To create the Review Module's service, create the file `src/modules/review/service.ts` with the following content:
+
+```ts title="src/modules/review/service.ts"
+import { MedusaService } from "@medusajs/framework/utils"
+import Review from "./models/review"
+
+class ProductReviewModuleService extends MedusaService({
+  Review,
+}) {
+}
+
+export default ProductReviewModuleService
+```
+
+The `ProductReviewModuleService` extends `MedusaService` from the Modules SDK which generates a class with data-management methods for your module's data models. This saves you time on implementing Create, Read, Update, and Delete (CRUD) methods.
+
+So, the `ProductReviewModuleService` class now has methods like `createReviews` and `retrieveReview`.
+
+<Note>
+
+Find all methods generated by the `MedusaService` in [the Service Factory reference](../../../service-factory-reference/page.mdx).
+
+</Note>
+
+You'll use this service later when you implement custom flows for product reviews.
+
+### Export Module Definition
+
+The final piece to a module is its definition, which you export in an `index.ts` file at its root directory. This definition tells Medusa the name of the module and its service.
+
+So, create the file `src/modules/review/index.ts` with the following content:
+
+```ts title="src/modules/review/index.ts"
+import { Module } from "@medusajs/framework/utils"
+import ProductReviewModuleService from "./service"
+
+export const PRODUCT_REVIEW_MODULE = "productReview"
+
+export default Module(PRODUCT_REVIEW_MODULE, {
+  service: ProductReviewModuleService,
+})
+```
+
+You use the `Module` function from the Modules SDK to create the module's definition. It accepts two parameters:
+
+1. The module's name, which is `productReview`.
+2. An object with a required property `service` indicating the module's service.
+
+You also export the module's name as `PRODUCT_REVIEW_MODULE` so you can reference it later.
+
+### Add Module to Medusa's Configurations
+
+Once you finish building the module, add it to Medusa's configurations to start using it.
+
+In `medusa-config.ts`, add a `modules` property and pass an array with your custom module:
+
+```ts title="medusa-config.ts"
+module.exports = defineConfig({
+  // ...
+  modules: [
+    {
+      resolve: "./src/modules/product-review",
+    },
+  ],
+})
+```
+
+Each object in the `modules` array has a `resolve` property, whose value is either a path to the module's directory, or an `npm` package’s name.
+
+### Generate Migrations
+
+Since data models represent tables in the database, you define how they're created in the database with migrations. A migration is a TypeScript or JavaScript file that defines database changes made by a module.
+
+<Note>
+
+Refer to the [Migrations documentation](!docs!/learn/fundamentals/modules#5-generate-migrations) to learn more.
+
+</Note>
+
+Medusa's CLI tool can generate the migrations for you. To generate a migration for the Review Module, run the following command in your Medusa application's directory:
+
+```bash
+npx medusa db:generate review
+```
+
+The `db:generate` command of the Medusa CLI accepts the name of the module to generate the migration for. You'll now have a `migrations` directory under `src/modules/review` that holds the generated migration.
+
+Then, to reflect these migrations on the database, run the following command:
+
+```bash
+npx medusa db:migrate
+```
+
+The table for the `Review` data model is now created in the database.
+
+---
+
+## Step 3: Define Review \<\> Product Link
+
+When you defined the `Review` data model, you added properties that store the ID of records managed by other modules. For example, the `product_id` property stores the ID of the product this review is for, but products are managed by the [Product Module](../../../commerce-modules/product/page.mdx).
+
+Medusa integrates modules into your application without implications or side effects by isolating modules from one another. This means you can't directly create relationships between data models in your module and data models in other modules.
+
+Instead, Medusa provides the mechanism to define links between data models, and retrieve and manage linked records while maintaining module isolation. Links are useful to define associations between data models in different modules, or extend a model in another module to associate custom properties with it.
+
+<Note>
+
+Refer to the [Module Isolation documentation](!docs!/learn/fundamentals/modules/isolation) to learn more.
+
+</Note>
+
+In this step, you'll define a link between the Product Review Module's `Review` data model, and the Product Module's `Product` data model. You'll then use this link to retrieve the product associated with a review.
+
+<Note title="Tip">
+
+You can also define a link between the `Review` data model and the `Customer` data model to retrieve the customer who submitted the review in a similar manner.
+
+</Note>
+
+You can define links between data models in a TypeScript or JavaScript file under the `src/links` directory. So, create the file `src/links/review-product.ts` with the following content:
+
+```ts title="src/links/review-product.ts"
+import { defineLink } from "@medusajs/framework/utils"
+import ProductReviewModule from "../modules/product-review"
+import ProductModule from "@medusajs/medusa/product"
+
+export default defineLink(
+  {
+    linkable: ProductReviewModule.linkable.review,
+    field: "product_id",
+    isList: false,
+  },
+  ProductModule.linkable.product,
+  {
+    readOnly: true,
+  }
+)
+```
+
+You define a link using the `defineLink` function from the Modules SDK. It accepts three parameters:
+
+1. An object indicating the first data model part of the link. A module has a special `linkable` property that contains link configurations for its data models. So, you can pass the link configurations for the `Review` data model from the Product Review module, specifying that its `product_id` property holds the ID of the linked record. You also specify `isList` as `false` since a review can only have one product.
+2. An object indicating the second data model part of the link. You pass the linkable configurations of the Product Module's `Product` data model.
+3. An optional object with additional configurations for the link. By default, Medusa creates a table in the database to represent the link you define. However, when you only want to retrieve the linked records without managing and storing the links, you can set the `readOnly` option to `true`.
+
+You can now retrieve the product of a review, as you'll see in later steps.
+
+---
+
+## Step 4: Create Review Workflow
+
+You're now ready to start implementing product-review features. The first one you'll implement is the ability for customers to create a product review.
+
+To build custom commerce features in Medusa, you create a [workflow](!docs!/learn/fundamentals/workflows). A workflow is a series of queries and actions, called steps, that complete a task. You construct a workflow like you construct a function, but it's a special function that allows you to track its executions' progress, define roll-back logic, and configure other advanced features. Then, you execute the workflow from other customizations, such as in an endpoint.
+
+So, in this section, you'll learn how to create a workflow that creates a review. Later, you'll execute this workflow in an API route.
+
+<Note>
+
+Learn more about workflows in the [Workflows documentation](!docs!/learn/fundamentals/workflows).
+
+</Note>
+
+The workflow will have the following steps:
+
+<WorkflowDiagram
+  workflow={{
+    name: "createReviewWorkflow",
+    steps: [
+      {
+        type: "step",
+        name: "useQueryGraphStep",
+        description: "Retrieve the product to confirm it exists.",
+        link: "/references/helper-steps/useQueryGraphStep",
+        depth: 1
+      },
+      {
+        type: "step",
+        name: "createReviewStep",
+        description: "Create the review.",
+        depth: 1
+      }
+    ]
+  }}
+  hideLegend
+/>
+
+The `useQueryGraphStep` step is provided by Medusa in its `@medusajs/medusa/core-flows` package. So, you only need to implement the `createReviewStep` step.
+
+### createReviewStep
+
+In the second step of the workflow, you create the review. To create a step, create the file `src/workflows/steps/create-review.ts` with the following content:
+
+export const createReviewHighlights = [
+  ["22", "reviewModuleService", "Resolve the Review Module's service"],
+  ["26", "createReviews", "Create the review"],
+  ["39", "deleteReviews", "Delete the review if an error occurs"],
+]
+
+```ts title="src/workflows/steps/create-review.ts" highlights={createReviewHighlights}
+import {
+  createStep,
+  StepResponse,
+} from "@medusajs/framework/workflows-sdk"
+import { PRODUCT_REVIEW_MODULE } from "../../modules/product-review"
+import ProductReviewModuleService from "../../modules/product-review/service"
+
+export type CreateReviewStepInput = {
+  title?: string
+  content: string
+  rating: number
+  product_id: string
+  customer_id?: string
+  first_name: string
+  last_name: string
+  status?: "pending" | "approved" | "rejected"
+}
+
+export const createReviewStep = createStep(
+  "create-review",
+  async (input: CreateReviewStepInput, { container }) => {
+    const reviewModuleService: ProductReviewModuleService = container.resolve(
+      PRODUCT_REVIEW_MODULE
+    )
+
+    const review = await reviewModuleService.createReviews(input)
+
+    return new StepResponse(review, review.id)
+  },
+  async (reviewId, { container }) => {
+    if (!reviewId) {
+      return
+    }
+
+    const reviewModuleService: ProductReviewModuleService = container.resolve(
+      PRODUCT_REVIEW_MODULE
+    )
+
+    await reviewModuleService.deleteReviews(reviewId)
+  }
+)
+```
+
+You create a step with `createStep` from the Workflows SDK. It accepts two parameters:
+
+1. The step's unique name, which is `create-review`.
+2. An async function that receives two parameters:
+    - The step's input, which is in this case an object with the review's properties.
+    - An object that has properties including the [Medusa container](!docs!/learn/fundamentals/medusa-container), which is a registry of framework and commerce tools that you can access in the step.
+
+In the step function, you resolve the Review Module's service from the Medusa container using its `resolve` method, passing it the module's name as a parameter.
+
+Then, you create the review using the `createReview` method. As you remember, the Review Module's service extends the `MedusaService` which generates data-management methods for you.
+
+A step function must return a `StepResponse` instance. The `StepResponse` constructor accepts two parameters:
+
+1. The step's output, which is the review created.
+2. Data to pass to the step's compensation function.
+
+#### Compensation Function
+
+The compensation function undoes the actions performed in a step. Then, if an error occurs during the workflow's execution, the compensation functions of executed steps are called to roll back the changes. This mechanism ensures data consistency in your application, especially as you integrate external systems.
+
+The compensation function accepts two parameters:
+
+1. The data passed from the step in the second parameter of `StepResponse`, which in this case is the ID of the created review.
+2. An object that has properties including the [Medusa container](!docs!/learn/fundamentals/medusa-container).
+
+In the compensation function, you resolve the Review Module's service from the Medusa container and call the `deleteReviews` method to delete the review created in the step.
+
+### Add createReviewWorkflow
+
+You can now create the workflow using the step provided by Medusa and your custom step.
+
+To create the workflow, create the file `src/workflows/create-review.ts` with the following content:
+
+```ts title="src/workflows/create-review.ts"
+import { 
+  createWorkflow,
+  WorkflowResponse,
+} from "@medusajs/framework/workflows-sdk"
+import { createReviewStep } from "./steps/create-review"
+import { useQueryGraphStep } from "@medusajs/medusa/core-flows"
+
+type CreateReviewInput = {
+  title?: string
+  content: string
+  rating: number
+  product_id: string
+  customer_id?: string
+  first_name: string
+  last_name: string
+  status?: "pending" | "approved" | "rejected"
+}
+
+export const createReviewWorkflow = createWorkflow(
+  "create-review",
+  (input: CreateReviewInput) => {
+    // Check product exists
+    // @ts-ignore
+    useQueryGraphStep({
+      entity: "product",
+      fields: ["id"],
+      filters: {
+        id: input.product_id,
+      },
+      options: {
+        throwIfKeyNotFound: true,
+      },
+    })
+
+    // Create the review
+    const review = createReviewStep(input)
+
+    // @ts-ignore
+    return new WorkflowResponse({
+      review,
+    })
+  }
+)
+```
+
+You create a workflow using `createWorkflow` from the Workflows SDK. It accepts the workflow's unique name as a first parameter.
+
+It accepts as a second parameter a constructor function, which is the workflow's implementation. The function can accept input, which in this case is an object of the review's details.
+
+In the workflow's constructor function, you:
+
+- use `useQueryGraphStep` to retrieve the product. By setting the `options.throwIfKeyNotFound` to `true`, the step throws an error if the product doesn't exist.
+- Call the `createReviewStep` step to create the review.
+
+<Note title="Tip">
+
+`useQueryGraphStep` uses [Query](!docs!/learn/fundamentals/module-links/query), which allows you to retrieve data across modules. For example, in the above snippet you're retrieving the cart's promotions, which are managed in the [Promotion Module](../../../commerce-modules/promotion/page.mdx), by passing `promotions.code` to the `fields` array.
+
+</Note>
+
+A workflow must return an instance of `WorkflowResponse`. The `WorkflowResponse` constructor accepts the workflow's output as a parameter, which is an object holding the created review in this case.
+
+In the next step, you'll learn how to execute this workflow in an API route.
+
+---
+
+## Step 5: Create Review API Route
+
+Now that you have the logic to create a product review, you need to expose it so that frontend clients, such as a storefront, can use it. You do this by creating an [API route](!docs!/learn/fundamentals/api-routes).
+
+An API Route is an endpoint that exposes commerce features to external applications and clients, such as storefronts. You'll create an API route at the path `/store/reviews` that executes the workflow from the previous step.
+
+<Note>
+
+Learn more about API routes in [this documentation](!docs!/learn/fundamentals/api-routes).
+
+</Note>
+
+### Implement API Route
+
+An API route is created in a `route.ts` file under a sub-directory of the `src/api` directory. The path of the API route is the file's path relative to `src/api`.
+
+So, to create an API route at the path `/store/reviews`, create the file `src/api/store/reviews/route.ts` with the following content:
+
+export const PostStoreReviewHighlights = [
+  ["9", "PostStoreReviewSchema", "Define the request body schema"],
+  ["28", "POST", "Expose a POST API route"],
+  ["34", "createReviewWorkflow", "Execute the create review workflow"],
+]
+
+```ts title="src/api/store/reviews/route.ts" highlights={PostStoreReviewHighlights}
+import type {
+  AuthenticatedMedusaRequest,
+  MedusaResponse,
+} from "@medusajs/framework/http"
+import { createReviewWorkflow } from "../../../workflows/create-review"
+
+import { z } from "zod"
+
+export const PostStoreReviewSchema = z.object({
+  title: z.string().optional(),
+  content: z.string(),
+  rating: z.preprocess(
+    (val) => {
+      if (val && typeof val === "string") {
+        return parseInt(val)
+      }
+      return val
+    },
+    z.number().min(1).max(5)
+  ),
+  product_id: z.string(),
+  first_name: z.string(),
+  last_name: z.string(),
+})
+
+type PostStoreReviewReq = z.infer<typeof PostStoreReviewSchema>
+
+export const POST = async (
+  req: AuthenticatedMedusaRequest<PostStoreReviewReq>,
+  res: MedusaResponse
+) => {
+  const input = req.validatedBody
+
+  const { result } = await createReviewWorkflow(req.scope)
+    .run({
+      input: {
+        ...input,
+        customer_id: req.auth_context?.actor_id,
+      },
+    })
+
+  res.json(result)
+}
+```
+
+You first define a [Zod](https://zod.dev/) schema for the request body of the API route. You'll later use this schema to enforce validation on the API route.
+
+Then, since you export a `POST` function, you're exposing a `POST` API route at the path `/store/reviews`. The route handler function accepts two parameters:
+
+1. A request object with details and context on the request, such as body parameters or authenticated customer details.
+2. A response object to manipulate and send the response.
+
+<Note title="Tip">
+
+`AuthenticatedMedusaRequest` accepts the request body's type as a type argument.
+
+</Note>
+
+In the route handler, you execute the `createReviewWorkflow` workflow by invoking it, passing it the Medusa container (which is stored in the `scope` property of a request object). Then, you call its `run` method, passing to the workflow the request body as input.
+
+### Apply Validation and Authentication Middlewares
+
+Now that you have the API route, you need to enforce validation of the request body, and require authentication to access the route. You can do this with a middleware. A middleware is a function executed when a request is sent to an API Route. It's executed before the route handler.
+
+<Note>
+
+Learn more about middleware in the [Middlewares documentation](!docs!/learn/fundamentals/api-routes/middlewares).
+
+</Note>
+
+Middlewares are created in the `src/api/middlewares.ts` file. So create the file `src/api/middlewares.ts` with the following content:
+
+```ts title="src/api/middlewares.ts"
+import { 
+  defineMiddlewares,
+  authenticate,
+  validateAndTransformBody,
+} from "@medusajs/framework/http"
+import { PostStoreReviewSchema } from "./store/reviews/route"
+
+
+export default defineMiddlewares({
+  routes: [
+    {
+      method: ["POST"], 
+      matcher: "/store/reviews",
+      middlewares: [
+        authenticate("customer", ["session", "bearer"]),
+        validateAndTransformBody(PostStoreReviewSchema),
+      ],
+    },
+  ],
+})
+```
+
+To export the middlewares, you use the `defineMiddlewares` function. It accepts an object having a `routes` property, whose value is an array of middleware route objects. Each middleware route object has the following properties:
+
+- `method`: The HTTP methods the middleware applies to, which is in this case `POST`.
+- `matcher`: The path of the route the middleware applies to.
+- `middlewares`: An array of middleware functions to apply to the route. In this case, you apply two middlewares:
+    - `authenticate`: ensures the request is authenticated as a customer with a session or bearer token.
+    - `validateAndTransformBody`: validates that the request body parameters match the Zod schema passed as a parameter.
+
+The create product review route is now ready for use.
+
+### Test the API Route
+
+To test out the API route, start the Medusa application:
+
+```bash npm2yarn
+npm run dev
+```
+
+Then, open the Medusa Admin dashboard at `http://localhost:9000/app` and login using the credentials you set up earlier.
+
+#### Retrieve Publishable API Key
+
+All requests sent to routes starting with `/store` must have a publishable API key in their header. This ensures that the request is scoped to a specific sales channel of your storefront.
+
+<Note>
+
+To learn more about publishable API keys, refer to the [Publishable API Key documentation](../../../commerce-modules/sales-channel/publishable-api-keys/page.mdx).
+
+</Note>
+
+To retrieve the publishable API key from the Medusa Admin, refer to [this user guide](!user-guide!/settings/developer/publishable-api-keys).
+
+#### Retrieve Customer Authentication Token
+
+As mentioned before, the API route you added requires the customer to be authenticated. So, you'll first create a customer, then retrieve their authentication token to use in the request.
+
+Before creating the customer, retrieve a registration token using the [Retrieve Registration JWT Token API route](!api!/store#auth_postactor_typeauth_provider_register):
+
+```bash
+curl -X POST 'http://localhost:9000/auth/customer/emailpass/register' \
+-H 'Content-Type: application/json' \
+--data-raw '{
+  "email": "customer@gmail.com",
+  "password": "supersecret"
+}'
+```
+
+Make sure to replace the email and password with the credentials you want.
+
+Then, register the customer using the [Create Customer API route](!api!/store#customers_postcustomers):
+
+```bash
+curl -X POST 'http://localhost:9000/store/customers' \
+-H 'Authorization: Bearer {token}' \
+-H 'Content-Type: application/json' \
+-H 'x-publishable-api-key: {your_publishable_api_key}' \
+--data-raw '{
+  "email": "customer@gmail.com"
+}'
+```
+
+Make sure to replace:
+
+- `{token}` with the registration token you received from the previous request.
+- `{your_publishable_api_key}` with the publishable API key you retrieved from the Medusa Admin.
+
+Also, if you changed the email in the first request, make sure to change it here as well.
+
+The customer is now registered. Lastly, you need to retrieve its authenticated token by sending a request to the [Authenticate Customer API route](!api!/store#auth_postactor_typeauth_provider):
+
+```bash
+curl -X POST 'http://localhost:9000/auth/customer/emailpass' \
+-H 'Content-Type: application/json' \
+--data-raw '{
+  "email": "customer@gmail.com",
+  "password": "supersecret"
+}'
+```
+
+Copy the returned token to use it in the next requests.
+
+#### Retrieve Product ID
+
+Before creating a review, you need the ID of a product. You can either copy one from the Medusa Admin, or send the following request:
+
+```bash
+curl 'http://localhost:9000/store/products' \
+-H 'x-publishable-api-key: {your_publishable_api_key}'
+```
+
+Make sure to replace `{your_publishable_api_key}` with the publishable API key you retrieved from the Medusa Admin.
+
+#### Create a Review
+
+You can now create a review for the product you chose. To do that, send the following request:
+
+```bash
+curl --location 'http://localhost:9000/store/reviews' \
+--header 'x-publishable-api-key: {your_publishable_api_key}' \
+--header 'Content-Type: application/json' \
+-H 'Authorization: Bearer {token}' \
+--data '{
+    "product_id": "{product_id}",
+    "title": "Really good",
+    "content": "The material is nice",
+    "rating": 5,
+    "first_name": "John",
+    "last_name": "Smith"
+}'
+```
+
+Make sure to replace:
+
+- `{your_publishable_api_key}` with the publishable API key you retrieved from the Medusa Admin.
+- `{token}` with the authentication token you retrieved from the previous request.
+- `{product_id}` with the ID of the product you chose.
+
+If the request is successful, you'll receive a response with the created review. Notice that the review is in the `pending` status. In the upcoming steps, you'll allow admin users to approve or reject reviews.
+
+---
+
+## Step 6: List Reviews Admin API Route
+
+In this step, you'll create an API route that lists the reviews of a product. You'll use this route in the Medusa Admin customizations to allow admin users to view and manage product reviews.
+
+### Create API Route
+
+To create the API route that retrieves a paginated list of reviews, create the file `src/api/admin/reviews/route.ts` with the following content:
+
+export const GetAdminReviewsHighlights = [
+  ["7", "GetAdminReviewsSchema", "Define the query parameters schema."],
+  ["9", "GET", "Expose a GET API route."],
+  ["22", "query.graph", "Retrieve reviews with pagination."],
+]
+
+```ts title="src/api/admin/reviews/route.ts" highlights={GetAdminReviewsHighlights}
+import {
+  MedusaRequest,
+  MedusaResponse,
+} from "@medusajs/framework/http"
+import { createFindParams } from "@medusajs/medusa/api/utils/validators"
+
+export const GetAdminReviewsSchema = createFindParams()
+
+export const GET = async (
+  req: MedusaRequest,
+  res: MedusaResponse
+) => {
+  const query = req.scope.resolve("query")
+  
+  const { 
+    data: reviews, 
+    metadata: { count, take, skip } = {
+      count: 0,
+      take: 20,
+      skip: 0,
+    },
+  } = await query.graph({
+    entity: "review",
+    ...req.queryConfig,
+  })
+
+  res.json({ 
+    reviews,
+    count,
+    limit: take,
+    offset: skip,
+  })
+}
+```
+
+You first define a `GetAdminReviewsSchema` schema that will allow clients to pass the following query parameters:
+
+- `limit`: The number of reviews to retrieve.
+- `offset`: The number of items to skip before retrieving the reviews.
+- `order`: The fields to sort the reviews by in ascending or descending order.
+
+Then, you export a `GET` function, which exposes a `GET` API Route at the path `/admin/reviews`. In the route handler you resolve [Query](!docs!/learn/fundamentals/module-links/query) from the Medusa container, which allows you to retrieve data across modules.
+
+Next, you retrieve all reviews using Query. Notice that you pass in `query.graph` the `req.queryConfig` object. This object holds the fields to retrieve and the pagination configurations.
+
+Finally, you return the reviews with pagination fields.
+
+### Apply Query Configurations Middleware
+
+After adding the API route, you need to add a middleware that validates the query parameters passed to the request, and sets the default Query configurations.
+
+<Note title="Tip">
+
+Routes starting with `/admin` are protected by default. So, you don't need to add the `authenticate` middleware to enforce authentication.
+
+</Note>
+
+In `src/api/middlewares.ts`, add a new middleware:
+
+```ts title="src/api/middlewares.ts"
+// other imports...
+import { 
+  validateAndTransformQuery,
+} from "@medusajs/framework/http"
+import { GetAdminReviewsSchema } from "./admin/reviews/route"
+
+export default defineMiddlewares({
+  routes: [
+    {
+      matcher: "/admin/reviews",
+      method: ["GET"],
+      middlewares: [
+        validateAndTransformQuery(GetAdminReviewsSchema, {
+          isList: true,
+          defaults: [
+            "id",
+            "title",
+            "content",
+            "rating",
+            "product_id",
+            "customer_id",
+            "status",
+            "created_at",
+            "updated_at",
+            "product.*",
+          ],
+        }),
+      ],
+    },
+  ],
+})
+```
+
+You use the `validateAndTransformQuery` middleware to enforce validation on the query parameters passed to the request. The middleware accepts two parameters:
+
+- The Zod schema to validate the query parameters, which is the `GetAdminReviewsSchema` schema you defined earlier.
+- The Query configurations, which is an object with the following properties:
+    - `isList`: A boolean that indicates whether the query is a list query.
+    - `defaults`: An array of fields to retrieve by default.
+
+You'll test the API route as you customize the Medusa Admin in the next step.
+
+<Note title="Tip">
+
+You pass `product.*` in the fields to retrieve, allowing you to retrieve the product associated with each review. This is possible because you defined a link between the `Review` data model and the `Product` data model in a previous step.
+
+</Note>
+
+---
+
+## Step 7: Add Reviews UI Route
+
+Now that you have an API route that retrieves reviews, you'll customize the Medusa Admin to add a new "Reviews" page by creating a [UI Route](!docs!/learn/fundamentals/admin/ui-routes).
+
+A UI route is a React component that specifies the content to be shown in a new page in the Medusa Admin dashboard. You'll create a UI route to display the list of reviews in the Medusa Admin.
+
+<Note>
+
+Learn more about UI routes in the [UI Routes documentation](!docs!/learn/fundamentals/admin/ui-routes).
+
+</Note>
+
+### Configure JS SDK
+
+Medusa provides a [JS SDK](../../../js-sdk/page.mdx) that you can use to send requests to the Medusa server from any client application, including your Medusa Admin customizations.
+
+The JS SDK is installed by default in your Medusa application. To configure it, create the file `src/admin/lib/sdk.ts` with the following content:
+
+```ts title="src/admin/lib/sdk.ts"
+import Medusa from "@medusajs/js-sdk"
+
+export const sdk = new Medusa({
+  baseUrl: "http://localhost:9000",
+  debug: process.env.NODE_ENV === "development",
+  auth: {
+    type: "session",
+  },
+})
+```
+
+You create an instance of the JS SDK using the `Medusa` class from the JS SDK. You pass it an object having the following properties:
+
+- `baseUrl`: The base URL of the Medusa server.
+- `debug`: A boolean indicating whether to log debug information into the console.
+- `auth`: An object specifying the authentication type. When using the JS SDK for admin customizations, you use the `session` authentication type.
+
+### Create UI Route
+
+You'll now create the UI Route that lists the reviews. To do this, create the file `src/admin/routes/reviews/page.tsx` with the following content:
+
+export const listUIRoutesHighlight1 = [
+  ["19", "Review", "The type of a review object."],
+  ["34", "columnHelper", "Initialize the column helper."],
+  ["36", "columns", "Define the table's columns."],
+]
+
+```tsx title="src/admin/routes/reviews/page.tsx" highlights={listUIRoutesHighlight1} collapsibleLines="1-18" expandButtonLabel="Show Imports"
+import { defineRouteConfig } from "@medusajs/admin-sdk"
+import { ChatBubbleLeftRight } from "@medusajs/icons"
+import { 
+  createDataTableColumnHelper, 
+  Container, 
+  DataTable, 
+  useDataTable, 
+  Heading, 
+  StatusBadge, 
+  Toaster, 
+  DataTablePaginationState,
+} from "@medusajs/ui"
+import { useQuery } from "@tanstack/react-query"
+import { useMemo, useState } from "react"
+import { sdk } from "../../lib/sdk"
+import { HttpTypes } from "@medusajs/framework/types"
+import { Link } from "react-router-dom"
+
+type Review = {
+  id: string
+  title?: string
+  content: string
+  rating: number
+  product_id: string
+  customer_id?: string
+  status: "pending" | "approved" | "rejected"
+  created_at: Date
+  updated_at: Date
+  product?: HttpTypes.AdminProduct
+  customer?: HttpTypes.AdminCustomer
+}
+
+
+const columnHelper = createDataTableColumnHelper<Review>()
+
+const columns = [
+  columnHelper.accessor("id", {
+    header: "ID",
+  }),
+  columnHelper.accessor("title", {
+    header: "Title",
+  }),
+  columnHelper.accessor("rating", {
+    header: "Rating", 
+  }),
+  columnHelper.accessor("content", {
+    header: "Content",
+  }),
+  columnHelper.accessor("status", {
+    header: "Status",
+    cell: ({ row }) => {
+      const color = row.original.status === "approved" ? 
+        "green" : row.original.status === "rejected" 
+        ? "red" : "grey"
+      return (
+        <StatusBadge color={color}>
+          {row.original.status.charAt(0).toUpperCase() + row.original.status.slice(1)}
+          </StatusBadge>
+      )
+    },
+  }),
+  columnHelper.accessor("product", {
+    header: "Product",
+    cell: ({ row }) => {
+      return (
+        <Link
+          to={`/products/${row.original.product_id}`}
+        >
+          {row.original.product?.title}
+        </Link>
+      )
+    },
+  }),
+]
+
+// TODO add component
+```
+
+Before defining the component, you define a `Review` type, then define the columns of the table you'll show on the page.
+
+To display the table, you'll use the [DataTable](!ui!/components/data-table) component from Medusa UI. To define the columns of the table, you use the `createDataTableColumnHelper` function from Medusa UI, which returns a `columnHelper` object. You then use the `columnHelper` object to define the table's columns.
+
+Next, you'll add the component that renders the content of the page. Replace the `TODO` with the following:
+
+export const reviewsPageHighlights = [
+  ["4", "pagination", "State variable to configure pagination."],
+  ["9", "offset", "Calculate the offset based on the pagination."],
+  ["13", "useQuery", "Fetch reviews from the API route."],
+  ["20", "sdk", "Use the JS SDK to send the request."],
+  ["29", "table", "Create a DataTable instance."],
+  ["43", "DataTable", "Render the DataTable component."],
+  ["57", "config", "Export a config object to add the UI route to the sidebar."]
+]
+
+```tsx title="src/admin/routes/reviews/page.tsx" highlights={reviewsPageHighlights}
+const limit = 15
+
+const ReviewsPage = () => {
+  const [pagination, setPagination] = useState<DataTablePaginationState>({
+    pageSize: limit,
+    pageIndex: 0,
+  })
+
+  const offset = useMemo(() => {
+    return pagination.pageIndex * limit
+  }, [pagination])
+
+  const { data, isLoading, refetch } = useQuery<{
+    reviews: Review[]
+    count: number
+    limit: number
+    offset: number
+  }>({
+    queryKey: ["reviews", offset, limit],
+    queryFn: () => sdk.client.fetch("/admin/reviews", {
+      query: {
+        offset: pagination.pageIndex * pagination.pageSize,
+        limit: pagination.pageSize,
+        order: "-created_at",
+      },
+    }),
+  })
+
+  const table = useDataTable({
+    columns,
+    data: data?.reviews || [],
+    rowCount: data?.count || 0,
+    isLoading,
+    pagination: {
+      state: pagination,
+      onPaginationChange: setPagination,
+    },
+    getRowId: (row) => row.id,
+  })
+
+  return (
+    <Container>
+      <DataTable instance={table}>
+        <DataTable.Toolbar className="flex flex-col items-start justify-between gap-2 md:flex-row md:items-center">
+          <Heading>
+            Reviews
+          </Heading>
+        </DataTable.Toolbar>
+        <DataTable.Table />
+        <DataTable.Pagination />
+      </DataTable>
+      <Toaster />
+    </Container>
+  )
+}
+
+export const config = defineRouteConfig({
+  label: "Reviews",
+  icon: ChatBubbleLeftRight,
+})
+
+export default ReviewsPage
+```
+
+You create a `ReviewPage` component, which holds the UI route's content. In the component, you:
+
+- Define state variables to configure pagination.
+- Use the `useQuery` hook from `@tanstack/react-query` to fetch the reviews from the API route. In the query function, you use the JS SDK to send a request to the `/admin/reviews` API route. The JS SDK has a `client.fetch` method that has a similar signature to JavaScript's [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API). You can use it to send requests to custom routes.
+- Use the `useDataTable` hook from Medusa UI to create a DataTable instance. You pass the columns, data, and pagination configurations to the hook.
+- Render the DataTable component, passing the DataTable instance to the `instance` prop. You also render the DataTable's toolbar, table, and pagination components.
+
+The file also exports a configuration object created with `defineRouteConfig`. You export this object to tell Medusa that you want to add the new route to the Medusa Admin's sidebar. You specify the sidebar's item and title.
+
+### Test the UI Route
+
+To test out the UI route, start the Medusa application:
+
+```bash npm2yarn
+npm run dev
+```
+
+Then, open the Medusa Admin dashboard at `http://localhost:9000/app` and login using the credentials you set up earlier.
+
+You'll find a new sidebar item `Review`. Click on it to view the list of reviews. In the upcoming steps, you'll add functionality to approve or reject reviews.
+
+![Reviews page showing list of reviews](https://res.cloudinary.com/dza7lstvk/image/upload/v1741935325/Medusa%20Resources/Screenshot_2025-03-14_at_8.54.14_AM_tfhnyu.png)
+
+---
+
+## Step 8: Change Review Status API Route
+
+Next, you want to allow the admin user to approve or reject reviews. To do this, you'll create a workflow that updates a review's status, then use it in an API route that exposes the functionality.
+
+### Update Review Step
+
+The workflow to update a review's status will have on step that updates the review. To create the step, create the file `src/workflows/steps/update-review.ts` with the following content:
+
+export const updateReviewStepHighlights = [
+  ["8", "UpdateReviewsStepInput", "Define the step's input type."],
+  ["21", "originalReviews", "Get the reviews before updating them."],
+  ["25", "updateReviews", "Update the reviews."],
+  ["27", "originalReviews", "Pass the reviews' original data to the compensation function."],
+  ["39", "updateReviews", "Restore the reviews' data if an error occurs."],
+]
+
+```ts title="src/workflows/steps/update-review.ts" highlights={updateReviewStepHighlights}
+import {
+  createStep,
+  StepResponse,
+} from "@medusajs/framework/workflows-sdk"
+import { PRODUCT_REVIEW_MODULE } from "../../modules/product-review"
+import ProductReviewModuleService from "../../modules/product-review/service"
+
+export type UpdateReviewsStepInput = {
+  id: string
+  status: "pending" | "approved" | "rejected"
+}[]
+
+export const updateReviewsStep = createStep(
+  "update-review-step",
+  async (input: UpdateReviewsStepInput, { container }) => {
+    const reviewModuleService: ProductReviewModuleService = container.resolve(
+      PRODUCT_REVIEW_MODULE
+    )
+
+    // Get original review before update
+    const originalReviews = await reviewModuleService.listReviews({
+      id: input.map((review) => review.id),
+    })
+
+    const reviews = await reviewModuleService.updateReviews(input)
+
+    return new StepResponse(reviews, originalReviews)
+  },
+  async (originalData, { container }) => {
+    if (!originalData) {
+      return
+    }
+
+    const reviewModuleService: ProductReviewModuleService = container.resolve(
+      PRODUCT_REVIEW_MODULE
+    )
+
+    // Restore original review status
+    await reviewModuleService.updateReviews(originalData)
+  }
+)
+```
+
+This step receives an array of objects, each with the ID of the review to update and its new status.
+
+In the step function, you first retrieve the original reviews before the update. Then, you update the reviews using the `updateReviews` method of the Review Module's service.
+
+After that, you return the updated reviews, and you pass the original reviews to the compensation function.
+
+In the compensation function, you restore the original reviews' status if an error occurs.
+
+### Update Review Workflow
+
+You can now create the workflow that uses the above step to update the review. To create the workflow, create the file `src/workflows/update-review.ts` with the following content:
+
+```ts title="src/workflows/update-review.ts"
+import {
+  createWorkflow,
+  WorkflowResponse,
+} from "@medusajs/framework/workflows-sdk"
+import { updateReviewsStep } from "./steps/update-review"
+
+export type UpdateReviewInput = {
+  id: string
+  status: "pending" | "approved" | "rejected"
+}[]
+
+export const updateReviewWorkflow = createWorkflow(
+  "update-review",
+  (input: UpdateReviewInput) => {
+    const reviews = updateReviewsStep(input)
+
+    return new WorkflowResponse({
+      reviews,
+    })
+  }
+)
+```
+
+The workflow receives an array of objects, each with the ID of the review to update and its new status. It uses the `updateReviewsStep` to update the reviews, then returns the updated reviews.
+
+### Create API Route
+
+Next, you'll create the API route that exposes the workflow's functionality. Create the file `src/api/admin/reviews/status/route.ts` with the following content:
+
+export const PostAdminUpdateReviewsStatusHighlights = [
+  ["8", "PostAdminUpdateReviewsStatusSchema", "Define the request body schema."],
+  ["13", "POST", "Expose a POST API route."],
+  ["19", "updateReviewWorkflow", "Execute the update review workflow."],
+]
+
+```ts title="src/api/admin/reviews/status/route.ts" highlights={PostAdminUpdateReviewsStatusHighlights}
+import type {
+  MedusaRequest,
+  MedusaResponse,
+} from "@medusajs/framework/http"
+import { updateReviewWorkflow } from "../../../../workflows/update-review"
+import { z } from "zod"
+
+export const PostAdminUpdateReviewsStatusSchema = z.object({
+  ids: z.array(z.string()),
+  status: z.enum(["pending", "approved", "rejected"]),
+})
+
+export async function POST(
+  req: MedusaRequest<z.infer<typeof PostAdminUpdateReviewsStatusSchema>>, 
+  res: MedusaResponse
+) {
+  const { ids, status } = req.validatedBody
+
+  const { result } = await updateReviewWorkflow(req.scope).run({
+    input: ids.map((id) => ({
+      id,
+      status,
+    })),
+  })
+
+  res.json(result)
+}
+```
+
+You first define a Zod schema for the request body of the API route. You'll later use this schema to enforce validation on the API route. The request body must include the following parameters:
+
+- `ids`: An array of review IDs to update.
+- `status`: The new status to set for the reviews.
+
+Then, since you export a `POST` function, you're exposing a `POST` API route at the path `/admin/reviews/status`. In the route handler you execute the `updateReviewWorkflow` workflow, passing it the data from the request body.
+
+Finally, you return the updated reviews.
+
+### Apply Validation Middlewares
+
+The last step is to add the validation middleware that enforces validation the body parameters of requests sent to the API route.
+
+In `src/api/middlewares.ts`, add a new middleware:
+
+```ts title="src/api/middlewares.ts"
+// other imports...
+import { PostAdminUpdateReviewsStatusSchema } from "./admin/reviews/status/route"
+
+export default defineMiddlewares({
+  routes: [
+    // ...
+    {
+      matcher: "/admin/reviews/status",
+      method: ["POST"],
+      middlewares: [
+        validateAndTransformBody(PostAdminUpdateReviewsStatusSchema),
+      ],
+    },
+  ],
+})
+``` 
+
+You use the `validateAndTransformBody` middleware to enforce validation on an incoming request's body parameters. You pass the Zod schema you defined in the API route's file to the middleware.
+
+In the next step, you'll customize the UI route you added earlier to allow the admin user to approve or reject reviews.
+
+---
+
+## Step 9: Approve and Reject Reviews in UI Route
+
+You'll now customize the UI route you added earlier to allow the admin user to approve or reject reviews. You'll add a checkbox column to the table that allows the admin user to select multiple reviews, then choose to approve or reject them.
+
+The `DataTable` component from Medusa UI supports a command bar that is triggered by a select (or checkbox) column in the table.
+
+Start by adding the necessary imports at the top of `src/admin/routes/reviews/page.tsx`:
+
+```tsx title="src/admin/routes/reviews/page.tsx"
+import { 
+  createDataTableCommandHelper, 
+  DataTableRowSelectionState, 
+} from "@medusajs/ui"
+```
+
+Then, in the `columns` array, add a new select column as the first item in the array:
+
+```tsx title="src/admin/routes/reviews/page.tsx"
+const columns = [
+  columnHelper.select(),
+  // ...
+]
+```
+
+The select column adds a checkbox to each row in the table, allowing the admin user to select multiple reviews.
+
+Next, you need to add the commands that allow the admin user to approve or reject the selected reviews. So, add the following after the `columns` array:
+
+export const commandHelperHighlights = [
+  ["1", "createDataTableCommandHelper", "Initialize the command helper."],
+  ["3", "useCommands", "Create a custom hook that returns an array of commands."],
+  ["5", "command", "Add an Approve command."],
+  ["25", "command", "Add a Reject command."],
+]
+
+```tsx title="src/admin/routes/reviews/page.tsx" highlights={commandHelperHighlights}
+const commandHelper = createDataTableCommandHelper()
+
+const useCommands = (refetch: () => void) => {
+  return [
+    commandHelper.command({
+      label: "Approve",
+      shortcut: "A",
+      action: async (selection) => {
+        const reviewsToApproveIds = Object.keys(selection)
+
+        sdk.client.fetch("/admin/reviews/status", {
+          method: "POST",
+          body: {
+            ids: reviewsToApproveIds,
+            status: "approved",
+          },
+        }).then(() => {
+          toast.success("Reviews approved")
+          refetch()
+        }).catch(() => {
+          toast.error("Failed to approve reviews")
+        })
+      },
+    }),
+    commandHelper.command({
+      label: "Reject",
+      shortcut: "R",
+      action: async (selection) => {
+        const reviewsToRejectIds = Object.keys(selection)
+
+        sdk.client.fetch("/admin/reviews/status", {
+          method: "POST",
+          body: {
+            ids: reviewsToRejectIds,
+            status: "rejected",
+          },
+        }).then(() => {
+          toast.success("Reviews rejected")
+          refetch()
+        }).catch(() => {
+          toast.error("Failed to reject reviews")
+        })
+      },
+    }),
+  ]
+}
+```
+
+You first initialize the command helper using the `createDataTableCommandHelper` function from Medusa UI. Then, you create a custom hook `useCommands` that returns an array of commands created with the command helper.
+
+You add `Approve` and `Reject` commands, and both of them send a request to the `/admin/reviews/status` API route to update the reviews' status, but each with a different status in the request body.
+
+Next, add the following state variable in the `ReviewsPage` component:
+
+```tsx title="src/admin/routes/reviews/page.tsx"
+const [rowSelection, setRowSelection] = useState<DataTableRowSelectionState>({})
+```
+
+This state variable will hold the selected reviews in the table.
+
+Then, call the `useCommands` hook and pass new properties to the `useDataTable` hook:
+
+```tsx title="src/admin/routes/reviews/page.tsx"
+const commands = useCommands(refetch)
+
+const table = useDataTable({
+  // ...
+  commands,
+  rowSelection: {
+    state: rowSelection,
+    onRowSelectionChange: setRowSelection,
+  },
+})
+```
+
+You call the `useCommands` hook and pass it the `refetch` function (returned by `useQuery`). The `refetch` function allows you to refetch the reviews after approving or rejecting them to ensure their status in the table is updated.
+
+Then, you pass the commands and row selection configurations (from the state variables you added) to the `useDataTable` hook.
+
+Finally, in the `return` statement, add the command bar after the pagination component:
+
+```tsx title="src/admin/routes/reviews/page.tsx"
+<DataTable.CommandBar selectedLabel={(count) => `${count} selected`} />
+```
+
+This command bar will show the actions to perform on the selected reviews.
+
+### Test the UI Route
+
+To test out the UI route, start the Medusa application:
+
+```bash npm2yarn
+npm run dev
+```
+
+Then, open the Medusa Admin dashboard and go to the Reviews page. You'll see a new column with checkboxes that allow you to select multiple reviews.
+
+If you try selecting multiple reviews, you'll see a command bar at the bottom center of the page that allows you to approve or reject the selected reviews.
+
+If you choose to approve or reject the reviews, the status of the selected reviews will change, and the table will update to reflect the new status.
+
+![Checkboxes are now shown next to the items in the table, and when you click on them the command bar shows at the bottom of the page with Approve and Reject commands](https://res.cloudinary.com/dza7lstvk/image/upload/v1741937101/Medusa%20Resources/Screenshot_2025-03-14_at_9.24.29_AM_y9vhac.png)
+
+---
+
+## Step 10: List Reviews Store API Route
+
+In the upcoming steps, you'll start customizing the storefront to show the reviews of a product and allow logged-in customers to add reviews.
+
+Before doing that, you need to add an API route that retrieves the list of approved reviews. You'll later show these in the storefront.
+
+### Add Average Rating Method in Service
+
+On the product's page, you want to display the average rating of a product. To do this, you'll add a method that retrieves the average rating of a product's reviews in the Review Module's service.
+
+In `src/modules/review/service.ts`, add the following methods to the `ProductReviewModuleService` class:
+
+```ts title="src/modules/review/service.ts"
+import { InjectManager, MedusaService, MedusaContext } from "@medusajs/framework/utils"
+import Review from "./models/review"
+import { Context } from "@medusajs/framework/types"
+import { EntityManager } from "@mikro-orm/knex"
+
+class ProductReviewModuleService extends MedusaService({
+  Review,
+}) {
+  @InjectManager() 
+  async getAverageRating(
+    productId: string,
+    @MedusaContext() sharedContext?: Context<EntityManager>
+  ): Promise<number> { 
+    const result = await sharedContext?.manager?.execute(
+      `SELECT AVG(rating) as average 
+       FROM review 
+       WHERE product_id = '${productId}' AND status = 'approved'`
+    )
+
+    return parseFloat(parseFloat(result?.[0]?.average ?? 0).toFixed(2))
+  }
+}
+
+export default ProductReviewModuleService
+```
+
+To run queries on the database in a service's method, you need to:
+
+- Add the `InjectManager` decorator to the method.
+- Pass as the last parameter a context parameter that has the `MedusaContext` decorator.
+
+By doing the above, Medusa injects the method with a context parameter that has a `manger` property whose value is a [forked entity manager](https://mikro-orm.io/docs/identity-map#forking-entity-manager).
+
+Then, you run a raw SQL query to calculate the average rating of the reviews for a product with the given ID. You also filter the reviews by the status `approved`.
+
+You'll use this method next in the API route.
+
+### Create API Route
+
+To create the API route that lists the reviews of a product with average rating, create the file `src/api/store/products/[id]/reviews/route.ts` with the following content:
+
+export const GetStoreReviewsHighlights = [
+  ["10", "GetStoreReviewsSchema", "Define the query parameters schema."],
+  ["12", "GET", "Expose a GET API route."],
+  ["26", "query.graph", "Retrieve reviews with pagination."],
+  ["31", "status", "Only retrieve approved reviews."],
+  ["41", "average_rating", "Retrieve the average rating of the product."],
+]
+
+```ts title="src/api/store/products/[id]/reviews/route.ts" highlights={GetStoreReviewsHighlights} collapsibleLines="1-9" expandButtonLabel="Show Imports"
+import {
+  MedusaRequest,
+  MedusaResponse,
+} from "@medusajs/framework/http"
+import { ContainerRegistrationKeys } from "@medusajs/framework/utils"
+import { PRODUCT_REVIEW_MODULE } from "../../../../../modules/product-review"
+import ProductReviewModuleService from "../../../../../modules/product-review/service"
+import { createFindParams } from "@medusajs/medusa/api/utils/validators"
+
+export const GetStoreReviewsSchema = createFindParams()
+
+export const GET = async (
+  req: MedusaRequest,
+  res: MedusaResponse
+) => {
+  const { id } = req.params
+
+  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
+  const reviewModuleService: ProductReviewModuleService = req.scope.resolve(PRODUCT_REVIEW_MODULE)
+
+  // Get reviews for product
+  const { data: reviews, metadata: {
+    count,
+    take,
+    skip,
+  } = { count: 0, take: 10, skip: 0 } } = await query.graph({
+    entity: "review",
+    filters: {
+      product_id: id,
+      // @ts-ignore
+      status: "approved",
+    },
+    ...req.queryConfig,
+  })
+
+  res.json({
+    reviews,
+    count,
+    limit: take,
+    offset: skip,
+    average_rating: await reviewModuleService.getAverageRating(id),
+  })
+}
+```
+
+You first define a `GetStoreReviewsSchema` schema that will allow clients to pass the following query parameters:
+
+- `limit`: The number of reviews to retrieve.
+- `offset`: The number of items to skip before retrieving the reviews.
+- `order`: The fields to sort the reviews by in ascending or descending order.
+
+Then, you export a `GET` function, and that exposes a `GET` API Route at the path `/store/products/[id]/reviews`. In the route handler you resolve [Query](!docs!/learn/fundamentals/module-links/query) from the Medusa container, which allows you to retrieve data across modules.
+
+Next, you retrieve the approved reviews of a product using Query. Notice that you pass in `query.graph` the `req.queryConfig` object. This object holds the fields to retrieve and the pagination configurations. You'll configure this object in a bit.
+
+Finally, you return the reviews with pagination fields and the average rating of the product.
+
+### Apply Query Configurations Middleware
+
+The last step is to add a middleware that validates the query parameters passed to the request, and sets the default Query configuations.
+
+In `src/api/middlewares.ts`, add a new middleware:
+
+```ts title="src/api/middlewares.ts"
+// other imports
+import { 
+  validateAndTransformQuery,
+} from "@medusajs/framework/http"
+import { GetStoreReviewsSchema } from "./store/products/[id]/reviews/route"
+
+export default defineMiddlewares({
+  routes: [
+    // ...
+    {
+      matcher: "/store/products/:id/reviews",
+      methods: ["GET"],
+      middlewares: [
+        validateAndTransformQuery(GetStoreReviewsSchema, {
+          isList: true,
+          defaults: [
+            "id", 
+            "rating", 
+            "title", 
+            "first_name", 
+            "last_name", 
+            "content", 
+            "created_at",
+          ],
+        }),
+      ],
+    },
+  ],
+})
+```
+
+You apply the `validateAndTransformQuery` middleware to the `GET` API route at the path `/store/products/:id/reviews`. Similar to before, you pass to the middleware:
+
+- The validation schema of the request's query parameters, which is the `GetStoreReviewsSchema` you created earlier.
+- An object of Query configurations. It has the following properties:
+    - `isList`: A boolean indicating whether the route returns a list of items. This enables the pagination configurations.
+    - `defaults`: An array of fields to retrieve by default.
+
+By adding this middleware, you allow clients to pass pagination query parameters to the API route, and set default fields to retrieve.
+
+You'll use this API route next as you customize the Next.js Starter Storefront.
+
+---
+
+## Step 11: Customize Next.js Starter Storefront
+
+In this step, you'll customize the Next.js Starter Storefront to:
+
+- Display a product's review and average rating on its page.
+- Allow authenticated customers to submit a review for a product.
+
+### Add Product Review Types
+
+Before implementing the customizations, you'll add a type definition for the product review which you'll re-use in the storefront.
+
+In `src/types/global.ts`, add the following types:
+
+```ts title="src/types/global.ts" badgeLabel="Storefront" badgeColor="blue"
+export type StoreProductReview = {
+  id: string
+  title: string
+  rating: number
+  content: string
+  first_name: string
+  last_name: string
+}
+```
+
+You define the type of a product review object and the properties it has.
+
+### Add Functions to Fetch and Submit Reviews
+
+Next, you'll add two functions that fetch and submit reviews using the API routes you created earlier. To send requests to the API routes, you can use Medusa's [JS SDK](../../../js-sdk/page.mdx).
+
+In `src/lib/data/products.ts`, add the following functions:
+
+```ts title="src/lib/data/products.ts" badgeLabel="Storefront" badgeColor="blue"
+import { StoreProductReview } from "../../types/global"
+
+// ...
+
+export const getProductReviews = async ({
+  productId,
+  limit = 10,
+  offset = 0,
+}: {
+  productId: string
+  limit?: number
+  offset?: number 
+}) => {
+  const headers = {
+    ...(await getAuthHeaders()),
+  }
+
+  const next = {
+    ...(await getCacheOptions(`product-reviews-${productId}`)),
+  }
+
+  return sdk.client.fetch<{
+    reviews: StoreProductReview[]
+    average_rating: number
+    limit: number
+    offset: number
+    count: number
+  }>(`/store/products/${productId}/reviews`, {
+    headers,
+    query: {
+      limit,
+      offset,
+      order: "-created_at",
+    },
+    next,
+    cache: "force-cache",
+  })
+}
+
+export const addProductReview = async (input: {
+  title?: string
+  content: string
+  first_name: string
+  last_name: string
+  rating: number,
+  product_id: string
+}) => {
+  const headers = {
+    ...(await getAuthHeaders()),
+  }
+
+  return sdk.client.fetch(`/store/reviews`, {
+    method: "POST",
+    headers,
+    body: input,
+    next: {
+      ...(await getCacheOptions(`product-reviews-${input.product_id}`)),
+    },
+    cache: "no-store",
+  })
+}
+```
+
+You define two functions:
+
+- `getProductReviews`: Fetches the reviews of a product with the given ID. It accepts an object with the product ID, and optional limit and offset parameters, allowing you to paginate the reviews.
+- `addProductReview`: Submits a review for a product. It accepts an object with the review's details.
+
+To send requests to your custom API routes, you use the JS SDK's `client.fetch` method.
+
+### Add Product Review Form
+
+You'll now create a component that shows the product review form for authenticated customers. Afterwards, you'll display this component on the product's page.
+
+To create the form component, create the file `src/modules/products/components/product-reviews/form.tsx` with the following content:
+
+```tsx title="src/modules/products/components/product-reviews/form.tsx" badgeLabel="Storefront" badgeColor="blue"
+"use client"
+
+import { useState } from "react"
+
+import { useEffect } from "react"
+import { retrieveCustomer } from "../../../../lib/data/customer"
+import { HttpTypes } from "@medusajs/types"
+import { Button, Input, Label, Textarea, toast, Toaster } from "@medusajs/ui"
+import { Star, StarSolid } from "@medusajs/icons"
+import { addProductReview } from "../../../../lib/data/products"
+
+type ProductReviewsFormProps = {
+  productId: string
+}
+
+export default function ProductReviewsForm({ productId }: ProductReviewsFormProps) {
+  const [customer, setCustomer] = useState<HttpTypes.StoreCustomer | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [showForm, setShowForm] = useState(false)
+  const [title, setTitle] = useState("")
+  const [content, setContent] = useState("")
+  const [rating, setRating] = useState(0)
+
+  useEffect(() => {
+    if (customer) {
+      return
+    }
+
+    retrieveCustomer().then(setCustomer)
+  }, [])
+
+  if (!customer) {
+    return <></>
+  }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    if (!content || !rating) {
+      toast.error("Error", {
+        description: "Please fill in required fields.",
+      })
+      return
+    }
+
+    e.preventDefault()
+    setIsLoading(true)
+    addProductReview({
+      title,
+      content,
+      rating,
+      first_name: customer.first_name || "",
+      last_name: customer.last_name || "",
+      product_id: productId,
+    }).then(() => {
+      setShowForm(false)
+      setTitle("")
+      setContent("")
+      setRating(0)
+      toast.success("Success", {
+        description: "Your review has been submitted and is awaiting approval.",
+      })
+    }).catch(() => {
+      toast.error("Error", {
+        description: "An error occurred while submitting your review. Please try again later.",
+      })
+    }).finally(() => {
+      setIsLoading(false)
+    })
+  }
+
+  // TODO render form
+}
+```
+
+You create a `ProductReviewsForm` component that accepts the product's ID as a prop. In the component, you:
+
+- Fetch the authenticated customer's details. If the customer is not authenticated, you return an empty fragment.
+- Implement a `handleSubmit` function that submits the review when the form is submitted.
+
+Next, you'll add a return statement that shows the form when the customer is authenticated. Replace the `TODO` with the following:
+
+```tsx title="src/modules/products/components/product-reviews/form.tsx" badgeLabel="Storefront" badgeColor="blue"
+return (
+  <div className="product-page-constraint mt-8">
+    {!showForm && (
+      <div className="flex justify-center">
+        <Button variant="secondary" onClick={() => setShowForm(true)}>Add a review</Button>
+      </div>
+    )}
+    {showForm && (
+      <div className="flex flex-col gap-y-4">
+        <div className="flex flex-col gap-y-2">
+          <span className="text-xl-regular text-ui-fg-base">
+          Add a review
+        </span>
+        
+        <form onSubmit={handleSubmit} className="flex flex-col gap-y-4">
+          <div className="flex flex-col gap-y-2">
+            <Label>Title</Label>
+            <Input name="title" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" />
+          </div>
+          <div className="flex flex-col gap-y-2">
+            <Label>Content</Label>
+            <Textarea name="content" value={content} onChange={(e) => setContent(e.target.value)} placeholder="Content" />
+          </div>
+          <div className="flex flex-col gap-y-2">
+            <Label>Rating</Label>
+            <div className="flex gap-x-1">
+              {Array.from({ length: 5 }).map((_, index) => (
+                <Button key={index} variant="transparent" onClick={(e) => {
+                  e.preventDefault()
+                  setRating(index + 1)
+                }} className="p-0">
+                  {rating >= index + 1 ? <StarSolid className="text-ui-tag-orange-icon" /> : <Star />}
+                </Button>
+              ))}
+            </div>
+          </div>
+          <Button type="submit" disabled={isLoading} variant="primary">Submit</Button>
+        </form>
+        </div>
+      </div>
+    )}
+    <Toaster />
+  </div>
+)
+```
+
+In the return statement, you:
+
+- Show an "Add a review" button. When clicked, the form is displayed.
+- In the form, you show the customer fields for the title, content, and rating for the review. The rating input is displayed as stars, and the customer can click on a star to set the rating.
+- When the form is submitted, you call the `handleSubmit` function to submit the review.
+
+### Display Product Reviews
+
+Now, you'll add the components to display the product reviews and the product review form on the product's page.
+
+Create the file `src/modules/products/components/product-reviews/index.tsx` with the following content:
+
+```tsx title="src/modules/products/components/product-reviews/index.tsx" badgeLabel="Storefront" badgeColor="blue"
+"use client"
+
+import { getProductReviews } from "../../../../lib/data/products"
+import { Star, StarSolid } from "@medusajs/icons"
+import { StoreProductReview } from "../../../../types/global"
+import { Button } from "@medusajs/ui"
+import { useState, useEffect } from "react"
+import ProductReviewsForm from "./form"
+type ProductReviewsProps = {
+  productId: string
+}
+
+export default function ProductReviews({
+  productId,
+}: ProductReviewsProps) {
+  const [page, setPage] = useState(1)
+  const defaultLimit = 10
+  const [reviews, setReviews] = useState<StoreProductReview[]>([])
+  const [rating, setRating] = useState(0)
+  const [hasMoreReviews, setHasMoreReviews] = useState(false)
+  const [count, setCount] = useState(0)
+
+  useEffect(() => {
+    getProductReviews({
+      productId,
+      limit: defaultLimit,
+      offset: (page - 1) * defaultLimit,
+    }).then(({ reviews: paginatedReviews, average_rating, count, limit }) => {
+      setReviews((prev) => {
+        const newReviews = paginatedReviews.filter(
+          (review) => !prev.some((r) => r.id === review.id)
+        )
+        return [...prev, ...newReviews]
+      })
+      setRating(Math.round(average_rating))
+      console.log(count, limit, page, count > limit * page)
+      setHasMoreReviews(count > limit * page)
+      setCount(count)
+    })
+  }, [page])
+
+  // TODO add return statement
+}
+```
+
+You create a `ProductReviews` component that accepts the product's ID as a prop. In the component, you:
+
+- Define state variables related to the reviews and pagination.
+- When the page changes, you fetch the reviews of the product with the given ID.
+
+Before adding the return statement that will show the reviews and the create-review form, you'll add a component that renders a single review.
+
+Add the following component after the `ProductReviews` component:
+
+```tsx title="src/modules/products/components/product-reviews/index.tsx" badgeLabel="Storefront" badgeColor="blue"
+function Review({ review }: { review: StoreProductReview }) {
+  return (
+    <div className="flex flex-col gap-y-2 text-base-regular text-ui-fg-base">
+      <div className="flex gap-x-2 items-center">
+        {review.title && <strong>{review.title}</strong>}
+        <div className="flex gap-x-1">
+          {Array.from({ length: 5 }).map((_, index) => (
+            <span key={index}>
+              {index <= review.rating ? (
+                <StarSolid className="text-ui-tag-orange-icon" />
+              ) : (
+                <Star />
+              )}
+            </span>
+          ))}
+        </div>
+      </div>
+      <div>{review.content}</div>
+      <div className="border-t border-ui-border-base pt-4 text-sm-regular">
+        {review.first_name} {review.last_name}
+      </div>
+    </div>
+  )
+}
+```
+
+You add a `Review` component that accepts a review object as a prop. In the component, you render the review's title, rating, content, and the reviewer's name.
+
+Next, replace the `TODO` in the `ProductReviews` component with the following:
+
+```tsx title="src/modules/products/components/product-reviews/index.tsx" badgeLabel="Storefront" badgeColor="blue"
+return (
+  <div className="product-page-constraint">
+    <div className="flex flex-col items-center text-center mb-16">
+      <span className="text-base-regular text-gray-600 mb-6">
+        Product Reviews
+      </span>
+      <p className="text-2xl-regular text-ui-fg-base max-w-lg">
+        See what our customers are saying about this product.
+      </p>
+      <div className="flex gap-x-2 justify-center items-center">
+        <div className="flex gap-x-2">
+          {Array.from({ length: 5 }).map((_, index) => (
+            <span key={index}>
+              {!rating || index > rating ? (
+                <Star />
+              ) : (
+                <StarSolid className="text-ui-tag-orange-icon" />
+              )}
+            </span>
+          ))}
+        </div>
+        <span className="text-base-regular text-gray-600">
+          {count} reviews
+        </span>
+      </div>
+    </div>
+
+    <div className="grid grid-cols-1 small:grid-cols-2 gap-x-6 gap-y-8">
+      {reviews.map((review) => (
+        <Review key={review.id} review={review} />
+      ))}
+    </div>
+
+    {hasMoreReviews && (
+      <div className="flex justify-center mt-8">
+        <Button variant="secondary" onClick={() => setPage(page + 1)}>
+          Load more reviews
+        </Button>
+      </div>
+    )}
+
+    <ProductReviewsForm productId={productId} />
+  </div>
+)
+```
+
+You show the average rating of the product and the number of reviews. Then, you show every review loaded. You also show a "Load more reviews" button if there are more reviews to load, which changes the `page` and fetches more reviews.
+
+After the reviews, you show the `ProductReviewsForm` component to allow authenticated customers to submit a review.
+
+### Display Product Reviews on Product Page
+
+Finally, you'll customize the product's page to show the `ProductReviews` component.
+
+In `src/modules/products/templates/index.tsx`, import the `ProductReviews` component at the top of the file:
+
+```tsx title="src/modules/products/templates/index.tsx" badgeLabel="Storefront" badgeColor="blue"
+import ProductReviews from "../components/product-reviews"
+```
+
+Then, add the `ProductReviews` component before the `div` wrapping the `RelatedProducts` component:
+
+```tsx title="src/modules/products/templates/index.tsx" badgeLabel="Storefront" badgeColor="blue"
+<div className="content-container my-16 small:my-32">
+  <ProductReviews productId={product.id} />
+</div>
+```
+
+This will show the product reviews after the product's image and details, but before the related products.
+
+### Test the Customizations
+
+To test out both the server and storefront customizations, first, start the Medusa application by running the following command in its directory:
+
+```bash npm2yarn
+npm run dev
+```
+
+Then, start the Next.js Starter Storefront by running the following command in its directory:
+
+```bash npm2yarn
+npm run dev
+```
+
+The storefront will run at `http://localhost:8000`. Open it, then click on Menu -> Store. This will show you the list of products.
+
+If you click on one of them and scroll down below the images, you'll find a section showing the average rating and reviews of the product.
+
+![Product page showing the average rating and reviews of the product](https://res.cloudinary.com/dza7lstvk/image/upload/v1741937534/Medusa%20Resources/Screenshot_2025-03-14_at_9.31.58_AM_tw9vui.png)
+
+To add a review, you first need to log in as a customer. You can do so by clicking on Account at the top right of the page. In the new page, either enter the credentials of the customer you created earlier, or create a new customer.
+
+Afterwards, go back to the product's page, you'll see the "Add a review" button below the reviews.
+
+![Product page showing the Add a review button](https://res.cloudinary.com/dza7lstvk/image/upload/v1741937731/Medusa%20Resources/Screenshot_2025-03-14_at_9.35.11_AM_w1wzdp.png)
+
+If you click on the button, a form will appear where you can fill in the review's details and submit it.
+
+![Product page showing the Add a review form](https://res.cloudinary.com/dza7lstvk/image/upload/v1741938961/Medusa%20Resources/Screenshot_2025-03-14_at_9.55.37_AM_epnfz0.png)
+
+After submitting the review, you can approve or reject it from the Medusa Admin dashboard.
+
+---
+
+## Next Steps
+
+You've now implemented product-review features in Medusa. There's still more that you can implement to enhance these features:
+
+- Link a Review to a customer as you did in [Step 3](#step-3-define-review--product-link) and customize the storefront to show the customer's reviews on their profile.
+- Add a feature to allow customers to upvote or downvote reviews.
+- Allow customers to add images to their reviews.
+
+If you're new to Medusa, check out the [main documentation](!docs!/learn), where you'll get a more in-depth learning of all the concepts you've used in this guide and more.
+
+To learn more about the commerce features that Medusa provides, check out Medusa's [Commerce Modules](../../../commerce-modules/page.mdx).

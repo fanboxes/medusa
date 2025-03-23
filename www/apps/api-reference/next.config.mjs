@@ -18,7 +18,10 @@ const nextConfig = {
 
     return config
   },
-  transpilePackages: ["docs-ui"],
+  transpilePackages: ["docs-ui", "docs-utils"],
+  experimental: {
+    optimizePackageImports: ["docs-utils"],
+  },
   async redirects() {
     return [
       {

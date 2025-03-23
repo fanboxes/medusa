@@ -1,0 +1,32 @@
+The Next.js Starter Storefront uses parallel routes to show account pages. However, there's a [reported error](https://github.com/vercel/next.js/issues/71626) when hosting Next.js with parallel routes on Google's Cloud Run, where the error stops working.
+
+## Why this Error Occurred
+
+This error occurs because Google Cloud Run decodes chunk URLs, but Next.js expects them to be encoded.
+
+---
+
+## How to Fix it
+
+To resolve the error, add the following rewrites in your Next.js Starter Storefront's `next.config.ts` file:
+
+```ts title="next.config.ts"
+const nextConfig = {
+  // ... other config
+  rewrites: async () => {
+    return {
+      beforeFiles: [
+        {
+          source: "/_next/static/chunks/app/:folder*/@login/:path*",
+          destination: "/_next/static/chunks/app/:folder*/%40login/:path*",
+        },
+        // Repeat this pattern if other similar errors occur
+      ],
+      afterFiles: [],
+      fallback: [],
+    }
+  },
+}
+```
+
+You can add the rewrite to other parallel routes you have in your application. For example, if you have a `/@dashboard` route, you can add a rewrite for it as well.

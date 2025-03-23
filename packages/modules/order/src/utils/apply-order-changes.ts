@@ -1,4 +1,5 @@
 import {
+  CreateOrderCreditLineDTO,
   InferEntityType,
   OrderChangeActionDTO,
   OrderDTO,
@@ -29,6 +30,7 @@ export async function applyChangesToOrder(
   }
 ) {
   const itemsToUpsert: InferEntityType<typeof OrderItem>[] = []
+  const creditLinesToCreate: CreateOrderCreditLineDTO[] = []
   const shippingMethodsToUpsert: InferEntityType<typeof OrderShippingMethod>[] =
     []
   const summariesToUpsert: any[] = []
@@ -94,6 +96,22 @@ export async function applyChangesToOrder(
       } as any
 
       itemsToUpsert.push(itemToUpsert)
+    }
+
+    const creditLines = (calculated.order.credit_lines ?? []).filter(
+      (creditLine) => !("id" in creditLine)
+    )
+
+    for (const creditLine of creditLines) {
+      const creditLineToCreate = {
+        order_id: order.id,
+        amount: creditLine.amount,
+        reference: creditLine.reference,
+        reference_id: creditLine.reference_id,
+        metadata: creditLine.metadata,
+      }
+
+      creditLinesToCreate.push(creditLineToCreate)
     }
 
     if (version > order.version) {
@@ -172,6 +190,7 @@ export async function applyChangesToOrder(
 
   return {
     itemsToUpsert,
+    creditLinesToCreate,
     shippingMethodsToUpsert,
     summariesToUpsert,
     orderToUpdate,

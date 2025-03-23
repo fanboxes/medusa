@@ -3,6 +3,9 @@ import { Context } from "../shared-context"
 export type Subscriber<TData = unknown> = (data: Event<TData>) => Promise<void>
 
 export type SubscriberContext = {
+  /**
+   * The ID of the subscriber. Useful when retrying failed subscribers.
+   */
   subscriberId: string
 }
 
@@ -12,15 +15,36 @@ export type SubscriberDescriptor = {
 }
 
 export type EventMetadata = Record<string, unknown> & {
+  /**
+   * The ID of the event's group. Grouped events are useful when you have distributed transactions
+   * where you need to explicitly group, release and clear events upon lifecycle events of a transaction.
+   * 
+   * When set, you must release the grouped events using the Event Module's `releaseGroupedEvents` method to emit the events.
+   */
   eventGroupId?: string
 }
 
 export type Event<TData = unknown> = {
+  /**
+   * The event's name.
+   * 
+   * @example
+   * user.created
+   */
   name: string
+  /**
+   * Additional meadata to pass with the event.
+   */
   metadata?: EventMetadata
+  /**
+   * The data payload that subscribers receive. For example, the ID of the created user.
+   */
   data: TData
 }
 
+/**
+ * The details of an event to emit.
+ */
 export type Message<TData = unknown> = Event<TData> & {
   options?: Record<string, unknown>
 }

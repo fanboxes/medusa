@@ -30,5 +30,9 @@ export const notification = [
   {
     "title": "Create Notification Provider",
     "path": "https://docs.medusajs.com/resources/references/notification-provider-module"
+  },
+  {
+    "title": "Use Notification Module",
+    "path": "https://docs.medusajs.com/resources/references/notification-service"
   }
 ]

@@ -1,0 +1,51 @@
+If you see the following error in the Medusa Admin's console:
+
+```bash
+Blocked request. This host (X) is not allowed. To allow this host, add X to server.allowedHosts in vite.config.js.
+```
+
+Where `X` is the host that's being blocked. For example, `example.com`.
+
+## Why this Error Occurred
+
+This error occurs if you deploy Medusa but are using development mode (`NODE_ENV=development`). This can happen accidentally or unintentionally, but Medusa defaults `NODE_ENV` to `production`.
+
+## How to Fix it
+
+### Option 1: Use Production Mode
+
+To resolve this error, ensure that you're running Medusa in production mode. You can set the `NODE_ENV` environment variable to `production` when starting Medusa:
+
+```bash
+NODE_ENV=production
+```
+
+### Option 2: Allow the Host
+
+If you intentionally want to use development mode in your deployed Medusa instance, you can allow the host that's being blocked using the `admin.vite` configuration in `medusa-config.ts`.
+
+For example:
+
+```ts title="medusa-config.ts"
+module.exports = defineConfig({
+  // ...
+  admin: {
+    vite: () => {
+      return {
+        server: {
+          allowedHosts: [".example.com"],
+        },
+      }
+    },
+  },
+})
+```
+
+In the above example, you allow the host `example.com` to access the Medusa Admin. Make sure that when you replace `example.com` with your actual host, you include the leading `.` before the domain name.
+
+---
+
+## Additional Resources
+
+- [Environment Variables](!docs!/learn/fundamentals/environment-variables)
+- [admin.vite Configuration](!docs!/learn/configurations/medusa-config#vite)

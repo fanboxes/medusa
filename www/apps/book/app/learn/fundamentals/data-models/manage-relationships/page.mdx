@@ -195,7 +195,7 @@ If you have a many-to-many relation with a `pivotEntity` specified, make sure to
 For example, assuming you have the [Order, Product, and OrderProduct models from the previous chapter](../relationships/page.mdx#many-to-many-with-custom-columns), add `OrderProduct` to `MedusaService`'s object parameter:
 
 ```ts highlights={["4"]}
-class HelloModuleService extends MedusaService({
+class BlogModuleService extends MedusaService({
   Order,
   Product,
   OrderProduct,
@@ -208,7 +208,7 @@ For example:
 
 ```ts
 // create order-product association
-const orderProduct = await helloModuleService.createOrderProducts({
+const orderProduct = await blogModuleService.createOrderProducts({
   order_id: "123",
   product_id: "123",
   metadata: {
@@ -217,7 +217,7 @@ const orderProduct = await helloModuleService.createOrderProducts({
 })
 
 // update order-product association
-const orderProduct = await helloModuleService.updateOrderProducts({
+const orderProduct = await blogModuleService.updateOrderProducts({
   id: "123",
   metadata: {
     test: false,
@@ -225,7 +225,7 @@ const orderProduct = await helloModuleService.updateOrderProducts({
 })
 
 // delete order-product association
-await helloModuleService.deleteOrderProducts("123")
+await blogModuleService.deleteOrderProducts("123")
 ```
 
 Since the `OrderProduct` data model belongs to the `Order` and `Product` data models, you can set its order and product as explained in the [one-to-many relationship section](#manage-one-to-many-relationship) using `order_id` and `product_id`.
@@ -247,7 +247,7 @@ export const retrieveHighlights = [
 ]
 
 ```ts highlights={retrieveHighlights}
-const product = await helloModuleService.retrieveProducts(
+const product = await blogModuleService.retrieveProducts(
   "123",
   {
     relations: ["orders"],

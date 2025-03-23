@@ -1,9 +1,9 @@
-import type { Code } from "@/types/openapi"
+import type { OpenAPI } from "types"
 import { CodeBlock, CodeTab, CodeTabs } from "docs-ui"
 import slugify from "slugify"
 
 export type TagOperationCodeSectionRequestSamplesProps = {
-  codeSamples: Code[]
+  codeSamples: OpenAPI.Code[]
 }
 
 const TagOperationCodeSectionRequestSamples = ({

@@ -5,6 +5,7 @@ export type OptionType = {
   label: string
   index?: string
   isAllOption?: boolean
+  hitsPerPage?: number
 }
 
 export type SelectOptions = {

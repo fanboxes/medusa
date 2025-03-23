@@ -666,6 +666,13 @@ export function getRouteMap({
                         import("../../routes/customers/customer-edit"),
                     },
                     {
+                      path: "create-address",
+                      lazy: () =>
+                        import(
+                          "../../routes/customers/customer-create-address"
+                        ),
+                    },
+                    {
                       path: "add-customer-groups",
                       lazy: () =>
                         import(

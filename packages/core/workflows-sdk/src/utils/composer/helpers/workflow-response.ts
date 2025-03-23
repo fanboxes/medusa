@@ -4,7 +4,10 @@ import { WorkflowData, WorkflowDataProperties } from "../type"
 /**
  * Workflow response class encapsulates the return value of a workflow
  */
-export class WorkflowResponse<TResult, THooks = []> {
+export class WorkflowResponse<
+  TResult,
+  const THooks extends readonly unknown[] = []
+> {
   __type: typeof OrchestrationUtils.SymbolMedusaWorkflowResponse =
     OrchestrationUtils.SymbolMedusaWorkflowResponse
 

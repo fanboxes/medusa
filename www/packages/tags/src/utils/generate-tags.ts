@@ -158,6 +158,6 @@ export async function generateTags(basePath?: string) {
   )
 
   // write index.ts
-  const indexContent = files.map((file) => `export * from "./${file}"\n`)
+  const indexContent = files.sort().map((file) => `export * from "./${file}"\n`)
   await writeFile(path.join(tagsDir, "index.ts"), indexContent)
 }

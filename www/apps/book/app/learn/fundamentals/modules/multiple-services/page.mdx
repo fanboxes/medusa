@@ -20,9 +20,9 @@ However, you may use other services in your module to better organize your code 
 
 To add an internal service, create it in the `services` directory of your module.
 
-For example, create the file `src/modules/hello/services/client.ts` with the following content:
+For example, create the file `src/modules/blog/services/client.ts` with the following content:
 
-```ts title="src/modules/hello/services/client.ts"
+```ts title="src/modules/blog/services/client.ts"
 export class ClientService {
   async getMessage(): Promise<string> {
     return "Hello, World!"
@@ -34,9 +34,9 @@ export class ClientService {
 
 Next, create an `index.ts` file under the `services` directory of the module that exports your internal services.
 
-For example, create the file `src/modules/hello/services/index.ts` with the following content:
+For example, create the file `src/modules/blog/services/index.ts` with the following content:
 
-```ts title="src/modules/hello/services/index.ts"
+```ts title="src/modules/blog/services/index.ts"
 export * from "./client"
 ```
 
@@ -48,7 +48,7 @@ Internal services exported in the `services/index.ts` file of your module are no
 
 For example, in your main service:
 
-```ts title="src/modules/hello/service.ts" highlights={[["5"], ["13"]]}
+```ts title="src/modules/blog/service.ts" highlights={[["5"], ["13"]]}
 // other imports...
 import { ClientService } from "./services"
 
@@ -56,8 +56,8 @@ type InjectedDependencies = {
   clientService: ClientService
 }
 
-class HelloModuleService extends MedusaService({
-  MyCustom,
+class BlogModuleService extends MedusaService({
+  Post,
 }){
   protected clientService_: ClientService
 
@@ -106,7 +106,7 @@ For example:
 
 ```ts
 import { ConfigModule } from "@medusajs/framework/types"
-import { HELLO_MODULE } from ".."
+import { BLOG_MODULE } from ".."
 
 export type InjectedDependencies = {
   configModule: ConfigModule
@@ -116,7 +116,7 @@ export class ClientService {
   protected options: Record<string, any>
 
   constructor({ configModule }: InjectedDependencies) {
-    const moduleDef = configModule.modules[HELLO_MODULE]
+    const moduleDef = configModule.modules[BLOG_MODULE]
 
     if (typeof moduleDef !== "boolean") {
       this.options = moduleDef.options

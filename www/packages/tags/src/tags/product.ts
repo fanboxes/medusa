@@ -64,6 +64,10 @@ export const product = [
     "path": "https://docs.medusajs.com/resources/commerce-modules/product/guides/price-with-taxes"
   },
   {
+    "title": "Implement Product Reviews",
+    "path": "https://docs.medusajs.com/resources/how-to-tutorials/tutorials/product-reviews"
+  },
+  {
     "title": "Build Wishlist Plugin",
     "path": "https://docs.medusajs.com/resources/plugins/guides/wishlist"
   },

@@ -8,14 +8,6 @@ const EditButton = () => {
   const pathname = usePathname()
   const [editDate, setEditDate] = useState<string | undefined>()
 
-  // const editDate = useMemo(
-  //   () =>
-  //     (generatedEditDates as Record<string, string>)[
-  //       `app${pathname.replace(/\/$/, "")}/page.mdx`
-  //     ],
-  //   [pathname]
-  // )
-
   const loadEditDate = useCallback(async () => {
     const generatedEditDates = (await import("../../generated/edit-dates.mjs"))
       .generatedEditDates

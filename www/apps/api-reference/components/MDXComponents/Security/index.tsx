@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic"
-import type { OpenAPIV3 } from "openapi-types"
+import type { OpenAPI } from "types"
 import type { SecurityDescriptionProps } from "./Description"
 import { Fragment } from "react"
 
@@ -8,7 +8,7 @@ const SecurityDescription = dynamic<SecurityDescriptionProps>(
 ) as React.FC<SecurityDescriptionProps>
 
 type SecurityProps = {
-  specs?: OpenAPIV3.Document
+  specs?: OpenAPI.OpenAPIV3.Document
 }
 
 const Security = ({ specs }: SecurityProps) => {

@@ -19,13 +19,13 @@ In this chapter, find an example of writing an integration test for a module usi
 
 ## Write Integration Test for Module
 
-Consider a `hello` module with a `HelloModuleService` that has a `getMessage` method:
+Consider a `blog` module with a `BlogModuleService` that has a `getMessage` method:
 
-```ts title="src/modules/hello/service.ts"
+```ts title="src/modules/blog/service.ts"
 import { MedusaService } from "@medusajs/framework/utils"
 import MyCustom from "./models/my-custom"
 
-class HelloModuleService extends MedusaService({
+class BlogModuleService extends MedusaService({
   MyCustom,
 }){
   getMessage(): string {
@@ -33,23 +33,23 @@ class HelloModuleService extends MedusaService({
   }
 }
 
-export default HelloModuleService
+export default BlogModuleService
 ```
 
-To create an integration test for the method, create the file `src/modules/hello/__tests__/service.spec.ts` with the following content:
+To create an integration test for the method, create the file `src/modules/blog/__tests__/service.spec.ts` with the following content:
 
-```ts title="src/modules/hello/__tests__/service.spec.ts"
+```ts title="src/modules/blog/__tests__/service.spec.ts"
 import { moduleIntegrationTestRunner } from "@medusajs/test-utils"
-import { HELLO_MODULE } from ".."
-import HelloModuleService from "../service"
+import { BLOG_MODULE } from ".."
+import BlogModuleService from "../service"
 import MyCustom from "../models/my-custom"
 
-moduleIntegrationTestRunner<HelloModuleService>({
-  moduleName: HELLO_MODULE,
+moduleIntegrationTestRunner<BlogModuleService>({
+  moduleName: BLOG_MODULE,
   moduleModels: [MyCustom],
-  resolve: "./src/modules/hello",
+  resolve: "./src/modules/blog",
   testSuite: ({ service }) => {
-    describe("HelloModuleService", () => {
+    describe("BlogModuleService", () => {
       it("says hello world", () => {
         const message = service.getMessage()
 
@@ -62,7 +62,7 @@ moduleIntegrationTestRunner<HelloModuleService>({
 jest.setTimeout(60 * 1000)
 ```
 
-You use the `moduleIntegrationTestRunner` function to add tests for the `hello` module. You have one test that passes if the `getMessage` method returns the `"Hello, World!"` string.
+You use the `moduleIntegrationTestRunner` function to add tests for the `blog` module. You have one test that passes if the `getMessage` method returns the `"Hello, World!"` string.
 
 ---
 

@@ -28,8 +28,8 @@ So, to run database queries in a service:
 For example, in your service, add the following methods:
 
 export const methodsHighlight = [
-  ["12", "getCount", "Retrieves the number of records in `my_custom` using the `count` method."],
-  ["19", "getCountSql", "Retrieves the number of records in `my_custom` using the `execute` method."]
+  ["13", "getCount", "Retrieves the number of records in `my_custom` using the `count` method."],
+  ["20", "getCountSql", "Retrieves the number of records in `my_custom` using the `execute` method."]
 ]
 
 ```ts highlights={methodsHighlight}
@@ -38,27 +38,28 @@ import {
   InjectManager,
   MedusaContext,
 } from "@medusajs/framework/utils"
-import { SqlEntityManager } from "@mikro-orm/knex"
+import { Context } from "@medusajs/framework/types"
+import { EntityManager } from "@mikro-orm/knex"
 
-class HelloModuleService {
+class BlogModuleService {
   // ...
 
   @InjectManager()
   async getCount(
     @MedusaContext() sharedContext?: Context<EntityManager>
-  ): Promise<number> {
-    return await sharedContext.manager.count("my_custom")
+  ): Promise<number | undefined> {
+    return await sharedContext?.manager?.count("my_custom")
   }
   
   @InjectManager()
   async getCountSql(
     @MedusaContext() sharedContext?: Context<EntityManager>
   ): Promise<number> {
-    const data = await sharedContext.manager.execute(
+    const data = await sharedContext?.manager?.execute(
       "SELECT COUNT(*) as num FROM my_custom"
     ) 
     
-    return parseInt(data[0].num)
+    return parseInt(data?.[0].num || 0)
   }
 }
 ```
@@ -105,7 +106,7 @@ import {
 import { Context } from "@medusajs/framework/types"
 import { EntityManager } from "@mikro-orm/knex"
 
-class HelloModuleService {
+class BlogModuleService {
   // ...
   @InjectTransactionManager()
   protected async update_(
@@ -115,8 +116,8 @@ class HelloModuleService {
     },
     @MedusaContext() sharedContext?: Context<EntityManager>
   ): Promise<any> {
-    const transactionManager = sharedContext.transactionManager
-    await transactionManager.nativeUpdate(
+    const transactionManager = sharedContext?.transactionManager
+    await transactionManager?.nativeUpdate(
       "my_custom",
       {
         id: input.id,
@@ -127,7 +128,7 @@ class HelloModuleService {
     )
 
     // retrieve again
-    const updatedRecord = await transactionManager.execute(
+    const updatedRecord = await transactionManager?.execute(
       `SELECT * FROM my_custom WHERE id = '${input.id}'`
     )
 
@@ -147,7 +148,7 @@ class HelloModuleService {
 }
 ```
 
-The `HelloModuleService` has two methods:
+The `BlogModuleService` has two methods:
 
 - A protected `update_` that performs the database operations inside a transaction.
 - A public `update` that executes the transactional protected method.
@@ -178,10 +179,22 @@ For example, the `update` method could be changed to the following:
 
 ```ts
 // other imports...
+import { 
+  InjectManager,
+  InjectTransactionManager,
+  MedusaContext,
+} from "@medusajs/framework/utils"
+import { Context } from "@medusajs/framework/types"
 import { EntityManager } from "@mikro-orm/knex"
 
-class HelloModuleService {
+class BlogModuleService {
   // ...
+  @InjectTransactionManager()
+  protected async update_(
+    // ...
+  ): Promise<any> {
+    // ...
+  }
   @InjectManager()
   async update(
     input: {
@@ -192,12 +205,14 @@ class HelloModuleService {
   ) {
     const newData = await this.update_(input, sharedContext)
 
-    await sendNewDataToSystem(newData)
+    // example method that sends data to another system
+    await this.sendNewDataToSystem(newData)
 
     return newData
   }
 }
 ```
+
 In this case, only the `update_` method is wrapped in a transaction. The returned value `newData` holds the committed result, which can be used for other operations, such as passed to a `sendNewDataToSystem` method.
 
 ### Using Methods in Transactional Methods
@@ -208,9 +223,14 @@ For example:
 
 ```ts
 // other imports...
+import { 
+  InjectTransactionManager,
+  MedusaContext,
+} from "@medusajs/framework/utils"
+import { Context } from "@medusajs/framework/types"
 import { EntityManager } from "@mikro-orm/knex"
 
-class HelloModuleService {
+class BlogModuleService {
   // ...
   @InjectTransactionManager()
   protected async anotherMethod(
@@ -253,15 +273,15 @@ For example, resolve the `baseRepository` in your service's constructor:
 
 ```ts highlights={[["14"]]}
 import { MedusaService } from "@medusajs/framework/utils"
-import MyCustom from "./models/my-custom"
+import Post from "./models/post"
 import { DAL } from "@medusajs/framework/types"
 
 type InjectedDependencies = {
   baseRepository: DAL.RepositoryService
 }
 
-class HelloModuleService extends MedusaService({
-  MyCustom,
+class BlogModuleService extends MedusaService({
+  Post,
 }){
   protected baseRepository_: DAL.RepositoryService
 
@@ -271,7 +291,7 @@ class HelloModuleService extends MedusaService({
   }
 }
 
-export default HelloModuleService
+export default BlogModuleService
 ```
   </CodeTab>
   <CodeTab label="Without Service Factory" value="no-service-factory">
@@ -283,7 +303,7 @@ type InjectedDependencies = {
   baseRepository: DAL.RepositoryService
 }
 
-class HelloModuleService {
+class BlogModuleService {
   protected baseRepository_: DAL.RepositoryService
 
   constructor({ baseRepository }: InjectedDependencies) {
@@ -291,7 +311,7 @@ class HelloModuleService {
   }
 }
 
-export default HelloModuleService
+export default BlogModuleService
 ```
 
   </CodeTab>
@@ -313,7 +333,7 @@ import {
 import { Context } from "@medusajs/framework/types"
 import { EntityManager } from "@mikro-orm/knex"
 
-class HelloModuleService {
+class BlogModuleService {
   // ...
   @InjectTransactionManager()
   protected async update_(
@@ -343,7 +363,7 @@ class HelloModuleService {
         return updatedRecord
       },
       {
-        transaction: sharedContext.transactionManager,
+        transaction: sharedContext?.transactionManager,
       }
     )
   }
@@ -382,8 +402,14 @@ The second parameter of the `baseRepository_.transaction` method is an object of
 ```ts highlights={[["16"]]}
 // other imports...
 import { EntityManager } from "@mikro-orm/knex"
+import { 
+  InjectTransactionManager,
+  MedusaContext,
+} from "@medusajs/framework/utils"
+import { Context } from "@medusajs/framework/types"
+import { EntityManager } from "@mikro-orm/knex"
 
-class HelloModuleService {
+class BlogModuleService {
   // ...
   @InjectTransactionManager()
   async update_(
@@ -398,7 +424,7 @@ class HelloModuleService {
         // ...
       },
       {
-        transaction: sharedContext.transactionManager,
+        transaction: sharedContext?.transactionManager,
       }
     )
   }
@@ -414,9 +440,15 @@ class HelloModuleService {
 
 ```ts highlights={[["19"]]}
 // other imports...
+import { 
+  InjectTransactionManager,
+  MedusaContext,
+} from "@medusajs/framework/utils"
+import { Context } from "@medusajs/framework/types"
+import { EntityManager } from "@mikro-orm/knex"
 import { IsolationLevel } from "@mikro-orm/core"
 
-class HelloModuleService {
+class BlogModuleService {
   // ...
   @InjectTransactionManager()
   async update_(
@@ -442,7 +474,15 @@ class HelloModuleService {
     - If `transaction` is provided and this is disabled, the manager in `transaction` is re-used.
 
 ```ts highlights={[["16"]]}
-class HelloModuleService {
+// other imports...
+import { 
+  InjectTransactionManager,
+  MedusaContext,
+} from "@medusajs/framework/utils"
+import { Context } from "@medusajs/framework/types"
+import { EntityManager } from "@mikro-orm/knex"
+
+class BlogModuleService {
   // ...
   @InjectTransactionManager()
   async update_(

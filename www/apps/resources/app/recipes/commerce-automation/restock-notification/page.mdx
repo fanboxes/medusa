@@ -169,7 +169,7 @@ In the data model, you define the following properties:
 
 <Note>
 
-Learn more about data model [properties](!docs!/learn/fundamentals/data-models/property-types) and [relations](!docs!/learn/fundamentals/data-models/relationships).
+Learn more about data model [properties](!docs!/learn/fundamentals/data-models/properties) and [relations](!docs!/learn/fundamentals/data-models/relationships).
 
 </Note>
 
@@ -305,7 +305,7 @@ Learn more about module links in [this documentation](!docs!/learn/fundamentals/
 
 </Note>
 
-To create a link, create the file `src/links/restock-variant.ts` with the following content:
+To define a link, create the file `src/links/restock-variant.ts` with the following content:
 
 ![The directory structure of the Medusa Application after adding this link.](https://res.cloudinary.com/dza7lstvk/image/upload/v1733225402/Medusa%20Resources/restock-dir-overview-7_dln3fw.jpg)
 
@@ -329,7 +329,7 @@ export default defineLink(
 You define a link using `defineLink` from the Modules SDK. It accepts three parameters:
 
 1. The first data model part of the link, which is the Restock Module's `restockSubscription` data model. A module has a special `linkable` property that contain link configurations for its data models. You also specify the field that points to the product variant.
-1. The second data model part of the link, which is the Product Module's `productVariant` data model.
+2. The second data model part of the link, which is the Product Module's `productVariant` data model.
 3. An object of configurations for the module link. By default, Medusa creates a table in the database to represent the link you define. However, in this guide, you only want this link to retrieve the variants associated with a subscription. So, you enable `readOnly` telling Medusa not to create a table for this link.
 
 In the next steps, you'll see how this link allows you to retrieve product variants' details when retrieving restock subscriptions.

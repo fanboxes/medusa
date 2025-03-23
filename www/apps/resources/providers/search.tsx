@@ -36,7 +36,6 @@ const SearchProvider = ({ children }: SearchProviderProps) => {
         checkInternalPattern: new RegExp(`^${config.baseUrl}/resources/.*`),
         filterOptions: searchFilters,
       }}
-      initialDefaultFilters={["guides"]}
     >
       {children}
     </UiSearchProvider>

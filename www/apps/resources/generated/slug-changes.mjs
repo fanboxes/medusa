@@ -150,6 +150,11 @@ export const slugChanges = [
     "filePath": "/www/apps/resources/references/auth_provider/classes/auth_provider.AbstractAuthModuleProvider/page.mdx"
   },
   {
+    "origSlug": "/references/cache/interfaces/cache.ICacheService",
+    "newSlug": "/references/cache-service",
+    "filePath": "/www/apps/resources/references/cache/interfaces/cache.ICacheService/page.mdx"
+  },
+  {
     "origSlug": "/references/cart/ICartModuleService/methods/cart.ICartModuleService.addLineItemAdjustments",
     "newSlug": "/references/cart/addLineItemAdjustments",
     "filePath": "/www/apps/resources/references/cart/ICartModuleService/methods/cart.ICartModuleService.addLineItemAdjustments/page.mdx"
@@ -3735,9 +3740,19 @@ export const slugChanges = [
     "filePath": "/www/apps/resources/references/dml/entity_builder/EntityBuilder/methods/dml.entity_builder.EntityBuilder.define/page.mdx"
   },
   {
+    "origSlug": "/references/event/interfaces/event.IEventBusModuleService",
+    "newSlug": "/references/event-service",
+    "filePath": "/www/apps/resources/references/event/interfaces/event.IEventBusModuleService/page.mdx"
+  },
+  {
     "origSlug": "/references/file/classes/file.AbstractFileProviderService",
     "newSlug": "/references/file-provider-module",
     "filePath": "/www/apps/resources/references/file/classes/file.AbstractFileProviderService/page.mdx"
+  },
+  {
+    "origSlug": "/references/file_service/interfaces/file_service.IFileModuleService",
+    "newSlug": "/references/file-service",
+    "filePath": "/www/apps/resources/references/file_service/interfaces/file_service.IFileModuleService/page.mdx"
   },
   {
     "origSlug": "/references/fulfillment/IFulfillmentModuleService/methods/fulfillment.IFulfillmentModuleService.calculateShippingOptionsPrices",
@@ -4828,6 +4843,11 @@ export const slugChanges = [
     "origSlug": "/references/notification/classes/notification.AbstractNotificationProviderService",
     "newSlug": "/references/notification-provider-module",
     "filePath": "/www/apps/resources/references/notification/classes/notification.AbstractNotificationProviderService/page.mdx"
+  },
+  {
+    "origSlug": "/references/notification_service/interfaces/notification_service.INotificationModuleService",
+    "newSlug": "/references/notification-service",
+    "filePath": "/www/apps/resources/references/notification_service/interfaces/notification_service.INotificationModuleService/page.mdx"
   },
   {
     "origSlug": "/references/order/IOrderModuleService/methods/order.IOrderModuleService.addOrderAction",

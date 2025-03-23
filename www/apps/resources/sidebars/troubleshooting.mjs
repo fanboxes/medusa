@@ -32,7 +32,19 @@ export const troubleshootingSidebar = [
   },
   {
     type: "category",
-    title: "Medusa Application",
+    title: "Upgrade",
+    initialOpen: true,
+    children: [
+      {
+        type: "link",
+        path: "/troubleshooting/errors-after-upgrading",
+        title: "Errors After Upgrading",
+      },
+    ],
+  },
+  {
+    type: "category",
+    title: "Framework",
     initialOpen: true,
     children: [
       {
@@ -51,38 +63,36 @@ export const troubleshootingSidebar = [
         title: "Importing from /dist",
       },
       {
-        type: "link",
-        path: "/troubleshooting/workflow-errors",
-        title: "Workflow Errors",
+        type: "sub-category",
+        title: "Query",
+        children: [
+          {
+            type: "link",
+            path: "/troubleshooting/query/filter-linked",
+            title: "Not Exising Property",
+          },
+        ],
+      },
+      {
+        type: "sub-category",
+        title: "Workflows",
+        children: [
+          {
+            type: "link",
+            path: "/troubleshooting/workflow-errors/when-then",
+            title: "Handler Not Found",
+          },
+          {
+            type: "link",
+            path: "/troubleshooting/workflow-errors/step-x-defined",
+            title: "Step Already Defined",
+          },
+        ],
       },
       {
         type: "link",
         path: "/troubleshooting/test-errors",
         title: "Test Errors",
-      },
-    ],
-  },
-  {
-    type: "category",
-    title: "Admin Development",
-    initialOpen: true,
-    children: [
-      {
-        type: "link",
-        path: "/troubleshooting/medusa-admin/no-widget-route",
-        title: "Widget or Route not Showing",
-      },
-    ],
-  },
-  {
-    type: "category",
-    title: "Upgrade",
-    initialOpen: true,
-    children: [
-      {
-        type: "link",
-        path: "/troubleshooting/errors-after-upgrading",
-        title: "Errors After Upgrading",
       },
     ],
   },
@@ -107,6 +117,57 @@ export const troubleshootingSidebar = [
         type: "link",
         path: "/troubleshooting/s3",
         title: "S3 Module Provider Errors",
+      },
+    ],
+  },
+  {
+    type: "category",
+    title: "Admin Development",
+    initialOpen: true,
+    children: [
+      {
+        type: "link",
+        path: "/troubleshooting/medusa-admin/no-widget-route",
+        title: "Widget or Route not Showing",
+      },
+      {
+        type: "link",
+        path: "/troubleshooting/medusa-admin/blocked-request",
+        title: "Blocked Request",
+      },
+    ],
+  },
+  {
+    type: "category",
+    title: "Storefront",
+    initialOpen: true,
+    children: [
+      {
+        type: "sub-category",
+        title: "Next.js Starter",
+        children: [
+          {
+            type: "link",
+            path: "/troubleshooting/nextjs-starter-rewrites",
+            title: "Cloud Run Error",
+          },
+        ],
+      },
+      {
+        type: "sub-category",
+        title: "Publishable API Key Errors",
+        children: [
+          {
+            type: "link",
+            path: "/troubleshooting/storefront-missing-pak",
+            title: "Missing Publishable API Key",
+          },
+          {
+            type: "link",
+            path: "/troubleshooting/storefront-pak-sc",
+            title: "Sales Channels Error",
+          },
+        ],
       },
     ],
   },

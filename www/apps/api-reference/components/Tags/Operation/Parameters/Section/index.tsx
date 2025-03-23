@@ -1,4 +1,4 @@
-import type { SchemaObject } from "@/types/openapi"
+import type { OpenAPI } from "types"
 import clsx from "clsx"
 import type { TagOperationParametersProps } from ".."
 import dynamic from "next/dynamic"
@@ -14,7 +14,7 @@ const TagOperationParameters = dynamic<TagOperationParametersProps>(
 type TagsOperationParametersSectionProps = {
   header?: string
   contentType?: string
-  schema: SchemaObject
+  schema: OpenAPI.SchemaObject
 }
 
 const TagsOperationParametersSection = ({

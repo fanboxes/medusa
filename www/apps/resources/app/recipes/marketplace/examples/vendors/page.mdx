@@ -1,5 +1,5 @@
 import { Github, PlaySolid } from "@medusajs/icons"
-import { Prerequisites } from "docs-ui"
+import { Prerequisites, WorkflowDiagram } from "docs-ui"
 
 export const metadata = {
   title: `Marketplace Recipe: Vendors Example`,
@@ -11,15 +11,19 @@ In this guide, you'll learn how to build a marketplace with Medusa.
 
 When you install a Medusa application, you get a fully-fledged commerce platform with support for customizations. While Medusa doesn't provide marketplace functionalities natively, it provides features that you can extend and a framework to support all your customization needs to build a marketplace.
 
+## Summary
+
 In this guide, you'll customize Medusa to build a marketplace with the following features:
 
 1. Manage multiple vendors, each having vendor admins.
 2. Allow vendor admins to manage the vendor’s products and orders.
 3. Split orders placed by customers into multiple orders for each vendor.
 
+You can follow this guide whether you're new to Medusa or an advanced Medusa developer.
+
 <Note>
 
-This guide provides an example of an approach to implement digital products. You're free to choose a different approach using Medusa's framework.
+This guide provides an example of an approach to implement marketplaces. You're free to choose a different approach using Medusa's framework.
 
 </Note>
 
@@ -27,13 +31,13 @@ This guide provides an example of an approach to implement digital products. You
   {
     href: "https://github.com/medusajs/examples/tree/main/marketplace",
     title: "Marketplace Example Repository",
-    text: "Find the full code for this recipe example in this repository.",
+    text: "Find the full code for this recipe in this repository.",
     icon: Github,
   },
   {
     href: "https://res.cloudinary.com/dza7lstvk/raw/upload/v1720603521/OpenApi/Marketplace_OpenApi_n458oh.yml",
     title: "OpenApi Specs for Postman",
-    text: "Imported this OpenApi Specs file into tools like Postman.",
+    text: "Import this OpenApi Specs file into tools like Postman.",
     icon: PlaySolid,
   },
 ]} />
@@ -85,17 +89,36 @@ Check out the [troubleshooting guides](../../../../troubleshooting/create-medusa
 
 ## Step 2: Create Marketplace Module
 
-Medusa creates commerce features in modules. For example, product features and data models are created in the Product Module.
+To add custom tables to the database, which are called data models, you create a [module](!docs!/learn/fundamentals/modules). A module is a re-usable package with functionalities related to a single feature or domain. Medusa integrates the module into your application without implications or side effects on your setup.
 
-You also create custom commerce data models and features in custom modules. They're integrated into the Medusa application similar to Medusa's modules without side effects.
+In this step, you'll create a Marketplace Module that holds the data models for a vendor and an admin and allows you to manage them.
 
-So, you'll create a marketplace module that holds the data models for a vendor and an admin and allows you to manage them.
+<Note>
 
-Create the directory `src/modules/marketplace`.
+Learn more about modules in [this documentation](!docs!/learn/fundamentals/modules).
+
+</Note>
+
+### Create Module Directory
+
+A module is created under the `src/modules` directory of your Medusa application. So, create the directory `src/modules/marketplace`.
 
 ### Create Data Models
 
-Create the file `src/modules/marketplace/models/vendor.ts` with the following content:
+A data model represents a table in the database. You create data models using Medusa's Data Model Language (DML). It simplifies defining a table's columns, relations, and indexes with straightforward methods and configurations.
+
+<Note>
+
+Learn more about data models in [this documentation](!docs!/learn/fundamentals/modules#1-create-data-model).
+
+</Note>
+
+In the Marketplace Module, you'll create two data models:
+
+- `Vendor`: Represents a business that sells its products in the marketplace.
+- `VendorAdmin`: Represents an admin of a vendor.
+
+You create a data model in a TypeScript or JavaScript file under the `models` directory of a module. So, to create the `Vendor` data model, create the file `src/modules/marketplace/models/vendor.ts` with the following content:
 
 ```ts title="src/modules/marketplace/models/vendor.ts"
 import { model } from "@medusajs/framework/utils"
@@ -103,7 +126,7 @@ import VendorAdmin from "./vendor-admin"
 
 const Vendor = model.define("vendor", {
   id: model.id().primaryKey(),
-  handle: model.text(),
+  handle: model.text().unique(),
   name: model.text(),
   logo: model.text().nullable(),
   admins: model.hasMany(() => VendorAdmin),
@@ -112,11 +135,26 @@ const Vendor = model.define("vendor", {
 export default Vendor
 ```
 
-This creates a `Vendor` data model, which represents a business that sells its products in the marketplace.
+You define the data model using DML's `define` method. It accepts two parameters:
 
-Notice that the `Vendor` has many admins whose data model you’ll create next.
+1. The first one is the name of the data model's table in the database.
+2. The second is an object, which is the data model's schema. The schema's properties are defined using DML methods.
 
-Create the file `src/modules/marketplace/models/vendor-admin.ts` with the following content:
+You define the following properties for the `Vendor` data model:
+
+- `id`: A primary key ID for each record.
+- `handle`: A unique handle for the vendor. This can be used in URLs on the storefront, such as to show a vendor's details and products.
+- `name`: The name of the vendor.
+- `logo`: The logo image of a vendor.
+- `admins`: The admins of a vendor. It's a relation to the `VendorAdmin` data model which you'll create next.
+
+<Note>
+
+Learn more about data model [properties](!docs!/learn/fundamentals/data-models/properties) and [relations](!docs!/learn/fundamentals/data-models/relationships).
+
+</Note>
+
+Then, to create the `VendorAdmin` data model, create the file `src/modules/marketplace/models/vendor-admin.ts` with the following content:
 
 ```ts title="src/modules/marketplace/models/vendor-admin.ts"
 import { model } from "@medusajs/framework/utils"
@@ -135,11 +173,25 @@ const VendorAdmin = model.define("vendor_admin", {
 export default VendorAdmin
 ```
 
-This creates a `VendorAdmin` data model, which represents an admin of a vendor.
+The `VendorAdmin` data model has the following properties:
 
-### Create Main Module Service
+- `id`: A primary key ID for each record.
+- `first_name`: The first name of the admin.
+- `last_name`: The last name of the admin.
+- `email`: The email of the admin.
+- `vendor`: The vendor the admin belongs to. It's a relation to the `Vendor` data model.
 
-Next, create the main service of the module at `src/modules/marketplace/service.ts` with the following content:
+### Create Service
+
+You define data-management methods of your data models in a service. A service is a TypeScript or JavaScript class that the module exports. In the service's methods, you can perform database operations.
+
+<Note>
+
+Learn more about services in [this documentation](!docs!/learn/fundamentals/modules#2-create-service).
+
+</Note>
+
+In this section, you'll create the Marketplace Module's service. Create the file `src/modules/marketplace/service.ts` with the following content:
 
 ```ts title="src/modules/marketplace/service.ts"
 import { MedusaService } from "@medusajs/framework/utils"
@@ -149,32 +201,50 @@ import VendorAdmin from "./models/vendor-admin"
 class MarketplaceModuleService extends MedusaService({
   Vendor,
   VendorAdmin,
-}) {
-}
+}) { }
 
 export default MarketplaceModuleService
 ```
 
-The service extends the [service factory](!docs!/learn/fundamentals/modules/service-factory), which provides basic data-management features.
+The `MarketplaceModuleService` extends `MedusaService` from the Modules SDK which generates a class with data-management methods for your module's data models. This saves you time on implementing Create, Read, Update, and Delete (CRUD) methods.
 
-### Create Module Definition
+So, the `MarketplaceModuleService` class now has methods like `createVendors` and `retrieveVendorAdmin`.
 
-After that, create the module definition at `src/modules/marketplace/index.ts` with the following content:
+<Note>
+
+Find all methods generated by the `MedusaService` in [this reference](../../../../service-factory-reference/page.mdx).
+
+</Note>
+
+You'll use this service in later steps to store and manage vendors and vendor admins.
+
+### Export Module Definition
+
+The final piece to a module is its definition, which you export in an `index.ts` file at its root directory. This definition tells Medusa the name of the module and its service.
+
+So, create the file `src/modules/marketplace/index.ts` with the following content:
 
 ```ts title="src/modules/marketplace/index.ts"
 import { Module } from "@medusajs/framework/utils"
 import MarketplaceModuleService from "./service"
 
-export const MARKETPLACE_MODULE = "marketplaceModuleService"
+export const MARKETPLACE_MODULE = "marketplace"
 
 export default Module(MARKETPLACE_MODULE, {
   service: MarketplaceModuleService,
 })
 ```
 
-### Add Module to Medusa Configuration
+You use the `Module` function from the Modules SDK to create the module's definition. It accepts two parameters:
 
-Finally, add the module to the list of modules in `medusa-config.ts`:
+1. The module's name, which is `marketplace`.
+2. An object with a required property `service` indicating the module's service.
+
+### Add Module to Medusa's Configurations
+
+Once you finish building the module, add it to Medusa's configurations to start using it.
+
+In `medusa-config.ts`, add a `modules` property and pass an array with your custom module:
 
 ```ts title="medusa-config.ts"
 module.exports = defineConfig({
@@ -187,30 +257,59 @@ module.exports = defineConfig({
 })
 ```
 
+Each object in the `modules` array has a `resolve` property, whose value is either a path to the module's directory, or an `npm` package’s name.
+
+### Generate Migrations
+
+Since data models represent tables in the database, you define how they're created in the database with migrations. A migration is a TypeScript or JavaScript file that defines database changes made by a module.
+
+<Note>
+
+Learn more about migrations in [this documentation](!docs!/learn/fundamentals/modules#5-generate-migrations).
+
+</Note>
+
+Medusa's CLI tool generates the migrations for you. To generate a migration for the Marketplace Module, run the following command in your Medusa application's directory:
+
+```bash
+npx medusa db:generate marketplace
+```
+
+The `db:generate` command of the Medusa CLI accepts the name of the module to generate the migration for. You'll now have a `migrations` directory under `src/modules/marketplace` that holds the generated migration.
+
+Then, to reflect the migration and links in the database, run the following command:
+
+```bash
+npx medusa db:migrate
+```
+
+This will create the tables for the Marketplace Module's data models in the database.
+
 ### Further Reads
 
 - [How to Create a Module](!docs!/learn/fundamentals/modules)
-- [How to Create Data Models](!docs!/learn/fundamentals/modules#1-create-data-model)
 
 ---
 
 ## Step 3: Define Links to Product and Order Data Models
 
-Modules are isolated in Medusa, making them reusable, replaceable, and integrable in your application without side effects.
+Modules are [isolated](!docs!/learn/fundamentals/modules/isolation) to ensure they're re-usable and don't have side effects when integrated into the Medusa application. So, to build associations between modules, you define [module links](!docs!/learn/fundamentals/module-links). A Module link associates two modules' data models while maintaining module isolation.
 
-So, you can't have relations between data models in modules. Instead, you define a link between them.
+<Note>
 
-Links are relations between data models of different modules that maintain the isolation between the modules.
-
-Each vendor has products and orders. So, in this step, you’ll define links between the `Vendor` data model and the `Product` and `Order` data models from the Product and Order modules, respectively.
-
-<Note title="Tip">
-
-If your use case requires linking the vendor to other data models, such as `SalesChannel`, define those links in a similar manner.
+Learn more about module links in [this documentation](!docs!/learn/fundamentals/module-links).
 
 </Note>
 
-Create the file `src/links/vendor-product.ts` with the following content:
+Each vendor should have products and orders. So, in this step, you’ll define links between the `Vendor` data model and the `Product` and `Order` data models from the Product and Order modules, respectively.
+
+<Note title="Tip">
+
+If your use case requires linking the vendor to other data models, such as `SalesChannel` from the [Sales Channel Module](../../../../commerce-modules/sales-channel/page.mdx), define those links in a similar manner.
+
+</Note>
+
+To define a link between the `Vendor` and `Product` data models, create the file `src/links/vendor-product.ts` with the following content:
 
 ```ts title="src/links/vendor-product.ts"
 import { defineLink } from "@medusajs/framework/utils"
@@ -226,9 +325,12 @@ export default defineLink(
 )
 ```
 
-This adds a list link between the `Vendor` and `Product` data models, indicating that a vendor record can be linked to many product records.
+You define a link using `defineLink` from the Modules SDK. It accepts two parameters:
 
-Then, create the file `src/links/vendor-order.ts` with the following content:
+1. The first data model part of the link, which is the Marketplace Module's `vendor` data model. A module has a special `linkable` property that contain link configurations for its data models.
+2. The second data model part of the link, which is the Product Module's `product` data model. You also enable `isList`, indicating that a vendor can have many products.
+
+Next, to define a link between the `Vendor` and `Order` data models, create the file `src/links/vendor-order.ts` with the following content:
 
 ```ts title="src/links/vendor-order.ts"
 import { defineLink } from "@medusajs/framework/utils"
@@ -244,7 +346,19 @@ export default defineLink(
 )
 ```
 
-This adds a list link between the `Vendor` and `Order` data models, indicating that a vendor record can be linked to many order records.
+Similarly, you define an association between the `Vendor` and `Order` data models, where a vendor can have many orders.
+
+In the next steps, you'll see how these link allows you to retrieve and manage a vendor's products and orders.
+
+### Sync Links to Database
+
+Medusa represents the links you define in link tables similar to pivot tables. So, to sync the defined links to the database, run the `db:migrate` command:
+
+```bash
+npx medusa db:migrate
+```
+
+This command runs any pending migrations and syncs link definitions to the database, creating the necessary tables for your links.
 
 ### Further Read
 
@@ -252,56 +366,181 @@ This adds a list link between the `Vendor` and `Order` data models, indicating t
 
 ---
 
-## Step 4: Run Migrations and Sync Links
+## Intermission: Understanding Authentication
 
-To create tables for the marketplace data models in the database, start by generating the migrations for the Marketplace Module with the following command:
+Before proceeding further, you need to understand some concepts related to authenticating users, especially those of custom actor types.
 
-```bash
-npx medusa db:generate marketplaceModuleService
-```
+An [actor type](../../../../commerce-modules/auth/auth-identity-and-actor-types/page.mdx#actor-types) is a type of user that can send an authenticated requests. Medusa has two default actor types: `customer` for customers, and `admin` for admin users.
 
-This generates a migration in the `src/modules/marketplace/migrations` directory.
+You can also create custom actor types, allowing you to authenticate your custom users to specific routes. In this recipe, your custom actor type would be the vendor's admin.
 
-Then, to reflect the migration and links in the database, run the following command:
+When you create a user of the actor type (for example, a vendor admin), you must:
 
-```bash
-npx medusa db:migrate
-```
+1. Retrieve a registration JWT token. Medusa has a `/auth/{actor_type}/emailpass/register` route to retrieve a registration JWT token for the specified actor type.
+2. Create the user. This requires creating the user in the database, and associate an [auth identity](../../../../commerce-modules/auth/auth-identity-and-actor-types/page.mdx#what-is-an-auth-identity) with that user. An auth identity allows this user to later send authenticated requests.
+3. Retrieve an authenticated JWT token using Medusa's `/auth/{actor_type}/emailpass` route, which retrieves the token for the specified actor type if the credentials in the request body match a user in the database.
+
+In the next steps, you'll implement the logic to create a vendor and its admin around the above authentication flow. You can also refer to the following documentation pages to learn more about authentication in Medusa:
+
+- [Auth Identities and Actor Types](../../../../commerce-modules/auth/auth-identity-and-actor-types/page.mdx)
+- [Authentication Routes](../../../../commerce-modules/auth/authentication-route/page.mdx)
 
 ---
 
-## Step 5: Create Vendor Admin Workflow
+## Step 4: Create Vendor Workflow
 
-To implement and expose a feature that manipulates data, you create a workflow that uses services to implement the functionality, then create an API route that executes that workflow.
+To implement and expose a feature that manipulates data, you create a workflow.
 
-In this step, you’ll create the workflow used to create a vendor admin. You'll use it in the next step in an API route.
+A workflow is a series of queries and actions, called steps, that complete a task. You construct a workflow like you construct a function, but it's a special function that allows you to track its executions' progress, define roll-back logic, and configure other advanced features. Then, you execute the workflow from other customizations, such as in an endpoint.
+
+In this step, you’ll create the workflow used to create a vendor and its admin. You'll use it in the next step in an API route.
+
+<Note>
+
+Learn more about workflows in [this documentation](!docs!/learn/fundamentals/workflows)
+
+</Note>
 
 The workflow’s steps are:
 
-1. Create the vendor admin using the Marketplace Module’s main service.
-2. Create a `vendor` [actor type](../../../../commerce-modules/auth/auth-identity-and-actor-types/page.mdx) to authenticate the vendor admin using the Auth Module. Medusa provides a step to perform this.
+<WorkflowDiagram
+  workflow={{
+    name: "createVendorWorkflow",
+    steps: [
+      {
+        type: "step",
+        name: "createVendorStep",
+        description: "Create the vendor.",
+        depth: 1,
+        link: "#createvendorstep"
+      },
+      {
+        type: "step",
+        name: "createVendorAdminStep",
+        description: "Create the vendor admin.",
+        depth: 1,
+        link: "#createvendoradminstep"
+      },
+      {
+        type: "step",
+        name: "setAuthAppMetadataStep",
+        description: "Associate the vendor admin with its auth identity of actor type `vendor`.",
+        depth: 1,
+        link: "/references/medusa-workflows/steps/setAuthAppMetadataStep"
+      },
+      {
+        type: "step",
+        name: "useQueryGraphStep",
+        description: "Retrieve the created vendor with its admins.",
+        depth: 1,
+        link: "/references/helper-steps/useQueryGraphStep"
+      }
+    ]
+  }}
+  hideLegend
+/>
 
-First, create the file `src/workflows/marketplace/create-vendor-admin/steps/create-vendor-admin.ts` with the following content:
+Medusa provides the last two steps through its `@medusajs/medusa/core-flows` package. So, you only need to implement the first two steps.
 
-export const createVendorAdminStepHighlights = [
-  ["24", "vendorAdmin", "Pass the created vendor admin to the compensation function."]
+### createVendorStep
+
+The first step of the workflow creates the vendor in the database using the Marketplace Module's service.
+
+Create the file `src/workflows/marketplace/create-vendor/steps/create-vendor.ts` with the following content:
+
+export const createVendorHighlights = [
+  ["20", "createVendors", "Create a vendor."],
+  ["22", "vendor", "Return the created vendor"],
+  ["32", "deleteVendors", "Delete the vendor if an error occurs."]
 ]
 
-```ts title="src/workflows/marketplace/create-vendor-admin/steps/create-vendor-admin.ts" highlights={createVendorAdminStepHighlights} collapsibleLines="1-8" expandMoreLabel="Show Imports"
+```ts title="src/workflows/marketplace/create-vendor/steps/create-vendor.ts" highlights={createVendorHighlights}
 import { 
   createStep,
   StepResponse,
 } from "@medusajs/framework/workflows-sdk"
-import { CreateVendorAdminWorkflowInput } from ".."
+import { MARKETPLACE_MODULE } from "../../../../modules/marketplace"
+import MarketplaceModuleService from "../../../../modules/marketplace/service"
+
+type CreateVendorStepInput = {
+  name: string
+  handle?: string
+  logo?: string
+}
+
+const createVendorStep = createStep(
+  "create-vendor",
+  async (vendorData: CreateVendorStepInput, { container }) => {
+    const marketplaceModuleService: MarketplaceModuleService = 
+      container.resolve(MARKETPLACE_MODULE)
+
+    const vendor = await marketplaceModuleService.createVendors(vendorData)
+
+    return new StepResponse(vendor, vendor.id)
+  },
+  async (vendorId, { container }) => {
+    if (!vendorId) {
+      return
+    }
+
+    const marketplaceModuleService: MarketplaceModuleService = 
+      container.resolve(MARKETPLACE_MODULE)
+
+      marketplaceModuleService.deleteVendors(vendorId)
+  }
+)
+
+export default createVendorStep
+```
+
+You create a step with `createStep` from the Workflows SDK. It accepts three parameters:
+
+1. The step's unique name, which is `create-vendor`.
+2. An async function that receives two parameters:
+    - An input object with the details of the vendor to create.
+    - The [Medusa container](!docs!/learn/fundamentals/medusa-container), which is a registry of framework and commerce tools that you can access in the step.
+3. An async compensation function. This function is only executed when an error occurs in the workflow. It undoes the changes made by the step.
+
+In the step function, you resolve the Marketplace Module's service from the container. Then, you use the service's generated `createVendors` method to create the vendor.
+
+A step must return an instance of `StepResponse`. It accepts two parameters:
+
+1. The data to return from the step, which is the created vendor in this case.
+2. The data to pass as an input to the compensation function.
+
+You pass the vendor's ID to the compensation function. In the compensation function, you delete the vendor if an error occurs in the workflow.
+
+### createVendorAdminStep
+
+The second step of the workflow creates the vendor's admin. So, create the file `src/workflows/marketplace/create-vendor/steps/create-vendor-admin.ts` with the following content:
+
+export const createVendorAdminStepHighlights = [
+  ["24", "createVendorAdmins", "Create the vendor admin."],
+  ["29", "vendorAdmin", "Return the created vendor admin."],
+  ["41", "deleteVendorAdmins", "Delete the vendor admin if an error occurs."],
+]
+
+```ts title="src/workflows/marketplace/create-vendor/steps/create-vendor-admin.ts" highlights={createVendorAdminStepHighlights} collapsibleLines="1-7" expandMoreLabel="Show Imports"
+import { 
+  createStep,
+  StepResponse,
+} from "@medusajs/framework/workflows-sdk"
 import MarketplaceModuleService from "../../../../modules/marketplace/service"
 import { MARKETPLACE_MODULE } from "../../../../modules/marketplace"
 
+type CreateVendorAdminStepInput = {
+  email: string
+  first_name?: string
+  last_name?: string
+  vendor_id: string
+}
+
 const createVendorAdminStep = createStep(
   "create-vendor-admin-step",
-  async ({ 
-    admin: adminData,
-  }: Pick<CreateVendorAdminWorkflowInput, "admin">, 
-  { container }) => {
+  async (
+    adminData: CreateVendorAdminStepInput, 
+    { container }
+  ) => {
     const marketplaceModuleService: MarketplaceModuleService = 
       container.resolve(MARKETPLACE_MODULE)
 
@@ -311,57 +550,86 @@ const createVendorAdminStep = createStep(
 
     return new StepResponse(
       vendorAdmin,
-      vendorAdmin
+      vendorAdmin.id
     )
   },
-  async (vendorAdmin, { container }) => {
+  async (vendorAdminId, { container }) => {
+    if (!vendorAdminId) {
+      return
+    }
+    
     const marketplaceModuleService: MarketplaceModuleService = 
       container.resolve(MARKETPLACE_MODULE)
 
-    marketplaceModuleService.deleteVendorAdmins(vendorAdmin.id)
+    marketplaceModuleService.deleteVendorAdmins(vendorAdminId)
   }
 )
 
 export default createVendorAdminStep
 ```
 
-This is the first step that creates the vendor admin and returns it.
+Similar to the previous step, you create a step that accepts the vendor admin's details as an input, and creates the vendor admin using the Marketplace Module. In the compensation function, you delete the vendor admin if an error occurs.
 
-In the compensation function, which runs if an error occurs in the workflow, it removes the admin.
+### Create Workflow
 
-Then, create the workflow at `src/workflows/marketplace/create-vendor-admin/index.ts` with the following content:
+You can now create the workflow that creates a vendor and its admin.
 
-export const vendorAdminWorkflowHighlights = [
-  ["23", "createVendorAdminStep", "Create the vendor admin."],
-  ["27", "setAuthAppMetadataStep", "Step is from Medusa's core workflows"]
+Create the file `src/workflows/marketplace/create-vendor/index.ts` with the following content:
+
+export const vendorWorkflowHighlights = [
+  ["27", "createVendorStep", "Create the vendor."],
+  ["33", "transform", "Prepare the vendor admin's data."],
+  ["43", "createVendorAdminStep", "Create the vendor admin."],
+  ["47", "setAuthAppMetadataStep", "Create the `vendor` actor type."],
+  ["53", "useQueryGraphStep", "Retrieve the created vendor with its admins."],
 ]
 
-```ts title="src/workflows/marketplace/create-vendor-admin/index.ts" highlights={vendorAdminWorkflowHighlights}
+```ts title="src/workflows/marketplace/create-vendor/index.ts" highlights={vendorWorkflowHighlights}
 import { 
   createWorkflow,
   WorkflowResponse,
 } from "@medusajs/framework/workflows-sdk"
 import { 
   setAuthAppMetadataStep,
+  useQueryGraphStep,
 } from "@medusajs/medusa/core-flows"
 import createVendorAdminStep from "./steps/create-vendor-admin"
+import createVendorStep from "./steps/create-vendor"
 
-export type CreateVendorAdminWorkflowInput = {
+export type CreateVendorWorkflowInput = {
+  name: string
+  handle?: string
+  logo?: string
   admin: {
     email: string
     first_name?: string
     last_name?: string
-    vendor_id: string
   }
   authIdentityId: string
 }
 
-const createVendorAdminWorkflow = createWorkflow(
-  "create-vendor-admin",
-  function (input: CreateVendorAdminWorkflowInput) {
-    const vendorAdmin = createVendorAdminStep({
-      admin: input.admin,
+const createVendorWorkflow = createWorkflow(
+  "create-vendor",
+  function (input: CreateVendorWorkflowInput) {
+    const vendor = createVendorStep({
+      name: input.name,
+      handle: input.handle,
+      logo: input.logo,
     })
+
+    const vendorAdminData = transform({
+      input,
+      vendor,
+    }, (data) => {
+      return {
+        ...data.input.admin,
+        vendor_id: data.vendor.id,
+      }
+    })
+
+    const vendorAdmin = createVendorAdminStep(
+      vendorAdminData
+    )
 
     setAuthAppMetadataStep({
       authIdentityId: input.authIdentityId,
@@ -369,19 +637,39 @@ const createVendorAdminWorkflow = createWorkflow(
       value: vendorAdmin.id,
     })
 
-    return new WorkflowResponse(vendorAdmin)
+    const { data: vendorWithAdmin } = useQueryGraphStep({
+      entity: "vendor",
+      fields: ["id", "name", "handle", "logo", "admins.*"],
+      filters: {
+        id: vendor.id,
+      },
+    })
+
+    return new WorkflowResponse({
+      vendor: vendorWithAdmin[0],
+    })
   }
 )
 
 export default createVendorAdminWorkflow
 ```
 
-In this workflow, you run the following steps:
+You create a workflow with `createWorkflow` from the Workflows SDK. It accepts two parameters:
 
-1. `createVendorAdminStep` to create the vendor admin.
-2. `setAuthAppMetadataStep` to create the `vendor` actor type. This step is provided by Medusa in the `@medusajs/medusa/core-flows` package.
+1. The workflow's unique name, which is `create-vendor`.
+2. A function that receives an input object with the details of the vendor and its admin.
 
-You return the created vendor admin.
+In the workflow function, you run the following steps:
+
+1. `createVendorStep` to create the vendor.
+2. `createVendorAdminStep` to create the vendor admin.
+    - Notice that you use `transform` from the Workflows SDK to prepare the data you pass into the step. Medusa doesn't allow direct manipulation of variables within the worflow's constructor function. Learn more in the [Data Manipulation in Workflows documentation](!docs!/learn/fundamentals/workflows/variable-manipulation).
+3. `setAuthAppMetadataStep` to associate the vendor admin with its auth identity of actor type `vendor`. This will allow the vendor admin to send authenticated requests afterwards.
+4. `useQueryGraphStep` to retrieve the created vendor with its admins using [Query](!docs!/learn/fundamentals/module-links/query). Query allows you to retrieve data across modules.
+
+A workflow must return a `WorkflowResponse` instance. It accepts as a parameter the data to return, which is the vendor in this case.
+
+In the next step, you'll learn how to execute the workflow in an API route.
 
 ### Further Read
 
@@ -392,16 +680,24 @@ You return the created vendor admin.
 
 ---
 
-## Step 6: Create Vendor API Route
+## Step 5: Create Vendor API Route
 
-To expose custom commerce features to frontend applications, such as the Medusa Admin dashboard or a storefront, you expose an endpoint by creating an API route.
+Now that you've implemented the logic to create a vendor, you'll expose this functionality in an API route. An API Route is an endpoint that exposes commerce features to external applications and clients, such as storefronts or custom dashboards.
 
-In this step, you’ll create the API route that runs the workflow from the previous step.
+<Note>
 
-Start by creating the file `src/api/vendors/route.ts` with the following content:
+Learn more about API routes in [this documentation](!docs!/learn/fundamentals/api-routes).
+
+</Note>
+
+### Create API Route
+
+An API route is created in a `route.ts` file under a sub-directory of the `src/api` directory.
+
+The path of the API route is the file's path relative to `src/api`. So, to create the `/vendors` API route, create the file `src/api/vendors/route.ts` with the following content:
 
 export const vendorRouteSchemaHighlights = [
-  ["10", "schema", "Define the fields expected in the request body."],
+  ["11", "PostVendorCreateSchema", "Define the fields expected in the request body."],
 ]
 
 ```ts title="src/api/vendors/route.ts" highlights={vendorRouteSchemaHighlights}
@@ -411,10 +707,11 @@ import {
 } from "@medusajs/framework/http"
 import { MedusaError } from "@medusajs/framework/utils"
 import { z } from "zod"
-import MarketplaceModuleService from "../../modules/marketplace/service"
-import createVendorAdminWorkflow from "../../workflows/marketplace/create-vendor-admin"
+import createVendorWorkflow, { 
+  CreateVendorWorkflowInput,
+} from "../../workflows/marketplace/create-vendor"
 
-const schema = z.object({
+export const PostVendorCreateSchema = z.object({
   name: z.string(),
   handle: z.string().optional(),
   logo: z.string().optional(),
@@ -425,30 +722,15 @@ const schema = z.object({
   }).strict(),
 }).strict()
 
-type RequestBody = {
-  name: string,
-  handle?: string,
-  logo?: string,
-  admin: {
-    email: string,
-    first_name?: string,
-    last_name?: string
-  }
-}
+type RequestBody = z.infer<typeof PostVendorCreateSchema>
 
 ```
 
-This defines the schema to be accepted in the request body.
+You start by defining the accepted fields in incoming request bodies using [Zod](https://zod.dev/). You'll later learn how to enforce the schema validation on all incoming requests.
 
-Then, add the route handler to the same file:
+Then, to create the API route, add the following content to the same file:
 
-export const vendorRouteHighlights = [
-  ["14", "parse", "Validate the request body and, if valid, retrieve it as an object."],
-  ["20", "createVendors", "Create the vendor using the Marketplace Module's main service."],
-  ["23", "createVendorAdminWorkflow", "Execute the workflow created in the first step."],
-]
-
-```ts title="src/api/vendors/route.ts" highlights={vendorRouteHighlights}
+```ts title="src/api/vendors/route.ts"
 export const POST = async (
   req: AuthenticatedMedusaRequest<RequestBody>,
   res: MedusaResponse
@@ -462,58 +744,66 @@ export const POST = async (
     )
   }
 
-  const { admin, ...vendorData } = schema.parse(req.body) as RequestBody
-
-  const marketplaceModuleService: MarketplaceModuleService = req.scope
-    .resolve("marketplaceModuleService")
-
-  // create vendor
-  let vendor = await marketplaceModuleService.createVendors(vendorData)
+  const vendorData = req.validatedBody
 
   // create vendor admin
-  await createVendorAdminWorkflow(req.scope)
+  const { result } = await createVendorWorkflow(req.scope)
     .run({
       input: {
-        admin: {
-          ...admin,
-          vendor_id: vendor[0].id,
-        },
+        ...vendorData,
         authIdentityId: req.auth_context.auth_identity_id,
-      },
+      } as CreateVendorWorkflowInput,
     })
 
-  // retrieve vendor again with admins
-  vendor = await marketplaceModuleService.retrieveVendor(vendor[0].id, {
-    relations: ["admins"],
-  })
-
   res.json({
-    vendor,
+    vendor: result.vendor,
   })
 }
 ```
 
-This API route expects the request header to contain a new vendor admin’s authentication JWT token.
+Since you export a `POST` function in this file, you're exposing a `POST` API route at `/vendors`. The route handler function accepts two parameters:
 
-The route handler creates a vendor using the Marketplace Module’s main service and then uses the `createVendorAdminWorkflow` to create an admin for the vendor.
+1. A request object with details and context on the request, such as body parameter or authenticated user details.
+2. A response object to manipulate and send the response.
 
-Next, create the file `src/api/middlewares.ts` with the following content:
+In the function, you first check that the user accessing the request isn't already registered (as a vendor admin). Then, you execute the `createVendorWorkflow` from the previous step, passing it the request body.
+
+You also pass the workflow the ID of the auth identity to associate the vendor admin with. This auth identity is set in the request's context because you'll later pass the registration JWT token in the request's header.
+
+Finally, you return the created vendor in the response.
+
+### Apply Authentication and Validation Middlewares
+
+To ensure that incoming request bodies contain the required parameters, and that only vendor admins with a registration token can access this route, you'll add middlewares to the API route.
+
+A middleware is a function executed before the API route when a request is sent to it. Middlewares are useful to restrict access to an API route based on validation or authentication requirements.
+
+<Note>
+
+Learn more about middlewares in [this documentation](!docs!/learn/fundamentals/api-routes/middlewares).
+
+</Note>
+
+You define middlewares in Medusa in the `src/api/middlewares.ts` special file. So, create the file `src/api/middlewares.ts` with the following content:
 
 ```ts title="src/api/middlewares.ts"
 import { 
-  defineMiddlewares,
-  authenticate,
+  defineMiddlewares, 
+  authenticate, 
+  validateAndTransformBody,
 } from "@medusajs/framework/http"
+import { PostVendorCreateSchema } from "./vendors/route"
 
 export default defineMiddlewares({
   routes: [
     {
       matcher: "/vendors",
-      method: "POST",
+      method: ["POST"],
       middlewares: [
         authenticate("vendor", ["session", "bearer"], {
           allowUnregistered: true,
         }),
+        validateAndTransformBody(PostVendorCreateSchema),
       ],
     },
     {
@@ -526,39 +816,43 @@ export default defineMiddlewares({
 })
 ```
 
-This applies two middlewares:
+In this file, you export the middlewares definition using `defineMiddlewares` from the Medusa Framework. This function accepts an object having a `routes` property, which is an array of middleware configurations to apply on routes.
 
-1. On the `/vendors` POST API route; it requires authentication but allows unregistered users.
-2. On the `/vendors/*` API routes, which you’ll implement in upcoming sections; it requires an authenticated vendor admin.
+You pass in the `routes` array objects having the following properties:
+
+- `matcher`: The route to apply the middleware on.
+- `method`: Optional HTTP methods to apply the middleware on for the specified API route.
+- `middlewares`: An array of the middlewares to apply.
+
+You first apply two middlewares to the `POST /vendors` API route you just created:
+
+- `authenticate`: Ensure that the user sending the request has a registration JWT token.
+- `validateAndTransformBody`: Validate that the incoming request body matches the Zod schema that you created in the API route's file.
+
+You also apply the `authenticate` middleware on all routes starting with `/vendors*` to ensure they can only be accessed by authenticated vendor admin. Note that since you don't enable `allowUnregistered`, the vendor admin must be registered to access these routes.
 
 ### Test it Out
 
-To test out the above API route:
-
-1. Start the Medusa application:
+To test out the above API route, start the Medusa application:
 
 ```bash npm2yarn
 npm run dev
 ```
 
-2. Retrieve a JWT token from the `/auth/vendor/emailpass/register` API route:
+Then, you must retrieve a registration JWT token to access the Create Vendor API route. To obtain it, send a `POST` request to the `/auth/vendor/emailpass/register` API route:
 
-```bash apiTesting testApiUrl="http://localhost:9000/auth/vendor/emailpass/register" testApiMethod="POST" testBodyParams={{ "email": "admin@medusa-test.com", "password": "supersecret" }}
+```bash
 curl -X POST 'http://localhost:9000/auth/vendor/emailpass/register' \
 -H 'Content-Type: application/json' \
 --data-raw '{
-    "email": "admin@medusa-test.com",
+    "email": "vendor@exampl.com",
     "password": "supersecret"
 }'
 ```
 
-<Note title="Tip">
+You can replace the email and password with other credentials.
 
-This route is available because you created the `vendor` actor type previously.
-
-</Note>
-
-3. Send a request to the `/vendors` API route, passing the token retrieved from the previous response in the request header:
+Then, to create a vendor and its admin, send a request to the `/vendors` API route, passing the token retrieved from the previous response in the request header:
 
 <Note>
 
@@ -574,22 +868,24 @@ curl -X POST 'http://localhost:9000/vendors' \
     "name": "Acme",
     "handle": "acme",
     "admin": {
-        "email": "admin@medusa-test.com",
+        "email": "vendor@example.com,
         "first_name": "Admin",
         "last_name": "Acme"
     }
 }'
 ```
 
-This returns the created vendor and admin.
+Make sure to replace `{token}` with the registration token you retrieved. If you changed the email previously, make sure to change it here as well.
 
-4. Retrieve an authenticated token of the vendor admin by sending another request to the `/auth/vendor/emailpass` API route:
+This will return the created vendor and its admin.
 
-```bash apiTesting testApiUrl="http://localhost:9000/auth/vendor/emailpass" testApiMethod="POST" testBodyParams={{ "email": "admin@medusa-test.com", "password": "supersecret" }}
+You can now retrieve an authenticated token of the vendor admin. To do that, send a `POST` request to the `/auth/vendor/emailpass` API route:
+
+```bash
 curl -X POST 'http://localhost:9000/auth/vendor/emailpass' \
 -H 'Content-Type: application/json' \
 --data-raw '{
-    "email": "admin@medusa-test.com",
+    "email": "vendor@example.com,
     "password": "supersecret"
 }'
 ```
@@ -604,174 +900,240 @@ Use this token in the header of later requests that require authentication.
 
 ---
 
-## Step 7: Add Product API Routes
+## Step 6: Create Product API Route
 
-In this section, you’ll add two API routes: one to retrieve the vendor’s products and one to create a product.
+Now that you support creating vendors, you want to allow these vendors to manage their products.
 
-To create the API route that retrieves the vendor’s products, create the file `src/api/vendors/products/route.ts` with the following content:
+In this step, you'll create a workflow that creates a product, then use that workflow in a new API route.
 
-export const retrieveProductHighlights = [
-  ["16", "retrieveVendorAdmin", "Retrive the vendor admin to retrieve its vendor's ID."],
-  ["23", "graph", "Retrieve the vendor's products using Query."]
-]
+### Create Product Workflow
 
-```ts title="src/api/vendors/products/route.ts" highlights={retrieveProductHighlights}
-import { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http"
+The workflow to create a product has the following steps:
+
+<WorkflowDiagram
+  workflow={{
+    name: "createVendorProductWorkflow",
+    steps: [
+      {
+        type: "step",
+        name: "useQueryGraphStep",
+        description: "Retrieve the default sales channel in the store.",
+        depth: 1,
+        link: "/references/helper-steps/useQueryGraphStep"
+      },
+      {
+        type: "step",
+        name: "createProductsWorkflow",
+        description: "Create the product.",
+        depth: 1,
+        link: "/references/medusa-workflows/createProductsWorkflow"
+      },
+      {
+        type: "step",
+        name: "useQueryGraphStep",
+        description: "Retrieve the admin's vendor ID.",
+        depth: 1,
+        link: "/references/helper-steps/useQueryGraphStep"
+      },
+      {
+        type: "step",
+        name: "createRemoteLinkStep",
+        description: "Create a link between the vendor and the product.",
+        link: "/references/helper-steps/createRemoteLinkStep"
+      },
+      {
+        type: "step",
+        name: "useQueryGraphStep",
+        description: "Retrieve the created product's details.",
+        depth: 1,
+        link: "/references/helper-steps/useQueryGraphStep"
+      },
+    ]
+  }}
+  hideLegend
+/>
+
+The workflow's steps are all provided by Medusa's `@medusajs/medusa/core-flows` package. So, you can create the workflow right away.
+
+Create the file `src/workflows/marketplace/create-vendor-product/index.ts` with the following content:
+
+```ts title="src/workflows/marketplace/create-vendor-product/index.ts"
+import { CreateProductWorkflowInputDTO } from "@medusajs/framework/types"
 import { 
-  ContainerRegistrationKeys,
-} from "@medusajs/framework/utils"
-import MarketplaceModuleService from "../../../modules/marketplace/service"
+  createWorkflow, 
+  transform, 
+  WorkflowResponse,
+} from "@medusajs/framework/workflows-sdk"
+import { 
+  createProductsWorkflow, 
+  createRemoteLinkStep, 
+  useQueryGraphStep,
+} from "@medusajs/medusa/core-flows"
 import { MARKETPLACE_MODULE } from "../../../modules/marketplace"
+import { Modules } from "@medusajs/framework/utils"
 
-export const GET = async (
-  req: AuthenticatedMedusaRequest,
-  res: MedusaResponse
-) => {
-  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
-  const marketplaceModuleService: MarketplaceModuleService = 
-    req.scope.resolve(MARKETPLACE_MODULE)
-
-  const vendorAdmin = await marketplaceModuleService.retrieveVendorAdmin(
-    req.auth_context.actor_id,
-    {
-      relations: ["vendor"],
-    }
-  )
-
-  const { data: [vendor] } = await query.graph({
-    entity: "vendor",
-    fields: ["products.*"],
-    filters: {
-      id: [vendorAdmin.vendor.id],
-    },
-  })
-
-  res.json({
-    products: vendor.products,
-  })
+type WorkflowInput = {
+  vendor_admin_id: string
+  product: CreateProductWorkflowInputDTO
 }
-```
 
-This adds a `GET` API route at `/vendors/products` that, using Query, retrieves the list of products of the vendor and returns them in the response.
+const createVendorProductWorkflow = createWorkflow(
+  "create-vendor-product",
+  (input: WorkflowInput) => {
+    // Retrieve default sales channel to make the product available in.
+    // Alternatively, you can link sales channels to vendors and allow vendors
+    // to manage sales channels
+    const { data: stores } = useQueryGraphStep({
+      entity: "store",
+      fields: ["default_sales_channel_id"],
+    })
 
-To add the create product API route, add to the same file the following:
+    const productData = transform({
+      input,
+      stores,
+    }, (data) => {
+      return {
+        products: [{
+          ...data.input.product,
+          sales_channels: [
+            {
+              id: data.stores[0].default_sales_channel_id,
+            },
+          ],
+        }],
+      }
+    })
 
-export const createProducts1Highlights = [
-  ["15", "CreateProductWorkflowInputDTO", "Accept the same request body as Medusa's Create Product API route"],
-  ["32", "retrieveVendorAdmin", "Retrive the vendor admin to retrieve its vendor's ID."],
-]
-
-```ts title="src/api/vendors/products/route.ts" highlights={createProducts1Highlights}
-// other imports...
-import { createProductsWorkflow } from "@medusajs/medusa/core-flows"
-import { 
-  CreateProductWorkflowInputDTO,
-  IProductModuleService,
-  ISalesChannelModuleService,
-} from "@medusajs/framework/types"
-import { 
-  Modules, 
-  Modules,
-} from "@medusajs/framework/utils"
-
-// GET method...
-
-type RequestType = CreateProductWorkflowInputDTO
-
-export const POST = async (
-  req: AuthenticatedMedusaRequest<RequestType>,
-  res: MedusaResponse
-) => {
-  const link = req.scope.resolve("link")
-  const marketplaceModuleService: MarketplaceModuleService = 
-    req.scope.resolve(MARKETPLACE_MODULE)
-  const productModuleService: IProductModuleService = req.scope
-    .resolve(Modules.PRODUCT)
-  const salesChannelModuleService: ISalesChannelModuleService = req.scope
-    .resolve(Modules.SALES_CHANNEL)
-  // Retrieve default sales channel to make the product available in.
-  // Alternatively, you can link sales channels to vendors and allow vendors
-  // to manage sales channels
-  const salesChannels = await salesChannelModuleService.listSalesChannels()
-  const vendorAdmin = await marketplaceModuleService.retrieveVendorAdmin(
-    req.auth_context.actor_id,
-    {
-      relations: ["vendor"],
-    }
-  )
-  
-  // TODO create and link product
-}
-```
-
-This adds a `POST` API route at `/vendors/products`. It resolves the necessary modules' main services, and retrieves the sales channels and vendor admin.
-
-In the place of the `TODO`, add the following:
-
-export const createProducts2Highlights = [
-  ["1", "createProductsWorkflow", "Use Medusa's workflow to create a product."],
-  ["12", "create", "Create a link between the created product and the vendor."]
-]
-
-```ts title="src/api/vendors/products/route.ts" highlights={createProducts2Highlights}
-const { result } = await createProductsWorkflow(req.scope)
-  .run({
-    input: {
-      products: [{
-        ...req.body,
-        sales_channels: salesChannels,
-      }],
-    },
-  })
-
-// link product to vendor
-await link.create({
-  [MARKETPLACE_MODULE]: {
-    vendor_id: vendorAdmin.vendor.id,
-  },
-  [Modules.PRODUCT]: {
-    product_id: result[0].id,
-  },
-})
-
-// retrieve product again
-const product = await productModuleService.retrieveProduct(
-  result[0].id
+    const createdProducts = createProductsWorkflow.runAsStep({
+      input: productData,
+    })
+    
+    // TODO link vendor and products
+  }
 )
 
-res.json({
-  product,
+export default createVendorProductWorkflow
+```
+
+The workflow accepts two parameters:
+
+- `vendor_admin_id`: The ID of the vendor admin creating the product.
+- `product`: The details of the product to create.
+
+In the workflow, you first retrieve the default sales channel in the store. This is necessary, as the product can only be purchased in the sales channels it's available in.
+
+Then, you prepare the product's data, combining what's passed in the input and the default sales channel's ID. Finally, you create the product.
+
+Next, you want to create a link between the product and the vendor it's created for. So, replace the `TODO` with the following:
+
+```ts title="src/workflows/marketplace/create-vendor-product/index.ts"
+const { data: vendorAdmins } = useQueryGraphStep({
+  entity: "vendor_admin",
+  fields: ["vendor.id"],
+  filters: {
+    id: input.vendor_admin_id,
+  },
+}).config({ name: "retrieve-vendor-admins" })
+
+const linksToCreate = transform({
+  input,
+  createdProducts,
+  vendorAdmins,
+}, (data) => {
+  return data.createdProducts.map((product) => {
+    return {
+      [MARKETPLACE_MODULE]: {
+        vendor_id: data.vendorAdmins[0].vendor.id,
+      },
+      [Modules.PRODUCT]: {
+        product_id: product.id,
+      },
+    }
+  })
+})
+
+createRemoteLinkStep(linksToCreate)
+
+const { data: products } = useQueryGraphStep({
+  entity: "product",
+  fields: ["*", "variants.*"],
+  filters: {
+    id: createdProducts[0].id,
+  },
+}).config({ name: "retrieve-products" })
+
+return new WorkflowResponse({
+  product: products[0],
 })
 ```
 
-This creates a product, links it to the vendor, and returns the product in the response.
+You retrieve the ID of the admin's vendor. Then, you prepare the data to create a link.
+
+Medusa provides a `createRemoteLinkStep` that allows you to create links between records of different modules. The step accepts as a parameter an array of link objects, where each object has the module name as the key and the ID of the record to link as the value. The modules must be passed in the same order they were passed in to `defineLink`.
 
 <Note>
 
-In the route handler, you add the product to the default sales channel. You can, instead, link sales channels with vendors similar to the steps explained in step 2.
+Refer to the [Link](!docs!/learn/fundamentals/module-links/link) documentation to learn more about creating links.
 
 </Note>
 
-Finally, in `src/api/middlewares.ts`, apply a middleware on the create products route to validate the request body before executing the route handler:
+Finally, you retrieve the created product's details using Query and return the product.
 
-```ts title="src/api/middlewares.ts"
+### Create API Route
+
+Next, you'll create the API route that uses the above workflow to create a product for a vendor.
+
+Create the file `src/api/vendors/products/route.ts` with the following content:
+
+```ts title="src/api/vendors/products/route.ts"
 import { 
-  defineMiddlewares,
-  authenticate,
-  validateAndTransformBody,
+  AuthenticatedMedusaRequest, 
+  MedusaResponse,
 } from "@medusajs/framework/http"
 import { 
-  AdminCreateProduct,
-} from "@medusajs/medusa/api/admin/products/validators"
+  HttpTypes,
+} from "@medusajs/framework/types"
+import createVendorProductWorkflow from "../../../workflows/marketplace/create-vendor-product"
+
+export const POST = async (
+  req: AuthenticatedMedusaRequest<HttpTypes.AdminCreateProduct>,
+  res: MedusaResponse
+) => {
+  const { result } = await createVendorProductWorkflow(req.scope)
+    .run({
+      input: {
+        vendor_admin_id: req.auth_context.actor_id,
+        product: req.validatedBody,
+      },
+    })
+
+  res.json({
+    product: result.product,
+  })
+}
+```
+
+Since you export a `POST` function, you're exposing a `POST` API route at `/vendors/products`.
+
+In the route handler, you execute the `createVendorProductWorkflow` workflow, passing it the authenticated vendor admin's ID and the request body, which holds the details of the product to create. Finally, you return the product.
+
+### Apply Validation Middleware
+
+Since the above API route requires passing the product's details in the request body, you need to apply a validation middleware on it.
+
+In `src/api/middlewares.ts`, add a new middleware route object:
+
+```ts title="src/api/middlewares.ts"
+// other imports...
+import { AdminCreateProduct } from "@medusajs/medusa/api/admin/products/validators"
 
 export default defineMiddlewares({
   routes: [
     // ...
     {
       matcher: "/vendors/products",
-      method: "POST",
+      method: ["POST"],
       middlewares: [
-        authenticate("vendor", ["session", "bearer"]),
         validateAndTransformBody(AdminCreateProduct),
       ],
     },
@@ -779,11 +1141,17 @@ export default defineMiddlewares({
 })
 ```
 
+Similar to before, you apply the `validateAndTransformBody` middleware on the `POST /vendors/products` API route. You pass to the middleware the `AdminCreateProduct` schema that Medusa uses to validate the request body of the [Create Product Admin API Route](!api!/admin#products_postproducts).
+
 ### Test it Out
 
-To test out the new API routes:
+To test it out, start the Medusa application:
 
-1. Send a `POST` request to `/vendors/products` to create a product:
+```bash npm2yarn
+npm run dev
+```
+
+Then, send the following request to `/vendors/products` to create a product for the vendor:
 
 ```bash
 curl -X POST 'http://localhost:9000/vendors/products' \
@@ -816,12 +1184,70 @@ curl -X POST 'http://localhost:9000/vendors/products' \
 }'
 ```
 
-2. Send a `GET` request to `/vendors/products` to retrieve the vendor’s products:
+Make sure to replace `{token}` with the authenticated token of the vendor admin you retrieved earlier.
+
+This will return the created product. In the next step, you'll add API routes to retrieve the vendor's products.
+
+### Further Reads
+
+- [How to use Query](!docs!/learn/fundamentals/module-links/query)
+- [How to use Link](!docs!/learn/fundamentals/module-links/link)
+
+---
+
+## Step 7: Retrieve Products API Route
+
+In this step, you'll add the API route to retrieve a vendor's products.
+
+To create the API route that retrieves the vendor’s products, add the following to `src/api/vendors/products/route.ts`:
+
+```ts title="src/api/vendors/products/route.ts"
+// other imports...
+import { 
+  ContainerRegistrationKeys,
+} from "@medusajs/framework/utils"
+
+export const GET = async (
+  req: AuthenticatedMedusaRequest,
+  res: MedusaResponse
+) => {
+  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
+
+  const { data: [vendorAdmin] } = await query.graph({
+    entity: "vendor_admin",
+    fields: ["vendor.products.*"],
+    filters: {
+      id: [
+        // ID of the authenticated vendor admin
+        req.auth_context.actor_id,
+      ],
+    },
+  })
+
+  res.json({
+    products: vendorAdmin.vendor.products,
+  })
+}
+```
+
+You add a `GET` API route at `/vendors/products`. In the route handler, you use Query to retrieve the list of products of the authenticated admin's vendor and returns them in the response. You can retrieve the linked records since Query retrieves data across modules.
+
+### Test it Out
+
+To test out the new API routes, start the Medusa application:
+
+```bash npm2yarn
+npm run dev
+```
+
+Then, send a `GET` request to `/vendors/products` to retrieve the vendor’s products:
 
 ```bash
 curl 'http://localhost:9000/vendors/products' \
 -H 'Authorization: Bearer {token}'
 ```
+
+Make sure to replace `{token}` with the authenticated token of the vendor admin you retrieved earlier.
 
 ### Further Reads
 
@@ -834,27 +1260,64 @@ curl 'http://localhost:9000/vendors/products' \
 
 In this step, you’ll create a workflow that’s executed when the customer places an order. It has the following steps:
 
-```mermaid
-graph TD
-  retrieveCartStep["Retrieve Cart (useQueryGraphStep from Medusa)"] --> completeCartWorkflow["completeCartWorkflow (Medusa)"]
-  completeCartWorkflow["completeCartWorkflow (Medusa)"] --> groupVendorItemsStep
-  groupVendorItemsStep --> getOrderDetailWorkflow
-  getOrderDetailWorkflow --> createVendorOrdersStep
-  createVendorOrdersStep --> createRemoteLinkStep["Create Links (createRemoteLinkStep from Medusa)"]
-```
+<WorkflowDiagram
+  workflow={{
+    name: "createVendorOrdersWorkflow",
+    steps: [
+      {
+        type: "step",
+        name: "useQueryGraphStep",
+        description: "Retrieve the cart's details.",
+        depth: 1,
+        link: "/references/helper-steps/useQueryGraphStep"
+      },
+      {
+        type: "step",
+        name: "completeCartWorkflow", 
+        description: "Create the parent order from the cart.",
+        depth: 1,
+        link: "/references/medusa-workflows/completeCartWorkflow"
+      },
+      {
+        type: "step",
+        name: "groupVendorItemsStep",
+        description: "Group the items by their vendor.",
+        depth: 1,
+        link: "#groupvendoritemssstep"
+      },
+      {
+        type: "step",
+        name: "getOrderDetailWorkflow",
+        description: "Retrieve the parent order's details.",
+        depth: 1,
+        link: "/references/medusa-workflows/getOrderDetailWorkflow"
+      },
+      {
+        type: "step",
+        name: "createVendorOrdersStep", 
+        description: "Create child orders for each vendor.",
+        depth: 1,
+        link: "#createvendorordersstep"
+      },
+      {
+        type: "step",
+        name: "createRemoteLinkStep",
+        description: "Create links between vendors and orders.",
+        depth: 1,
+        link: "/references/helper-steps/createRemoteLinkStep"
+      }
+    ]
+  }}
+  hideLegend
+/>
 
-1. Retrieve the cart using its ID. Medusa provides a `useQueryGraphStep` in the `@medusajs/medusa/core-flows` package that you can use.
-2. Create a parent order for the cart and its items. Medusa also has a `completeCartWorkflow` in the `@medusajs/medusa/core-flows` package that you can use as a step.
-3. Group the cart items by their product’s associated vendor.
-4. Retrieve the order's details using Medusa's `getOrderDetailWorkflow` exported by the `@medusajs/medusa/core-flows` package.
-5. For each vendor, create a child order with the cart items of their products, and return the orders with the links to be created.
-6. Create the links created by the previous step. Medusa provides a `createRemoteLinkStep` in the `@medusajs/medusa/core-flows` package that you can use.
-
-You'll implement the third and fourth steps.
+You only need to implement the third and fourth steps, as Medusa provides the rest of the steps in its `@medusajs/medusa/core-flows` package.
 
 ### groupVendorItemsStep
 
-Create the third step in the file `src/workflows/marketplace/create-vendor-orders/steps/group-vendor-items.ts`:
+The third step of the workflow returns an object of items grouped by their vendor.
+
+To create the step, create the file `src/workflows/marketplace/create-vendor-orders/steps/group-vendor-items.ts` with the following content:
 
 ```ts title="src/workflows/marketplace/create-vendor-orders/steps/group-vendor-items.ts"
 import { 
@@ -862,7 +1325,7 @@ import {
   StepResponse,
 } from "@medusajs/framework/workflows-sdk"
 import { CartDTO, CartLineItemDTO } from "@medusajs/framework/types"
-import { ContainerRegistrationKeys } from "@medusajs/framework/utils"
+import { ContainerRegistrationKeys, promiseAll } from "@medusajs/framework/utils"
 
 type StepInput = {
   cart: CartDTO
@@ -875,7 +1338,7 @@ const groupVendorItemsStep = createStep(
 
     const vendorsItems: Record<string, CartLineItemDTO[]> = {}
 
-    await Promise.all(cart.items?.map(async (item) => {
+    await promiseAll(cart.items?.map(async (item) => {
       const { data: [product] } = await query.graph({
         entity: "product",
         fields: ["vendor.*"],
@@ -904,11 +1367,13 @@ const groupVendorItemsStep = createStep(
 export default groupVendorItemsStep
 ```
 
-This step groups the items by the vendor associated with the product into an object and returns the object.
+This step receives the cart's details as an input. In the step, you group the items by the vendor associated with the product into an object and returns the object. You use Query to retrieve a product's vendor.
 
 ### createVendorOrdersStep
 
-Next, create the fourth step in the file `src/workflows/marketplace/create-vendor-orders/steps/create-vendor-orders.ts`:
+The fourth step of the workflow creates an order for each vendor. The order consists of the items in the parent order that belong to the vendor.
+
+Create the file `src/workflows/marketplace/create-vendor-orders/steps/create-vendor-orders.ts` with the following content:
 
 export const vendorOrder1Highlights = [
   ["42", "linkDefs", "An array of links to be created."],
@@ -961,8 +1426,8 @@ const createVendorOrdersStep = createStep(
     const createdOrders: VendorOrder[] = []
     const vendorIds = Object.keys(vendorsItems)
     
-    const marketplaceModuleService =
-      container.resolve<MarketplaceModuleService>(MARKETPLACE_MODULE)
+    const marketplaceModuleService: MarketplaceModuleService =
+      container.resolve(MARKETPLACE_MODULE)
 
     const vendors = await marketplaceModuleService.listVendors({
       id: vendorIds,
@@ -1162,12 +1627,15 @@ The compensation function cancels all child orders received from the step. It us
 
 ### Create Workflow
 
-Finally, create the workflow at the file `src/workflows/marketplace/create-vendor-orders/index.ts`:
+Now that you have all the necessary steps, you can create the workflow.
+
+Create the workflow at the file `src/workflows/marketplace/create-vendor-orders/index.ts`:
 
 export const createVendorOrdersWorkflowHighlights = [
   ["21", "useQueryGraphStep", "Retrieve the cart's details."],
   ["30", "completeCartWorkflow", "Create the parent order from the cart."],
   ["36", "groupVendorItemsStep", "Group the items by their vendor."],
+  ["40", "getOrderDetailWorkflow", "Retrieve the parent order's details."],
   ["59", "createVendorOrdersStep", "Create child orders for each vendor"],
   ["64", "createRemoteLinkStep", "Create the links returned by the previous step."]
 ]
@@ -1248,12 +1716,12 @@ const createVendorOrdersWorkflow = createWorkflow(
 export default createVendorOrdersWorkflow
 ```
 
-In the workflow, you run the following steps:
+The workflow receives the cart's ID as an input. In the workflow, you run the following steps:
 
 1. `useQueryGraphStep` to retrieve the cart's details.
 2. `completeCartWorkflow` to complete the cart and create a parent order.
 3. `groupVendorItemsStep` to group the order's items by their vendor.
-4. `getOrderDetailWorkflow` to retrieve an order's details.
+4. `getOrderDetailWorkflow` to retrieve the parent order's details.
 5. `createVendorOrdersStep` to create child orders for each vendor's items.
 6. `createRemoteLinkStep` to create the links returned by the previous step.
 
@@ -1263,9 +1731,9 @@ You return the parent and vendor orders.
 
 You’ll now create the API route that executes the workflow.
 
-Create the file `src/api/store/carts/[id]/complete/route.ts` with the following content:
+Create the file `src/api/store/carts/[id]/complete-vendor/route.ts` with the following content:
 
-```ts title="src/api/store/carts/[id]/complete/route.ts"
+```ts title="src/api/store/carts/[id]/complete-vendor/route.ts"
 import { 
   AuthenticatedMedusaRequest, 
   MedusaResponse,
@@ -1292,53 +1760,80 @@ export const POST = async (
 }
 ```
 
-This API route replaces the [existing API route in the Medusa application](!api!/store#carts_postcartsidcomplete) used to complete the cart and place an order. It executes the workflow and returns the parent order in the response.
+Since you expose a `POST` function, you're exposing a `POST` API route at `/store/carts/:id/complete-vendor`. In the route handler, you execute the `createVendorOrdersWorkflow` and return the created order.
 
 ### Test it Out
 
-To test this out, it’s recommended to install the [Next.js Starter storefront](../../../../nextjs-starter/page.mdx). Then, add products to the cart and place an order. You can also try placing an order with products from different vendors.
+To test this out, it’s recommended to install the [Next.js Starter storefront](../../../../nextjs-starter/page.mdx).
+
+Then, you need to customize the storefront to use your complete cart API route rather than Medusa's. In `src/lib/data/cart.ts`, find the following lines in the `src/lib/data/cart.ts`:
+
+```ts title="src/lib/data/cart.ts" badgeLabel="Storefront" badgeColor="blue"
+const cartRes = await sdk.store.cart
+  .complete(id, {}, headers)
+  .then(async (cartRes) => {
+    const cartCacheTag = await getCacheTag("carts")
+    revalidateTag(cartCacheTag)
+    return cartRes
+  })
+  .catch(medusaError)
+```
+
+Replace them with the following:
+
+```ts title="src/lib/data/cart.ts" badgeLabel="Storefront" badgeColor="blue"
+const cartRes = await sdk.client.fetch<HttpTypes.StoreCompleteCartResponse>(
+  `/store/carts/${id}/complete-vendor`, {
+    method: "POST",
+    headers,
+  })
+  .then(async (cartRes) => {
+    const cartCacheTag = await getCacheTag("carts")
+    revalidateTag(cartCacheTag)
+    return cartRes
+  })
+  .catch(medusaError)
+```
+
+Now, the checkout flow uses your custom API route to place the order instead of Medusa's.
+
+<Note>
+
+Refer to the [JS SDK](../../../../js-sdk/page.mdx) documentation to learn more about using it.
+
+</Note>
+
+Try going through the checkout flow now, purchasing a product that you created for the vendor earlier. The order should be placed successfully.
+
+In the next step, you'll create an API route to retrieve the vendor's orders, allowing you to confirm that the child order was created for the vendor.
 
 ---
 
 ## Step 9: Retrieve Vendor Orders API Route
 
-In this step, you’ll create an API route that retrieves a vendor’s orders.
-
-Create the file `src/api/vendors/orders/route.ts` with the following content:
+In this step, you’ll create an API route that retrieves a vendor’s orders. Create the file `src/api/vendors/orders/route.ts` with the following content:
 
 export const getOrderHighlights = [
-  ["15", "retrieveVendorAdmin", "Retrive the vendor admin to retrieve its vendor's ID."],
-  ["22", "graph", "Retrieve the orders of the vendor."],
-  ["32", "getOrdersListWorkflow", "Use Medusa's workflow to retrieve the list of orders."],
+  ["11", "graph", "Retrive the vendor admin's vendor and orders."],
+  ["19", "getOrdersListWorkflow", "Use Medusa's workflow to retrieve the list of orders."],
 ]
 
-```ts title="src/api/vendors/orders/route.ts" highlights={getOrderHighlights} collapsibleLines="1-6" expandMoreLabel="Show Imports"
+```ts title="src/api/vendors/orders/route.ts" highlights={getOrderHighlights}
 import { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http"
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils"
 import { getOrdersListWorkflow } from "@medusajs/medusa/core-flows"
-import MarketplaceModuleService from "../../../modules/marketplace/service"
-import { MARKETPLACE_MODULE } from "../../../modules/marketplace"
 
 export const GET = async (
   req: AuthenticatedMedusaRequest,
   res: MedusaResponse
 ) => {
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
-  const marketplaceModuleService: MarketplaceModuleService = 
-    req.scope.resolve(MARKETPLACE_MODULE)
 
-  const vendorAdmin = await marketplaceModuleService.retrieveVendorAdmin(
-    req.auth_context.actor_id,
-    {
-      relations: ["vendor"],
-    }
-  )
-
-  const { data: [vendor] } = await query.graph({
-    entity: "vendor",
-    fields: ["orders.*"],
+  const { data: [vendorAdmin] } = await query.graph({
+    entity: "vendor_admin",
+    fields: ["vendor.orders.*"],
     filters: {
-      id: [vendorAdmin.vendor.id],
+      id: [req.auth_context.actor_id],
     },
   })
 
@@ -1363,7 +1858,7 @@ export const GET = async (
         ],
         variables: {
           filters: {
-            id: vendor.orders.map((order) => order.id),
+            id: vendorAdmin.vendor.orders.map((order) => order.id),
           },
         },
       },
@@ -1375,18 +1870,24 @@ export const GET = async (
 }
 ```
 
-This adds a `GET` API route at `/vendors/orders` that returns a vendor’s list of orders.
+You add a `GET` API route at `/vendors/orders`. In the route handler, you first use Query to retrieve the orders of the authenticated admin's vendor. Then, you use Medusa's `getOrdersListWorkflow` to retrieve the list of orders with the specified fields.
 
 ### Test it Out
 
-To test it out, send a `GET` request to `/vendors/orders` :
+To test it out, start the Medusa application:
+
+```bash npm2yarn
+npm run dev
+```
+
+Then, send a `GET` request to `/vendors/orders` :
 
 ```bash
 curl 'http://localhost:9000/vendors/orders' \
 -H 'Authorization: Bearer {token}'
 ```
 
-Make sure to replace the `{token}` with the vendor admin’s token.
+Make sure to replace the `{token}` with the vendor admin’s authentication token.
 
 You’ll receive in the response the orders of the vendor created in the previous step.
 
@@ -1398,30 +1899,13 @@ The next steps of this example depend on your use case. This section provides so
 
 ### Use Existing Features
 
-You can use [Medusa’s admin API routes for orders](!api!/admin) to allow vendors to manage their orders. This requires you to add the following middleware in `src/api/middlewares.ts`:
-
-```ts title="src/api/middlewares.ts"
-export default defineMiddlewares({
-  routes: [
-	  // ...
-    {
-      matcher: "/admin/orders/*",
-      method: "POST",
-      middlewares: [
-        authenticate("vendor", ["session", "bearer"]),
-      ],
-    },
-  ],
-})
-```
-
-You can also re-create or override any of the existing API routes, similar to what you did with the complete cart API route.
+If you want vendors to perform actions that are available for admin users through Medusa's [Admin API routes](!api!/admin), such as managing their orders, you need to recreate them similar to the create product API route you created earlier.
 
 ### Link Other Data Models to Vendors
 
 Similar to linking an order and a product to a vendor, you can link other data models to vendors as well.
 
-For example, you can link sales channels to vendors or other settings.
+For example, you can link sales channels or other settings to vendors.
 
 <Note>
 
@@ -1431,12 +1915,12 @@ For example, you can link sales channels to vendors or other settings.
 
 ### Storefront Development
 
-Medusa provides a Next.js Starter storefront that you can customize to your use case.
+Medusa provides a Next.js Starter storefront, which you can customize to fit your specific use case.
 
 You can also create a custom storefront. Check out the [Storefront Development](../../../../storefront-development/page.mdx) section to learn how to create a storefront.
 
 ### Admin Development
 
-The Medusa Admin is extendable, allowing you to add widgets to existing pages or create new pages. Learn more about it in [this documentation](!docs!/learn/fundamentals/admin).
+The Medusa Admin is extendable, allowing you to add custom widgets to existing pages or create entirely new pages. For example, you can add a new page showing the list of vendors. Learn more about it in [this documentation](!docs!/learn/fundamentals/admin).
 
-If your use case requires bigger customizations to the admin, such as showing different products and orders based on the logged-in vendor, use the [admin API routes](!api!/admin) to build a custom admin.
+Only super admins can access the Medusa Admin, not vendor admins. So, if you need a dashboard specific to each vendor admin, you will need to build a custom dashboard with the necessary features.

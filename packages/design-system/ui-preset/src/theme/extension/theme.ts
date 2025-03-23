@@ -301,6 +301,14 @@ export const theme = {
           "muted": {
             "DEFAULT": "var(--fg-muted)"
           }
+        },
+        "alpha": {
+          "250": {
+            "DEFAULT": "var(--alpha-250)"
+          },
+          "400": {
+            "DEFAULT": "var(--alpha-400)"
+          }
         }
       }
     },
@@ -325,9 +333,9 @@ export const theme = {
       "elevation-flyout": "var(--elevation-flyout)",
       "elevation-tooltip": "var(--elevation-tooltip)",
       "elevation-modal": "var(--elevation-modal)",
-      "elevation-commandbar": "var(--elevation-commandbar)",
       "elevation-code-block": "var(--elevation-code-block)",
-      "buttons-inverted": "var(--buttons-inverted)"
+      "buttons-inverted": "var(--buttons-inverted)",
+      "elevation-commandbar": "var(--elevation-commandbar)"
     }
   }
 }

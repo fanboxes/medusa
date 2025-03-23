@@ -9,6 +9,10 @@ export type SidebarItemCommon = {
   children?: SidebarItem[]
   loaded?: boolean
   additionalElms?: React.ReactNode
+  badge?: {
+    variant: "purple" | "orange" | "green" | "blue" | "red" | "neutral"
+    text: string
+  }
   chapterTitle?: string
   childSidebarTitle?: string
   hideChildren?: boolean
@@ -88,6 +92,7 @@ export type RawSidebarItem = SidebarItem & {
 
 export type RawSidebar = Omit<Sidebar, "items"> & {
   items: RawSidebarItem[]
+  custom_autogenerate?: string
 }
 
 export type PersistedSidebarCategoryState = {

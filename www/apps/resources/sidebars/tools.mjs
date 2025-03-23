@@ -100,13 +100,18 @@ export const toolsSidebar = [
           },
           {
             type: "category",
-            title: "Payment",
+            title: "How-to Guides",
             initialOpen: true,
             children: [
               {
                 type: "link",
                 path: "/nextjs-starter/guides/customize-stripe",
                 title: "Customize Stripe Integration",
+              },
+              {
+                type: "link",
+                path: "/nextjs-starter/guides/revalidate-cache",
+                title: "Revalidate Cache",
               },
             ],
           },

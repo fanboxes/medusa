@@ -39,8 +39,6 @@ const SearchProvider = ({ children }: SearchProviderProps) => {
         checkInternalPattern: new RegExp(`^${config.baseUrl}/user-guide`),
         filterOptions: searchFilters,
       }}
-      // TODO change later when we have a user guide filter
-      initialDefaultFilters={["guides"]}
     >
       {children}
     </UiSearchProvider>

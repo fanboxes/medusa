@@ -1,4 +1,4 @@
-import { OpenAPIV3 } from "openapi-types"
+import { OpenAPI } from "types"
 import { TagSectionProps } from "./Section"
 import dynamic from "next/dynamic"
 import { Suspense } from "react"
@@ -8,7 +8,7 @@ const TagSection = dynamic<TagSectionProps>(
 ) as React.FC<TagSectionProps>
 
 type TagsProps = {
-  tags?: OpenAPIV3.TagObject[]
+  tags?: OpenAPI.OpenAPIV3.TagObject[]
 }
 
 const Tags = ({ tags }: TagsProps) => {

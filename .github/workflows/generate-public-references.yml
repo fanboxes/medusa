@@ -146,6 +146,10 @@ jobs:
       - name: Generate API Reference
         run: yarn openapi:generate
 
+      - name: Run prep script
+        run: yarn prep
+        working-directory: www/apps/api-reference
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
@@ -156,6 +160,7 @@ jobs:
           add-paths: |
             www/apps/api-reference/specs
             www/utils/generated/oas-output
+            www/apps/api-reference/generated
           branch: "docs/generate-api-ref"
           branch-suffix: "timestamp"
   dml:

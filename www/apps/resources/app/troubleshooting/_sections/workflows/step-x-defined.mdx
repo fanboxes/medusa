@@ -1,0 +1,45 @@
+If you get the following error when you start the Medusa application:
+
+```bash
+Error: Step X is already defined in workflow.
+```
+
+Where `X` is any step, such as `create-remote-link`.
+
+## Why this Error Occurred
+
+This error indicates that you're re-using a step in a workflow, meaning that more than one step in the workflow have the same name.
+
+---
+
+## How to Fix it
+
+To resolve this error, use the `config` method of a step to specify a custom name within the workflow's scope. For example:
+
+```ts
+const helloWorkflow = createWorkflow(
+  "hello",
+  () => {
+    const { data: products } = useQueryGraphStep({
+      entity: "product",
+      fields: ["id"],
+    })
+
+    // ✓ No error occurs, the step has a different ID.
+    const { data: customers } = useQueryGraphStep({
+      entity: "customer",
+      fields: ["id"],
+    }).config({ name: "fetch-customers" })
+  }
+)
+```
+
+In the above example, you use the `config` method on the second `useQueryGraphStep` usage to change its name to `fetch-customers`.
+
+Make sure to change the name of every usage after the first one in a workflow.
+
+---
+
+## Additional Resources
+
+- [Multiple Step Usage in Workflow documentation](https://docs.medusajs.com/learn/fundamentals/workflows/multiple-step-usage)

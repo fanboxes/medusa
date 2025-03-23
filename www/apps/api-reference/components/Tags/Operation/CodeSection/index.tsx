@@ -1,7 +1,7 @@
 "use client"
 
 import MethodLabel from "@/components/MethodLabel"
-import type { Operation } from "@/types/openapi"
+import type { OpenAPI } from "types"
 import TagsOperationCodeSectionResponses from "./Responses"
 import type { TagOperationCodeSectionRequestSamplesProps } from "./RequestSamples"
 import dynamic from "next/dynamic"
@@ -15,7 +15,7 @@ const TagOperationCodeSectionRequestSamples =
   ) as React.FC<TagOperationCodeSectionRequestSamplesProps>
 
 export type TagOperationCodeSectionProps = {
-  operation: Operation
+  operation: OpenAPI.Operation
   method: string
   endpointPath: string
 } & React.HTMLAttributes<HTMLDivElement>

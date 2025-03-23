@@ -1,15 +1,14 @@
 "use client"
 
 import { useMemo } from "react"
-import { ExampleObject, SchemaObject } from "../types/openapi"
+import { OpenAPI } from "types"
 import type { JSONSchema7 } from "json-schema"
 import stringify from "json-stringify-pretty-compact"
 import { sample } from "openapi-sampler"
-import { OpenAPIV3 } from "openapi-types"
 
 type Options = {
-  schema?: SchemaObject
-  schemaExamples?: OpenAPIV3.ExampleObject
+  schema?: OpenAPI.SchemaObject
+  schemaExamples?: OpenAPI.OpenAPIV3.ExampleObject
   schemaExample?: any
   options?: {
     skipNonRequired?: boolean
@@ -24,7 +23,7 @@ const useSchemaExample = ({
 }: Options) => {
   const { skipNonRequired = true } = options
   const examples = useMemo(() => {
-    const tempExamples: ExampleObject[] = []
+    const tempExamples: OpenAPI.ExampleObject[] = []
 
     if (!schema) {
       return tempExamples

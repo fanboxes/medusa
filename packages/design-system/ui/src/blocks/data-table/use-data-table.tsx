@@ -9,8 +9,8 @@ import {
   type TableOptions,
   type Updater,
   useReactTable,
-} from "@tanstack/react-table";
-import * as React from "react";
+} from "@tanstack/react-table"
+import * as React from "react"
 import {
   DataTableColumnDef,
   DataTableColumnFilter,
@@ -24,14 +24,14 @@ import {
   DataTableRow,
   DataTableRowSelectionState,
   DataTableSortingState,
-} from "./types";
+} from "./types"
 
 interface DataTableOptions<TData>
-  extends Pick<TableOptions<TData>, "data"  | "getRowId"> {
+  extends Pick<TableOptions<TData>, "data" | "getRowId"> {
   /**
    * The columns to use for the table.
    */
-  columns: DataTableColumnDef<TData, any>[];
+  columns: DataTableColumnDef<TData, any>[]
   /**
    * The filters which the user can apply to the table.
    */
@@ -57,7 +57,10 @@ interface DataTableOptions<TData>
   rowSelection?: {
     state: DataTableRowSelectionState
     onRowSelectionChange: (state: DataTableRowSelectionState) => void
-    enableRowSelection?: boolean | ((row: DataTableRow<TData>) => boolean) | undefined
+    enableRowSelection?:
+      | boolean
+      | ((row: DataTableRow<TData>) => boolean)
+      | undefined
   }
   /**
    * The state and callback for the sorting.
@@ -172,7 +175,11 @@ const useDataTable = <TData,>({
   const { state: sortingState, onSortingChange } = sorting ?? {}
   const { state: filteringState, onFilteringChange } = filtering ?? {}
   const { state: paginationState, onPaginationChange } = pagination ?? {}
-  const { state: rowSelectionState, onRowSelectionChange, enableRowSelection } = rowSelection ?? {}
+  const {
+    state: rowSelectionState,
+    onRowSelectionChange,
+    enableRowSelection,
+  } = rowSelection ?? {}
 
   const autoResetPageIndexHandler = React.useCallback(() => {
     return autoResetPageIndex
@@ -197,7 +204,6 @@ const useDataTable = <TData,>({
   const rowSelectionStateHandler = React.useCallback(() => {
     return onRowSelectionChange
       ? (updaterOrValue: Updater<RowSelectionState>) => {
-          autoResetPageIndexHandler()?.()
           onRowSelectionChangeTransformer(
             onRowSelectionChange,
             rowSelectionState
@@ -531,6 +537,5 @@ function onPaginationChangeTransformer(
   }
 }
 
-export { useDataTable };
-export type { DataTableOptions, UseDataTableReturn };
-
+export { useDataTable }
+export type { DataTableOptions, UseDataTableReturn }

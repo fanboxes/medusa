@@ -1,11 +1,11 @@
 "use server"
 
-import type { OpenAPIV3 } from "openapi-types"
+import type { OpenAPI } from "types"
 import Section from "../Section"
 import MDXContentServer from "../MDXContent/Server"
 
 export type DescriptionProps = {
-  specs: OpenAPIV3.Document
+  specs: OpenAPI.OpenAPIV3.Document
 }
 
 const Description = ({ specs }: DescriptionProps) => {

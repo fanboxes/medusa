@@ -1,11 +1,11 @@
-import type { ResponsesObject } from "@/types/openapi"
+import type { OpenAPI } from "types"
 import clsx from "clsx"
 import TagOperationParameters from "../../Parameters"
 import { Fragment } from "react"
 import { Badge, Details, DetailsSummary } from "docs-ui"
 
 export type TagsOperationDescriptionSectionResponsesProps = {
-  responses: ResponsesObject
+  responses: OpenAPI.ResponsesObject
 }
 
 const TagsOperationDescriptionSectionResponses = ({

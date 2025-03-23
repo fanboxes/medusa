@@ -24,6 +24,10 @@ export const file = [
     "path": "https://docs.medusajs.com/resources/references/medusa-workflows/exportProductsWorkflow"
   },
   {
+    "title": "Use File Module",
+    "path": "https://docs.medusajs.com/resources/references/file-service"
+  },
+  {
     "title": "upload",
     "path": "https://docs.medusajs.com/resources/references/js-sdk/admin/upload"
   }

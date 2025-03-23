@@ -228,7 +228,7 @@ For example:
 export const failureStatusHighlights = [
   ["17", "transactionId", "Receive the workflow execution's transaction ID as an input to the step."],
   ["20", "resolve", "Resolve the workflow engine's main service."],
-  ["24", "setStepSuccess", "Change the step's status to successful."],
+  ["24", "setStepFailure", "Change the step's status to failed."],
   ["28", "stepId", "The ID of the step as passed to `createStep`'s first parameter when it was created."],
   ["29", "workflowId", "The ID of the workflow as passed to `createWorkflow`'s first parameter when it was created."],
   ["31", "stepResponse", "The response returned by the step, since an `async` step can't return a response in its definition."]
@@ -291,8 +291,9 @@ To retrieve the workflow execution's details at a later point, you must enable [
 For example:
 
 export const highlights = [
-  ["18", "resolve", "Resolve the workflow engine from the Medusa container."],
-  ["30", "subscribe", "Subscribe to status changes of the workflow execution."],
+  ["11", "resolve", "Resolve the workflow engine from the Medusa container."],
+  ["23", "subscribe", "Subscribe to status changes of the workflow execution."],
+  ["29", "unsubscribe", "Unsubscribe once you have the result"]
 ]
 
 ```ts title="src/api/workflows/route.ts" highlights={highlights} collapsibleLines="1-11" expandButtonLabel="Show Imports"

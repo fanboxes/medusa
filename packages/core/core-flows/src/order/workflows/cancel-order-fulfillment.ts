@@ -2,10 +2,15 @@ import {
   AdditionalData,
   BigNumberInput,
   FulfillmentDTO,
+  InventoryItemDTO,
   OrderDTO,
+  OrderLineItemDTO,
   OrderWorkflow,
+  ProductVariantDTO,
+  ReservationItemDTO,
 } from "@medusajs/framework/types"
 import {
+  MathBN,
   MedusaError,
   Modules,
   OrderWorkflowEvents,
@@ -27,6 +32,19 @@ import {
   throwIfItemsDoesNotExistsInOrder,
   throwIfOrderIsCancelled,
 } from "../utils/order-validation"
+import { createReservationsStep } from "../../reservation"
+import { updateReservationsStep } from "../../reservation"
+
+type OrderItemWithVariantDTO = OrderLineItemDTO & {
+  variant?: ProductVariantDTO & {
+    inventory_items: {
+      inventory: InventoryItemDTO
+      variant_id: string
+      inventory_item_id: string
+      required_quantity: number
+    }[]
+  }
+}
 
 /**
  * The data to validate the order fulfillment cancelation.
@@ -90,6 +108,13 @@ export const cancelOrderFulfillmentValidateOrder = createStep(
       )
     }
 
+    if (fulfillment.canceled_at) {
+      throw new MedusaError(
+        MedusaError.Types.NOT_ALLOWED,
+        "The fulfillment is already canceled"
+      )
+    }
+
     if (fulfillment.shipped_at) {
       throw new MedusaError(
         MedusaError.Types.NOT_ALLOWED,
@@ -114,14 +139,47 @@ function prepareCancelOrderFulfillmentData({
   order: OrderDTO
   fulfillment: FulfillmentDTO
 }) {
+  const lineItemIds = new Array(
+    ...new Set(fulfillment.items.map((i) => i.line_item_id))
+  )
+
   return {
     order_id: order.id,
     reference: Modules.FULFILLMENT,
     reference_id: fulfillment.id,
-    items: fulfillment.items!.map((i) => {
+    items: lineItemIds.map((lineItemId) => {
+      // find order item
+      const orderItem = order.items!.find(
+        (i) => i.id === lineItemId
+      ) as OrderItemWithVariantDTO
+      // find inventory items
+      const iitems = orderItem!.variant?.inventory_items
+      // find fulfillment item
+      const fitem = fulfillment.items.find(
+        (i) => i.line_item_id === lineItemId
+      )!
+
+      let quantity: BigNumberInput = fitem.quantity
+
+      // NOTE: if the order item has an inventory kit or `required_qunatity` > 1, fulfillment items wont't match 1:1 with order items.
+      // - for each inventory item in the kit, a fulfillment item will be created i.e. one line item could have multiple fulfillment items
+      // - the quantity of the fulfillment item will be the quantity of the order item multiplied by the required quantity of the inventory item
+      //
+      //   We need to take this into account when canceling the fulfillment to compute quantity of line items not being fulfilled based on fulfillment items and qunatities.
+      //   NOTE: for now we only need to find one inventory item of a line item to compute this since when a fulfillment is created all inventory items are fulfilled together.
+      //   If we allow to cancel partial fulfillments for an order item, we need to change this.
+      //
+      if (iitems?.length) {
+        const iitem = iitems.find(
+          (i) => i.inventory.id === fitem.inventory_item_id
+        )
+
+        quantity = MathBN.div(quantity, iitem!.required_quantity)
+      }
+
       return {
-        id: i.line_item_id as string,
-        quantity: i.quantity,
+        id: lineItemId as string,
+        quantity,
       }
     }),
   }
@@ -129,29 +187,74 @@ function prepareCancelOrderFulfillmentData({
 
 function prepareInventoryUpdate({
   fulfillment,
+  reservations,
+  order,
 }: {
-  order: OrderDTO
   fulfillment: FulfillmentDTO
+  reservations: ReservationItemDTO[]
+  order: any
 }) {
   const inventoryAdjustment: {
     inventory_item_id: string
     location_id: string
     adjustment: BigNumberInput
   }[] = []
-  for (const item of fulfillment.items) {
+  const toCreate: {
+    inventory_item_id: string
+    location_id: string
+    quantity: BigNumberInput
+  }[] = []
+  const toUpdate: {
+    id: string
+    quantity: BigNumberInput
+  }[] = []
+
+  const orderItemsMap = order.items!.reduce((acc, item) => {
+    acc[item.id] = item
+    return acc
+  }, {})
+
+  const reservationMap = reservations.reduce((acc, reservation) => {
+    acc[reservation.inventory_item_id as string] = reservation
+    return acc
+  }, {})
+
+  for (const fulfillmentItem of fulfillment.items) {
     // if this is `null` this means that item is from variant that has `manage_inventory` false
-    if (!item.inventory_item_id) {
+    if (!fulfillmentItem.inventory_item_id) {
       continue
     }
 
+    const orderItem = orderItemsMap[fulfillmentItem.line_item_id as string]
+
+    orderItem?.variant?.inventory_items.forEach((iitem) => {
+      const reservation =
+        reservationMap[fulfillmentItem.inventory_item_id as string]
+
+      if (!reservation) {
+        toCreate.push({
+          inventory_item_id: iitem.inventory.id,
+          location_id: fulfillment.location_id,
+          quantity: fulfillmentItem.quantity, // <- this is the inventory quantity that is being fulfilled so it menas it does include the required quantity
+        })
+      } else {
+        toUpdate.push({
+          id: reservation.id,
+          quantity: reservation.quantity + fulfillmentItem.quantity,
+        })
+      }
+    })
+
     inventoryAdjustment.push({
-      inventory_item_id: item.inventory_item_id as string,
+      inventory_item_id: fulfillmentItem.inventory_item_id as string,
       location_id: fulfillment.location_id,
-      adjustment: item.quantity,
+      adjustment: fulfillmentItem.quantity,
     })
   }
 
   return {
+    toCreate,
+    toUpdate,
     inventoryAdjustment,
   }
 }
@@ -198,9 +301,17 @@ export const cancelOrderFulfillmentWorkflow = createWorkflow(
         fields: [
           "id",
           "status",
-          "items.*",
-          "fulfillments.*",
-          "fulfillments.items.*",
+          "items.id",
+          "items.quantity",
+          "items.variant.manage_inventory",
+          "items.variant.inventory_items.inventory.id",
+          "items.variant.inventory_items.required_quantity",
+          "fulfillments.id",
+          "fulfillments.location_id",
+          "fulfillments.items.id",
+          "fulfillments.items.quantity",
+          "fulfillments.items.line_item_id",
+          "fulfillments.items.inventory_item_id",
         ],
         variables: { id: input.order_id },
         list: false,
@@ -213,15 +324,37 @@ export const cancelOrderFulfillmentWorkflow = createWorkflow(
       return order.fulfillments.find((f) => f.id === input.fulfillment_id)!
     })
 
+    const lineItemIds = transform({ fulfillment }, ({ fulfillment }) => {
+      return fulfillment.items.map((i) => i.line_item_id)
+    })
+
+    const reservations = useRemoteQueryStep({
+      entry_point: "reservations",
+      fields: [
+        "id",
+        "line_item_id",
+        "quantity",
+        "inventory_item_id",
+        "location_id",
+      ],
+      variables: {
+        filter: {
+          line_item_id: lineItemIds,
+        },
+      },
+    }).config({ name: "get-reservations" })
+
     const cancelOrderFulfillmentData = transform(
       { order, fulfillment },
       prepareCancelOrderFulfillmentData
     )
 
-    const { inventoryAdjustment } = transform(
-      { order, fulfillment },
+    const { toCreate, toUpdate, inventoryAdjustment } = transform(
+      { order, fulfillment, reservations },
       prepareInventoryUpdate
     )
+
+    adjustInventoryLevelsStep(inventoryAdjustment)
 
     const eventData = transform({ order, fulfillment, input }, (data) => {
       return {
@@ -233,7 +366,8 @@ export const cancelOrderFulfillmentWorkflow = createWorkflow(
 
     parallelize(
       cancelOrderFulfillmentStep(cancelOrderFulfillmentData),
-      adjustInventoryLevelsStep(inventoryAdjustment),
+      createReservationsStep(toCreate),
+      updateReservationsStep(toUpdate),
       emitEventStep({
         eventName: OrderWorkflowEvents.FULFILLMENT_CANCELED,
         data: eventData,

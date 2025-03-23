@@ -1,0 +1,442 @@
+{
+	"id": 0,
+	"name": "cache",
+	"variant": "project",
+	"kind": 1,
+	"flags": {},
+	"children": [
+		{
+			"id": 1,
+			"name": "ICacheService",
+			"variant": "declaration",
+			"kind": 256,
+			"flags": {},
+			"children": [
+				{
+					"id": 2,
+					"name": "get",
+					"variant": "declaration",
+					"kind": 2048,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "service.ts",
+							"line": 11,
+							"character": 2,
+							"url": "https://github.com/medusajs/medusa/blob/2b2b65f5f78ce8f44c661cf85efcfd5fa50a27e4/packages/core/types/src/cache/service.ts#L11"
+						}
+					],
+					"signatures": [
+						{
+							"id": 3,
+							"name": "get",
+							"variant": "signature",
+							"kind": 4096,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "This method retrieves data from the cache."
+									}
+								],
+								"blockTags": [
+									{
+										"tag": "@returns",
+										"content": [
+											{
+												"kind": "text",
+												"text": "The item that was stored in the cache. If the item was not found, null is returned."
+											}
+										]
+									},
+									{
+										"tag": "@example",
+										"content": [
+											{
+												"kind": "code",
+												"text": "```ts\nconst data = await cacheModuleService.get(\"my-key\")\n```"
+											}
+										]
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "service.ts",
+									"line": 11,
+									"character": 2,
+									"url": "https://github.com/medusajs/medusa/blob/2b2b65f5f78ce8f44c661cf85efcfd5fa50a27e4/packages/core/types/src/cache/service.ts#L11"
+								}
+							],
+							"typeParameters": [
+								{
+									"id": 4,
+									"name": "T",
+									"variant": "typeParam",
+									"kind": 131072,
+									"flags": {}
+								}
+							],
+							"parameters": [
+								{
+									"id": 5,
+									"name": "key",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "The key of the item to retrieve."
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "string"
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"target": {
+									"sourceFileName": "../../node_modules/typescript/lib/lib.es5.d.ts",
+									"qualifiedName": "Promise"
+								},
+								"typeArguments": [
+									{
+										"type": "union",
+										"types": [
+											{
+												"type": "literal",
+												"value": null
+											},
+											{
+												"type": "reference",
+												"target": 4,
+												"name": "T",
+												"package": "@medusajs/types",
+												"refersToTypeParameter": true
+											}
+										]
+									}
+								],
+								"name": "Promise",
+								"package": "typescript"
+							}
+						}
+					]
+				},
+				{
+					"id": 6,
+					"name": "set",
+					"variant": "declaration",
+					"kind": 2048,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "service.ts",
+							"line": 22,
+							"character": 2,
+							"url": "https://github.com/medusajs/medusa/blob/2b2b65f5f78ce8f44c661cf85efcfd5fa50a27e4/packages/core/types/src/cache/service.ts#L22"
+						}
+					],
+					"signatures": [
+						{
+							"id": 7,
+							"name": "set",
+							"variant": "signature",
+							"kind": 4096,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "This method stores data in the cache."
+									}
+								],
+								"blockTags": [
+									{
+										"tag": "@example",
+										"content": [
+											{
+												"kind": "code",
+												"text": "```ts\nawait cacheModuleService.set(\"my-key\", { product_id: \"prod_123\" }, 60)\n```"
+											}
+										]
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "service.ts",
+									"line": 22,
+									"character": 2,
+									"url": "https://github.com/medusajs/medusa/blob/2b2b65f5f78ce8f44c661cf85efcfd5fa50a27e4/packages/core/types/src/cache/service.ts#L22"
+								}
+							],
+							"parameters": [
+								{
+									"id": 8,
+									"name": "key",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "The key of the item to store."
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "string"
+									}
+								},
+								{
+									"id": 9,
+									"name": "data",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "The data to store in the cache."
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "unknown"
+									}
+								},
+								{
+									"id": 10,
+									"name": "ttl",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {
+										"isOptional": true
+									},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "The time-to-live (TTL) value in seconds. If not provided, the default TTL value is used. The default value is based on the used Cache Module."
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "number"
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"target": {
+									"sourceFileName": "../../node_modules/typescript/lib/lib.es5.d.ts",
+									"qualifiedName": "Promise"
+								},
+								"typeArguments": [
+									{
+										"type": "intrinsic",
+										"name": "void"
+									}
+								],
+								"name": "Promise",
+								"package": "typescript"
+							}
+						}
+					]
+				},
+				{
+					"id": 11,
+					"name": "invalidate",
+					"variant": "declaration",
+					"kind": 2048,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "service.ts",
+							"line": 31,
+							"character": 2,
+							"url": "https://github.com/medusajs/medusa/blob/2b2b65f5f78ce8f44c661cf85efcfd5fa50a27e4/packages/core/types/src/cache/service.ts#L31"
+						}
+					],
+					"signatures": [
+						{
+							"id": 12,
+							"name": "invalidate",
+							"variant": "signature",
+							"kind": 4096,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "This method removes an item from the cache."
+									}
+								],
+								"blockTags": [
+									{
+										"tag": "@example",
+										"content": [
+											{
+												"kind": "code",
+												"text": "```ts\nawait cacheModuleService.invalidate(\"my-key\")\n```"
+											}
+										]
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "service.ts",
+									"line": 31,
+									"character": 2,
+									"url": "https://github.com/medusajs/medusa/blob/2b2b65f5f78ce8f44c661cf85efcfd5fa50a27e4/packages/core/types/src/cache/service.ts#L31"
+								}
+							],
+							"parameters": [
+								{
+									"id": 13,
+									"name": "key",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "The key of the item to remove."
+											}
+										]
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "string"
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"target": {
+									"sourceFileName": "../../node_modules/typescript/lib/lib.es5.d.ts",
+									"qualifiedName": "Promise"
+								},
+								"typeArguments": [
+									{
+										"type": "intrinsic",
+										"name": "void"
+									}
+								],
+								"name": "Promise",
+								"package": "typescript"
+							}
+						}
+					]
+				}
+			],
+			"groups": [
+				{
+					"title": "Methods",
+					"children": [
+						2,
+						6,
+						11
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "service.ts",
+					"line": 1,
+					"character": 17,
+					"url": "https://github.com/medusajs/medusa/blob/2b2b65f5f78ce8f44c661cf85efcfd5fa50a27e4/packages/core/types/src/cache/service.ts#L1"
+				}
+			]
+		}
+	],
+	"groups": [
+		{
+			"title": "Interfaces",
+			"children": [
+				1
+			]
+		}
+	],
+	"packageName": "@medusajs/types",
+	"symbolIdMap": {
+		"0": {
+			"sourceFileName": "../../../../packages/core/types/src/cache/service.ts",
+			"qualifiedName": ""
+		},
+		"1": {
+			"sourceFileName": "../../../../packages/core/types/src/cache/service.ts",
+			"qualifiedName": "ICacheService"
+		},
+		"2": {
+			"sourceFileName": "../../../../packages/core/types/src/cache/service.ts",
+			"qualifiedName": "ICacheService.get"
+		},
+		"3": {
+			"sourceFileName": "../../../../packages/core/types/src/cache/service.ts",
+			"qualifiedName": "ICacheService.get"
+		},
+		"4": {
+			"sourceFileName": "../../../../packages/core/types/src/cache/service.ts",
+			"qualifiedName": "T"
+		},
+		"5": {
+			"sourceFileName": "../../../../packages/core/types/src/cache/service.ts",
+			"qualifiedName": "key"
+		},
+		"6": {
+			"sourceFileName": "../../../../packages/core/types/src/cache/service.ts",
+			"qualifiedName": "ICacheService.set"
+		},
+		"7": {
+			"sourceFileName": "../../../../packages/core/types/src/cache/service.ts",
+			"qualifiedName": "ICacheService.set"
+		},
+		"8": {
+			"sourceFileName": "../../../../packages/core/types/src/cache/service.ts",
+			"qualifiedName": "key"
+		},
+		"9": {
+			"sourceFileName": "../../../../packages/core/types/src/cache/service.ts",
+			"qualifiedName": "data"
+		},
+		"10": {
+			"sourceFileName": "../../../../packages/core/types/src/cache/service.ts",
+			"qualifiedName": "ttl"
+		},
+		"11": {
+			"sourceFileName": "../../../../packages/core/types/src/cache/service.ts",
+			"qualifiedName": "ICacheService.invalidate"
+		},
+		"12": {
+			"sourceFileName": "../../../../packages/core/types/src/cache/service.ts",
+			"qualifiedName": "ICacheService.invalidate"
+		},
+		"13": {
+			"sourceFileName": "../../../../packages/core/types/src/cache/service.ts",
+			"qualifiedName": "key"
+		}
+	},
+	"files": {
+		"entries": {
+			"1": "../../../../packages/core/types/src/cache/service.ts"
+		},
+		"reflections": {
+			"1": 0
+		}
+	}
+}

@@ -2,10 +2,14 @@ import {
   AdditionalData,
   BigNumberInput,
   FulfillmentWorkflow,
+  InventoryItemDTO,
   OrderDTO,
   OrderLineItemDTO,
   OrderWorkflow,
+  ProductDTO,
+  ProductVariantDTO,
   ReservationItemDTO,
+  ShippingProfileDTO,
 } from "@medusajs/framework/types"
 import {
   MathBN,
@@ -39,6 +43,21 @@ import {
   throwIfItemsDoesNotExistsInOrder,
   throwIfOrderIsCancelled,
 } from "../utils/order-validation"
+import { buildReservationsMap } from "../utils/build-reservations-map"
+
+type OrderItemWithVariantDTO = OrderLineItemDTO & {
+  variant?: ProductVariantDTO & {
+    product?: ProductDTO & {
+      shipping_profile?: ShippingProfileDTO
+    }
+    inventory_items: {
+      inventory: InventoryItemDTO
+      variant_id: string
+      inventory_item_id: string
+      required_quantity: number
+    }[]
+  }
+}
 
 /**
  * The data to validate the order fulfillment creation.
@@ -143,9 +162,7 @@ function prepareFulfillmentData({
     (itemsList ?? order.items)!.map((i) => [i.id, i])
   )
 
-  const reservationItemMap = new Map<string, ReservationItemDTO>(
-    reservations.map((r) => [r.line_item_id as string, r])
-  )
+  const reservationItemMap = buildReservationsMap(reservations)
 
   // Note: If any of the items require shipping, we enable fulfillment
   // unless explicitly set to not require shipping by the item in the request
@@ -157,31 +174,59 @@ function prepareFulfillmentData({
       })
     : true
 
-  const fulfillmentItems = fulfillableItems.map((i) => {
-    const orderItem = orderItemsMap.get(i.id)!
-    const reservation = reservationItemMap.get(i.id)!
+  const fulfillmentItems = fulfillableItems
+    .map((i) => {
+      const orderItem = orderItemsMap.get(i.id)! as OrderItemWithVariantDTO
+      const reservations = reservationItemMap.get(i.id)
 
-    if (
-      orderItem.requires_shipping &&
-      (orderItem as any).variant?.product &&
-      (orderItem as any).variant?.product.shipping_profile?.id !==
-        shippingOption.shipping_profile_id
-    ) {
-      throw new MedusaError(
-        MedusaError.Types.INVALID_DATA,
-        `Shipping profile ${shippingOption.shipping_profile_id} does not match the shipping profile of the order item ${orderItem.id}`
-      )
-    }
+      if (
+        orderItem.requires_shipping &&
+        orderItem.variant?.product &&
+        orderItem.variant?.product.shipping_profile?.id !==
+          shippingOption.shipping_profile_id
+      ) {
+        throw new MedusaError(
+          MedusaError.Types.INVALID_DATA,
+          `Shipping profile ${shippingOption.shipping_profile_id} does not match the shipping profile of the order item ${orderItem.id}`
+        )
+      }
 
-    return {
-      line_item_id: i.id,
-      inventory_item_id: reservation?.inventory_item_id,
-      quantity: i.quantity,
-      title: orderItem.variant_title ?? orderItem.title,
-      sku: orderItem.variant_sku || "",
-      barcode: orderItem.variant_barcode || "",
-    } as FulfillmentWorkflow.CreateFulfillmentItemWorkflowDTO
-  })
+      if (!reservations?.length) {
+        return [
+          {
+            line_item_id: i.id,
+            inventory_item_id: undefined,
+            quantity: i.quantity,
+            title: orderItem.variant_title ?? orderItem.title,
+            sku: orderItem.variant_sku || "",
+            barcode: orderItem.variant_barcode || "",
+          },
+        ] as FulfillmentWorkflow.CreateFulfillmentItemWorkflowDTO[]
+      }
+
+      // if line item is from a managed variant, create a fulfillment item for each reservation item
+      return reservations.map((r) => {
+        const iItem = orderItem?.variant?.inventory_items.find(
+          (ii) => ii.inventory.id === r.inventory_item_id
+        )
+
+        return {
+          line_item_id: i.id,
+          inventory_item_id: r.inventory_item_id,
+          quantity: MathBN.mult(
+            iItem?.required_quantity ?? 1,
+            i.quantity
+          ) as BigNumberInput,
+          title:
+            iItem?.inventory.title ||
+            orderItem.variant_title ||
+            orderItem.title,
+          sku: iItem?.inventory.sku || orderItem.variant_sku || "",
+          barcode: orderItem.variant_barcode || "",
+        } as FulfillmentWorkflow.CreateFulfillmentItemWorkflowDTO
+      })
+    })
+    .flat()
 
   let locationId: string | undefined | null = input.location_id
 
@@ -223,11 +268,6 @@ function prepareInventoryUpdate({
   inputItemsMap,
   itemsList,
 }) {
-  const reservationMap = reservations.reduce((acc, reservation) => {
-    acc[reservation.line_item_id as string] = reservation
-    return acc
-  }, {})
-
   const toDelete: string[] = []
   const toUpdate: {
     id: string
@@ -240,14 +280,21 @@ function prepareInventoryUpdate({
     adjustment: BigNumberInput
   }[] = []
 
+  const orderItemsMap = new Map<string, Required<OrderDTO>["items"][0]>(
+    (itemsList ?? order.items)!.map((i) => [i.id, i])
+  )
+
+  const reservationMap = buildReservationsMap(reservations)
+
   const allItems = itemsList ?? order.items
   const itemsToFulfill = allItems.filter((i) => i.id in inputItemsMap)
 
   // iterate over items that are being fulfilled
   for (const item of itemsToFulfill) {
-    const reservation = reservationMap[item.id]
+    const reservations = reservationMap.get(item.id)
+    const orderItem = orderItemsMap.get(item.id)! as OrderItemWithVariantDTO
 
-    if (!reservation) {
+    if (!reservations?.length) {
       if (item.variant?.manage_inventory) {
         throw new Error(
           `No stock reservation found for item ${item.id} - ${item.title} (${item.variant_title})`
@@ -258,32 +305,45 @@ function prepareInventoryUpdate({
 
     const inputQuantity = inputItemsMap[item.id]?.quantity ?? item.quantity
 
-    if (MathBN.gt(inputQuantity, reservation.quantity)) {
-      throw new MedusaError(
-        MedusaError.Types.INVALID_DATA,
-        `Quantity to fulfill exceeds the reserved quantity for the item: ${item.id}`
+    reservations.forEach((reservation) => {
+      if (MathBN.gt(inputQuantity, reservation.quantity)) {
+        throw new MedusaError(
+          MedusaError.Types.INVALID_DATA,
+          `Quantity to fulfill exceeds the reserved quantity for the item: ${item.id}`
+        )
+      }
+
+      const iItem = orderItem?.variant?.inventory_items.find(
+        (ii) => ii.inventory.id === reservation.inventory_item_id
       )
-    }
 
-    const remainingReservationQuantity = reservation.quantity - inputQuantity
+      const adjustemntQuantity = MathBN.mult(
+        inputQuantity,
+        iItem?.required_quantity ?? 1
+      )
 
-    inventoryAdjustment.push({
-      inventory_item_id: reservation.inventory_item_id,
-      location_id: input.location_id ?? reservation.location_id,
-      adjustment: MathBN.mult(inputQuantity, -1),
-    })
+      const remainingReservationQuantity = MathBN.sub(
+        reservation.quantity,
+        adjustemntQuantity
+      )
 
-    if (remainingReservationQuantity === 0) {
-      toDelete.push(reservation.id)
-    } else {
-      toUpdate.push({
-        id: reservation.id,
-        quantity: remainingReservationQuantity,
+      inventoryAdjustment.push({
+        inventory_item_id: reservation.inventory_item_id,
         location_id: input.location_id ?? reservation.location_id,
+        adjustment: MathBN.mult(adjustemntQuantity, -1),
       })
-    }
-  }
 
+      if (MathBN.eq(remainingReservationQuantity, 0)) {
+        toDelete.push(reservation.id)
+      } else {
+        toUpdate.push({
+          id: reservation.id,
+          quantity: remainingReservationQuantity,
+          location_id: input.location_id ?? reservation.location_id,
+        })
+      }
+    })
+  }
   return {
     toDelete,
     toUpdate,
@@ -350,6 +410,10 @@ export const createOrderFulfillmentWorkflow = createWorkflow(
         "items.variant.width",
         "items.variant.material",
         "items.variant_title",
+        "items.variant.inventory_items.required_quantity",
+        "items.variant.inventory_items.inventory.id",
+        "items.variant.inventory_items.inventory.title",
+        "items.variant.inventory_items.inventory.sku",
         "shipping_address.*",
         "shipping_methods.id",
         "shipping_methods.shipping_option_id",
@@ -406,6 +470,7 @@ export const createOrderFulfillmentWorkflow = createWorkflow(
           .filter((i) => i in inputItemsMap)
       }
     )
+
     const reservations = useRemoteQueryStep({
       entry_point: "reservations",
       fields: [
