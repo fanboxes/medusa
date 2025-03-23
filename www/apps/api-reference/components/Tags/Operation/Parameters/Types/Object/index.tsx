@@ -1,6 +1,6 @@
 "use client"
 
-import type { SchemaObject } from "@/types/openapi"
+import type { OpenAPI } from "types"
 import TagOperationParametersDefault from "../Default"
 import dynamic from "next/dynamic"
 import type { TagOperationParametersProps } from "../.."
@@ -33,7 +33,7 @@ const Details = dynamic<DetailsProps>(
 
 export type TagOperationParametersObjectProps = {
   name?: string
-  schema: SchemaObject
+  schema: OpenAPI.SchemaObject
   isRequired?: boolean
   topLevel?: boolean
 }

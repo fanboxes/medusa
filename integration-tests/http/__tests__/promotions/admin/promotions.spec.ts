@@ -617,7 +617,7 @@ medusaIntegrationTestRunner({
                 storeHeaders
               )
             ).data.cart
-            console.log("cartWithPromotion2 -- ", cartWithPromotion2.promotions)
+
             expect(cartWithPromotion2).toEqual(
               expect.objectContaining({
                 promotions: [

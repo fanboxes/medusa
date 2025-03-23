@@ -45,6 +45,10 @@ export const authorizePaymentSessionStep = createStep(
       Modules.PAYMENT
     )
 
+    if (!input.id) {
+      return new StepResponse(null)
+    }
+
     try {
       payment = await paymentModule.authorizePaymentSession(
         input.id,

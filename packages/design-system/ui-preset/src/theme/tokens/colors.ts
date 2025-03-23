@@ -87,7 +87,9 @@ export const colors = {
     "--bg-field-component-hover": "rgba(39, 39, 42, 1)",
     "--bg-subtle-pressed": "rgba(39, 39, 42, 1)",
     "--button-transparent-pressed": "rgba(255, 255, 255, 0.12)",
-    "--fg-muted": "rgba(113, 113, 122, 1)"
+    "--fg-muted": "rgba(113, 113, 122, 1)",
+    "--alpha-400": "rgba(255, 255, 255, 0.24)",
+    "--alpha-250": "rgba(255, 255, 255, 0.1)"
   },
   "light": {
     "--tag-neutral-border": "rgba(228, 228, 231, 1)",
@@ -177,6 +179,8 @@ export const colors = {
     "--contrast-border-top": "rgba(24, 24, 27, 1)",
     "--bg-overlay": "rgba(24, 24, 27, 0.4)",
     "--fg-disabled": "rgba(161, 161, 170, 1)",
-    "--fg-muted": "rgba(113, 113, 122, 1)"
+    "--fg-muted": "rgba(113, 113, 122, 1)",
+    "--alpha-400": "rgba(24, 24, 27, 0.24)",
+    "--alpha-250": "rgba(24, 24, 27, 0.1)"
   }
 }

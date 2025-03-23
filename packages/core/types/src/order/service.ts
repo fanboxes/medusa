@@ -2927,7 +2927,7 @@ export interface IOrderModuleService extends IModuleService {
    * @example
    * const {
    *   items,
-   *   shippingMethods
+   *   shipping_methods
    * } = await orderModuleService.applyPendingOrderActions([
    *   "123", "321"
    * ])

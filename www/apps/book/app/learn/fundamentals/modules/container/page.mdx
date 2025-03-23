@@ -31,13 +31,13 @@ type InjectedDependencies = {
   logger: Logger
 }
 
-export default class HelloModuleService {
+export default class BlogModuleService {
   protected logger_: Logger
 
   constructor({ logger }: InjectedDependencies) {
     this.logger_ = logger
 
-    this.logger_.info("[HelloModuleService]: Hello World!")
+    this.logger_.info("[BlogModuleService]: Hello World!")
   }
 
   // ...

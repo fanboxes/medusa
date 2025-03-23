@@ -1,0 +1,18 @@
+If you send a request to the `/store/products` or `/store/products/:id` API routes and receive the following error in the response:
+
+```bash
+{
+  "type": "invalid_data",
+  "message": "Publishable key needs to have a sales channel configured."
+}
+```
+
+## Why this Error Occurred
+
+This error means you passed a valid `x-publishable-api-key` header, but the key does not have a sales channel configured. The sales channel is required to make requests to the `/store/products` and `/store/products/:id` routes, as it's used to retrieve products available in that sales channel.
+
+---
+
+## How to Fix it
+
+To resolve this error, you need to add at least one sales channel to your publishable API key. Refer to the [Manage Publishable API Key User Guide](!user-guide!/settings/developer/publishable-api-keys#manage-publishable-api-keys-sales-channels) to learn how to do that.

@@ -112,6 +112,7 @@ type InjectedDependencies = {
   returnItemService: ModulesSdkTypes.IMedusaInternalService<any>
   orderClaimService: ModulesSdkTypes.IMedusaInternalService<any>
   orderExchangeService: ModulesSdkTypes.IMedusaInternalService<any>
+  orderCreditLineService: ModulesSdkTypes.IMedusaInternalService<any>
 }
 
 const generateMethodForModels = {
@@ -286,6 +287,9 @@ export default class OrderModuleService
   protected orderExchangeItemService_: ModulesSdkTypes.IMedusaInternalService<
     InferEntityType<typeof OrderExchangeItem>
   >
+  protected orderCreditLineService_: ModulesSdkTypes.IMedusaInternalService<
+    InferEntityType<typeof OrderCreditLine>
+  >
 
   constructor(
     {
@@ -309,6 +313,7 @@ export default class OrderModuleService
       returnItemService,
       orderClaimService,
       orderExchangeService,
+      orderCreditLineService,
     }: InjectedDependencies,
     protected readonly moduleDeclaration: InternalModuleDeclaration
   ) {
@@ -336,6 +341,7 @@ export default class OrderModuleService
     this.returnItemService_ = returnItemService
     this.orderClaimService_ = orderClaimService
     this.orderExchangeService_ = orderExchangeService
+    this.orderCreditLineService_ = orderCreditLineService
   }
 
   __joinerConfig(): ModuleJoinerConfig {
@@ -363,6 +369,9 @@ export default class OrderModuleService
       "original_shipping_tax_total",
       "original_shipping_subtotal",
       "original_shipping_total",
+      "credit_line_total",
+      "credit_line_tax_total",
+      "credit_line_subtotal",
     ]
 
     const includeTotals = (config?.select ?? []).some((field) =>
@@ -381,6 +390,7 @@ export default class OrderModuleService
     config.select ??= []
 
     const requiredRelationsForTotals = [
+      "credit_lines",
       "items",
       "items.tax_lines",
       "items.adjustments",
@@ -733,6 +743,7 @@ export default class OrderModuleService
         ...ord,
         shipping_methods,
         items,
+        credit_lines,
       }) as any
 
       const calculated = calculateOrderChange({
@@ -750,8 +761,8 @@ export default class OrderModuleService
       const created = await this.orderService_.create(ord, sharedContext)
 
       creditLinesToCreate.push(
-        ...(credit_lines || []).map((creditLine) => ({
-          amount: creditLine.amount,
+        ...(credit_lines ?? []).map((creditLine) => ({
+          amount: MathBN.convert(creditLine.amount),
           reference: creditLine.reference,
           reference_id: creditLine.reference_id,
           metadata: creditLine.metadata,
@@ -778,7 +789,10 @@ export default class OrderModuleService
     }
 
     if (creditLinesToCreate.length) {
-      await super.createOrderCreditLines(creditLinesToCreate, sharedContext)
+      await this.orderCreditLineService_.create(
+        creditLinesToCreate,
+        sharedContext
+      )
     }
 
     return createdOrders
@@ -2265,6 +2279,7 @@ export default class OrderModuleService
   ) {
     const addedItems = {}
     const addedShippingMethods = {}
+
     for (const item of order.items) {
       const isExistingItem = item.id === item.detail?.item_id
       if (!isExistingItem) {
@@ -3089,7 +3104,8 @@ export default class OrderModuleService
     if (!ordersIds.length) {
       return {
         items: [],
-        shippingMethods: [],
+        shipping_methods: [],
+        credit_lines: [],
       }
     }
 
@@ -3107,6 +3123,7 @@ export default class OrderModuleService
       shippingMethodsToUpsert,
       summariesToUpsert,
       orderToUpdate,
+      creditLinesToCreate,
     } = await applyChangesToOrder(orders, actionsMap, {
       addActionReferenceToObject: true,
       includeTaxLinesAndAdjustementsToPreview: async (...args) => {
@@ -3118,7 +3135,14 @@ export default class OrderModuleService
       },
     })
 
-    await promiseAll([
+    const [
+      _orderUpdate,
+      _orderChangeActionUpdate,
+      orderItems,
+      _orderSummaryUpdate,
+      orderShippingMethods,
+      createdOrderCreditLines,
+    ] = await promiseAll([
       orderToUpdate.length
         ? this.orderService_.update(orderToUpdate, sharedContext)
         : null,
@@ -3137,11 +3161,18 @@ export default class OrderModuleService
             sharedContext
           )
         : null,
+      creditLinesToCreate.length
+        ? this.orderCreditLineService_.create(
+            creditLinesToCreate,
+            sharedContext
+          )
+        : null,
     ])
 
     return {
-      items: itemsToUpsert as any,
-      shippingMethods: shippingMethodsToUpsert as any,
+      items: orderItems ?? [],
+      shipping_methods: orderShippingMethods ?? [],
+      credit_lines: createdOrderCreditLines ?? ([] as any),
     }
   }
 

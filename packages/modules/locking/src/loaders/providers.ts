@@ -30,7 +30,7 @@ const registrationFn = async (klass, container, { id }) => {
   })
 
   container.register({
-    [LockingProviderRegistrationPrefix + key]: aliasTo(regKey),
+    [LockingProviderRegistrationPrefix + id]: aliasTo(regKey),
   })
 
   container.registerAdd(LockingIdentifiersRegistrationName, asValue(key))

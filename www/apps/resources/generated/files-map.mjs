@@ -124,6 +124,10 @@ export const filesMap = [
     "pathname": "/architectural-modules"
   },
   {
+    "filePath": "/www/apps/resources/app/architectural-modules/workflow-engine/how-to-use/page.mdx",
+    "pathname": "/architectural-modules/workflow-engine/how-to-use"
+  },
+  {
     "filePath": "/www/apps/resources/app/architectural-modules/workflow-engine/in-memory/page.mdx",
     "pathname": "/architectural-modules/workflow-engine/in-memory"
   },
@@ -812,6 +816,10 @@ export const filesMap = [
     "pathname": "/how-to-tutorials"
   },
   {
+    "filePath": "/www/apps/resources/app/how-to-tutorials/tutorials/product-reviews/page.mdx",
+    "pathname": "/how-to-tutorials/tutorials/product-reviews"
+  },
+  {
     "filePath": "/www/apps/resources/app/integrations/guides/resend/page.mdx",
     "pathname": "/integrations/guides/resend"
   },
@@ -886,6 +894,10 @@ export const filesMap = [
   {
     "filePath": "/www/apps/resources/app/nextjs-starter/guides/customize-stripe/page.mdx",
     "pathname": "/nextjs-starter/guides/customize-stripe"
+  },
+  {
+    "filePath": "/www/apps/resources/app/nextjs-starter/guides/revalidate-cache/page.mdx",
+    "pathname": "/nextjs-starter/guides/revalidate-cache"
   },
   {
     "filePath": "/www/apps/resources/app/nextjs-starter/page.mdx",
@@ -1036,6 +1048,10 @@ export const filesMap = [
     "pathname": "/storefront-development/cart/retrieve"
   },
   {
+    "filePath": "/www/apps/resources/app/storefront-development/cart/totals/page.mdx",
+    "pathname": "/storefront-development/cart/totals"
+  },
+  {
     "filePath": "/www/apps/resources/app/storefront-development/cart/update/page.mdx",
     "pathname": "/storefront-development/cart/update"
   },
@@ -1050,6 +1066,10 @@ export const filesMap = [
   {
     "filePath": "/www/apps/resources/app/storefront-development/checkout/email/page.mdx",
     "pathname": "/storefront-development/checkout/email"
+  },
+  {
+    "filePath": "/www/apps/resources/app/storefront-development/checkout/order-confirmation/page.mdx",
+    "pathname": "/storefront-development/checkout/order-confirmation"
   },
   {
     "filePath": "/www/apps/resources/app/storefront-development/checkout/page.mdx",
@@ -1228,12 +1248,20 @@ export const filesMap = [
     "pathname": "/tools"
   },
   {
+    "filePath": "/www/apps/resources/app/troubleshooting/api-routes/page.mdx",
+    "pathname": "/troubleshooting/api-routes"
+  },
+  {
     "filePath": "/www/apps/resources/app/troubleshooting/cors-errors/page.mdx",
     "pathname": "/troubleshooting/cors-errors"
   },
   {
     "filePath": "/www/apps/resources/app/troubleshooting/create-medusa-app-errors/page.mdx",
     "pathname": "/troubleshooting/create-medusa-app-errors"
+  },
+  {
+    "filePath": "/www/apps/resources/app/troubleshooting/data-models/default-fields/page.mdx",
+    "pathname": "/troubleshooting/data-models/default-fields"
   },
   {
     "filePath": "/www/apps/resources/app/troubleshooting/database-errors/page.mdx",
@@ -1260,24 +1288,52 @@ export const filesMap = [
     "pathname": "/troubleshooting/general-errors"
   },
   {
+    "filePath": "/www/apps/resources/app/troubleshooting/medusa-admin/blocked-request/page.mdx",
+    "pathname": "/troubleshooting/medusa-admin/blocked-request"
+  },
+  {
     "filePath": "/www/apps/resources/app/troubleshooting/medusa-admin/no-widget-route/page.mdx",
     "pathname": "/troubleshooting/medusa-admin/no-widget-route"
+  },
+  {
+    "filePath": "/www/apps/resources/app/troubleshooting/nextjs-starter-rewrites/page.mdx",
+    "pathname": "/troubleshooting/nextjs-starter-rewrites"
   },
   {
     "filePath": "/www/apps/resources/app/troubleshooting/page.mdx",
     "pathname": "/troubleshooting"
   },
   {
+    "filePath": "/www/apps/resources/app/troubleshooting/query/filter-linked/page.mdx",
+    "pathname": "/troubleshooting/query/filter-linked"
+  },
+  {
+    "filePath": "/www/apps/resources/app/troubleshooting/query/service-list/page.mdx",
+    "pathname": "/troubleshooting/query/service-list"
+  },
+  {
     "filePath": "/www/apps/resources/app/troubleshooting/s3/page.mdx",
     "pathname": "/troubleshooting/s3"
+  },
+  {
+    "filePath": "/www/apps/resources/app/troubleshooting/storefront-missing-pak/page.mdx",
+    "pathname": "/troubleshooting/storefront-missing-pak"
+  },
+  {
+    "filePath": "/www/apps/resources/app/troubleshooting/storefront-pak-sc/page.mdx",
+    "pathname": "/troubleshooting/storefront-pak-sc"
   },
   {
     "filePath": "/www/apps/resources/app/troubleshooting/test-errors/page.mdx",
     "pathname": "/troubleshooting/test-errors"
   },
   {
-    "filePath": "/www/apps/resources/app/troubleshooting/workflow-errors/page.mdx",
-    "pathname": "/troubleshooting/workflow-errors"
+    "filePath": "/www/apps/resources/app/troubleshooting/workflow-errors/step-x-defined/page.mdx",
+    "pathname": "/troubleshooting/workflow-errors/step-x-defined"
+  },
+  {
+    "filePath": "/www/apps/resources/app/troubleshooting/workflow-errors/when-then/page.mdx",
+    "pathname": "/troubleshooting/workflow-errors/when-then"
   },
   {
     "filePath": "/www/apps/resources/references/api_key/IApiKeyModuleService/methods/api_key.IApiKeyModuleService.authenticate/page.mdx",
@@ -1690,6 +1746,10 @@ export const filesMap = [
   {
     "filePath": "/www/apps/resources/references/auth_provider/classes/auth_provider.AbstractAuthModuleProvider/page.mdx",
     "pathname": "/references/auth_provider/classes/auth_provider.AbstractAuthModuleProvider"
+  },
+  {
+    "filePath": "/www/apps/resources/references/cache/interfaces/cache.ICacheService/page.mdx",
+    "pathname": "/references/cache/interfaces/cache.ICacheService"
   },
   {
     "filePath": "/www/apps/resources/references/cart/IBigNumber/methods/cart.IBigNumber.toJSON/page.mdx",
@@ -9572,8 +9632,16 @@ export const filesMap = [
     "pathname": "/references/dml/properties_base/classes/dml.properties_base.BaseProperty"
   },
   {
+    "filePath": "/www/apps/resources/references/event/interfaces/event.IEventBusModuleService/page.mdx",
+    "pathname": "/references/event/interfaces/event.IEventBusModuleService"
+  },
+  {
     "filePath": "/www/apps/resources/references/file/classes/file.AbstractFileProviderService/page.mdx",
     "pathname": "/references/file/classes/file.AbstractFileProviderService"
+  },
+  {
+    "filePath": "/www/apps/resources/references/file_service/interfaces/file_service.IFileModuleService/page.mdx",
+    "pathname": "/references/file_service/interfaces/file_service.IFileModuleService"
   },
   {
     "filePath": "/www/apps/resources/references/fulfillment/IBigNumber/methods/fulfillment.IBigNumber.toJSON/page.mdx",
@@ -12968,6 +13036,10 @@ export const filesMap = [
     "pathname": "/references/modules/auth_provider"
   },
   {
+    "filePath": "/www/apps/resources/references/modules/cache/page.mdx",
+    "pathname": "/references/modules/cache"
+  },
+  {
     "filePath": "/www/apps/resources/references/modules/cart/page.mdx",
     "pathname": "/references/modules/cart"
   },
@@ -13000,8 +13072,16 @@ export const filesMap = [
     "pathname": "/references/modules/dml"
   },
   {
+    "filePath": "/www/apps/resources/references/modules/event/page.mdx",
+    "pathname": "/references/modules/event"
+  },
+  {
     "filePath": "/www/apps/resources/references/modules/file/page.mdx",
     "pathname": "/references/modules/file"
+  },
+  {
+    "filePath": "/www/apps/resources/references/modules/file_service/page.mdx",
+    "pathname": "/references/modules/file_service"
   },
   {
     "filePath": "/www/apps/resources/references/modules/fulfillment/page.mdx",
@@ -13050,6 +13130,10 @@ export const filesMap = [
   {
     "filePath": "/www/apps/resources/references/modules/notification/page.mdx",
     "pathname": "/references/modules/notification"
+  },
+  {
+    "filePath": "/www/apps/resources/references/modules/notification_service/page.mdx",
+    "pathname": "/references/modules/notification_service"
   },
   {
     "filePath": "/www/apps/resources/references/modules/order/page.mdx",
@@ -13238,6 +13322,10 @@ export const filesMap = [
   {
     "filePath": "/www/apps/resources/references/notification/classes/notification.AbstractNotificationProviderService/page.mdx",
     "pathname": "/references/notification/classes/notification.AbstractNotificationProviderService"
+  },
+  {
+    "filePath": "/www/apps/resources/references/notification_service/interfaces/notification_service.INotificationModuleService/page.mdx",
+    "pathname": "/references/notification_service/interfaces/notification_service.INotificationModuleService"
   },
   {
     "filePath": "/www/apps/resources/references/order/IBigNumber/methods/order.IBigNumber.toJSON/page.mdx",

@@ -44,6 +44,10 @@ export const order = [
     "path": "https://docs.medusajs.com/resources/storefront-development/checkout/complete-cart"
   },
   {
+    "title": "Order Confirmation in Storefront",
+    "path": "https://docs.medusajs.com/resources/storefront-development/checkout/order-confirmation"
+  },
+  {
     "title": "Implement Express Checkout with Medusa",
     "path": "https://docs.medusajs.com/resources/storefront-development/guides/express-checkout"
   },

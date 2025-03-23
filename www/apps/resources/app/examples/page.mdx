@@ -713,44 +713,44 @@ Find this example explained in details in [this documentation](!docs!/learn/fund
 
 </Note>
 
-1. Create the directory `src/modules/hello`.
-2. Create the file `src/modules/hello/models/my-custom.ts` with the following data model:
+1. Create the directory `src/modules/blog`.
+2. Create the file `src/modules/blog/models/post.ts` with the following data model:
 
-```ts title="src/modules/hello/models/my-custom.ts"
+```ts title="src/modules/blog/models/post.ts"
 import { model } from "@medusajs/framework/utils"
 
-const MyCustom = model.define("my_custom", {
+const Post = model.define("post", {
   id: model.id().primaryKey(),
-  name: model.text(),
+  title: model.text(),
 })
 
-export default MyCustom
+export default Post
 ```
 
-3. Create the file `src/modules/hello/service.ts` with the following service:
+3. Create the file `src/modules/blog/service.ts` with the following service:
 
-```ts title="src/modules/hello/service.ts"
+```ts title="src/modules/blog/service.ts"
 import { MedusaService } from "@medusajs/framework/utils"
-import MyCustom from "./models/my-custom"
+import Post from "./models/post"
 
-class HelloModuleService extends MedusaService({
-  MyCustom,
+class BlogModuleService extends MedusaService({
+  Post,
 }){
 }
 
-export default HelloModuleService
+export default BlogModuleService
 ```
 
-4. Create the file `src/modules/hello/index.ts` that exports the module definition:
+4. Create the file `src/modules/blog/index.ts` that exports the module definition:
 
-```ts title="src/modules/hello/index.ts"
-import HelloModuleService from "./service"
+```ts title="src/modules/blog/index.ts"
+import BlogModuleService from "./service"
 import { Module } from "@medusajs/framework/utils"
 
-export const HELLO_MODULE = "helloModuleService"
+export const BLOG_MODULE = "blog"
 
-export default Module(HELLO_MODULE, {
-  service: HelloModuleService,
+export default Module(BLOG_MODULE, {
+  service: BlogModuleService,
 })
 ```
 
@@ -763,7 +763,7 @@ module.exports = defineConfig({
   },
   modules: [
     {
-      resolve: "./modules/hello",
+      resolve: "./modules/blog",
     },
   ],
 })
@@ -772,7 +772,7 @@ module.exports = defineConfig({
 6. Generate and run migrations:
 
 ```bash
-npx medusa db:generate helloModuleService
+npx medusa db:generate blog
 npx medusa db:migrate
 ```
 
@@ -780,23 +780,23 @@ npx medusa db:migrate
 
 ```ts title="src/api/custom/route.ts"
 import { MedusaRequest, MedusaResponse } from "@medusajs/framework/http"
-import HelloModuleService from "../../modules/hello/service"
-import { HELLO_MODULE } from "../../modules/hello"
+import BlogModuleService from "../../modules/blog/service"
+import { BLOG_MODULE } from "../../modules/blog"
 
 export async function GET(
   req: MedusaRequest,
   res: MedusaResponse
 ): Promise<void> {
-  const helloModuleService: HelloModuleService = req.scope.resolve(
-    HELLO_MODULE
+  const blogModuleService: BlogModuleService = req.scope.resolve(
+    BLOG_MODULE
   )
 
-  const my_custom = await helloModuleService.createMyCustoms({
-    name: "test",
+  const post = await blogModuleService.createPosts({
+    title: "test",
   })
 
   res.json({
-    my_custom,
+    post,
   })
 }
 ```
@@ -805,44 +805,44 @@ export async function GET(
 
 To add services in your module other than the main one, create them in the `services` directory of the module.
 
-For example, create the file `src/modules/hello/services/custom.ts` with the following content:
+For example, create the file `src/modules/blog/services/category.ts` with the following content:
 
-```ts title="src/modules/hello/services/custom.ts"
-export class CustomService {
+```ts title="src/modules/blog/services/category.ts"
+export class CategoryService {
   // TODO add methods
 }
 ```
 
-Then, export the service in the file `src/modules/hello/services/index.ts`:
+Then, export the service in the file `src/modules/blog/services/index.ts`:
 
-```ts title="src/modules/hello/services/index.ts"
-export * from "./custom"
+```ts title="src/modules/blog/services/index.ts"
+export * from "./category"
 ```
 
 Finally, resolve the service in your module's main service or loader:
 
-```ts title="src/modules/hello/service.ts"
+```ts title="src/modules/blog/service.ts"
 import { MedusaService } from "@medusajs/framework/utils"
-import MyCustom from "./models/my-custom"
-import { CustomService } from "./services"
+import Post from "./models/post"
+import { CategoryService } from "./services"
 
 type InjectedDependencies = {
-  customService: CustomService
+  categoryService: CategoryService
 }
 
-class HelloModuleService extends MedusaService({
-  MyCustom,
+class BlogModuleService extends MedusaService({
+  Post,
 }){
-  private customService: CustomService
+  private categoryService: CategoryService
 
-  constructor({ customService }: InjectedDependencies) {
+  constructor({ categoryService }: InjectedDependencies) {
     super(...arguments)
 
-    this.customService = customService
+    this.categoryService = categoryService
   }
 }
 
-export default HelloModuleService
+export default BlogModuleService
 ```
 
 Learn more in [this documentation](!docs!/learn/fundamentals/modules/multiple-services).
@@ -860,7 +860,7 @@ module.exports = defineConfig({
   // ...
   modules: [
     {
-      resolve: "./modules/hello",
+      resolve: "./modules/blog",
       options: {
         apiKey: true,
       },
@@ -871,17 +871,17 @@ module.exports = defineConfig({
 
 2. Access the options in the module's main service:
 
-```ts title="src/modules/hello/service.ts" highlights={[["14", "options"]]}
+```ts title="src/modules/blog/service.ts" highlights={[["14", "options"]]}
 import { MedusaService } from "@medusajs/framework/utils"
-import MyCustom from "./models/my-custom"
+import Post from "./models/post"
 
 // recommended to define type in another file
 type ModuleOptions = {
   apiKey?: boolean
 }
 
-export default class HelloModuleService extends MedusaService({
-  MyCustom,
+export default class BlogModuleService extends MedusaService({
+  Post,
 }){
   protected options_: ModuleOptions
 
@@ -903,9 +903,9 @@ Learn more in [this documentation](!docs!/learn/fundamentals/modules/options).
 
 An example of integrating a dummy third-party system in a module's service:
 
-```ts title="src/modules/hello/service.ts"
+```ts title="src/modules/blog/service.ts"
 import { Logger } from "@medusajs/framework/types"
-import { BRAND_MODULE } from ".."
+import { BLOG_MODULE } from ".."
 
 export type ModuleOptions = {
   apiKey: string
@@ -915,7 +915,7 @@ type InjectedDependencies = {
   logger: Logger
 }
 
-export class BrandClient {
+export class BlogClient {
   private options_: ModuleOptions
   private logger_: Logger
 
@@ -956,23 +956,23 @@ This assumes you already have a module. If not, follow [this example](#create-mo
 
 </Note>
 
-1. Create the file `src/modules/hello/models/my-custom.ts` with the following data model:
+1. Create the file `src/modules/blog/models/post.ts` with the following data model:
 
-```ts title="src/modules/hello/models/my-custom.ts"
+```ts title="src/modules/blog/models/post.ts"
 import { model } from "@medusajs/framework/utils"
 
-const MyCustom = model.define("my_custom", {
+const Post = model.define("post", {
   id: model.id().primaryKey(),
-  name: model.text(),
+  title: model.text(),
 })
 
-export default MyCustom
+export default Post
 ```
 
 2. Generate and run migrations:
 
 ```bash
-npx medusa db:generate helloModuleService
+npx medusa db:generate blog
 npx medusa db:migrate
 ```
 
@@ -985,7 +985,7 @@ A data model can have properties of the following types:
 1. ID property:
 
 ```ts
-const MyCustom = model.define("my_custom", {
+const Post = model.define("post", {
   id: model.id(),
   // ...
 })
@@ -994,8 +994,8 @@ const MyCustom = model.define("my_custom", {
 2. Text property:
 
 ```ts
-const MyCustom = model.define("my_custom", {
-  name: model.text(),
+const Post = model.define("post", {
+  title: model.text(),
   // ...
 })
 ```
@@ -1003,8 +1003,8 @@ const MyCustom = model.define("my_custom", {
 3. Number property:
 
 ```ts
-const MyCustom = model.define("my_custom", {
-  age: model.number(),
+const Post = model.define("post", {
+  views: model.number(),
   // ...
 })
 ```
@@ -1012,7 +1012,7 @@ const MyCustom = model.define("my_custom", {
 4. Big Number property:
 
 ```ts
-const MyCustom = model.define("my_custom", {
+const Post = model.define("post", {
   price: model.bigNumber(),
   // ...
 })
@@ -1021,8 +1021,8 @@ const MyCustom = model.define("my_custom", {
 5. Boolean property:
 
 ```ts
-const MyCustom = model.define("my_custom", {
-  hasAccount: model.boolean(),
+const Post = model.define("post", {
+  isPublished: model.boolean(),
   // ...
 })
 ```
@@ -1030,8 +1030,8 @@ const MyCustom = model.define("my_custom", {
 6. Enum property:
 
 ```ts
-const MyCustom = model.define("my_custom", {
-  color: model.enum(["black", "white"]),
+const Post = model.define("post", {
+  status: model.enum(["draft", "published"]),
   // ...
 })
 ```
@@ -1039,8 +1039,8 @@ const MyCustom = model.define("my_custom", {
 7. Date-Time property:
 
 ```ts
-const MyCustom = model.define("my_custom", {
-  date_of_birth: model.dateTime(),
+const Post = model.define("post", {
+  publishedAt: model.dateTime(),
   // ...
 })
 ```
@@ -1048,7 +1048,7 @@ const MyCustom = model.define("my_custom", {
 8. JSON property:
 
 ```ts
-const MyCustom = model.define("my_custom", {
+const Post = model.define("post", {
   metadata: model.json(),
   // ...
 })
@@ -1057,13 +1057,13 @@ const MyCustom = model.define("my_custom", {
 9. Array property:
 
 ```ts
-const MyCustom = model.define("my_custom", {
-  names: model.array(),
+const Post = model.define("post", {
+  tags: model.array(),
   // ...
 })
 ```
 
-Learn more in [this documentation](!docs!/learn/fundamentals/data-models/property-types).
+Learn more in [this documentation](!docs!/learn/fundamentals/data-models/properties).
 
 ### Set Primary Key
 
@@ -1072,12 +1072,12 @@ To set an `id` property as the primary key of a data model:
 ```ts highlights={[["4", "primaryKey"]]}
 import { model } from "@medusajs/framework/utils"
 
-const MyCustom = model.define("my_custom", {
+const Post = model.define("post", {
   id: model.id().primaryKey(),
   // ...
 })
 
-export default MyCustom
+export default Post
 ```
 
 To set a `text` property as the primary key:
@@ -1085,12 +1085,12 @@ To set a `text` property as the primary key:
 ```ts highlights={[["4", "primaryKey"]]}
 import { model } from "@medusajs/framework/utils"
 
-const MyCustom = model.define("my_custom", {
-  name: model.text().primaryKey(),
+const Post = model.define("post", {
+  title: model.text().primaryKey(),
   // ...
 })
 
-export default MyCustom
+export default Post
 ```
 
 To set a `number` property as the primary key:
@@ -1098,15 +1098,15 @@ To set a `number` property as the primary key:
 ```ts highlights={[["4", "primaryKey"]]}
 import { model } from "@medusajs/framework/utils"
 
-const MyCustom = model.define("my_custom", {
-  age: model.number().primaryKey(),
+const Post = model.define("post", {
+  views: model.number().primaryKey(),
   // ...
 })
 
-export default MyCustom
+export default Post
 ```
 
-Learn more in [this documentation](!docs!/learn/fundamentals/data-models/primary-key).
+Learn more in [this documentation](!docs!/learn/fundamentals/data-models/properties#set-primary-key-property).
 
 ### Default Property Value
 
@@ -1115,20 +1115,20 @@ To set the default value of a property:
 ```ts highlights={[["6"], ["9"]]}
 import { model } from "@medusajs/framework/utils"
 
-const MyCustom = model.define("my_custom", {
-  color: model
-    .enum(["black", "white"])
-    .default("black"),
-  age: model
+const Post = model.define("post", {
+  status: model
+    .enum(["draft", "published"])
+    .default("draft"),
+  views: model
     .number()
     .default(0),
   // ...
 })
 
-export default MyCustom
+export default Post
 ```
 
-Learn more in [this documentation](!docs!/learn/fundamentals/data-models/configure-properties).
+Learn more in [this documentation](!docs!/learn/fundamentals/data-models/properties#property-default-value).
 
 ### Nullable Property
 
@@ -1137,15 +1137,15 @@ To allow `null` values for a property:
 ```ts highlights={[["4", "nullable"]]}
 import { model } from "@medusajs/framework/utils"
 
-const MyCustom = model.define("my_custom", {
+const Post = model.define("post", {
   price: model.bigNumber().nullable(),
   // ...
 })
 
-export default MyCustom
+export default Post
 ```
 
-Learn more in [this documentation](!docs!/learn/fundamentals/data-models/configure-properties#nullable-property).
+Learn more in [this documentation](!docs!/learn/fundamentals/data-models/properties#make-property-optional).
 
 ### Unique Property
 
@@ -1154,15 +1154,15 @@ To create a unique index on a property:
 ```ts highlights={[["4", "unique"]]}
 import { model } from "@medusajs/framework/utils"
 
-const User = model.define("user", {
-  email: model.text().unique(),
+const Post = model.define("post", {
+  title: model.text().unique(),
   // ...
 })
 
-export default User
+export default Post
 ```
 
-Learn more in [this documentation](!docs!/learn/fundamentals/data-models/configure-properties#unique-property).
+Learn more in [this documentation](!docs!/learn/fundamentals/data-models/properties#unique-property).
 
 ### Define Database Index on Property
 
@@ -1173,15 +1173,15 @@ import { model } from "@medusajs/framework/utils"
 
 const MyCustom = model.define("my_custom", {
   id: model.id().primaryKey(),
-  name: model.text().index(
-    "IDX_MY_CUSTOM_NAME"
+  title: model.text().index(
+    "IDX_POST_TITLE"
   ),
 })
 
 export default MyCustom
 ```
 
-Learn more in [this documentation](!docs!/learn/fundamentals/data-models/index#define-database-index-on-property).
+Learn more in [this documentation](!docs!/learn/fundamentals/data-models/properties#define-database-index-on-property).
 
 ### Define Composite Index on Data Model
 
@@ -1208,7 +1208,7 @@ const MyCustom = model.define("my_custom", {
 export default MyCustom
 ```
 
-Learn more in [this documentation](!docs!/learn/fundamentals/data-models/index#define-database-index-on-data-model).
+Learn more in [this documentation](!docs!/learn/fundamentals/data-models/index).
 
 ### Make a Property Searchable
 
@@ -1217,29 +1217,29 @@ To make a property searchable using terms or keywords:
 ```ts highlights={[["4", "searchable"]]}
 import { model } from "@medusajs/framework/utils"
 
-const MyCustom = model.define("my_custom", {
-  name: model.text().searchable(),
+const Post = model.define("post", {
+  title: model.text().searchable(),
   // ...
 })
 
-export default MyCustom
+export default Post
 ```
 
 Then, to search by that property, pass the `q` filter to the `list` or `listAndCount` generated methods of the module's main service:
 
 <Note>
 
-`helloModuleService` is the main service that the data models belong to.
+`blogModuleService` is the main service that manages the `Post` data model.
 
 </Note>
 
 ```ts
-const myCustoms = await helloModuleService.listMyCustoms({
+const posts = await blogModuleService.listPosts({
   q: "John",
 })
 ```
 
-Learn more in [this documentation](!docs!/learn/fundamentals/data-models/searchable-property).
+Learn more in [this documentation](!docs!/learn/fundamentals/data-models/properties#searchable-property).
 
 ### Create One-to-One Relationship
 
@@ -1339,19 +1339,19 @@ To set the ID of the user that an email belongs to:
 
 <Note>
 
-`helloModuleService` is the main service that the data models belong to.
+`blogModuleService` is the main service that manages the `Email` and `User` data models.
 
 </Note>
 
 ```ts
 // when creating an email
-const email = await helloModuleService.createEmails({
+const email = await blogModuleService.createEmails({
   // other properties...
   user: "123",
 })
 
 // when updating an email
-const email = await helloModuleService.updateEmails({
+const email = await blogModuleService.updateEmails({
   id: "321",
   // other properties...
   user: "123",
@@ -1362,13 +1362,13 @@ And to set the ID of a user's email when creating or updating it:
 
 ```ts
 // when creating a user
-const user = await helloModuleService.createUsers({
+const user = await blogModuleService.createUsers({
   // other properties...
   email: "123",
 })
 
 // when updating a user
-const user = await helloModuleService.updateUsers({
+const user = await blogModuleService.updateUsers({
   id: "321",
   // other properties...
   email: "123",
@@ -1385,19 +1385,19 @@ To set the ID of the store that a product belongs to:
 
 <Note>
 
-`helloModuleService` is the main service that the data models belong to.
+`blogModuleService` is the main service that manages the `Product` and `Store` data models.
 
 </Note>
 
 ```ts
 // when creating a product
-const product = await helloModuleService.createProducts({
+const product = await blogModuleService.createProducts({
   // other properties...
   store_id: "123",
 })
 
 // when updating a product
-const product = await helloModuleService.updateProducts({
+const product = await blogModuleService.updateProducts({
   id: "321",
   // other properties...
   store_id: "123",
@@ -1414,12 +1414,12 @@ To set the orders a product has when creating it:
 
 <Note>
 
-`helloModuleService` is the main service that the data models belong to.
+`blogModuleService` is the main service that manages the `Product` and `Order` data models.
 
 </Note>
 
 ```ts
-const product = await helloModuleService.createProducts({
+const product = await blogModuleService.createProducts({
   // other properties...
   orders: ["123", "321"],
 })
@@ -1428,14 +1428,14 @@ const product = await helloModuleService.createProducts({
 To add new orders to a product without removing the previous associations:
 
 ```ts
-const product = await helloModuleService.retrieveProduct(
+const product = await blogModuleService.retrieveProduct(
   "123",
   {
     relations: ["orders"],
   }
 )
 
-const updatedProduct = await helloModuleService.updateProducts({
+const updatedProduct = await blogModuleService.updateProducts({
   id: product.id,
   // other properties...
   orders: [
@@ -1453,12 +1453,12 @@ To retrieve records related to a data model's records through a relation, pass t
 
 <Note>
 
-`helloModuleService` is the main service that the data models belong to.
+`blogModuleService` is the main service that manages the `Product` and `Order` data models.
 
 </Note>
 
 ```ts highlights={[["4", "relations"]]}
-const product = await helloModuleService.retrieveProducts(
+const product = await blogModuleService.retrieveProducts(
   "123",
   {
     relations: ["orders"],
@@ -1482,18 +1482,18 @@ To extend the service factory in your module's service:
 
 ```ts highlights={[["4", "MedusaService"]]}
 import { MedusaService } from "@medusajs/framework/utils"
-import MyCustom from "./models/my-custom"
+import Post from "./models/post"
 
-class HelloModuleService extends MedusaService({
-  MyCustom,
+class BlogModuleService extends MedusaService({
+  Post,
 }){
   // TODO implement custom methods
 }
 
-export default HelloModuleService
+export default BlogModuleService
 ```
 
-The `HelloModuleService` will now have data-management methods for `MyCustom`.
+The `BlogModuleService` will now have data-management methods for `Post`.
 
 Refer to [this reference](../service-factory-reference/page.mdx) for details on the generated methods.
 
@@ -1509,14 +1509,14 @@ To resolve resources from the module's container in a service:
 ```ts highlights={[["14"]]}
 import { Logger } from "@medusajs/framework/types"
 import { MedusaService } from "@medusajs/framework/utils"
-import MyCustom from "./models/my-custom"
+import Post from "./models/post"
 
 type InjectedDependencies = {
   logger: Logger
 }
 
-class HelloModuleService extends MedusaService({
-  MyCustom,
+class BlogModuleService extends MedusaService({
+  Post,
 }){
   protected logger_: Logger
 
@@ -1524,13 +1524,13 @@ class HelloModuleService extends MedusaService({
     super(...arguments)
     this.logger_ = logger
 
-    this.logger_.info("[HelloModuleService]: Hello World!")
+    this.logger_.info("[BlogModuleService]: Hello World!")
   }
 
   // ...
 }
 
-export default HelloModuleService
+export default BlogModuleService
 ```
 
   </CodeTab>
@@ -1543,13 +1543,13 @@ type InjectedDependencies = {
   logger: Logger
 }
 
-export default class HelloModuleService {
+export default class BlogModuleService {
   protected logger_: Logger
 
   constructor({ logger }: InjectedDependencies) {
     this.logger_ = logger
 
-    this.logger_.info("[HelloModuleService]: Hello World!")
+    this.logger_.info("[BlogModuleService]: Hello World!")
   }
 
   // ...
@@ -1567,15 +1567,15 @@ To access options passed to a module in its service:
 
 ```ts highlights={[["14", "options"]]}
 import { MedusaService } from "@medusajs/framework/utils"
-import MyCustom from "./models/my-custom"
+import Post from "./models/post"
 
 // recommended to define type in another file
 type ModuleOptions = {
   apiKey?: boolean
 }
 
-export default class HelloModuleService extends MedusaService({
-  MyCustom,
+export default class BlogModuleService extends MedusaService({
+  Post,
 }){
   protected options_: ModuleOptions
 
@@ -1604,14 +1604,14 @@ import {
   MedusaContext,
 } from "@medusajs/framework/utils"
 
-class HelloModuleService {
+class BlogModuleService {
   // ...
 
   @InjectManager()
   async getCount(
     @MedusaContext() sharedContext?: Context<EntityManager>
   ): Promise<number> {
-    return await sharedContext.manager.count("my_custom")
+    return await sharedContext.manager.count("post")
   }
   
   @InjectManager()
@@ -1619,7 +1619,7 @@ class HelloModuleService {
     @MedusaContext() sharedContext?: Context<EntityManager>
   ): Promise<number> {
     const data = await sharedContext.manager.execute(
-      "SELECT COUNT(*) as num FROM my_custom"
+      "SELECT COUNT(*) as num FROM post"
     ) 
     
     return parseInt(data[0].num)
@@ -1642,7 +1642,7 @@ import {
 import { Context } from "@medusajs/framework/types"
 import { EntityManager } from "@mikro-orm/knex"
 
-class HelloModuleService {
+class BlogModuleService {
   // ...
   @InjectTransactionManager()
   protected async update_(
@@ -1654,7 +1654,7 @@ class HelloModuleService {
   ): Promise<any> {
     const transactionManager = sharedContext.transactionManager
     await transactionManager.nativeUpdate(
-      "my_custom",
+      "post",
       {
         id: input.id,
       },
@@ -1665,7 +1665,7 @@ class HelloModuleService {
 
     // retrieve again
     const updatedRecord = await transactionManager.execute(
-      `SELECT * FROM my_custom WHERE id = '${input.id}'`
+      `SELECT * FROM post WHERE id = '${input.id}'`
     )
 
     return updatedRecord
@@ -1696,16 +1696,16 @@ A module link forms an association between two data models of different modules,
 
 To define a link between your custom module and a commerce module, such as the Product Module:
 
-1. Create the file `src/links/hello-product.ts` with the following content:
+1. Create the file `src/links/blog-product.ts` with the following content:
 
-```ts title="src/links/hello-product.ts"
-import HelloModule from "../modules/hello"
+```ts title="src/links/blog-product.ts"
+import BlogModule from "../modules/blog"
 import ProductModule from "@medusajs/medusa/product"
 import { defineLink } from "@medusajs/framework/utils"
 
 export default defineLink(
   ProductModule.linkable.product,
-  HelloModule.linkable.myCustom
+  BlogModule.linkable.post
 )
 ```
 
@@ -1722,14 +1722,14 @@ Learn more in [this documentation](!docs!/learn/fundamentals/module-links).
 To define a list link, where multiple records of a model can be linked to a record in another:
 
 ```ts highlights={[["9", "isList"]]}
-import HelloModule from "../modules/hello"
+import BlogModule from "../modules/blog"
 import ProductModule from "@medusajs/medusa/product"
 import { defineLink } from "@medusajs/framework/utils"
 
 export default defineLink(
   ProductModule.linkable.product,
   {
-    linkable: HelloModule.linkable.myCustom,
+    linkable: BlogModule.linkable.post,
     isList: true,
   }
 )
@@ -1742,14 +1742,14 @@ Learn more about list links in [this documentation](!docs!/learn/fundamentals/mo
 To ensure a model's records linked to another model are deleted when the linked model is deleted:
 
 ```ts highlights={[["9", "deleteCascades"]]}
-import HelloModule from "../modules/hello"
+import BlogModule from "../modules/blog"
 import ProductModule from "@medusajs/medusa/product"
 import { defineLink } from "@medusajs/framework/utils"
 
 export default defineLink(
   ProductModule.linkable.product,
   {
-    linkable: HelloModule.linkable.myCustom,
+    linkable: BlogModule.linkable.post,
     deleteCascades: true,
   }
 )
@@ -1762,13 +1762,13 @@ Learn more in [this documentation](!docs!/learn/fundamentals/module-links#define
 To add a custom column to the table that stores the linked records of two data models:
 
 ```ts highlights={[["9", "database"]]}
-import HelloModule from "../modules/hello"
+import BlogModule from "../modules/blog"
 import ProductModule from "@medusajs/medusa/product"
 import { defineLink } from "@medusajs/framework/utils"
 
 export default defineLink(
   ProductModule.linkable.product,
-  HelloModule.linkable.myCustom,
+  BlogModule.linkable.post,
   {
     database: {
       extraColumns: {
@@ -1802,13 +1802,13 @@ await link.create({
 To retrieve the custom column when retrieving linked records using Query:
 
 ```ts
-import productHelloLink from "../links/product-hello"
+import productBlogLink from "../links/product-blog"
 
 // ...
 
 const { data } = await query.graph({
-  entity: productHelloLink.entryPoint,
-  fields: ["metadata", "product.*", "my_custom.*"],
+  entity: productBlogLink.entryPoint,
+  fields: ["metadata", "product.*", "post.*"],
   filters: {
     product_id: "prod_123",
   },
@@ -1823,7 +1823,7 @@ To create a link between two records using Link:
 
 ```ts
 import { Modules } from "@medusajs/framework/utils"
-import { HELLO_MODULE } from "../../modules/hello"
+import { BLOG_MODULE } from "../../modules/blog"
 
 // ...
 
@@ -1845,7 +1845,7 @@ To dismiss links between records using Link:
 
 ```ts
 import { Modules } from "@medusajs/framework/utils"
-import { HELLO_MODULE } from "../../modules/hello"
+import { BLOG_MODULE } from "../../modules/blog"
 
 // ...
 
@@ -1853,8 +1853,8 @@ await link.dismiss({
   [Modules.PRODUCT]: {
     product_id: "prod_123",
   },
-  [HELLO_MODULE]: {
-    my_custom_id: "mc_123",
+  [BLOG_MODULE]: {
+    post_id: "mc_123",
   },
 })
 ```
@@ -3307,20 +3307,20 @@ Learn more in [this documentation](!docs!/learn/debugging-and-testing/testing-to
 
 To create a test for a module's service, create the test under the `__tests__` directory of the module.
 
-For example, create the file `src/modules/hello/__tests__/service.spec.ts` with the following content:
+For example, create the file `src/modules/blog/__tests__/service.spec.ts` with the following content:
 
-```ts title="src/modules/hello/__tests__/service.spec.ts"
+```ts title="src/modules/blog/__tests__/service.spec.ts"
 import { moduleIntegrationTestRunner } from "@medusajs/test-utils"
-import { HELLO_MODULE } from ".."
-import HelloModuleService from "../service"
-import MyCustom from "../models/my-custom"
+import { BLOG_MODULE } from ".."
+import BlogModuleService from "../service"
+import Post from "../models/post"
 
-moduleIntegrationTestRunner<HelloModuleService>({
-  moduleName: HELLO_MODULE,
-  moduleModels: [MyCustom],
-  resolve: "./modules/hello",
+moduleIntegrationTestRunner<BlogModuleService>({
+  moduleName: BLOG_MODULE,
+  moduleModels: [Post],
+  resolve: "./modules/blog",
   testSuite: ({ service }) => {
-    describe("HelloModuleService", () => {
+    describe("BlogModuleService", () => {
       it("says hello world", () => {
         const message = service.getMessage()
 

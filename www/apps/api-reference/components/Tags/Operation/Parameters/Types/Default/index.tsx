@@ -1,11 +1,11 @@
-import type { SchemaObject } from "@/types/openapi"
+import type { OpenAPI } from "types"
 import TagOperationParametersDescription from "../../Description"
 import clsx from "clsx"
 import TagOperationParametersName from "../../Name"
 
 export type TagOperationParametersDefaultProps = {
   name?: string
-  schema: SchemaObject
+  schema: OpenAPI.SchemaObject
   isRequired?: boolean
   className?: string
   expandable?: boolean

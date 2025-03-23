@@ -14,11 +14,18 @@ import dmlOptions from "./dml.js"
 import coreFlowsOptions from "./core-flows.js"
 import jsSdkOptions from "./js-sdk.js"
 import lockingOptions from "./locking.js"
+import cacheOptions from "./cache.js"
+import eventOptions from "./event.js"
+import fileServiceOptions from "./file-service.js"
+import notificationServiceOptions from "./notification-service.js"
 
 const mergerCustomOptions: FormattingOptionsType = {
   ...authProviderOptions,
+  ...cacheOptions,
   ...coreFlowsOptions,
   ...dmlOptions,
+  ...eventOptions,
+  ...fileServiceOptions,
   ...fileOptions,
   ...fulfillmentProviderOptions,
   ...helperStepsOptions,
@@ -26,6 +33,7 @@ const mergerCustomOptions: FormattingOptionsType = {
   ...lockingOptions,
   ...medusaConfigOptions,
   ...medusaOptions,
+  ...notificationServiceOptions,
   ...notificationOptions,
   ...paymentProviderOptions,
   ...searchOptions,

@@ -51,7 +51,7 @@ export const taxSidebar = [
           {
             type: "link",
             path: "/references/tax/provider",
-            title: "Tax Provider Reference",
+            title: "Create Tax Provider",
           },
         ],
       },

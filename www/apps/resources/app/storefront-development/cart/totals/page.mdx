@@ -1,0 +1,140 @@
+---
+tags:
+  - cart
+  - storefront
+---
+
+import { CodeTabs, CodeTab, Table } from "docs-ui"
+
+export const metadata = {
+  title: `Show Cart Totals`,
+}
+
+# {metadata.title}
+
+In this guide, you'll learn how to show the cart totals in the checkout flow. This is usually shown as part of the checkout and cart pages.
+
+## Cart Total Fields
+
+The `Cart` object has various fields related to its totals, which you can check out in the [Store API reference](!api!/store#carts_cart_schema).
+
+The fields that are most commonly used are:
+
+<Table>
+  <Table.Header>
+    <Table.Row>
+      <Table.HeaderCell>Field</Table.HeaderCell>
+      <Table.HeaderCell>Description</Table.HeaderCell>
+    </Table.Row>
+  </Table.Header>
+  <Table.Body>
+    <Table.Row>
+      <Table.Cell>
+        `subtotal`
+      </Table.Cell>
+      <Table.Cell>
+        The cart's subtotal excluding taxes and shipping, and including discounts.
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+      `discount_total`
+      </Table.Cell>
+      <Table.Cell>
+        The total discounts or promotions applied to the cart.
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        `shipping_total`
+      </Table.Cell>
+      <Table.Cell>
+        The total shipping cost.
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        `tax_total`
+      </Table.Cell>
+      <Table.Cell>
+        The total tax amount.
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        `total`
+      </Table.Cell>
+      <Table.Cell>
+        The total amount of the cart including all taxes, shipping, and discounts.
+      </Table.Cell>
+    </Table.Row>
+  </Table.Body>
+</Table>
+
+---
+
+## Example: React Storefront
+
+Here's an example of how you can show the cart totals in a React component:
+
+export const highlights = [
+  ["3", "useCart", "The `useCart` hook was defined in the Cart React Context documentation."],
+  ["8", "formatPrice", "A function to format a price using the `Intl.NumberFormat` API."],
+  ["23", "formatPrice", "Show the cart's subtotal"],
+  ["27", "formatPrice", "Show the total discounts"],
+  ["31", "formatPrice", "Show the shipping total"],
+  ["35", "formatPrice", "Show the tax total"],
+  ["39", "formatPrice", "Show the total amount"],
+]
+
+```tsx highlights={highlights}
+"use client" // include with Next.js 13+
+
+import { useCart } from "../../../providers/cart"
+
+export default function CartTotals() {
+  const { cart } = useCart()
+
+  const formatPrice = (amount: number): string => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: cart?.currency_code,
+    })
+    .format(amount)
+  }
+
+  return (
+    <div>
+      {!cart && <span>Loading...</span>}
+      {cart && (
+        <ul>
+          <li>
+            <span>Subtotal (excl. shipping & taxes)</span>
+            <span>{formatPrice(cart.subtotal ?? 0)}</span>
+          </li>
+          <li>
+            <span>Discounts</span>
+            <span>{formatPrice(cart.discount_total ?? 0)}</span>
+          </li>
+          <li>
+            <span>Shipping</span>
+            <span>{formatPrice(cart.shipping_total ?? 0)}</span>
+          </li>
+          <li>
+            <span>Taxes</span>
+            <span>{formatPrice(cart.tax_total ?? 0)}</span>
+          </li>
+          <li>
+            <span>Total</span>
+            <span>{formatPrice(cart.total ?? 0)}</span>
+          </li>
+        </ul>
+      )}
+    </div>
+  )
+}
+```
+
+In the example, you first retrieve the cart using the [Cart Context](../context/page.mdx). Then, you define the [formatPrice](../retrieve/page.mdx#format-prices) function to format the total amounts.
+
+Finally, you render the cart totals in a list, showing the subtotal, discounts, shipping, taxes, and the total amount.

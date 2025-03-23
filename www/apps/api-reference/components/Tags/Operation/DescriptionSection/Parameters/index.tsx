@@ -1,24 +1,24 @@
-import type { Parameter, SchemaObject } from "@/types/openapi"
+import type { OpenAPI } from "types"
 import TagOperationParameters from "../../Parameters"
 
 export type TagsOperationDescriptionSectionParametersProps = {
-  parameters: Parameter[]
+  parameters: OpenAPI.Parameter[]
 }
 
 const TagsOperationDescriptionSectionParameters = ({
   parameters,
 }: TagsOperationDescriptionSectionParametersProps) => {
-  const pathParameters: SchemaObject = {
+  const pathParameters: OpenAPI.SchemaObject = {
     type: "object",
     required: [],
     properties: {},
   }
-  const queryParameters: SchemaObject = {
+  const queryParameters: OpenAPI.SchemaObject = {
     type: "object",
     required: [],
     properties: {},
   }
-  const headerParameters: SchemaObject = {
+  const headerParameters: OpenAPI.SchemaObject = {
     type: "object",
     required: [],
     properties: {},

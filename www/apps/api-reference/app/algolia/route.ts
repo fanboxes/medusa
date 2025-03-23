@@ -1,12 +1,12 @@
 import OpenAPIParser from "@readme/openapi-parser"
 import algoliasearch from "algoliasearch"
-import type { ExpandedDocument, Operation } from "../../types/openapi"
+import type { OpenAPI } from "types"
 import path from "path"
-import getSectionId from "../../utils/get-section-id"
 import { NextResponse } from "next/server"
 import { JSDOM } from "jsdom"
 import getUrl from "../../utils/get-url"
 import { capitalize } from "docs-ui"
+import { getSectionId } from "docs-utils"
 
 export async function GET() {
   const algoliaClient = algoliasearch(
@@ -50,7 +50,7 @@ export async function GET() {
     // find and index tag and operations
     const baseSpecs = (await OpenAPIParser.parse(
       path.join(process.cwd(), `specs/${area}/openapi.full.yaml`)
-    )) as ExpandedDocument
+    )) as OpenAPI.ExpandedDocument
 
     baseSpecs.tags?.map((tag) => {
       const tagName = getSectionId([tag.name])
@@ -71,7 +71,7 @@ export async function GET() {
 
     Object.values(paths).forEach((path) => {
       Object.values(path).forEach((op) => {
-        const operation = op as Operation
+        const operation = op as OpenAPI.Operation
         const tag = operation.tags?.[0]
         const operationName = getSectionId([tag || "", operation.operationId])
         const url = getUrl(area, operationName)

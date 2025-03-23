@@ -4,7 +4,7 @@
 
 import React, { useMemo, useRef } from "react"
 import { Sidebar } from "types"
-import { SidebarItem } from "../../../.."
+import { Badge, SidebarItem } from "../../../.."
 import clsx from "clsx"
 
 export type SidebarItemSubCategoryProps = {
@@ -53,6 +53,9 @@ export const SidebarItemSubCategory = ({
             {item.title}
           </span>
           {item.additionalElms}
+          {item.badge && (
+            <Badge variant={item.badge.variant}>{item.badge.text}</Badge>
+          )}
         </span>
       </span>
       {hasChildren && (

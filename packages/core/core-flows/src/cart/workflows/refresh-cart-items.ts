@@ -4,6 +4,7 @@ import {
   PromotionActions,
 } from "@medusajs/framework/utils"
 import {
+  createHook,
   createWorkflow,
   transform,
   when,
@@ -227,6 +228,8 @@ export const refreshCartItemsWorkflow = createWorkflow(
         action: PromotionActions.REPLACE,
       },
     })
+
+    createHook("beforeRefreshingPaymentCollection", { input })
 
     refreshPaymentCollectionForCartWorkflow.runAsStep({
       input: { cart_id: input.cart_id },

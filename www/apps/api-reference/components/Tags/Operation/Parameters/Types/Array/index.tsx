@@ -1,4 +1,4 @@
-import type { SchemaObject } from "@/types/openapi"
+import type { OpenAPI } from "types"
 import dynamic from "next/dynamic"
 import type { TagOperationParametersDefaultProps } from "../Default"
 import type { TagOperationParametersProps } from "../.."
@@ -22,7 +22,7 @@ const TagOperationParameters = dynamic<TagOperationParametersProps>(
 
 export type TagOperationParametersArrayProps = {
   name: string
-  schema: SchemaObject
+  schema: OpenAPI.SchemaObject
   isRequired?: boolean
 }
 

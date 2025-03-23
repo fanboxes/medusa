@@ -6,25 +6,31 @@ export const metadata = {
 
 In this chapter, you'll learn about the difference in module link directions, and which to use based on your use case.
 
+<Note>
+
+The details in this chapter don't apply to [Read-Only Module Links](../read-only/page.mdx). Refer to the [Read-Only Module Links chapter](../read-only/page.mdx) for more information on read-only links and their direction.
+
+</Note>
+
 ## Link Direction
 
 The module link's direction depends on the order you pass the data model configuration parameters to `defineLink`.
 
-For example, the following defines a link from the `helloModuleService`'s `myCustom` data model to the Product Module's `product` data model:
+For example, the following defines a link from the Blog Module's `post` data model to the Product Module's `product` data model:
 
 ```ts
 export default defineLink(
-  HelloModule.linkable.myCustom,
+  BlogModule.linkable.post,
   ProductModule.linkable.product
 )
 ```
 
-Whereas the following defines a link from the Product Module's `product` data model to the `helloModuleService`'s `myCustom` data model:
+Whereas the following defines a link from the Product Module's `product` data model to the Blog Module's `post` data model:
 
 ```ts
 export default defineLink(
   ProductModule.linkable.product,
-  HelloModule.linkable.myCustom
+  BlogModule.linkable.post
 )
 ```
 
@@ -43,7 +49,7 @@ For example, consider you want to add a `subtitle` custom field to the `product`
 ```ts
 export default defineLink(
   ProductModule.linkable.product,
-  HelloModule.linkable.subtitle
+  BlogModule.linkable.subtitle
 )
 ```
 
@@ -55,7 +61,7 @@ For example, consider you have `Post` data model representing a blog post, and y
 
 ```ts
 export default defineLink(
-  HelloModule.linkable.post,
+  BlogModule.linkable.post,
   ProductModule.linkable.product
 )
 ```

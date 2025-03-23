@@ -5,15 +5,15 @@ const AiAssistent = React.forwardRef<SVGSVGElement, IconProps>(
     return (
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width={19}
-        height={19}
+        width={15}
+        height={16}
         fill="none"
         ref={ref}
         {...props}
       >
         <g filter="url(#a)">
-          <circle cx={9.5} cy={8.457} r={7.414} fill="url(#b)" />
-          <circle cx={9.5} cy={8.457} r={7.414} fill="url(#c)" />
+          <circle cx={7.5} cy={7.5} r={7.11} fill="url(#b)" />
+          <circle cx={7.5} cy={7.5} r={7.11} fill="url(#c)" />
         </g>
         <g
           filter="url(#d)"
@@ -22,14 +22,8 @@ const AiAssistent = React.forwardRef<SVGSVGElement, IconProps>(
             mixBlendMode: "plus-lighter",
           }}
         >
-          <circle cx={9.5} cy={5.85} r={4.171} fill="url(#e)" />
-          <circle
-            cx={9.5}
-            cy={5.85}
-            r={4.071}
-            stroke="url(#f)"
-            strokeWidth={0.2}
-          />
+          <circle cx={7.5} cy={5} r={4} fill="url(#e)" />
+          <circle cx={7.5} cy={5} r={3.9} stroke="url(#f)" strokeWidth={0.2} />
         </g>
         <g
           filter="url(#g)"
@@ -38,14 +32,8 @@ const AiAssistent = React.forwardRef<SVGSVGElement, IconProps>(
             mixBlendMode: "plus-lighter",
           }}
         >
-          <circle cx={12.107} cy={9.5} r={4.171} fill="url(#h)" />
-          <circle
-            cx={12.107}
-            cy={9.5}
-            r={4.071}
-            stroke="url(#i)"
-            strokeWidth={0.2}
-          />
+          <circle cx={10} cy={8.5} r={4} fill="url(#h)" />
+          <circle cx={10} cy={8.5} r={3.9} stroke="url(#i)" strokeWidth={0.2} />
         </g>
         <g
           filter="url(#j)"
@@ -53,7 +41,7 @@ const AiAssistent = React.forwardRef<SVGSVGElement, IconProps>(
           style={{
             mixBlendMode: "plus-lighter",
           }}
-          transform="matrix(-1.0428 0 0 1.0428 11.064 3.243)"
+          transform="matrix(-1 0 0 1 9 2.5)"
         >
           <circle cx={4} cy={4} r={4} fill="url(#k)" />
           <circle cx={4} cy={4} r={3.9} stroke="url(#l)" strokeWidth={0.2} />
@@ -64,7 +52,7 @@ const AiAssistent = React.forwardRef<SVGSVGElement, IconProps>(
           style={{
             mixBlendMode: "plus-lighter",
           }}
-          transform="scale(1.0428 -1.0428)rotate(90 12.61 .5)"
+          transform="matrix(0 -1 -1 0 11.5 11.5)"
         >
           <circle cx={4} cy={4} r={4} fill="url(#n)" />
           <circle cx={4} cy={4} r={3.9} stroke="url(#o)" strokeWidth={0.2} />
@@ -75,7 +63,7 @@ const AiAssistent = React.forwardRef<SVGSVGElement, IconProps>(
           style={{
             mixBlendMode: "plus-lighter",
           }}
-          transform="matrix(-1.0428 0 0 1.0428 13.67 6.893)"
+          transform="matrix(-1 0 0 1 11.5 6)"
         >
           <circle cx={4} cy={4} r={4} fill="url(#q)" />
           <circle cx={4} cy={4} r={3.9} stroke="url(#r)" strokeWidth={0.2} />
@@ -83,10 +71,10 @@ const AiAssistent = React.forwardRef<SVGSVGElement, IconProps>(
         <defs>
           <linearGradient
             id="b"
-            x1={9.589}
-            x2={9.589}
-            y1={1.087}
-            y2={15.916}
+            x1={7.5}
+            x2={7.5}
+            y1={0.39}
+            y2={14.61}
             gradientUnits="userSpaceOnUse"
           >
             <stop offset={0.2} stopColor="#C686FF" />
@@ -94,10 +82,10 @@ const AiAssistent = React.forwardRef<SVGSVGElement, IconProps>(
           </linearGradient>
           <linearGradient
             id="c"
-            x1={5.017}
-            x2={13.721}
-            y1={8.468}
-            y2={11.691}
+            x1={3.115}
+            x2={11.463}
+            y1={7.468}
+            y2={10.558}
             gradientUnits="userSpaceOnUse"
           >
             <stop stopColor="#FF6778" stopOpacity={0.8} />
@@ -105,10 +93,10 @@ const AiAssistent = React.forwardRef<SVGSVGElement, IconProps>(
           </linearGradient>
           <linearGradient
             id="e"
-            x1={9.728}
-            x2={13.899}
-            y1={5.922}
-            y2={5.922}
+            x1={7.5}
+            x2={11.5}
+            y1={5}
+            y2={5}
             gradientUnits="userSpaceOnUse"
           >
             <stop stopColor="#8D99FF" stopOpacity={0.1} />
@@ -116,10 +104,10 @@ const AiAssistent = React.forwardRef<SVGSVGElement, IconProps>(
           </linearGradient>
           <linearGradient
             id="f"
-            x1={13.899}
-            x2={9.728}
-            y1={5.922}
-            y2={5.922}
+            x1={11.5}
+            x2={7.5}
+            y1={5}
+            y2={5}
             gradientUnits="userSpaceOnUse"
           >
             <stop stopColor="#fff" />
@@ -127,10 +115,10 @@ const AiAssistent = React.forwardRef<SVGSVGElement, IconProps>(
           </linearGradient>
           <linearGradient
             id="h"
-            x1={12.446}
-            x2={16.618}
-            y1={9.728}
-            y2={9.728}
+            x1={10}
+            x2={14}
+            y1={8.5}
+            y2={8.5}
             gradientUnits="userSpaceOnUse"
           >
             <stop stopColor="#8D99FF" stopOpacity={0.1} />
@@ -138,10 +126,10 @@ const AiAssistent = React.forwardRef<SVGSVGElement, IconProps>(
           </linearGradient>
           <linearGradient
             id="i"
-            x1={16.618}
-            x2={12.446}
-            y1={9.728}
-            y2={9.728}
+            x1={14}
+            x2={10}
+            y1={8.5}
+            y2={8.5}
             gradientUnits="userSpaceOnUse"
           >
             <stop stopColor="#8D99FF" />
@@ -215,10 +203,10 @@ const AiAssistent = React.forwardRef<SVGSVGElement, IconProps>(
           </linearGradient>
           <filter
             id="a"
-            width={19}
-            height={19}
-            x={0}
-            y={0}
+            width={15.47}
+            height={15.22}
+            x={0.14}
+            y={0.39}
             colorInterpolationFilters="sRGB"
             filterUnits="userSpaceOnUse"
           >
@@ -228,8 +216,8 @@ const AiAssistent = React.forwardRef<SVGSVGElement, IconProps>(
               result="hardAlpha"
               values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
             />
-            <feOffset dy={1} />
-            <feGaussianBlur stdDeviation={1} />
+            <feOffset dy={0.25} />
+            <feGaussianBlur stdDeviation={0.125} />
             <feComposite in2="hardAlpha" operator="out" />
             <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.12 0" />
             <feBlend
@@ -278,10 +266,10 @@ const AiAssistent = React.forwardRef<SVGSVGElement, IconProps>(
           </filter>
           <filter
             id="d"
-            width={9.385}
-            height={9.385}
-            x={4.807}
-            y={1.158}
+            width={9}
+            height={9}
+            x={3}
+            y={0.5}
             colorInterpolationFilters="sRGB"
             filterUnits="userSpaceOnUse"
           >
@@ -298,10 +286,10 @@ const AiAssistent = React.forwardRef<SVGSVGElement, IconProps>(
           </filter>
           <filter
             id="g"
-            width={9.385}
-            height={9.385}
-            x={7.414}
-            y={4.807}
+            width={9}
+            height={9}
+            x={5.5}
+            y={4}
             colorInterpolationFilters="sRGB"
             filterUnits="userSpaceOnUse"
           >
@@ -318,10 +306,10 @@ const AiAssistent = React.forwardRef<SVGSVGElement, IconProps>(
           </filter>
           <filter
             id="j"
-            width={9.385}
-            height={9.385}
-            x={2.2}
-            y={2.722}
+            width={9}
+            height={9}
+            x={0.5}
+            y={2}
             colorInterpolationFilters="sRGB"
             filterUnits="userSpaceOnUse"
           >
@@ -338,10 +326,10 @@ const AiAssistent = React.forwardRef<SVGSVGElement, IconProps>(
           </filter>
           <filter
             id="m"
-            width={9.385}
-            height={9.385}
-            x={4.807}
-            y={3.765}
+            width={9}
+            height={9}
+            x={3}
+            y={3}
             colorInterpolationFilters="sRGB"
             filterUnits="userSpaceOnUse"
           >
@@ -358,10 +346,10 @@ const AiAssistent = React.forwardRef<SVGSVGElement, IconProps>(
           </filter>
           <filter
             id="p"
-            width={9.385}
-            height={9.385}
-            x={4.807}
-            y={6.372}
+            width={9}
+            height={9}
+            x={3}
+            y={5.5}
             colorInterpolationFilters="sRGB"
             filterUnits="userSpaceOnUse"
           >

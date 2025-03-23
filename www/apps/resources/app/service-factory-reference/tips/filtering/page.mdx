@@ -24,13 +24,29 @@ The `list` method is used in the example snippets of this reference, but you can
 
 ```ts
 const posts = await postModuleService.listPosts({
-  name: "My Post 2",
+  title: "My Post 2",
 })
 ```
 
 If you pass a property with its value, only records whose properties exactly match the value are selected.
 
-In the example above, only posts having the name `My Post 2` are retrieved.
+In the example above, only posts having the title `My Post 2` are retrieved.
+
+---
+
+## Doesn't Match Exact Value
+
+```ts
+const posts = await postModuleService.listPosts({
+  title: {
+    $ne: "My Post",
+  },
+})
+```
+
+To find records with a property that doesn't match a value, pass an object with a `$ne` property. Its value is the value that a record's property shouldn't match.
+
+In the example above, only posts that don't have the title `My Post` are retrieved.
 
 ---
 
@@ -51,11 +67,11 @@ In the example above, only posts having either `50` or `100` views are retrieved
 
 ---
 
-## Don't Match Values
+## Don't Match Multiple Values
 
 ```ts
 const posts = await postModuleService.listPosts({
-  name: {
+  title: {
     $nin: [
       "My Post",
     ],
@@ -65,7 +81,7 @@ const posts = await postModuleService.listPosts({
 
 To find records with a property that doesn't match one or more values, pass an object with a `$nin` property. Its value is an array of multiple values that a record's property shouldn't match.
 
-In the example above, only posts that don't have the name `My Post` are retrieved.
+In the example above, only posts that don't have the title `My Post` are retrieved.
 
 ---
 
@@ -73,13 +89,13 @@ In the example above, only posts that don't have the name `My Post` are retrieve
 
 <Note>
 
-This filter only applies to text-like properties, including `id` and `enum` properties.
+This filter only applies to text-like properties, including `text`, `id`, and `enum` properties.
 
 </Note>
 
 ```ts
 const posts = await postModuleService.listPosts({
-  name: {
+  title: {
     $like: "My%",
   },
 })
@@ -87,7 +103,37 @@ const posts = await postModuleService.listPosts({
 
 To perform a `like` filter on a record's property, set the property's value to an object with a `$like` property. Its value is the string to use when applying the `like` filter.
 
-The example above matches all posts whose name starts with `My`.
+The example above matches all posts whose title starts with `My`.
+
+---
+
+## Filter by Null or Not Null
+
+To retrieve records with a property that is `null`, set the property's value to `null`.
+
+For example:
+
+```ts
+const posts = await postModuleService.listPosts({
+  published_at: null,
+})
+```
+
+In the example above, only posts that have a `null` publish date are retrieved.
+
+On the other hand, to retrieve records with a property that isn't `null`, set the property's value to an object with a `$ne` property.
+
+For example:
+
+```ts
+const posts = await postModuleService.listPosts({
+  published_at: {
+    $ne: null,
+  },
+})
+```
+
+In the example above, only posts that have a publish date are retrieved.
 
 ---
 
@@ -137,6 +183,19 @@ The `dateTime` property also stores the time. So, when matching for an exact day
 
 In this example, you retrieve the current date twice: once to set its time to `00:00:00`, and another to set its time `23:59:59`. Then, you retrieve posts whose `published_at` property is between `00:00:00` and `23:59:59` of today.
 
+### Example: Range Filter on Number Property
+
+```ts
+const posts = await postModuleService.listPosts({
+  views: {
+    $gte: 50,
+    $lte: 100,
+  },
+})
+```
+
+In the example above, only posts with `views` between `50` and `100` are retrieved.
+
 ---
 
 ## Apply Or Condition
@@ -145,7 +204,7 @@ In this example, you retrieve the current date twice: once to set its time to `0
 const posts = await postModuleService.listPosts({
   $or: [
     {
-      name: "My Post",
+      title: "My Post",
     },
     {
       published_at: {
@@ -158,4 +217,60 @@ const posts = await postModuleService.listPosts({
 
 To use an `or` condition, pass to the filter object the `$or` property, whose value is an array of filters.
 
-In the example above, posts whose name is `My Post` or their `published_at` date is less than the current date and time are retrieved.
+In the example above, posts whose title is `My Post` or their `published_at` date is less than the current date and time are retrieved.
+
+---
+
+## Apply And Condition
+
+```ts
+const posts = await postModuleService.listPosts({
+  $and: [
+    {
+      title: "My Post",
+    },
+    {
+      published_at: {
+        $lt: new Date(),
+      },
+    },
+  ],
+})
+```
+
+To use an `and` condition, pass to the filter object the `$and` property, whose value is an array of filters.
+
+In the example above, only posts whose title is `My Post` and their `published_at` date is less than the current date and time are retrieved.
+
+---
+
+## Complex Filters Example
+
+```ts
+const posts = await postModuleService.listPosts({
+  $or: [
+    {
+      $and: [
+        { views: { $gte: 50 } },
+        { 
+          published_at: {
+            $gte: new Date(new Date().getFullYear(), 0, 1),
+          },
+        },
+      ],
+    },
+    {
+      title: {
+        $like: "%Featured%",
+      },
+    },
+  ],
+})
+```
+
+In the example above, posts are retrieved if they meet either of the following conditions:
+
+1. The post has at least `50` views and was published after the beginning of the current year.
+2. The post's title contains the word `Featured`.
+
+By combining `and` and `or` conditions, you can create complex filters to retrieve records that meet specific criteria.

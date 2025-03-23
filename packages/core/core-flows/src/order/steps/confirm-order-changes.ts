@@ -29,7 +29,7 @@ export const confirmOrderChanges = createStep(
     const orderModuleService = container.resolve(Modules.ORDER)
 
     const currentChanges: Partial<OrderChangeDTO>[] = []
-    await orderModuleService.confirmOrderChange(
+    const orderChanges = await orderModuleService.confirmOrderChange(
       input.changes.map((action) => {
         const update = {
           id: action.id,
@@ -46,7 +46,7 @@ export const confirmOrderChanges = createStep(
       })
     )
 
-    return new StepResponse(null, currentChanges)
+    return new StepResponse(orderChanges, currentChanges)
   },
   async (currentChanges, { container }) => {
     if (!currentChanges?.length) {

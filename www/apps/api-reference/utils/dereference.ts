@@ -1,19 +1,19 @@
-import { Document, ParsedPathItemObject, SchemaObject } from "@/types/openapi"
+import { OpenAPI } from "types"
 import OpenAPIParser from "@readme/openapi-parser"
 
 type Options = {
   basePath: string
-  paths?: ParsedPathItemObject[]
-  schemas?: SchemaObject[]
+  paths?: OpenAPI.ParsedPathItemObject[]
+  schemas?: OpenAPI.SchemaObject[]
 }
 
 export default async function dereference({
   basePath,
   paths,
   schemas,
-}: Options): Promise<Document> {
+}: Options): Promise<OpenAPI.Document> {
   // dereference the references in the paths
-  let document: Document = {
+  let document: OpenAPI.Document = {
     paths: {},
     // These attributes are only for validation purposes
     openapi: "3.0.0",
@@ -56,7 +56,7 @@ export default async function dereference({
     dereference: {
       circular: "ignore",
     },
-  })) as unknown as Document
+  })) as unknown as OpenAPI.Document
 
   return document
 }

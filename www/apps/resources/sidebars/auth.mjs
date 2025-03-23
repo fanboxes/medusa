@@ -56,7 +56,7 @@ export const authSidebar = [
           {
             type: "link",
             path: "/commerce-modules/auth/create-actor-type",
-            title: "Create an Actor Type",
+            title: "Create Actor Type",
           },
           {
             type: "link",

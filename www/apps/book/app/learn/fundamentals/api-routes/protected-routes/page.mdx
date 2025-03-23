@@ -67,11 +67,57 @@ export default defineMiddlewares({
 
 The `authenticate` middleware function accepts three parameters:
 
-1. The type of user authenticating. Use `user` for authenticating admin users, and `customer` for authenticating customers. You can also pass `*` to allow all types of users.
+1. The type of user authenticating. Use `user` for authenticating admin users, and `customer` for authenticating customers. You can also pass `*` to allow all types of users, or pass an array of actor types.
 2. An array of types of authentication methods allowed. Both `user` and `customer` scopes support `session` and `bearer`. The `admin` scope also supports the `api-key` authentication method.
 3. An optional object of configurations accepting the following properties:
     - `allowUnauthenticated`: (default: `false`) A boolean indicating whether authentication is required. For example, you may have an API route where you want to access the logged-in customer if available, but guest customers can still access it too.
     - `allowUnregistered` (default: `false`): A boolean indicating if unregistered users should be allowed access. This is useful when you want to allow users who aren’t registered to access certain routes.
+
+### Example: Custom Actor Type
+
+For example, to require authentication of a custom actor type `manager` to an API route:
+
+```ts title="src/api/middlewares.ts"
+import { 
+  defineMiddlewares,
+  authenticate,
+} from "@medusajs/framework/http"
+
+export default defineMiddlewares({
+  routes: [
+    {
+      matcher: "/manager*",
+      middlewares: [authenticate("manager", ["session", "bearer"])],
+    },
+  ],
+})
+```
+
+<Note title="Tip">
+
+Refer to the [Custom Actor-Type Guide](!resources!/commerce-modules/auth/create-actor-type) for detailed explanation on how to create a custom actor type and apply authentication middlewares.
+
+</Note>
+
+### Example: Allow Multiple Actor Types
+
+To allow multiple actor types to access an API route, pass an array of actor types to the `authenticate` middleware:
+
+```ts title="src/api/middlewares.ts"
+import { 
+  defineMiddlewares,
+  authenticate,
+} from "@medusajs/framework/http"
+
+export default defineMiddlewares({
+  routes: [
+    {
+      matcher: "/custom*",
+      middlewares: [authenticate(["user", "customer"], ["session", "bearer"])],
+    },
+  ],
+})
+```
 
 ---
 

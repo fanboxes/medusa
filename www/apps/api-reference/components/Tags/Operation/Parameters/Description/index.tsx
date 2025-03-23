@@ -1,5 +1,5 @@
 import MDXContentClient from "@/components/MDXContent/Client"
-import type { SchemaObject } from "@/types/openapi"
+import type { OpenAPI } from "types"
 import clsx from "clsx"
 import dynamic from "next/dynamic"
 import { Fragment } from "react"
@@ -10,7 +10,7 @@ const InlineCode = dynamic<InlineCodeProps>(
 ) as React.FC<InlineCodeProps>
 
 type TagOperationParametersDescriptionProps = {
-  schema: SchemaObject
+  schema: OpenAPI.SchemaObject
 }
 
 const TagOperationParametersDescription = ({

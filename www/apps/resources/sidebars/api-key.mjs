@@ -32,7 +32,7 @@ export const apiKeySidebar = [
       {
         type: "category",
         title: "Server Guides",
-        autogenerate_tags: "server+auth",
+        autogenerate_tags: "server+apiKey",
         autogenerate_as_ref: true,
         sort_sidebar: "alphabetize",
         description:

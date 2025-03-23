@@ -96,12 +96,12 @@ To emit a service event:
 <CodeTabs group="service_type">
   <CodeTab label="Extending Service Factory" value="service_factory">
 
-```ts title="src/modules/hello/service.ts" highlights={["9"]}
+```ts title="src/modules/blog/service.ts" highlights={["9"]}
 import { IEventBusService } from "@medusajs/framework/types"
 import { MedusaService } from "@medusajs/framework/utils"
 
-class HelloModuleService extends MedusaService({
-  MyCustom,
+class BlogModuleService extends MedusaService({
+  Post,
 }){
   protected eventBusService_: AbstractEventBusModuleService
 
@@ -115,10 +115,10 @@ class HelloModuleService extends MedusaService({
   </CodeTab>
   <CodeTab label="Without Service Factory" value="no_service_factory">
 
-```ts title="src/modules/hello/service.ts" highlights={["6"]}
+```ts title="src/modules/blog/service.ts" highlights={["6"]}
 import { IEventBusService } from "@medusajs/framework/types"
 
-class HelloModuleService {
+class BlogModuleService {
   protected eventBusService_: AbstractEventBusModuleService
 
   constructor({ event_bus }) {
@@ -138,8 +138,8 @@ export const serviceHighlights = [
   ["8", "data", "The data payload to pass with the event."]
 ]
 
-```ts title="src/modules/hello/service.ts" highlights={serviceHighlights}
-class HelloModuleService {
+```ts title="src/modules/blog/service.ts" highlights={serviceHighlights}
+class BlogModuleService {
   // ...
   performAction() {
     // TODO perform action
@@ -173,7 +173,7 @@ module.exports = defineConfig({
   // ...
   modules: [
     {
-      resolve: "./src/modules/hello",
+      resolve: "./src/modules/blog",
       dependencies: [
         Modules.EVENT_BUS,
       ],

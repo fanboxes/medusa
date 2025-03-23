@@ -81,9 +81,9 @@ describe("Total calculation", function () {
       original_item_subtotal: 65,
       original_item_total: 73.5,
       original_item_tax_total: 8.5,
-      credit_lines_subtotal: 0,
-      credit_lines_tax_total: 0,
-      credit_lines_total: 0,
+      credit_line_subtotal: 0,
+      credit_line_tax_total: 0,
+      credit_line_total: 0,
     })
   })
 
@@ -152,9 +152,9 @@ describe("Total calculation", function () {
       original_item_total: 110,
       original_item_subtotal: 100,
       original_item_tax_total: 10,
-      credit_lines_subtotal: 0,
-      credit_lines_tax_total: 0,
-      credit_lines_total: 0,
+      credit_line_subtotal: 0,
+      credit_line_tax_total: 0,
+      credit_line_total: 0,
     })
   })
 
@@ -359,9 +359,9 @@ describe("Total calculation", function () {
       original_shipping_tax_total: 9.9,
       original_shipping_subtotal: 99,
       original_shipping_total: 108.9,
-      credit_lines_subtotal: 0,
-      credit_lines_tax_total: 0,
-      credit_lines_total: 0,
+      credit_line_subtotal: 0,
+      credit_line_tax_total: 0,
+      credit_line_total: 0,
     })
   })
 
@@ -447,9 +447,9 @@ describe("Total calculation", function () {
       original_item_total: 100,
       original_item_subtotal: 90.9090909090909,
       original_item_tax_total: 9.090909090909092,
-      credit_lines_subtotal: 0,
-      credit_lines_tax_total: 0,
-      credit_lines_total: 0,
+      credit_line_subtotal: 0,
+      credit_line_tax_total: 0,
+      credit_line_total: 0,
     })
 
     expect(serializedWithout).toEqual({
@@ -489,9 +489,9 @@ describe("Total calculation", function () {
       original_item_total: 110,
       original_item_subtotal: 100,
       original_item_tax_total: 10,
-      credit_lines_subtotal: 0,
-      credit_lines_tax_total: 0,
-      credit_lines_total: 0,
+      credit_line_subtotal: 0,
+      credit_line_tax_total: 0,
+      credit_line_total: 0,
     })
 
     expect(serializedMixed).toEqual({
@@ -551,9 +551,9 @@ describe("Total calculation", function () {
       original_item_total: 210,
       original_item_subtotal: 190.9090909090909,
       original_item_tax_total: 19.09090909090909,
-      credit_lines_subtotal: 0,
-      credit_lines_tax_total: 0,
-      credit_lines_total: 0,
+      credit_line_subtotal: 0,
+      credit_line_tax_total: 0,
+      credit_line_total: 0,
     })
   })
 
@@ -670,9 +670,9 @@ describe("Total calculation", function () {
       original_shipping_tax_total: 2.5,
       original_shipping_subtotal: 25,
       original_shipping_total: 27.5,
-      credit_lines_subtotal: 0,
-      credit_lines_tax_total: 0,
-      credit_lines_total: 0,
+      credit_line_subtotal: 0,
+      credit_line_tax_total: 0,
+      credit_line_total: 0,
     })
   })
 
@@ -768,7 +768,7 @@ describe("Total calculation", function () {
         },
       ],
       total: 48,
-      subtotal: 60,
+      subtotal: 100,
       tax_total: 8,
       discount_total: 22,
       discount_subtotal: 20,
@@ -787,9 +787,9 @@ describe("Total calculation", function () {
       return_received_total: 44,
       return_dismissed_total: 44,
       write_off_total: 44,
-      credit_lines_subtotal: 40,
-      credit_lines_tax_total: 0,
-      credit_lines_total: 40,
+      credit_line_subtotal: 40,
+      credit_line_tax_total: 0,
+      credit_line_total: 40,
     })
   })
 })

@@ -1,4 +1,8 @@
-import { BigNumberInput } from "@medusajs/framework/types"
+import {
+  BigNumberInput,
+  CreateOrderCreditLineDTO,
+  OrderCreditLineDTO,
+} from "@medusajs/framework/types"
 
 export type VirtualOrder = {
   id: string
@@ -54,13 +58,7 @@ export type VirtualOrder = {
     amount: BigNumberInput
   }[]
 
-  credit_lines: {
-    id: string
-    order_id: string
-    reference_id?: string
-    reference?: string
-    amount: BigNumberInput
-  }[]
+  credit_lines: (OrderCreditLineDTO | CreateOrderCreditLineDTO)[]
 
   summary?: {
     pending_difference: BigNumberInput

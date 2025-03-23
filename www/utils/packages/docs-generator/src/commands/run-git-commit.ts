@@ -6,6 +6,7 @@ import OasGenerator from "../classes/generators/oas.js"
 import { CommonCliOptions } from "../types/index.js"
 import { GitManager } from "../classes/helpers/git-manager.js"
 import DmlGenerator from "../classes/generators/dml.js"
+import RouteExamplesGenerator from "../classes/generators/route-examples.js"
 
 export default async function (
   commitSha: string,
@@ -59,6 +60,15 @@ export default async function (
     })
 
     await dmlGenerator.run()
+  }
+
+  if (type === "all" || type === "route-examples") {
+    const routeExamplesGenerator = new RouteExamplesGenerator({
+      paths: filteredFiles,
+      ...options,
+    })
+
+    await routeExamplesGenerator.run()
   }
 
   console.log(`Finished generating docs for ${filteredFiles.length} files.`)

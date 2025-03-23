@@ -7,7 +7,6 @@ import {
   BigNumber,
   ChangeActionType,
   MathBN,
-  isDefined,
   isPresent,
   transformPropertiesToBigNumber,
 } from "@medusajs/framework/utils"
@@ -102,8 +101,8 @@ export class OrderChangeProcessing {
   }
 
   public processActions() {
-    let newCreditLineTotal = (this.order.credit_lines || [])
-      .filter((cl) => !isDefined(cl.id))
+    let newCreditLineTotal = (this.order.credit_lines ?? [])
+      .filter((cl) => !("id" in cl))
       .reduce(
         (acc, creditLine) => MathBN.add(acc, creditLine.amount),
         MathBN.convert(0)

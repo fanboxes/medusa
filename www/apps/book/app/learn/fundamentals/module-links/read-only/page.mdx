@@ -1,0 +1,521 @@
+import { Table } from "docs-ui"
+
+export const metadata = {
+  title: `${pageNumber} Read-Only Module Link`,
+}
+
+# {metadata.title}
+
+In this chapter, you’ll learn what a read-only module link is and how to define one.
+
+## What is a Read-Only Module Link?
+
+Consider a scenario where you need to access related records from another module, but don't want the overhead of managing or storing the links between them. This can include cases where you're working with external data models not stored in your Medusa database, such as third-party systems.
+
+In those cases, instead of defining a [Module Link](../page.mdx) whose linked records must be stored in a link table in the database, you can use a read-only module link. A read-only module link builds a virtual relation from one data model to another in a different module without creating a link table in the database. Instead, the linked record's ID is stored in the first data model's field.
+
+For example, Medusa creates a read-only module link from the `Cart` data model of the [Cart Module](!resources!/commerce-modules/cart) to the `Customer` data model of the [Customer Module](!resources!/commerce-modules/customer). This link allows you to access the details of the cart's customer without managing the link. Instead, the customer's ID is stored in the `Cart` data model.
+
+![Diagram illustrating the read-only module link from cart to customer](https://res.cloudinary.com/dza7lstvk/image/upload/v1742212508/Medusa%20Book/cart-customer_w6vk59.jpg)
+
+---
+
+## How to Define a Read-Only Module Link
+
+The `defineLink` function accepts an optional third-parameter object that can hold additional configurations for the module link.
+
+<Note>
+
+If you're not familiar with the `defineLink` function, refer to the [Module Links chapter](../page.mdx) for more information.
+
+</Note>
+
+To make the module link read-only, pass the `readOnly` property as `true`. You must also set in the link configuration of the first data model a `field` property that specifies the data model's field where the linked record's ID is stored.
+
+For example:
+
+export const highlights = [
+  ["8", "field", "The field where the linked record's ID is stored."],
+  ["12", "readOnly", "Set the link as read-only."]
+]
+
+```ts highlights={highlights}
+import BlogModule from "../modules/blog"
+import ProductModule from "@medusajs/medusa/product"
+import { defineLink } from "@medusajs/framework/utils"
+
+export default defineLink(
+  {
+    linkable: BlogModule.linkable.post,
+    field: "product_id",
+  },
+  ProductModule.linkable.product,
+  {
+    readOnly: true,
+  }
+)
+```
+
+In this example, you define a read-only module link from the Blog Module's `post` data model to the Product Module's `product` data model. You do that by:
+
+- Passing an object as a first parameter that accepts the linkable configuration and the field where the linked record's ID is stored.
+- Setting the `readOnly` property to `true` in the third parameter.
+
+Unlike the stored module link, Medusa will not create a table in the database for this link. Instead, Medusa uses the ID stored in the specified field of the first data model to retrieve the linked record.
+
+---
+
+## Retrieve Read-Only Linked Record
+
+[Query](../query/page.mdx) allows you to retrieve records linked through a read-only module link.
+
+For example, assuming you have the module link created in [the above section](#how-to-define-a-read-only-module-link), you can retrieve a post and its linked product as follows:
+
+```ts
+const { result } = await query.graph({
+  entity: "post",
+  fields: ["id", "product.*"],
+  filters: {
+    id: "post_123",
+  },
+})
+```
+
+In the above example, you retrieve a post and its linked product. Medusa will use the ID of the product in the post's `product_id` field to determine which product should be retrieved.
+
+---
+
+## Read-Only Module Link Direction
+
+A read-only module is uni-directional. So, you can only retrieve the linked record from the first data model. If you need to access the linked record from the second data model, you must define another read-only module link in the opposite direction.
+
+In the `blog` -> `product` example, you can access a post's product, but you can't access a product's posts. You would have to define another read-only module link from `product` to `blog` to access a product's posts.
+
+---
+
+## Inverse Read-Only Module Link
+
+An inverse read-only module link is a read-only module link that allows you to access the linked record based on the ID stored in the second data model.
+
+For example, consider you want to access a product's posts. You can define a read-only module link from the Product Module's `product` data model to the Blog Module's `post` data model:
+
+```ts
+import BlogModule from "../modules/blog"
+import ProductModule from "@medusajs/medusa/product"
+import { defineLink } from "@medusajs/framework/utils"
+
+export default defineLink(
+  {
+    linkable: ProductModule.linkable.product,
+    field: "id",
+  },
+  {
+    ...BlogModule.linkable.post.id,
+    primaryKey: "product_id",
+  },
+  {
+    readOnly: true,
+  }
+)
+```
+
+In the above example, you define a read-only module link from the Product Module's `product` data model to the Blog Module's `post` data model. This link allows you to access a product's posts.
+
+Since you can't add a `post_id` field to the `product` data model, you must:
+
+1. Set the `field` property in the first data model's link configuration to the product's ID field.
+2. Spread the `BlogModule.linkable.post.id` object in the second parameter object and set the `primaryKey` property to the field in the `post` data model that holds the product's ID.
+
+You can now retrieve a product and its linked posts:
+
+```ts
+const { result } = await query.graph({
+  entity: "product",
+  fields: ["id", "post.*"],
+  filters: {
+    id: "prod_123",
+  },
+})
+```
+
+---
+
+## One-to-One or One-to-Many?
+
+When you retrieve the linked record through a read-only module link, the retrieved data may be an object (one-to-one) or an array of objects (one-to-many) based on different criteria.
+
+<Table>
+  <Table.Header>
+    <Table.Row>
+      <Table.HeaderCell>Scenario</Table.HeaderCell>
+      <Table.HeaderCell>Relation Type</Table.HeaderCell>
+    </Table.Row>
+  </Table.Header>
+  <Table.Body>
+    <Table.Row>
+      <Table.Cell>
+        The first data model's `field` is of type string.
+      </Table.Cell>
+      <Table.Cell>
+        One-to-one relation
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        The first data model's `field` is of type array of strings.
+      </Table.Cell>
+      <Table.Cell>
+        One-to-many relation
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        The read-only module link is inversed.
+      </Table.Cell>
+      <Table.Cell>
+        One-to-many relation if multiple records in the second data model have the same ID of the first data model. Otherwise, one-to-one relation.
+      </Table.Cell>
+    </Table.Row>
+  </Table.Body>
+</Table>
+
+### One-to-One Relation
+
+Consider the first read-only module link you defined in this chapter:
+
+```ts
+import BlogModule from "../modules/blog"
+import ProductModule from "@medusajs/medusa/product"
+
+export default defineLink(
+  {
+    linkable: BlogModule.linkable.post,
+    field: "product_id",
+  },
+  ProductModule.linkable.product,
+  {
+    readOnly: true,
+  }
+)
+```
+
+Since the `product_id` field of a post stores the ID of a single product, the link is a one-to-one relation. When querying a post, you'll get a single product object:
+
+```json title="Example Data"
+[
+  {
+    "id": "post_123",
+    "product_id": "prod_123",
+    "product": {
+      "id": "prod_123",
+      // ...
+    }
+  }
+]
+```
+
+### One-to-Many Relation
+
+Consider the read-only module link from the `post` data model uses an array of product IDs:
+
+```ts
+import BlogModule from "../modules/blog"
+import ProductModule from "@medusajs/medusa/product"
+
+export default defineLink(
+  {
+    linkable: BlogModule.linkable.post,
+    field: "product_ids",
+  },
+  ProductModule.linkable.product,
+  {
+    readOnly: true,
+  }
+)
+```
+
+Where `product_ids` in the `post` data model is an array of strings. In this case, the link would be a one-to-many relation. So, an array of products would be returned when querying a post:
+
+```json title="Example Data"
+[
+  {
+    "id": "post_123",
+    "product_ids": ["prod_123", "prod_124"],
+    "product": [
+      {
+        "id": "prod_123",
+        // ...
+      },
+      {
+        "id": "prod_124",
+        // ...
+      }
+    ]
+  }
+]
+```
+
+### Relation with Inversed Read-Only Link
+
+If you define an inversed read-only module link where the ID of the linked record is stored in the second data model, the link can be either one-to-one or one-to-many based on the number of records in the second data model that have the same ID of the first data model.
+
+For example, consider the `product` -> `post` link you defined in an earlier section:
+
+```ts
+import BlogModule from "../modules/blog"
+import ProductModule from "@medusajs/medusa/product"
+import { defineLink } from "@medusajs/framework/utils"
+
+export default defineLink(
+  {
+    linkable: ProductModule.linkable.product,
+    field: "id",
+  },
+  {
+    ...BlogModule.linkable.post.id,
+    primaryKey: "product_id",
+  },
+  {
+    readOnly: true,
+  }
+)
+```
+
+In the above snippet, the ID of the product is stored in the `post`'s `product_id` string field.
+
+When you retrieve the post of a product, it may be a post object, or an array of post objects if multiple posts are linked to the product:
+
+```json title="Example Data"
+[
+  {
+    "id": "prod_123",
+    "post": {
+      "id": "post_123",
+      "product_id": "prod_123"
+      // ...
+    }
+  },
+  {
+    "id": "prod_321",
+    "post": [
+      {
+        "id": "post_123",
+        "product_id": "prod_321"
+        // ...
+      },
+      {
+        "id": "post_124",
+        "product_id": "prod_321"
+        // ...
+      }
+    ]
+  }
+]
+```
+
+If, however, you use an array field in `post`, the relation would always be one-to-many:
+
+```json title="Example Data"
+[
+  {
+    "id": "prod_123",
+    "post": [
+      {
+        "id": "post_123",
+        "product_id": "prod_123"
+        // ...
+      }
+    ]
+  }
+]
+```
+
+#### Force One-to-Many Relation
+
+Alternatively, you can force a one-to-many relation by setting `isList` to `true` in the first data model's link configuration. For example:
+
+```ts
+import BlogModule from "../modules/blog"
+import ProductModule from "@medusajs/medusa/product"
+import { defineLink } from "@medusajs/framework/utils"
+
+export default defineLink(
+  {
+    linkable: ProductModule.linkable.product,
+    field: "id",
+    isList: true,
+  },
+  {
+    ...BlogModule.linkable.post.id,
+    primaryKey: "product_id",
+  },
+  {
+    readOnly: true,
+  }
+)
+```
+
+In this case, the relation would always be one-to-many, even if only one post is linked to a product:
+
+```json title="Example Data"
+[
+  {
+    "id": "prod_123",
+    "post": [
+      {
+        "id": "post_123",
+        "product_id": "prod_123"
+        // ...
+      }
+    ]
+  }
+]
+```
+
+---
+
+## Example: Read-Only Module Link for Virtual Data Models
+
+Read-only module links are most useful when working with data models that aren't stored in your Medusa database. For example, data that is stored in a third-party system. In those cases, you can define a read-only module link between a data model in Medusa and the data model in the external system, facilitating the retrieval of the linked data.
+
+To define the read-only module link to a virtual data model, you must:
+
+1. Create a `list` method in the custom module's service. This method retrieves the linked records filtered by the ID(s) of the first data model.
+2. Define the read-only module link from the first data model to the virtual data model.
+3. Use Query to retrieve the first data model and its linked records from the virtual data model.
+
+For example, consider you have a third-party Content-Management System (CMS) that you're integrating with Medusa, and you want to retrieve the posts in the CMS associated with a product in Medusa.
+
+To do that, first, create a CMS Module having the following service:
+
+<Note>
+
+Refer to the [Modules chapter](../../modules/page.mdx) to learn how to create a module and its service.
+
+</Note>
+
+```ts title="src/modules/cms/service.ts"
+type CmsModuleOptions = {
+  apiKey: string
+}
+
+export default class CmsModuleService {
+  private client
+
+  constructor({}, options: CmsModuleOptions) {
+    this.client = new Client(options)
+  }
+
+  async list(
+    filter: {
+      id: string | string[]
+    }
+  ) {
+    return this.client.getPosts(filter)
+    /**
+     * Example of returned data:
+     * 
+     * [
+     *   {
+     *     "id": "post_123",
+     *     "product_id": "prod_321"
+     *   },
+     *   {
+     *     "id": "post_456",
+     *     "product_id": "prod_654"
+     *   }
+     * ]
+    */
+  }
+}
+```
+
+The above service initializes a client, assuming your CMS has an SDK that allows you to retrieve posts.
+
+The service must have a `list` method to be part of the read-only module link. This method accepts the ID(s) of the products to retrieve their associated posts. The posts must include the product's ID in a field, such as `product_id`.
+
+Next, define a read-only module link from the Product Module to the CMS Module:
+
+```ts title="src/links/product-cms.ts"
+import { defineLink } from "@medusajs/framework/utils"
+import ProductModule from "@medusajs/medusa/product"
+import { CMS_MODULE } from "../modules/cms"
+
+export default defineLink(
+  {
+    linkable: ProductModule.linkable.product,
+    field: "id",
+  },
+  {
+    linkable: {
+      serviceName: CMS_MODULE,
+      alias: "cms_post",
+      primaryKey: "product_id",
+    },
+  },
+  {
+    readOnly: true,
+  }
+)
+```
+
+To define the read-only module link, you must pass to `defineLink`:
+
+1. The first parameter: an object with the linkable configuration of the data model in Medusa, and the fields that will be passed as a filter to the CMS service. For example, if you want to filter by product title instead, you can pass `title` instead of `id`.
+2. The second parameter: an object with the linkable configuration of the virtual data model in the CMS. This object must have the following properties:
+   - `serviceName`: The name of the service, which is the CMS Module's name. Medusa uses this name to resolve the module's service from the [Medusa container](../../medusa-container/page.mdx).
+   - `alias`: The alias to use when querying the linked records. You'll see how that works in a bit.
+   - `primaryKey`: The field in the CMS data model that holds the ID of a product.
+3. The third parameter: an object with the `readOnly` property set to `true`.
+
+Now, you can use Query to retrieve a product and its linked post from the CMS:
+
+```ts
+const { data } = await query.graph({
+  entity: "product",
+  fields: ["id", "cms_post.*"],
+})
+```
+
+In the above example, each product that has a CMS post with the `product_id` field set to the product's ID will be retrieved:
+
+```json title="Example Data"
+[
+  {
+    "id": "prod_123",
+    "cms_post": {
+      "id": "post_123",
+      "product_id": "prod_123",
+      // ...
+    }
+  }
+]
+```
+
+If multiple posts have their `product_id` set to a product's ID, an array of posts is returned instead:
+
+```json title="Example Data"
+[
+  {
+    "id": "prod_123",
+    "cms_post": [
+      {
+        "id": "post_123",
+        "product_id": "prod_123",
+        // ...
+      },
+      {
+        "id": "post_124",
+        "product_id": "prod_123",
+        // ...
+      }
+    ]
+  }
+]
+```
+
+<Note title="Recommended Tutorial">
+
+[Sanity Integration Tutorial](!resources!/integrations/guides/sanity).
+
+</Note>

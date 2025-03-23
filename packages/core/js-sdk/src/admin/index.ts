@@ -17,6 +17,7 @@ import { Order } from "./order"
 import { OrderEdit } from "./order-edit"
 import { Payment } from "./payment"
 import { PaymentCollection } from "./payment-collection"
+import { Plugin } from "./plugin"
 import { PriceList } from "./price-list"
 import { PricePreference } from "./price-preference"
 import { Product } from "./product"
@@ -211,6 +212,10 @@ export class Admin {
    * @tags promotion
    */
   public campaign: Campaign
+  /**
+   * @tags plugin
+   */
+  public plugin: Plugin
 
   constructor(client: Client) {
     this.invite = new Invite(client)
@@ -255,5 +260,6 @@ export class Admin {
     this.customerGroup = new CustomerGroup(client)
     this.promotion = new Promotion(client)
     this.campaign = new Campaign(client)
+    this.plugin = new Plugin(client)
   }
 }

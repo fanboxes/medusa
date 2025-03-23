@@ -1,9 +1,7 @@
 "use client"
 
-import type { Operation } from "@/types/openapi"
+import type { OpenAPI } from "types"
 import clsx from "clsx"
-import type { OpenAPIV3 } from "openapi-types"
-import getSectionId from "@/utils/get-section-id"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import dynamic from "next/dynamic"
 import { InView } from "react-intersection-observer"
@@ -21,15 +19,16 @@ import { useRouter } from "next/navigation"
 import checkElementInViewport from "../../../utils/check-element-in-viewport"
 import DividedLoading from "../../DividedLoading"
 import SectionContainer from "../../Section/Container"
+import { getSectionId } from "docs-utils"
 
 const TagOperationCodeSection = dynamic<TagOperationCodeSectionProps>(
   async () => import("./CodeSection")
 ) as React.FC<TagOperationCodeSectionProps>
 
 export type TagOperationProps = {
-  operation: Operation
+  operation: OpenAPI.Operation
   method?: string
-  tag: OpenAPIV3.TagObject
+  tag: OpenAPI.OpenAPIV3.TagObject
   endpointPath: string
   className?: string
 }

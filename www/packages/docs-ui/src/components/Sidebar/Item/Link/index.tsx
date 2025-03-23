@@ -5,6 +5,7 @@
 import React, { useCallback, useEffect, useMemo, useRef } from "react"
 import { Sidebar } from "types"
 import {
+  Badge,
   checkSidebarItemVisibility,
   SidebarItem,
   useMobile,
@@ -147,6 +148,9 @@ export const SidebarItemLink = ({
             {item.title}
           </span>
           {item.additionalElms}
+          {item.badge && (
+            <Badge variant={item.badge.variant}>{item.badge.text}</Badge>
+          )}
         </Link>
       </span>
       {hasChildren && (

@@ -42,12 +42,12 @@ export const GET = async (
 ) => {
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
 
-  const { data: myCustoms } = await query.graph({
-    entity: "my_custom",
-    fields: ["id", "name"],
+  const { data: posts } = await query.graph({
+    entity: "post",
+    fields: ["id", "title"],
   })
 
-  res.json({ my_customs: myCustoms })
+  res.json({ posts })
 }
 ```
 
@@ -65,7 +65,7 @@ The method returns an object that has a `data` property, which holds an array of
   "data": [
     {
       "id": "123",
-      "name": "test"
+      "title": "My Post"
     }
   ]
 }
@@ -88,21 +88,33 @@ Retrieve the records of a linked data model by passing in `fields` the data mode
 For example:
 
 ```ts highlights={[["6"]]}
-const { data: myCustoms } = await query.graph({
-  entity: "my_custom",
+const { data: posts } = await query.graph({
+  entity: "post",
   fields: [
     "id", 
-    "name",
+    "title",
     "product.*",
   ],
 })
 ```
 
-<Note title="Tip">
+`.*` means that all of data model's properties should be retrieved. You can also retrieve specific properties by replacing the `*` with the property name, for each property.
 
-`.*` means that all of data model's properties should be retrieved. To retrieve a specific property, replace the `*` with the property's name. For example, `product.title`.
+For example:
 
-</Note>
+```ts
+const { data: posts } = await query.graph({
+  entity: "post",
+  fields: [
+    "id", 
+    "title",
+    "product.id",
+    "product.title",
+  ],
+})
+```
+
+In the example above, you retrieve only the `id` and `title` properties of the `product` linked to a `post`.
 
 ### Retrieve List Link Records
 
@@ -111,19 +123,21 @@ If the linked data model has `isList` enabled in the link definition, pass in `f
 For example:
 
 ```ts highlights={[["6"]]}
-const { data: myCustoms } = await query.graph({
-  entity: "my_custom",
+const { data: posts } = await query.graph({
+  entity: "post",
   fields: [
     "id", 
-    "name",
+    "title",
     "products.*",
   ],
 })
 ```
 
+In the example above, you retrieve all products linked to a post.
+
 ### Apply Filters and Pagination on Linked Records
 
-Consider you want to apply filters or pagination configurations on the product(s) linked to `my_custom`. To do that, you must query the module link's table instead.
+Consider you want to apply filters or pagination configurations on the product(s) linked to `post`. To do that, you must query the module link's table instead.
 
 As mentioned in the [Module Link](../page.mdx) documentation, Medusa creates a table for your module link. So, not only can you retrieve linked records, but you can also retrieve the records in a module link's table.
 
@@ -133,19 +147,19 @@ For example:
 
 export const queryLinkTableHighlights = [
   ["1", "", "Import the module link."],
-  ["6", "productBrandLink.entryPoint", "Pass the `entryPoint` property of the link to Query"],
-  ["7", `"product.*"`, "Retrieve the fields of a product record linked to a `MyCustom` record."],
-  ["7", `"brand.*"`, "Retrieve the fields of a `MyCustom` record linked to a product record."]
+  ["6", "ProductPostLink.entryPoint", "Pass the `entryPoint` property of the link to Query"],
+  ["7", `"product.*"`, "Retrieve the fields of a product record linked to a `Post` record."],
+  ["7", `"post.*"`, "Retrieve the fields of a `Post` record linked to a product record."]
 ]
 
 ```ts highlights={queryLinkTableHighlights}
-import productCustomLink from "../../../links/product-custom"
+import ProductPostLink from "../../../links/product-post"
 
 // ...
 
 const { data: productCustoms } = await query.graph({
-  entity: productCustomLink.entryPoint,
-  fields: ["*", "product.*", "my_custom.*"],
+  entity: ProductPostLink.entryPoint,
+  fields: ["*", "product.*", "post.*"],
   pagination: {
     take: 5,
     skip: 0,
@@ -158,8 +172,8 @@ In the object passed to the `graph` method:
 - You pass the `entryPoint` property of the link definition as the value for `entity`. So, Query will retrieve records from the module link's table.
 - You pass three items to the `field` property:
     - `*` to retrieve the link table's fields. This is useful if the link table has [custom columns](../custom-columns/page.mdx).
-    - `product.*` to retrieve the fields of a product record linked to a `MyCustom` record.
-    - `my_custom.*` to retrieve the fields of a `MyCustom` record linked to a product record.
+    - `product.*` to retrieve the fields of a product record linked to a `Post` record.
+    - `post.*` to retrieve the fields of a `Post` record linked to a product record.
 
 You can then apply any [filters](#apply-filters) or [pagination configurations](#apply-pagination).
 
@@ -169,46 +183,161 @@ The returned `data` is similar to the following:
 [{
   "id": "123",
   "product_id": "prod_123",
-  "my_custom_id": "123",
+  "post_id": "123",
   "product": {
     "id": "prod_123",
     // other product fields...
   },
-  "my_custom": {
+  "post": {
     "id": "123",
-    // other my_custom fields...
+    // other post fields...
   }
 }]
 ```
-
-
 
 ---
 
 ## Apply Filters
 
-```ts highlights={[["6"], ["7"], ["8"], ["9"]]}
-const { data: myCustoms } = await query.graph({
-  entity: "my_custom",
-  fields: ["id", "name"],
+```ts highlights={[["4"], ["5"], ["6"]]}
+const { data: posts } = await query.graph({
+  entity: "post",
+  fields: ["id", "title"],
   filters: {
-    id: [
-      "mc_01HWSVWR4D2XVPQ06DQ8X9K7AX",
-      "mc_01HWSVWK3KYHKQEE6QGS2JC3FX",
-    ],
+    id: "post_123",
   },
 })
 ```
 
 The `query.graph` function accepts a `filters` property. You can use this property to filter retrieved records.
 
-In the example above, you filter the `my_custom` records by multiple IDs.
+In the example above, you filter the `post` records by the ID `post_123`.
+
+You can also filter by multiple values of a property. For example:
+
+```ts highlights={[["4"], ["5"], ["6"], ["7"], ["8"], ["9"]]}
+const { data: posts } = await query.graph({
+  entity: "post",
+  fields: ["id", "title"],
+  filters: {
+    id: [
+      "post_123",
+      "post_321",
+    ],
+  },
+})
+```
+
+In the example above, you filter the `post` records by multiple IDs.
 
 <Note>
 
-Filters don't apply on fields of linked data models from other modules.
+Filters don't apply on fields of linked data models from other modules. Refer to the [Retrieve Linked Records](#retrieve-linked-records) section for an alternative solution.
 
 </Note>
+
+### Advanced Query Filters
+
+Under the hood, Query uses the `listX` (`listPosts`) method of the data model's module's service to retrieve records. This method accepts a filter object that can be used to filter records.
+
+Those filters don't just allow you to filter by exact values. You can also filter by properties that don't match a value, match multiple values, and other filter types.
+
+Refer to the [Service Factory Reference](!resources!/service-factory-reference/tips/filtering) for examples of advanced filters. The following sections provide some quick examples.
+
+#### Filter by Not Matching a Value
+
+```ts highlights={[["4"], ["5"], ["6"], ["7"], ["8"]]}
+const { data: posts } = await query.graph({
+  entity: "post",
+  fields: ["id", "title"],
+  filters: {
+    title: {
+      $ne: null,
+    },
+  },
+})
+```
+
+In the example above, only posts that have a title are retrieved.
+
+#### Filter by Not Matching Multiple Values
+
+```ts highlights={[["4"], ["5"], ["6"], ["7"], ["8"]]}
+const { data: posts } = await query.graph({
+  entity: "post",
+  fields: ["id", "title"],
+  filters: {
+    title: {
+      $nin: ["My Post", "Another Post"],
+    },
+  },
+})
+```
+
+In the example above, only posts that don't have the title `My Post` or `Another Post` are retrieved.
+
+#### Filter by a Range
+
+```ts highlights={[["10"], ["11"], ["12"], ["13"], ["14"], ["15"]]}
+const startToday = new Date()
+startToday.setHours(0, 0, 0, 0)
+
+const endToday = new Date()
+endToday.setHours(23, 59, 59, 59)
+
+const { data: posts } = await query.graph({
+  entity: "post",
+  fields: ["id", "title"],
+  filters: {
+    published_at: {
+      $gt: startToday,
+      $lt: endToday,
+    },
+  },
+})
+```
+
+In the example above, only posts that were published today are retrieved.
+
+#### Filter Text by Like Value
+
+<Note>
+
+This filter only applies to text-like properties, including `text`, `id`, and `enum` properties.
+
+</Note>
+
+```ts highlights={[["4"], ["5"], ["6"], ["7"], ["8"]]}
+const { data: posts } = await query.graph({
+  entity: "post",
+  fields: ["id", "title"],
+  filters: {
+    title: {
+      $like: "%My%",
+    },
+  },
+})
+```
+
+In the example above, only posts that have the word `My` in their title are retrieved.
+
+#### Filter a Relation's Property
+
+```ts highlights={[["4"], ["5"], ["6"], ["7"], ["8"]]}
+const { data: posts } = await query.graph({
+  entity: "post",
+  fields: ["id", "title"],
+  filters: {
+    author: {
+      name: "John",
+    },
+  },
+})
+```
+
+While it's not possible to filter by a linked data model's property, you can filter by a relation's property (that is, the property of a related data model that is defined in the same module).
+
+In the example above, only posts that have an author with the name `John` are retrieved.
 
 ---
 
@@ -216,11 +345,11 @@ Filters don't apply on fields of linked data models from other modules.
 
 ```ts highlights={[["8", "skip", "The number of records to skip before fetching the results."], ["9", "take", "The number of records to fetch."]]}
 const { 
-  data: myCustoms,
+  data: posts,
   metadata: { count, take, skip } = {},
 } = await query.graph({
-  entity: "my_custom",
-  fields: ["id", "name"],
+  entity: "post",
+  fields: ["id", "title"],
   pagination: {
     skip: 0,
     take: 10,
@@ -258,9 +387,9 @@ When you provide the pagination fields, the `query.graph` method's returned obje
 ### Sort Records
 
 ```ts highlights={[["5"], ["6"], ["7"]]}
-const { data: myCustoms } = await query.graph({
-  entity: "my_custom",
-  fields: ["id", "name"],
+const { data: posts } = await query.graph({
+  entity: "post",
+  fields: ["id", "title"],
   pagination: {
     order: {
       name: "DESC",
@@ -281,6 +410,72 @@ The `order` property is an object whose keys are property names, and values are 
 
 - `ASC` to sort records by that property in ascending order.
 - `DESC` to sort records by that property in descending order.
+
+---
+
+## Configure Query to Throw Errors
+
+By default, if Query doesn't find records matching your query, it returns an empty array. You can add option to configure Query to throw an error when no records are found.
+
+The `query.graph` method accepts as a second parameter an object that can have a `throwIfKeyNotFound` property. Its value is a boolean indicating whether to throw an error if no record is found when filtering by IDs. By default, it's `false`.
+
+For example:
+
+```ts
+const { data: posts } = await query.graph({
+  entity: "post",
+  fields: ["id", "title"],
+  filters: {
+    id: "post_123",
+  },
+}, {
+  throwIfKeyNotFound: true,
+})
+```
+
+In the example above, if no post is found with the ID `post_123`, Query will throw an error. This is useful to stop execution when a record is expected to exist.
+
+### Throw Error on Related Data Model
+
+The `throwIfKeyNotFound` option can also be used to throw an error if the ID of a related data model's record (in the same module) is passed in the filters, and the related record doesn't exist.
+
+For example:
+
+```ts
+const { data: posts } = await query.graph({
+  entity: "post",
+  fields: ["id", "title", "author.*"],
+  filters: {
+    id: "post_123",
+    author_id: "author_123",
+  },
+}, {
+  throwIfKeyNotFound: true,
+})
+```
+
+In the example above, Query throws an error either if no post is found with the ID `post_123` or if its found but its author ID isn't `author_123`.
+
+In the above example, it's assumed that a post belongs to an author, so it has an `author_id` property. However, this also works in the opposite case, where an author has many posts.
+
+For example:
+
+```ts
+const { data: posts } = await query.graph({
+  entity: "author",
+  fields: ["id", "name", "posts.*"],
+  filters: {
+    id: "author_123",
+    posts: {
+      id: "post_123",
+    },
+  },
+}, {
+  throwIfKeyNotFound: true,
+})
+```
+
+In the example above, Query throws an error if no author is found with the ID `author_123` or if the author is found but doesn't have a post with the ID `post_123`.
 
 ---
 
@@ -317,7 +512,7 @@ export default defineMiddlewares({
           {
             defaults: [
               "id",
-              "name",
+              "title",
               "products.*",
             ],
             isList: true,
@@ -375,12 +570,12 @@ export const GET = async (
 ) => {
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
 
-  const { data: myCustoms } = await query.graph({
-    entity: "my_custom",
+  const { data: posts } = await query.graph({
+    entity: "post",
     ...req.queryConfig,
   })
 
-  res.json({ my_customs: myCustoms })
+  res.json({ posts: posts })
 }
 ```
 
@@ -394,10 +589,10 @@ To test it out, start your Medusa application and send a `GET` request to the `/
 
 ```json title="Returned Data"
 {
-  "my_customs": [
+  "posts": [
     {
       "id": "123",
-      "name": "test"
+      "title": "test"
     }
   ]
 }

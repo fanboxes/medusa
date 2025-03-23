@@ -2,7 +2,7 @@ import { NextResponse } from "next/server"
 import path from "path"
 import OpenAPIParser from "@readme/openapi-parser"
 import getPathsOfTag from "@/utils/get-paths-of-tag"
-import type { ExpandedDocument } from "@/types/openapi"
+import type { OpenAPI } from "types"
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
@@ -21,7 +21,7 @@ export async function GET(request: Request) {
   }
   const baseSpecs = (await OpenAPIParser.parse(
     path.join(process.cwd(), "specs", area, "openapi.yaml")
-  )) as ExpandedDocument
+  )) as OpenAPI.ExpandedDocument
 
   if (expand) {
     const paths = await getPathsOfTag(expand, area)

@@ -168,11 +168,12 @@ export const navDropdownItems: NavigationItem[] = [
 
 export const searchFilters: OptionType[] = [
   {
-    value: "guides",
-    label: "Guides",
+    value: "concepts-guides",
+    label: "Concepts & Guides",
+    hitsPerPage: 8,
   },
   {
-    value: "references-v2",
+    value: "references",
     label: "References",
   },
   {
@@ -184,7 +185,11 @@ export const searchFilters: OptionType[] = [
     label: "Store API",
   },
   {
-    value: "ui",
-    label: "Medusa UI",
+    value: "user-guide",
+    label: "User Guide",
+  },
+  {
+    value: "troubleshooting",
+    label: "Troubleshooting",
   },
 ]

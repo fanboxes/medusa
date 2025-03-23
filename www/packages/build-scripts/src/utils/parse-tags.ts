@@ -46,11 +46,7 @@ const getIntersectionTags = (tags: string): Tag => {
     return tagsToIntersect
       .slice(1)
       .every((otherTag) =>
-        otherTag.some(
-          (otherTagItem) =>
-            otherTagItem.title === tagItem.title &&
-            otherTagItem.path === tagItem.path
-        )
+        otherTag.some((otherTagItem) => otherTagItem.path === tagItem.path)
       )
   })
 }

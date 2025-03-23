@@ -1,5 +1,6 @@
 import {
   AdminOrderChangesResponse,
+  CreateOrderCreditLineDTO,
   FindParams,
   HttpTypes,
   PaginatedResponse,
@@ -496,6 +497,23 @@ export class Order {
       {
         query: queryParams,
         headers,
+      }
+    )
+  }
+
+  async createCreditLine(
+    orderId: string,
+    body: Omit<CreateOrderCreditLineDTO, "order_id">,
+    query?: SelectParams,
+    headers?: ClientHeaders
+  ) {
+    return await this.client.fetch<HttpTypes.AdminOrderResponse>(
+      `/admin/orders/${orderId}/credit-lines`,
+      {
+        method: "POST",
+        headers,
+        body,
+        query,
       }
     )
   }

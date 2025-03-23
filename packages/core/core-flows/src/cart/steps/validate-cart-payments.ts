@@ -1,6 +1,7 @@
 import { CartWorkflowDTO } from "@medusajs/framework/types"
 import {
   isPresent,
+  MathBN,
   MedusaError,
   PaymentSessionStatus,
 } from "@medusajs/framework/utils"
@@ -20,13 +21,13 @@ export const validateCartPaymentsStepId = "validate-cart-payments"
 /**
  * This step validates a cart's payment sessions. Their status must
  * be `pending` or `requires_more`. If not valid, the step throws an error.
- * 
+ *
  * :::tip
- * 
+ *
  * You can use the {@link retrieveCartStep} to retrieve a cart's details.
- * 
+ *
  * :::
- * 
+ *
  * @example
  * const data = validateCartPaymentsStep({
  *   // retrieve the details of the cart from another workflow
@@ -38,8 +39,15 @@ export const validateCartPaymentsStep = createStep(
   validateCartPaymentsStepId,
   async (data: ValidateCartPaymentsStepInput) => {
     const {
-      cart: { payment_collection: paymentCollection },
+      cart: { payment_collection: paymentCollection, total, credit_line_total },
     } = data
+
+    const canSkipPayment =
+      MathBN.convert(credit_line_total).gte(0) && MathBN.convert(total).lte(0)
+
+    if (canSkipPayment) {
+      return new StepResponse([])
+    }
 
     if (!isPresent(paymentCollection)) {
       throw new MedusaError(

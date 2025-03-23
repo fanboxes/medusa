@@ -208,8 +208,6 @@ export function decorateCartTotals(
       taxRate: creditLinesSumTaxRate,
     })
 
-  subtotal = MathBN.sub(subtotal, creditLinesSubtotal)
-
   const taxTotal = MathBN.add(itemsTaxTotal, shippingTaxTotal)
 
   const originalTaxTotal = MathBN.add(
@@ -222,7 +220,7 @@ export function decorateCartTotals(
 
   // TODO: subtract (cart.gift_card_total + cart.gift_card_tax_total)
   const tempTotal = MathBN.add(subtotal, taxTotal)
-  const total = MathBN.sub(tempTotal, discountSubtotal)
+  const total = MathBN.sub(tempTotal, discountSubtotal, creditLinesTotal)
 
   const cart = cartLike as any
 
@@ -234,9 +232,9 @@ export function decorateCartTotals(
   cart.discount_subtotal = new BigNumber(discountSubtotal)
   cart.discount_tax_total = new BigNumber(discountTaxTotal)
 
-  cart.credit_lines_total = new BigNumber(creditLinesTotal)
-  cart.credit_lines_subtotal = new BigNumber(creditLinesSubtotal)
-  cart.credit_lines_tax_total = new BigNumber(creditLinesTaxTotal)
+  cart.credit_line_total = new BigNumber(creditLinesTotal)
+  cart.credit_line_subtotal = new BigNumber(creditLinesSubtotal)
+  cart.credit_line_tax_total = new BigNumber(creditLinesTaxTotal)
 
   // cart.gift_card_total = giftCardTotal.total || 0
   // cart.gift_card_tax_total = giftCardTotal.tax_total || 0

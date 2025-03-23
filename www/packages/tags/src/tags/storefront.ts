@@ -20,6 +20,10 @@ export const storefront = [
     "path": "https://docs.medusajs.com/resources/storefront-development/cart/retrieve"
   },
   {
+    "title": "Show Cart Totals",
+    "path": "https://docs.medusajs.com/resources/storefront-development/cart/totals"
+  },
+  {
     "title": "Update Cart in Storefront",
     "path": "https://docs.medusajs.com/resources/storefront-development/cart/update"
   },
@@ -34,6 +38,10 @@ export const storefront = [
   {
     "title": "Checkout Step 1: Enter Email",
     "path": "https://docs.medusajs.com/resources/storefront-development/checkout/email"
+  },
+  {
+    "title": "Order Confirmation in Storefront",
+    "path": "https://docs.medusajs.com/resources/storefront-development/checkout/order-confirmation"
   },
   {
     "title": "Checkout Step 4: Choose Payment Provider",

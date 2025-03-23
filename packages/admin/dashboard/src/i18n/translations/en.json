@@ -43,6 +43,7 @@
     "plusCount": "+ {{count}}",
     "plusCountMore": "+ {{count}} more",
     "areYouSure": "Are you sure?",
+    "areYouSureDescription": "You are about to delete the {{entity}} {{title}}. This action cannot be undone.",
     "noRecordsFound": "No records found",
     "typeToConfirm": "Please type {val} to confirm:",
     "noResultsTitle": "No results",
@@ -349,6 +350,7 @@
     "backToDashboard": "Back to dashboard"
   },
   "addresses": {
+    "title": "Addresses",
     "shippingAddress": {
       "header": "Shipping Address",
       "editHeader": "Edit Shipping Address",
@@ -615,7 +617,7 @@
     "variant": {
       "edit": {
         "header": "Edit Variant",
-        "success": "Product variant edited sucessfully"
+        "success": "Product variant edited successfully"
       },
       "create": {
         "header": "Variant details"
@@ -651,7 +653,7 @@
           "levelsBatch": "Inventory levels updated.",
           "update": "Inventory item updated successfully.",
           "updateLevel": "Inventory level updated successfully.",
-          "itemsManageSuccess": "Inventory items sucessfully updated."
+          "itemsManageSuccess": "Inventory items successfully updated."
         }
       }
     },
@@ -896,7 +898,7 @@
     "groups": {
       "label": "Customer groups",
       "remove": "Are you sure you want to remove the customer from \"{{name}}\" customer group?",
-      "removeMany": "Are you sure you want to customer from following customer groups: {{groups}}?",
+      "removeMany": "Are you sure you want to remove customer from following customer groups: {{groups}}?",
       "alreadyAddedTooltip": "The customer is already in this customer group.",
       "list": {
         "noRecordsMessage": "This customer doesn't belong to any group."
@@ -931,7 +933,28 @@
     },
     "registered": "Registered",
     "guest": "Guest",
-    "hasAccount": "Has account"
+    "hasAccount": "Has account",
+    "addresses": {
+      "title": "Addresses",
+      "fields": {
+        "addressName": "Address name",
+        "address1": "Address 1",
+        "address2": "Address 2",
+        "city": "City",
+        "province": "Province",
+        "postalCode": "Postal code",
+        "country": "Country",
+        "phone": "Phone",
+        "company": "Company",
+        "countryCode": "Country code",
+        "provinceCode": "Province code"
+      },
+      "create": {
+        "header": "Create Address",
+        "hint": "Create a new address for the customer.",
+        "successToast": "Address was successfully created."
+      }
+    }
   },
   "customerGroups": {
     "domain": "Customer Groups",
@@ -2361,7 +2384,7 @@
   },
   "regions": {
     "domain": "Regions",
-    "subtitle": "A region is an area that you sell products in. It can cover multipe countries, and has different tax rates, providers, and currency.",
+    "subtitle": "A region is an area that you sell products in. It can cover multiple countries, and has different tax rates, providers, and currency.",
     "createRegion": "Create Region",
     "createRegionHint": "Manage tax rates and providers for a set of countries.",
     "addCountries": "Add countries",
@@ -2373,7 +2396,7 @@
     "removeCountryWarning": "You are about to remove the country {{name}} from the region. This action cannot be undone.",
     "automaticTaxesHint": "When enabled, taxes will only be calculated at checkout based on the shipping address.",
     "taxInclusiveHint": "When enabled, prices in the region will be tax inclusive.",
-    "providersHint": " Add which payment providers are available in this region.",
+    "providersHint": "Add which payment providers are available in this region.",
     "shippingOptions": "Shipping Options",
     "deleteShippingOptionWarning": "You are about to delete the shipping option {{name}}. This action cannot be undone.",
     "return": "Return",
@@ -2472,9 +2495,9 @@
     "removeSalesChannelsWarning_one": "You are about to remove {{count}} sales channel from the location.",
     "removeSalesChannelsWarning_other": "You are about to remove {{count}} sales channels from the location.",
     "toast": {
-      "create": "Location created sucessfully",
-      "update": "Location updated sucessfully",
-      "removeChannel": "Sales channel removed sucessfully"
+      "create": "Location created successfully",
+      "update": "Location updated successfully",
+      "removeChannel": "Sales channel removed successfully"
     }
   },
   "reservations": {
@@ -2775,7 +2798,7 @@
       "description": "You don't have any notifications at the moment, but once you do they will live here."
     },
     "accessibility": {
-      "description": "notifications about Medusa activities will be listed here."
+      "description": "Notifications about Medusa activities will be listed here."
     }
   },
   "errors": {

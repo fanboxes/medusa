@@ -415,11 +415,21 @@ export const generatedSidebars = [
                 "loaded": true,
                 "isPathHref": true,
                 "type": "link",
+                "path": "/learn/fundamentals/module-links/read-only",
+                "title": "Read-Only Links",
+                "children": [],
+                "chapterTitle": "3.3.5. Read-Only Links",
+                "number": "3.3.5."
+              },
+              {
+                "loaded": true,
+                "isPathHref": true,
+                "type": "link",
                 "path": "/learn/fundamentals/module-links/query-context",
                 "title": "Query Context",
                 "children": [],
-                "chapterTitle": "3.3.5. Query Context",
-                "number": "3.3.5."
+                "chapterTitle": "3.3.6. Query Context",
+                "number": "3.3.6."
               }
             ],
             "chapterTitle": "3.3. Module Links",
@@ -446,41 +456,11 @@ export const generatedSidebars = [
                 "loaded": true,
                 "isPathHref": true,
                 "type": "link",
-                "path": "/learn/fundamentals/data-models/property-types",
-                "title": "Property Types",
+                "path": "/learn/fundamentals/data-models/properties",
+                "title": "Properties",
                 "children": [],
-                "chapterTitle": "3.4.2. Property Types",
+                "chapterTitle": "3.4.2. Properties",
                 "number": "3.4.2."
-              },
-              {
-                "loaded": true,
-                "isPathHref": true,
-                "type": "link",
-                "path": "/learn/fundamentals/data-models/primary-key",
-                "title": "Primary Key",
-                "children": [],
-                "chapterTitle": "3.4.3. Primary Key",
-                "number": "3.4.3."
-              },
-              {
-                "loaded": true,
-                "isPathHref": true,
-                "type": "link",
-                "path": "/learn/fundamentals/data-models/default-properties",
-                "title": "Default Properties",
-                "children": [],
-                "chapterTitle": "3.4.4. Default Properties",
-                "number": "3.4.4."
-              },
-              {
-                "loaded": true,
-                "isPathHref": true,
-                "type": "link",
-                "path": "/learn/fundamentals/data-models/configure-properties",
-                "title": "Configure Properties",
-                "children": [],
-                "chapterTitle": "3.4.5. Configure Properties",
-                "number": "3.4.5."
               },
               {
                 "loaded": true,
@@ -489,8 +469,8 @@ export const generatedSidebars = [
                 "path": "/learn/fundamentals/data-models/relationships",
                 "title": "Relationships",
                 "children": [],
-                "chapterTitle": "3.4.6. Relationships",
-                "number": "3.4.6."
+                "chapterTitle": "3.4.3. Relationships",
+                "number": "3.4.3."
               },
               {
                 "loaded": true,
@@ -499,8 +479,8 @@ export const generatedSidebars = [
                 "path": "/learn/fundamentals/data-models/manage-relationships",
                 "title": "Manage Relationships",
                 "children": [],
-                "chapterTitle": "3.4.7. Manage Relationships",
-                "number": "3.4.7."
+                "chapterTitle": "3.4.4. Manage Relationships",
+                "number": "3.4.4."
               },
               {
                 "loaded": true,
@@ -509,8 +489,8 @@ export const generatedSidebars = [
                 "path": "/learn/fundamentals/data-models/index",
                 "title": "Define Index",
                 "children": [],
-                "chapterTitle": "3.4.8. Define Index",
-                "number": "3.4.8."
+                "chapterTitle": "3.4.5. Define Index",
+                "number": "3.4.5."
               },
               {
                 "loaded": true,
@@ -519,28 +499,18 @@ export const generatedSidebars = [
                 "path": "/learn/fundamentals/data-models/check-constraints",
                 "title": "Check Constraints",
                 "children": [],
-                "chapterTitle": "3.4.9. Check Constraints",
-                "number": "3.4.9."
-              },
-              {
-                "loaded": true,
-                "isPathHref": true,
-                "type": "link",
-                "path": "/learn/fundamentals/data-models/searchable-property",
-                "title": "Searchable Property",
-                "children": [],
-                "chapterTitle": "3.4.10. Searchable Property",
-                "number": "3.4.10."
+                "chapterTitle": "3.4.6. Check Constraints",
+                "number": "3.4.6."
               },
               {
                 "loaded": true,
                 "isPathHref": true,
                 "type": "link",
                 "path": "/learn/fundamentals/data-models/write-migration",
-                "title": "Write Migration",
+                "title": "Migrations",
                 "children": [],
-                "chapterTitle": "3.4.11. Write Migration",
-                "number": "3.4.11."
+                "chapterTitle": "3.4.7. Migrations",
+                "number": "3.4.7."
               }
             ],
             "chapterTitle": "3.4. Data Models",

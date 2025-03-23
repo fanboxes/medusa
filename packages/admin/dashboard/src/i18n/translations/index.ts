@@ -19,6 +19,7 @@ import zhCN from "./zhCN.json"
 import fa from "./fa.json"
 import cs from "./cs.json"
 import ru from "./ru.json"
+import lt from "./lt.json"
 
 export default {
   bg: {
@@ -83,5 +84,8 @@ export default {
   },
   ru: {
     translation: ru,
+  },
+  lt: {
+    translation: lt,
   },
 }

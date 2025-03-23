@@ -1,0 +1,86 @@
+If you get the following error when using Query to retrieve records of your custom data model:
+
+```bash
+service.list is not a function
+```
+
+## Why this Error Occurred
+
+To retrieve records of your data model, Query uses the `listX` method of your module's service.
+
+For example, if you have a Blog Module and you are trying to retrieve posts, Query will try to call the `listPost` method of the Blog Module's service. If it doesn't find the method, it will throw the above error.
+
+---
+
+## How to Fix it
+
+### Option 1: Extend Service Factory
+
+To resolve this error, make sure that your module's service has a `listX` method that returns the records of your data model.
+
+This method is generated for you if your service extends `MedusaService`:
+
+```ts title="src/modules/blog/service.ts"
+import { MedusaService } from "@medusajs/framework/utils"
+import Post from "./models/post"
+
+class BlogModuleService extends MedusaService({
+  Post,
+}){
+}
+
+export default BlogModuleService
+```
+
+In the above example, the `listPost` method is generated for you because the `BlogModuleService` extends `MedusaService`.
+
+### Option 2: Implement the Method
+
+If your module is returning data from a third-party service, or you have some custom mechanism to define and manage your data models, then you need to implement the `list` or just `list` method in your service.
+
+For example:
+
+```ts title="src/modules/blog/service.ts"
+type BlogModuleOptions = {
+  apiKey: string
+}
+
+export default class BlogModuleService {
+  private client
+
+  constructor({}, options: BlogModuleOptions) {
+    this.client = new Client(options)
+  }
+
+  async list(
+    filter: {
+      id: string | string[]
+    }
+  ) {
+    return this.client.getPosts(filter)
+    /**
+     * Example of returned data:
+     * 
+     * [
+     *   {
+     *     "id": "post_123",
+     *     "product_id": "prod_321"
+     *   },
+     *   {
+     *     "id": "post_456",
+     *     "product_id": "prod_654"
+     *   }
+     * ]
+    */
+  }
+}
+```
+
+---
+
+## Additional Resources
+
+- [Query](!docs!/learn/fundamentals/module-links/query)
+- [Service Factory documentation](!docs!/learn/fundamentals/modules/service-factory)
+- [Service Factory reference](../../../service-factory-reference/page.mdx)
+- [Example: Read-Only Module Link for Virtual Data Models](!docs!/learn/fundamentals/module-links/read-only#example-read-only-module-link-for-virtual-data-models)

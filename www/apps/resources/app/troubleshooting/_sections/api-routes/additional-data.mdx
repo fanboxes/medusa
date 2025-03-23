@@ -1,0 +1,22 @@
+If you send a request to an API route and receive the following error:
+
+```json
+{
+  "type": "invalid_data", 
+  "message": "Invalid request: Unrecognized fields: 'additional_data'"
+}
+```
+
+## Why this Error Occured
+
+This error occurs when you send the `additional_data` request body parameter to a route that doesn't support it.
+
+The [Additional Data property](https://docs.medusajs.com/learn/fundamentals/api-routes/additional-data) is useful to pass custom data to an API route, but it's not supported by all API routes.
+
+---
+
+## How to Fix it
+
+For the list of API routes that support passing `additional_data`, refer to the [Additional Data documentation](https://docs.medusajs.com/learn/fundamentals/api-routes/additional-data).
+
+If the route you need isn't on the list, you have to create a custom API route with your desired functionality.

@@ -10,6 +10,8 @@ const ORDER_INJECTION_ZONES = [
 const CUSTOMER_INJECTION_ZONES = [
   "customer.details.before",
   "customer.details.after",
+  "customer.details.side.before",
+  "customer.details.side.after",
   "customer.list.before",
   "customer.list.after",
 ] as const
@@ -132,6 +134,8 @@ const LOCATION_INJECTION_ZONES = [
   "location.details.side.after",
   "location.list.before",
   "location.list.after",
+  "location.list.side.before",
+  "location.list.side.after",
 ] as const
 
 const LOGIN_INJECTION_ZONES = ["login.before", "login.after"] as const

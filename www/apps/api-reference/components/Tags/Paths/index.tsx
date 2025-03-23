@@ -1,6 +1,6 @@
 "use client"
 
-import type { Operation, PathsObject, TagObject } from "@/types/openapi"
+import type { OpenAPI } from "types"
 import { findSidebarItem, useSidebar } from "docs-ui"
 import { Fragment, Suspense, useEffect } from "react"
 import dynamic from "next/dynamic"
@@ -16,8 +16,8 @@ const TagOperation = dynamic<TagOperationProps>(
 ) as React.FC<TagOperationProps>
 
 export type TagPathsProps = {
-  tag: TagObject
-  paths: PathsObject
+  tag: OpenAPI.TagObject
+  paths: OpenAPI.PathsObject
 } & React.HTMLAttributes<HTMLDivElement>
 
 const TagPaths = ({ tag, className, paths }: TagPathsProps) => {
@@ -50,6 +50,7 @@ const TagPaths = ({ tag, className, paths }: TagPathsProps) => {
             path: "",
             changeLoaded: true,
           },
+          indexPosition: tag["x-associatedSchema"] ? 1 : 0,
         })
       }
     }
@@ -66,7 +67,7 @@ const TagPaths = ({ tag, className, paths }: TagPathsProps) => {
               ([method, operation], operationIndex) => (
                 <TagOperation
                   method={method}
-                  operation={operation as Operation}
+                  operation={operation as OpenAPI.Operation}
                   tag={tag}
                   key={`${pathIndex}-${operationIndex}`}
                   endpointPath={endpointPath}

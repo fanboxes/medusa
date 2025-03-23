@@ -158,6 +158,11 @@ const nextConfig = {
         destination: `${process.env.NEXT_PUBLIC_BASE_URL}/learn/configurations/medusa-config`,
         permanent: true,
       },
+      {
+        source: "/troubleshooting/workflow-errors",
+        destination: "/troubleshooting/workflow-errors/when-then",
+        permanent: true,
+      },
     ]
   },
   outputFileTracingExcludes: {

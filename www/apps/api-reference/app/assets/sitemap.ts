@@ -1,11 +1,11 @@
 import { MetadataRoute } from "next"
 import OpenAPIParser from "@readme/openapi-parser"
 import path from "path"
-import type { ExpandedDocument, Operation } from "../../types/openapi"
+import type { OpenAPI } from "types"
 import getUrl from "../../utils/get-url"
-import getSectionId from "../../utils/get-section-id"
 import getPathsOfTag from "../../utils/get-paths-of-tag"
 import { config } from "../../config"
+import { getSectionId } from "docs-utils"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = config.baseUrl
@@ -24,7 +24,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   for (const area of ["store", "admin"]) {
     const baseSpecs = (await OpenAPIParser.parse(
       path.join(process.cwd(), `specs/${area}/openapi.yaml`)
-    )) as ExpandedDocument
+    )) as OpenAPI.ExpandedDocument
 
     await Promise.all(
       baseSpecs.tags?.map(async (tag) => {
@@ -39,7 +39,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
         Object.values(paths.paths).forEach((path) => {
           Object.values(path).forEach((op) => {
-            const operation = op as Operation
+            const operation = op as OpenAPI.Operation
             const operationName = getSectionId([
               tag.name,
               operation.operationId,

@@ -85,7 +85,7 @@ export class Fulfillment {
     headers?: ClientHeaders
   ) {
     return await this.client.fetch<HttpTypes.AdminFulfillmentResponse>(
-      `/admin/fulfillments/${id}`,
+      `/admin/fulfillments/${id}/cancel`,
       {
         method: "POST",
         body: {},

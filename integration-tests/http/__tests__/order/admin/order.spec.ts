@@ -3,6 +3,8 @@ import { ModuleRegistrationName } from "@medusajs/utils"
 import {
   adminHeaders,
   createAdminUser,
+  generatePublishableKey,
+  generateStoreHeaders,
 } from "../../../../helpers/create-admin-user"
 import { setupTaxStructure } from "../../../../modules/__tests__/fixtures"
 import { createOrderSeeder } from "../../fixtures/order"
@@ -1008,6 +1010,464 @@ medusaIntegrationTestRunner({
       })
     })
 
+    describe("POST /orders/:id/fulfillments/:id/cancel", () => {
+      let inventoryItemDesk
+      let inventoryItemLeg
+
+      beforeEach(async () => {
+        const container = getContainer()
+
+        const publishableKey = await generatePublishableKey(container)
+
+        const storeHeaders = generateStoreHeaders({
+          publishableKey,
+        })
+
+        const region = (
+          await api.post(
+            "/admin/regions",
+            { name: "Test region", currency_code: "usd" },
+            adminHeaders
+          )
+        ).data.region
+
+        const salesChannel = (
+          await api.post(
+            "/admin/sales-channels",
+            { name: "first channel", description: "channel" },
+            adminHeaders
+          )
+        ).data.sales_channel
+
+        const stockLocation = (
+          await api.post(
+            `/admin/stock-locations`,
+            { name: "test location" },
+            adminHeaders
+          )
+        ).data.stock_location
+
+        inventoryItemDesk = (
+          await api.post(
+            `/admin/inventory-items`,
+            { sku: "table-desk" },
+            adminHeaders
+          )
+        ).data.inventory_item
+
+        inventoryItemLeg = (
+          await api.post(
+            `/admin/inventory-items`,
+            { sku: "table-leg" },
+            adminHeaders
+          )
+        ).data.inventory_item
+
+        await api.post(
+          `/admin/inventory-items/${inventoryItemDesk.id}/location-levels`,
+          {
+            location_id: stockLocation.id,
+            stocked_quantity: 10,
+          },
+          adminHeaders
+        )
+
+        await api.post(
+          `/admin/inventory-items/${inventoryItemLeg.id}/location-levels`,
+          {
+            location_id: stockLocation.id,
+            stocked_quantity: 40,
+          },
+          adminHeaders
+        )
+
+        await api.post(
+          `/admin/stock-locations/${stockLocation.id}/sales-channels`,
+          { add: [salesChannel.id] },
+          adminHeaders
+        )
+
+        const shippingProfile = (
+          await api.post(
+            `/admin/shipping-profiles`,
+            { name: `test-${stockLocation.id}`, type: "default" },
+            adminHeaders
+          )
+        ).data.shipping_profile
+
+        const product = (
+          await api.post(
+            "/admin/products",
+            {
+              title: `Wooden table`,
+              shipping_profile_id: shippingProfile.id,
+              options: [{ title: "color", values: ["green"] }],
+              variants: [
+                {
+                  title: "Green table",
+                  sku: "green-table",
+                  inventory_items: [
+                    {
+                      inventory_item_id: inventoryItemDesk.id,
+                      required_quantity: 1,
+                    },
+                    {
+                      inventory_item_id: inventoryItemLeg.id,
+                      required_quantity: 4,
+                    },
+                  ],
+                  prices: [
+                    {
+                      currency_code: "usd",
+                      amount: 100,
+                    },
+                  ],
+                  options: {
+                    color: "green",
+                  },
+                },
+              ],
+            },
+            adminHeaders
+          )
+        ).data.product
+
+        const fulfillmentSets = (
+          await api.post(
+            `/admin/stock-locations/${stockLocation.id}/fulfillment-sets?fields=*fulfillment_sets`,
+            {
+              name: `Test-${shippingProfile.id}`,
+              type: "test-type",
+            },
+            adminHeaders
+          )
+        ).data.stock_location.fulfillment_sets
+
+        const fulfillmentSet = (
+          await api.post(
+            `/admin/fulfillment-sets/${fulfillmentSets[0].id}/service-zones`,
+            {
+              name: `Test-${shippingProfile.id}`,
+              geo_zones: [{ type: "country", country_code: "us" }],
+            },
+            adminHeaders
+          )
+        ).data.fulfillment_set
+
+        await api.post(
+          `/admin/stock-locations/${stockLocation.id}/fulfillment-providers`,
+          { add: ["manual_test-provider"] },
+          adminHeaders
+        )
+
+        const shippingOption = (
+          await api.post(
+            `/admin/shipping-options`,
+            {
+              name: `Test shipping option ${fulfillmentSet.id}`,
+              service_zone_id: fulfillmentSet.service_zones[0].id,
+              shipping_profile_id: shippingProfile.id,
+              provider_id: "manual_test-provider",
+              price_type: "flat",
+              type: {
+                label: "Test type",
+                description: "Test description",
+                code: "test-code",
+              },
+              prices: [
+                { currency_code: "usd", amount: 1000 },
+                { region_id: region.id, amount: 1100 },
+              ],
+              rules: [],
+            },
+            adminHeaders
+          )
+        ).data.shipping_option
+
+        const cart = (
+          await api.post(
+            `/store/carts`,
+            {
+              currency_code: "usd",
+              email: "tony@stark-industries.com",
+              region_id: region.id,
+              shipping_address: {
+                address_1: "test address 1",
+                address_2: "test address 2",
+                city: "ny",
+                country_code: "us",
+                province: "ny",
+                postal_code: "94016",
+              },
+              billing_address: {
+                address_1: "test billing address 1",
+                address_2: "test billing address 2",
+                city: "ny",
+                country_code: "us",
+                province: "ny",
+                postal_code: "94016",
+              },
+              sales_channel_id: salesChannel.id,
+              items: [{ quantity: 2, variant_id: product.variants[0].id }],
+            },
+            storeHeaders
+          )
+        ).data.cart
+
+        await api.post(
+          `/store/carts/${cart.id}/shipping-methods`,
+          { option_id: shippingOption.id },
+          storeHeaders
+        )
+
+        const paymentCollection = (
+          await api.post(
+            `/store/payment-collections`,
+            {
+              cart_id: cart.id,
+            },
+            storeHeaders
+          )
+        ).data.payment_collection
+
+        await api.post(
+          `/store/payment-collections/${paymentCollection.id}/payment-sessions`,
+          { provider_id: "pp_system_default" },
+          storeHeaders
+        )
+
+        order = (
+          await api.post(`/store/carts/${cart.id}/complete`, {}, storeHeaders)
+        ).data.order
+      })
+
+      it("should correctly manage reservations when canceling a fulfillment (with inventory kit)", async () => {
+        let reservations = (await api.get(`/admin/reservations`, adminHeaders))
+          .data.reservations
+
+        expect(reservations).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              inventory_item_id: inventoryItemDesk.id,
+              quantity: 2,
+            }),
+            expect.objectContaining({
+              inventory_item_id: inventoryItemLeg.id,
+              quantity: 8,
+            }),
+          ])
+        )
+
+        // 1. create a partial fulfillment
+        const fulOrder = (
+          await api.post(
+            `/admin/orders/${order.id}/fulfillments?fields=*fulfillments,*fulfillments.items`,
+            {
+              items: [{ id: order.items[0].id, quantity: 1 }],
+            },
+            adminHeaders
+          )
+        ).data.order
+
+        // 2. two fulfillment items are created for a single (inventory kit) line item
+        expect(fulOrder.fulfillments[0].items).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              inventory_item_id: inventoryItemDesk.id,
+              quantity: 1,
+            }),
+            expect.objectContaining({
+              inventory_item_id: inventoryItemLeg.id,
+              quantity: 4,
+            }),
+          ])
+        )
+
+        expect(fulOrder.items[0].detail.fulfilled_quantity).toEqual(1)
+
+        reservations = (await api.get(`/admin/reservations`, adminHeaders)).data
+          .reservations
+
+        // 3. reservations need to be reduced by half since we fulfilled 1 item out of 2 in the order
+        expect(reservations).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              inventory_item_id: inventoryItemDesk.id,
+              quantity: 1,
+            }),
+            expect.objectContaining({
+              inventory_item_id: inventoryItemLeg.id,
+              quantity: 4,
+            }),
+          ])
+        )
+
+        const { data } = await api.post(
+          `/admin/orders/${fulOrder.id}/fulfillments/${fulOrder.fulfillments[0].id}/cancel?fields=*fulfillments,*fulfillments.items`,
+          {},
+          adminHeaders
+        )
+
+        expect(data.order.fulfillments[0].canceled_at).toBeDefined()
+        expect(data.order.items[0].detail.fulfilled_quantity).toEqual(0)
+
+        reservations = (await api.get(`/admin/reservations`, adminHeaders)).data
+          .reservations
+
+        // 4. reservation qunatities are restored after partial fulfillment is canceled
+        expect(reservations).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              inventory_item_id: inventoryItemDesk.id,
+              quantity: 2,
+            }),
+            expect.objectContaining({
+              inventory_item_id: inventoryItemLeg.id,
+              quantity: 8,
+            }),
+          ])
+        )
+
+        // 5. create a fullfillment for the entier quantity
+        const fulOrderFull = (
+          await api.post(
+            `/admin/orders/${order.id}/fulfillments?fields=*fulfillments,*fulfillments.items`,
+            {
+              items: [{ id: order.items[0].id, quantity: 2 }],
+            },
+            adminHeaders
+          )
+        ).data.order
+
+        reservations = (await api.get(`/admin/reservations`, adminHeaders)).data
+          .reservations
+
+        // 6. no more reservations since the entier quantity is fulfilled
+        expect(reservations).toEqual([])
+
+        expect(
+          fulOrderFull.fulfillments.find((f) => !f.canceled_at)!.items
+        ).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              inventory_item_id: inventoryItemDesk.id,
+              quantity: 2,
+            }),
+            expect.objectContaining({
+              inventory_item_id: inventoryItemLeg.id,
+              quantity: 8,
+            }),
+          ])
+        )
+
+        expect(fulOrderFull.items[0].detail.fulfilled_quantity).toEqual(2)
+
+        // 7. cancel the entire fulfillment once again
+        await api.post(
+          `/admin/orders/${fulOrderFull.id}/fulfillments/${
+            fulOrderFull.fulfillments.find((f) => !f.canceled_at)!.id
+          }/cancel?fields=*fulfillments,*fulfillments.items`,
+          {},
+          adminHeaders
+        )
+
+        reservations = (await api.get(`/admin/reservations`, adminHeaders)).data
+          .reservations
+
+        // 8. reservation need to be restored to the initiall quantities
+        expect(reservations).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              inventory_item_id: inventoryItemDesk.id,
+              quantity: 2,
+            }),
+            expect.objectContaining({
+              inventory_item_id: inventoryItemLeg.id,
+              quantity: 8,
+            }),
+          ])
+        )
+      })
+
+      it("should throw an error if the quantity to fulfill exceeds the reserved quantity (inventory kit case)", async () => {
+        let reservations = (await api.get(`/admin/reservations`, adminHeaders))
+          .data.reservations
+
+        expect(reservations).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              inventory_item_id: inventoryItemDesk.id,
+              quantity: 2,
+            }),
+            expect.objectContaining({
+              inventory_item_id: inventoryItemLeg.id,
+              quantity: 8,
+            }),
+          ])
+        )
+
+        // 1. create a partial fulfillment
+        const fulOrder = (
+          await api.post(
+            `/admin/orders/${order.id}/fulfillments?fields=*fulfillments,*fulfillments.items`,
+            {
+              items: [{ id: order.items[0].id, quantity: 1 }],
+            },
+            adminHeaders
+          )
+        ).data.order
+
+        // 2. two fulfillment items are created for a single (inventory kit) line item
+        expect(fulOrder.fulfillments[0].items).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              inventory_item_id: inventoryItemDesk.id,
+              quantity: 1,
+            }),
+            expect.objectContaining({
+              inventory_item_id: inventoryItemLeg.id,
+              quantity: 4,
+            }),
+          ])
+        )
+
+        expect(fulOrder.items[0].detail.fulfilled_quantity).toEqual(1)
+
+        reservations = (await api.get(`/admin/reservations`, adminHeaders)).data
+          .reservations
+
+        // 3. reservations need to be reduced by half since we fulfilled 1 item out of 2 in the order
+        expect(reservations).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              inventory_item_id: inventoryItemDesk.id,
+              quantity: 1,
+            }),
+            expect.objectContaining({
+              inventory_item_id: inventoryItemLeg.id,
+              quantity: 4,
+            }),
+          ])
+        )
+
+        const res = await api
+          .post(
+            `/admin/orders/${order.id}/fulfillments?fields=*fulfillments,*fulfillments.items`,
+            {
+              items: [{ id: order.items[0].id, quantity: 2 }],
+            },
+            adminHeaders
+          )
+          .catch((e) => e)
+
+        expect(res.response.status).toBe(400)
+        expect(res.response.data).toEqual({
+          type: "invalid_data",
+          message: `Quantity to fulfill exceeds the reserved quantity for the item: ${order.items[0].id}`,
+        })
+      })
+    })
+
     describe("POST /orders/:id/fulfillments/:id/mark-as-delivered", () => {
       beforeEach(async () => {
         seeder = await createOrderSeeder({ api, container: getContainer() })
@@ -1073,6 +1533,190 @@ medusaIntegrationTestRunner({
           type: "not_allowed",
           message: "Fulfillment has already been marked delivered",
         })
+      })
+    })
+
+    describe("POST /orders/:id/credit-lines", () => {
+      beforeEach(async () => {
+        const inventoryItemOverride = (
+          await api.post(
+            `/admin/inventory-items`,
+            { sku: "test-variant", requires_shipping: false },
+            adminHeaders
+          )
+        ).data.inventory_item
+
+        seeder = await createOrderSeeder({
+          api,
+          container: getContainer(),
+          inventoryItemOverride,
+          withoutShipping: true,
+        })
+        order = seeder.order
+
+        order = (await api.get(`/admin/orders/${order.id}`, adminHeaders)).data
+          .order
+      })
+
+      it("should successfully create credit lines", async () => {
+        const error = await api
+          .post(
+            `/admin/orders/${order.id}/credit-lines`,
+            {
+              amount: -106,
+              reference: "order",
+              reference_id: order.id,
+            },
+            adminHeaders
+          )
+          .catch((e) => e)
+
+        expect(error.response.status).toBe(400)
+        expect(error.response.data.message).toBe(
+          "Can only create positive credit lines if the order has a positive pending difference"
+        )
+
+        const error2 = await api
+          .post(
+            `/admin/orders/${order.id}/credit-lines`,
+            {
+              amount: 10000,
+              reference: "order",
+              reference_id: order.id,
+            },
+            adminHeaders
+          )
+          .catch((e) => e)
+
+        expect(error2.response.status).toBe(400)
+        expect(error2.response.data.message).toBe(
+          "Cannot create more positive credit lines with amount more than the pending difference"
+        )
+
+        const response = await api.post(
+          `/admin/orders/${order.id}/credit-lines`,
+          {
+            amount: 106,
+            reference: "order",
+            reference_id: order.id,
+          },
+          adminHeaders
+        )
+
+        expect(response.status).toBe(200)
+        expect(response.data.order).toEqual(
+          expect.objectContaining({
+            id: order.id,
+            total: 0,
+            subtotal: 100,
+            summary: expect.objectContaining({
+              current_order_total: 0,
+              accounting_total: 0,
+              pending_difference: 0,
+            }),
+          })
+        )
+
+        await api.post(
+          "/admin/order-edits",
+          {
+            order_id: order.id,
+            description: "Test",
+          },
+          adminHeaders
+        )
+
+        const item = order.items[0]
+
+        let result = (
+          await api.post(
+            `/admin/order-edits/${order.id}/items/item/${item.id}`,
+            { quantity: 0 },
+            adminHeaders
+          )
+        ).data.order_preview
+
+        result = (
+          await api.post(
+            `/admin/order-edits/${order.id}/request`,
+            {},
+            adminHeaders
+          )
+        ).data.order_preview
+
+        result = (
+          await api.post(
+            `/admin/order-edits/${order.id}/confirm`,
+            {},
+            adminHeaders
+          )
+        ).data.order_preview
+
+        result = (await api.get(`/admin/orders/${order.id}`, adminHeaders)).data
+          .order
+
+        const errorResponse = await api
+          .post(
+            `/admin/orders/${order.id}/credit-lines`,
+            {
+              amount: 106,
+              reference: "order",
+              reference_id: order.id,
+            },
+            adminHeaders
+          )
+          .catch((e) => e)
+
+        expect(errorResponse.response.status).toBe(400)
+        expect(errorResponse.response.data.message).toBe(
+          "Can only create negative credit lines if the order has a negative pending difference"
+        )
+
+        const error3 = await api
+          .post(
+            `/admin/orders/${order.id}/credit-lines`,
+            {
+              amount: -10000,
+              reference: "order",
+              reference_id: order.id,
+            },
+            adminHeaders
+          )
+          .catch((e) => e)
+
+        expect(error3.response.status).toBe(400)
+        expect(error3.response.data.message).toBe(
+          "Cannot create more negative credit lines with amount more than the pending difference"
+        )
+
+        const response2 = await api.post(
+          `/admin/orders/${order.id}/credit-lines`,
+          {
+            amount: -106,
+            reference: "order",
+            reference_id: order.id,
+          },
+          adminHeaders
+        )
+
+        expect(response2.data.order.summary.pending_difference).toEqual(0)
+
+        const response3 = await api
+          .post(
+            `/admin/orders/${order.id}/credit-lines`,
+            {
+              amount: -106,
+              reference: "order",
+              reference_id: order.id,
+            },
+            adminHeaders
+          )
+          .catch((e) => e)
+
+        expect(response3.response.status).toBe(400)
+        expect(response3.response.data.message).toBe(
+          "Can only create credit lines if the order has a positive or negative pending difference"
+        )
       })
     })
   },

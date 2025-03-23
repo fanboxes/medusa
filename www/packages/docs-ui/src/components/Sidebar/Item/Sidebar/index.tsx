@@ -4,7 +4,7 @@
 
 import React, { useMemo } from "react"
 import { Sidebar } from "types"
-import { useSidebar } from "../../../.."
+import { Badge, useSidebar } from "../../../.."
 import clsx from "clsx"
 import Link from "next/link"
 
@@ -56,6 +56,9 @@ export const SidebarItemSidebar = ({
             {item.title}
           </span>
           {item.additionalElms}
+          {item.badge && (
+            <Badge variant={item.badge.variant}>{item.badge.text}</Badge>
+          )}
         </Link>
       </span>
     </li>

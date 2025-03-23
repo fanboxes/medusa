@@ -1,6 +1,6 @@
 "use client"
 
-import type { Operation } from "@/types/openapi"
+import type { OpenAPI } from "types"
 import type { TagsOperationDescriptionSectionSecurityProps } from "./Security"
 import type { TagsOperationDescriptionSectionRequestProps } from "./RequestBody"
 import type { TagsOperationDescriptionSectionResponsesProps } from "./Responses"
@@ -33,7 +33,7 @@ const TagsOperationDescriptionSectionWorkflowBadge =
   ) as React.FC<TagsOperationDescriptionSectionWorkflowBadgeProps>
 
 type TagsOperationDescriptionSectionProps = {
-  operation: Operation
+  operation: OpenAPI.Operation
 }
 const TagsOperationDescriptionSection = ({
   operation,

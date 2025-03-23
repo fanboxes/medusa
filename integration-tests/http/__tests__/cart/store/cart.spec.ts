@@ -1085,7 +1085,9 @@ medusaIntegrationTestRunner({
               { option_id: shippingOption.id },
               storeHeaders
             )
+          })
 
+          it("should successfully complete cart", async () => {
             const paymentCollection = (
               await api.post(
                 `/store/payment-collections`,
@@ -1099,9 +1101,7 @@ medusaIntegrationTestRunner({
               { provider_id: "pp_system_default" },
               storeHeaders
             )
-          })
 
-          it("should successfully complete cart", async () => {
             createCartCreditLinesWorkflow.run({
               input: [
                 {
@@ -1131,6 +1131,53 @@ medusaIntegrationTestRunner({
                     amount: 100,
                     reference: "test",
                     reference_id: "test",
+                  }),
+                ],
+                items: expect.arrayContaining([
+                  expect.objectContaining({
+                    unit_price: 1500,
+                    compare_at_unit_price: null,
+                    quantity: 1,
+                  }),
+                ]),
+              })
+            )
+          })
+
+          it("should successfully complete cart with credit lines alone", async () => {
+            const oldCart = (
+              await api.get(`/store/carts/${cart.id}`, storeHeaders)
+            ).data.cart
+
+            createCartCreditLinesWorkflow.run({
+              input: [
+                {
+                  cart_id: oldCart.id,
+                  amount: oldCart.total,
+                  currency_code: "usd",
+                  reference: "test",
+                  reference_id: "test",
+                },
+              ],
+              container: appContainer,
+            })
+
+            const response = await api.post(
+              `/store/carts/${cart.id}/complete`,
+              {},
+              storeHeaders
+            )
+
+            expect(response.status).toEqual(200)
+            expect(response.data.order).toEqual(
+              expect.objectContaining({
+                id: expect.any(String),
+                currency_code: "usd",
+                credit_line_total: 2395,
+                discount_total: 100,
+                credit_lines: [
+                  expect.objectContaining({
+                    amount: 2395,
                   }),
                 ],
                 items: expect.arrayContaining([
@@ -1181,7 +1228,7 @@ medusaIntegrationTestRunner({
               )
             ).data.product
 
-            let cart = (
+            cart = (
               await api.post(
                 `/store/carts`,
                 {

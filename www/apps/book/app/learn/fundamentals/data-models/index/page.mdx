@@ -6,35 +6,11 @@ export const metadata = {
 
 In this chapter, you’ll learn how to define a database index on a data model.
 
-## Define Database Index on Property
+<Note>
 
-Use the `index` method on a property's definition to define a database index.
+You can also define an index on a property as explained in the [Properties chapter](../properties/page.mdx#define-database-index-on-property).
 
-For example:
-
-export const highlights = [
-  ["5", "index", "Define an index on the `name` property."],
-  ["6", '"IDX_MY_CUSTOM_NAME"', "Index name is optional."]
-]
-
-```ts highlights={highlights}
-import { model } from "@medusajs/framework/utils"
-
-const MyCustom = model.define("my_custom", {
-  id: model.id().primaryKey(),
-  name: model.text().index(
-    "IDX_MY_CUSTOM_NAME"
-  ),
-})
-
-export default MyCustom
-```
-
-The `index` method optionally accepts the name of the index as a parameter.
-
-In this example, you define an index on the `name` property.
-
----
+</Note>
 
 ## Define Database Index on Data Model
 
@@ -73,7 +49,7 @@ An index can have conditions. For example:
 
 export const conditionHighlights = [
   ["10", "where", "Specify conditions on properties."],
-  ["11", "", "Create the index when `age` is `30`."]
+  ["11", "age", "Create the index when `age` is `30`."]
 ]
 
 ```ts highlights={conditionHighlights}
@@ -102,7 +78,7 @@ In the example above, the composite index is created on the `name` and `age` pro
 A property's condition can be a negation. For example:
 
 export const negationHighlights = [
-  ["12", "", "Create the index when `age` is not `null`."]
+  ["12", "$ne", "Create the index when `age` is not `null`."]
 ]
 
 ```ts highlights={negationHighlights}

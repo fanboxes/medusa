@@ -14,7 +14,7 @@ program.name("docs-generator").description("Generate TSDoc doc-blocks")
 
 // define common options
 const typeOption = new Option("--type <type>", "The type of docs to generate.")
-  .choices(["all", "docs", "oas", "dml"])
+  .choices(["all", "docs", "oas", "dml", "route-examples"])
   .default("all")
 
 const generateExamplesOption = new Option(

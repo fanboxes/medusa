@@ -1,28 +1,26 @@
 import path from "path"
 import { promises as fs } from "fs"
-import type { OpenAPIV3 } from "openapi-types"
-import type { Operation, Document, ParsedPathItemObject } from "@/types/openapi"
+import type { OpenAPI } from "types"
 import readSpecDocument from "./read-spec-document"
-import getSectionId from "./get-section-id"
 import dereference from "./dereference"
 import { unstable_cache } from "next/cache"
-import { oasFileToPath } from "docs-utils"
+import { getSectionId, oasFileToPath } from "docs-utils"
 
 async function getPathsOfTag_(
   tagName: string,
   area: string
-): Promise<Document> {
+): Promise<OpenAPI.Document> {
   // get path files
   const basePath = path.join(process.cwd(), "specs", `${area}/paths`)
 
   const files = await fs.readdir(basePath)
 
   // read the path documents
-  let documents: ParsedPathItemObject[] = await Promise.all(
+  let documents: OpenAPI.ParsedPathItemObject[] = await Promise.all(
     files.map(async (file) => {
       const fileContent = (await readSpecDocument(
         path.join(basePath, file)
-      )) as OpenAPIV3.PathItemObject<Operation>
+      )) as OpenAPI.OpenAPIV3.PathItemObject<OpenAPI.Operation>
 
       return {
         ...fileContent,

@@ -1,0 +1,412 @@
+export const metadata = {
+  title: `${pageNumber} Data Model Properties`,
+}
+
+# {metadata.title}
+
+In this chapter, you'll learn about the different property types you can use in a data model and how to configure a data model's properties.
+
+## Data Model's Default Properties
+
+By default, Medusa creates the following properties for every data model:
+
+- `created_at`: A [dateTime](#dateTime) property that stores when a record of the data model was created.
+- `updated_at`: A [dateTime](#dateTime) property that stores when a record of the data model was updated.
+- `deleted_at`: A [dateTime](#dateTime) property that stores when a record of the data model was deleted. When you soft-delete a record, Medusa sets the `deleted_at` property to the current date.
+
+---
+
+## Property Types
+
+This section covers the different property types you can define in a data model's schema using the `model` methods.
+
+### id
+
+The `id` method defines an automatically generated string ID property. The generated ID is a unique string that has a mix of letters and numbers.
+
+For example:
+
+export const idHighlights = [["4", ".id()", "Define an `id` property."]]
+
+```ts highlights={idHighlights}
+import { model } from "@medusajs/framework/utils"
+
+const Post = model.define("post", {
+  id: model.id(),
+  // ...
+})
+
+export default Post
+```
+
+### text
+
+The `text` method defines a string property.
+
+For example:
+
+export const textHighlights = [["4", "text", "Define a `text` property."]]
+
+```ts highlights={textHighlights}
+import { model } from "@medusajs/framework/utils"
+
+const Post = model.define("post", {
+  name: model.text(),
+  // ...
+})
+
+export default Post
+```
+
+### number
+
+The `number` method defines a number property.
+
+For example:
+
+export const numberHighlights = [["4", "number", "Define a `number` property."]]
+
+```ts highlights={numberHighlights}
+import { model } from "@medusajs/framework/utils"
+
+const Post = model.define("post", {
+  age: model.number(),
+  // ...
+})
+
+export default Post
+```
+
+### float
+
+<Note>
+
+This property is only available after [Medusa v2.1.2](https://github.com/medusajs/medusa/releases/tag/v2.1.2).
+
+</Note>
+
+The `float` method defines a number property that allows for values with decimal places.
+
+<Note title="Tip">
+
+Use this property type when it's less important to have high precision for numbers with large decimal places. Alternatively, for higher percision, use the [bigNumber property](#bignumber).
+
+</Note>
+
+For example:
+
+export const floatHighlights = [["4", "float", "Define a `float` property."]]
+
+```ts highlights={floatHighlights}
+import { model } from "@medusajs/framework/utils"
+
+const Post = model.define("post", {
+  rating: model.float(),
+  // ...
+})
+
+export default Post
+```
+
+### bigNumber
+
+The `bigNumber` method defines a number property that expects large numbers, such as prices.
+
+<Note title="Tip">
+
+Use this property type when it's important to have high precision for numbers with large decimal places. Alternatively, for less percision, use the [float property](#float).
+
+</Note>
+
+For example:
+
+export const bigNumberHighlights = [["4", "bigNumber", "Define a `bigNumber` property."]]
+
+```ts highlights={bigNumberHighlights}
+import { model } from "@medusajs/framework/utils"
+
+const Post = model.define("post", {
+  price: model.bigNumber(),
+  // ...
+})
+
+export default Post
+```
+
+### boolean
+
+The `boolean` method defines a boolean property.
+
+For example:
+
+export const booleanHighlights = [["4", "boolean", "Define a `boolean` property."]]
+
+```ts highlights={booleanHighlights}
+import { model } from "@medusajs/framework/utils"
+
+const Post = model.define("post", {
+  hasAccount: model.boolean(),
+  // ...
+})
+
+export default Post
+```
+
+### enum
+
+The `enum` method defines a property whose value can only be one of the specified values.
+
+For example:
+
+export const enumHighlights = [["4", "enum", "Define a `enum` property."]]
+
+```ts highlights={enumHighlights}
+import { model } from "@medusajs/framework/utils"
+
+const Post = model.define("post", {
+  color: model.enum(["black", "white"]),
+  // ...
+})
+
+export default Post
+```
+
+The `enum` method accepts an array of possible string values.
+
+### dateTime
+
+The `dateTime` method defines a timestamp property.
+
+For example:
+
+export const dateTimeHighlights = [["4", "dateTime", "Define a `dateTime` property."]]
+
+```ts highlights={dateTimeHighlights}
+import { model } from "@medusajs/framework/utils"
+
+const Post = model.define("post", {
+  date_of_birth: model.dateTime(),
+  // ...
+})
+
+export default Post
+```
+
+### json
+
+The `json` method defines a property whose value is a stringified JSON object.
+
+For example:
+
+export const jsonHighlights = [["4", "json", "Define a `json` property."]]
+
+```ts highlights={jsonHighlights}
+import { model } from "@medusajs/framework/utils"
+
+const Post = model.define("post", {
+  metadata: model.json(),
+  // ...
+})
+
+export default Post
+```
+
+### array
+
+The `array` method defines an array of strings property.
+
+For example:
+
+export const arrHightlights = [["4", "array", "Define an `array` property."]]
+
+```ts highlights={arrHightlights}
+import { model } from "@medusajs/framework/utils"
+
+const Post = model.define("post", {
+  names: model.array(),
+  // ...
+})
+
+export default Post
+```
+
+### Properties Reference
+
+Refer to the [Data Model Language (DML) reference](!resources!/references/data-model) for a full reference of the properties.
+
+---
+
+## Set Primary Key Property
+
+To set any `id`, `text`, or `number` property as a primary key, use the `primaryKey` method.
+
+For example:
+
+export const highlights = [
+  ["4", "primaryKey", "Define the `id` property to be the data model's primary key."]
+]
+
+```ts highlights={highlights}
+import { model } from "@medusajs/framework/utils"
+
+const Post = model.define("post", {
+  id: model.id().primaryKey(),
+  // ...
+})
+
+export default Post
+```
+
+In the example above, the `id` property is defined as the data model's primary key.
+
+---
+
+## Property Default Value
+
+Use the `default` method on a property's definition to specify the default value of a property.
+
+For example:
+
+export const defaultHighlights = [
+  ["6", "default", "Set the default value to `black`."],
+  ["9", "default", "Set the default value to `0`."]
+]
+
+```ts highlights={defaultHighlights}
+import { model } from "@medusajs/framework/utils"
+
+const Post = model.define("post", {
+  color: model
+    .enum(["black", "white"])
+    .default("black"),
+  age: model
+    .number()
+    .default(0),
+  // ...
+})
+
+export default Post
+```
+
+In this example, you set the default value of the `color` enum property to `black`, and that of the `age` number property to `0`.
+
+---
+
+## Make Property Optional
+
+Use the `nullable` method to indicate that a property’s value can be `null`. This is useful when you want a property to be optional.
+
+For example:
+
+export const nullableHighlights = [
+  ["4", "nullable", "Configure the `price` property to allow `null` values."]
+]
+
+```ts highlights={nullableHighlights}
+import { model } from "@medusajs/framework/utils"
+
+const Post = model.define("post", {
+  price: model.bigNumber().nullable(),
+  // ...
+})
+
+export default Post
+```
+
+In the example above, the `price` property is configured to allow `null` values, making it optional.
+
+---
+
+## Unique Property
+
+The `unique` method indicates that a property’s value must be unique in the database through a unique index.
+
+For example:
+
+export const uniqueHighlights = [
+  ["4", "unique", "Configure the `email` property to allow unique values only."]
+]
+
+```ts highlights={uniqueHighlights}
+import { model } from "@medusajs/framework/utils"
+
+const User = model.define("user", {
+  email: model.text().unique(),
+  // ...
+})
+
+export default User
+```
+
+In this example, multiple users can’t have the same email.
+
+---
+
+## Define Database Index on Property
+
+Use the `index` method on a property's definition to define a database index.
+
+For example:
+
+export const dbIndexHighlights = [
+  ["5", "index", "Define an index on the `name` property."],
+  ["6", '"IDX_MY_CUSTOM_NAME"', "Index name is optional."]
+]
+
+```ts highlights={dbIndexHighlights}
+import { model } from "@medusajs/framework/utils"
+
+const Post = model.define("post", {
+  id: model.id().primaryKey(),
+  name: model.text().index(
+    "IDX_MY_CUSTOM_NAME"
+  ),
+})
+
+export default Post
+```
+
+The `index` method optionally accepts the name of the index as a parameter.
+
+In this example, you define an index on the `name` property.
+
+---
+
+## Define a Searchable Property
+
+Methods generated by the [service factory](../../modules/service-factory/page.mdx) that accept filters, such as `list{ModelName}s`, accept a `q` property as part of the filters.
+
+When the `q` filter is passed, the data model's searchable properties are queried to find matching records.
+
+Use the `searchable` method on a `text` property to indicate that it's searchable.
+
+For example:
+
+export const searchableHighlights = [
+  ["4", "searchable", "Define the `title` property as searchable."]
+]
+
+```ts highlights={searchableHighlights}
+import { model } from "@medusajs/framework/utils"
+
+const Post = model.define("post", {
+  title: model.text().searchable(),
+  // ...
+})
+
+export default Post
+```
+
+In this example, the `title` property is searchable.
+
+### Search Example
+
+If you pass a `q` filter to the `listPosts` method:
+
+```ts
+const posts = await blogModuleService.listPosts({
+  q: "New Products",
+})
+```
+
+This retrieves records that include `New Products` in their `title` property.

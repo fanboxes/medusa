@@ -20,6 +20,7 @@ import {
 import clsx from "clsx"
 // @ts-expect-error can't install the types package because it doesn't support React v19
 import { CSSTransition, SwitchTransition } from "react-transition-group"
+import { searchFilters } from "../.."
 
 export type SearchCommand = {
   name: string
@@ -87,36 +88,8 @@ export const SearchProvider = ({
           "requests" in searchParams ? searchParams.requests : searchParams
         // always send this request, which is the main request with no filters
         const mainRequest = requests[0]
-
-        // retrieve only requests that have filters
-        // this is to ensure that we show no result if no filter is selected
-        const requestsWithFilters = requests.filter((item) => {
-          if (
-            !item.params ||
-            typeof item.params !== "object" ||
-            !("tagFilters" in item.params)
-          ) {
-            return false
-          }
-
-          const tagFilters = item.params.tagFilters as string[]
-
-          // if no tag filters are specified, there's still one item,
-          // which is an empty array
-          return tagFilters.length >= 1 && tagFilters[0].length > 0
-        })
-
-        // check whether a query is entered in the search box
-        const noQueries = requestsWithFilters.every(
-          (item) =>
-            !item.facetQuery &&
-            (!item.params ||
-              typeof item.params !== "object" ||
-              !("query" in item.params) ||
-              !item.params.query)
-        )
-
-        if (noQueries) {
+        const params = (mainRequest.params || {}) as Record<string, unknown>
+        if (!params.query) {
           return Promise.resolve({
             results: requests.map(() => ({
               hits: [],
@@ -132,36 +105,75 @@ export const SearchProvider = ({
           })
         }
 
-        // split requests per tags
-        const newRequests: typeof requestsWithFilters = [mainRequest]
-        for (const request of requestsWithFilters) {
-          const params = request.params as Record<string, unknown>
-          const tagFilters = (params.tagFilters as string[][])[0]
-
-          // if only one tag is selected, keep the request as-is
-          if (tagFilters.length === 1) {
-            newRequests.push(request)
-
-            continue
+        // retrieve only requests that have filters
+        // this is to ensure that we show no result if no filter is selected
+        const requestsWithFilters = requests.filter((item) => {
+          if (
+            !item.params ||
+            typeof item.params !== "object" ||
+            !("facetFilters" in item.params)
+          ) {
+            return false
           }
 
-          // if multiple tags are selected, split the tags
-          // to retrieve a small subset of results per each tag.
-          newRequests.push(
-            ...tagFilters.map((tag) => ({
-              ...request,
-              params: {
-                ...params,
-                tagFilters: [tag],
-              },
-              hitsPerPage: 4,
-            }))
-          )
+          const facetFilters = item.params.facetFilters as string[]
+
+          // if no tag filters are specified, there's still one item,
+          // which is an empty array
+          return facetFilters.length >= 1 && facetFilters[0].length > 0
+        })
+
+        // check whether a query is entered in the search box
+        const noQueries = requestsWithFilters.every(
+          (item) =>
+            !item.facetQuery &&
+            (!item.params ||
+              typeof item.params !== "object" ||
+              !("query" in item.params) ||
+              !item.params.query)
+        )
+
+        const newRequests: typeof requestsWithFilters = [mainRequest]
+        if (!noQueries) {
+          // split requests per tags
+          for (const request of requestsWithFilters) {
+            const params = request.params as Record<string, unknown>
+            const facetFilters = (params.facetFilters as string[][])[0]
+
+            // if only one tag is selected, keep the request as-is
+            if (facetFilters.length === 1) {
+              newRequests.push(request)
+
+              continue
+            }
+
+            // if multiple tags are selected, split the tags
+            // to retrieve a small subset of results per each tag.
+            newRequests.push(
+              ...facetFilters.map((tag) => {
+                // get the filter's details in case it has custom hitsPerPage
+                const filterDetails = searchFilters.find(
+                  (item) => `_tags:${item.value}` === tag
+                )
+                return {
+                  ...request,
+                  params: {
+                    ...params,
+                    facetFilters: [tag],
+                  },
+                  hitsPerPage: filterDetails?.hitsPerPage || 3,
+                }
+              })
+            )
+          }
         }
 
         return algoliaClient
           .search<SearchHits>(newRequests)
           .then((response) => {
+            if (newRequests.length === 1) {
+              return response
+            }
             // combine results of the same index and return the results
             const resultsByIndex: {
               [indexName: string]: SearchResponse<SearchHits>
@@ -194,9 +206,28 @@ export const SearchProvider = ({
               }
             })
 
+            const newResults = Object.values(resultsByIndex).flatMap(
+              (result) => ({
+                ...result,
+                hits: ("hits" in result ? result.hits : []).sort((a, b) => {
+                  const typosA = a._rankingInfo?.nbTypos || 0
+                  const typosB = b._rankingInfo?.nbTypos || 0
+                  if (a.type === "lvl1" && typosA <= typosB) {
+                    return -1
+                  }
+
+                  if (b.type === "lvl1" && typosB <= typosA) {
+                    return 1
+                  }
+
+                  return 0
+                }),
+              })
+            )
+
             return {
               // append the results with the main request's results
-              results: [mainResult, ...Object.values(resultsByIndex)],
+              results: [mainResult, ...newResults],
             } as SearchResponses<any>
           })
       },
@@ -239,7 +270,7 @@ export const SearchProvider = ({
           "!p-0 overflow-hidden relative h-full",
           "flex flex-col justify-between"
         )}
-        modalContainerClassName="!h-[480px] max-h-[480px]"
+        modalContainerClassName="!h-[95%] max-h-[95%] md:!h-[480px] md:max-h-[480px]"
         open={isOpen}
         onClose={() => setIsOpen(false)}
         passedRef={modalRef}

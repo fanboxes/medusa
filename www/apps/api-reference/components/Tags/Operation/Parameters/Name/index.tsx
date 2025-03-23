@@ -1,11 +1,11 @@
-import type { SchemaObject } from "@/types/openapi"
+import type { OpenAPI } from "types"
 import { Badge, ExpandableNotice, FeatureFlagNotice } from "docs-ui"
 import { Fragment } from "react"
 
 export type TagOperationParametersNameProps = {
   name: string
   isRequired?: boolean
-  schema: SchemaObject
+  schema: OpenAPI.SchemaObject
 }
 
 const TagOperationParametersName = ({
@@ -94,7 +94,7 @@ const TagOperationParametersName = ({
 
 export default TagOperationParametersName
 
-function formatArrayDescription(schema?: SchemaObject) {
+function formatArrayDescription(schema?: OpenAPI.SchemaObject) {
   if (!schema) {
     return "Array"
   }
@@ -107,7 +107,7 @@ function formatArrayDescription(schema?: SchemaObject) {
   return `Array of ${type}`
 }
 
-function formatUnionDescription(arr?: SchemaObject[]) {
+function formatUnionDescription(arr?: OpenAPI.SchemaObject[]) {
   const types = [...new Set(arr?.map((type) => type.type || "object"))]
   return <>{types.join(" or ")}</>
 }

@@ -1,0 +1,33 @@
+If you receive the following error response when you send a request to a `/store` route:
+
+```json
+{
+  "type": "not_allowed",
+  "message": "Publishable API key required in the request header: x-publishable-api-key. You can manage your keys in settings in the dashboard."
+}
+```
+
+## Why this Error Occurred
+
+This error occurs because the request is missing the `x-publishable-api-key` header. The `x-publishable-api-key` header is required for all requests to the `/store` route.
+
+---
+
+## How to Fix it
+
+To resolve this error, add the `x-publishable-api-key` header to your request. You can find your publishable API key in the [Medusa Admin Dashboard](!user-guide!/settings/developer/publishable-api-keys).
+
+For example:
+
+```bash
+curl -X GET https://localhost:9000/store/products \
+  -H "x-publishable-api-key: your-publishable-api-key"
+```
+
+Where `your-publishable-api-key` is your publishable API key.
+
+---
+
+## Additional Resources
+
+- [API reference](!api!/store#publishable-api-key)

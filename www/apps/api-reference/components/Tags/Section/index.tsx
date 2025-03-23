@@ -1,6 +1,5 @@
 "use client"
 
-import getSectionId from "@/utils/get-section-id"
 import { InView } from "react-intersection-observer"
 import { useEffect, useMemo, useState } from "react"
 import {
@@ -22,15 +21,16 @@ import SectionDivider from "../../Section/Divider"
 import clsx from "clsx"
 import { Feedback, Loading, Link } from "docs-ui"
 import { usePathname, useRouter } from "next/navigation"
-import { PathsObject, SchemaObject, TagObject } from "@/types/openapi"
+import { OpenAPI } from "types"
 import TagSectionSchema from "./Schema"
 import checkElementInViewport from "../../../utils/check-element-in-viewport"
 import TagPaths from "../Paths"
 import useSWR from "swr"
 import basePathUrl from "../../../utils/base-path-url"
+import { getSectionId } from "docs-utils"
 
 export type TagSectionProps = {
-  tag: TagObject
+  tag: OpenAPI.TagObject
 } & React.HTMLAttributes<HTMLDivElement>
 
 const Section = dynamic<SectionProps>(
@@ -62,7 +62,7 @@ const TagSectionComponent = ({ tag }: TagSectionProps) => {
     return isElmWindow(scrollableElement) ? document.body : scrollableElement
   }, [scrollableElement, isBrowser])
   const { data: schemaData } = useSWR<{
-    schema: SchemaObject
+    schema: OpenAPI.SchemaObject
   }>(
     loadData && tag["x-associatedSchema"]
       ? basePathUrl(
@@ -75,7 +75,7 @@ const TagSectionComponent = ({ tag }: TagSectionProps) => {
     }
   )
   const { data: pathsData } = useSWR<{
-    paths: PathsObject
+    paths: OpenAPI.PathsObject
   }>(
     loadData ? basePathUrl(`/tag?tagName=${slugTagName}&area=${area}`) : null,
     swrFetcher,

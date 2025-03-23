@@ -1,14 +1,14 @@
-import type { PropertiesObject, SchemaObject } from "@/types/openapi"
+import type { OpenAPI } from "types"
 
 export default function mergeAllOfTypes(
-  allOfSchema: SchemaObject
-): SchemaObject {
+  allOfSchema: OpenAPI.SchemaObject
+): OpenAPI.SchemaObject {
   if (!allOfSchema.allOf) {
     // return whatever the schema is
     return allOfSchema
   }
   // merge objects' properties in this var
-  let properties: PropertiesObject = {}
+  let properties: OpenAPI.PropertiesObject = {}
   let foundObjects = false
 
   allOfSchema.allOf.forEach((item) => {

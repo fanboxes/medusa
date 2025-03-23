@@ -28,7 +28,7 @@ const [file] = await fileModuleService.createFiles([{
 
 #### Returns
 
-<TypeList types={[{"name":"Promise","type":"Promise&#60;[FileDTO](../types.FileTypes.FileDTO/page.mdx)[]&#62;","optional":false,"defaultValue":"","description":"The created files.","expandable":false,"children":[{"name":"FileDTO[]","type":"[FileDTO](../types.FileTypes.FileDTO/page.mdx)[]","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"FileDTO","type":"`object`","description":"The File details.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" sectionTitle="createFiles"/>
+<TypeList types={[{"name":"Promise","type":"Promise&#60;[FileDTO](../types.FileTypes.FileDTO/page.mdx)[]&#62;","optional":false,"defaultValue":"","description":"The created files.","expandable":false,"children":[{"name":"FileDTO[]","type":"[FileDTO](../types.FileTypes.FileDTO/page.mdx)[]","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"id","type":"`string`","description":"The ID of the File.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"url","type":"`string`","description":"The URL of the File.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" sectionTitle="createFiles"/>
 
 `**createFiles**(data, sharedContext?): Promise&#60;[FileDTO](../types.FileTypes.FileDTO/page.mdx)&#62;`
 
@@ -50,7 +50,7 @@ const file = await fileModuleService.createFiles({
 
 #### Returns
 
-<TypeList types={[{"name":"Promise","type":"Promise&#60;[FileDTO](../types.FileTypes.FileDTO/page.mdx)&#62;","optional":false,"defaultValue":"","description":"The created file.","expandable":false,"children":[{"name":"FileDTO","type":"[FileDTO](../types.FileTypes.FileDTO/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"id","type":"`string`","description":"The ID of the File.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"url","type":"`string`","description":"The URL of the File.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" sectionTitle="createFiles"/>
+<TypeList types={[{"name":"Promise","type":"Promise&#60;[FileDTO](../types.FileTypes.FileDTO/page.mdx)&#62;","optional":false,"defaultValue":"","description":"The created file.","expandable":false,"children":[{"name":"id","type":"`string`","description":"The ID of the File.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"url","type":"`string`","description":"The URL of the File.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" sectionTitle="createFiles"/>
 
 ### deleteFiles
 
@@ -106,7 +106,7 @@ const file = await fileModuleService.retrieveFile("file_123")
 
 #### Returns
 
-<TypeList types={[{"name":"Promise","type":"Promise&#60;[FileDTO](../types.FileTypes.FileDTO/page.mdx)&#62;","optional":false,"defaultValue":"","description":"The retrieved file.","expandable":false,"children":[{"name":"FileDTO","type":"[FileDTO](../types.FileTypes.FileDTO/page.mdx)","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"id","type":"`string`","description":"The ID of the File.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"url","type":"`string`","description":"The URL of the File.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" sectionTitle="retrieveFile"/>
+<TypeList types={[{"name":"Promise","type":"Promise&#60;[FileDTO](../types.FileTypes.FileDTO/page.mdx)&#62;","optional":false,"defaultValue":"","description":"The retrieved file.","expandable":false,"children":[{"name":"id","type":"`string`","description":"The ID of the File.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"url","type":"`string`","description":"The URL of the File.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" sectionTitle="retrieveFile"/>
 
 ### listFiles
 
@@ -118,7 +118,7 @@ This method is used to retrieve a file by ID, similarly to `retrieve`. Enumerati
 
 #### Returns
 
-<TypeList types={[{"name":"Promise","type":"Promise&#60;[FileDTO](../types.FileTypes.FileDTO/page.mdx)[]&#62;","optional":false,"defaultValue":"","description":"The list of files. In this particular case, it will either be at most one file.","expandable":false,"children":[{"name":"FileDTO[]","type":"[FileDTO](../types.FileTypes.FileDTO/page.mdx)[]","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"FileDTO","type":"`object`","description":"The File details.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" sectionTitle="listFiles"/>
+<TypeList types={[{"name":"Promise","type":"Promise&#60;[FileDTO](../types.FileTypes.FileDTO/page.mdx)[]&#62;","optional":false,"defaultValue":"","description":"The list of files. In this particular case, it will either be at most one file.","expandable":false,"children":[{"name":"FileDTO[]","type":"[FileDTO](../types.FileTypes.FileDTO/page.mdx)[]","optional":false,"defaultValue":"","description":"","expandable":false,"children":[{"name":"id","type":"`string`","description":"The ID of the File.","optional":false,"defaultValue":"","expandable":false,"children":[]},{"name":"url","type":"`string`","description":"The URL of the File.","optional":false,"defaultValue":"","expandable":false,"children":[]}]}]}]} expandUrl="https://docs.medusajs.com/learn/fundamentals/data-models/manage-relationships#retrieve-records-of-relation" sectionTitle="listFiles"/>
 
 ### listAndCountFiles
 

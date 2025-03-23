@@ -239,7 +239,6 @@ class OasKindGenerator extends FunctionKindGenerator {
     node: ts.Node | FunctionOrVariableNode,
     options?: GetDocBlockOptions
   ): Promise<string> {
-    // TODO use AiGenerator to generate descriptions + examples
     if (!this.isAllowed(node)) {
       return await super.getDocBlock(node, options)
     }

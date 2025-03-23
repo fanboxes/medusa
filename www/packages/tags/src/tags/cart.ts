@@ -28,6 +28,10 @@ export const cart = [
     "path": "https://docs.medusajs.com/resources/storefront-development/cart/retrieve"
   },
   {
+    "title": "Show Cart Totals",
+    "path": "https://docs.medusajs.com/resources/storefront-development/cart/totals"
+  },
+  {
     "title": "Update Cart in Storefront",
     "path": "https://docs.medusajs.com/resources/storefront-development/cart/update"
   },

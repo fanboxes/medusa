@@ -21,6 +21,7 @@ import { useSiteConfig } from "../SiteConifg"
 import { useIsBrowser } from "../BrowserProvider"
 import { getScrolledTop } from "../../utils"
 import { usePathname, useRouter } from "next/navigation"
+import { SidebarItemCategory, SidebarItemSidebar } from "types/dist/sidebar"
 
 export type SidebarActionOptions = {
   sidebar_id: string
@@ -53,6 +54,24 @@ export type SidebarStyleOptions = {
   disableActiveTransition?: boolean
 }
 
+export type UpdateSidebarItemTypes =
+  | Partial<Pick<Sidebar.SidebarItemLink, "path" | "title" | "additionalElms">>
+  | Partial<
+      Pick<SidebarItemCategory, "title" | "loaded" | "onOpen" | "children">
+    >
+  | Partial<Pick<SidebarItemSidebar, "title" | "children">>
+
+export type UpdateActionType = {
+  sidebar_id: string
+  items: {
+    existingItem: Sidebar.SidebarItem
+    newItem: UpdateSidebarItemTypes
+    options?: {
+      setChildrenBehavior: "replace" | "merge"
+    }
+  }[]
+}
+
 export type SidebarContextType = {
   sidebars: Sidebar.Sidebar[]
   /**
@@ -75,6 +94,7 @@ export type SidebarContextType = {
     items: Sidebar.SidebarItem[],
     options?: SidebarActionOptions
   ) => void
+  updateItems: (options: UpdateActionType) => void
   removeItems: (options: {
     items: Sidebar.SidebarItem[]
     sidebar_id: string
@@ -125,7 +145,7 @@ export const SidebarContext = createContext<SidebarContextType | null>(null)
 
 export type ActionType =
   | {
-      type: "add" | "update"
+      type: "add" | "update-child"
       items: Sidebar.SidebarItem[]
       options?: SidebarActionOptions
     }
@@ -138,32 +158,73 @@ export type ActionType =
       items: Sidebar.SidebarItem[]
       sidebar_id: string
     }
+  | ({
+      type: "update"
+    } & UpdateActionType)
 
 export const reducer = (
   state: Sidebar.Sidebar[],
   actionData: ActionType
 ): Sidebar.Sidebar[] => {
-  if (actionData.type === "replace") {
-    return actionData.sidebars
-  }
-  if (actionData.type === "remove") {
-    const { sidebar_id, items: itemsToRemove } = actionData
-    return state.map((sidebar) => {
-      if (sidebar.sidebar_id === sidebar_id) {
-        return {
-          ...sidebar,
-          items: sidebar.items.filter((item) => {
-            return !itemsToRemove.some((itemToRemove) =>
-              areSidebarItemsEqual({
-                itemA: item,
-                itemB: itemToRemove,
-              })
-            )
-          }),
+  switch (actionData.type) {
+    case "replace":
+      return actionData.sidebars
+    case "remove": {
+      const { sidebar_id, items: itemsToRemove } = actionData
+      return state.map((sidebar) => {
+        if (sidebar.sidebar_id === sidebar_id) {
+          return {
+            ...sidebar,
+            items: sidebar.items.filter((item) => {
+              return !itemsToRemove.some((itemToRemove) =>
+                areSidebarItemsEqual({
+                  itemA: item,
+                  itemB: itemToRemove,
+                })
+              )
+            }),
+          }
         }
-      }
-      return sidebar
-    })
+        return sidebar
+      })
+    }
+    case "update":
+      return state.map((sidebar) => {
+        if (sidebar.sidebar_id === actionData.sidebar_id) {
+          return {
+            ...sidebar,
+            items: sidebar.items.map((item) => {
+              const itemToUpdate = actionData.items.find((i) =>
+                areSidebarItemsEqual({
+                  itemA: item,
+                  itemB: i.existingItem,
+                })
+              )
+              if (itemToUpdate) {
+                const updatedItem = {
+                  ...item,
+                  ...itemToUpdate.newItem,
+                } as Sidebar.SidebarItem
+
+                if ("children" in updatedItem) {
+                  updatedItem.children =
+                    itemToUpdate.options?.setChildrenBehavior === "merge"
+                      ? [
+                          ...((item as Sidebar.InteractiveSidebarItem)
+                            .children || []),
+                          ...(updatedItem.children || []),
+                        ]
+                      : updatedItem.children
+                }
+
+                return updatedItem
+              }
+              return item
+            }),
+          }
+        }
+        return sidebar
+      })
   }
 
   const { type, options } = actionData
@@ -207,7 +268,7 @@ export const reducer = (
         },
         ...state.slice(sidebarIndex + 1),
       ]
-    case "update":
+    case "update-child":
       // find item index
       return [
         ...state.slice(0, sidebarIndex),
@@ -406,9 +467,17 @@ export const SidebarProvider = ({
     options?: SidebarActionOptions
   ) => {
     dispatch({
-      type: options?.parent ? "update" : "add",
+      type: options?.parent ? "update-child" : "add",
       items: newItems,
       options,
+    })
+  }
+
+  const updateItems = ({ sidebar_id, items }: UpdateActionType) => {
+    dispatch({
+      type: "update",
+      items,
+      sidebar_id,
     })
   }
 
@@ -452,22 +521,24 @@ export const SidebarProvider = ({
     }
   }, [shouldHandleHashChange])
 
+  const handleScroll = useCallback(() => {
+    const scrolledTop = getScrolledTop(resolvedScrollableElement)
+    // account for navbar height
+    if (scrolledTop >= 0 && scrolledTop <= 56) {
+      const firstChild = getFirstLinkChild(activeMainSidebar.items)
+
+      if (firstChild) {
+        setActivePath(firstChild.path)
+        router.push(`#${firstChild.path}`, {
+          scroll: false,
+        })
+      }
+    }
+  }, [activeMainSidebar, resolvedScrollableElement])
+
   useEffect(() => {
     if (!shouldHandleHashChange || !resolvedScrollableElement) {
       return
-    }
-
-    const handleScroll = () => {
-      if (getScrolledTop(resolvedScrollableElement) === 0) {
-        const firstChild = getFirstLinkChild(activeMainSidebar.items)
-
-        if (firstChild) {
-          setActivePath(firstChild.path)
-          router.push(`#${firstChild.path}`, {
-            scroll: false,
-          })
-        }
-      }
     }
 
     resolvedScrollableElement.addEventListener("scroll", handleScroll)
@@ -475,7 +546,7 @@ export const SidebarProvider = ({
     return () => {
       resolvedScrollableElement.removeEventListener("scroll", handleScroll)
     }
-  }, [shouldHandleHashChange, resolvedScrollableElement])
+  }, [shouldHandleHashChange, resolvedScrollableElement, handleScroll])
 
   useEffect(() => {
     if (!shouldHandleHashChange || !isBrowser) {
@@ -635,6 +706,7 @@ export const SidebarProvider = ({
         setActivePath,
         isItemActive,
         addItems,
+        updateItems,
         removeItems,
         mobileSidebarOpen,
         setMobileSidebarOpen,

@@ -1,4 +1,4 @@
-import type { SchemaObject } from "@/types/openapi"
+import type { OpenAPI } from "types"
 import clsx from "clsx"
 import dynamic from "next/dynamic"
 import { useState } from "react"
@@ -31,7 +31,7 @@ const TagsOperationParametersNested =
   ) as React.FC<TagsOperationParametersNestedProps>
 
 export type TagOperationParamatersOneOfProps = {
-  schema: SchemaObject
+  schema: OpenAPI.SchemaObject
   isRequired?: boolean
   isNested?: boolean
 }
@@ -43,7 +43,7 @@ const TagOperationParamatersOneOf = ({
 }: TagOperationParamatersOneOfProps) => {
   const [activeTab, setActiveTab] = useState<number>(0)
 
-  const getName = (item: SchemaObject): string => {
+  const getName = (item: OpenAPI.SchemaObject): string => {
     if (item.title) {
       return item.title
     }
