@@ -12,52 +12,29 @@ export const metadata = {
 
 # {metadata.title}
 
-In this document, you'll learn how to manage a customer's addresses in a storefront.
+In this guide, you'll learn how to manage a customer's addresses in a storefront. This is useful in the customer's profile page, or when the customer adds an address during checkout and you want to save it for future orders.
 
 ## List Customer Addresses
 
 To retrieve the list of customer addresses, send a request to the [List Customer Addresses API route](!api!/store#customers_getcustomersmeaddressesaddress_id):
 
+<Note title="Tip">
+
+- Learn how to install and configure the JS SDK in the [JS SDK documentation](../../../js-sdk/page.mdx).
+- Since only authenticated customers can view their addresses, this example assumes that the JS SDK is already configured for authentication and the customer's authentication token was set as explained in the [Login in Storefront](../login/page.mdx) and [Third-Party Login](../third-party-login/page.mdx) guides.
+
+</Note>
+
 <CodeTabs group="store-request">
-  <CodeTab label="Fetch API" value="fetch">
-
-export const fetchHighlights = [
-  ["2", "limit", "The number of addresses to retrieve"],
-  ["3", "offset", "The number of addresses to skip before those retrieved."],
-]
-
-  ```ts highlights={fetchHighlights}
-  const searchParams = new URLSearchParams({
-    limit: `${limit}`,
-    offset: `${offset}`,
-  })
-
-  fetch(`http://localhost:9000/store/customers/me/addresses?${
-    searchParams.toString()
-  }`, {
-    credentials: "include",
-    headers: {
-      "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-    },
-  })
-  .then((res) => res.json())
-  .then(({ addresses, count }) => {
-    // use addresses...
-    console.log(addresses, count)
-  })
-  ```
-
-  </CodeTab>
   <CodeTab label="React" value="react">
 
 export const highlights = [
-  ["20", "offset", "Calculate the number of addresses to skip based on the current page and limit."],
-  ["27", "fetch", "Send a request to retrieve the addresses."],
-  ["28", "searchParams.toString()", "Pass the pagination parameters in the query."], 
-  ["36", "count", "The total number of addresses in the Medusa application."],
-  ["48", "setHasMorePages", "Set whether there are more pages based on the total count."],
-  ["62", "", "Using only two address fields for simplicity."],
-  ["68", "button", "Show a button to load more addresses if there are more pages."]
+  ["21", "offset", "Calculate the number of addresses to skip based on the current page and limit."],
+  ["23", "listAddress", "Send a request to retrieve the addresses."],
+  ["27", "count", "The total number of addresses in the Medusa application."],
+  ["39", "setHasMorePages", "Set whether there are more pages based on the total count."],
+  ["52", "", "Using only two address fields for simplicity."],
+  ["59", "button", "Show a button to load more addresses if there are more pages."]
 ]
 
   ```tsx highlights={highlights} collapsibleLines="50-77" expandButtonLabel="Show render"
@@ -65,6 +42,7 @@ export const highlights = [
 
   import { HttpTypes } from "@medusajs/types"
   import { useEffect, useState } from "react"
+  import { sdk } from "@/lib/sdk"
 
   export default function Addresses() {
     const [addresses, setAddresses] = useState<
@@ -82,20 +60,10 @@ export const highlights = [
 
       const offset = (currentPage - 1) * limit
 
-      const searchParams = new URLSearchParams({
-        limit: `${limit}`,
-        offset: `${offset}`,
+      sdk.store.customer.listAddress({
+        limit,
+        offset,
       })
-
-      fetch(`http://localhost:9000/store/customers/me/addresses?${
-        searchParams.toString()
-      }`, {
-        credentials: "include",
-        headers: {
-          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-        },
-      })
-      .then((res) => res.json())
       .then(({ addresses: addressesData, count }) => {
         setAddresses((prev) => {
           if (prev.length > offset) {
@@ -144,9 +112,32 @@ export const highlights = [
   ```
 
   </CodeTab>
+  <CodeTab label="JS SDK" value="js-sdk">
+
+export const fetchHighlights = [
+  ["2", "limit", "The number of addresses to retrieve"],
+  ["3", "offset", "The number of addresses to skip before those retrieved."],
+]
+
+  ```ts highlights={fetchHighlights}
+  sdk.store.customer.listAddress({
+    limit,
+    offset,
+  })
+  .then(({ addresses, count }) => {
+    // use addresses...
+    console.log(addresses, count)
+  })
+  ```
+
+  </CodeTab>
 </CodeTabs>
 
-The [List Customer Addresses API route](!api!/store#customers_getcustomersmeaddresses) accepts pagination parameters to paginate the address. It returns in the response the `addresses` field, which is an array of addresses.
+The [List Customer Addresses API route](!api!/store#customers_getcustomersmeaddresses) accepts pagination parameters to paginate the address.
+
+The request returns in the response the `addresses` field, which is an array of addresses. You can check its structure in the [customer schema](!api!/store#customers_customer_schema).
+
+The request also returns the `count` field, which is the total number of addresses in the Medusa application. You can use it to check if there are more addresses to retrieve.
 
 ---
 
@@ -154,53 +145,31 @@ The [List Customer Addresses API route](!api!/store#customers_getcustomersmeaddr
 
 To add a new address for the customer, send a request to the [Add Customer Address API route](!api!/store#customers_postcustomersmeaddresses):
 
+<Note title="Tip">
+
+- This example uses the `useRegion` hook defined in the [Region Context guide](../../regions/context/page.mdx).
+- This example uses the `useCustomer` hook defined in the [Customer Context guide](../context/page.mdx).
+- Since only authenticated customers can add addresses, this example assumes that the JS SDK is already configured for authentication and the customer's authentication token was set as explained in the [Login in Storefront](../login/page.mdx) and [Third-Party Login](../third-party-login/page.mdx) guides.
+
+</Note>
+
 <CodeTabs group="store-request">
-  <CodeTab label="Fetch API" value="fetch">
-
-  ```ts
-  fetch(`http://localhost:9000/store/customers/me/addresses`, {
-    credentials: "include",
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-    },
-    body: JSON.stringify({
-      first_name: firstName,
-      last_name: lastName,
-      address_1: address1,
-      company,
-      postal_code: postalCode,
-      city,
-      country_code: countryCode,
-      province,
-      phone: phoneNumber,
-    }),
-  })
-  .then((res) => res.json())
-  .then(({ customer }) => {
-    // use customer
-    console.log(customer)
-  })
-  ```
-
-  </CodeTab>
   <CodeTab label="React" value="react">
 
 export const addHighlights = [
   ["4", "useRegion", "Use the hook defined in the Region Context guide."],
   ["5", "useCustomer", "Use the hook defined in the Customer Context guide."],
-  ["28"], ["29"], ["30"], ["31"], ["32"], ["33"], ["34"], ["35"], ["36"], ["37"],
-  ["38"], ["39"], ["40"], ["41"], ["42"], ["43"], ["44"], ["45"], ["46"], ["47"],
-  ["48"], ["49"], ["50"]
+  ["29"], ["30"], ["31"], ["32"], ["33"], ["34"], ["35"], ["36"], ["37"],
+  ["38"], ["39"], ["40"], ["41"], ["42"], ["43"],
 ]
 
-  ```tsx highlights={addHighlights} collapsibleLines="53-124" expandButtonLabel="Show form"
+  ```tsx highlights={addHighlights} collapsibleLines="46-117" expandButtonLabel="Show form"
   "use client" // include with Next.js 13+
 
   import { useState } from "react"
-  import { useRegion } from "../../../../providers/region"
-  import { useCustomer } from "../../../../providers/customer"
+  import { useRegion } from "@/providers/region"
+  import { useCustomer } from "@/providers/customer"
+  import { sdk } from "@/lib/sdk"
 
   export default function AddAddress() {
     const { region } = useRegion()
@@ -223,26 +192,17 @@ export const addHighlights = [
       e.preventDefault()
       setLoading(false)
 
-      fetch(`http://localhost:9000/store/customers/me/addresses`, {
-        credentials: "include",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-        },
-        body: JSON.stringify({
-          first_name: firstName,
-          last_name: lastName,
-          address_1: address1,
-          company,
-          postal_code: postalCode,
-          city,
-          country_code: countryCode,
-          province,
-          phone: phoneNumber,
-        }),
+      sdk.store.customer.createAddress({
+        first_name: firstName,
+        last_name: lastName,
+        address_1: address1,
+        company,
+        postal_code: postalCode,
+        city,
+        country_code: countryCode,
+        province,
+        phone: phoneNumber,
       })
-      .then((res) => res.json())
       .then(({ customer }) => {
         setCustomer(customer)
       })
@@ -324,9 +284,32 @@ export const addHighlights = [
   ```
 
   </CodeTab>
+  <CodeTab label="JS SDK" value="js-sdk">
+
+  ```ts
+  sdk.store.customer.createAddress({
+    first_name: firstName,
+    last_name: lastName,
+    address_1: address1,
+    company,
+    postal_code: postalCode,
+    city,
+    country_code: countryCode,
+    province,
+    phone: phoneNumber,
+  })
+  .then(({ customer }) => {
+    // use customer
+    console.log(customer)
+  })
+  ```
+
+  </CodeTab>
 </CodeTabs>
 
-The Add Address API route returns in the response a `customer` field, which is a [customer object](!api!/store#customers_customer_schema).
+In this example, you send a request to the [Add Customer Address API route](!api!/store#customers_postcustomersmeaddresses) to add a new address for the customer.
+
+The response of the request has a `customer` field, which is a [customer object](!api!/store#customers_customer_schema). You can access the new address in the `addresses` property of the customer object.
 
 ---
 
@@ -334,59 +317,32 @@ The Add Address API route returns in the response a `customer` field, which is a
 
 To edit an address, send a request to the [Update Customer Address API route](!api!/store#customers_postcustomersmeaddressesaddress_id):
 
+<Note title="Tip">
+
+- This example uses the `useRegion` hook defined in the [Region Context guide](../../regions/context/page.mdx).
+- This example uses the `useCustomer` hook defined in the [Customer Context guide](../context/page.mdx).
+- Since only authenticated customers can edit their addresses, this example assumes that the JS SDK is already configured for authentication and the customer's authentication token was set as explained in the [Login in Storefront](../login/page.mdx) and [Third-Party Login](../third-party-login/page.mdx) guides.
+
+</Note>
+
 <CodeTabs group="store-request">
-  <CodeTab label="Fetch API" value="fetch">
-
-  ```ts
-  fetch(
-    `http://localhost:9000/store/customers/me/addresses/${
-      address.id
-    }`,
-    {
-      credentials: "include",
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-      },
-      body: JSON.stringify({
-        first_name: firstName,
-        last_name: lastName,
-        address_1: address1,
-        company,
-        postal_code: postalCode,
-        city,
-        country_code: countryCode,
-        province,
-        phone: phoneNumber,
-      }),
-    }
-  )
-  .then((res) => res.json())
-  .then(({ customer }) => {
-    // use customer...
-    console.log(customer)
-  })
-  ```
-
-  </CodeTab>
   <CodeTab label="React" value="react">
 
 export const editHighlights = [
   ["4", "useRegion", "Use the hook defined in the Region Context guide."],
   ["5", "useCustomer", "Use the hook defined in the Customer Context guide."],
-  ["17", "address", "Retrieve the address from the customer's `addresses` property."],
-  ["58"], ["59"], ["60"], ["61"], ["62"], ["63"], ["64"], ["65"], ["66"], ["67"],
-  ["68"], ["69"], ["70"], ["71"], ["72"], ["73"], ["74"], ["75"], ["76"], ["77"],
-  ["78"], ["79"], ["80"]
+  ["18", "address", "Retrieve the address from the customer's `addresses` property."],
+  ["59"], ["60"], ["61"], ["62"], ["63"], ["64"], ["65"], ["66"], ["67"],
+  ["68"], ["69"], ["70"], ["71"], ["72"], ["73"],
 ]
 
-  ```tsx highlights={editHighlights} collapsibleLines="90-161" expandButtonLabel="Show form"
+  ```tsx highlights={editHighlights} collapsibleLines="76-147" expandButtonLabel="Show form"
   "use client" // include with Next.js 13+
 
   import { useState } from "react"
-  import { useRegion } from "../../../../../providers/region"
-  import { useCustomer } from "../../../../../providers/customer"
+  import { useRegion } from "@/providers/region"
+  import { useCustomer } from "@/providers/customer"
+  import { sdk } from "@/lib/sdk"
 
   type Props = {
     id: string
@@ -439,31 +395,17 @@ export const editHighlights = [
       }
       setLoading(true)
 
-      fetch(
-        `http://localhost:9000/store/customers/me/addresses/${
-          address.id
-        }`,
-        {
-          credentials: "include",
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-          },
-          body: JSON.stringify({
-            first_name: firstName,
-            last_name: lastName,
-            address_1: address1,
-            company,
-            postal_code: postalCode,
-            city,
-            country_code: countryCode,
-            province,
-            phone: phoneNumber,
-          }),
-        }
-      )
-      .then((res) => res.json())
+      sdk.store.customer.updateAddress(address.id, {
+        first_name: firstName,
+        last_name: lastName,
+        address_1: address1,
+        company,
+        postal_code: postalCode,
+        city,
+        country_code: countryCode,
+        province,
+        phone: phoneNumber,
+      })
       .then(({ customer }) => {
         setCustomer(customer)
       })
@@ -545,9 +487,32 @@ export const editHighlights = [
   ```
 
   </CodeTab>
+  <CodeTab label="JS SDK" value="js-sdk">
+
+  ```ts
+  sdk.store.customer.updateAddress(address.id, {
+    first_name: firstName,
+    last_name: lastName,
+    address_1: address1,
+    company,
+    postal_code: postalCode,
+    city,
+    country_code: countryCode,
+    province,
+    phone: phoneNumber,
+  })
+  .then(({ customer }) => {
+    // use customer...
+    console.log(customer)
+  })
+  ```
+
+  </CodeTab>
 </CodeTabs>
 
-The Update Address API route returns in the response a `customer` field, which is a [customer object](!api!/store#customers_customer_schema).
+In this example, you send a request to the [Update Customer Address API route](!api!/store#customers_postcustomersmeaddressesaddress_id) to edit an address.
+
+The response of the request has a `customer` field, which is a [customer object](!api!/store#customers_customer_schema). You can access the updated address in the `addresses` property of the customer object.
 
 ---
 
@@ -555,28 +520,25 @@ The Update Address API route returns in the response a `customer` field, which i
 
 To delete a customer's address, send a request to the [Delete Customer Address API route](!api!/store#customers_deletecustomersmeaddressesaddress_id):
 
+<Note title="Tip">
+
+Since only authenticated customers can delete their addresses, this example assumes that the JS SDK is already configured for authentication and the customer's authentication token was set as explained in the [Login in Storefront](../login/page.mdx) and [Third-Party Login](../third-party-login/page.mdx) guides.
+
+</Note>
+
 export const deleteHighlights = [
-  ["3", "addrId", "The ID of the address to delete."]
+  ["1", "addrId", "The ID of the address to delete."],
+  ["2", "parent", "The updated customer object."]
 ]
 
 ```ts highlights={deleteHighlights}
-fetch(
-  `http://localhost:9000/store/customers/me/addresses/${
-    addrId
-  }`,
-  {
-    credentials: "include",
-    headers: {
-      "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-    },
-    method: "DELETE",
-  }
-)
-.then((res) => res.json())
+sdk.store.customer.deleteAddress(addrId)
 .then(({ parent: customer }) => {
   // use customer...
   console.log(customer)
 })
 ```
 
-The Delete Customer Address API route returns a `parent` field in the response, which is a [customer object](!api!/store#customers_customer_schema).
+In this example, you send a request to the [Delete Customer Address API route](!api!/store#customers_deletecustomersmeaddressesaddress_id) to delete an address.
+
+The response of the request has a `parent` field, which is a [customer object](!api!/store#customers_customer_schema). You can access the updated customer in the `parent` property of the response.

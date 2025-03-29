@@ -43,7 +43,13 @@ export interface AdminPaymentFilters extends FindParams, BasePaymentFilters {
 export interface RefundReasonFilters
   extends FindParams,
     BaseFilterable<AdminRefundReason> {
+  /**
+   * Filter by refund reason ID(s).
+   */
   id?: string | string[]
+  /**
+   * Query or keywords to search the refund reason's searchable fields.
+   */
   q?: string
 }
 

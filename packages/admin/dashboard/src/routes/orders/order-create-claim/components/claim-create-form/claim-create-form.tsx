@@ -425,13 +425,15 @@ export const ClaimCreateForm = ({
     await updateReturn({ location_id: selectedLocationId })
   }
 
-  const onShippingOptionChange = async (selectedOptionId: string) => {
+  const onShippingOptionChange = async (
+    selectedOptionId: string | undefined
+  ) => {
     const inboundShippingMethods = preview.shipping_methods.filter((s) => {
       const action = s.actions?.find(
         (a) => a.action === "SHIPPING_ADD" && !!a.return_id
       )
 
-      return action && !action?.return_id
+      return action && !!action?.return_id
     })
 
     const promises = inboundShippingMethods
@@ -448,14 +450,16 @@ export const ClaimCreateForm = ({
 
     await Promise.all(promises)
 
-    await addInboundShipping(
-      { shipping_option_id: selectedOptionId },
-      {
-        onError: (error) => {
-          toast.error(error.message)
-        },
-      }
-    )
+    if (selectedOptionId) {
+      await addInboundShipping(
+        { shipping_option_id: selectedOptionId },
+        {
+          onError: (error) => {
+            toast.error(error.message)
+          },
+        }
+      )
+    }
   }
 
   useEffect(() => {
@@ -740,10 +744,11 @@ export const ClaimCreateForm = ({
                         <Form.Item>
                           <Form.Control>
                             <Combobox
+                              allowClear
                               value={value ?? undefined}
                               onChange={(val) => {
                                 onChange(val)
-                                val && onShippingOptionChange(val)
+                                onShippingOptionChange(val)
                               }}
                               {...field}
                               options={inboundShippingOptions.map((so) => ({

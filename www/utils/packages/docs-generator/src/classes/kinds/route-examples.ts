@@ -1,7 +1,6 @@
 import ts from "typescript"
 import { SyntaxKind } from "typescript"
 import DefaultKindGenerator, { GetDocBlockOptions } from "./default.js"
-import { API_ROUTE_PARAM_REGEX } from "../../constants.js"
 import type { RouteExamples } from "types"
 const EXAMPLE_CODEBLOCK_REGEX = /```(ts|typescript)\s*([.\s\S]*?)\s*```/
 
@@ -100,16 +99,34 @@ class RouteExamplesKindGenerator extends DefaultKindGenerator<ts.MethodDeclarati
       method: "",
     }
 
-    if (
-      node.kind === ts.SyntaxKind.StringLiteral ||
-      node.kind === ts.SyntaxKind.NoSubstitutionTemplateLiteral ||
-      node.kind === ts.SyntaxKind.TemplateExpression
-    ) {
-      const str = node
-        .getText()
-        .replace(/^["'`]|["'`]$/g, "")
-        .replace(API_ROUTE_PARAM_REGEX, `{$1}`)
-        .toLowerCase()
+    /**
+     * Internal function to maybe set the route result for a string
+     */
+    const maybeSetRouteResult = (str: string) => {
+      str = str.replace(/^["'`]|["'`]$/g, "")
+
+      // check if any of the template variables are local variables
+      const localVariables = this.getLocalVariables(node)
+      const templateVariables = str.match(/{(.+?)}/g) || []
+      for (const variable of templateVariables) {
+        const variableName = variable.slice(1, -1)
+        const localVariable = localVariables.get(variableName)
+        if (localVariable && localVariable.valueDeclaration) {
+          str = str.replace(
+            `$${variable}`,
+            this.getValueFromDeclaration(localVariable.valueDeclaration)
+          )
+        }
+      }
+
+      // replace the remaining template variables with correct OAS syntax
+      str = str.toLowerCase().replace(/\$\{(.+?)\}/g, `{$1}`)
+
+      // remove possible query params in string
+      const queryIndex = str.indexOf("?")
+      if (queryIndex > -1) {
+        str = str.slice(0, queryIndex)
+      }
       if (
         str.startsWith("/store") ||
         str.startsWith("/admin") ||
@@ -123,6 +140,26 @@ class RouteExamplesKindGenerator extends DefaultKindGenerator<ts.MethodDeclarati
         str === "delete"
       ) {
         result.method = str.toUpperCase()
+      }
+    }
+
+    if (
+      node.kind === ts.SyntaxKind.StringLiteral ||
+      node.kind === ts.SyntaxKind.NoSubstitutionTemplateLiteral ||
+      node.kind === ts.SyntaxKind.TemplateExpression
+    ) {
+      maybeSetRouteResult(node.getText())
+    } else if (
+      ts.isIdentifier(node) &&
+      ts.isCallExpression(node.parent) &&
+      node.parent.expression.getText().endsWith(".fetch")
+    ) {
+      const localVariables = this.getLocalVariables(node)
+      const variableSymbol = localVariables.get(node.getText())
+      if (variableSymbol?.valueDeclaration) {
+        maybeSetRouteResult(
+          this.getValueFromDeclaration(variableSymbol.valueDeclaration)
+        )
       }
     } else {
       node.forEachChild((child) => {
@@ -183,6 +220,26 @@ class RouteExamplesKindGenerator extends DefaultKindGenerator<ts.MethodDeclarati
 
     // Check for private class member
     return (node.flags & ts.ModifierFlags.Private) !== 0
+  }
+
+  getLocalVariables(node: ts.Node): Map<string, ts.Symbol> {
+    const sourceFile = node.getSourceFile()
+    return "locals" in sourceFile
+      ? (sourceFile.locals as Map<string, ts.Symbol>)
+      : new Map<string, ts.Symbol>()
+  }
+
+  getValueFromDeclaration(declaration: ts.Declaration) {
+    if (!ts.isVariableDeclaration(declaration)) {
+      return ""
+    }
+
+    const initializer = declaration.initializer
+    if (!initializer || !ts.isStringLiteral(initializer)) {
+      return ""
+    }
+
+    return initializer.getText().replace(/^["'`]|["'`]$/g, "")
   }
 }
 

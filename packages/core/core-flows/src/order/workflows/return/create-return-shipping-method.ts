@@ -22,6 +22,7 @@ import {
 import { prepareShippingMethod } from "../../utils/prepare-shipping-method"
 import { createOrderChangeActionsWorkflow } from "../create-order-change-actions"
 import { updateOrderTaxLinesWorkflow } from "../update-tax-lines"
+import { fetchShippingOptionForOrderWorkflow } from "../../utils/fetch-shipping-option"
 
 /**
  * The data to validate that a shipping method can be created for a return.
@@ -44,14 +45,14 @@ export type CreateReturnShippingMethodValidationStepInput = {
 /**
  * This step validates that a shipping method can be created for a return.
  * If the order or return is canceled, or the order change is not active, the step will throw an error.
- * 
+ *
  * :::note
- * 
+ *
  * You can retrieve an order, return, and order change details using [Query](https://docs.medusajs.com/learn/fundamentals/module-links/query),
  * or [useQueryGraphStep](https://docs.medusajs.com/resources/references/medusa-workflows/steps/useQueryGraphStep).
- * 
+ *
  * :::
- * 
+ *
  * @example
  * const data = createReturnShippingMethodValidationStep({
  *   order: {
@@ -113,10 +114,10 @@ export const createReturnShippingMethodWorkflowId =
 /**
  * This workflow creates a shipping method for a return. It's used by the
  * [Add Shipping Method Store API Route](https://docs.medusajs.com/api/admin#returns_postreturnsidshippingmethod).
- * 
+ *
  * You can use this workflow within your customizations or your own custom workflows, allowing you
  * to create a shipping method for a return in your custom flows.
- * 
+ *
  * @example
  * const { result } = await createReturnShippingMethodWorkflow(container)
  * .run({
@@ -125,14 +126,16 @@ export const createReturnShippingMethodWorkflowId =
  *     shipping_option_id: "so_123",
  *   }
  * })
- * 
+ *
  * @summary
- * 
+ *
  * Create a shipping method for a return.
  */
 export const createReturnShippingMethodWorkflow = createWorkflow(
   createReturnShippingMethodWorkflowId,
-  function (input: CreateReturnShippingMethodWorkflowInput): WorkflowResponse<OrderPreviewDTO> {
+  function (
+    input: CreateReturnShippingMethodWorkflowInput
+  ): WorkflowResponse<OrderPreviewDTO> {
     const orderReturn: ReturnDTO = useRemoteQueryStep({
       entry_point: "return",
       fields: [
@@ -156,25 +159,9 @@ export const createReturnShippingMethodWorkflow = createWorkflow(
       throw_if_key_not_found: true,
     }).config({ name: "order-query" })
 
-    const shippingOptions = useRemoteQueryStep({
-      entry_point: "shipping_option",
-      fields: [
-        "id",
-        "name",
-        "calculated_price.calculated_amount",
-        "calculated_price.is_calculated_price_tax_inclusive",
-      ],
-      variables: {
-        id: input.shipping_option_id,
-        calculated_price: {
-          context: { currency_code: order.currency_code },
-        },
-      },
-    }).config({ name: "fetch-shipping-option" })
-
     const orderChange: OrderChangeDTO = useRemoteQueryStep({
       entry_point: "order_change",
-      fields: ["id", "status", "version"],
+      fields: ["id", "status", "version", "actions.*"],
       variables: {
         filters: {
           order_id: orderReturn.order_id,
@@ -184,6 +171,36 @@ export const createReturnShippingMethodWorkflow = createWorkflow(
       },
       list: false,
     }).config({ name: "order-change-query" })
+
+    const shippingOptionFetchInput = transform(
+      { orderChange, input, order, orderReturn },
+      ({ orderChange, input, order, orderReturn }) => {
+        return {
+          order_id: order.id,
+          shipping_option_id: input.shipping_option_id,
+          currency_code: order.currency_code,
+          context: {
+            return_id: orderReturn.id,
+            return_items: orderChange.actions
+              .filter(
+                (action) => action.action === ChangeActionType.RETURN_ITEM
+              )
+              .map((a) => ({
+                id: a.details?.reference_id as string,
+                quantity: a.details?.quantity as number,
+              })),
+          },
+        }
+      }
+    )
+
+    const shippingOption = fetchShippingOptionForOrderWorkflow.runAsStep({
+      input: shippingOptionFetchInput,
+    })
+
+    const shippingOptions = transform(shippingOption, (shippingOption) => {
+      return [shippingOption]
+    })
 
     createReturnShippingMethodValidationStep({
       order,

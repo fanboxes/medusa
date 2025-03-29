@@ -12,64 +12,44 @@ export const metadata = {
 
 # {metadata.title}
 
-In this document, you'll learn how to create and store a cart.
+In this guide, you'll learn how to create and store a cart in your storefront.
 
 ## Create Cart on First Access
 
-It's recommended to create a cart the first time a customer accesses a page, then store the cart's ID in the `localStorage`.
+It's recommended to create a cart the first time a customer accesses a page in your storefront. Then, you can store the cart's ID in the `localStorage` and access it whenever necessary.
 
 To create a cart, send a request to the [Create Cart API route](!api!/store#carts_postcarts).
 
 For example:
 
+<Note title="Tip">
+
+Learn how to install and configure the JS SDK in the [JS SDK documentation](../../../js-sdk/page.mdx).
+
+</Note>
+
 <CodeTabs group="store-request">
-  <CodeTab label="Fetch API" value="fetch">
-
-export const fetchHighlights = [
-  ["5", "process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY", "Pass the Publishable API key to associate the correct sales channel(s)."],
-  ["9", "region_id", "Associate the cart with the chosen region for accurate pricing."],
-  ["14", "setItem", "Set the cart's ID in the `localStorage`."]
-]
-
-  ```ts highlights={fetchHighlights}
-  fetch(`http://localhost:9000/store/carts`, {
-    method: "POST",
-    credentials: "include",
-    headers: {
-      "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      region_id: region.id,
-    }),
-  })
-  .then((res) => res.json())
-  .then(({ cart }) => {
-    localStorage.setItem("cart_id", cart.id)
-  })
-  ```
-
-  </CodeTab>
   <CodeTab label="React" value="react">
 
 export const highlights = [
-  ["8", "region", "Assuming you previously retrieved the chosen region."],
-  ["15", "cartId", "Retrieve the cart ID from `localStorage`, if exists."],
-  ["22", "fetch", "Send a request to create the cart."],
-  ["26", "process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY", "Pass the Publishable API key to associate the correct sales channel(s)."],
-  ["30", "region_id", "Associate the cart with the chosen region for accurate pricing."],
-  ["35", "setItem", "Set the cart's ID in the `localStorage`."]
+  ["9", "region", "Assuming you previously retrieved the chosen region."],
+  ["17", "cartId", "Retrieve the cart ID from `localStorage`, if exists."],
+  ["24", "create", "Send a request to create the cart."],
+  ["25", "region_id", "Associate the cart with the chosen region for accurate pricing."],
+  ["28", "setItem", "Set the cart's ID in the `localStorage`."]
 ]
 
   ```tsx highlights={highlights}
   "use client" // include with Next.js 13+
 
-  import { useEffect, useState } from "react"
+  import { useEffect } from "react"
+  import { sdk } from "@/lib/sdk"
   // other imports...
-  
+
   export default function Home() {
     // TODO assuming you have the region retrieved
     const region = {
+      id: "reg_123",
       // ...
     }
 
@@ -83,18 +63,9 @@ export const highlights = [
       }
 
       // create a cart and store it in the localStorage
-      fetch(`http://localhost:9000/store/carts`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          region_id: region.id,
-        }),
+      sdk.store.cart.create({
+        region_id: region.id,
       })
-      .then((res) => res.json())
       .then(({ cart }) => {
         localStorage.setItem("cart_id", cart.id)
       })
@@ -105,17 +76,49 @@ export const highlights = [
   ```
 
   </CodeTab>
+  <CodeTab label="JS SDK" value="js-sdk">
+
+export const fetchHighlights = [
+  ["2", "region_id", "Associate the cart with the chosen region for accurate pricing."],
+  ["5", "setItem", "Set the cart's ID in the `localStorage`."]
+]
+
+  ```ts highlights={fetchHighlights}
+  sdk.store.cart.create({
+    region_id: region.id,
+  })
+  .then(({ cart }) => {
+    localStorage.setItem("cart_id", cart.id)
+  })
+  ```
+
+  </CodeTab>
 </CodeTabs>
 
-The response of the Create Cart API route has a `cart` field, which is a cart object.
+In this example, you create a cart by sending a request to the [Create Cart API route](!api!/store#carts_postcarts).
+
+The response of the Create Cart API route has a `cart` field, which is a [cart object](!api!/store#carts_cart_schema).
 
 Refer to the [Create Cart API reference](!api!/store#carts_postcarts) for details on other available request parameters.
 
-### Publishable API Key
+### Cart's Sales Channel Scope
 
-When you create a cart, you pass the publishable API key in the header of the request. This associates the cart with the sales channel(s) of the publishable API key.
+As mentioned before, you must always pass the publishable API key in the header of the request (which is done automatically by the JS SDK, as explained in the [Publishable API Keys](../../publishable-api-keys/page.mdx) guide). So, Medusa will associate the cart with the sales channel(s) of the publishable API key.
 
-This is necessary, as only products matching the cart's sales channel(s) can be added to the cart.
+This is necessary, as only products matching the cart's sales channel(s) can be added to the cart. If you want to associate the cart with a different sales channel, or if the publishable API key is associated with multiple sales channels and you want to specify which one to use, you can pass the `sales_channel_id` parameter to the [Create Cart API route](!api!/store#carts_postcarts) with the desired sales channel's ID.
+
+For example:
+
+```ts
+sdk.store.cart.create({
+  region_id: region.id,
+  sales_channel_id: "sc_123",
+})
+.then(({ cart }) => {
+  // TODO use the cart...
+  console.log(cart)
+})
+```
 
 ---
 
@@ -123,4 +126,10 @@ This is necessary, as only products matching the cart's sales channel(s) can be 
 
 When the cart is created for a logged-in customer, it's automatically associated with that customer.
 
-However, if the cart is created for a guest customer, then the customer logs in, then you have to set the cart's customer as explained in [this guide](../update/page.mdx#set-carts-customer).
+However, if the cart is created for a guest customer, then the customer logs in, then you have to set the cart's customer as explained in the [Update Cart](../update/page.mdx#set-carts-customer) guide.
+
+---
+
+## Store Cart Details in React Context
+
+If you're using React, it's then recommended to create a context that stores the cart details and make it available to all components in your application, as explained in the [Cart React Context in Storefront](../context/page.mdx) guide.

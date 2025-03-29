@@ -96,7 +96,7 @@ export const storefront = [
     "path": "https://docs.medusajs.com/resources/storefront-development/guides/express-checkout"
   },
   {
-    "title": "List Product Categories in Storefront",
+    "title": "Show Product Categories in Storefront",
     "path": "https://docs.medusajs.com/resources/storefront-development/products/categories/list"
   },
   {
@@ -128,7 +128,7 @@ export const storefront = [
     "path": "https://docs.medusajs.com/resources/storefront-development/products/inventory"
   },
   {
-    "title": "List Products in Storefront",
+    "title": "Show Products in Storefront",
     "path": "https://docs.medusajs.com/resources/storefront-development/products/list"
   },
   {
@@ -160,7 +160,7 @@ export const storefront = [
     "path": "https://docs.medusajs.com/resources/storefront-development/publishable-api-keys"
   },
   {
-    "title": "Region Context in Storefront",
+    "title": "Region React Context in Storefront",
     "path": "https://docs.medusajs.com/resources/storefront-development/regions/context"
   },
   {
@@ -168,7 +168,7 @@ export const storefront = [
     "path": "https://docs.medusajs.com/resources/storefront-development/regions/list"
   },
   {
-    "title": "Store and Retrieve Region",
+    "title": "Store Selected Region in Storefront",
     "path": "https://docs.medusajs.com/resources/storefront-development/regions/store-retrieve-region"
   },
   {

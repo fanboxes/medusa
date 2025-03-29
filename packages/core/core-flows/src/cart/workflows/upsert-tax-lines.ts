@@ -21,6 +21,7 @@ const cartFields = [
   "items.id",
   "items.variant_id",
   "items.product_id",
+  "items.product.is_giftcard",
   "items.product_title",
   "items.product_description",
   "items.product_subtitle",

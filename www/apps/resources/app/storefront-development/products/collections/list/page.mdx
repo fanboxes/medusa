@@ -13,36 +13,30 @@ export const metadata = {
 
 # {metadata.title}
 
-In this document, you'll learn how to list product collections in the storefront, including paginating and filtering them.
+In this guide, you'll learn how to list product collections in the storefront, including paginating and filtering them.
+
+<Note title="Good to know">
+
+Product collections allow you to group products together for marketing or promotional purposes. For example, you can have a "Summer Clothes" collection grouping together all products that are suitable for the summer season. Then, you can display this collection in the summer to promote your summer collection.
+
+</Note>
 
 ## List Product Collections
 
 To retrieve the list of product collections, send a request to the [List Product Collections API route](!api!/store#collections_getcollections):
 
+<Note title="Tip">
+
+Learn how to install and configure the JS SDK in the [JS SDK documentation](../../../../js-sdk/page.mdx).
+
+</Note>
+
 <CodeTabs group="store-request">
-  <CodeTab label="Fetch API" value="fetch">
-
-  ```ts
-  fetch(`http://localhost:9000/store/collections`, {
-    credentials: "include",
-    headers: {
-      "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-    },
-  })
-  .then((res) => res.json())
-  .then(({ collections }) => {
-    // use collections...
-    console.log(collections)
-  })
-  ```
-
-  </CodeTab>
   <CodeTab label="React" value="react">
 
 export const highlights = [
-  ["17"], ["18"], ["19"], ["20"],
-  ["21"], ["22"], ["23"], ["24"],
-  ["25"], ["26"], ["27"]
+  ["18"], ["19"], ["20"],
+  ["21"], ["22"],
 ]
 
   ```tsx highlights={highlights}
@@ -50,6 +44,7 @@ export const highlights = [
 
   import { useEffect, useState } from "react"
   import { HttpTypes } from "@medusajs/types"
+  import { sdk } from "@/lib/sdk"
 
   export default function Collections() {
     const [loading, setLoading] = useState(true)
@@ -62,13 +57,7 @@ export const highlights = [
         return 
       }
 
-      fetch(`http://localhost:9000/store/collections`, {
-        credentials: "include",
-        headers: {
-          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-        },
-      })
-      .then((res) => res.json())
+      sdk.store.collection.list()
       .then(({ collections: dataCollections }) => {
         setCollections(dataCollections)
         setLoading(false)
@@ -94,7 +83,20 @@ export const highlights = [
   ```
 
   </CodeTab>
+  <CodeTab label="JS SDK" value="js-sdk">
+
+  ```ts
+  sdk.store.collection.list()
+  .then(({ collections }) => {
+    // use collections...
+    console.log(collections)
+  })
+  ```
+
+  </CodeTab>
 </CodeTabs>
+
+In this example, you retrieve the list of product collections by sending a request to the [List Product Collections API route](!api!/store#collections_getcollections).
 
 The response has a `collections` field, which is an array of [product collections](!api!/store#collections_getcollections).
 
@@ -102,7 +104,7 @@ The response has a `collections` field, which is an array of [product collection
 
 ## Paginate Product Collections
 
-To paginate product collections, pass the following query parameters:
+To paginate product collections, pass the following query parameters to the [List Product Collections API route](!api!/store#collections_getcollections):
 
 - `limit`: The number of product collections to return in the request.
 - `offset`: The number of product collections to skip before the returned product collections. You can calculate this by multiplying the current page with the limit.
@@ -112,11 +114,10 @@ The response object returns a `count` field, which is the total count of product
 For example:
 
 export const paginateHighlights = [
-  ["20", "offset", "Calculate the number of product collections to skip based on the current page and limit."],
-  ["28", "searchParams.toString()", "Pass the pagination parameters in the query."], 
-  ["36", "count", "The total number of product collections in the Medusa application."],
-  ["48", "setHasMorePages", "Set whether there are more pages based on the total count."],
-  ["67", "button", "Show a button to load more product collections if there are more pages."]
+  ["21", "offset", "Calculate the number of product collections to skip based on the current page and limit."],
+  ["27", "count", "The total number of product collections in the Medusa application."],
+  ["39", "setHasMorePages", "Set whether there are more pages based on the total count."],
+  ["58", "button", "Show a button to load more product collections if there are more pages."]
 ]
 
 ```tsx highlights={paginateHighlights}
@@ -124,6 +125,7 @@ export const paginateHighlights = [
 
 import { useEffect, useState } from "react"
 import { HttpTypes } from "@medusajs/types"
+import { sdk } from "@/lib/sdk"
 
 export default function Collections() {
   const [loading, setLoading] = useState(true)
@@ -141,20 +143,10 @@ export default function Collections() {
 
     const offset = (currentPage - 1) * limit
 
-    const searchParams = new URLSearchParams({
-      limit: `${limit}`,
-      offset: `${offset}`,
+    sdk.store.collection.list({
+      limit,
+      offset,
     })
-
-    fetch(`http://localhost:9000/store/collections?${
-      searchParams.toString()
-    }`, {
-      credentials: "include",
-      headers: {
-        "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-      },
-    })
-    .then((res) => res.json())
     .then(({ collections: dataCollections, count }) => {
       setCollections((prev) => {
         if (prev.length > offset) {
@@ -201,31 +193,46 @@ export default function Collections() {
 }
 ```
 
+In this example, you paginate the product collections by passing the `limit` and `offset` query parameters to the [List Product Collections API route](!api!/store#collections_getcollections).
+
+Then, you show a button to load more product collections if there are more pages.
+
 ---
 
 ## Filter Collections
 
-The List Product Collections API route accepts query parameters to filter the collections by title, handle, and more.
+The [List Product Collections API route](!api!/store#collections_getcollections) accepts query parameters to filter the collections by title, handle, and more.
 
-Refer to the [API reference](!api!/store#collections_getcollections) for the list of accepted query parameters.
+Refer to the [API reference](!api!/store#collections_getcollections) for the full list of accepted query parameters.
 
-For example:
+For example, to filter the collections by title:
 
 ```ts
-const searchParams = new URLSearchParams({
-  title: "test",
+sdk.store.collection.list({
+  title: "Summer Clothes",
 })
+.then(({ collections }) => {
+  // TODO set collections...
+})
+```
 
-fetch(`http://localhost:9000/store/collections?${
-  searchParams.toString()
-}`, {
-  credentials: "include",
-  headers: {
-    "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-  },
+In this example, only the collections with the title "Summer Clothes" are returned.
+
+---
+
+## Sort Collections
+
+To sort collections by a field, use the `order` query parameter. Its value is a comma-separated list of fields to sort by, and each field is optionally prefixed by `-` to indicate descending order.
+
+For example, to sort collections by title in descending order:
+
+```ts
+sdk.store.collection.list({
+  order: "-title",
 })
-.then((res) => res.json())
 .then(({ collections, count }) => {
   // TODO set collections...
 })
 ```
+
+The result will be collections sorted by title in descending order.

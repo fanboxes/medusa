@@ -1,0 +1,1341 @@
+import { Card, Prerequisites, Details, WorkflowDiagram } from "docs-ui"
+import { Github, PlaySolid } from "@medusajs/icons"
+
+export const ogImage = "https://res.cloudinary.com/dza7lstvk/image/upload/v1743097088/Medusa%20Resources/integrations-algolia_qwpguu.jpg"
+
+export const metadata = {
+  title: `Integrate Algolia (Search) with Medusa`,
+  openGraph: {
+    images: [
+      {
+        url: ogImage,
+        width: 1600,
+        height: 900,
+        type: "image/jpeg"
+      }
+    ],
+  },
+  twitter: {
+    images: [
+      {
+        url: ogImage,
+        width: 1600,
+        height: 900,
+        type: "image/jpeg"
+      }
+    ]
+  }
+}
+
+# {metadata.title}
+
+In this tutorial, you'll learn how to integrate Medusa with Algolia.
+
+When you install a Medusa application, you get a fully-fledged commerce platform with a framework for customization. Medusa's architecture supports integrating third-party services, such as a search engine, allowing you to build your unique requirements around core commerce flows.
+
+[Algolia](https://www.algolia.com/doc/) is a search engine that enables you to build and manage an intuitive search experience for your customers. By integrating Algolia with Medusa, you can index e-commerce data, such as products, and allow clients to search through them.
+
+You can follow this guide whether you're new to Medusa or an advanced Medusa developer.
+
+## Summary
+
+By following this tutorial, you'll learn how to:
+
+- Install and set up Medusa.
+- Integrate Algolia into Medusa.
+- Trigger Algolia reindexing when a product is created, updated, deleted, or when the admin manually triggers a reindex.
+- Customize the Next.js Starter Storefront to allow searching for products through Algolia.
+
+<CardList items={[
+  {
+    href: "https://github.com/medusajs/examples/tree/main/algolia-integration",
+    title: "Algolia Integration Repository",
+    text: "Find the full code for this guide in this repository.",
+    icon: Github,
+  },
+  {
+    href: "https://res.cloudinary.com/dza7lstvk/raw/upload/v1742829748/OpenApi/Algolia-Search_t1zlkd.yaml",
+    title: "OpenApi Specs for Postman",
+    text: "Import this OpenApi Specs file into tools like Postman.",
+    icon: PlaySolid,
+  },
+]} />
+
+---
+
+## Step 1: Install a Medusa Application
+
+<Prerequisites items={[
+  {
+    text: "Node.js v20+",
+    link: "https://nodejs.org/en/download"
+  },
+  {
+    text: "Git CLI tool",
+    link: "https://git-scm.com/downloads"
+  },
+  {
+    text: "PostgreSQL",
+    link: "https://www.postgresql.org/download/"
+  }
+]} />
+
+Start by installing the Medusa application on your machine with the following command:
+
+```bash
+npx create-medusa-app@latest
+```
+
+You'll first be asked for the project's name. Then, when asked whether you want to install the [Next.js starter storefront](../../../nextjs-starter/page.mdx), choose "Yes."
+
+Afterwards, the installation process will start, which will install the Medusa application in a directory with your project's name and the Next.js Starter Storefront in a separate directory named `{project-name}-storefront`.
+
+<Note title="Why is the storefront installed separately">
+
+The Medusa application is composed of a headless Node.js server and an admin dashboard. The storefront is installed or custom-built separately and connects to the Medusa application through its REST endpoints, called [API routes](!docs!/learn/fundamentals/api-routes). Learn more in [Medusa's Architecture documentation](!docs!/learn/introduction/architecture).
+
+</Note>
+
+Once the installation finishes successfully, the Medusa Admin dashboard will open with a form to create a new user. Enter the user's credentials and submit the form. Afterwards, you can log in with the new user and explore the dashboard.
+
+<Note title="Ran into Errors">
+
+Check out the [troubleshooting guides](../../../troubleshooting/create-medusa-app-errors/page.mdx) for help.
+
+</Note>
+
+---
+
+## Step 2: Create Algolia Module
+
+To integrate third-party services into Medusa, you create a custom module. A module is a reusable package with functionalities related to a single feature or domain. Medusa integrates the module into your application without implications or side effects on your setup.
+
+In this step, you'll create a custom module that provides the necessary functionalities to integrate Algolia with Medusa.
+
+<Note>
+
+Refer to the [Modules documentation](!docs!/learn/fundamentals/modules) to learn more.
+
+</Note>
+
+Before building the module, you need to install Algolia's JavaScript client. Run the following command in your Medusa application's root directory:
+
+```bash npm2yarn
+npm install algoliasearch
+```
+
+### Create Module Directory
+
+A module is created under the `src/modules` directory of your Medusa application. So, create the directory `src/modules/algolia`.
+
+### Create Service
+
+You define a module's functionalities in a service. A service is a TypeScript or JavaScript class that the module exports. In the service's methods, you can connect to the database, which is useful if your module defines tables in the database, or connect to a third-party service.
+
+In this section, you'll create the Algolia Module's service and the methods necessary to manage indexed products in Algolia and search through them.
+
+To create the Algolia Module's service, create the file `src/modules/algolia/service.ts` with the following content:
+
+```ts title="src/modules/algolia/service.ts"
+import { algoliasearch, SearchClient } from "algoliasearch"
+
+type AlgoliaOptions = {
+  apiKey: string;
+  appId: string;
+  productIndexName: string;
+}
+
+export type AlgoliaIndexType = "product"
+
+export default class AlgoliaModuleService {
+  private client: SearchClient
+  private options: AlgoliaOptions
+
+  constructor({}, options: AlgoliaOptions) {
+    this.client = algoliasearch(options.appId, options.apiKey)
+    this.options = options
+  }
+
+  // TODO add methods
+}
+```
+
+You export a class that will be the Algolia Module's main service. In the service, you define two properties:
+
+- `client`: An instance of the Algolia Search Client, which you'll use to perform actions with Algolia's API.
+- `options`: An object of options that the Module receives when it's registered, which you'll learn about later. The options contain:
+    - `apiKey`: The Algolia API key.
+    - `appId`: The Algolia App ID.
+    - `productIndexName`: The name of the index where products are stored.
+
+<Note title="Tip">
+
+If you want to index other types of data, such as product categories, you can add new properties for their index names in the `AlgoliaOptions` type.
+
+</Note>
+
+A module's service receives the module's options as a second parameter in its constructor. In the constructor, you initialize the Algolia client using the module's options.
+
+<Note title="What is th second constructor parameter?">
+
+A module has a container that holds all resources registered in that module, and you can access those resources in the first parameter of the constructor. Learn more about it in the [Module Container documentation](!docs!/learn/fundamentals/modules/container).
+
+</Note>
+
+#### Index Data Method
+
+The first method you need to add to the servie is a method that receives an array of data to add or update in Algolia's index.
+
+Add the following methods to the `AlgoliaModuleService` class:
+
+```ts title="src/modules/algolia/service.ts"
+export default class AlgoliaModuleService {
+  // ...
+  async getIndexName(type: AlgoliaIndexType) {
+    switch (type) {
+      case "product":
+        return this.options.productIndexName
+      default:
+        throw new Error(`Invalid index type: ${type}`)
+    }
+  }
+
+  async indexData(data: Record<string, unknown>[], type: AlgoliaIndexType = "product") {
+    const indexName = await this.getIndexName(type)
+    this.client.saveObjects({
+      indexName,
+      objects: data.map((item) => ({
+        ...item,
+        // set the object ID to allow updating later
+        objectID: item.id,
+      })),
+    })
+  }
+}
+```
+
+You define two methods:
+
+1. `getIndexName`: A method that receives an `AlgoliaIndexType` (defined in the previous snippt) and returns the index name for that type. In this case, you only have one type, `product`, so you return the product index name.
+    - If you want to index other types of data, you can add more cases to the switch statement.
+2. `indexData`: A method that receives an array of data and an `AlgoliaIndexType`. The method indexes the data in the Algolia index for the given type.
+    - Notice that you set the `objectID` property of each object to the object's `id`. This ensures that you later update the object instead of creating a new one.
+
+#### Retrieve and Delete Methods
+
+The next methods you'll add to the service are methods to retrieve and delete data from the Algolia index. You'll see their use later as you keep the Algolia index in sync with Medusa.
+
+Add the following methods to the `AlgoliaModuleService` class:
+
+```ts title="src/modules/algolia/service.ts"
+export default class AlgoliaModuleService {
+  // ...
+
+  async retrieveFromIndex(objectIDs: string[], type: AlgoliaIndexType = "product") {
+    const indexName = await this.getIndexName(type)
+    return await this.client.getObjects<Record<string, unknown>>({
+      requests: objectIDs.map((objectID) => ({
+        indexName,
+        objectID,
+      })),
+    })
+  }
+
+  async deleteFromIndex(objectIDs: string[], type: AlgoliaIndexType = "product") {
+    const indexName = await this.getIndexName(type)
+    await this.client.deleteObjects({
+      indexName,
+      objectIDs,
+    })
+  }
+}
+```
+
+You define two methods:
+
+1. `retrieveFromIndex`: A method that receives an array of object IDs and an `AlgoliaIndexType`. The method retrieves the objects with the given IDs from the Algolia index.
+2. `deleteFromIndex`: A method that receives an array of object IDs and an `AlgoliaIndexType`. The method deletes the objects with the given IDs from the Algolia index.
+
+#### Search Method
+
+The last method you'll implement is a method to search through the Algolia index. You'll later use this method to expose the search functionality to clients, such as the Next.js Storefront.
+
+Add the following method to the `AlgoliaModuleService` class:
+
+```ts title="src/modules/algolia/service.ts"
+export default class AlgoliaModuleService {
+  // ...
+
+  async search(query: string, type: AlgoliaIndexType = "product") {
+    const indexName = await this.getIndexName(type)
+    return await this.client.search({
+      requests: [
+        {
+          indexName,
+          query,
+        },
+      ],
+    })
+  }
+}
+```
+
+The `search` method receives a query string and an `AlgoliaIndexType`. The method searches through the Algolia index for the given type, such as products, and returns the results.
+
+### Export Module Definition
+
+The final piece to a module is its definition, which you export in an `index.ts` file at its root directory. This definition tells Medusa the name of the module and its service.
+
+So, create the file `src/modules/algolia/index.ts` with the following content:
+
+```ts title="src/modules/algolia/index.ts"
+import { Module } from "@medusajs/framework/utils"
+import AlgoliaModuleService from "./service"
+
+export const ALGOLIA_MODULE = "algolia"
+
+export default Module(ALGOLIA_MODULE, {
+  service: AlgoliaModuleService,
+})
+```
+
+You use the `Module` function from the Modules SDK to create the module's definition. It accepts two parameters:
+
+1. The module's name, which is `algolia`.
+2. An object with a required property `service` indicating the module's service.
+
+You also export the module's name as `ALGOLIA_MODULE` so you can reference it later.
+
+### Add Module to Medusa's Configurations
+
+Once you finish building the module, add it to Medusa's configurations to start using it.
+
+In `medusa-config.ts`, add a `modules` property and pass an array with your custom module:
+
+```ts title="medusa-config.ts"
+module.exports = defineConfig({
+  // ...
+  modules: [
+    {
+      resolve: "./src/modules/algolia",
+      options: {
+        appId: process.env.ALGOLIA_APP_ID!,
+        apiKey: process.env.ALGOLIA_API_KEY!,
+        productIndexName: process.env.ALGOLIA_PRODUCT_INDEX_NAME!,
+      },
+    },
+  ],
+})
+```
+
+Each object in the `modules` array has a `resolve` property, whose value is either a path to the module's directory, or an `npm` package’s name.
+
+You also pass an `options` property with the module's options, including the Algolia App ID, API Key, and the product index name.
+
+### Add Environment Variables
+
+Before you can start using the Algolia Module, you need to set the environment variables for the Algolia App ID, API Key, and the product index name.
+
+Add the following environment variables to your `.env` file:
+
+```env
+ALGOLIA_APP_ID=your-algolia-app-id
+ALGOLIA_API_KEY=your-algolia-api-key
+ALGOLIA_PRODUCT_INDEX_NAME=your-product-index-name
+```
+
+Where:
+
+- `your-algolia-app-id` is your Algolia App ID. You can retrieve it from the Algolia dashboard by clicking at the application ID at the top left next to the sidebar. The pop up will show the application ID below the application's name.
+
+![Find the Algolia App ID by clicking on the application name in the Algolia dashboard, then copying the ID below the name in the pop-up](https://res.cloudinary.com/dza7lstvk/image/upload/v1742815360/Medusa%20Resources/Screenshot_2025-03-24_at_1.19.30_PM_kdp3y5.png)
+
+- `your-algolia-api-key` is your Algolia API Key. To retrieve it from the Algolia dashboard:
+    1. Click on Settings in the sidebar.
+    2. Choose API Keys under "Team and Access".
+
+![In the settings page, find the Team and Access section at the right of the page and choose API Keys](https://res.cloudinary.com/dza7lstvk/image/upload/v1742815534/Medusa%20Resources/Screenshot_2025-03-24_at_1.25.09_PM_hwsiba.png)
+
+    3. Copy the Admin API Key.
+
+- `your-product-index-name` is the name of the index where you'll store products. You can find it by going to Search -> Index, and copying the index name at the top of the page.
+
+![In the Algolia dashboard, go to Search -> Index and copy the index name at the top of the page](https://res.cloudinary.com/dza7lstvk/image/upload/v1742815790/Medusa%20Resources/Screenshot_2025-03-24_at_1.28.58_PM_yq10sf.png)
+
+Your module is now ready for use. You'll see how to use it in the next steps.
+
+---
+
+## Step 3: Sync Products to Algolia Workflow
+
+To keep the Algolia index in sync with Medusa, you need to trigger indexing when products are created, updated, or deleted in Medusa. You can also allow the admin to manually trigger a reindex.
+
+To implement the indexing functionality, you need to create a [workflow](!docs!/learn/fundamentals/workflows). A workflow is a series of actions, called steps, that complete a task. You construct a workflow like you construct a function, but it's a special function that allows you to track its executions' progress, define roll-back logic, and configure other advanced features.
+
+<Note>
+
+Learn more about workflows in the [Workflows documentation](!docs!/learn/fundamentals/workflows).
+
+</Note>
+
+In this step, you'll create a workflow that indexes products in Algolia. In the next steps, you'll learn how to use the workflow when products are created, updated, or deleted, or when the admin manually triggers a reindex.
+
+The workflow has the following steps:
+
+<WorkflowDiagram
+  workflow={{
+    name: "syncProductsWorkflow",
+    steps: [
+      {
+        type: "step",
+        name: "useQueryGraphStep",
+        description: "Retrieve products matching specified filters and pagination parameters.",
+        link: "/references/helper-steps/useQueryGraphStep",
+        depth: 1
+      },
+      {
+        type: "step",
+        name: "syncProductsStep",
+        description: "Index products in Algolia.",
+        depth: 1
+      }
+    ]
+  }}
+  hideLegend
+/>
+
+Medusa provides the `useQueryGraphStep` in its `@medusajs/medusa/core-flows` package. So, you only need to implement the second step.
+
+### syncProductsStep
+
+In the second step of the workflow, you create or update indexes in Algolia for the products retrieved in the first step.
+
+To create the step, create the file `src/workflows/steps/sync-products.ts` with the following content:
+
+```ts title="src/workflows/steps/sync-products.ts"
+import { ProductDTO } from "@medusajs/framework/types"
+import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
+import { ALGOLIA_MODULE } from "../../modules/algolia"
+import AlgoliaModuleService from "../../modules/algolia/service"
+
+export type SyncProductsStepInput = {
+  products: ProductDTO[]
+}
+
+export const syncProductsStep = createStep(
+  "sync-products",
+  async ({ products }: SyncProductsStepInput, { container }) => {
+    const algoliaModuleService: AlgoliaModuleService = container.resolve(ALGOLIA_MODULE)
+
+    const existingProducts = (await algoliaModuleService.retrieveFromIndex(
+      products.map((product) => product.id),
+      "product"
+    )).results.filter(Boolean)
+    const newProducts = products.filter(
+      (product) => !existingProducts.some((p) => p.objectID === product.id)
+    )
+    await algoliaModuleService.indexData(
+      products as unknown as Record<string, unknown>[], 
+      "product"
+    )
+
+    return new StepResponse(undefined, {
+      newProducts: newProducts.map((product) => product.id),
+      existingProducts,
+    })
+  }
+  // TODO add compensation
+)
+```
+
+You create a step with `createStep` from the Workflows SDK. It accepts two parameters:
+
+1. The step's unique name, which is `sync-products`.
+2. An async function that receives two parameters:
+    - The step's input, which is in this case an object holding an array of products to sync into Algolia.
+    - An object that has properties including the [Medusa container](!docs!/learn/fundamentals/medusa-container), which is a registry of framework and commerce tools that you can access in the step.
+
+In the step function, you resolve the Algolia Module's service from the Medusa container using the name you exported in the module definition's file.
+
+Then, you retrieve the products that are already indexed in Algolia and determine which products are new. You'll learn why this is useful in a bit.
+
+Finally, you pass the products you received in the input to Algolia to create or update its indices.
+
+A step function must return a `StepResponse` instance. The `StepResponse` constructor accepts two parameters:
+
+1. The step's output, which is the review created.
+2. Data to pass to the step's compensation function.
+
+#### Compensation Function
+
+The compensation function undoes the actions performed in a step. Then, if an error occurs during the workflow's execution, the compensation functions of executed steps are called to roll back the changes. This mechanism ensures data consistency in your application, especially as you integrate external systems.
+
+To add a compensation function to a step, pass it as a third parameter to `createStep`:
+
+```ts title="src/workflows/steps/sync-products.ts"
+export const syncProductsStep = createStep(
+  // ...
+  async (input, { container }) => {
+    if (!input) {
+      return
+    }
+
+    const algoliaModuleService: AlgoliaModuleService = container.resolve(ALGOLIA_MODULE)
+    
+    if (input.newProducts) {
+      await algoliaModuleService.deleteFromIndex(
+        input.newProducts,
+        "product"
+      )
+    }
+
+    if (input.existingProducts) {
+      await algoliaModuleService.indexData(
+        input.existingProducts,
+        "product"
+      )
+    }
+  }
+)
+```
+
+The compensation function receives two parameters:
+
+1. The data you passed as a second parameter of `StepResponse` in the step function.
+2. A context object similar to the step function that holds the Medusa container.
+
+In the compensation function, you resolve the Algolia Module's service from the container. Then, you delete from Algolia the products that were newly indexed, and revert the existing products to their original data.
+
+### Add Sync Products Workflow
+
+You can now create the worklow that syncs the products to Algolia.
+
+To create the workflow, create the file `src/workflows/sync-products.ts` with the following content:
+
+```ts title="src/workflows/sync-products.ts"
+import { createWorkflow, WorkflowResponse } from "@medusajs/framework/workflows-sdk"
+import { useQueryGraphStep } from "@medusajs/medusa/core-flows"
+import { syncProductsStep, SyncProductsStepInput } from "./steps/sync-products"
+
+type SyncProductsWorkflowInput = {
+  filters?: Record<string, unknown>
+  limit?: number
+  offset?: number
+}
+
+export const syncProductsWorkflow = createWorkflow(
+  "sync-products",
+  ({ filters, limit, offset }: SyncProductsWorkflowInput) => {
+    // @ts-ignore
+    const { data, metadata } = useQueryGraphStep({
+      entity: "product",
+      fields: ["id", "title", "description", "handle", "thumbnail", "categories.*", "tags.*"],
+      pagination: {
+        take: limit,
+        skip: offset,
+      },
+      filters: {
+        // @ts-ignore
+        status: "published",
+        ...filters,
+      },
+    })
+
+    syncProductsStep({
+      products: data,
+    } as SyncProductsStepInput)
+
+    return new WorkflowResponse({
+      products: data,
+      metadata,
+    })
+  }
+)
+```
+
+You create a workflow using `createWorkflow` from the Workflows SDK. It accepts the workflow's unique name as a first parameter.
+
+It accepts as a second parameter a constructor function, which is the workflow's implementation. The function can accept input, which in this case is pagination and filter parameters for the products to retrieve.
+
+In the workflow's constructor function, you:
+
+1. Execute `useQueryGraphStep` to retrieve products from Medusa's database. This step uses Medusa's [Query](!docs!/learn/fundamentals/module-links/query) tool to retrieve data across modules. You pass it the pagination and filter parameters you received in the input.
+2. Execute `syncProductsStep` to index the products in Algolia. You pass it the products you retrieved in the previous step.
+
+A workflow must return an instance of `WorkflowResponse`. The `WorkflowResponse` constructor accepts the workflow's output as a parameter, which is an object holding the retrieved products and their pagination details.
+
+In the next step, you'll learn how to execute this workflow.
+
+---
+
+## Step 4: Trigger Algolia Sync Manually
+
+As mentioned earlier, you'll trigger the Algolia sync automatically when product events occur, but you also want to allow the admin to manually trigger a reindex.
+
+In this step, you'll add the functionality to trigger the `syncProductsWorkflow` manually from the Medusa Admin dashboard. This requires:
+
+1. Creating a subscriber that listens to a custom `algolia.sync` event to trigger syncing products to Algolia.
+2. Creating an API route that the Medusa Admin dashboard can call to emit the `algolia.sync` event, which triggers the subscriber.
+3. Add a new page or UI route to the Medusa Admin dashboard to allow the admin to trigger the reindex.
+
+### Create Products Sync Subscriber
+
+A subscriber is an asynchronous function that listens to one or more events and performs actions when these events are emitted. A subscriber is useful when syncing data across systems, as the operation can be time-consuming and should be performed in the background.
+
+<Note>
+
+Learn more about subscribers in the [Events and Subscribers documentation](!docs!/learn/fundamentals/events-and-subscribers).
+
+</Note>
+
+You create a subscriber in a TypeScript or JavaScript file under the `src/subscribers` directory. So, to create the subscriber that listens to the `algolia.sync` event, create the file `src/subscribers/products-sync.ts` with the following content:
+
+```ts title="src/subscribers/algolia-sync.ts"
+import {
+  SubscriberArgs,
+  type SubscriberConfig,
+} from "@medusajs/framework"
+import { syncProductsWorkflow } from "../workflows/sync-products"
+
+export default async function algoliaSyncHandler({ 
+  container,
+}: SubscriberArgs) {
+  const logger = container.resolve("logger")
+  
+  let hasMore = true
+  let offset = 0
+  const limit = 50
+  let totalIndexed = 0
+
+  logger.info("Starting product indexing...")
+
+  while (hasMore) {
+    const { result: { products, metadata } } = await syncProductsWorkflow(container)
+      .run({
+        input: {
+          limit,
+          offset,
+        },
+      })
+
+    hasMore = offset + limit < (metadata?.count ?? 0)
+    offset += limit
+    totalIndexed += products.length
+  }
+
+  logger.info(`Successfully indexed ${totalIndexed} products`)
+}
+
+export const config: SubscriberConfig = {
+  event: "algolia.sync",
+}
+```
+
+A subscriber file must export:
+
+1. An asynchronous function, which is the subscriber that is executed when the event is emitted.
+2. A configuration object that holds the name of the event the subscriber listens to, which is `algolia.sync` in this case.
+
+The subscriber function receives an object as a parameter that has a `container` property, which is the Medusa container.
+
+In the subscriber function, you initialize variables to keep track of the pagination and the total number of products indexed.
+
+Then, you start a loop that retrieves products in batches of 50 and indexes them in Algolia using the `syncProductsWorkflow`. Finally, you log the total number of products indexed.
+
+You'll learn how to emit the `algolia.sync` event next.
+
+<Note title="Tip">
+
+If you want to sync other data types, you can do it in this subscriber as well.
+
+</Note>
+
+### Create API Route to Trigger Sync
+
+To allow the Medusa Admin dashboard to trigger the `algolia.sync` event, you need to create an API route that emits the event.
+
+An API Route is an endpoint that exposes commerce features to external applications and clients, such as storefronts.
+
+<Note>
+
+Learn more about API routes in [this documentation](!docs!/learn/fundamentals/api-routes).
+
+</Note>
+
+An API route is created in a `route.ts` file under a sub-directory of the `src/api` directory. The path of the API route is the file's path relative to `src/api`.
+
+So, to create an API route at the path `/admin/algolia/sync`, create the file `src/api/admin/algolia/sync/route.ts` with the following content:
+
+```ts title="src/api/admin/algolia/sync/route.ts"
+import { MedusaRequest, MedusaResponse } from "@medusajs/framework/http"
+import { Modules } from "@medusajs/framework/utils"
+
+export async function POST(
+  req: MedusaRequest,
+  res: MedusaResponse
+) {
+  const eventModuleService = req.scope.resolve(Modules.EVENT_BUS)
+  await eventModuleService.emit({
+    name: "algolia.sync",
+    data: {},
+  })
+  res.send({
+    message: "Syncing data to Algolia",
+  })
+}
+```
+
+Since you export a `POST` route handler function, you expose an `API` route at `/admin/algolia/sync`. The route handler function accepts two parameters:
+
+1. A request object with details and context on the request, such as body parameters or authenticated user details.
+2. A response object to manipulate and send the response.
+
+In the route handler, you use the Medusa container that is available in the request object to resolve the [Event Module](../../../architectural-modules/event/page.mdx). This module manages events and their subscribers.
+
+Then, you emit the `algolia.sync` event using the Event Module's `emit` method, passing it the event name.
+
+Finally, you send a response with a message indicating that data is being synced to Algolia.
+
+### Add Algolia Sync Page to Admin Dashboard
+
+The last step is to add a new page to the admin dashboard that allows the admin to trigger the reindex. You add a new page using a [UI Route](!docs!/learn/fundamentals/admin/ui-routes).
+
+A UI route is a React component that specifies the content to be shown in a new page in the Medusa Admin dashboard. You'll create a UI route to display a button that triggers the reindex when clicked.
+
+<Note>
+
+Learn more about UI routes in the [UI Routes documentation](!docs!/learn/fundamentals/admin/ui-routes).
+
+</Note>
+
+#### Configure JS SDK
+
+Before creating the UI route, you'll configure Medusa's [JS SDK](../../../js-sdk/page.mdx) that you can use to send requests to the Medusa server from any client application, including your Medusa Admin customizations.
+
+The JS SDK is installed by default in your Medusa application. To configure it, create the file `src/admin/lib/sdk.ts` with the following content:
+
+```ts title="src/admin/lib/sdk.ts"
+import Medusa from "@medusajs/js-sdk"
+
+export const sdk = new Medusa({
+  baseUrl: "http://localhost:9000",
+  debug: process.env.NODE_ENV === "development",
+  auth: {
+    type: "session",
+  },
+})
+```
+
+You create an instance of the JS SDK using the `Medusa` class from the JS SDK. You pass it an object having the following properties:
+
+- `baseUrl`: The base URL of the Medusa server.
+- `debug`: A boolean indicating whether to log debug information into the console.
+- `auth`: An object specifying the authentication type. When using the JS SDK for admin customizations, you use the `session` authentication type.
+
+#### Create UI Route
+
+You'll now create the UI route that displays a button to trigger the reindex. You create a UI route in a `page.tsx` file under a sub-directory of `src/admin/routes` directory. The file's path relative to `src/admin/routes` determines its path in the dashboard.
+
+So, to create a new page under the Settings section of the Medusa Admin, create the file `src/admin/routes/settings/algolia/page.tsx` with the following content:
+
+```tsx title="src/admin/routes/settings/algolia/page.tsx"
+import { Container, Heading, Button, toast } from "@medusajs/ui"
+import { useMutation } from "@tanstack/react-query"
+import { sdk } from "../../../lib/sdk"
+import { defineRouteConfig } from "@medusajs/admin-sdk"
+
+const AlgoliaPage = () => {
+  const { mutate, isPending } = useMutation({
+    mutationFn: () => 
+      sdk.client.fetch("/admin/algolia/sync", {
+        method: "POST",
+      }),
+    onSuccess: () => {
+      toast.success("Successfully triggered data sync to Algolia") 
+    },
+    onError: (err) => {
+      console.error(err)
+      toast.error("Failed to sync data to Algolia") 
+    },
+  })
+
+  const handleSync = () => {
+    mutate()
+  }
+
+  return (
+    <Container className="divide-y p-0">
+      <div className="flex items-center justify-between px-6 py-4">
+        <Heading level="h2">Algolia Sync</Heading>
+      </div>
+      <div className="px-6 py-8">
+        <Button 
+          variant="primary"
+          onClick={handleSync}
+          isLoading={isPending}
+        >
+          Sync Data to Algolia
+        </Button>
+      </div>
+    </Container>
+  )
+}
+
+export const config = defineRouteConfig({
+  label: "Algolia",
+})
+
+export default AlgoliaPage
+```
+
+A UI route's file must export:
+
+1. A React component that defines the content of the page.
+2. A configuration object that specifies the route's label in the dashboard. This label is used to show a sidebar item for the new route.
+
+In the React component, you use `useMutation` hook from `@tanstack/react-query` to create a mutation that sends a `POST` request to the API route you created earlier. In the mutation function, you use the JS SDK to send the request.
+
+Then, in the return statement, you display a button that triggers the mutation when clicked, which sends a request to the API route you created earlier.
+
+### Test it Out
+
+You'll now test out the entire flow, starting from triggering the reindex manually from the Medusa Admin dashboard, to checking the Algolia dashboard for the indexed products.
+
+Run the following command to start the Medusa application:
+
+```bash npm2yarn
+npm run dev
+```
+
+Then, open the Medusa Admin at `http://localhost:9000/app` and log in with the credentials you set up in the first step.
+
+<Note>
+
+Can't remember the credentials? Learn how to create a user in the [Medusa CLI reference](../../../medusa-cli/commands/user/page.mdx).
+
+</Note>
+
+After you log in, go to Settings from the sidebar. You'll find in the Settings' sidebar a new "Algolia" item. If you click on it, you'll find the page you created with the button to sync products to Algolia.
+
+If you click on the button, the products will be synced to Algolia.
+
+![The Algolia Sync page in the Medusa Admin dashboard with a button to sync products to Algolia](https://res.cloudinary.com/dza7lstvk/image/upload/v1742820813/Medusa%20Resources/Screenshot_2025-03-24_at_2.52.31_PM_eiegzb.png)
+
+You can check that the sync ran and was completed by checking the Medusa logs in the terminal where you started the Medusa application. You should find the following messages:
+
+```bash
+info:    Processing algolia.sync which has 1 subscribers
+info:    Starting product indexing...
+info:    Successfully indexed 4 products
+```
+
+These messages indicate that the `algolia.sync` event was emitted, which triggered the subscriber you created to sync the products using the `syncProductsWorkflow`.
+
+Finally, you can check the Algolia dashboard to see the indexed products. Go to Search -> Index, and check the records of the index you set up in the Algolia Module's options (`products`, for example).
+
+![The Algolia dashboard showing the indexed products](https://res.cloudinary.com/dza7lstvk/image/upload/v1742821034/Medusa%20Resources/Screenshot_2025-03-24_at_2.56.38_PM_mtojrv.png)
+
+---
+
+## Step 5: Update Index on Product Changes
+
+You'll now automate the indexing of the products whenever a change occurs. That includes when a product is created, updated, or deleted.
+
+Similar to before, you'll create subscribers to listen to these events.
+
+### Handle Create and Update Products
+
+The action to perform when a product is created or updated is the same. You'll use the `syncProductsWorkflow` to sync the product to Algolia.
+
+So, you only need one subscriber to handle these two events. To create the subscriber, create the file `src/subscribers/product-sync.ts` with the following content:
+
+```ts title="src/subscribers/product-sync.ts"
+import { SubscriberArgs, type SubscriberConfig } from "@medusajs/framework"
+import { syncProductsWorkflow } from "../workflows/sync-products"
+
+export default async function handleProductEvents({
+  event: { data },
+  container,
+}: SubscriberArgs<{ id: string }>) {
+  await syncProductsWorkflow(container)
+    .run({
+      input: {
+        filters: {
+          id: data.id,
+        },
+      },
+    })
+}
+
+export const config: SubscriberConfig = {
+  event: ["product.created", "product.updated"],
+}
+```
+
+The subscriber listens to the `product.created` and `product.updated` events. When either of these events is emitted, the subscriber triggers the `syncProductsWorkflow` to sync the product to Algolia.
+
+When the `product.created` and `product.updated` events are emitted, the product's ID is passed in the event data payload, which you can access in the `event.data` property of the subscriber function's parameter.
+
+So, you pass the product's ID to the `syncProductsWorkflow` as a filter to retrieve only the product that was created or updated.
+
+#### Test it Out
+
+To test it out, start the Medusa application:
+
+```bash npm2yarn
+npm run dev
+```
+
+Then, either create a product or update an existing one using the Medusa Admin dashboard. If you check the Algolia dashboard, you'll find that the product was created or updated.
+
+### Handle Product Deletion
+
+When a product is deleted, you need to remove it from the Algolia index. As this requires a different action than creating or updating a product, you'll create a new workflow that deletes the product from Algolia, then create a subscriber that listens to the `product.deleted` event to trigger the workflow.
+
+#### Create Delete Product Step
+
+The workflow to delete a product from Algolia will have only one step that deletes products by their IDs from Algolia.
+
+So, create the step at `src/workflows/steps/delete-products-from-algolia.ts` with the following content:
+
+```ts title="src/workflows/steps/delete-products-from-algolia.ts"
+import {
+  createStep,
+  StepResponse,
+} from "@medusajs/framework/workflows-sdk"
+import { ALGOLIA_MODULE } from "../../modules/algolia"
+
+export type DeleteProductsFromAlgoliaWorkflow = {
+  ids: string[]
+}
+
+export const deleteProductsFromAlgoliaStep = createStep(
+  "delete-products-from-algolia-step",
+  async (
+    { ids }: DeleteProductsFromAlgoliaWorkflow,
+    { container }
+  ) => {
+    const algoliaModuleService = container.resolve(ALGOLIA_MODULE)
+    
+    const existingRecords = await algoliaModuleService.retrieveFromIndex(
+      ids, 
+      "product"
+    )
+    await algoliaModuleService.deleteFromIndex(
+      ids,
+      "product"
+    )
+
+    return new StepResponse(undefined, existingRecords)
+  },
+  async (existingRecords, { container }) => {
+    if (!existingRecords) {
+      return
+    }
+    const algoliaModuleService = container.resolve(ALGOLIA_MODULE)
+    
+    await algoliaModuleService.indexData(
+      existingRecords as unknown as Record<string, unknown>[],
+      "product"
+    )
+  }
+)
+```
+
+The step receives the IDs of the products to delete as an input.
+
+In the step, you resolve the Algolia Module's service and retrieve the existing records from Algolia. This is useful to revert the deletion if an error occurs.
+
+Then, you delete the products from Algolia and pass the existing records to the compensation function.
+
+In the compensation function, you reindex the existing records if an error occurs.
+
+#### Create Delete Product Workflow
+
+You can now create the workflow that deletes products from Algolia. Create the file `src/workflows/delete-products-from-algolia.ts` with the following content:
+
+```ts title="src/workflows/delete-products-from-algolia.ts"
+import { createWorkflow } from "@medusajs/framework/workflows-sdk"
+import { deleteProductsFromAlgoliaStep } from "./steps/delete-products-from-algolia"
+
+type DeleteProductsFromAlgoliaWorkflowInput = {
+  ids: string[]
+}
+
+export const deleteProductsFromAlgoliaWorkflow = createWorkflow(
+  "delete-products-from-algolia",
+  (input: DeleteProductsFromAlgoliaWorkflowInput) => {
+    deleteProductsFromAlgoliaStep(input)
+  }
+)
+```
+
+The workflow receives an object with the IDs of the products to delete. It then executes the `deleteProductsFromAlgoliaStep` to delete the products from Algolia.
+
+#### Create Delete Product Subscriber
+
+Finally, you'll create the subscriber that listens to the `product.deleted` event to trigger the above workflow.
+
+Create the file `src/subscribers/product-delete.ts` with the following content:
+
+```ts title="src/subscribers/product-delete.ts"
+import { SubscriberArgs, type SubscriberConfig } from "@medusajs/framework"
+import { deleteProductsFromAlgoliaWorkflow } from "../workflows/delete-products-from-algolia"
+
+export default async function handleProductDeleted({
+  event: { data },
+  container,
+}: SubscriberArgs<{ id: string }>) {
+  await deleteProductsFromAlgoliaWorkflow(container)
+    .run({
+      input: {
+        ids: [data.id],
+      },
+    })
+}
+
+export const config: SubscriberConfig = {
+  event: "product.deleted",
+}
+```
+
+The subscriber listens to the `product.deleted` event. When the event is emitted, the subscriber triggers the `deleteProductsFromAlgoliaWorkflow`, passing it the ID of the product to delete.
+
+#### Test it Out
+
+To test product deletion, start the Medusa application:
+
+```bash npm2yarn
+npm run dev
+```
+
+Then, delete a product from the Medusa Admin dashboard. If you check the Algolia dashboard, you'll find that the product was deleted there as well.
+
+---
+
+## Step 6: Add Search API Route
+
+Before customizing the storefront to show the search UI, you'll create an API route in your Medusa application that allows storefronts to search products in Algolia.
+
+<Note title="Tip">
+
+While you can implement the search functionality directly in the storefront to interact with Algolia, this approach centralizes your search integration in Medusa, allowing you to change or modify the integration as necessary. You can also rely on the same behavior and results across different storefronts.
+
+</Note>
+
+To implement the API Route, create the file `src/api/store/search/route.ts` with the following content:
+
+```ts title="src/api/store/search/route.ts"
+import { MedusaRequest, MedusaResponse } from "@medusajs/framework/http"
+import { ALGOLIA_MODULE } from "../../../../modules/algolia"
+import AlgoliaModuleService from "../../../../modules/algolia/service"
+import { z } from "zod"
+
+export const SearchSchema = z.object({
+  query: z.string(),
+})
+
+type SearchRequest = z.infer<typeof SearchSchema>
+
+export async function POST(
+  req: MedusaRequest<SearchRequest>,
+  res: MedusaResponse
+) {
+  const algoliaModuleService: AlgoliaModuleService = req.scope.resolve(ALGOLIA_MODULE)
+
+  const { query } = req.validatedBody
+
+  const results = await algoliaModuleService.search(
+    query as string 
+  )
+
+  res.json(results)
+}
+```
+
+You first define a schema with [Zod](https://zod.dev/), a library to define validation schemas. The schema defines the structure of the request body, which in this case is an object with a `query` property of type `string`. Later, you'll use the schema to enforce request body validation.
+
+Then, you expose a `POST` API Route at `/store/search` that searches Algolia using the `search` method you implemented in the Algolia Module's service. You pass to it the query string from the request body.
+
+Finally, you return the search results as it is in the response.
+
+### Add Validation Middleware
+
+To ensure that requests sent to the API route have the required request body parameters, you can use a [middleware](!docs!/learn/fundamentals/api-routes/middlewares). A middleware is a function executed when a request is sent to an API Route. It's executed before the route handler.
+
+<Note>
+
+Learn more about middleware in the [Middlewares documentation](!docs!/learn/fundamentals/api-routes/middlewares).
+
+</Note>
+
+Middlewares are created in the `src/api/middlewares.ts` file. So create the file `src/api/middlewares.ts` with the following content:
+
+```ts title="src/api/middlewares.ts"
+import { 
+  defineMiddlewares,
+  validateAndTransformBody, 
+} from "@medusajs/framework/http"
+import { SearchSchema } from "./store/products/search/route"
+
+export default defineMiddlewares({
+  routes: [
+    {
+      matcher: "/store/products/search",
+      method: ["POST"],
+      middlewares: [
+        validateAndTransformBody(SearchSchema),
+      ],
+    },
+  ],
+})
+```
+
+To export the middlewares, you use the `defineMiddlewares` function. It accepts an object having a `routes` property, whose value is an array of middleware route objects. Each middleware route object has the following properties:
+
+- `matcher`: The path of the route the middleware applies to.
+- `method`: The HTTP methods the middleware applies to, which is in this case `POST`.
+- `middlewares`: An array of middleware functions to apply to the route. You apply the `validateAndTransformBody` middleware which ensures that a request's body has the required parameters. You pass it the schema you defined earlier in the API route's file.
+
+You can use the search API route now. You'll see it in action as you customize the storefront in the next step.
+
+---
+
+## Step 7: Search Products in Next.js Storefront
+
+The last step is to provide the search functionalities to customers on your storefront. In the first step, you installed the [Next.js Starter Storefront](../../../nextjs-starter/page.mdx) along with the Medusa application.
+
+In this step, you'll customize the Next.js Starter Storefront to add the search functionality.
+
+<Note title="Reminder" forceMultiline>
+
+The Next.js Starter Storefront was installed in a separate directory from Medusa. The directory's name is `{your-project}-storefront`.
+
+So, if your Medusa application's directory is `medusa-search`, you can find the storefront by going back to the parent directory and changing to the `medusa-search-storefront` directory:
+
+```bash
+cd ../medusa-search-storefront # change based on your project name
+```
+
+</Note>
+
+### Install Algolia Packages
+
+Before adding the implementation of the search functionality, you need to install the Algolia packages necessary to add the search functionality in your storefront.
+
+Run the following command in the directory of your Next.js Starter Storefront:
+
+```bash npm2yarn
+npm install algoliasearch react-instantsearch
+```
+
+This installs the Algolia Search JavaScript client and the React InstantSearch library, which you'll use to build the search functionality.
+
+### Add Search Client Configuration
+
+Next, you need to configure the search client. Not only do you need to initialize Algolia, but you also need to change the searching mechanism to use your custom API route in the Medusa application instead of Algolia's API directly.
+
+In `src/lib/config.ts`, add the following imports at the top of the file:
+
+```ts title="src/lib/config.ts" badgeLabel="Storefront" badgeColor="blue"
+import { 
+  liteClient as algoliasearch, 
+  LiteClient as SearchClient,
+} from "algoliasearch/lite"
+```
+
+Then, add the following at the end of the file:
+
+```ts title="src/lib/config.ts" badgeLabel="Storefront" badgeColor="blue"
+export const searchClient: SearchClient = {
+  ...(algoliasearch(
+    process.env.NEXT_PUBLIC_ALGOLIA_APP_ID || "", 
+    process.env.NEXT_PUBLIC_ALGOLIA_API_KEY || ""
+  )),
+  search: async (params) => {
+    const request = Array.isArray(params) ? params[0] : params
+    const query = "params" in request ? request.params?.query : 
+      "query" in request ? request.query : ""
+
+    if (!query) {
+      return {
+        results: [
+          {
+            hits: [],
+            nbHits: 0,
+            nbPages: 0,
+            page: 0,
+            hitsPerPage: 0,
+            processingTimeMS: 0,
+            query: "",
+            params: "",
+          },
+        ],
+      }
+    }
+
+    return await sdk.client.fetch(`/store/products/search`, {
+      method: "POST",
+      body: {
+        query,
+      },
+    })
+  },
+}
+```
+
+In the code above, you create a `searchClient` object that initializes the Algolia client with your Algolia App ID and API Key.
+
+You also define a `search` method that sends a `POST` request to the search API route you created in the Medusa application. You use the JS SDK (which is initialized in this same file) to send the request.
+
+### Set Environment Variables
+
+In the storefront's `.env.local` file, add the following Algolia-related environment variables:
+
+```plain badgeLabel="Storefront" badgeColor="blue"
+NEXT_PUBLIC_ALGOLIA_APP_ID=your_algolia_app_id
+NEXT_PUBLIC_ALGOLIA_API_KEY=your_algolia_api_key
+NEXT_PUBLIC_ALGOLIA_PRODUCT_INDEX_NAME=your-products-index-name
+```
+
+Where:
+
+- `your_algolia_app_id` is your Algolia App ID, as explained in the [Add Environment Variables section](#add-environment-variables) earlier.
+- `your_algolia_api_key` is your Algolia Search API key. You can retrieve it from the [same API keys page on the Algolia dashboard](#add-environment-variables) that you retrieved the Admin API key from.
+- `your-products-index-name` is the name of the index you created in Algolia to store the products, which you can retrieve as explained in the [Add Environment Variables section](#add-environment-variables) earlier. You'll use this variable later.
+
+<Note type="warning">
+
+Do not expose your Admin API key in the storefront. The Admin API key should only be used in the Medusa application to interact with Algolia, as it has full access to your Algolia account.
+
+</Note>
+
+### Add Search Modal Component
+
+You'll now add a search modal component that customers can use to search for products. The search modal will display the search results in real-time as the customer types in the search query.
+
+Later, you'll add the search modal to the navigation bar, allowing customers to open the search modal from any page.
+
+Create the file `src/modules/search/components/modal/index.tsx` with the following content:
+
+```tsx title="src/modules/search/components/modal/index.tsx" badgeLabel="Storefront" badgeColor="blue"
+"use client"
+
+import React, { useEffect, useState } from "react"
+import { Hits, InstantSearch, SearchBox } from "react-instantsearch"
+import { searchClient } from "../../../../lib/config"
+import Modal from "../../../common/components/modal"
+import { Button } from "@medusajs/ui"
+import Image from "next/image"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+
+type Hit = {
+  objectID: string;
+  id: string;
+  title: string;
+  description: string;
+  handle: string;
+  thumbnail: string;
+}
+
+export default function SearchModal() {
+  const [isOpen, setIsOpen] = useState(false)
+  const pathname = usePathname()
+
+  useEffect(() => {
+    setIsOpen(false)
+  }, [pathname])
+
+  return (
+    <>
+      <div className="hidden small:flex items-center gap-x-6 h-full">
+        <Button 
+          onClick={() => setIsOpen(true)} 
+          variant="transparent"
+          className="hover:text-ui-fg-base text-small-regular px-0 hover:bg-transparent focus:!bg-transparent"
+        >
+          Search
+        </Button>
+      </div>
+      <Modal isOpen={isOpen} close={() => setIsOpen(false)}>
+        <InstantSearch 
+          searchClient={searchClient} 
+          indexName={process.env.NEXT_PUBLIC_ALGOLIA_PRODUCT_INDEX_NAME}
+        >
+          <SearchBox className="w-full [&_input]:w-[94%] [&_input]:outline-none [&_button]:w-[3%]" />
+          <Hits hitComponent={Hit} />
+        </InstantSearch>
+      </Modal>
+    </>
+  )
+}
+
+const Hit = ({ hit }: { hit: Hit }) => {
+  return (
+    <div className="flex flex-row gap-x-2 mt-4 relative">
+      <Image src={hit.thumbnail} alt={hit.title} width={100} height={100} />
+      <div className="flex flex-col gap-y-1">
+        <h3>{hit.title}</h3>
+        <p className="text-sm text-gray-500">{hit.description}</p>
+      </div>
+      <Link href={`/products/${hit.handle}`} className="absolute right-0 top-0 w-full h-full" aria-label={`View Product: ${hit.title}`} />
+    </div>
+  )
+}
+```
+
+You create a `SearchModal` component that displays a search box and the search results using widgets from Algolia's `react-instantsearch` library.
+
+To display each result item (or hit), you create a `Hit` component that displays the product's title, description, and thumbnail. You also add a link to the product's page.
+
+Finally, you show the search modal when the customer clicks a "Search" button, which you'll add to the navigation bar next.
+
+### Add Search Button to Navigation Bar
+
+The last step is to show the search button in the navigation bar.
+
+In `src/modules/layout/templates/nav/index.tsx`, add the following imports at the top of the file:
+
+```tsx title="src/modules/layout/templates/nav/index.tsx" badgeLabel="Storefront" badgeColor="blue"
+import SearchModal from "@modules/search/components/modal"
+```
+
+Then, in the return statement of the `Nav` component, add the `SearchModal` component before the `div` surrounding the "Account" link:
+
+```tsx title="src/modules/layout/templates/nav/index.tsx" badgeLabel="Storefront" badgeColor="blue"
+<SearchModal />
+```
+
+The search button will now appear in the navigation bar before the Account link.
+
+### Test it Out
+
+To test out the storefront changes and the search API route, start the Medusa application:
+
+```bash npm2yarn
+npm run dev
+```
+
+Then, start the Next.js Starter Storefront from its directory:
+
+```bash npm2yarn
+npm run dev
+```
+
+Next, go to `localhost:8000`. You'll find a Search button at the top right of the navigation bar. If you click on it, you can search through your products. You can also click on a product to view its page.
+
+![The Next.js Starter Storefront showing the search modal with search results](https://res.cloudinary.com/dza7lstvk/image/upload/v1742827777/Medusa%20Resources/Screenshot_2025-03-24_at_4.49.23_PM_kzhldx.png)
+
+---
+
+## Next Steps
+
+You've now integrated Algolia with Medusa and added search functionality to your storefront. You can expand on these features to:
+
+- Add filters to the search results. You can do that using Algolia's [widgets](https://www.algolia.com/doc/guides/building-search-ui/widgets/showcase/react/) and customizing the search API route in Medusa to accept filter parameters.
+- Support indexing other data types, such as product categories. You can create the subscribers and workflows for categories similar to products.
+
+If you're new to Medusa, check out the [main documentation](!docs!/learn), where you'll get a more in-depth learning of all the concepts you've used in this guide and more.
+
+To learn more about the commerce features that Medusa provides, check out Medusa's [Commerce Modules](../../../commerce-modules/page.mdx).

@@ -14,11 +14,11 @@ export const metadata = {
 
 # {metadata.title}
 
-In this document, you'll learn how to use Stripe for payment during checkout in a React-based storefront.
+In this guide, you'll learn how to use Stripe for payment during checkout in a React-based storefront.
 
 <Note title="Tip">
 
-For other types of storefronts, the steps are similar. However, refer to [Stripe's documentation](https://docs.stripe.com/) for available tools for your tech stack.
+For other types of frameworks or tech stacks, the steps are similar. Refer to [Stripe's documentation](https://docs.stripe.com/) for available tools for your tech stack.
 
 </Note>
 
@@ -67,31 +67,34 @@ For Next.js storefronts, the environment variable's name must be prefixed with `
 
 ## 3. Create Stripe Component
 
-Then, create a file holding the following Stripe component:
+You can now create a Stripe component that renders the Stripe UI to accept payment.
 
-<Note>
+For example, you can create a file holding the following Stripe component:
 
-This snippet assumes you're using the provider from the [Cart Context guide](../../../cart/context/page.mdx) in your storefront.
+<Note title="Tip">
+
+- This example uses the `useCart` hook defined in the [Cart React Context guide](../../../cart/context/page.mdx).
+- Learn how to install and configure the JS SDK in the [JS SDK documentation](../../../../js-sdk/page.mdx).
 
 </Note>
 
 export const highlights = [
   ["10", "useCart", "The `useCart` hook was defined in the Cart React Context documentation."],
-  ["13", "stripePromise", "Initialize stripe using the environment variable added in the previous step."],
-  ["19", "clientSecret", "After initializing the payment session of Stripe in the Medusa application,\nthe client secret is available in the payment session's `data`."],
-  ["27", "StripeForm", "The actual form must be a different component nested inside `Elements`."],
-  ["44", "handlePayment", "This function is used to show Stripe's UI to accept payment,\nthen send the request to the Medusa application to complete the cart."],
-  ["61", "confirmCardPayment", "This function shows the UI to the customer to accept the card payment."],
-  ["78", "", "Once the customer enters their card details and submits the form,\nthe Promise resolves and executes this function."],
-  ["85", "fetch", "Send a request to the Medusa application\nto complete the cart and place the order."],
-  ["97", `type === "cart"`, "If the `type` returned is `cart`,\nit means an error occurred and the cart wasn't completed."],
-  ["100", `type === "order"`, "If the `type` returned is `order`,\nit means the cart was completed and the order was placed successfully."],
-  ["104", "refreshCart", "Unset and reset the cart."],
-  ["114", "button", "This button triggers the `handlePayment` function when clicked."]
+  ["14", "stripe", "Initialize stripe using the environment variable added in the previous step."],
+  ["20", "clientSecret", "After initializing the payment session of Stripe in the Medusa application,\nthe client secret is available in the payment session's `data`."],
+  ["34", "StripeForm", "The actual form must be a different component nested inside `Elements`."],
+  ["45", "handlePayment", "This function is used to show Stripe's UI to accept payment,\nthen send the request to the Medusa application to complete the cart."],
+  ["62", "confirmCardPayment", "This function shows the UI to the customer to accept the card payment."],
+  ["79", "then", "Once the customer enters their card details and submits the form,\nthe Promise resolves and executes this function."],
+  ["86", "complete", "Send a request to the Medusa application\nto complete the cart and place the order."],
+  ["88", `data.type === "cart"`, "If the `type` returned is `cart`,\nit means an error occurred and the cart wasn't completed."],
+  ["91", `data.type === "order"`, "If the `type` returned is `order`,\nit means the cart was completed and the order was placed successfully."],
+  ["95", "refreshCart", "Unset and reset the cart."],
+  ["105", "button", "This button triggers the `handlePayment` function when clicked."]
 ]
 
 ```tsx highlights={highlights}
-"use client" // include with Next.js 13+
+"use client"
 
 import { 
   CardElement, 
@@ -100,10 +103,11 @@ import {
   useStripe,
 } from "@stripe/react-stripe-js"
 import { loadStripe } from "@stripe/stripe-js"
-import { useCart } from "../../providers/cart"
+import { useCart } from "@/providers/cart"
 import { useState } from "react"
+import { sdk } from "@/lib/sdk"
 
-const stripePromise = loadStripe(
+const stripe = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PK || "temp"
 )
 
@@ -114,7 +118,7 @@ export default function StripePayment() {
 
   return (
     <div>
-      <Elements stripe={stripePromise} options={{
+      <Elements stripe={stripe} options={{
           clientSecret,
         }}>
         <StripeForm clientSecret={clientSecret} />
@@ -175,25 +179,15 @@ const StripeForm = ({
         return
       }
 
-      fetch(
-        `http://localhost:9000/store/carts/${cart.id}/complete`,
-        {
-          credentials: "include",
-          headers: {
-            "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-          },
-          method: "POST",
-        }
-      )
-      .then((res) => res.json())
-      .then(({ type, cart, order, error }) => {
-        if (type === "cart" && cart) {
+      sdk.store.cart.complete(cart.id)
+      .then((data) => {
+        if (data.type === "cart" && data.cart) {
           // an error occured
-          console.error(error)
-        } else if (type === "order" && order) {
+          console.error(data.error)
+        } else if (data.type === "order" && data.order) {
           // TODO redirect to order success page
           alert("Order placed.")
-          console.log(order)
+          console.log(data.order)
           refreshCart()
         }
       })
@@ -218,20 +212,20 @@ const StripeForm = ({
 In the code snippet above, you:
 
 1. Create a `StripePayment` component that wraps the actual form with Stripe's `Elements` component.
-    - In the `StripePayment` component, you obtain the client secret from the payment session's `data` field. This is set in the Medusa application.
+    - In the `StripePayment` component, you obtain the client secret from the payment session's `data` field. This is set in the Medusa application after you initialize the payment session using the [Initialize Payment Sessions API route](!api!/store#payment-collections_postpaymentcollectionsidpaymentsessions).
 2. Create a `StripeForm` component that holds the actual form. In this component, you implement a `handlePayment` function that does the following:
     - Use Stripe's `confirmCardPayment` method to accept the card details from the customer.
     - Once the customer enters their card details and submit their order, the resolution function of the `confirmCardPayment` method is executed.
     - In the resolution function, you send a request to the [Complete Cart API route](!api!/store#carts_postcartsidcomplete) to complete the cart and place the order.
     - In the received response of the request, if the `type` is `cart`, it means that the cart completion failed. The error is set in the `error` response field.
     - If the `type` is `order`, it means the card was completed and the order was placed successfully. You can access the order in the `order` response field.
-    - When the order is placed, you refresh the cart. You can redirect the customer to an order success page at this point.
+    - When the order is placed, you refresh the cart. You can redirect the customer to an order success page at this point. The redirection logic depends on the framework you're using.
 
 ---
 
 ## 4. Use the Stripe Component
 
-You can now use the Stripe component in the checkout flow. You should render it after the customer chooses Stripe as a payment provider.
+Finally, use the Stripe component in the checkout flow. You should render it after the customer chooses Stripe as a payment provider.
 
 For example, you can use it in the `getPaymentUi` function defined in the [Payment Checkout Step guide](../page.mdx):
 

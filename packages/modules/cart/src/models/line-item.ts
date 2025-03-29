@@ -27,6 +27,7 @@ const LineItem = model
       variant_option_values: model.json().nullable(),
       requires_shipping: model.boolean().default(true),
       is_discountable: model.boolean().default(true),
+      is_giftcard: model.boolean().default(false),
       is_tax_inclusive: model.boolean().default(false),
       is_custom_price: model.boolean().default(false),
       compare_at_unit_price: model.bigNumber().nullable(),

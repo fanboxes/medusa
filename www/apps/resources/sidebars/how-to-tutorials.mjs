@@ -73,10 +73,23 @@ While tutorials show you a specific use case, they also help you understand how 
     children: [
       {
         type: "link",
+        title: "Abandoned Cart",
+        path: "/how-to-tutorials/tutorials/abandoned-cart",
+        description:
+          "Learn how to send abandoned cart notifications to customers.",
+      },
+      {
+        type: "link",
         title: "Custom Item Pricing",
         path: "/examples/guides/custom-item-price",
         description:
           "Learn how to use prices from external systems for products.",
+      },
+      {
+        type: "ref",
+        title: "Magento Migration",
+        path: "/integrations/guides/magento",
+        description: "Learn how to migrate data from Magento to Medusa.",
       },
       {
         type: "link",

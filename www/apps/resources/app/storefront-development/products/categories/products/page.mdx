@@ -13,44 +13,26 @@ export const metadata = {
 
 # {metadata.title}
 
+In this guide, you'll learn how to retrieve a category's products in the storefront.
+
+In your storefront, you may want to allow customers to browse products by category. To do so, you can retrieve the products that belong to a category and display them in your storefront.
+
 To retrieve a category's products in the storefront, send a request to the [List Products API route](!api!/store#products_getproducts) passing it the `category_id` query parameter:
 
+<Note title="Tip">
+
+Learn how to install and configure the JS SDK in the [JS SDK documentation](../../../../js-sdk/page.mdx).
+
+</Note>
+
 <CodeTabs group="store-request">
-  <CodeTab label="Fetch API" value="fetch">
-
-export const fetchHighlights = [
-  ["3", "", "Pass the category ID as a query parameter."],
-  ["9", "process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY", "Pass the Publishable API key to retrieve products of associated sales channel(s)."], 
-]
-
-  ```ts highlights={fetchHighlights}
-  const searchParams = new URLSearchParams({
-    // other query params...
-    "category_id[]": categoryId,
-  })
-
-  fetch(`http://localhost:9000/store/products?${searchParams.toString()}`, {
-    credentials: "include",
-    headers: {
-      "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-    },
-  })
-  .then((res) => res.json())
-  .then(({ products, count }) => {
-    // use products...
-    console.log(products)
-  })
-  ```
-
-  </CodeTab>
   <CodeTab label="React" value="react">
 
 export const highlights = [
-  ["31", "", "Pass the category ID as a query parameter."],
+  ["29"], ["30"], ["31"],
+  ["32", "category_id", "Pass the category ID as a query parameter."], ["33"],
   ["34"], ["35"], ["36"], 
-  ["37", "process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY", "Pass the Publishable API key to retrieve products of associated sales channel(s)."], 
-  ["38"], ["39"], ["40"], ["41"], ["42"], ["43"], ["44"], ["45"], ["46"], ["47"], ["48"], ["49"], ["50"], ["51"], ["52"],
-  ["53"], ["54"]
+  ["37"], ["38"], ["39"], ["40"], ["41"], ["42"], ["43"], ["44"]
 ]
 
   ```tsx highlights={highlights}
@@ -58,6 +40,7 @@ export const highlights = [
 
   import { useEffect, useState } from "react"
   import { HttpTypes } from "@medusajs/types"
+  import { sdk } from "@/lib/sdk"
 
   type Props = {
     categoryId: string
@@ -81,19 +64,11 @@ export const highlights = [
 
       const offset = (currentPage - 1) * limit
 
-      const searchParams = new URLSearchParams({
-        limit: `${limit}`,
-        offset: `${offset}`,
-        "category_id[]": categoryId,
+      sdk.store.product.list({
+        limit,
+        offset,
+        category_id: categoryId,
       })
-
-      fetch(`http://localhost:9000/store/products?${searchParams.toString()}`, {
-        credentials: "include",
-        headers: {
-          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-        },
-      })
-      .then((res) => res.json())
       .then(({ products: dataProducts, count }) => {
         setProducts((prev) => {
           if (prev.length > offset) {
@@ -140,6 +115,33 @@ export const highlights = [
   ```
 
   </CodeTab>
+  <CodeTab label="JS SDK" value="js-sdk">
+
+export const fetchHighlights = [
+  ["3", "category_id", "Pass the category ID as a query parameter."],
+]
+
+  ```ts highlights={fetchHighlights}
+  sdk.store.product.list({
+    // other query params...
+    category_id: categoryId,
+  })
+  .then(({ products, count }) => {
+    // use products...
+    console.log(products)
+  })
+  ```
+
+  </CodeTab>
 </CodeTabs>
 
+In this example, you retrieve the products that belong to a category by passing the category's ID as a query parameter to the [List Products API route](!api!/store#products_getproducts). You can also pass other query parameters to filter or paginate the products, such as `limit` and `offset`.
+
 The response has a `products` field, which is an array of [products](!api!/store#products_product_schema).
+
+To learn more about displaying the products and their variants, refer to the following guides:
+
+- [Show Products in Storefront](../../list/page.mdx)
+- [Show Product Variant's Price](../../../products/price/page.mdx)
+- [Show Product Variant's Inventory](../../../products/inventory/page.mdx)
+- [Select Product Variants](../../../products/variants/page.mdx)

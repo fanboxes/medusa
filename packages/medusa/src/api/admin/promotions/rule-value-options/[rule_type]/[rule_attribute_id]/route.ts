@@ -1,18 +1,18 @@
 import {
-  ContainerRegistrationKeys,
-  remoteQueryObjectFromString,
-} from "@medusajs/framework/utils"
-import {
   AuthenticatedMedusaRequest,
   MedusaResponse,
 } from "@medusajs/framework/http"
+import { HttpTypes } from "@medusajs/framework/types"
+import {
+  ContainerRegistrationKeys,
+  remoteQueryObjectFromString,
+} from "@medusajs/framework/utils"
 import {
   ruleQueryConfigurations,
   validateRuleAttribute,
   validateRuleType,
 } from "../../../utils"
 import { AdminGetPromotionRuleParamsType } from "../../../validators"
-import { HttpTypes } from "@medusajs/framework/types"
 
 /*
   This endpoint returns all the potential values for rules (promotion rules, target rules and buy rules)
@@ -49,7 +49,7 @@ export const GET = async (
     applicationMethodType,
   })
 
-  const { rows } = await remoteQuery(
+  const { rows, metadata } = await remoteQuery(
     remoteQueryObjectFromString({
       entryPoint: queryConfig.entryPoint,
       variables: {
@@ -67,5 +67,8 @@ export const GET = async (
 
   res.json({
     values,
+    count: metadata.count,
+    offset: metadata.skip,
+    limit: metadata.take,
   })
 }

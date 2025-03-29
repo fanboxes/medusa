@@ -15,11 +15,32 @@ export interface AdminStockLocationAddress {
 }
 
 export interface AdminStockLocation {
+  /**
+   * The ID of the stock location.
+   */
   id: string
+  /**
+   * The name of the stock location.
+   */
   name: string
+  /**
+   * The ID of the address associated with the stock location.
+   */
   address_id: string
+  /**
+   * The address associated with the stock location.
+   */
   address?: AdminStockLocationAddress
+  /**
+   * The sales channels associated with the stock location.
+   */
   sales_channels?: AdminSalesChannel[]
+  /**
+   * The fulfillment providers associated with the stock location.
+   */
   fulfillment_providers?: AdminFulfillmentProvider[]
+  /**
+   * The fulfillment sets associated with the stock location.
+   */
   fulfillment_sets?: AdminFulfillmentSet[]
 }

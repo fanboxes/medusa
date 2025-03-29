@@ -116,15 +116,15 @@ Refer to [this SendGrid documentation guide](https://docs.sendgrid.com/ui/sendin
 To test the module out, create a simple subscriber at `src/subscribers/product-created.ts` with the following content:
 
 export const highlights = [
-  ["12", "notificationModuleService", "Resolve the Notification Module."],
-  ["15", "create", "Create the notification to be sent."],
+  ["11", "notificationModuleService", "Resolve the Notification Module."],
+  ["13", "createNotifications", "Create the notification to be sent."],
   [
-    "17",
+    "15",
     '"email"',
     "By specifying the `email` channel, SendGrid will be used to send the notification.",
   ],
-  ["18", '"product-created"', "The ID of the template defined in SendGrid."],
-  ["19", "data", "The data to pass to the template defined in SendGrid."],
+  ["16", '"product-created"', "The ID of the template defined in SendGrid."],
+  ["17", "data", "The data to pass to the template defined in SendGrid."],
 ]
 
 ```ts title="src/subscribers/product-created.ts" highlights={highlights} collapsibleLines="1-7" expandButtonLabel="Show Imports"
@@ -133,30 +133,24 @@ import type {
   SubscriberConfig,
 } from "@medusajs/framework"
 import { Modules } from "@medusajs/framework/utils"
-import { INotificationModuleService } from "@medusajs/framework/types"
 
 export default async function productCreateHandler({
   event: { data },
   container,
 }: SubscriberArgs<{ id: string }>) {
-  const notificationModuleService: INotificationModuleService =
-    container.resolve(Modules.NOTIFICATION)
+  const notificationModuleService = container.resolve(Modules.NOTIFICATION)
+  const productModuleService = container.resolve(Modules.PRODUCT)
+
+  const product = await productModuleService.retrieveProduct(data.id)
 
   await notificationModuleService.createNotifications({
     to: "test@gmail.com",
-    from: "test@medusajs.com", // Optional var, verified sender required
     channel: "email",
     template: "product-created",
-    data,
-    attachments: [ // optional var
-      {
-        content: base64,
-        content_type: "image/png", // mime type
-        filename: filename.ext,
-        disposition: "attachment or inline attachment",
-        id: "id", // only needed for inline attachment
-      },
-    ],
+    data: {
+      product_title: product.title,
+      product_image: product.images[0]?.url,
+    },
   })
 }
 
@@ -165,15 +159,13 @@ export const config: SubscriberConfig = {
 }
 ```
 
-In this subscriber:
+In this subscriber, you:
 
-- Resolve the Notification Module's main service.
-- Use the `create` method of the main service to create a notification to be sent to the specified email.
-- By specifying the `email` channel, the SendGrid Notification Module Provider is used to send the notification.
-- The `template` property of the `create` method's parameter specifies the ID of the template defined in SendGrid.
-- The `data` property allows you to pass data to the template in SendGrid.
-- The `attachments` optional property allows you to pass attachments to the template in SendGrid.
-- The `from` optional property allows you to pass a single sender-verified email. If not provided, the value of the `from` configuration of the module is used.
+- Resolve the Notification and Product Modules' main services from the [Medusa container](!docs!/learn/fundamentals/medusa-container).
+- Retrieve the product's details to pass them to the template in SendGrid.
+- Use the `createNotifications` method of the Notification Module's main service to create a notification to be sent to the specified email. By specifying the `email` channel, the SendGrid Notification Module Provider is used to send the notification.
+- The `template` property of the `createNotifications` method's parameter specifies the ID of the template defined in SendGrid.
+- The `data` property allows you to pass data to the template in SendGrid. For example, the product's title and image.
 
 Then, start the Medusa application:
 

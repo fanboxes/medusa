@@ -17,6 +17,7 @@ const completeOrderFields = [
   "region.automatic_taxes",
   "items.id",
   "items.is_tax_inclusive",
+  "items.is_giftcard",
   "items.variant_id",
   "items.product_id",
   "items.product_title",
@@ -101,6 +102,7 @@ const lineItemFields = [
   "variant_id",
   "product_id",
   "is_tax_inclusive",
+  "is_giftcard",
   "product_title",
   "product_description",
   "product_subtitle",
@@ -137,7 +139,7 @@ export type UpdateOrderTaxLinesWorkflowInput = {
   shipping_method_ids?: string[]
   /**
    * Whether to force the tax calculation. If enabled, the tax provider
-   * may send request to a third-party service to retrieve the calculated 
+   * may send request to a third-party service to retrieve the calculated
    * tax rates. This depends on the chosen tax provider in the order's tax region.
    */
   force_tax_calculation?: boolean
@@ -156,10 +158,10 @@ export const updateOrderTaxLinesWorkflowId = "update-order-tax-lines"
  * This workflow updates the tax lines of items and shipping methods in an order. It's used by
  * other order-related workflows, such as the {@link createOrderWorkflow} to set the order's
  * tax lines.
- * 
+ *
  * You can use this workflow within your customizations or your own custom workflows, allowing you to update an
  * order's tax lines in your custom flows.
- * 
+ *
  * @example
  * const { result } = await updateOrderTaxLinesWorkflow(container)
  * .run({
@@ -168,9 +170,9 @@ export const updateOrderTaxLinesWorkflowId = "update-order-tax-lines"
  *     item_ids: ["orli_123", "orli_456"],
  *   }
  * })
- * 
+ *
  * @summary
- * 
+ *
  * Update the tax lines of items and shipping methods in an order.
  */
 export const updateOrderTaxLinesWorkflow = createWorkflow(

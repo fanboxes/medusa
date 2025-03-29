@@ -13,14 +13,10 @@ import { checkArraySameElms } from "../../utils"
 import {
   liteClient as algoliasearch,
   LiteClient as SearchClient,
-  type SearchResponses,
-  type SearchHits,
-  SearchResponse,
 } from "algoliasearch/lite"
 import clsx from "clsx"
 // @ts-expect-error can't install the types package because it doesn't support React v19
 import { CSSTransition, SwitchTransition } from "react-transition-group"
-import { searchFilters } from "../.."
 
 export type SearchCommand = {
   name: string
@@ -46,11 +42,16 @@ export type SearchContextType = {
 
 const SearchContext = createContext<SearchContextType | null>(null)
 
+export type AlgoliaIndex = {
+  name: string
+  title: string
+}
+
 export type AlgoliaProps = {
   appId: string
   apiKey: string
   mainIndexName: string
-  indices: string[]
+  indices: AlgoliaIndex[]
 }
 
 export type SearchProviderProps = {
@@ -83,154 +84,170 @@ export const SearchProvider = ({
     const algoliaClient = algoliasearch(algolia.appId, algolia.apiKey)
     return {
       ...algoliaClient,
-      async search(searchParams) {
-        const requests =
-          "requests" in searchParams ? searchParams.requests : searchParams
-        // always send this request, which is the main request with no filters
-        const mainRequest = requests[0]
-        const params = (mainRequest.params || {}) as Record<string, unknown>
-        if (!params.query) {
-          return Promise.resolve({
-            results: requests.map(() => ({
-              hits: [],
-              nbHits: 0,
-              nbPages: 0,
-              page: 0,
-              processingTimeMS: 0,
-              hitsPerPage: 0,
-              exhaustiveNbHits: false,
-              query: "",
-              params: "",
-            })),
-          })
-        }
+      // async search(searchParams) {
+      //   const requests =
+      //     "requests" in searchParams ? searchParams.requests : searchParams
+      //   // always send this request, which is the main request with no filters
+      //   const mainRequest = requests[0]
+      //   const params = (mainRequest.params || {}) as Record<string, unknown>
+      //   if (!params.query) {
+      //     return Promise.resolve({
+      //       results: requests.map(() => ({
+      //         hits: [],
+      //         nbHits: 0,
+      //         nbPages: 0,
+      //         page: 0,
+      //         processingTimeMS: 0,
+      //         hitsPerPage: 0,
+      //         exhaustiveNbHits: false,
+      //         query: "",
+      //         params: "",
+      //       })),
+      //     })
+      //   }
 
-        // retrieve only requests that have filters
-        // this is to ensure that we show no result if no filter is selected
-        const requestsWithFilters = requests.filter((item) => {
-          if (
-            !item.params ||
-            typeof item.params !== "object" ||
-            !("facetFilters" in item.params)
-          ) {
-            return false
-          }
+      //   // retrieve only requests that have filters
+      //   // this is to ensure that we show no result if no filter is selected
+      //   const requestsWithFilters = requests.filter((item) => {
+      //     if (
+      //       !item.params ||
+      //       typeof item.params !== "object" ||
+      //       !("facetFilters" in item.params)
+      //     ) {
+      //       return false
+      //     }
 
-          const facetFilters = item.params.facetFilters as string[]
+      //     const facetFilters = item.params.facetFilters as string[]
 
-          // if no tag filters are specified, there's still one item,
-          // which is an empty array
-          return facetFilters.length >= 1 && facetFilters[0].length > 0
-        })
+      //     // if no tag filters are specified, there's still one item,
+      //     // which is an empty array
+      //     return facetFilters.length >= 1 && facetFilters[0].length > 0
+      //   })
 
-        // check whether a query is entered in the search box
-        const noQueries = requestsWithFilters.every(
-          (item) =>
-            !item.facetQuery &&
-            (!item.params ||
-              typeof item.params !== "object" ||
-              !("query" in item.params) ||
-              !item.params.query)
-        )
+      //   // check whether a query is entered in the search box
+      //   const noQueries = requestsWithFilters.every(
+      //     (item) =>
+      //       !item.facetQuery &&
+      //       (!item.params ||
+      //         typeof item.params !== "object" ||
+      //         !("query" in item.params) ||
+      //         !item.params.query)
+      //   )
 
-        const newRequests: typeof requestsWithFilters = [mainRequest]
-        if (!noQueries) {
-          // split requests per tags
-          for (const request of requestsWithFilters) {
-            const params = request.params as Record<string, unknown>
-            const facetFilters = (params.facetFilters as string[][])[0]
+      //   const newRequests: typeof requestsWithFilters = [mainRequest]
+      //   if (!noQueries) {
+      //     // split requests per tags
+      //     for (const request of requestsWithFilters) {
+      //       const params = request.params as Record<string, unknown>
+      //       const facetFilters = (params.facetFilters as string[][])[0]
 
-            // if only one tag is selected, keep the request as-is
-            if (facetFilters.length === 1) {
-              newRequests.push(request)
+      //       // if only one tag is selected, keep the request as-is
+      //       if (facetFilters.length === 1) {
+      //         newRequests.push(request)
 
-              continue
-            }
+      //         continue
+      //       }
 
-            // if multiple tags are selected, split the tags
-            // to retrieve a small subset of results per each tag.
-            newRequests.push(
-              ...facetFilters.map((tag) => {
-                // get the filter's details in case it has custom hitsPerPage
-                const filterDetails = searchFilters.find(
-                  (item) => `_tags:${item.value}` === tag
-                )
-                return {
-                  ...request,
-                  params: {
-                    ...params,
-                    facetFilters: [tag],
-                  },
-                  hitsPerPage: filterDetails?.hitsPerPage || 3,
-                }
-              })
-            )
-          }
-        }
+      //       // if multiple tags are selected, split the tags
+      //       // to retrieve a small subset of results per each tag.
+      //       newRequests.push(
+      //         ...facetFilters.map((tag) => {
+      //           // get the filter's details in case it has custom hitsPerPage
+      //           const filterDetails = searchFilters.find(
+      //             (item) => `_tags:${item.value}` === tag
+      //           )
+      //           return {
+      //             ...request,
+      //             params: {
+      //               ...params,
+      //               facetFilters: [tag],
+      //             },
+      //             hitsPerPage: filterDetails?.hitsPerPage || 3,
+      //           }
+      //         })
+      //       )
+      //     }
+      //   }
 
-        return algoliaClient
-          .search<SearchHits>(newRequests)
-          .then((response) => {
-            if (newRequests.length === 1) {
-              return response
-            }
-            // combine results of the same index and return the results
-            const resultsByIndex: {
-              [indexName: string]: SearchResponse<SearchHits>
-            } = {}
-            // extract the response of the main request
-            const mainResult = response.results[0]
+      //   return algoliaClient
+      //     .search<ExpandedHits>(newRequests)
+      //     .then((response) => {
+      //       if (newRequests.length === 1) {
+      //         return response
+      //       }
+      //       // combine results of the same index and return the results
+      //       const resultsByIndex: {
+      //         [indexName: string]: SearchResponse<ExpandedHits>
+      //       } = {}
+      //       // extract the response of the main request
+      //       const mainResult = response.results[0]
 
-            response.results.forEach((result, indexNum) => {
-              if (indexNum === 0) {
-                // ignore the main request's result
-                return
-              }
-              const resultIndex = "index" in result ? result.index : undefined
-              const resultHits = "hits" in result ? result.hits : []
+      //       response.results.forEach((result, indexNum) => {
+      //         if (indexNum === 0) {
+      //           // ignore the main request's result
+      //           return
+      //         }
+      //         const resultIndex = "index" in result ? result.index : undefined
+      //         const resultHits = "hits" in result ? result.hits : []
 
-              if (!resultIndex) {
-                return
-              }
+      //         if (!resultIndex) {
+      //           return
+      //         }
 
-              resultsByIndex[resultIndex] = {
-                ...result,
-                ...(resultsByIndex[resultIndex] || {}),
-                hits: [
-                  ...(resultsByIndex[resultIndex]?.hits || []),
-                  ...resultHits,
-                ],
-                nbHits:
-                  (resultsByIndex[resultIndex]?.nbHits || 0) +
-                  resultHits.length,
-              }
-            })
+      //         resultsByIndex[resultIndex] = {
+      //           ...result,
+      //           ...(resultsByIndex[resultIndex] || {}),
+      //           hits: [
+      //             ...(resultsByIndex[resultIndex]?.hits || []),
+      //             ...resultHits,
+      //           ],
+      //           nbHits:
+      //             (resultsByIndex[resultIndex]?.nbHits || 0) +
+      //             resultHits.length,
+      //         }
+      //       })
 
-            const newResults = Object.values(resultsByIndex).flatMap(
-              (result) => ({
-                ...result,
-                hits: ("hits" in result ? result.hits : []).sort((a, b) => {
-                  const typosA = a._rankingInfo?.nbTypos || 0
-                  const typosB = b._rankingInfo?.nbTypos || 0
-                  if (a.type === "lvl1" && typosA <= typosB) {
-                    return -1
-                  }
+      //       const newResults = Object.values(resultsByIndex).flatMap(
+      //         (result) => ({
+      //           ...result,
+      //           hits: ("hits" in result ? result.hits : []).sort((a, b) => {
+      //             const typosA = a._rankingInfo?.nbTypos || 0
+      //             const typosB = b._rankingInfo?.nbTypos || 0
+      //             const tagASortOrder =
+      //               searchFilters.find((item) =>
+      //                 a._tags.find((tag) => tag === item.value)
+      //               )?.internalSortOrder || 0
+      //             const tagBSortorder =
+      //               searchFilters.find((item) =>
+      //                 b._tags.find((tag) => tag === item.value)
+      //               )?.internalSortOrder || 0
+      //             if (
+      //               a.type === "lvl1" &&
+      //               typosA <= typosB &&
+      //               tagASortOrder >= tagBSortorder
+      //             ) {
+      //               return -1
+      //             }
 
-                  if (b.type === "lvl1" && typosB <= typosA) {
-                    return 1
-                  }
+      //             if (
+      //               b.type === "lvl1" &&
+      //               typosB <= typosA &&
+      //               tagBSortorder >= tagASortOrder
+      //             ) {
+      //               return 1
+      //             }
 
-                  return 0
-                }),
-              })
-            )
+      //             return 0
+      //           }),
+      //         })
+      //       )
 
-            return {
-              // append the results with the main request's results
-              results: [mainResult, ...newResults],
-            } as SearchResponses<any>
-          })
-      },
+      //       return {
+      //         // append the results with the main request's results
+      //         results: [mainResult, ...newResults],
+      //       } as SearchResponses<any>
+      //     })
+      // },
     }
   }, [algolia.appId, algolia.apiKey])
 

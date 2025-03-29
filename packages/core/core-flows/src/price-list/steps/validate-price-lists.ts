@@ -27,6 +27,10 @@ export const validatePriceListsStep = createStep(
       Modules.PRICING
     )
 
+    if (!data.length) {
+      return new StepResponse(void 0)
+    }
+
     const priceListIds = data.map((d) => d.id)
     const priceLists = await pricingModule.listPriceLists({ id: priceListIds })
 

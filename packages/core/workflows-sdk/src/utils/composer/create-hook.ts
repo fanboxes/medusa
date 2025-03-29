@@ -85,6 +85,9 @@ export function createHook<Name extends string, TInvokeInput, TInvokeOutput>(
       if (options.resultValidator) {
         return options.resultValidator.parse(result)
       }
+      if (result === undefined) {
+        return new StepResponse(undefined)
+      }
       return result
     },
     () => void 0

@@ -22,7 +22,7 @@ import {
 } from "../../utils/order-validation"
 import { validateReturnReasons } from "../../utils/validate-return-reason"
 import { createOrderChangeActionsWorkflow } from "../create-order-change-actions"
-
+import { refreshReturnShippingWorkflow } from "./refresh-shipping"
 /**
  * The data to validate that items can be added to a return.
  */
@@ -50,14 +50,14 @@ export type RequestItemReturnValidationStepInput = {
  * If the order or return is canceled, the order change is not active,
  * the items do not exist in the order, or the return reasons are invalid,
  * the step will throw an error.
- * 
+ *
  * :::note
- * 
+ *
  * You can retrieve an order, return, and order change details using [Query](https://docs.medusajs.com/learn/fundamentals/module-links/query),
  * or [useQueryGraphStep](https://docs.medusajs.com/resources/references/medusa-workflows/steps/useQueryGraphStep).
- * 
+ *
  * :::
- * 
+ *
  * @example
  * const data = requestItemReturnValidationStep({
  *   order: {
@@ -110,12 +110,12 @@ export const requestItemReturnValidationStep = createStep(
 
 export const requestItemReturnWorkflowId = "request-item-return"
 /**
- * This workflow adds items to a return. It's used by the 
+ * This workflow adds items to a return. It's used by the
  * [Add Requested Items to Return Admin API Route](https://docs.medusajs.com/api/admin#returns_postreturnsidrequestitems).
- * 
+ *
  * You can use this workflow within your customizations or your own custom workflows, allowing you to add items to a return
  * in your custom flows.
- * 
+ *
  * @example
  * const { result } = await requestItemReturnWorkflow(container)
  * .run({
@@ -129,9 +129,9 @@ export const requestItemReturnWorkflowId = "request-item-return"
  *     ]
  *   }
  * })
- * 
+ *
  * @summary
- * 
+ *
  * Add items to a return.
  */
 export const requestItemReturnWorkflow = createWorkflow(
@@ -199,6 +199,21 @@ export const requestItemReturnWorkflow = createWorkflow(
 
     createOrderChangeActionsWorkflow.runAsStep({
       input: orderChangeActionInput,
+    })
+
+    const refreshArgs = transform(
+      { orderChange, orderReturn },
+      ({ orderChange, orderReturn }) => {
+        return {
+          order_change_id: orderChange.id,
+          return_id: orderReturn.id,
+          order_id: orderReturn.order_id,
+        }
+      }
+    )
+
+    refreshReturnShippingWorkflow.runAsStep({
+      input: refreshArgs,
     })
 
     return new WorkflowResponse(previewOrderChangeStep(order.id))

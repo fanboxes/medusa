@@ -41,7 +41,7 @@ import {
   PrepareLineItemDataInput,
   prepareTaxLinesData,
 } from "../utils/prepare-line-item-data"
-
+import { compensatePaymentIfNeededStep } from "../steps/compensate-payment-if-needed"
 /**
  * The data to complete a cart and place an order.
  */
@@ -111,6 +111,23 @@ export const completeCartWorkflow = createWorkflow(
       name: "cart-query",
     })
 
+    // this is only run when the cart is completed for the first time (same condition as below)
+    // but needs to be before the validation step
+    const paymentSessions = when(
+      "create-order-payment-compensation",
+      { orderId },
+      ({ orderId }) => !orderId
+    ).then(() => {
+      const paymentSessions = validateCartPaymentsStep({ cart })
+      // purpose of this step is to run compensation if cart completion fails
+      // and tries to cancel or refund the payment depending on the status.
+      compensatePaymentIfNeededStep({
+        payment_session_id: paymentSessions[0].id,
+      })
+
+      return paymentSessions
+    })
+
     const validate = createHook("validate", {
       input,
       cart,
@@ -135,8 +152,6 @@ export const completeCartWorkflow = createWorkflow(
 
       validateShippingStep({ cart, shippingOptions })
 
-      const paymentSessions = validateCartPaymentsStep({ cart })
-
       createHook("beforePaymentAuthorization", {
         input,
       })
@@ -144,7 +159,7 @@ export const completeCartWorkflow = createWorkflow(
       const payment = authorizePaymentSessionStep({
         // We choose the first payment session, as there will only be one active payment session
         // This might change in the future.
-        id: paymentSessions[0].id,
+        id: paymentSessions![0].id,
       })
 
       const { variants, sales_channel_id } = transform({ cart }, (data) => {

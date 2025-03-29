@@ -150,6 +150,7 @@ export function prepareLineItemData(data: PrepareLineItemDataInput) {
     variant_option_values: item?.variant_option_values,
 
     is_discountable: variant?.product?.discountable ?? item?.is_discountable,
+    is_giftcard: variant?.product?.is_giftcard ?? false,
     requires_shipping: requiresShipping,
 
     unit_price: unitPrice,

@@ -10,21 +10,33 @@ export const metadata = {
 
 # {metadata.title}
 
-Throughout your storefront, you'll need to access the logged-in customer to perform different actions, such as associate it with a cart.
+In this guide, you'll learn how to create a customer context in your storefront.
 
-So, if your storefront is React-based, create a customer context and add it at the top of your components tree. Then, you can access the logged-in customer anywhere in your storefront.
+## Why Create a Customer Context?
+
+Throughout your storefront, you'll need to access the logged-in customer to perform different actions, such as associating it with a cart.
+
+So, if your storefront is React-based, you can create a customer context and add it at the top of your components tree. Then, you can access the logged-in customer anywhere in your storefront.
+
+---
 
 ## Create Customer Context Provider
 
 For example, create the following file that exports a `CustomerProvider` component and a `useCustomer` hook:
 
+<Note title="Tip">
+
+Learn how to install and configure the JS SDK in the [JS SDK documentation](../../../js-sdk/page.mdx).
+
+</Note>
+
+
 export const highlights = [
-  ["12", "customer", "Expose customer to children of the context provider."],
-  ["13", "setCustomer", "Allow the context provider's\nchildren to change the logged-in customer."],
-  ["24", "CustomerProvider", "The provider component to use in your component tree."],
-  ["36", "fetch", "Try to retrieve the customer's details,\nif the customer is authentiated."],
-  ["37", `credentials: "include"`, "Important to include this option for cookie session authentication.\nFor token authentication, pass the authorization header instead."],
-  ["61", "useCustomer", "The hook that child components of the provider use to access the customer."]
+  ["13", "customer", "Expose customer to children of the context provider."],
+  ["14", "setCustomer", "Allow the context provider's\nchildren to change the logged-in customer."],
+  ["25", "CustomerProvider", "The provider component to use in your component tree."],
+  ["37", "retrieve", "Try to retrieve the customer's details,\nif the customer is authentiated."],
+  ["56", "useCustomer", "The hook that child components of the provider use to access the customer."]
 ]
 
 ```tsx highlights={highlights}
@@ -37,6 +49,7 @@ import {
   useState,
 } from "react"
 import { HttpTypes } from "@medusajs/types"
+import { sdk } from "@/lib/sdk"
 
 type CustomerContextType = {
   customer: HttpTypes.StoreCustomer | undefined
@@ -63,13 +76,7 @@ export const CustomerProvider = ({
       return
     }
 
-    fetch(`http://localhost:9000/store/customers/me`, {
-      credentials: "include",
-      headers: {
-        "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-      },
-    })
-    .then((res) => res.json())
+    sdk.store.customer.retrieve()
     .then(({ customer }) => {
       setCustomer(customer)
     })
@@ -99,7 +106,7 @@ export const useCustomer = () => {
 }
 ```
 
-The `CustomerProvider` handles retrieving the authenticated customer from the Medusa application.
+The `CustomerProvider` handles retrieving the authenticated customer from the Medusa application. This assumes that the JS SDK is already configured for authentication and the customer's authentication token was set as explained in the [Login in Storefront](../login/page.mdx) and [Third-Party Login](../third-party-login/page.mdx) guides.
 
 The `useCustomer` hook returns the value of the `CustomerContext`. Child components of `CustomerProvider` use this hook to access `customer` or `setCustomer`.
 
@@ -115,9 +122,9 @@ For example, if you're using Next.js, add it to the `app/layout.tsx` or `src/app
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
-import { CartProvider } from "../providers/cart"
-import { RegionProvider } from "../providers/region"
-import { CustomerProvider } from "../providers/customer"
+import { CartProvider } from "@/providers/cart"
+import { RegionProvider } from "@/providers/region"
+import { CustomerProvider } from "@/providers/customer"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -146,12 +153,9 @@ export default function RootLayout({
     </html>
   )
 }
-
 ```
 
----
-
-## Use useCustomer Hook
+### Use useCustomer Hook
 
 Now, you can use the `useCustomer` hook in child components of `CustomerProvider`.
 
@@ -160,7 +164,7 @@ For example:
 ```tsx
 "use client" // include with Next.js 13+
 // ...
-import { useCustomer } from "../providers/customer"
+import { useCustomer } from "@/providers/customer"
 
 export default function Profile() {
   const { customer } = useCustomer()

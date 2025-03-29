@@ -26,6 +26,7 @@ import {
   throwIfOrderChangeIsNotActive,
 } from "../../utils/order-validation"
 import { createOrderChangeActionsWorkflow } from "../create-order-change-actions"
+import { refreshClaimShippingWorkflow } from "./refresh-shipping"
 
 /**
  * The data to validate that items can be requested to return as part of a claim.
@@ -56,14 +57,14 @@ export type OrderClaimRequestItemReturnValidationStepInput = {
 /**
  * This step validates that items can be requested to return as part of a claim.
  * If the order, claim, or return is canceled, or the order change is not active, the step will throw an error.
- * 
+ *
  * :::note
- * 
+ *
  * You can retrieve an order, order claim, order return, and order change details using [Query](https://docs.medusajs.com/learn/fundamentals/module-links/query),
  * or [useQueryGraphStep](https://docs.medusajs.com/resources/references/medusa-workflows/steps/useQueryGraphStep).
- * 
+ *
  * :::
- * 
+ *
  * @example
  * const data = orderClaimRequestItemReturnValidationStep({
  *   order: {
@@ -112,10 +113,10 @@ export const orderClaimRequestItemReturnWorkflowId = "claim-request-item-return"
  * This workflow requests one or more items to be returned as part of a claim. The
  * items are added to the claim as inbound items. The workflow is used by the
  * [Add Inbound Items to Claim Admin API Route](https://docs.medusajs.com/api/admin#claims_postclaimsidinbounditems).
- * 
+ *
  * You can use this workflow within your customizations or your own custom workflows, allowing you to request items to be returned
  * as part of a claim in your custom flows.
- * 
+ *
  * @example
  * const { result } = await orderClaimRequestItemReturnWorkflow(container)
  * .run({
@@ -130,9 +131,9 @@ export const orderClaimRequestItemReturnWorkflowId = "claim-request-item-return"
  *     ]
  *   }
  * })
- * 
+ *
  * @summary
- * 
+ *
  * Request one or more items to be returned as part of a claim.
  */
 export const orderClaimRequestItemReturnWorkflow = createWorkflow(
@@ -256,6 +257,21 @@ export const orderClaimRequestItemReturnWorkflow = createWorkflow(
 
     createOrderChangeActionsWorkflow.runAsStep({
       input: orderChangeActionInput,
+    })
+
+    const refreshArgs = transform(
+      { orderChange, orderClaim },
+      ({ orderChange, orderClaim }) => {
+        return {
+          order_change_id: orderChange.id,
+          claim_id: orderClaim.id,
+          order_id: orderClaim.order_id,
+        }
+      }
+    )
+
+    refreshClaimShippingWorkflow.runAsStep({
+      input: refreshArgs,
     })
 
     return new WorkflowResponse(previewOrderChangeStep(orderClaim.order_id))

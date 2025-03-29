@@ -757,6 +757,16 @@
           "default": "true",
           "mappedType": "boolean"
         },
+        "is_giftcard": {
+          "name": "is_giftcard",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "false",
+          "mappedType": "boolean"
+        },
         "is_tax_inclusive": {
           "name": "is_tax_inclusive",
           "type": "boolean",

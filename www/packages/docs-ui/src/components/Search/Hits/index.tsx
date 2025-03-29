@@ -11,9 +11,8 @@ import {
   useInstantSearch,
 } from "react-instantsearch"
 import { SearchNoResult } from "../NoResults"
-import { SearchHitGroupName } from "./GroupName"
-import { useSearch } from "@/providers"
-import { Link } from "@/components"
+import { AlgoliaIndex, useSearch } from "@/providers"
+import { Link, SearchHitGroupName } from "@/components"
 
 export type Hierarchy = "lvl0" | "lvl1" | "lvl2" | "lvl3" | "lvl4" | "lvl5"
 
@@ -43,7 +42,7 @@ export type GroupedHitType = {
 
 export type SearchHitWrapperProps = {
   configureProps: ConfigureProps
-  indices: string[]
+  indices: AlgoliaIndex[]
 } & Omit<SearchHitsProps, "indexName" | "setNoResults">
 
 export type IndexResults = {
@@ -57,8 +56,8 @@ export const SearchHitsWrapper = ({
 }: SearchHitWrapperProps) => {
   const { status } = useInstantSearch()
   const [hasNoResults, setHashNoResults] = useState<IndexResults>({
-    [indices[0]]: false,
-    [indices[1]]: false,
+    [indices[0].name]: false,
+    [indices[1].name]: false,
   })
   const showNoResults = useMemo(() => {
     return Object.values(hasNoResults).every((value) => value === true)
@@ -74,11 +73,14 @@ export const SearchHitsWrapper = ({
   return (
     <div className="h-full overflow-auto px-docs_0.5">
       {status !== "loading" && showNoResults && <SearchNoResult />}
-      {indices.map((indexName, index) => (
+      {indices.map((index, key) => (
         // @ts-expect-error React v19 doesn't see this type as a React element
-        <Index indexName={indexName} key={index}>
+        <Index indexName={index.name} key={key}>
+          {!hasNoResults[index.name] && (
+            <SearchHitGroupName name={index.title} />
+          )}
           <SearchHits
-            indexName={indexName}
+            indexName={index.name}
             setNoResults={setNoResults}
             {...rest}
           />
@@ -104,30 +106,6 @@ export const SearchHits = ({
   const { status } = useInstantSearch()
   const { setIsOpen } = useSearch()
 
-  // group by lvl0
-  const grouped: GroupedHitType = useMemo(() => {
-    const grouped: GroupedHitType = {}
-    hits.forEach((hit) => {
-      if (hit.hierarchy.lvl0) {
-        if (!grouped[hit.hierarchy.lvl0]) {
-          grouped[hit.hierarchy.lvl0] = []
-        }
-        grouped[hit.hierarchy.lvl0].push(hit)
-      }
-    })
-
-    // sort groups by number of hits
-    const sortedGroups = Object.fromEntries(
-      Object.entries(grouped).sort(([, a], [, b]) => {
-        const lvl1CountA = a.filter((hit) => hit.type === "lvl1").length
-        const lvl1CountB = b.filter((hit) => hit.type === "lvl1").length
-
-        return lvl1CountB - lvl1CountA
-      })
-    )
-    return sortedGroups
-  }, [hits])
-
   useEffect(() => {
     if (status !== "loading" && status !== "stalled") {
       setNoResults(indexName, hits.length === 0)
@@ -149,76 +127,71 @@ export const SearchHits = ({
         "[&_mark]:text-medusa-fg-interactive"
       )}
     >
-      {Object.keys(grouped).map((groupName, index) => (
-        <Fragment key={index}>
-          <SearchHitGroupName name={groupName} />
-          {grouped[groupName].map((item, index) => {
-            const hierarchies = Object.values(item.hierarchy)
-              .filter(Boolean)
-              .join(" › ")
-            return (
-              <div
-                className={clsx(
-                  "gap-docs_0.25 relative flex flex-1 flex-col p-docs_0.5",
-                  "overflow-x-hidden text-ellipsis whitespace-nowrap break-words",
-                  "hover:bg-medusa-bg-base-hover",
-                  "focus:bg-medusa-bg-base-hover",
-                  "last:mb-docs_1 focus:outline-none"
-                )}
-                key={index}
-                tabIndex={index}
-                data-hit
-                onClick={(e) => {
-                  const target = e.target as Element
-                  if (target.tagName.toLowerCase() === "div") {
-                    target.querySelector("a")?.click()
-                  }
-                }}
-              >
-                <span
-                  className={clsx(
-                    "text-compact-small-plus text-medusa-fg-base",
-                    "max-w-full"
-                  )}
-                >
+      {hits.map((item, index) => {
+        const hierarchies = Object.values(item.hierarchy)
+          .filter(Boolean)
+          .join(" › ")
+        return (
+          <div
+            className={clsx(
+              "gap-docs_0.25 relative flex flex-1 flex-col p-docs_0.5",
+              "overflow-x-hidden text-ellipsis whitespace-nowrap break-words",
+              "hover:bg-medusa-bg-base-hover",
+              "focus:bg-medusa-bg-base-hover",
+              "focus:outline-none"
+            )}
+            key={index}
+            tabIndex={index}
+            data-hit
+            onClick={(e) => {
+              const target = e.target as Element
+              if (target.tagName.toLowerCase() === "div") {
+                target.querySelector("a")?.click()
+              }
+            }}
+          >
+            <span
+              className={clsx(
+                "text-compact-small-plus text-medusa-fg-base",
+                "max-w-full"
+              )}
+            >
+              {/* @ts-expect-error React v19 doesn't see this type as a React element */}
+              <Snippet attribute={"hierarchy.lvl1"} hit={item} />
+            </span>
+            <span className="text-compact-small text-medusa-fg-subtle text-ellipsis overflow-hidden">
+              {item.type === "content" && (
+                <>
                   {/* @ts-expect-error React v19 doesn't see this type as a React element */}
-                  <Snippet attribute={"hierarchy.lvl1"} hit={item} />
-                </span>
-                <span className="text-compact-small text-medusa-fg-subtle text-ellipsis overflow-hidden">
-                  {item.type === "content" && (
-                    <>
-                      {/* @ts-expect-error React v19 doesn't see this type as a React element */}
-                      <Snippet attribute={"content"} hit={item} />
-                    </>
-                  )}
-                  {item.type !== "content" && item.description}
-                </span>
+                  <Snippet attribute={"content"} hit={item} />
+                </>
+              )}
+              {item.type !== "content" && item.description}
+            </span>
 
-                <span
-                  className={clsx(
-                    "text-ellipsis overflow-hidden",
-                    "text-medusa-fg-muted items-center text-compact-x-small"
-                  )}
-                >
-                  {hierarchies}
-                </span>
-                <Link
-                  href={item.url}
-                  className="absolute top-0 left-0 h-full w-full"
-                  target="_self"
-                  onClick={(e) => {
-                    if (checkIfInternal(item.url)) {
-                      e.preventDefault()
-                      window.location.href = item.url
-                      setIsOpen(false)
-                    }
-                  }}
-                />
-              </div>
-            )
-          })}
-        </Fragment>
-      ))}
+            <span
+              className={clsx(
+                "text-ellipsis overflow-hidden",
+                "text-medusa-fg-muted items-center text-compact-x-small"
+              )}
+            >
+              {hierarchies}
+            </span>
+            <Link
+              href={item.url}
+              className="absolute top-0 left-0 h-full w-full"
+              target="_self"
+              onClick={(e) => {
+                if (checkIfInternal(item.url)) {
+                  e.preventDefault()
+                  window.location.href = item.url
+                  setIsOpen(false)
+                }
+              }}
+            />
+          </div>
+        )
+      })}
     </div>
   )
 }

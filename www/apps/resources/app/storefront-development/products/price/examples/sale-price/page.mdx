@@ -13,9 +13,17 @@ export const metadata = {
 
 # {metadata.title}
 
-In this document, you'll learn how to display a product variant's sale price, with a full React example.
+In this guide, you'll learn how to display a product variant's sale price, with a full React example.
+
+<Note title="Tip">
+
+Refer to the [Show Product Variant's Price](../show-price/page.mdx) guide to learn how to display a product variant's regular price.
+
+</Note>
 
 ## Check if a Price is a Sale
+
+A product variant's price can be a sale price or a regular price. The sale price is set by the merchant in a price list.
 
 To check if a product variant's price is a sale price, check whether the variant's `calculated_price.calculated_price.price_list_type` field is equal to `sale`:
 
@@ -23,17 +31,23 @@ To check if a product variant's price is a sale price, check whether the variant
 const isSale = selectedVariantPrice.calculated_price.calculated_price.price_list_type === "sale"
 ```
 
-Where `selectedVariantPrice` is either the variant the customer selected or the cheapest variant.
+Where `selectedVariantPrice` is either the variant the customer selected or the cheapest variant. Learn more about how to set the selected variant for pricing in the [Show Product Variant's Price](../show-price/page.mdx) guide.
+
+<Note title="Good to know">
+
+The sale price may be available for all customers, or only for some customers. If you send requests as an authenticated customer, the price list is automatically applied based on the customer's group.
+
+</Note>
 
 ---
 
 ## Display Original and Discount Amounts
 
-If the price is a sale price, the original price is in the variant's `calculated_price.original_amount` field:
+If the price is a sale price, the original price is available in the variant's `calculated_price.original_amount` field:
 
 <Note title="Tip">
 
-Find the implementation of the `formatPrice` function in [this guide](../show-price/page.mdx#price-formatting).
+Find the implementation of the `formatPrice` function in the [Show Product Variant's Price](../show-price/page.mdx#price-formatting) guide.
 
 </Note>
 
@@ -46,26 +60,39 @@ const discountedAmount = formatPrice(
 )
 ```
 
+You define three variables:
+
+- `salePrice`: The sale price of the variant.
+- `originalPrice`: The original price of the variant.
+- `discountedAmount`: The difference between the original and sale prices.
+
 You can use the original price either to display it or calculate and display the discounted amount.
 
 ---
 
 ## Full React Example
 
-For example, in a React-based storefront:
+For example, to display the sale price and the original price in a React-based storefront:
 
-<Note>
+<Note title="Tip">
 
-The example only passes the `region_id` query parameter for pricing. Learn how to store and retrieve the customer's region in the [Regions guides](../../../../regions/context/page.mdx).
+- This example uses the `useRegion` hook defined in the [Region React Context guide](../../../../regions/context/page.mdx) to retrieve the selected region's currency code.
+- Learn how to install and configure the JS SDK in the [JS SDK documentation](../../../../../js-sdk/page.mdx).
 
 </Note>
 
 export const saleHighlights = [
   ["5", "useRegion", "The `useRegion` hook is implemented in the Region React Context guide."],
-  ["17", "region", "Access the region using the `useRegion` hook."],
-  ["86", "isSale", "Determine whether the price is a sale price based on the value of the variant's `calculated_price.calculated_price.price_list_type` field."],
-  ["95", "originalPrice", "Retrieve the original price from the variant's `calculated_price.original_amount` field if the price is a sale price."],
-  ["141", "", "If the price is a sale price, show that to the customer along with the original price."]
+  ["18", "region", "Access the region using the `useRegion` hook."],
+  ["25", "retrieve", "Retrieve the product with the pricing query parameters."],
+  ["35", "selectedVariant", "Find the selected variant."],
+  ["49", "formatPrice", "A utility function to format an amount with its currency."],
+  ["57", "selectedVariantPrice", "Set the variant to compute and show its price, which is either the selected or cheapest variant."],
+  ["62", "", "If there isn't a selected variant, retrieve the variant with the cheapest price."],
+  ["70", "price", "Compute the price of the selected or cheapest variant."],
+  ["79", "isSale", "Determine whether the price is a sale price based on the value of the variant's `calculated_price.calculated_price.price_list_type` field."],
+  ["88", "originalPrice", "Retrieve the original price from the variant's `calculated_price.original_amount` field if the price is a sale price."],
+  ["134", "", "If the price is a sale price, show that to the customer along with the original price."]
 ]
 
 ```tsx highlights={saleHighlights}
@@ -73,7 +100,8 @@ export const saleHighlights = [
 
 import { useEffect, useMemo, useState } from "react"
 import { HttpTypes } from "@medusajs/types"
-import { useRegion } from "../providers/region"
+import { useRegion } from "@/providers/region"
+import { sdk } from "@/lib/sdk"
 
 type Props = {
   id: string
@@ -92,18 +120,10 @@ export default function Product({ id }: Props) {
       return 
     }
 
-    const queryParams = new URLSearchParams({
+    sdk.store.product.retrieve(id, {
       fields: `*variants.calculated_price`,
       region_id: region.id,
     })
-
-    fetch(`http://localhost:9000/store/products/${id}?${queryParams.toString()}`, {
-      credentials: "include",
-      headers: {
-        "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-      },
-    })
-    .then((res) => res.json())
     .then(({ product: dataProduct }) => {
       setProduct(dataProduct)
       setLoading(false)
@@ -224,6 +244,12 @@ export default function Product({ id }: Props) {
 
 In this example, you:
 
+- Use the `useRegion` hook defined in the previous [Region React Context guide](../../../../regions/context/page.mdx) to retrieve the selected region's currency code. This is necessary to format the variant's price.
+- Pass the pricing query parameters to the request retrieving the product. This retrieves for every variant a new `calculated_price` field holding details about the variant's price.
+    - You can pass other pricing query parameters for more accurate pricing. Refer to the [Retrieve Product Variant's Prices](../../page.mdx#pricing-query-parameters) guide for more information.
+- Choose the variant to show its price:
+    - If there's a selected variant, choose it.
+    - If there isn't a selected variant, retrieve and choose the variant with the cheapest price.
 - Define an `isSale` memo variable that determines whether the chosen variant's price is a sale price. You do that by checking if the value of the variant's `calculated_price.calculated_price.price_list_type` field is `sale`.
 - Define an `originalPrice` memo variable that, if `isSale` is enabled, has the formatted original price of the chosen variant. The variant's original price is in the `calculated_price.original_amount` field.
 - If `isSale` is enabled, show a message to the customer indicating that this product is on sale along with the original price.

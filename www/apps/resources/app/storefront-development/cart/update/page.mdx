@@ -12,11 +12,11 @@ export const metadata = {
 
 # {metadata.title}
 
-In this document, you'll learn how to update different details of a cart.
+In this guide, you'll learn how to update different details of a cart.
 
-<Note>
+<Note title="Tip">
 
-All cart updates are performed using the [Update Cart API route](!api!/store#carts_postcartsid).
+This guide doesn't cover updating the cart's line items. For that, refer to the [Manage Cart's Items in Storefront](../manage-items/page.mdx) guide.
 
 </Note>
 
@@ -26,32 +26,27 @@ If a customer changes their region, you must update their cart to be associated 
 
 For example:
 
+<Note title="Tip">
+
+Learn how to install and configure the JS SDK in the [JS SDK documentation](../../../js-sdk/page.mdx).
+
+</Note>
+
 export const updateRegionHighlights = [
-  ["11", `"new_id"`, "Pass the new chosen region's ID."]
+  ["2", `"new_id"`, "Pass the new chosen region's ID."]
 ]
 
 ```ts highlights={updateRegionHighlights}
-fetch(`http://localhost:9000/store/carts/${cartId}`, {
-  credentials: "include",
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    headers: {
-      "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-    },
-  },
-  body: JSON.stringify({
-    region_id: "new_id",
-  }),
+sdk.store.cart.update(cartId, {
+  region_id: "new_id",
 })
-.then((res) => res.json())
 .then(({ cart }) => {
   // use cart...
   console.log(cart)
 })
 ```
 
-The Update Cart API route accepts a `region_id` request body parameter, whose value is the new region to associate with the cart.
+The [Update Cart API route](!api!/store#carts_postcartsid) accepts a `region_id` request body parameter, whose value is the new region to associate with the cart.
 
 ---
 
@@ -71,27 +66,19 @@ This API route is only available after [Medusa v2.0.5](https://github.com/medusa
 </Note>
 
 ```ts
-fetch(`http://localhost:9000/store/carts/${cartId}/customer`, {
-  credentials: "include",
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-  },
-})
-.then((res) => res.json())
+sdk.store.cart.transferCart(cartId)
 .then(({ cart }) => {
   // use cart...
   console.log(cart)
 })
 ```
 
-To send an authenticated request, either use `credentials: include` if the customer is already authenticated with a cookie session, or pass the Authorization Bearer token in the request's header.
+Assuming the JS SDK is configured to send an authenticated request, the cart is now associated with the logged-in customer.
+
+Learn more about authenticating customers with the JS SDK in the [Login Customer guide](../../customers/login/page.mdx).
 
 <Note title="Tip">
 
-Learn more about authenticating customers in [this guide](../../customers/login/page.mdx).
+When using the Fetch API to send the request, either use `credentials: include` if the customer is already authenticated with a cookie session, or pass the Authorization Bearer token in the request's header.
 
 </Note>
-
-The cart is now associated with the logged-in customer.

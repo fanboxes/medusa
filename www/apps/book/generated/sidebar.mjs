@@ -1005,7 +1005,7 @@ export const generatedSidebars = [
             "isPathHref": true,
             "type": "link",
             "title": "Type Aliases",
-            "path": "/learn/conventions/ts-aliases",
+            "path": "/learn/configurations/ts-aliases",
             "children": [],
             "chapterTitle": "6.3. Type Aliases",
             "number": "6.3."
@@ -1213,7 +1213,7 @@ export const generatedSidebars = [
                 "loaded": true,
                 "isPathHref": true,
                 "type": "link",
-                "path": "/learn/resources//contribution-guidelines/admin-translations",
+                "path": "/learn/resources/contribution-guidelines/admin-translations",
                 "title": "Admin Translations",
                 "children": [],
                 "chapterTitle": "10.1.2. Admin Translations",

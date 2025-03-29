@@ -179,7 +179,7 @@ export default {
   content: [
     "./app/**/*.{js,ts,jsx,tsx}", 
     "./components/**/*.{js,ts,jsx,tsx}",
-    "./providers/**/*.{js,ts,jsx,tsx}",
+    "@/providers/**/*.{js,ts,jsx,tsx}",
     medusaUI,
   ],
   darkMode: "class",
@@ -330,7 +330,7 @@ import {
   // other imports...
   useEffect,
 } from "react"
-import { sdk } from "../lib/sdk"
+import { sdk } from "@/lib/sdk"
 ```
 
 And replace the `TODO` in the `RegionProvider` component with the following content:
@@ -531,7 +531,7 @@ import {
   // other imports...
   useEffect, 
 } from "react"
-import { sdk } from "../lib/sdk"
+import { sdk } from "@/lib/sdk"
 ```
 
 And replace the `TODO` in the `CartProvider` component with the following content:
@@ -802,7 +802,7 @@ export const secondColHighlights = [
 "use client"
 
 import { clx } from "@medusajs/ui"
-import { useRegion } from "../../providers/region"
+import { useRegion } from "@/providers/region"
 
 export const SecondCol = () => {
   const { region, regions, setRegion } = useRegion()
@@ -889,10 +889,10 @@ export const layoutHighlights = [
 ```tsx title="components/Layout/index.tsx" highlights={layoutHighlights}
 import { clx } from "@medusajs/ui"
 import { Inter, Roboto_Mono } from "next/font/google"
-import { RegionProvider } from "../providers/region"
+import { RegionProvider } from "@/providers/region"
 import "./globals.css"
 import { SecondCol } from "../components/SecondCol"
-import { CartProvider } from "../providers/cart"
+import { CartProvider } from "@/providers/cart"
 
 export const inter = Inter({
   subsets: ["latin"],
@@ -981,7 +981,7 @@ export const routerHighlights = [
 "use client"
 
 import { useRouter, useSearchParams } from "next/navigation"
-import { useCart } from "../../providers/cart"
+import { useCart } from "@/providers/cart"
 import { useEffect, useMemo } from "react"
 
 type ActiveTab = "product" | "address" | "shipping" | "payment"
@@ -1179,8 +1179,8 @@ import {
   useState,
 } from "react"
 import { HttpTypes } from "@medusajs/types"
-import { useRegion } from "../../providers/region"
-import { useCart } from "../../providers/cart"
+import { useRegion } from "@/providers/region"
+import { useCart } from "@/providers/cart"
 import { useRouter } from "next/navigation"
 
 type ProductProps = {
@@ -1220,7 +1220,7 @@ The component defines the following variables:
 Next, you'll retrieve the product's details from the Medusa application. Start by adding the following imports to the top of the file:
 
 ```tsx title="components/Product/index.tsx"
-import { sdk } from "../../lib/sdk"
+import { sdk } from "@/lib/sdk"
 import { 
   // other imports...
   useEffect,
@@ -1648,8 +1648,8 @@ export const addressHighlights1 = [
 import { 
   useState,
 } from "react"
-import { useCart } from "../../providers/cart"
-import { useRegion } from "../../providers/region"
+import { useCart } from "@/providers/cart"
+import { useRegion } from "@/providers/region"
 import { useRouter } from "next/navigation"
 
 type AddressProps = {
@@ -1946,7 +1946,7 @@ export const shippingHighlights1 = [
 import { 
   useState,
 } from "react"
-import { useCart } from "../../providers/cart"
+import { useCart } from "@/providers/cart"
 import { HttpTypes } from "@medusajs/types"
 import { useRouter } from "next/navigation"
 
@@ -1996,7 +1996,7 @@ import {
   // other imports...
   useEffect,
 } from "react"
-import { sdk } from "../../lib/sdk"
+import { sdk } from "@/lib/sdk"
 ```
 
 Then, replace the `TODO` in the `Shipping` component with the following:
@@ -2288,7 +2288,7 @@ export const paymentHighlights1 = [
 import { 
   useState,
 } from "react"
-import { useCart } from "../../providers/cart"
+import { useCart } from "@/providers/cart"
 import { HttpTypes } from "@medusajs/types"
 import { useRouter } from "next/navigation"
 
@@ -2332,7 +2332,7 @@ import {
   // other imports...
   useEffect,
 } from "react"
-import { sdk } from "../../lib/sdk"
+import { sdk } from "@/lib/sdk"
 ```
 
 Then, replace the `TODO` in the `Payment` component with the following:
@@ -2675,7 +2675,7 @@ export const confirmationHighlights = [
 
 ```tsx title="app/confirmation/[id]/page.tsx" highlights={confirmationHighlights}
 import { clx, Heading } from "@medusajs/ui"
-import { sdk } from "../../../lib/sdk"
+import { sdk } from "@/lib/sdk"
 
 type Params = {
   params: Promise<{ id: string }>

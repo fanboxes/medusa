@@ -8,7 +8,7 @@ export const region = [
     "path": "https://docs.medusajs.com/resources/storefront-development/guides/express-checkout"
   },
   {
-    "title": "Region Context in Storefront",
+    "title": "Region React Context in Storefront",
     "path": "https://docs.medusajs.com/resources/storefront-development/regions/context"
   },
   {
@@ -16,7 +16,7 @@ export const region = [
     "path": "https://docs.medusajs.com/resources/storefront-development/regions/list"
   },
   {
-    "title": "Store and Retrieve Region",
+    "title": "Store Selected Region in Storefront",
     "path": "https://docs.medusajs.com/resources/storefront-development/regions/store-retrieve-region"
   },
   {

@@ -22,6 +22,7 @@ import {
 import { addOrderLineItemsWorkflow } from "../add-line-items"
 import { createOrderChangeActionsWorkflow } from "../create-order-change-actions"
 import { updateOrderTaxLinesWorkflow } from "../update-tax-lines"
+import { refreshClaimShippingWorkflow } from "./refresh-shipping"
 
 /**
  * The data to validate adding new items to a claim.
@@ -189,6 +190,21 @@ export const orderClaimAddNewItemWorkflow = createWorkflow(
 
     createOrderChangeActionsWorkflow.runAsStep({
       input: orderChangeActionInput,
+    })
+
+    const refreshArgs = transform(
+      { orderChange, orderClaim },
+      ({ orderChange, orderClaim }) => {
+        return {
+          order_change_id: orderChange.id,
+          claim_id: orderClaim.id,
+          order_id: orderClaim.order_id,
+        }
+      }
+    )
+
+    refreshClaimShippingWorkflow.runAsStep({
+      input: refreshArgs,
     })
 
     return new WorkflowResponse(previewOrderChangeStep(orderClaim.order_id))

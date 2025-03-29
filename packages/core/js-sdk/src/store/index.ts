@@ -852,6 +852,25 @@ export class Store {
       )
     },
 
+    /**
+     * This method calculates the price of a shipping option in a cart, which is useful during checkout.
+     * It sends a request to the [Calculate Shipping Option Price](https://docs.medusajs.com/api/store#shipping-options_postshippingoptionsidcalculate)
+     * API route.
+     *
+     * @param id - The shipping option's ID.
+     * @param body - The price calculation's details.
+     * @param query - Configure the fields to retrieve in the shipping option.
+     * @param headers - Headers to pass in the request.
+     * @returns The shipping option's details.
+     *
+     * @example
+     * sdk.store.fulfillment.calculate("so_123", {
+     *   cart_id: "cart_123"
+     * })
+     * .then(({ shipping_option }) => {
+     *   console.log(shipping_option)
+     * })
+     */
     calculate: async (
       id: string,
       body: HttpTypes.StoreCalculateShippingOptionPrice,

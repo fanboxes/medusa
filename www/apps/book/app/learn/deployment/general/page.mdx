@@ -32,14 +32,17 @@ With Medusa Cloud, you maintain full customization control as you deploy your ow
   },
 ]} />
 
-## Hosting Provider Requirements
+## What You'll Deploy
 
-When you deploy your Medusa application, make sure your chosen hosting provider supports deploying the following resources:
+When you deploy the Medusa application, you need to deploy the following resources:
 
-1. PostgreSQL database: If your hosting provider doesn't support database hosting, you must find another hosting provider for the PostgreSQL database.
-2. Redis database: If your hosting provider doesn't support database hosting, you must find another hosting provider for the Redis database.
-3. Medusa application in server and worker mode. This means your hosting provider should support deploying two applications or instances from the same codebase.
-4. For optimal experience, the hosting provider and plan must offer at least 2GB of RAM.
+1. PostgreSQL database: This is the database that will hold your Medusa application's details.
+2. Redis database: This is the database that will store the Medusa server's session.
+3. Medusa application in [server and worker mode](../../production/worker-mode/page.mdx), where:
+    - The server mode handles incoming API requests and serving the Medusa Admin dashboard.
+    - The worker mode handles background tasks, such as scheduled jobs and subscribers.
+
+So, when choosing a hosting provider, make sure it supports deploying these resources. Also, for optimal experience, the hosting provider and plan must offer at least 2GB of RAM.
 
 ---
 
@@ -66,7 +69,9 @@ Later, you’ll set different values of the `MEDUSA_WORKER_MODE` environment var
 
 ### Configure Medusa Admin
 
-You need to disable the Medusa Admin in the worker Medusa application, while keeping it enabled in the server Medusa application. So, add the following configuration in `medusa-config.ts`:
+The Medusa Admin is served by the Medusa server application. So, you need to disable it in the worker Medusa application only.
+
+To disable the Medusa Admin in the worker Medusa application while keeping it enabled in the server Medusa application, add the following configuration in `medusa-config.ts`:
 
 ```ts title="medusa-config.ts"
 module.exports = defineConfig({
@@ -77,7 +82,7 @@ module.exports = defineConfig({
 })
 ```
 
-Later, you’ll set different values of the `DISABLE_MEDUSA_ADMIN` environment variable.
+Later, you’ll set different values of the `DISABLE_MEDUSA_ADMIN` environment variable for each Medusa application instance.
 
 ### Configure Redis URL
 
@@ -212,7 +217,7 @@ Where:
 - Set the PostgreSQL database's connection URL as the value of `DATABASE_URL`
 - Set the Redis database's connection URL as the value of `REDIS_URL`.
 
-Feel free to add any other relevant environment variables, such as for integrations and architectural modules.
+Feel free to add any other relevant environment variables, such as for integrations and architectural modules. If you're using environment variables in your admin customizations, make sure to set them as well, as they're inlined during the build process.
 
 ### Set Start Command
 
@@ -227,6 +232,8 @@ cd .medusa/server && npm install && npm run predeploy && npm run start
 Notice that you run the `predeploy` command before starting the Medusa application to run migrations and sync links whenever there's an update.
 
 ### Set Backend URL in Admin Configuration
+
+The Medusa Admin is built and hosted statically. To send requests to the Medusa server application, you must set the backend URL in the Medusa Admin's configuration.
 
 After you’ve obtained the Medusa application’s URL, add the following configuration to `medusa-config.ts`:
 
@@ -251,6 +258,8 @@ MEDUSA_BACKEND_URL= # URL TO DEPLOYED MEDUSA APPLICATION
 ```
 
 Where you set the value of `ADMIN_CORS` and `MEDUSA_BACKEND_URL` to the Medusa application’s URL, and you add the URL to `AUTH_CORS`.
+
+After setting the environment variables, make sure to restart the deployment for the changes to take effect.
 
 <Note title="Tip">
 

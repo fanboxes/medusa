@@ -29,17 +29,19 @@ export async function GET() {
     const dom = await JSDOM.fromURL(getUrl(area))
     const headers = dom.window.document.querySelectorAll("h2")
     headers.forEach((header) => {
-      if (!header.textContent) {
+      if (!header.textContent || !header.nextSibling?.textContent) {
         return
       }
+      const normalizedHeaderContent = header.textContent.replaceAll("#", "")
+      const description = header.nextSibling?.textContent
 
-      const objectID = getSectionId([header.textContent])
+      const objectID = getSectionId([normalizedHeaderContent])
       const url = getUrl(area, objectID)
       indices.push({
         objectID: getObjectId(area, `${objectID}-mdx-section`),
-        hierarchy: getHierarchy(area, [header.textContent]),
+        hierarchy: getHierarchy(area, [normalizedHeaderContent]),
         type: `content`,
-        content: header.textContent,
+        content: description || "",
         url,
         url_without_variables: url,
         url_without_anchor: url,
@@ -60,6 +62,7 @@ export async function GET() {
         hierarchy: getHierarchy(area, [tag.name]),
         type: "lvl1",
         content: null,
+        description: tag.description,
         url,
         url_without_variables: url,
         url_without_anchor: url,
@@ -77,7 +80,7 @@ export async function GET() {
         const url = getUrl(area, operationName)
         indices.push({
           objectID: getObjectId(area, operationName),
-          hierarchy: getHierarchy(area, [tag || "", operation.summary]),
+          hierarchy: getHierarchy(area, [operation.summary]),
           type: "content",
           content: operation.summary,
           content_camel: operation.summary,
@@ -100,7 +103,6 @@ export async function GET() {
         indices.push({
           objectID: getObjectId(area, operationDescriptionId),
           hierarchy: getHierarchy(area, [
-            tag || "",
             operation.summary,
             operation.description,
           ]),
@@ -124,6 +126,7 @@ export async function GET() {
 
   return NextResponse.json({
     message: "done",
+    total: indices.length,
   })
 }
 

@@ -19,7 +19,7 @@ export type UpdatePriceListsStepInput = UpdatePriceListWorkflowInputDTO[]
 export const updatePriceListsStepId = "update-price-lists"
 /**
  * This step updates one or more price lists.
- * 
+ *
  * @example
  * const data = updatePriceListsStep([
  *   {
@@ -34,6 +34,10 @@ export const updatePriceListsStep = createStep(
     const pricingModule = container.resolve<IPricingModuleService>(
       Modules.PRICING
     )
+
+    if (!data.length) {
+      return new StepResponse(void 0)
+    }
 
     const { dataBeforeUpdate, selects, relations } = await getDataBeforeUpdate(
       pricingModule,

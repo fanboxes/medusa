@@ -5,16 +5,26 @@ tags:
 ---
 
 export const metadata = {
-  title: `Store and Retrieve Region`,
+  title: `Store Selected Region in Storefront`,
 }
 
 # {metadata.title}
 
-In this document, you'll learn how to store a customer's region's ID and retrieve the selected region.
+In this guide, you'll learn how to store a customer's selected region in your storefront, then retrieve it for later use.
+
+## Why Select and Store Region?
+
+In your store, prices, taxes, and available payment methods can vary between regions.
+
+So, you should allow customers to select their region to see the correct prices, taxes, and payment methods.
+
+---
 
 ## Store Selected Region ID
 
-When the customer selects their region, for example, from a dropdown, store that region's ID in the `localStorage`.
+To allow the customer to select a region, you should show them the list of regions as explained in the [List Regions](../list/page.mdx) guide. You can show them in a select input, for example.
+
+Then, once the customer selects their region, store that region's ID in the `localStorage`.
 
 For example:
 
@@ -22,7 +32,7 @@ For example:
 localStorage.setItem("region_id", region.id)
 ```
 
-Then, you retrieve it later using the `localSorage.getItem` method later:
+Then, you can retrieve it later using the `localSorage.getItem` method:
 
 ```ts
 const regionId = localStorage.getItem("region_id")
@@ -30,22 +40,31 @@ const regionId = localStorage.getItem("region_id")
 
 ---
 
-## Retrieve Selected Region
+## Retrieve Selected Region's Details
 
-To retrieve the selected region, use the [Retrieve Region API route](!api!/store#regions_getregionsid):
+As you build your storefront, you may need to retrieve the full details of a region. For example, to get the region's currency code.
+
+To retrieve the selected region's details from Medusa, use the [Retrieve Region API route](!api!/store#regions_getregionsid):
+
+<Note title="Tip">
+
+Learn how to install and configure the JS SDK in the [JS SDK documentation](../../../js-sdk/page.mdx).
+
+</Note>
 
 ```ts
 const regionId = localStorage.getItem("region_id")
 
-fetch(`http://localhost:9000/store/regions/${regionId}`, {
-  credentials: "include",
-  headers: {
-    "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-  },
-})
-.then((res) => res.json())
+sdk.store.region.retrieve(regionId)
 .then(({ region }) => {
-  // do something with region.
   console.log(region)
 })
 ```
+
+The response has a `regions` field, which is an array of [regions](!api!/store#regions_region_schema).
+
+---
+
+## Store Region Details in React Context
+
+If you're using React, it's then recommended to create a context that stores the region details and make it available to all components in your application, as explained in the [Region React Context in Storefront](../context/page.mdx) guide.

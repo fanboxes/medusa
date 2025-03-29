@@ -5,22 +5,22 @@
   "POST /admin/api-keys": {
     "js-sdk": "sdk.admin.apiKey.create({\n  title: \"Development\",\n  type: \"publishable\"\n})\n.then(({ api_key }) => {\n  console.log(api_key)\n})"
   },
-  "POST /admin/api-keys/${id}/revoke": {
+  "POST /admin/api-keys/{id}/revoke": {
     "js-sdk": "sdk.admin.apiKey.revoke(\"apk_123\")\n.then(({ api_key }) => {\n  console.log(api_key)\n})"
   },
-  "GET /admin/api-keys/${id}": {
+  "GET /admin/api-keys/{id}": {
     "js-sdk": "sdk.admin.apiKey.retrieve(\"apk_123\")\n.then(({ api_key }) => {\n  console.log(api_key)\n})"
   },
-  "POST /admin/api-keys/${id}": {
+  "POST /admin/api-keys/{id}": {
     "js-sdk": "sdk.admin.apiKey.update(\"apk_123\", {\n  title: \"Development\"\n})\n.then(({ api_key }) => {\n  console.log(api_key)\n})"
   },
-  "DELETE /admin/api-keys/${id}": {
+  "DELETE /admin/api-keys/{id}": {
     "js-sdk": "sdk.admin.apiKey.delete(\"apk_123\")\n.then(({ deleted }) => {\n  console.log(deleted)\n})"
   },
-  "POST /admin/api-keys/${id}/sales-channels": {
+  "POST /admin/api-keys/{id}/sales-channels": {
     "js-sdk": "sdk.admin.apiKey.batchSalesChannels(\"apk_123\", {\n  add: [\"sc_123\"],\n  remove: [\"sc_321\"]\n})\n.then(({ api_key }) => {\n  console.log(api_key)\n})"
   },
-  "GET /admin/campaigns/${id}": {
+  "GET /admin/campaigns/{id}": {
     "js-sdk": "sdk.admin.campaign.retrieve(\"procamp_123\")\n.then(({ campaign }) => {\n  console.log(campaign)\n})"
   },
   "GET /admin/campaigns": {
@@ -29,115 +29,118 @@
   "POST /admin/campaigns": {
     "js-sdk": "sdk.admin.campaign.create({\n  name: \"Summer Campaign\"\n})\n.then(({ campaign }) => {\n  console.log(campaign)\n})"
   },
-  "POST /admin/campaigns/${id}": {
+  "POST /admin/campaigns/{id}": {
     "js-sdk": "sdk.admin.campaign.update(\"procamp_123\", {\n  name: \"Summer Campaign\"\n})\n.then(({ campaign }) => {\n  console.log(campaign)\n})"
   },
-  "DELETE /admin/campaigns/${id}": {
+  "DELETE /admin/campaigns/{id}": {
     "js-sdk": "sdk.admin.campaign.delete(\"procamp_123\")\n.then(({ deleted }) => {\n  console.log(deleted)\n})"
+  },
+  "POST /admin/campaigns/{id}/promotions": {
+    "js-sdk": "sdk.admin.campaign.batchPromotions(\"procamp_123\", {\n  add: [\"prom_123\", \"prom_456\"],\n  remove: [\"prom_789\"]\n})\n.then(({ campaign }) => {\n  console.log(campaign)\n})"
   },
   "GET /admin/claims": {
     "js-sdk": "sdk.admin.claim.list()\n.then(({ claims, count, limit, offset }) => {\n  console.log(claims)\n})"
   },
-  "GET /admin/claims/${id}": {
+  "GET /admin/claims/{id}": {
     "js-sdk": "sdk.admin.claim.retrieve(\"claim_123\")\n.then(({ claim }) => {\n  console.log(claim)\n})"
   },
   "POST /admin/claims": {
     "js-sdk": "sdk.admin.claim.create({\n  type: \"refund\",\n  order_id: \"order_123\",\n})\n.then(({ claim }) => {\n  console.log(claim)\n})"
   },
-  "POST /admin/claims/${id}/cancel": {
+  "POST /admin/claims/{id}/cancel": {
     "js-sdk": "sdk.admin.claim.cancel(\"claim_123\")\n.then(({ claim }) => {\n  console.log(claim)\n})"
   },
-  "POST /admin/claims/${id}/claim-items": {
+  "POST /admin/claims/{id}/claim-items": {
     "js-sdk": "sdk.admin.claim.addItems(\"claim_123\", {\n  items: [\n    {\n      id: \"orli_123\",\n      quantity: 1\n    }\n  ]\n})\n.then(({ claim }) => {\n  console.log(claim)\n})"
   },
-  "POST /admin/claims/${id}/claim-items/${actionid}": {
+  "POST /admin/claims/{id}/claim-items/{actionid}": {
     "js-sdk": "sdk.admin.claim.updateItem(\n  \"claim_123\", \n  \"ordchact_123\",\n  {\n    quantity: 1\n  }\n  )\n.then(({ claim }) => {\n  console.log(claim)\n})"
   },
-  "DELETE /admin/claims/${id}/claim-items/${actionid}": {
+  "DELETE /admin/claims/{id}/claim-items/{actionid}": {
     "js-sdk": "sdk.admin.claim.removeItem(\n  \"claim_123\", \n  \"ordchact_123\",\n  )\n.then(({ claim }) => {\n  console.log(claim)\n})"
   },
-  "POST /admin/claims/${id}/inbound/items": {
+  "POST /admin/claims/{id}/inbound/items": {
     "js-sdk": "sdk.admin.claim.addInboundItems(\n  \"claim_123\", \n  {\n    items: [\n      {\n        id: \"orli_123\",\n        quantity: 1\n      }\n    ]\n  },\n  )\n.then(({ return: returnData }) => {\n  console.log(returnData)\n})"
   },
-  "POST /admin/claims/${id}/inbound/items/${actionid}": {
+  "POST /admin/claims/{id}/inbound/items/{actionid}": {
     "js-sdk": "sdk.admin.claim.updateInboundItem(\n  \"claim_123\", \n  \"ordchact_123\",\n  {\n    quantity: 1\n  },\n  )\n.then(({ return: returnData }) => {\n  console.log(returnData)\n})"
   },
-  "DELETE /admin/claims/${id}/inbound/items/${actionid}": {
+  "DELETE /admin/claims/{id}/inbound/items/{actionid}": {
     "js-sdk": "sdk.admin.claim.removeInboundItem(\n  \"claim_123\", \n  \"ordchact_123\",\n  )\n.then(({ return: returnData }) => {\n  console.log(returnData)\n})"
   },
-  "POST /admin/claims/${id}/inbound/shipping-method": {
+  "POST /admin/claims/{id}/inbound/shipping-method": {
     "js-sdk": "sdk.admin.claim.addInboundShipping(\n  \"claim_123\", \n  {\n    shipping_option_id: \"so_123\",\n    custom_amount: 10\n  },\n  )\n.then(({ return: returnData }) => {\n  console.log(returnData)\n})"
   },
-  "POST /admin/claims/${id}/inbound/shipping-method/${actionid}": {
+  "POST /admin/claims/{id}/inbound/shipping-method/{actionid}": {
     "js-sdk": "sdk.admin.claim.updateInboundShipping(\n  \"claim_123\", \n  \"ordchact_123\",\n  {\n    custom_amount: 10\n  },\n  )\n.then(({ claim }) => {\n  console.log(claim)\n})"
   },
-  "DELETE /admin/claims/${id}/inbound/shipping-method/${actionid}": {
+  "DELETE /admin/claims/{id}/inbound/shipping-method/{actionid}": {
     "js-sdk": "sdk.admin.claim.deleteInboundShipping(\n  \"claim_123\", \n  \"ordchact_123\",\n  )\n.then(({ return: returnData }) => {\n  console.log(returnData)\n})"
   },
-  "POST /admin/claims/${id}/outbound/items": {
+  "POST /admin/claims/{id}/outbound/items": {
     "js-sdk": "sdk.admin.claim.addOutboundItems(\n  \"claim_123\", \n  {\n    items: [{\n      id: \"orli_123\",\n      quantity: 1\n    }]\n  },\n  )\n.then(({ claim }) => {\n  console.log(claim)\n})"
   },
-  "POST /admin/claims/${id}/outbound/items/${actionid}": {
+  "POST /admin/claims/{id}/outbound/items/{actionid}": {
     "js-sdk": "sdk.admin.claim.updateOutboundItem(\n  \"claim_123\", \n  \"ordchact_123\",\n  {\n    quantity: 1\n  },\n  )\n.then(({ claim }) => {\n  console.log(claim)\n})"
   },
-  "DELETE /admin/claims/${id}/outbound/items/${actionid}": {
+  "DELETE /admin/claims/{id}/outbound/items/{actionid}": {
     "js-sdk": "sdk.admin.claim.removeOutboundItem(\n  \"claim_123\", \n  \"ordchact_123\",\n)\n.then(({ claim }) => {\n  console.log(claim)\n})"
   },
-  "POST /admin/claims/${id}/outbound/shipping-method": {
+  "POST /admin/claims/{id}/outbound/shipping-method": {
     "js-sdk": "   * sdk.admin.claim.addOutboundShipping(\n  \"claim_123\", \n  {\n    shipping_option_id: \"so_123\",\n    custom_amount: 10\n  },\n)\n.then(({ claim }) => {\n  console.log(claim)\n})"
   },
-  "POST /admin/claims/${id}/outbound/shipping-method/${actionid}": {
+  "POST /admin/claims/{id}/outbound/shipping-method/{actionid}": {
     "js-sdk": "sdk.admin.claim.updateOutboundShipping(\n  \"claim_123\", \n  \"ordchact_123\",\n  {\n    custom_amount: 10\n  },\n)\n.then(({ claim }) => {\n  console.log(claim)\n})"
   },
-  "DELETE /admin/claims/${id}/outbound/shipping-method/${actionid}": {
+  "DELETE /admin/claims/{id}/outbound/shipping-method/{actionid}": {
     "js-sdk": "sdk.admin.claim.deleteOutboundShipping(\n  \"claim_123\", \n  \"ordchact_123\",\n)\n.then(({ claim }) => {\n  console.log(claim)\n})"
   },
-  "POST /admin/claims/${id}/request": {
+  "POST /admin/claims/{id}/request": {
     "js-sdk": "sdk.admin.claim.request(\n  \"claim_123\", \n  {},\n)\n.then(({ claim }) => {\n  console.log(claim)\n})"
   },
-  "DELETE /admin/claims/${id}/request": {
+  "DELETE /admin/claims/{id}/request": {
     "js-sdk": "sdk.admin.claim.cancelRequest(\n  \"claim_123\", \n)\n.then(({ deleted }) => {\n  console.log(deleted)\n})"
   },
   "GET /admin/currencies": {
     "js-sdk": "sdk.admin.currency.list()\n.then(({ currencies, count, limit, offset }) => {\n  console.log(currencies)\n})"
   },
-  "GET /admin/currencies/${code}": {
+  "GET /admin/currencies/{code}": {
     "js-sdk": "sdk.admin.currency.retrieve(\"usd\")\n.then(({ currency }) => {\n  console.log(currency)\n})"
   },
   "POST /admin/customers": {
     "js-sdk": "sdk.admin.customer.create({\n  email: \"customer@gmail.com\"\n})\n.then(({ customer }) => {\n  console.log(customer)\n})"
   },
-  "POST /admin/customers/${id}": {
+  "POST /admin/customers/{id}": {
     "js-sdk": "sdk.admin.customer.update(\"cus_123\", {\n  first_name: \"John\"\n})\n.then(({ customer }) => {\n  console.log(customer)\n})"
   },
   "GET /admin/customers": {
     "js-sdk": "sdk.admin.customer.list()\n.then(({ customers, count, limit, offset }) => {\n  console.log(customers)\n})"
   },
-  "GET /admin/customers/${id}": {
+  "GET /admin/customers/{id}": {
     "js-sdk": "sdk.admin.customer.retrieve(\"cus_123\")\n.then(({ customer }) => {\n  console.log(customer)\n})"
   },
-  "DELETE /admin/customers/${id}": {
+  "DELETE /admin/customers/{id}": {
     "js-sdk": "sdk.admin.customer.delete(\"cus_123\")\n.then(({ deleted }) => {\n  console.log(deleted)\n})"
   },
-  "POST /admin/customers/${id}/customer-groups": {
+  "POST /admin/customers/{id}/customer-groups": {
     "js-sdk": "sdk.admin.customer.batchCustomerGroups(\"cus_123\", {\n  add: [\"cusgroup_123\"],\n  remove: [\"cusgroup_321\"]\n})\n.then(({ customer }) => {\n  console.log(customer)\n})"
   },
-  "POST /admin/customers/${id}/addresses": {
+  "POST /admin/customers/{id}/addresses": {
     "js-sdk": "sdk.admin.customer.createAddress(\"cus_123\", {\n  address_1: \"123 Main St\",\n  city: \"Anytown\",\n  country_code: \"US\",\n  postal_code: \"12345\"\n})\n.then(({ customer }) => {\n  console.log(customer)\n})"
   },
-  "POST /admin/customers/${id}/addresses/${addressid}": {
+  "POST /admin/customers/{id}/addresses/{addressid}": {
     "js-sdk": "sdk.admin.customer.updateAddress(\"cus_123\", \"cus_addr_123\", {\n  address_1: \"123 Main St\",\n  city: \"Anytown\",\n  country_code: \"US\",\n  postal_code: \"12345\"\n})\n.then(({ customer }) => {\n  console.log(customer)\n})"
   },
-  "DELETE /admin/customers/${id}/addresses/${addressid}": {
+  "DELETE /admin/customers/{id}/addresses/{addressid}": {
     "js-sdk": "sdk.admin.customer.deleteAddress(\"cus_123\", \"cus_addr_123\")\n.then(({ customer }) => {\n  console.log(customer)\n})"
   },
-  "GET /admin/customers/${id}/addresses/${addressid}": {
+  "GET /admin/customers/{id}/addresses/{addressid}": {
     "js-sdk": "sdk.admin.customer.retrieveAddress(\"cus_123\", \"cus_addr_123\")\n.then(({ customer }) => {\n  console.log(customer)\n})"
   },
-  "GET /admin/customers/${id}/addresses": {
+  "GET /admin/customers/{id}/addresses": {
     "js-sdk": "sdk.admin.customer.listAddresses(\"cus_123\")\n.then(({ addresses }) => {\n  console.log(addresses)\n})"
   },
-  "GET /admin/customer-groups/${id}": {
+  "GET /admin/customer-groups/{id}": {
     "js-sdk": "sdk.admin.customerGroup.retrieve(\"cusgroup_123\")\n.then(({ customer_group }) => {\n  console.log(customer_group)\n})"
   },
   "GET /admin/customer-groups": {
@@ -146,16 +149,16 @@
   "POST /admin/customer-groups": {
     "js-sdk": "sdk.admin.customerGroup.create({\n  name: \"VIP\"\n})\n.then(({ customer_group }) => {\n  console.log(customer_group)\n})"
   },
-  "POST /admin/customer-groups/${id}": {
+  "POST /admin/customer-groups/{id}": {
     "js-sdk": "sdk.admin.customerGroup.update(\"cusgroup_123\", {\n  name: \"VIP\"\n})\n.then(({ customer_group }) => {\n  console.log(customer_group)\n})"
   },
-  "DELETE /admin/customer-groups/${id}": {
+  "DELETE /admin/customer-groups/{id}": {
     "js-sdk": "sdk.admin.customerGroup.delete(\"cusgroup_123\")\n.then(({ deleted }) => {\n  console.log(deleted)\n})"
   },
-  "POST /admin/customer-groups/${id}/customers": {
+  "POST /admin/customer-groups/{id}/customers": {
     "js-sdk": "sdk.admin.customerGroup.batchCustomers(\"cusgroup_123\", {\n  add: [\"cus_123\"],\n  remove: [\"cus_321\"]\n})\n.then(({ customer_group }) => {\n  console.log(customer_group)\n})"
   },
-  "GET /admin/draft-orders/${id}": {
+  "GET /admin/draft-orders/{id}": {
     "js-sdk": "sdk.admin.draftOrder.retrieve(\"draft_order_123\")\n.then(({ draft_order }) => {\n  console.log(draft_order)\n})"
   },
   "GET /admin/draft-orders": {
@@ -164,205 +167,208 @@
   "POST /admin/draft-orders": {
     "js-sdk": "sdk.admin.draftOrder.create({\n  email: \"test@test.com\",\n  items: [\n    {\n      variant_id: \"variant_123\",\n      quantity: 1,\n    },\n  ],\n  region_id: \"region_123\",\n  sales_channel_id: \"sales_channel_123\",\n})\n.then(({ draft_order }) => {\n  console.log(draft_order)\n})"
   },
-  "POST /admin/draft-orders/${id}": {
+  "POST /admin/draft-orders/{id}": {
     "js-sdk": "sdk.admin.draftOrder.update(\"draft_order_123\", {\n  email: \"test@test.com\",\n})\n.then(({ draft_order }) => {\n  console.log(draft_order)\n})"
   },
   "GET /admin/exchanges": {
     "js-sdk": "sdk.admin.exchange.list()\n.then(({ exchanges, count, limit, offset }) => {\n  console.log(exchanges)\n})"
   },
-  "GET /admin/exchanges/${id}": {
+  "GET /admin/exchanges/{id}": {
     "js-sdk": "sdk.admin.exchange.retrieve(\"exchange_123\")\n.then(({ exchange }) => {\n  console.log(exchange)\n})"
   },
   "POST /admin/exchanges": {
     "js-sdk": "sdk.admin.exchange.create({\n  order_id: \"order_123\"\n})\n.then(({ exchange }) => {\n  console.log(exchange)\n})"
   },
-  "POST /admin/exchanges/${id}/cancel": {
+  "POST /admin/exchanges/{id}/cancel": {
     "js-sdk": "sdk.admin.exchange.cancel(\"exchange_123\")\n.then(({ exchange }) => {\n  console.log(exchange)\n})"
   },
-  "POST /admin/exchanges/${id}/inbound/items": {
+  "POST /admin/exchanges/{id}/inbound/items": {
     "js-sdk": "sdk.admin.exchange.addInboundItems(\"exchange_123\", {\n  items: [{\n    id: \"orli_123\",\n    quantity: 1\n  }]\n})\n.then(({ return: returnData }) => {\n  console.log(returnData)\n})"
   },
-  "POST /admin/exchanges/${id}/inbound/items/${actionid}": {
+  "POST /admin/exchanges/{id}/inbound/items/{actionid}": {
     "js-sdk": "sdk.admin.exchange.updateInboundItem(\n  \"exchange_123\", \n  \"ordchact_123\",\n  {\n    quantity: 1\n  }\n)\n.then(({ return: returnData }) => {\n  console.log(returnData)\n})"
   },
-  "DELETE /admin/exchanges/${id}/inbound/items/${actionid}": {
+  "DELETE /admin/exchanges/{id}/inbound/items/{actionid}": {
     "js-sdk": "sdk.admin.exchange.removeInboundItem(\n  \"exchange_123\", \n  \"ordchact_123\",\n)\n.then(({ return: returnData }) => {\n  console.log(returnData)\n})"
   },
-  "POST /admin/exchanges/${id}/inbound/shipping-method": {
+  "POST /admin/exchanges/{id}/inbound/shipping-method": {
     "js-sdk": "sdk.admin.exchange.addInboundShipping(\"exchange_123\", {\n  shipping_option_id: \"so_123\"\n})\n.then(({ return: returnData }) => {\n  console.log(returnData)\n})"
   },
-  "POST /admin/exchanges/${id}/inbound/shipping-method/${actionid}": {
+  "POST /admin/exchanges/{id}/inbound/shipping-method/{actionid}": {
     "js-sdk": "sdk.admin.exchange.updateInboundShipping(\n  \"exchange_123\",\n  \"ordchact_123\",\n   {\n    custom_amount: 10\n  }\n)\n.then(({ return: returnData }) => {\n  console.log(returnData)\n})"
   },
-  "DELETE /admin/exchanges/${id}/inbound/shipping-method/${actionid}": {
+  "DELETE /admin/exchanges/{id}/inbound/shipping-method/{actionid}": {
     "js-sdk": "sdk.admin.exchange.deleteInboundShipping(\n  \"exchange_123\",\n  \"ordchact_123\",\n)\n.then(({ return: returnData }) => {\n  console.log(returnData)\n})"
   },
-  "POST /admin/exchanges/${id}/outbound/items": {
+  "POST /admin/exchanges/{id}/outbound/items": {
     "js-sdk": "sdk.admin.exchange.addOutboundItems(\"exchange_123\", {\n  items: [{\n    id: \"variant_123\",\n    quantity: 1\n  }]\n})\n.then(({ exchange }) => {\n  console.log(exchange)\n})"
   },
-  "POST /admin/exchanges/${id}/outbound/items/${actionid}": {
+  "POST /admin/exchanges/{id}/outbound/items/{actionid}": {
     "js-sdk": "sdk.admin.exchange.updateOutboundItem(\n  \"exchange_123\",\n  \"ordchact_123\",\n  {\n    quantity: 1\n  }\n)\n.then(({ exchange }) => {\n  console.log(exchange)\n})"
   },
-  "DELETE /admin/exchanges/${id}/outbound/items/${actionid}": {
+  "DELETE /admin/exchanges/{id}/outbound/items/{actionid}": {
     "js-sdk": "sdk.admin.exchange.removeOutboundItem(\n  \"exchange_123\",\n  \"ordchact_123\",\n)\n.then(({ exchange }) => {\n  console.log(exchange)\n})"
   },
-  "POST /admin/exchanges/${id}/outbound/shipping-method": {
+  "POST /admin/exchanges/{id}/outbound/shipping-method": {
     "js-sdk": "sdk.admin.exchange.addOutboundShipping(\"exchange_123\", {\n  shipping_option_id: \"so_123\"\n})\n.then(({ exchange }) => {\n  console.log(exchange)\n})"
   },
-  "POST /admin/exchanges/${id}/outbound/shipping-method/${actionid}": {
+  "POST /admin/exchanges/{id}/outbound/shipping-method/{actionid}": {
     "js-sdk": "sdk.admin.exchange.updateOutboundShipping(\n  \"exchange_123\",\n  \"ordchact_123\",\n  {\n    custom_amount: 10\n  }\n)\n.then(({ exchange }) => {\n  console.log(exchange)\n})"
   },
-  "DELETE /admin/exchanges/${id}/outbound/shipping-method/${actionid}": {
+  "DELETE /admin/exchanges/{id}/outbound/shipping-method/{actionid}": {
     "js-sdk": "sdk.admin.exchange.deleteOutboundShipping(\n  \"exchange_123\",\n  \"ordchact_123\",\n)\n.then(({ exchange }) => {\n  console.log(exchange)\n})"
   },
-  "POST /admin/exchanges/${id}/request": {
+  "POST /admin/exchanges/{id}/request": {
     "js-sdk": "sdk.admin.exchange.request(\"exchange_123\", {})\n.then(({ exchange }) => {\n  console.log(exchange)\n})"
   },
-  "DELETE /admin/exchanges/${id}/request": {
+  "DELETE /admin/exchanges/{id}/request": {
     "js-sdk": "sdk.admin.exchange.cancel(\"exchange_123\")\n.then(({ deleted }) => {\n  console.log(deleted)\n})"
   },
   "POST /admin/fulfillments": {
     "js-sdk": "sdk.admin.fulfillment.create({\n  location_id: \"sloc_123\",\n  provider_id: \"my_fulfillment\",\n  delivery_address: {\n    country_code: \"us\"\n  },\n  items: [\n    {\n      title: \"Shirt\",\n      sku: \"SHIRT\",\n      quantity: 1,\n      barcode: \"123\"\n    }\n  ],\n  labels: [],\n  order: {},\n  order_id: \"order_123\"\n})\n.then(({ fulfillment }) => {\n  console.log(fulfillment)\n})"
   },
-  "POST /admin/fulfillments/${id}": {
+  "POST /admin/fulfillments/{id}/cancel": {
     "js-sdk": "sdk.admin.fulfillment.cancel(\"ful_123\")\n.then(({ fulfillment }) => {\n  console.log(fulfillment)\n})"
   },
-  "POST /admin/fulfillments/${id}/shipment": {
+  "POST /admin/fulfillments/{id}/shipment": {
     "js-sdk": "sdk.admin.fulfillment.createShipment(\"ful_123\", {\n  labels: [\n    {\n      tracking_number: \"123\",\n      tracking_url: \"example.com\",\n      label_url: \"example.com\"\n    }\n  ]\n})\n.then(({ fulfillment }) => {\n  console.log(fulfillment)\n})"
   },
   "GET /admin/fulfillment-providers": {
     "js-sdk": "sdk.admin.fulfillmentProvider.list()\n.then(({ fulfillment_providers, count, limit, offset }) => {\n  console.log(fulfillment_providers)\n})"
   },
-  "DELETE /admin/fulfillment-sets/${id}": {
+  "GET /admin/fulfillment-providers/{id}/options": {
+    "js-sdk": "sdk.admin.fulfillmentProvider.listFulfillmentOptions(\"fp_123\")\n.then(({ fulfillment_options }) => {\n  console.log(fulfillment_options)\n})"
+  },
+  "DELETE /admin/fulfillment-sets/{id}": {
     "js-sdk": "sdk.admin.fulfillmentSet.delete(\"fset_123\")\n.then(({ deleted }) => {\n  console.log(deleted)\n})"
   },
-  "POST /admin/fulfillment-sets/${id}/service-zones": {
+  "POST /admin/fulfillment-sets/{id}/service-zones": {
     "js-sdk": "sdk.admin.fulfillmentSet.createServiceZone(\"fset_123\", {\n  name: \"Europe Service Zone\",\n  geo_zones: [{\n    type: \"country\",\n    country_code: \"us\"\n  }]\n})\n.then(({ fulfillment_set }) => {\n  console.log(fulfillment_set)\n})"
   },
-  "GET /admin/fulfillment-sets/${fulfillmentsetid}/service-zones/${servicezoneid}": {
+  "GET /admin/fulfillment-sets/{fulfillmentsetid}/service-zones/{servicezoneid}": {
     "js-sdk": "sdk.admin.fulfillmentSet.retrieveServiceZone(\n  \"fset_123\",\n  \"serzo_123\"\n)\n.then(({ service_zone }) => {\n  console.log(service_zone)\n})"
   },
-  "POST /admin/fulfillment-sets/${fulfillmentsetid}/service-zones/${servicezoneid}": {
+  "POST /admin/fulfillment-sets/{fulfillmentsetid}/service-zones/{servicezoneid}": {
     "js-sdk": "sdk.admin.fulfillmentSet.updateServiceZone(\n  \"fset_123\", \n  \"serzo_123\",\n  {\n    name: \"Europe Service Zone\",\n  }\n)\n.then(({ fulfillment_set }) => {\n  console.log(fulfillment_set)\n})"
   },
-  "DELETE /admin/fulfillment-sets/${fulfillmentsetid}/service-zones/${servicezoneid}": {
+  "DELETE /admin/fulfillment-sets/{fulfillmentsetid}/service-zones/{servicezoneid}": {
     "js-sdk": "sdk.admin.fulfillmentSet.deleteServiceZone(\n  \"fset_123\", \n  \"serzo_123\",\n)\n.then(({ deleted, parent: fulfillmentSet }) => {\n  console.log(deleted, fulfillmentSet)\n})"
   },
   "POST /admin/inventory-items": {
     "js-sdk": "sdk.admin.inventoryItem.create({\n  sku: \"SHIRT\"\n})\n.then(({ inventory_item }) => {\n  console.log(inventory_item)\n})"
   },
-  "POST /admin/inventory-items/${id}": {
+  "POST /admin/inventory-items/{id}": {
     "js-sdk": "sdk.admin.inventoryItem.update(\"iitem_123\", {\n  sku: \"SHIRT\"\n})\n.then(({ inventory_item }) => {\n  console.log(inventory_item)\n})"
   },
   "GET /admin/inventory-items": {
     "js-sdk": "sdk.admin.inventoryItem.list()\n.then(({ inventory_items, count, limit, offset }) => {\n  console.log(inventory_items)\n})"
   },
-  "GET /admin/inventory-items/${id}": {
+  "GET /admin/inventory-items/{id}": {
     "js-sdk": "sdk.admin.inventoryItem.retrieve(\"iitem_123\")\n.then(({ inventory_item }) => {\n  console.log(inventory_item)\n})"
   },
-  "DELETE /admin/inventory-items/${id}": {
+  "DELETE /admin/inventory-items/{id}": {
     "js-sdk": "sdk.admin.inventoryItem.delete(\"iitem_123\")\n.then(({ deleted }) => {\n  console.log(deleted)\n})"
   },
-  "GET /admin/inventory-items/${id}/location-levels": {
+  "GET /admin/inventory-items/{id}/location-levels": {
     "js-sdk": "sdk.admin.inventoryItem.listLevels(\"iitem_123\")\n.then(({ inventory_levels, count, limit, offset }) => {\n  console.log(inventory_levels)\n})"
   },
-  "POST /admin/inventory-items/${id}/location-levels/${locationid}": {
+  "POST /admin/inventory-items/{id}/location-levels/{locationid}": {
     "js-sdk": "sdk.admin.inventoryItem.updateLevel(\n  \"iitem_123\",\n  \"sloc_123\",\n  {\n    stocked_quantity: 10\n  }\n)\n.then(({ inventory_item }) => {\n  console.log(inventory_item)\n})"
   },
-  "DELETE /admin/inventory-items/${id}/location-levels/${locationid}": {
+  "DELETE /admin/inventory-items/{id}/location-levels/{locationid}": {
     "js-sdk": "sdk.admin.inventoryItem.deleteLevel(\n  \"iitem_123\",\n  \"sloc_123\",\n)\n.then(({ deleted, parent: inventoryItem }) => {\n  console.log(deleted, inventoryItem)\n})"
   },
-  "POST /admin/inventory-items/${id}/location-levels/batch": {
+  "POST /admin/inventory-items/{id}/location-levels/batch": {
     "js-sdk": "sdk.admin.inventoryItem.batchInventoryItemLocationLevels(\"iitem_123\", {\n  create: [{\n    location_id: \"sloc_123\",\n    stocked_quantity: 10\n  }],\n  delete: [\"ilvl_123\"]\n})\n.then(({ created, updated, deleted }) => {\n  console.log(created, updated, deleted)\n})"
   },
   "POST /admin/inventory-items/location-levels/batch": {
     "js-sdk": "sdk.admin.inventoryItem.batchInventoryItemsLocationLevels({\n  create: [{\n    inventory_item_id: \"iitem_123\",\n    location_id: \"sloc_123\",\n    stocked_quantity: 10\n  }],\n  delete: [\"ilvl_123\"]\n})\n.then(({ created, updated, deleted }) => {\n  console.log(created, updated, deleted)\n})"
   },
-  "POST /admin/invites/accept?token=${input.invite_token}": {
+  "POST /admin/invites/accept": {
     "js-sdk": "const token = await sdk.auth.register(\"user\", \"emailpass\", {\n  email: \"user@gmail.com\",\n  password: \"supersecret\"\n})\n\nsdk.admin.invite.accept(\n  {\n    email: \"user@gmail.com\",\n    first_name: \"John\",\n    last_name: \"Smith\",\n    invite_token: \"12345...\"\n  },\n  {\n    Authorization: `Bearer ${token}`\n  }\n)\n.then(({ user }) => {\n  console.log(user)\n})"
   },
   "POST /admin/invites": {
     "js-sdk": "sdk.admin.invite.create({\n  email: \"user@gmail.com\",\n})\n.then(({ invite }) => {\n  console.log(invite)\n})"
   },
-  "GET /admin/invites/${id}": {
+  "GET /admin/invites/{id}": {
     "js-sdk": "sdk.admin.invite.retrieve(\"invite_123\")\n.then(({ invite }) => {\n  console.log(invite)\n})"
   },
   "GET /admin/invites": {
     "js-sdk": "sdk.admin.invite.list()\n.then(({ invites, count, limit, offset }) => {\n  console.log(invites)\n})"
   },
-  "POST /admin/invites/${id}/resend": {
+  "POST /admin/invites/{id}/resend": {
     "js-sdk": "sdk.admin.invite.resend(\"invite_123\")\n.then(({ invite }) => {\n  console.log(invite)\n})"
   },
-  "DELETE /admin/invites/${id}": {
+  "DELETE /admin/invites/{id}": {
     "js-sdk": "sdk.admin.invite.delete(\"invite_123\")\n.then(({ deleted }) => {\n  console.log(deleted)\n})"
   },
-  "GET /admin/notifications/${id}": {
+  "GET /admin/notifications/{id}": {
     "js-sdk": "sdk.admin.notification.retrieve(\"notif_123\")\n.then(({ notification }) => {\n  console.log(notification)\n})"
   },
   "GET /admin/notifications": {
     "js-sdk": "sdk.admin.notification.list()\n.then(({ notifications, count, limit, offset }) => {\n  console.log(notifications)\n})"
   },
-  "GET /admin/orders/${id}": {
+  "GET /admin/orders/{id}": {
     "js-sdk": "sdk.admin.order.retrieve(\"order_123\")\n.then(({ order }) => {\n  console.log(order)\n})"
   },
-  "POST /admin/orders/${id}": {
+  "POST /admin/orders/{id}": {
     "js-sdk": "sdk.admin.order.update(\n  \"order_123\",\n  {\n    email: \"new_email@example.com\",\n    shipping_address: {\n      first_name: \"John\",\n      last_name: \"Doe\",\n      address_1: \"123 Main St\",\n    }\n  }\n)\n.then(({ order }) => {\n  console.log(order)\n})"
   },
-  "GET /admin/orders/${id}/preview": {
+  "GET /admin/orders/{id}/preview": {
     "js-sdk": "sdk.admin.order.retrievePreview(\"order_123\")\n.then(({ order }) => {\n  console.log(order)\n})"
   },
   "GET /admin/orders": {
     "js-sdk": "sdk.admin.order.list()\n.then(({ orders, count, limit, offset }) => {\n  console.log(orders)\n})"
   },
-  "POST /admin/orders/${id}/cancel": {
+  "POST /admin/orders/{id}/cancel": {
     "js-sdk": "sdk.admin.order.cancel(\"order_123\")\n.then(({ order }) => {\n  console.log(order)\n})"
   },
-  "POST /admin/orders/${id}/transfer": {
+  "POST /admin/orders/{id}/transfer": {
     "js-sdk": "sdk.admin.order.requestTransfer(\"order_123\", {\n  customer_id: \"cus_123\",\n  internal_note: \"Internal note\",\n})\n.then(({ order }) => {\n  console.log(order)\n})"
   },
-  "POST /admin/orders/${id}/transfer/cancel": {
+  "POST /admin/orders/{id}/transfer/cancel": {
     "js-sdk": "sdk.admin.order.cancelTransfer(\"order_123\")\n.then(({ order }) => {\n  console.log(order)\n})"
   },
-  "POST /admin/orders/${id}/fulfillments": {
+  "POST /admin/orders/{id}/fulfillments": {
     "js-sdk": "sdk.admin.order.createFulfillment(\"order_123\", {\n  items: [\n    {\n      id: \"orli_123\",\n      quantity: 1\n    }\n  ]\n})\n.then(({ order }) => {\n  console.log(order)\n})"
   },
-  "POST /admin/orders/${id}/fulfillments/${fulfillmentid}/cancel": {
+  "POST /admin/orders/{id}/fulfillments/{fulfillmentid}/cancel": {
     "js-sdk": "sdk.admin.order.cancelFulfillment(\n  \"order_123\",\n  \"ful_123\",\n  {\n    no_notification: false\n  }\n)\n.then(({ order }) => {\n  console.log(order)\n})"
   },
-  "POST /admin/orders/${id}/fulfillments/${fulfillmentid}/shipments": {
+  "POST /admin/orders/{id}/fulfillments/{fulfillmentid}/shipments": {
     "js-sdk": "sdk.admin.order.createShipment(\n  \"order_123\",\n  \"ful_123\",\n  {\n    items: [\n      {\n        id: \"fulit_123\",\n        quantity: 1\n      }\n    ]\n  }\n)\n.then(({ order }) => {\n  console.log(order)\n})"
   },
-  "POST /admin/orders/${id}/fulfillments/${fulfillmentid}/mark-as-delivered": {
+  "POST /admin/orders/{id}/fulfillments/{fulfillmentid}/mark-as-delivered": {
     "js-sdk": "sdk.admin.order.markAsDelivered(\n  \"order_123\",\n  \"ful_123\",\n)\n.then(({ order }) => {\n  console.log(order)\n})"
   },
-  "GET /admin/orders/${id}/changes": {
+  "GET /admin/orders/{id}/changes": {
     "js-sdk": "sdk.admin.order.listChanges(\"order_123\")\n.then(({ order_changes }) => {\n  console.log(order_changes)\n})"
   },
-  "GET /admin/orders/${id}/line-items": {
+  "GET /admin/orders/{id}/line-items": {
     "js-sdk": "sdk.admin.order.listLineItems(\"order_123\")\n.then(({ order_items }) => {\n  console.log(order_items)\n})"
   },
   "POST /admin/order-edits": {
     "js-sdk": "sdk.admin.orderEdit.initiateRequest({\n  order_id: \"order_123\"\n})\n.then(({ order_change }) => {\n  console.log(order_change)\n})"
   },
-  "POST /admin/order-edits/${id}/request": {
+  "POST /admin/order-edits/{id}/request": {
     "js-sdk": "sdk.admin.orderEdit.request(\"ordch_123\")\n.then(({ order_preview }) => {\n  console.log(order_preview)\n})"
   },
-  "POST /admin/order-edits/${id}/confirm": {
+  "POST /admin/order-edits/{id}/confirm": {
     "js-sdk": "sdk.admin.orderEdit.confirm(\"ordch_123\")\n.then(({ order_preview }) => {\n  console.log(order_preview)\n})"
   },
-  "DELETE /admin/order-edits/${id}": {
+  "DELETE /admin/order-edits/{id}": {
     "js-sdk": "sdk.admin.orderEdit.cancelRequest(\"ordch_123\")\n.then(({ deleted }) => {\n  console.log(deleted)\n})"
   },
-  "POST /admin/order-edits/${id}/items": {
+  "POST /admin/order-edits/{id}/items": {
     "js-sdk": "sdk.admin.orderEdit.addItems(\"ordch_123\", {\n  items: [\n    {\n      variant_id: \"variant_123\",\n      quantity: 1\n    }\n  ]\n})\n.then(({ order_preview }) => {\n  console.log(order_preview)\n})"
   },
-  "POST /admin/order-edits/${id}/items/item/${itemid}": {
+  "POST /admin/order-edits/{id}/items/item/{itemid}": {
     "js-sdk": "sdk.admin.orderEdit.updateOriginalItem(\n  \"ordch_123\", \n  \"orli_123\",\n  {\n    quantity: 1\n  }\n)\n.then(({ order_preview }) => {\n  console.log(order_preview)\n})"
   },
-  "POST /admin/order-edits/${id}/items/${actionid}": {
+  "POST /admin/order-edits/{id}/items/{actionid}": {
     "js-sdk": "sdk.admin.orderEdit.updateAddedItem(\n  \"ordch_123\", \n  \"orli_123\",\n  {\n    quantity: 1\n  }\n)\n.then(({ order_preview }) => {\n  console.log(order_preview)\n})"
   },
-  "DELETE /admin/order-edits/${id}/items/${actionid}": {
+  "DELETE /admin/order-edits/{id}/items/{actionid}": {
     "js-sdk": "sdk.admin.orderEdit.removeAddedItem(\n  \"ordch_123\", \n  \"orli_123\",\n)\n.then(({ order_preview }) => {\n  console.log(order_preview)\n})"
   },
   "GET /admin/payments": {
@@ -371,25 +377,25 @@
   "GET /admin/payments/payment-providers": {
     "js-sdk": "sdk.admin.payment.listPaymentProviders()\n.then(({ payment_providers, count, limit, offset }) => {\n  console.log(payment_providers)\n})"
   },
-  "GET /admin/payments/${id}": {
+  "GET /admin/payments/{id}": {
     "js-sdk": "sdk.admin.payment.retrieve(\"pay_123\")\n.then(({ payment }) => {\n  console.log(payment)\n})"
   },
-  "POST /admin/payments/${id}/capture": {
+  "POST /admin/payments/{id}/capture": {
     "js-sdk": "sdk.admin.payment.capture(\"paycol_123\", {})\n.then(({ payment }) => {\n  console.log(payment)\n})"
   },
-  "POST /admin/payments/${id}/refund": {
+  "POST /admin/payments/{id}/refund": {
     "js-sdk": "sdk.admin.payment.refund(\"paycol_123\", {})\n.then(({ payment }) => {\n  console.log(payment)\n})"
   },
   "POST /admin/payment-collections": {
     "js-sdk": "sdk.admin.paymentCollection.create({\n  order_id: \"order_123\"\n})\n.then(({ payment_collection }) => {\n  console.log(payment_collection)\n})"
   },
-  "DELETE /admin/payment-collections/${id}": {
+  "DELETE /admin/payment-collections/{id}": {
     "js-sdk": "sdk.admin.paymentCollection.delete(\"paycol_123\")\n.then(({ deleted }) => {\n  console.log(deleted)\n})"
   },
-  "POST /admin/payment-collections/${id}/mark-as-paid": {
+  "POST /admin/payment-collections/{id}/mark-as-paid": {
     "js-sdk": "sdk.admin.paymentCollection.markAsPaid(\"paycol_123\", {\n  order_id: \"order_123\"\n})\n.then(({ payment_collection }) => {\n  console.log(payment_collection)\n})"
   },
-  "GET /admin/price-lists/${id}": {
+  "GET /admin/price-lists/{id}": {
     "js-sdk": "sdk.admin.priceList.retrieve(\"plist_123\")\n.then(({ price_list }) => {\n  console.log(price_list)\n})"
   },
   "GET /admin/price-lists": {
@@ -398,19 +404,19 @@
   "POST /admin/price-lists": {
     "js-sdk": "sdk.admin.priceList.create({\n  title: \"My Price List\",\n  status: \"active\",\n  type: \"sale\",\n  prices: [\n    {\n      variant_id: \"variant_123\",\n      amount: 10,\n      currency_code: \"usd\",\n      rules: {\n        region_id: \"reg_123\"\n      }\n    }\n  ]\n})\n.then(({ price_list }) => {\n  console.log(price_list)\n})"
   },
-  "POST /admin/price-lists/${id}": {
+  "POST /admin/price-lists/{id}": {
     "js-sdk": "sdk.admin.priceList.update(\"plist_123\", {\n  title: \"My Price List\",\n})\n.then(({ price_list }) => {\n  console.log(price_list)\n})"
   },
-  "DELETE /admin/price-lists/${id}": {
+  "DELETE /admin/price-lists/{id}": {
     "js-sdk": "sdk.admin.priceList.delete(\"plist_123\")\n.then(({ deleted }) => {\n  console.log(deleted)\n})"
   },
-  "POST /admin/price-lists/${id}/prices/batch": {
+  "POST /admin/price-lists/{id}/prices/batch": {
     "js-sdk": "sdk.admin.priceList.batchPrices(\"plist_123\", {\n  create: [{\n    variant_id: \"variant_123\",\n    currency_code: \"usd\",\n    amount: 10,\n    rules: {\n      region_id: \"reg_123\"\n    }\n  }],\n  update: [{\n    id: \"price_123\",\n    variant_id: \"variant_123\",\n    amount: 20,\n  }],\n  delete: [\"price_123\"]\n})\n.then(({ created, updated, deleted }) => {\n  console.log(created, updated, deleted)\n})"
   },
-  "POST /admin/price-lists/${id}/products": {
+  "POST /admin/price-lists/{id}/products": {
     "js-sdk": "sdk.admin.priceList.linkProducts(\"plist_123\", {\n  remove: [\"prod_123\"]\n})\n.then(({ price_list }) => {\n  console.log(price_list)\n})"
   },
-  "GET /admin/price-preferences/${id}": {
+  "GET /admin/price-preferences/{id}": {
     "js-sdk": "sdk.admin.pricePreference.retrieve(\"prpref_123\")\n.then(({ price_preference }) => {\n  console.log(price_preference)\n})"
   },
   "GET /admin/price-preferences": {
@@ -419,16 +425,16 @@
   "POST /admin/price-preferences": {
     "js-sdk": "sdk.admin.pricePreference.create({\n  attribute: \"region_id\",\n  value: \"region_123\",\n  is_tax_inclusive: true\n})\n.then(({ price_preference }) => {\n  console.log(price_preference)\n})"
   },
-  "POST /admin/price-preferences/${id}": {
+  "POST /admin/price-preferences/{id}": {
     "js-sdk": "sdk.admin.pricePreference.update(\"prpref_123\", {\n  is_tax_inclusive: true\n})\n.then(({ price_preference }) => {\n  console.log(price_preference)\n})"
   },
-  "DELETE /admin/price-preferences/${id}": {
+  "DELETE /admin/price-preferences/{id}": {
     "js-sdk": "sdk.admin.pricePreference.delete(\"prpref_123\")\n.then(({ deleted }) => {\n  console.log(deleted)\n})"
   },
   "POST /admin/products/import": {
     "js-sdk": "sdk.admin.product.import({\n  file // uploaded File instance\n})\n.then(({ transaction_id }) => {\n  console.log(transaction_id)\n})"
   },
-  "POST /admin/products/import/${transactionid}/confirm": {
+  "POST /admin/products/import/{transactionid}/confirm": {
     "js-sdk": "sdk.admin.product.confirmImport(\"transaction_123\")\n.then(() => {\n  console.log(\"Import confirmed\")\n})"
   },
   "POST /admin/products/export": {
@@ -440,130 +446,412 @@
   "POST /admin/products": {
     "js-sdk": "sdk.admin.product.create({\n  title: \"Shirt\",\n  options: [{\n    title: \"Default\",\n    values: [\"Default Option\"]\n  }],\n  variants: [\n    {\n      title: \"Default\",\n      options: {\n        Default: \"Default Option\"\n      },\n      prices: []\n    }\n  ],\n  shipping_profile_id: \"sp_123\"\n})\n.then(({ product }) => {\n  console.log(product)\n})"
   },
-  "POST /admin/products/${id}": {
+  "POST /admin/products/{id}": {
     "js-sdk": "sdk.admin.product.update(\"prod_123\", {\n  title: \"Shirt\",\n})\n.then(({ product }) => {\n  console.log(product)\n})"
   },
   "GET /admin/products": {
     "js-sdk": "sdk.admin.product.list()\n.then(({ products, count, limit, offset }) => {\n  console.log(products)\n})"
   },
-  "GET /admin/products/${id}": {
+  "GET /admin/products/{id}": {
     "js-sdk": "sdk.admin.product.retrieve(\"prod_123\")\n.then(({ product }) => {\n  console.log(product)\n})"
   },
-  "DELETE /admin/products/${id}": {
+  "DELETE /admin/products/{id}": {
     "js-sdk": "sdk.admin.product.delete(\"prod_123\")\n.then(({ deleted }) => {\n  console.log(deleted)\n})"
   },
-  "POST /admin/products/${productid}/variants/batch": {
+  "POST /admin/products/{productid}/variants/batch": {
     "js-sdk": "sdk.admin.product.batchVariants(\"prod_123\", {\n  create: [\n    {\n      title: \"Blue Shirt\",\n      options: {\n        Color: \"Blue\"\n      },\n      prices: []\n    }\n  ],\n  update: [\n    {\n      id: \"variant_123\",\n      title: \"Pants\"\n    }\n  ],\n  delete: [\"variant_123\"]\n})\n.then(({ created, updated, deleted }) => {\n  console.log(created, updated, deleted)\n})"
   },
-  "POST /admin/products/${productid}/variants": {
+  "POST /admin/products/{productid}/variants": {
     "js-sdk": "sdk.admin.product.createVariant(\"prod_123\", {\n  title: \"Blue Shirt\",\n  options: {\n    Color: \"Blue\"\n  },\n  prices: [\n    {\n      amount: 10,\n      currency_code: \"usd\"\n    }\n  ]\n})\n.then(({ product }) => {\n  console.log(product)\n})"
   },
-  "POST /admin/products/${productid}/variants/${id}": {
+  "POST /admin/products/{productid}/variants/{id}": {
     "js-sdk": "sdk.admin.product.updateVariant(\n  \"prod_123\", \n  \"variant_123\",\n    {\n    title: \"Blue Shirt\",\n  }\n)\n.then(({ product }) => {\n  console.log(product)\n})"
   },
-  "GET /admin/products/${productid}/variants": {
+  "GET /admin/products/{productid}/variants": {
     "js-sdk": "sdk.admin.product.listVariants(\"prod_123\")\n.then(({ variants, count, limit, offset }) => {\n  console.log(variants)\n})"
   },
-  "GET /admin/products/${productid}/variants/${id}": {
+  "GET /admin/products/{productid}/variants/{id}": {
     "js-sdk": "sdk.admin.product.retrieveVariant(\n  \"prod_123\",\n  \"variant_123\"\n)\n.then(({ variant }) => {\n  console.log(variant)\n})"
   },
-  "DELETE /admin/products/${productid}/variants/${id}": {
+  "DELETE /admin/products/{productid}/variants/{id}": {
     "js-sdk": "sdk.admin.product.deleteVariant(\"prod_123\", \"variant_123\")\n.then(({ deleted }) => {\n  console.log(deleted)\n})"
   },
-  "POST /admin/products/${productid}/variants/inventory-items/batch": {
+  "POST /admin/products/{productid}/variants/inventory-items/batch": {
     "js-sdk": "sdk.admin.product.batchVariantInventoryItems(\n  \"prod_123\", \n  {\n    create: [\n      {\n        inventory_item_id: \"iitem_123\",\n        variant_id: \"variant_123\",\n        required_quantity: 10\n      }\n    ],\n    update: [\n      {\n        inventory_item_id: \"iitem_1234\",\n        variant_id: \"variant_1234\",\n        required_quantity: 20\n      }\n    ],\n    delete: [\n      {\n        inventory_item_id: \"iitem_321\",\n        variant_id: \"variant_321\"\n      }\n    ]\n  }\n)\n.then(({ created, updated, deleted }) => {\n  console.log(created, updated, deleted)\n})"
   },
-  "POST /admin/products/${productid}/options": {
+  "POST /admin/products/{productid}/options": {
     "js-sdk": "sdk.admin.product.createOption(\n  \"prod_123\", \n  {\n    title: \"Color\",\n    values: [\"Green\", \"Blue\"]\n  }\n)\n.then(({ product }) => {\n  console.log(product)\n})"
   },
-  "POST /admin/products/${productid}/options/${id}": {
+  "POST /admin/products/{productid}/options/{id}": {
     "js-sdk": "sdk.admin.product.updateOption(\n  \"prod_123\", \n  \"prodopt_123\",\n  {\n    title: \"Color\"\n  }\n)\n.then(({ product }) => {\n  console.log(product)\n})"
   },
-  "GET /admin/products/${productid}/options": {
+  "GET /admin/products/{productid}/options": {
     "js-sdk": "sdk.admin.product.listOptions(\"prod_123\")\n.then(({ product_options, count, limit, offset }) => {\n  console.log(product_options)\n})"
   },
-  "GET /admin/products/${productid}/options/${id}": {
+  "GET /admin/products/{productid}/options/{id}": {
     "js-sdk": "sdk.admin.product.retrieveOption(\n  \"prod_123\",\n  \"prodopt_123\"\n)\n.then(({ product_option }) => {\n  console.log(product_option)\n})"
   },
-  "DELETE /admin/products/${productid}/options/${id}": {
+  "DELETE /admin/products/{productid}/options/{id}": {
     "js-sdk": "sdk.admin.product.deleteOption(\"prod_123\", \"prodopt_123\")\n.then(({ deleted }) => {\n  console.log(deleted)\n})"
   },
   "POST /admin/product-categories": {
     "js-sdk": "sdk.admin.productCategory.create({\n  name: \"Shirts\"\n})\n.then(({ product_category }) => {\n  console.log(product_category)\n})"
   },
-  "POST /admin/product-categories/${id}": {
+  "POST /admin/product-categories/{id}": {
     "js-sdk": "sdk.admin.productCategory.update(\"pcat_123\", {\n  name: \"Shirts\"\n})\n.then(({ product_category }) => {\n  console.log(product_category)\n})"
   },
   "GET /admin/product-categories": {
     "js-sdk": "sdk.admin.productCategory.list()\n.then(({ product_categories, count, limit, offset }) => {\n  console.log(product_categories)\n})"
   },
-  "GET /admin/product-categories/${id}": {
+  "GET /admin/product-categories/{id}": {
     "js-sdk": "sdk.admin.productCategory.retrieve(\"pcat_123\")\n.then(({ product_category }) => {\n  console.log(product_category)\n})"
   },
-  "DELETE /admin/product-categories/${id}": {
+  "DELETE /admin/product-categories/{id}": {
     "js-sdk": "sdk.admin.productCategory.delete(\"pcat_123\")\n.then(({ deleted }) => {\n  console.log(deleted)\n})"
   },
-  "POST /admin/product-categories/${id}/products": {
+  "POST /admin/product-categories/{id}/products": {
     "js-sdk": "sdk.admin.productCategory.updateProducts(\"pcat_123\", {\n  add: [\"prod_123\"],\n  remove: [\"prod_321\"]\n})\n.then(({ product_category }) => {\n  console.log(product_category)\n})"
   },
   "POST /admin/collections": {
     "js-sdk": "sdk.admin.productCollection.create({\n  title: \"Summer Collection\"\n})\n.then(({ collection }) => {\n  console.log(collection)\n})"
   },
-  "POST /admin/collections/${id}": {
+  "POST /admin/collections/{id}": {
     "js-sdk": "sdk.admin.productCollection.update(\"pcol_123\", {\n  title: \"Summer Collection\"\n})\n.then(({ collection }) => {\n  console.log(collection)\n})"
   },
   "GET /admin/collections": {
     "js-sdk": "sdk.admin.productCollection.list()\n.then(({ collections, count, limit, offset }) => {\n  console.log(collections)\n})"
   },
-  "GET /admin/collections/${id}": {
+  "GET /admin/collections/{id}": {
     "js-sdk": "sdk.admin.productCollection.retrieve(\"pcol_123\")\n.then(({ collection }) => {\n  console.log(collection)\n})"
   },
-  "DELETE /admin/collections/${id}": {
+  "DELETE /admin/collections/{id}": {
     "js-sdk": "sdk.admin.productCollection.delete(\"pcol_123\")\n.then(({ deleted }) => {\n  console.log(deleted)\n})"
   },
-  "POST /admin/collections/${id}/products": {
+  "POST /admin/collections/{id}/products": {
     "js-sdk": "sdk.admin.productCollection.updateProducts(\"pcol_123\", {\n  add: [\"prod_123\"],\n  remove: [\"prod_321\"]\n})\n.then(({ collection }) => {\n  console.log(collection)\n})"
   },
   "POST /admin/product-tags": {
     "js-sdk": "sdk.admin.productTag.create({\n  value: \"shirt\"\n})\n.then(({ product_tag }) => {\n  console.log(product_tag)\n})"
   },
-  "POST /admin/product-tags/${id}": {
+  "POST /admin/product-tags/{id}": {
     "js-sdk": "sdk.admin.productTag.update(\"ptag_123\", {\n  value: \"shirt\"\n})\n.then(({ product_tag }) => {\n  console.log(product_tag)\n})"
   },
   "GET /admin/product-tags": {
     "js-sdk": "sdk.admin.productTag.list()\n.then(({ product_tags, count, limit, offset }) => {\n  console.log(product_tags)\n})"
   },
-  "GET /admin/product-tags/${id}": {
+  "GET /admin/product-tags/{id}": {
     "js-sdk": "sdk.admin.productTag.retrieve(\"ptag_123\")\n.then(({ product_tag }) => {\n  console.log(product_tag)\n})"
   },
-  "DELETE /admin/product-tags/${id}": {
+  "DELETE /admin/product-tags/{id}": {
     "js-sdk": "sdk.admin.productTag.delete(\"ptag_123\")\n.then(({ deleted }) => {\n  console.log(deleted)\n})"
   },
   "POST /admin/product-types": {
     "js-sdk": "sdk.admin.productType.create({\n  value: \"Clothes\"\n})\n.then(({ product_type }) => {\n  console.log(product_type)\n})"
   },
-  "POST /admin/product-types/${id}": {
+  "POST /admin/product-types/{id}": {
     "js-sdk": "sdk.admin.productType.update(\"ptyp_123\", {\n  value: \"Clothes\"\n})\n.then(({ product_type }) => {\n  console.log(product_type)\n})"
   },
   "GET /admin/product-types": {
     "js-sdk": "sdk.admin.productType.list()\n.then(({ product_types, count, limit, offset }) => {\n  console.log(product_types)\n})"
   },
-  "GET /admin/product-types/${id}": {
+  "GET /admin/product-types/{id}": {
     "js-sdk": "sdk.admin.productType.retrieve(\"ptyp_123\")\n.then(({ product_type }) => {\n  console.log(product_type)\n})"
   },
-  "DELETE /admin/product-types/${id}": {
+  "DELETE /admin/product-types/{id}": {
     "js-sdk": "sdk.admin.productType.delete(\"ptyp_123\")\n.then(({ deleted }) => {\n  console.log(deleted)\n})"
   },
   "GET /admin/product-variants": {
     "js-sdk": "sdk.admin.productVariant.list()\n.then(({ variants, count, limit, offset }) => {\n  console.log(variants)\n})"
   },
-  "POST /auth/${actor}/${method}/register": {
+  "GET /admin/promotions/{id}": {
+    "js-sdk": "sdk.admin.promotion.retrieve(\"promo_123\")\n.then(({ promotion }) => {\n  console.log(promotion)\n})"
+  },
+  "GET /admin/promotions": {
+    "js-sdk": "sdk.admin.promotion.list()\n.then(({ promotions, count, limit, offset }) => {\n  console.log(promotions)\n})"
+  },
+  "POST /admin/promotions": {
+    "js-sdk": "sdk.admin.promotion.create({ \n  name: \"My Promotion\",\n  description: \"This is a test promotion\",\n  code: \"PROMO123\",\n  starts_at: \"2021-01-01\",\n  ends_at: \"2021-01-01\",\n})\n.then(({ promotion }) => {\n  console.log(promotion)\n})"
+  },
+  "POST /admin/promotions/{id}": {
+    "js-sdk": "sdk.admin.promotion.update(\"promo_123\", {\n  code: \"PROMO123\",\n})\n.then(({ promotion }) => {\n  console.log(promotion)\n})"
+  },
+  "DELETE /admin/promotions/{id}": {
+    "js-sdk": "sdk.admin.promotion.delete(\"promo_123\")\n.then(({ promotion }) => {\n  console.log(promotion)\n})"
+  },
+  "POST /admin/promotions/{id}/{ruletype}/batch": {
+    "js-sdk": "sdk.admin.promotion.removeRules(\"promo_123\", \"rules\", {\n  rule_ids: [\"rule_123\"]\n})\n.then(({ promotion }) => {\n  console.log(promotion)\n})"
+  },
+  "GET /admin/promotions/{id}/{ruletype}": {
+    "js-sdk": "sdk.admin.promotion.listRules(\"promo_123\", \"rules\")\n.then(({ rules }) => {\n  console.log(rules)\n})"
+  },
+  "GET /admin/promotions/rule-attribute-options/{ruletype}": {
+    "js-sdk": "sdk.admin.promotion.listRuleAttributes(\"rules\", \"standard\")\n.then(({ attributes }) => {\n  console.log(attributes)\n})"
+  },
+  "GET /admin/promotions/rule-value-options/{ruletype}/{rulevalue}": {
+    "js-sdk": "sdk.admin.promotion.listRuleValues(\"rules\", \"attr_123\")\n.then(({ values }) => {\n  console.log(values)\n})"
+  },
+  "GET /admin/refund-reasons": {
+    "js-sdk": "sdk.admin.refundReason.list()\n.then(({ refund_reasons, count, limit, offset }) => {\n  console.log(refund_reasons)\n})"
+  },
+  "POST /admin/regions": {
+    "js-sdk": "sdk.admin.region.create({\n  name: \"United States\",\n  currency_code: \"usd\",\n})\n.then(({ region }) => {\n  console.log(region)\n})"
+  },
+  "POST /admin/regions/{id}": {
+    "js-sdk": "sdk.admin.region.update(\"region_123\", {\n  name: \"United States\",\n})\n.then(({ region }) => {\n  console.log(region)\n})"
+  },
+  "GET /admin/regions": {
+    "js-sdk": "sdk.admin.region.list()\n.then(({ regions, count, limit, offset }) => {\n  console.log(regions)\n})"
+  },
+  "GET /admin/regions/{id}": {
+    "js-sdk": "sdk.admin.region.retrieve(\"region_123\")\n.then(({ region }) => {\n  console.log(region)\n})"
+  },
+  "DELETE /admin/regions/{id}": {
+    "js-sdk": "sdk.admin.region.delete(\"region_123\")\n.then(({ deleted }) => {\n  console.log(deleted)\n})"
+  },
+  "GET /admin/reservations/{id}": {
+    "js-sdk": "sdk.admin.reservation.retrieve(\"res_123\")\n.then(({ reservation }) => {\n  console.log(reservation)\n})"
+  },
+  "GET /admin/reservations": {
+    "js-sdk": "sdk.admin.reservation.list()\n.then(({ reservations, count, limit, offset }) => {\n  console.log(reservations)\n})"
+  },
+  "POST /admin/reservations": {
+    "js-sdk": "sdk.admin.reservation.create({\n  inventory_item_id: \"iitem_123\",\n  location_id: \"sloc_123\",\n  quantity: 10,\n})\n.then(({ reservation }) => {\n  console.log(reservation)\n})"
+  },
+  "POST /admin/reservations/{id}": {
+    "js-sdk": "sdk.admin.reservation.update(\"res_123\", {\n  quantity: 20,\n})\n.then(({ reservation }) => {\n  console.log(reservation)\n})"
+  },
+  "DELETE /admin/reservations/{id}": {
+    "js-sdk": "sdk.admin.reservation.delete(\"res_123\")\n.then(({ deleted }) => {\n  console.log(deleted)\n})"
+  },
+  "GET /admin/returns": {
+    "js-sdk": "sdk.admin.return.list()\n.then(({ returns, count, limit, offset }) => {\n  console.log(returns)\n})"
+  },
+  "GET /admin/returns/{id}": {
+    "js-sdk": "sdk.admin.return.retrieve(\"return_123\")\n.then(({ return }) => {\n  console.log(return)\n})"
+  },
+  "POST /admin/returns": {
+    "js-sdk": "sdk.admin.return.initiateRequest({\n  order_id: \"order_123\",\n})\n.then(({ return }) => {\n  console.log(return)\n})"
+  },
+  "POST /admin/returns/{id}/cancel": {
+    "js-sdk": "sdk.admin.return.cancel(\"return_123\")\n.then(({ return }) => {\n  console.log(return)\n})"
+  },
+  "DELETE /admin/returns/{id}/request": {
+    "js-sdk": "sdk.admin.return.cancelRequest(\"return_123\")\n.then(({ return }) => {\n  console.log(return)\n})"
+  },
+  "POST /admin/returns/{id}/request-items": {
+    "js-sdk": "sdk.admin.return.addReturnItem(\"return_123\", {\n  id: \"orlitem_123\",\n  quantity: 1,\n})\n.then(({ return }) => {\n  console.log(return)\n})"
+  },
+  "POST /admin/returns/{id}/request-items/{actionid}": {
+    "js-sdk": "sdk.admin.return.updateReturnItem(\"return_123\", \"orchach_123\", {\n  quantity: 2,\n})\n.then(({ return }) => {\n  console.log(return)\n})"
+  },
+  "DELETE /admin/returns/{id}/request-items/{actionid}": {
+    "js-sdk": "sdk.admin.return.removeReturnItem(\"return_123\", \"orchach_123\")\n.then(({ return }) => {\n  console.log(return)\n})"
+  },
+  "POST /admin/returns/{id}/shipping-method": {
+    "js-sdk": "sdk.admin.return.addReturnShipping(\"return_123\", {\n  shipping_option_id: \"so_123\",\n})\n.then(({ return }) => {\n  console.log(return)\n})"
+  },
+  "POST /admin/returns/{id}/shipping-method/{actionid}": {
+    "js-sdk": "sdk.admin.return.updateReturnShipping(\"return_123\", \"orchach_123\", {\n  custom_amount: 100,\n})\n.then(({ return }) => {\n  console.log(return)\n})"
+  },
+  "DELETE /admin/returns/{id}/shipping-method/{actionid}": {
+    "js-sdk": "sdk.admin.return.deleteReturnShipping(\"return_123\", \"orchach_123\")\n.then(({ return }) => {\n  console.log(return)\n})"
+  },
+  "POST /admin/returns/{id}": {
+    "js-sdk": "sdk.admin.return.updateRequest(\"return_123\", {\n  location_id: \"sloc_123\",\n})\n.then(({ return }) => {\n  console.log(return)\n})"
+  },
+  "POST /admin/returns/{id}/request": {
+    "js-sdk": "sdk.admin.return.confirmRequest(\"return_123\", {\n  no_notification: true,\n})\n.then(({ return }) => {\n  console.log(return)\n})"
+  },
+  "POST /admin/returns/{id}/receive": {
+    "js-sdk": "sdk.admin.return.initiateReceive(\"return_123\", {\n  internal_note: \"Return received by the customer\",\n})\n.then(({ return }) => {\n  console.log(return)\n})"
+  },
+  "POST /admin/returns/{id}/receive-items": {
+    "js-sdk": "sdk.admin.return.receiveItems(\"return_123\", {\n  items: [\n    { id: \"item_123\", quantity: 1 },\n  ],\n})\n.then(({ return }) => {\n  console.log(return)\n})"
+  },
+  "POST /admin/returns/{id}/receive-items/{actionid}": {
+    "js-sdk": "sdk.admin.return.updateReceiveItem(\"return_123\", \"orchach_123\", {\n  quantity: 2,\n})\n.then(({ return }) => {\n  console.log(return)\n})"
+  },
+  "DELETE /admin/returns/{id}/receive-items/{actionid}": {
+    "js-sdk": "sdk.admin.return.removeReceiveItem(\"return_123\", \"orchach_123\")\n.then(({ return }) => {\n  console.log(return)\n})"
+  },
+  "POST /admin/returns/{id}/dismiss-items": {
+    "js-sdk": "sdk.admin.return.dismissItems(\"return_123\", {\n  items: [\n    { id: \"orli_123\", quantity: 1 },\n  ],\n})\n.then(({ return }) => {\n  console.log(return)\n})"
+  },
+  "POST /admin/returns/{id}/dismiss-items/{actionid}": {
+    "js-sdk": "sdk.admin.return.updateDismissItem(\"return_123\", \"orchach_123\", {\n  quantity: 2,\n})\n.then(({ return }) => {\n  console.log(return)\n})"
+  },
+  "DELETE /admin/returns/{id}/dismiss-items/{actionid}": {
+    "js-sdk": "sdk.admin.return.removeDismissItem(\"return_123\", \"orchach_123\")\n.then(({ return }) => {\n  console.log(return)\n})"
+  },
+  "POST /admin/returns/{id}/receive/confirm": {
+    "js-sdk": "sdk.admin.return.confirmReceive(\"return_123\", {\n  no_notification: true,\n})\n.then(({ return }) => {\n  console.log(return)\n})"
+  },
+  "DELETE /admin/returns/{id}/receive": {
+    "js-sdk": "sdk.admin.return.cancelReceive(\"return_123\")\n.then(({ return }) => {\n  console.log(return)\n})"
+  },
+  "GET /admin/return-reasons": {
+    "js-sdk": "sdk.admin.returnReason.list()\n.then(({ return_reasons, count, limit, offset }) => {\n  console.log(return_reasons)\n})"
+  },
+  "GET /admin/return-reasons/{id}": {
+    "js-sdk": "sdk.admin.returnReason.retrieve(\"ret_123\")\n.then(({ return_reason }) => {\n  console.log(return_reason)\n})"
+  },
+  "POST /admin/return-reasons": {
+    "js-sdk": "sdk.admin.returnReason.create({\n  value: \"refund\",\n  label: \"Refund\",\n})\n.then(({ return_reason }) => {\n  console.log(return_reason)\n})"
+  },
+  "POST /admin/return-reasons/{id}": {
+    "js-sdk": "sdk.admin.returnReason.update(\"ret_123\", {\n  value: \"refund\",\n  label: \"Refund\",\n})\n.then(({ return_reason }) => {\n  console.log(return_reason)\n})"
+  },
+  "DELETE /admin/return-reasons/{id}": {
+    "js-sdk": "sdk.admin.returnReason.delete(\"ret_123\")\n.then(({ deleted }) => {\n  console.log(deleted)\n})"
+  },
+  "POST /admin/sales-channels": {
+    "js-sdk": "sdk.admin.salesChannel.create({\n  name: \"Storefront\",\n})\n.then(({ salesChannel }) => {\n  console.log(salesChannel)\n})"
+  },
+  "POST /admin/sales-channels/{id}": {
+    "js-sdk": "sdk.admin.salesChannel.update(\n  \"sc_123\",\n  {\n    name: \"Storefront\",\n  }\n)\n.then(({ salesChannel }) => {\n  console.log(salesChannel)\n})"
+  },
+  "DELETE /admin/sales-channels/{id}": {
+    "js-sdk": "sdk.admin.salesChannel.delete(\"sc_123\")\n.then(({ deleted }) => {\n  console.log(deleted)\n})"
+  },
+  "GET /admin/sales-channels/{id}": {
+    "js-sdk": "sdk.admin.salesChannel.retrieve(\"sc_123\")\n.then(({ sales_channel }) => {\n  console.log(sales_channel)\n})"
+  },
+  "GET /admin/sales-channels": {
+    "js-sdk": "sdk.admin.salesChannel.list()\n.then(({ sales_channels, count, limit, offset }) => {\n  console.log(sales_channels)\n})"
+  },
+  "POST /admin/sales-channels/{id}/products": {
+    "js-sdk": "sdk.admin.salesChannel.batchProducts(\"sc_123\", {\n  add: [\"prod_123\", \"prod_456\"],\n  remove: [\"prod_789\"]\n})\n.then(({ sales_channel }) => {\n  console.log(sales_channel)\n})"
+  },
+  "POST /admin/shipping-options": {
+    "js-sdk": "sdk.admin.shippingOption.create({\n  name: \"Standard Shipping\",\n  profile_id: \"shp_123\",\n})\n.then(({ shipping_option }) => {\n  console.log(shipping_option)\n})"
+  },
+  "GET /admin/shipping-options/{id}": {
+    "js-sdk": "sdk.admin.shippingOption.retrieve(\"so_123\")\n.then(({ shipping_option }) => {\n  console.log(shipping_option)\n})"
+  },
+  "POST /admin/shipping-options/{id}": {
+    "js-sdk": "sdk.admin.shippingOption.update(\"so_123\", {\n  name: \"Standard Shipping\",\n})\n.then(({ shipping_option }) => {\n  console.log(shipping_option)\n})"
+  },
+  "DELETE /admin/shipping-options/{id}": {
+    "js-sdk": "sdk.admin.shippingOption.delete(\"so_123\")\n.then(({ deleted }) => {\n  console.log(deleted)\n})"
+  },
+  "GET /admin/shipping-options": {
+    "js-sdk": "sdk.admin.shippingOption.list()\n.then(({ shipping_options, count, limit, offset }) => {\n  console.log(shipping_options)\n})"
+  },
+  "POST /admin/shipping-options/{id}/rules/batch": {
+    "js-sdk": "sdk.admin.shippingOption.updateRules(\"so_123\", {\n  create: [{ attribute: \"enabled_in_store\", operator: \"eq\", value: \"true\" }],\n})\n.then(({ shipping_option }) => {\n  console.log(shipping_option)\n})"
+  },
+  "POST /admin/shipping-profiles": {
+    "js-sdk": "sdk.admin.shippingProfile.create({\n  name: \"Default Shipping Profile\",\n})\n.then(({ shipping_profile }) => {\n  console.log(shipping_profile)\n})"
+  },
+  "POST /admin/shipping-profiles/{id}": {
+    "js-sdk": "sdk.admin.shippingProfile.update(\"sp_123\", {\n  name: \"Updated Shipping Profile\",\n})\n.then(({ shipping_profile }) => {\n  console.log(shipping_profile)\n})"
+  },
+  "DELETE /admin/shipping-profiles/{id}": {
+    "js-sdk": "sdk.admin.shippingProfile.delete(\"sp_123\")\n.then(({ deleted }) => {\n  console.log(deleted)\n})"
+  },
+  "GET /admin/shipping-profiles": {
+    "js-sdk": "sdk.admin.shippingProfile.list()\n.then(({ shipping_profiles, count, limit, offset }) => {\n  console.log(shipping_profiles)\n})"
+  },
+  "GET /admin/shipping-profiles/{id}": {
+    "js-sdk": "sdk.admin.shippingProfile.retrieve(\"sp_123\")\n.then(({ shipping_profile }) => {\n  console.log(shipping_profile)\n})"
+  },
+  "POST /admin/stock-locations": {
+    "js-sdk": "sdk.admin.stockLocation.create({\n  name: \"Main Warehouse\",\n  address_id: \"addr_123\",\n})\n.then(({ stock_location }) => {\n  console.log(stock_location)\n})"
+  },
+  "POST /admin/stock-locations/{id}": {
+    "js-sdk": "sdk.admin.stockLocation.update(\"sloc_123\", {\n  name: \"European Warehouse\",\n})\n.then(({ stock_location }) => {\n  console.log(stock_location)\n})"
+  },
+  "DELETE /admin/stock-locations/{id}": {
+    "js-sdk": "sdk.admin.stockLocation.delete(\"sloc_123\")\n.then(({ deleted }) => {\n  console.log(deleted)\n})"
+  },
+  "GET /admin/stock-locations/{id}": {
+    "js-sdk": "sdk.admin.stockLocation.retrieve(\"sloc_123\")\n.then(({ stock_location }) => {\n  console.log(stock_location)\n})"
+  },
+  "GET /admin/stock-locations": {
+    "js-sdk": "sdk.admin.stockLocation.list()\n.then(({ stock_locations, count, limit, offset }) => {\n  console.log(stock_locations)\n})"
+  },
+  "POST /admin/stock-locations/{id}/sales-channels": {
+    "js-sdk": "sdk.admin.stockLocation.updateSalesChannels(\"sloc_123\", {\n  add: [\"sc_123\"],\n  remove: [\"sc_456\"],\n})\n.then(({ stock_location }) => {\n  console.log(stock_location)\n})"
+  },
+  "POST /admin/stock-locations/{id}/fulfillment-sets": {
+    "js-sdk": "sdk.admin.stockLocation.createFulfillmentSet(\"sloc_123\", {\n  name: \"Shipping\",\n  type: \"shipping\",\n})\n.then(({ stock_location }) => {\n  console.log(stock_location)\n})"
+  },
+  "POST /admin/stock-locations/{id}/fulfillment-providers": {
+    "js-sdk": "sdk.admin.stockLocation.updateFulfillmentProviders(\"sloc_123\", {\n  add: [\"fp_manual_manual\"],\n  remove: [\"fp_shipstation_shipstation\"],\n})\n.then(({ stock_location }) => {\n  console.log(stock_location)\n})"
+  },
+  "GET /admin/stores/{id}": {
+    "js-sdk": "sdk.admin.store.retrieve(\"store_123\")\n.then(({ store }) => {\n  console.log(store)\n})"
+  },
+  "GET /admin/stores": {
+    "js-sdk": "sdk.admin.store.list()\n.then(({ stores, count, limit, offset }) => {\n  console.log(stores)\n})"
+  },
+  "POST /admin/stores/{id}": {
+    "js-sdk": "sdk.admin.store.update(\"store_123\", {\n  name: \"My Store\",\n})\n.then(({ store }) => {\n  console.log(store)\n})"
+  },
+  "POST /admin/tax-rates": {
+    "js-sdk": "sdk.admin.taxRate.create({\n  name: \"VAT\",\n  tax_region_id: \"txreg_123\",\n  code: \"VAT\",\n  rate: 2, // 2%\n})\n.then(({ tax_rate }) => {\n  console.log(tax_rate)\n})"
+  },
+  "POST /admin/tax-rates/{id}": {
+    "js-sdk": "sdk.admin.taxRate.update(\"txrat_123\", {\n  name: \"VAT\",\n  code: \"VAT\",\n})\n.then(({ tax_rate }) => {\n  console.log(tax_rate)\n})"
+  },
+  "DELETE /admin/tax-rates/{id}": {
+    "js-sdk": "sdk.admin.taxRate.delete(\"txrat_123\")\n.then(({ deleted }) => {\n  console.log(deleted)\n})"
+  },
+  "GET /admin/tax-rates/{id}": {
+    "js-sdk": "sdk.admin.taxRate.retrieve(\"txrat_123\")\n.then(({ tax_rate }) => {\n  console.log(tax_rate)\n})"
+  },
+  "GET /admin/tax-rates": {
+    "js-sdk": "sdk.admin.taxRate.list()\n.then(({ tax_rates, count, limit, offset }) => {\n  console.log(tax_rates)\n})"
+  },
+  "POST /admin/tax-regions": {
+    "js-sdk": "sdk.admin.taxRegion.create({\n  country_code: \"us\",\n  province_code: \"ca\",\n  default_tax_rate: {\n    code: \"VAT\",\n    name: \"VAT\",\n    rate: 20, // 20%\n    is_combinable: true,\n  },\n})\n.then(({ tax_region }) => {\n  console.log(tax_region)\n})"
+  },
+  "DELETE /admin/tax-regions/{id}": {
+    "js-sdk": "sdk.admin.taxRegion.delete(\"txreg_123\")\n.then(({ deleted }) => {\n  console.log(deleted)\n})"
+  },
+  "GET /admin/tax-regions/{id}": {
+    "js-sdk": "sdk.admin.taxRegion.retrieve(\"txreg_123\")\n.then(({ tax_region }) => {\n  console.log(tax_region)\n})"
+  },
+  "GET /admin/tax-regions": {
+    "js-sdk": "sdk.admin.taxRegion.list()\n.then(({ tax_regions, count, limit, offset }) => {\n  console.log(tax_regions)\n})"
+  },
+  "POST /admin/uploads": {
+    "js-sdk": "sdk.admin.upload.create(\n  {\n    files: [\n       // file uploaded as a base64 string\n      {\n        name: \"test.txt\",\n        content: \"test\", // Should be the base64 content of the file\n      },\n      // file uploaded as a File object\n      new File([\"test\"], \"test.txt\", { type: \"text/plain\" })\n    ],\n  }\n)\n.then(({ files }) => {\n  console.log(files)\n})"
+  },
+  "GET /admin/uploads/{id}": {
+    "js-sdk": "sdk.admin.upload.retrieve(\"test.txt\")\n.then(({ file }) => {\n  console.log(file)\n})"
+  },
+  "DELETE /admin/uploads/{id}": {
+    "js-sdk": "sdk.admin.upload.delete(\"test.txt\")\n.then(({ deleted }) => {\n  console.log(deleted)\n})"
+  },
+  "POST /admin/users/{id}": {
+    "js-sdk": "sdk.admin.user.update(\"user_123\", {\n  first_name: \"John\",\n  last_name: \"Doe\",\n})\n.then(({ user }) => {\n  console.log(user)\n})"
+  },
+  "GET /admin/users": {
+    "js-sdk": "sdk.admin.user.list()\n.then(({ users, count, limit, offset }) => {\n  console.log(users)\n})"
+  },
+  "GET /admin/users/{id}": {
+    "js-sdk": "sdk.admin.user.retrieve(\"user_123\")\n.then(({ user }) => {\n  console.log(user)\n})"
+  },
+  "DELETE /admin/users/{id}": {
+    "js-sdk": "sdk.admin.user.delete(\"user_123\")\n.then(({ deleted }) => {\n  console.log(deleted)\n})"
+  },
+  "GET /admin/users/me": {
+    "js-sdk": "sdk.admin.user.me()\n.then(({ user }) => {\n  console.log(user)\n})"
+  },
+  "GET /admin/workflows-executions": {
+    "js-sdk": "sdk.admin.workflowExecution.list()\n.then(({ workflow_executions, count, limit, offset }) => {\n  console.log(workflow_executions)\n})"
+  },
+  "GET /admin/workflows-executions/{id}": {
+    "js-sdk": "sdk.admin.workflowExecution.retrieve(\"wrk_123\")\n.then(({ workflow_execution }) => {\n  console.log(workflow_execution)\n})"
+  },
+  "POST /auth/{actor}/{method}/register": {
     "js-sdk": "sdk.auth.register(\n  \"customer\",\n  \"emailpass\",\n  {\n    email: \"customer@gmail.com\",\n    password: \"supersecret\"\n  }\n).then((token) => {\n  console.log(token)\n})"
   },
-  "POST /auth/${actor}/${method}": {
+  "POST /auth/{actor}/{method}": {
     "js-sdk": "sdk.auth.login(\n  \"customer\",\n  \"emailpass\",\n  {\n    email: \"customer@gmail.com\",\n    password: \"supersecret\"\n  }\n).then((token) => {\n  console.log(token)\n})"
   },
-  "GET /auth/${actor}/${method}/callback": {
+  "GET /auth/{actor}/{method}/callback": {
     "js-sdk": "sdk.auth.callback(\n  \"customer\",\n  \"google\",\n  {\n    code: \"123\",\n    state: \"456\"\n  }\n).then((token) => {\n  console.log(token)\n})"
   },
   "POST /auth/token/refresh": {
@@ -572,65 +860,68 @@
   "DELETE /auth/session": {
     "js-sdk": "sdk.auth.logout()\n.then(() => {\n  // user is logged out\n})"
   },
-  "POST /auth/${actor}/${provider}/reset-password": {
+  "POST /auth/{actor}/{provider}/reset-password": {
     "js-sdk": "sdk.auth.resetPassword(\n  \"customer\",\n  \"emailpass\",\n  {\n    identifier: \"customer@gmail.com\"\n  }\n)\n.then(() => {\n  // user receives token\n})"
   },
-  "POST /auth/${actor}/${provider}/update": {
+  "POST /auth/{actor}/{provider}/update": {
     "js-sdk": "sdk.auth.updateProvider(\n  \"customer\",\n  \"emailpass\",\n  {\n    password: \"supersecret\"\n  },\n  token\n)\n.then(() => {\n  // password updated\n})"
   },
   "GET /store/regions": {
     "js-sdk": "sdk.store.region.list()\n.then(({ regions, count, limit, offset }) => {\n  console.log(regions)\n})"
   },
-  "GET /store/regions/${id}": {
+  "GET /store/regions/{id}": {
     "js-sdk": "sdk.store.region.retrieve(\"reg_123\")\n.then(({ region }) => {\n  console.log(region)\n})"
   },
   "GET /store/collections": {
     "js-sdk": "sdk.store.collection.list()\n.then(({ collections, count, limit, offset }) => {\n  console.log(collections)\n})"
   },
-  "GET /store/collections/${id}": {
+  "GET /store/collections/{id}": {
     "js-sdk": "sdk.store.collection.retrieve(\"pcol_123\")\n.then(({ collection }) => {\n  console.log(collection)\n})"
   },
   "GET /store/product-categories": {
     "js-sdk": "sdk.store.category.list()\n.then(({ product_categories, count, offset, limit }) => {\n  console.log(product_categories)\n})"
   },
-  "GET /store/product-categories/${id}": {
+  "GET /store/product-categories/{id}": {
     "js-sdk": "sdk.store.category.retrieve(\"pcat_123\")\n.then(({ product_category }) => {\n  console.log(product_category)\n})"
   },
   "GET /store/products": {
     "js-sdk": "sdk.store.product.list()\n.then(({ products, count, offset, limit }) => {\n  console.log(products)\n})"
   },
-  "GET /store/products/${id}": {
+  "GET /store/products/{id}": {
     "js-sdk": "sdk.store.product.retrieve(\"prod_123\")\n.then(({ product }) => {\n  console.log(product)\n})"
   },
   "POST /store/carts": {
     "js-sdk": "sdk.store.cart.create({\n  region_id: \"reg_123\"\n})\n.then(({ cart }) => {\n  console.log(cart)\n})"
   },
-  "POST /store/carts/${id}": {
+  "POST /store/carts/{id}": {
     "js-sdk": "sdk.store.cart.update(\"cart_123\", {\n  region_id: \"reg_123\"\n})\n.then(({ cart }) => {\n  console.log(cart)\n})"
   },
-  "GET /store/carts/${id}": {
+  "GET /store/carts/{id}": {
     "js-sdk": "sdk.store.cart.retrieve(\"cart_123\")\n.then(({ cart }) => {\n  console.log(cart)\n})"
   },
-  "POST /store/carts/${cartid}/line-items": {
+  "POST /store/carts/{cartid}/line-items": {
     "js-sdk": "sdk.store.cart.createLineItem(\"cart_123\", {\n  variant_id: \"variant_123\",\n  quantity: 1\n})\n.then(({ cart }) => {\n  console.log(cart)\n})"
   },
-  "POST /store/carts/${cartid}/line-items/${lineitemid}": {
+  "POST /store/carts/{cartid}/line-items/{lineitemid}": {
     "js-sdk": "sdk.store.cart.updateLineItem(\n  \"cart_123\",\n  \"li_123\",\n  {\n    quantity: 1\n  }\n)\n.then(({ cart }) => {\n  console.log(cart)\n})"
   },
-  "DELETE /store/carts/${cartid}/line-items/${lineitemid}": {
+  "DELETE /store/carts/{cartid}/line-items/{lineitemid}": {
     "js-sdk": "sdk.store.cart.deleteLineItem(\n  \"cart_123\",\n  \"li_123\"\n)\n.then(({ deleted, parent: cart }) => {\n  console.log(deleted, cart)\n})"
   },
-  "POST /store/carts/${cartid}/shipping-methods": {
+  "POST /store/carts/{cartid}/shipping-methods": {
     "js-sdk": "sdk.store.cart.addShippingMethod(\"cart_123\", {\n  option_id: \"so_123\",\n  data: {\n    // custom data for fulfillment provider.\n  }\n})\n.then(({ cart }) => {\n  console.log(cart)\n})"
   },
-  "POST /store/carts/${cartid}/complete": {
+  "POST /store/carts/{cartid}/complete": {
     "js-sdk": "sdk.store.cart.complete(\"cart_123\")\n.then((data) => {\n  if(data.type === \"cart\") {\n    // an error occurred\n    console.log(data.error, data.cart)\n  } else {\n    // order placed successfully\n    console.log(data.order)\n  }\n})"
   },
-  "POST /store/carts/${id}/customer": {
+  "POST /store/carts/{id}/customer": {
     "js-sdk": "sdk.store.cart.transferCart(\"cart_123\")\n.then(({ cart }) => {\n  console.log(cart)\n})"
   },
   "GET /store/shipping-options": {
     "js-sdk": "sdk.store.fulfillment.listCartOptions({\n  cart_id: \"cart_123\"\n})\n.then(({ shipping_options }) => {\n  console.log(shipping_options)\n})"
+  },
+  "POST /store/shipping-options/{id}/calculate": {
+    "js-sdk": "sdk.store.fulfillment.calculate(\"so_123\", {\n  cart_id: \"cart_123\"\n})\n.then(({ shipping_option }) => {\n  console.log(shipping_option)\n})"
   },
   "GET /store/payment-providers": {
     "js-sdk": "sdk.store.payment.listPaymentProviders({\n  region_id: \"reg_123\"\n})\n.then(({ payment_providers, count, offset, limit }) => {\n  console.log(payment_providers)\n})"
@@ -641,19 +932,19 @@
   "GET /store/orders": {
     "js-sdk": "sdk.store.order.list()\n.then(({ orders, count, offset, limit }) => {\n  console.log(orders)\n})"
   },
-  "GET /store/orders/${id}": {
+  "GET /store/orders/{id}": {
     "js-sdk": "sdk.store.order.retrieve(\"order_123\")\n.then(({ order }) => {\n  console.log(order)\n})"
   },
-  "POST /store/orders/${id}/transfer/request": {
+  "POST /store/orders/{id}/transfer/request": {
     "js-sdk": "sdk.store.order.requestTransfer(\n  \"order_123\",\n  {\n    description: \"I want to transfer this order to my friend.\"\n  },\n  {},\n  {\n    Authorization: `Bearer ${token}`\n  }\n)\n.then(({ order }) => {\n  console.log(order)\n})"
   },
-  "POST /store/orders/${id}/transfer/cancel": {
+  "POST /store/orders/{id}/transfer/cancel": {
     "js-sdk": "sdk.store.order.cancelTransfer(\n  \"order_123\",\n  {},\n  {\n    Authorization: `Bearer ${token}`\n  }\n)\n.then(({ order }) => {\n  console.log(order)\n})"
   },
-  "POST /store/orders/${id}/transfer/accept": {
+  "POST /store/orders/{id}/transfer/accept": {
     "js-sdk": "sdk.store.order.acceptTransfer(\n  \"order_123\",\n  {\n    token: \"transfer_token\"\n  },\n  {\n    Authorization: `Bearer ${token}`\n  }\n)\n.then(({ order }) => {\n  console.log(order)\n})"
   },
-  "POST /store/orders/${id}/transfer/decline": {
+  "POST /store/orders/{id}/transfer/decline": {
     "js-sdk": "sdk.store.order.declineTransfer(\n  \"order_123\",\n  {\n    token: \"transfer_token\"\n  },\n  {\n    Authorization: `Bearer ${token}`\n  }\n)\n.then(({ order }) => {\n  console.log(order)\n})"
   },
   "POST /store/customers": {
@@ -668,16 +959,16 @@
   "POST /store/customers/me/addresses": {
     "js-sdk": "sdk.store.customer.createAddress({\n  country_code: \"us\"\n})\n.then(({ customer }) => {\n  console.log(customer)\n})"
   },
-  "POST /store/customers/me/addresses/${addressid}": {
+  "POST /store/customers/me/addresses/{addressid}": {
     "js-sdk": "sdk.store.customer.updateAddress(\n  \"caddr_123\",\n  {\n    country_code: \"us\"\n  }\n)\n.then(({ customer }) => {\n  console.log(customer)\n})"
   },
   "GET /store/customers/me/addresses": {
     "js-sdk": "sdk.store.customer.listAddress()\n.then(({ addresses, count, offset, limit }) => {\n  console.log(addresses)\n})"
   },
-  "GET /store/customers/me/addresses/${addressid}": {
+  "GET /store/customers/me/addresses/{addressid}": {
     "js-sdk": "sdk.store.customer.retrieveAddress(\n  \"caddr_123\"\n)\n.then(({ address }) => {\n  console.log(address)\n})"
   },
-  "DELETE /store/customers/me/addresses/${addressid}": {
+  "DELETE /store/customers/me/addresses/{addressid}": {
     "js-sdk": "sdk.store.customer.deleteAddress(\"caddr_123\")\n.then(({ deleted, parent: customer }) => {\n  console.log(customer)\n})"
   }
 }

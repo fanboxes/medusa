@@ -77,6 +77,12 @@ The fields that are most commonly used are:
 
 Here's an example of how you can show the cart totals in a React component:
 
+<Note title="Tip">
+
+This example uses the `useCart` hook from the [Cart Context](../context/page.mdx) to retrieve the cart.
+
+</Note>
+
 export const highlights = [
   ["3", "useCart", "The `useCart` hook was defined in the Cart React Context documentation."],
   ["8", "formatPrice", "A function to format a price using the `Intl.NumberFormat` API."],
@@ -90,7 +96,7 @@ export const highlights = [
 ```tsx highlights={highlights}
 "use client" // include with Next.js 13+
 
-import { useCart } from "../../../providers/cart"
+import { useCart } from "@/providers/cart"
 
 export default function CartTotals() {
   const { cart } = useCart()

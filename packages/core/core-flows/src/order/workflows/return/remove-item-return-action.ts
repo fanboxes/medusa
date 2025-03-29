@@ -26,6 +26,7 @@ import {
 } from "../../utils/order-validation"
 import { removeReturnShippingMethodWorkflow } from "./remove-return-shipping-method"
 import { updateReturnWorkflow } from "./update-return"
+import { refreshReturnShippingWorkflow } from "./refresh-shipping"
 
 /**
  * The data to validate that a return item can be removed.
@@ -54,14 +55,14 @@ export type RemoveItemReturnActionValidationStepInput = {
  * If the order or return is canceled, the order change is not active,
  * the return request is not found,
  * or the action is not a request return action, the step will throw an error.
- * 
+ *
  * :::note
- * 
+ *
  * You can retrieve an order, return, and order change details using [Query](https://docs.medusajs.com/learn/fundamentals/module-links/query),
  * or [useQueryGraphStep](https://docs.medusajs.com/resources/references/medusa-workflows/steps/useQueryGraphStep).
- * 
+ *
  * :::
- * 
+ *
  * @example
  * const data = removeReturnItemActionValidationStep({
  *   order: {
@@ -114,10 +115,10 @@ export const removeItemReturnActionWorkflowId = "remove-item-return-action"
 /**
  * This workflow removes a return item. It's used by the
  * [Remove Item from Return Admin API Route](https://docs.medusajs.com/api/admin#returns_deletereturnsidrequestitemsaction_id).
- * 
+ *
  * You can use this workflow within your customizations or your own custom workflows, allowing you
  * to remove an item from a return request in your custom flows.
- * 
+ *
  * @example
  * const { result } = await removeItemReturnActionWorkflow(container)
  * .run({
@@ -126,9 +127,9 @@ export const removeItemReturnActionWorkflowId = "remove-item-return-action"
  *     action_id: "orchac_123",
  *   }
  * })
- * 
+ *
  * @summary
- * 
+ *
  * Remove an item from a return.
  */
 export const removeItemReturnActionWorkflow = createWorkflow(
@@ -246,6 +247,25 @@ export const removeItemReturnActionWorkflow = createWorkflow(
           return_id: orderReturn.id,
           location_id: null,
         },
+      })
+    })
+
+    when({ actionIdToDelete }, ({ actionIdToDelete }) => {
+      return !actionIdToDelete
+    }).then(() => {
+      const refreshArgs = transform(
+        { orderChange, orderReturn },
+        ({ orderChange, orderReturn }) => {
+          return {
+            order_change_id: orderChange.id,
+            return_id: orderReturn.id,
+            order_id: orderReturn.order_id,
+          }
+        }
+      )
+
+      refreshReturnShippingWorkflow.runAsStep({
+        input: refreshArgs,
       })
     })
 

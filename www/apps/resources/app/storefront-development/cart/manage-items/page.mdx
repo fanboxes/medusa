@@ -12,7 +12,7 @@ export const metadata = {
 
 # {metadata.title}
 
-In this document, you'll learn how to manage a cart's line items, including adding, updating, and removing them.
+In this guide, you'll learn how to manage a cart's line items, including adding, updating, and removing them.
 
 ## Add Product Variant to Cart
 
@@ -20,17 +20,22 @@ To add a product variant to a cart, use the [Add Line Item API route](!api!/stor
 
 <Note title="Tip">
 
-To retrieve a variant's available quantity and check if it's in stock, refer to [this guide](../../products/inventory/page.mdx).
+To retrieve a variant's available quantity and check if it's in stock, refer to the [Retrieve Product Variant's Inventory](../../products/inventory/page.mdx) guide.
 
 </Note>
 
 For example:
 
+<Note title="Tip">
+
+Learn how to install and configure the JS SDK in the [JS SDK documentation](../../../js-sdk/page.mdx).
+
+</Note>
+
 export const addHighlights = [
   ["1", "variant_id", "The ID of the selected variant."],
   ["2", "cartId", "Retrieve the cart ID from the `localStorage`."],
-  ["13", "process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY", "You must pass the publishable API key of all storefront requests."], 
-  ["17", "quantity", "You can also allow customers to specify the quantity."]
+  ["10", "quantity", "You can also allow customers to specify the quantity."]
 ]
 
 ```ts highlights={addHighlights}
@@ -41,19 +46,10 @@ const addToCart = (variant_id: string) => {
     return
   }
 
-  fetch(`http://localhost:9000/store/carts/${cartId}/line-items`, {
-    credentials: "include",
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-    },
-    body: JSON.stringify({
-      variant_id,
-      quantity: 1,
-    }),
+  sdk.store.cart.createLineItem(cartId, {
+    variant_id,
+    quantity: 1,
   })
-  .then((res) => res.json())
   .then(({ cart }) => {
     // use cart
     console.log(cart)
@@ -62,12 +58,12 @@ const addToCart = (variant_id: string) => {
 }
 ```
 
-The Add Line Item API route requires two request body parameters:
+The [Add Line Item API route](!api!/store#carts_postcartsidlineitems) requires two request body parameters:
 
 - `variant_id`: The ID of the product variant to add to the cart. This is the variant selected by the customer.
 - `quantity`: The quantity to add to cart.
 
-The API route returns the updated cart object.
+The API route returns the updated [cart object](!api!/store#carts_cart_schema).
 
 ---
 
@@ -81,8 +77,7 @@ export const updateHighlights = [
   ["2", "itemId", "The ID of the item to update."],
   ["3", "quantity", "The new quantity of the item."],
   ["5", "cartId", "Retrieve the cart ID from the `localStorage`."],
-  ["12", "itemId", "Pass the item's ID as a path parameter."],
-  ["18", "process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY", "You must pass the publishable API key of all storefront requests."], 
+  ["11", "itemId", "Pass the item's ID as a parameter."],
 ]
 
 ```ts highlights={updateHighlights}
@@ -96,20 +91,9 @@ const updateQuantity = (
     return
   }
 
-  fetch(`http://localhost:9000/store/carts/${cartId}/line-items/${
-    itemId
-  }`, {
-    credentials: "include",
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-    },
-    body: JSON.stringify({
-      quantity,
-    }),
+  sdk.store.cart.updateLineItem(cartId, itemId, {
+    quantity,
   })
-  .then((res) => res.json())
   .then(({ cart }) => {
     // use cart
     console.log(cart)
@@ -117,12 +101,12 @@ const updateQuantity = (
 }
 ```
 
-The Update Line Item API route requires:
+The [Update Line Item API route](!api!/store#carts_postcartsidlineitemsline_id) requires:
 
 - The line item's ID to be passed as a path parameter.
 - The `quantity` request body parameter, which is the new quantity of the item.
 
-The API route returns the updated cart object.
+The API route returns the updated [cart object](!api!/store#carts_cart_schema).
 
 ---
 
@@ -135,9 +119,8 @@ For example:
 export const deleteHighlights = [
   ["1", "itemId", "The ID of the line item to remove."],
   ["2", "cartId", "Retrieve the cart ID from the `localStorage`."],
-  ["9", "itemId", "Pass the item's ID as a path parameter."],
-  ["13", "process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY", "You must pass the publishable API key of all storefront requests."], 
-  ["18", "parent", "The updated cart is returned as the `parent` field."]
+  ["8", "itemId", "Pass the item's ID as a parameter."],
+  ["9", "parent", "The updated cart is returned as the `parent` field."]
 ]
 
 ```ts highlights={deleteHighlights}
@@ -148,16 +131,7 @@ const removeItem = (itemId: string) => {
     return
   }
 
-  fetch(`http://localhost:9000/store/carts/${cartId}/line-items/${
-    itemId
-  }`, {
-    credentials: "include",
-    headers: {
-      "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-    },
-    method: "DELETE",
-  })
-  .then((res) => res.json())
+  sdk.store.cart.deleteLineItem(cartId, itemId)
   .then(({ parent: cart }) => {
     // use cart
     console.log(cart)
@@ -165,4 +139,4 @@ const removeItem = (itemId: string) => {
 }
 ```
 
-The Delete Line Item API route returns the updated cart object as the `parent` field.
+The [Delete Line Item API route](!api!/store#carts_deletecartsidlineitemsline_id) returns the updated [cart object](!api!/store#carts_cart_schema) as the `parent` field.

@@ -46,7 +46,6 @@ const myWorkflow = createWorkflow(
      attachProductToSalesChannelStep(product)
    )
 
-   const id = product.id
    const refetchedProduct = getProductStep(product.id)
 
    return new WorkflowResponse(refetchedProduct)

@@ -21,7 +21,7 @@ export type RefundPaymentsStepInput = {
    */
   payment_id: string
   /**
-   * The amount to refund. 
+   * The amount to refund.
    */
   amount: BigNumberInput
   /**
@@ -36,10 +36,7 @@ export const refundPaymentsStepId = "refund-payments-step"
  */
 export const refundPaymentsStep = createStep(
   refundPaymentsStepId,
-  async (
-    input: RefundPaymentsStepInput,
-    { container }
-  ) => {
+  async (input: RefundPaymentsStepInput, { container }) => {
     const logger = container.resolve<Logger>(ContainerRegistrationKeys.LOGGER)
     const paymentModule = container.resolve<IPaymentModuleService>(
       Modules.PAYMENT

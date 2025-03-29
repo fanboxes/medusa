@@ -6,10 +6,16 @@ import {
 import { AdminTaxRate } from "./entities"
 
 export interface AdminTaxRateResponse {
+  /**
+   * The tax rate's details.
+   */
   tax_rate: AdminTaxRate
 }
 
 export type AdminTaxRateListResponse = PaginatedResponse<{
+  /**
+   * The list of tax rates.
+   */
   tax_rates: AdminTaxRate[]
 }>
 

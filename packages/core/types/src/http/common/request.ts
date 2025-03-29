@@ -27,11 +27,11 @@ export interface FindParams extends SelectParams {
 
 export interface AdminBatchLink {
   /**
-   * The items to create an association to.
+   * The IDs of the items to create an association to.
    */
   add?: string[]
   /**
-   * The items to remove association from.
+   * The IDs of the items to remove the association from.
    */
   remove?: string[]
 }

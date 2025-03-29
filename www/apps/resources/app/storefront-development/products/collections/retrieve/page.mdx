@@ -13,45 +13,33 @@ export const metadata = {
 
 # {metadata.title}
 
-In this document, learn how to retrieve a product collection and its details in the storefront.
+In this guide, you'll learn how to retrieve a product collection and its details in the storefront.
+
+## How to Retrieve a Product Collection in Storefront?
 
 There are two ways to retrieve a product collection:
 
-- Retrieve a collection by its ID.
-- Retrieve a collection by its `handle` field. This is useful if you're creating human-readable URLs in your storefront.
+- [Retrieve a collection by its ID](#retrieve-a-product-collection-by-id). This method is straightforward and useful if you only have the collection's ID.
+- [Retrieve a collection by its `handle` field](#retrieve-a-product-collection-by-handle). This is useful if you're creating human-readable URLs in your storefront.
+
+---
 
 ## Retrieve a Product Collection by ID
 
 To retrieve a product collection by its ID, send a request to the [Get a Collection API route](!api!/store#collections_getcollectionsid):
 
+<Note title="Tip">
+
+Learn how to install and configure the JS SDK in the [JS SDK documentation](../../../../js-sdk/page.mdx).
+
+</Note>
+
 <CodeTabs group="store-request">
-  <CodeTab label="Fetch API" value="fetch">
-
-export const fetchHighlights = [
-  ["1", "id", "The product collection's ID."],
-]
-
-  ```ts highlights={fetchHighlights}
-fetch(`http://localhost:9000/store/collections/${id}`, {
-    credentials: "include",
-    headers: {
-      "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-    },
-  })
-  .then((res) => res.json())
-  .then(({ collection }) => {
-    // use the collection...
-    console.log(collection)
-  })
-  ```
-
-  </CodeTab>
   <CodeTab label="React" value="react">
 
 export const highlights = [
-  ["21"], ["22"], ["23"], ["24"],
-  ["25"], ["26"], ["27"], ["28"],
-  ["29"], ["30"], ["31"],
+  ["22"], ["23"], ["24"],
+  ["25"], ["26"],
 ]
 
   ```tsx highlights={highlights}
@@ -59,6 +47,7 @@ export const highlights = [
 
   import { useEffect, useState } from "react"
   import { HttpTypes } from "@medusajs/types"
+  import { sdk } from "@/lib/sdk"
 
   type Props = {
     id: string
@@ -75,13 +64,7 @@ export const highlights = [
         return 
       }
 
-      fetch(`http://localhost:9000/store/collections/${id}`, {
-        credentials: "include",
-        headers: {
-          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-        },
-      })
-      .then((res) => res.json())
+      sdk.store.collection.retrieve(id)
       .then(({ collection: dataCollection }) => {
         setCollection(dataCollection)
         setLoading(false)
@@ -102,7 +85,24 @@ export const highlights = [
   ```
 
   </CodeTab>
+  <CodeTab label="JS SDK" value="js-sdk">
+
+export const fetchHighlights = [
+  ["1", "id", "The product collection's ID."],
+]
+
+  ```ts highlights={fetchHighlights}
+  sdk.store.collection.retrieve(id)
+  .then(({ collection }) => {
+    // use the collection...
+    console.log(collection)
+  })
+  ```
+
+  </CodeTab>
 </CodeTabs>
+
+In this example, you retrieve the product collection by sending a request to the [Get a Collection API route](!api!/store#collections_getcollectionsid).
 
 The response has a `collection` field, which is a [product collection object](!api!/store#collections_collection_schema).
 
@@ -113,39 +113,11 @@ The response has a `collection` field, which is a [product collection object](!a
 To retrieve a product by its handle, send a request to the [List Product Collections API route](!api!/store#collections_getcollections) passing it the `handle` query parameter:
 
 <CodeTabs group="store-request">
-  <CodeTab label="Fetch API" value="fetch">
-
-export const handleFetchHighlights = [
-  ["2", "handle", "The collection's handle."],
-]
-
-  ```ts highlights={handleFetchHighlights}
-  fetch(`http://localhost:9000/store/collections?handle=${
-    handle
-  }`, {
-    credentials: "include",
-    headers: {
-      "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-    },
-  })
-  .then((res) => res.json())
-  .then(({ collections }) => {
-    if (!collections.length) {
-      // collections with the specified handle doesn't exist
-      return
-    }
-    // use the collection...
-    console.log(collections[0])
-  })
-  ```
-
-  </CodeTab>
   <CodeTab label="React" value="react">
 
 export const handleHighlights = [
-  ["23"], ["24"], ["25"], ["26"],
-  ["27"], ["28"], ["29"], ["30"], ["31"], ["32"], ["33"], ["34"],
-  ["35"], ["36"], ["37"]
+  ["24"], ["25"], ["26"],
+  ["27"], ["28"], ["29"], ["30"], ["31"], ["32"],
 ]
 
   ```tsx highlights={handleHighlights}
@@ -153,6 +125,7 @@ export const handleHighlights = [
 
   import { useEffect, useState } from "react"
   import { HttpTypes } from "@medusajs/types"
+  import { sdk } from "@/lib/sdk"
 
   type Props = {
     handle: string
@@ -171,15 +144,9 @@ export const handleHighlights = [
         return 
       }
 
-      fetch(`http://localhost:9000/store/collections?handle=${
-        handle
-      }`, {
-        credentials: "include",
-        headers: {
-          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-        },
+      sdk.store.collection.list({
+        handle,
       })
-      .then((res) => res.json())
       .then(({ collections }) => {
         if (collections.length) {
           setCollection(collections[0])
@@ -205,4 +172,32 @@ export const handleHighlights = [
   ```
 
   </CodeTab>
+  <CodeTab label="JS SDK" value="js-sdk">
+
+export const handleFetchHighlights = [
+  ["2", "handle", "The collection's handle."],
+]
+
+  ```ts highlights={handleFetchHighlights}
+  sdk.store.collection.list({
+    handle,
+  })
+  .then(({ collections }) => {
+    if (!collections.length) {
+      // collections with the specified handle doesn't exist
+      return
+    }
+    // use the collection...
+    console.log(collections[0])
+  })
+  ```
+
+  </CodeTab>
 </CodeTabs>
+
+In this example, you retrieve the product collection by sending a request to the [List Product Collections API route](!api!/store#collections_getcollections) passing it the `handle` query parameter.
+
+Since handles are unique, you can be sure that the product collection you retrieve is the one you're looking for. If no product collection matches the handle, you can show a 404 error or a custom message to the customer.
+
+The product collection in the response is a [product collection object](!api!/store#collections_collection_schema).
+

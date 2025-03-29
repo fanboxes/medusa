@@ -23,6 +23,7 @@ import { useRemoteQueryStep } from "../../common"
 import { createOrdersStep } from "../steps"
 import { productVariantsFields } from "../utils/fields"
 import { updateOrderTaxLinesWorkflow } from "./update-tax-lines"
+import { pricingContextResult } from "../../cart/utils/schemas"
 
 function prepareLineItems(data) {
   const items = (data.input.items ?? []).map((item) => {
@@ -86,13 +87,13 @@ export const createOrdersWorkflowId = "create-orders"
 /**
  * This workflow creates an order. It's used by the [Create Draft Order Admin API Route](https://docs.medusajs.com/api/admin#draft-orders_postdraftorders), but
  * you can also use it to create any order.
- * 
- * This workflow has a hook that allows you to perform custom actions on the created order. For example, you can pass under `additional_data` custom data that 
+ *
+ * This workflow has a hook that allows you to perform custom actions on the created order. For example, you can pass under `additional_data` custom data that
  * allows you to create custom data models linked to the order.
- * 
+ *
  * You can also use this workflow within your customizations or your own custom workflows, allowing you to wrap custom logic around creating an order. For example,
  * you can create a workflow that imports orders from an external system, then uses this workflow to create the orders in Medusa.
- * 
+ *
  * @example
  * const { result } = await createOrderWorkflow(container)
  * .run({
@@ -121,11 +122,11 @@ export const createOrdersWorkflowId = "create-orders"
  *     }
  *   }
  * })
- * 
+ *
  * @summary
- * 
+ *
  * Create an order.
- * 
+ *
  * @property hooks.orderCreated - This hook is executed after the order is created. You can consume this hook to perform custom actions on the created order.
  */
 export const createOrderWorkflow = createWorkflow(
@@ -150,15 +151,30 @@ export const createOrderWorkflow = createWorkflow(
       })
     )
 
+    const setPricingContext = createHook(
+      "setPricingContext",
+      {
+        variantIds,
+        region,
+        customerData,
+        additional_data: input.additional_data,
+      },
+      {
+        resultValidator: pricingContextResult,
+      }
+    )
+    const setPricingContextResult = setPricingContext.getResult()
+
     // TODO: This is on par with the context used in v1.*, but we can be more flexible.
     const pricingContext = transform(
-      { input, region, customerData },
+      { input, region, customerData, setPricingContextResult },
       (data) => {
         if (!data.region) {
           throw new MedusaError(MedusaError.Types.NOT_FOUND, "Region not found")
         }
 
         return {
+          ...(data.setPricingContextResult ? data.setPricingContextResult : {}),
           currency_code: data.input.currency_code ?? data.region.currency_code,
           region_id: data.region.id,
           customer_id: data.customerData.customer?.id,
@@ -222,7 +238,7 @@ export const createOrderWorkflow = createWorkflow(
     })
 
     return new WorkflowResponse(order, {
-      hooks: [orderCreated],
+      hooks: [orderCreated, setPricingContext] as const,
     })
   }
 )

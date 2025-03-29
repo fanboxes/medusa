@@ -8,13 +8,14 @@ import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 /**
  * The data to calculate the prices for one or more shipping options.
  */
-export type CalculateShippingOptionsPriceStepInput = CalculateShippingOptionPriceDTO[]
+export type CalculateShippingOptionsPriceStepInput =
+  CalculateShippingOptionPriceDTO[]
 
 export const calculateShippingOptionsPricesStepId =
   "calculate-shipping-options-prices"
 /**
  * This step calculates the prices for one or more shipping options.
- * 
+ *
  * @example
  * const data = calculateShippingOptionsPricesStep([{
  *   id: "so_123",

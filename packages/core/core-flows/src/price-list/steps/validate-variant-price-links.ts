@@ -23,7 +23,7 @@ export const validateVariantPriceLinksStepId = "validate-variant-price-links"
 /**
  * This step validates that the specified variants have prices.
  * If not valid, the step throws an error.
- * 
+ *
  * @example
  * const data = validateVariantPriceLinksStep([
  *   {
@@ -37,13 +37,14 @@ export const validateVariantPriceLinksStepId = "validate-variant-price-links"
  */
 export const validateVariantPriceLinksStep = createStep(
   validateVariantPriceLinksStepId,
-  async (
-    data: ValidateVariantPriceLinksStepInput,
-    { container }
-  ) => {
+  async (data: ValidateVariantPriceLinksStepInput, { container }) => {
     const remoteQuery = container.resolve(
       ContainerRegistrationKeys.REMOTE_QUERY
     )
+
+    if (!data.length) {
+      return new StepResponse(void 0)
+    }
 
     const variantIds: string[] = data
       .map((pl) => pl?.prices?.map((price) => price.variant_id) || [])

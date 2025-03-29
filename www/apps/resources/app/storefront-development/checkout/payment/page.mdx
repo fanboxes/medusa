@@ -13,11 +13,9 @@ export const metadata = {
 
 # {metadata.title}
 
-The last step before completing the order is choosing the payment provider and performing any necessary actions.
+In this guide, you'll learn how to implement the last step of the checkout flow, where the customer chooses the payment provider and performs any necessary actions. This is typically the fourth step of the checkout flow, but you can change the steps of the checkout flow as you see fit.
 
-The actions required after choosing the payment provider are different for each provider. So, this guide doesn't cover that.
-
-## Payment Step Flow
+## Payment Step Flow in Storefront Checkout
 
 The payment step requires implementing the following flow:
 
@@ -25,175 +23,51 @@ The payment step requires implementing the following flow:
 
 1. Retrieve the payment providers using the [List Payment Providers API route](!api!/store#payment-providers_getpaymentproviders).
 2. Customer chooses the payment provider to use.
-3. If the cart doesn't have an associated payment collection, create a payment collection for it.
+3. If the cart doesn't have an associated payment collection, create a payment collection for it using the [Create Payment Collection API route](!api!/store#payment-collections_postpaymentcollections).
 4. Initialize the payment sessions of the cart's payment collection using the [Initialize Payment Sessions API route](!api!/store#payment-collections_postpaymentcollectionsidpaymentsessions).
-5. Optionally perform additional actions for payment based on the chosen payment provider. For example, if the customer chooses stripe, you show them the UI to enter their card details.
+    - If you're using the JS SDK, it combines the third and fourth steps in a single `initiatePaymentSession` function.
+5. Optionally perform additional actions for payment based on the chosen payment provider. For example, if the customer chooses Stripe, you show them the UI to enter their card details.
+    - You can refer to the [Stripe guide](./stripe/page.mdx) for an example of how to implement this.
 
 ---
 
-## Code Example
+## How to Implement the Payment Step Flow
 
 For example, to implement the payment step flow:
 
+<Note title="Tip">
+
+- This example uses the `useCart` hook defined in the [Cart React Context guide](../../cart/context/page.mdx).
+- Learn how to install and configure the JS SDK in the [JS SDK documentation](../../../js-sdk/page.mdx).
+
+</Note>
+
 <CodeTabs group="store-request">
-  <CodeTab label="Fetch API" value="fetch">
-
-export const fetchHighlights = [
-  ["6", "retrievePaymentProviders", "This function retrieves the payment provider that the customer can choose from."],
-  ["7", "fetch", "Retrieve available payment providers."],
-  ["21", "selectPaymentProvider", "This function is executed when the customer submits their chosen payment provider."],
-  ["28", "fetch", "Create a payment collection for the cart when it doesn't have one."],
-  ["48", "fetch", "Initialize the payment session in the payment collection for the chosen provider."],
-  ["67", "fetch", "Retrieve the cart again to update its data."],
-  ["81", "getPaymentUi", "This function shows the necessary UI based on the selected payment provider."],
-  ["82", "activePaymentSession", "The active session is the first in the payment collection's sessions."],
-  ["88", "", "Test which payment provider is chosen based on the prefix of the provider ID."],
-  ["89", `"pp_stripe_"`, "Check if the chosen provider is Stripe."],
-  ["93", `"pp_system_default"`, "Check if the chosen provider is the default systen provider."],
-  ["95", "default", "Handle unrecognized providers."],
-  ["102", "handlePayment", "The function that handles the payment process using the above functions."]
-]
-
-```ts highlights={fetchHighlights}
-// assuming the cart is previously fetched
-const cart = {
-  // cart object...
-}
-
-const retrievePaymentProviders = async () => {
-  const { payment_providers } = await fetch(
-    `http://localhost:9000/store/payment-providers?region_id=${
-      cart.region_id
-    }`, {
-      credentials: "include",
-      headers: {
-        "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-      },
-    })
-    .then((res) => res.json())
-
-  return payment_providers
-}
-
-const selectPaymentProvider = async (
-  selectedPaymentProviderId: string
-) => {
-  let paymentCollectionId = cart.payment_collection?.id
-
-  if (!paymentCollectionId) {
-    // create payment collection
-    const { payment_collection } = await fetch(
-      `http://localhost:9000/store/payment-collections`,
-      {
-        credentials: "include",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-        },
-        body: JSON.stringify({
-          cart_id: cart.id,
-        }),
-      }
-    )
-    .then((res) => res.json())
-
-    paymentCollectionId = payment_collection.id
-  }
-
-  // initialize payment session
-  await fetch(`http://localhost:9000/store/payment-collections/${
-    paymentCollectionId
-  }/payment-sessions`,
-  {
-    credentials: "include",
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-    },
-    body: JSON.stringify({
-      provider_id: selectedPaymentProviderId,
-    }),
-  })
-  .then((res) => res.json())
-
-  // re-fetch cart
-  const { 
-    cart: updatedCart,
-  } = await fetch(
-    `http://localhost:9000/store/carts/${cart.id}`, 
-    {
-      credentials: "include",
-      headers: {
-        "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-      },
-    }
-  )
-  .then((res) => res.json())
-
-  return updatedCart
-}
-
-const getPaymentUi = () => {
-  const activePaymentSession = cart?.payment_collection?.
-    payment_sessions?.[0]
-  if (!activePaymentSession) {
-    return
-  }
-
-  switch(true) {
-    case activePaymentSession.provider_id.startsWith("pp_stripe_"):
-      // TODO handle Stripe UI
-      return "You chose stripe!"
-    case activePaymentSession.provider_id
-      .startsWith("pp_system_default"):
-      return "You chose manual payment! No additional actions required."
-    default:
-      return `You chose ${
-        activePaymentSession.provider_id
-      } which is in development.`
-  }
-}
-
-const handlePayment = () => {
-  retrievePaymentProviders()
-
-  // ... customer chooses payment provider
-  // const providerId = ...
-
-  selectPaymentProvider(providerId)
-
-  getPaymentUi()
-}
-```
-
-  </CodeTab>
   <CodeTab label="React" value="react">
 
 export const highlights = [
   ["4", "useCart", "The `useCart` hook was defined in the Cart React Context documentation."],
-  ["23", "fetch", "Retrieve available payment providers."],
-  ["34", "setSelectedPaymentProvider", "If a payment provider was selected before, pre-fill it."],
-  ["40", "handleSelectProvider", "This function is executed when the customer submits their chosen payment provider."],
-  ["54", "fetch", "Create a payment collection for the cart when it doesn't have one."],
-  ["74", "fetch", "Initialize the payment session in the payment collection for the chosen provider."],
-  ["93", "fetch", "Retrieve the cart again to update its data."],
-  ["108", "getPaymentUi", "This function shows the necessary UI based on the selected payment provider."],
-  ["109", "activePaymentSession", "The active session is the first in the payment collection's sessions."],
-  ["115", "", "Test which payment provider is chosen based on the prefix of the provider ID."],
-  ["116", `"pp_stripe_"`, "Check if the chosen provider is Stripe."],
-  ["124", `"pp_system_default"`, "Check if the chosen provider is the default systen provider."],
-  ["130", "default", "Handle unrecognized providers."],
-  ["165", "getPaymentUi", "If a provider is chosen, render its UI."]
+  ["24", "listPaymentProviders", "Retrieve available payment providers."],
+  ["29", "setSelectedPaymentProvider", "If a payment provider was selected before, pre-fill it."],
+  ["35", "handleSelectProvider", "This function is executed when the customer submits their chosen payment provider."],
+  ["45", "initiatePaymentSession", "Create a payment collection and initialize the payment session for the chosen provider."],
+  ["50", "retrieve", "Retrieve the cart again to update its data."],
+  ["56", "getPaymentUi", "This function shows the necessary UI based on the selected payment provider."],
+  ["57", "activePaymentSession", "The active session is the first in the payment collection's sessions."],
+  ["62", "", "Test which payment provider is chosen based on the prefix of the provider ID."],
+  ["63", `"pp_stripe_"`, "Check if the chosen provider is Stripe."],
+  ["71", `"pp_system_default"`, "Check if the chosen provider is the default systen provider."],
+  ["77", "default", "Handle unrecognized providers."],
+  ["112", "getPaymentUi", "If a provider is chosen, render its UI."]
 ]
 
 ```tsx highlights={highlights}
 "use client" // include with Next.js 13+
 
 import { useCallback, useEffect, useState } from "react"
-import { useCart } from "../../../providers/cart"
+import { useCart } from "@/providers/cart"
 import { HttpTypes } from "@medusajs/types"
+import { sdk } from "@/lib/sdk"
 
 export default function CheckoutPaymentStep() {
   const { cart, setCart } = useCart()
@@ -211,15 +85,9 @@ export default function CheckoutPaymentStep() {
       return
     }
 
-    fetch(`http://localhost:9000/store/payment-providers?region_id=${
-      cart.region_id
-    }`, {
-      credentials: "include",
-      headers: {
-        "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-      },
+    sdk.store.payment.listPaymentProviders({
+      region_id: cart.region_id || "",
     })
-    .then((res) => res.json())
     .then(({ payment_providers }) => {
       setPaymentProviders(payment_providers)
       setSelectedPaymentProvider(
@@ -236,69 +104,21 @@ export default function CheckoutPaymentStep() {
       return
     }
 
-    setLoading(false)
+    setLoading(true)
 
-    let paymentCollectionId = cart.payment_collection?.id
-
-    if (!paymentCollectionId) {
-      // create payment collection
-      const { payment_collection } = await fetch(
-        `http://localhost:9000/store/payment-collections`,
-        {
-          credentials: "include",
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-          },
-          body: JSON.stringify({
-            cart_id: cart.id,
-          }),
-        }
-      )
-      .then((res) => res.json())
-
-      paymentCollectionId = payment_collection.id
-    }
-
-    // initialize payment session
-    await fetch(`http://localhost:9000/store/payment-collections/${
-      paymentCollectionId
-    }/payment-sessions`,
-    {
-      credentials: "include",
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-      },
-      body: JSON.stringify({
-        provider_id: selectedPaymentProvider,
-      }),
+    await sdk.store.payment.initiatePaymentSession(cart, {
+      provider_id: selectedPaymentProvider,
     })
-    .then((res) => res.json())
 
     // re-fetch cart
-    const { 
-      cart: updatedCart,
-    } = await fetch(
-      `http://localhost:9000/store/carts/${cart.id}`, 
-      {
-        credentials: "include",
-        headers: {
-          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-        },
-      }
-    )
-    .then((res) => res.json())
+    const { cart: updatedCart } = await sdk.store.cart.retrieve(cart.id)
 
     setCart(updatedCart)
     setLoading(false)
   }
 
   const getPaymentUi = useCallback(() => {
-    const activePaymentSession = cart?.payment_collection?.
-      payment_sessions?.[0]
+    const activePaymentSession = cart?.payment_collection?.payment_sessions?.[0]
     if (!activePaymentSession) {
       return
     }
@@ -360,14 +180,101 @@ export default function CheckoutPaymentStep() {
 ```
 
   </CodeTab>
+  <CodeTab label="JS SDK" value="js-sdk">
+
+export const fetchHighlights = [
+  ["8", "retrievePaymentProviders", "This function retrieves the payment provider that the customer can choose from."],
+  ["9", "listPaymentProviders", "Retrieve available payment providers."],
+  ["16", "selectPaymentProvider", "This function is executed when the customer submits their chosen payment provider."],
+  ["19", "initiatePaymentSession", "Create a payment collection and initialize the payment session for the chosen provider."],
+  ["26", "retrieve", "Retrieve the cart again to update its data."],
+  ["31", "getPaymentUi", "This function shows the necessary UI based on the selected payment provider."],
+  ["32", "activePaymentSession", "The active session is the first in the payment collection's sessions."],
+  ["38", "", "Test which payment provider is chosen based on the prefix of the provider ID."],
+  ["39", `"pp_stripe_"`, "Check if the chosen provider is Stripe."],
+  ["43", `"pp_system_default"`, "Check if the chosen provider is the default systen provider."],
+  ["45", "default", "Handle unrecognized providers."],
+  ["52", "handlePayment", "The function that handles the payment process using the above functions."]
+]
+
+```ts highlights={fetchHighlights}
+// assuming the cart is previously fetched
+const cart = {
+  id: "cart_123",
+  region_id: "reg_123",
+  // cart object...
+}
+
+const retrievePaymentProviders = async () => {
+  const { payment_providers } = await sdk.store.payment.listPaymentProviders({
+    region_id: cart.region_id || "",
+  })
+
+  return payment_providers
+}
+
+const selectPaymentProvider = async (
+  selectedPaymentProviderId: string
+) => {
+  await sdk.store.payment.initiatePaymentSession(cart, {
+    provider_id: selectedPaymentProviderId,
+  })
+
+  // re-fetch cart
+  const { 
+    cart: updatedCart,
+  } = await sdk.store.cart.retrieve(cart.id)
+
+  return updatedCart
+}
+
+const getPaymentUi = () => {
+  const activePaymentSession = cart?.payment_collection?.
+    payment_sessions?.[0]
+  if (!activePaymentSession) {
+    return
+  }
+
+  switch(true) {
+    case activePaymentSession.provider_id.startsWith("pp_stripe_"):
+      // TODO handle Stripe UI
+      return "You chose stripe!"
+    case activePaymentSession.provider_id
+      .startsWith("pp_system_default"):
+      return "You chose manual payment! No additional actions required."
+    default:
+      return `You chose ${
+        activePaymentSession.provider_id
+      } which is in development.`
+  }
+}
+
+const handlePayment = () => {
+  retrievePaymentProviders()
+
+  // ... customer chooses payment provider
+  // const providerId = ...
+
+  selectPaymentProvider(providerId)
+
+  getPaymentUi()
+}
+```
+
+  </CodeTab>
 </CodeTabs>
 
 In the example above, you:
 
-- Retrieve the payment providers from the Medusa application. You use those to show the customer the available options.
-- When the customer chooses a payment provider, you:
-    1. Check whether the cart has a payment collection. If not, create one using the [Create Payment Collection API route](!api!/store#payment-collections_postpaymentcollections).
-    2. Initialize the payment session for the chosen payment provider using the [Initialize Payment Session API route](!api!/store#payment-collections_postpaymentcollectionsidpaymentsessions).
-- Once the cart has a payment session, you optionally render the UI to perform additional actions. For example, if the customer chose stripe, you can show them the card form to enter their credit card.
+- Retrieve the payment providers from the Medusa application using the [List Payment Providers API route](!api!/store#payment-providers_getpaymentproviders). You use those to show the customer the available options.
+- When the customer chooses a payment provider, you use the `initiatePaymentSession` function to create a payment collection and initialize the payment session for the chosen provider.
+    - If you're not using the JS SDK, you need to create a payment collection using the [Create Payment Collection API route](!api!/store#payment-collections_postpaymentcollections) if the cart doesn't have one. Then, you need to initialize the payment session using the [Initialize Payment Session API route](!api!/store#payment-collections_postpaymentcollectionsidpaymentsessions).
+- Once the cart has a payment session, you optionally render the UI to perform additional actions. For example, if the customer chose Stripe, you can show them the card form to enter their credit card.
 
-In the `Fetch API` example, the `handlePayment` function implements this flow.
+In the `Fetch API` example, the `handlePayment` function implements this flow by calling the different functions in the correct order.
+
+---
+
+## Stripe Example
+
+If you're integrating Stripe in your Medusa application and storefront, refer to the [Stripe guide](./stripe/page.mdx) for an example of how to handle the payment process using Stripe.

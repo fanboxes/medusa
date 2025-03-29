@@ -7,8 +7,9 @@
     "build": "tsc",
     "watch": "tsc --watch",
     "prepublishOnly": "cross-env NODE_ENV=production tsc --build",
-    "generate:oas": "yarn start run ../../../../packages/medusa/src/api --type oas && yarn start clean:oas",
-    "generate:dml": "yarn start run ../../../../packages/modules --type dml && yarn start clean:dml"
+    "generate:oas": "yarn generate:route-examples && yarn start run ../../../../packages/medusa/src/api --type oas && yarn start clean:oas",
+    "generate:dml": "yarn start run ../../../../packages/modules --type dml && yarn start clean:dml",
+    "generate:route-examples": "yarn start run ../../../../packages/core/js-sdk/src --type route-examples"
   },
   "publishConfig": {
     "access": "public"

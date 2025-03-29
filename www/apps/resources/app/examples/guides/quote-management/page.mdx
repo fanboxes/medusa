@@ -1836,9 +1836,9 @@ Before you create the UI route, you need to create the hooks necessary to retrie
 
 The first hook you'll add is a hook that will retrieve a quote using the API route you added in the previous step.
 
-In `src/api/admin/hooks/quote.tsx`, add the following:
+In `src/admin/hooks/quote.tsx`, add the following:
 
-```tsx title="src/api/admin/hooks/quote.tsx"
+```tsx title="src/admin/hooks/quote.tsx"
 // other imports...
 import { AdminQuoteResponse } from "../types"
 
@@ -3395,7 +3395,7 @@ npm run dev
 Then, send a request to reject a quote for the authenticated customer:
 
 ```bash
-curl 'http://localhost:9000/store/customers/me/quotes/{quote_id}/reject' \
+curl -X POST 'http://localhost:9000/store/customers/me/quotes/{quote_id}/reject' \
 -H 'x-publishable-api-key: {your_publishable_api_key}' \
 -H 'Authorization: Bearer {token}'
 ```

@@ -344,9 +344,27 @@ const generatedgeneratedHowToTutorialsSidebarSidebar = {
           "loaded": true,
           "isPathHref": true,
           "type": "link",
+          "title": "Abandoned Cart",
+          "path": "/how-to-tutorials/tutorials/abandoned-cart",
+          "description": "Learn how to send abandoned cart notifications to customers.",
+          "children": []
+        },
+        {
+          "loaded": true,
+          "isPathHref": true,
+          "type": "link",
           "title": "Custom Item Pricing",
           "path": "/examples/guides/custom-item-price",
           "description": "Learn how to use prices from external systems for products.",
+          "children": []
+        },
+        {
+          "loaded": true,
+          "isPathHref": true,
+          "type": "ref",
+          "title": "Magento Migration",
+          "path": "/integrations/guides/magento",
+          "description": "Learn how to migrate data from Magento to Medusa.",
           "children": []
         },
         {

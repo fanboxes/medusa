@@ -48,6 +48,9 @@ export interface RefundReasonResponse {
 }
 
 export type RefundReasonsResponse = PaginatedResponse<{
+  /**
+   * The list of refund reasons.
+   */
   refund_reasons: AdminRefundReason[]
 }>
 

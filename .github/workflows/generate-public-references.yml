@@ -159,8 +159,9 @@ jobs:
           labels: "type: chore"
           add-paths: |
             www/apps/api-reference/specs
-            www/utils/generated/oas-output
             www/apps/api-reference/generated
+            www/utils/generated/oas-output
+            www/utils/generated/route-examples-output
           branch: "docs/generate-api-ref"
           branch-suffix: "timestamp"
   dml:

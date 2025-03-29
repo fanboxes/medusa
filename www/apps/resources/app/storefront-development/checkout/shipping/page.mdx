@@ -13,152 +13,51 @@ export const metadata = {
 
 # {metadata.title}
 
-In the third step of the checkout flow, the customer chooses the shipping method to receive their order's items.
+In this guide, you'll learn how to implement the third step of the checkout flow, where the customer chooses the shipping method to receive their order's items. While this is typically the third step of the checkout flow, you can change the steps of the checkout flow as you see fit.
 
-To do that, you:
+## Shipping Flow in Storefront Checkout
+
+To allow the customer to choose a shipping method, you:
+
+![Diagram showing the different steps of the shipping flow in storefront checkout](https://res.cloudinary.com/dza7lstvk/image/upload/v1743085465/Medusa%20Resources/shipping-checkout-flow_mfzdsh.jpg)
 
 1. Retrieve the available shipping options for the cart using the [List Shipping Options API route](!api!/store#shipping-options_getshippingoptions) and show them to the customer.
-2. For shipping options whose `price_type=calculated`, you retrieve their calculated price using the [Calculate Shipping Option Price API Route](!api!/store#shipping-options_postshippingoptionsidcalculate). The Medusa application calculates the price using the associated fulfillment provider's logic, which may require sending a request to a third-party service.
+2. For shipping options whose `price_type=calculated`, you retrieve their calculated price using the [Calculate Shipping Option Price API Route](!api!/store#shipping-options_postshippingoptionsidcalculate).
+    - The Medusa application calculates the price using the associated fulfillment provider's logic, which may require sending a request to a third-party service.
 3. When the customer chooses a shipping option, you use the [Add Shipping Method to Cart API route](!api!/store#carts_postcartsidshippingmethods) to set the cart's shipping method.
+
+---
+
+## How to Implement the Shipping Flow in Storefront Checkout?
 
 For example:
 
+<Note title="Tip">
+
+- This example uses the `useCart` hook defined in the [Cart React Context guide](../../cart/context/page.mdx).
+- Learn how to install and configure the JS SDK in the [JS SDK documentation](../../../js-sdk/page.mdx).
+
+</Note>
+
 <CodeTabs group="store-request">
-  <CodeTab label="Fetch API" value="fetch">
-
-export const fetchHighlights = [
-  ["5", "retrieveShippingOptions", "This function retrieves the shipping options of the customer's cart."],
-  ["21", "calculateShippingOptionPrices", "This function retrieves the prices of shipping options of type `calculated`."],
-  ["34", "data", "Pass in this property any data relevant to the fulfillment provider."],
-  ["56", "formatPrice", "This function formats a price based on the cart's currency."],
-  ["65", "getShippingOptionPrice", "This function gets the price of a shipping option based on its type."],
-  ["77", "setShippingMethod", "This function sets the shipping method of the cart using the selected shipping option."],
-  ["91", "data", "Pass in this property any data relevant to the fulfillment provider."],
-]
-
-  ```ts highlights={fetchHighlights}
-  const cartId = localStorage.getItem("cart_id")
-  let shippingOptions = []
-  const calculatedPrices: Record<string, number> = {}
-
-  const retrieveShippingOptions = () => {
-    const { shipping_options } = await fetch(
-      `http://localhost:9000/store/shipping-options?cart_id=${
-        cart.id
-      }`, {
-        credentials: "include",
-        headers: {
-          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-        },
-      }
-    )
-    .then((res) => res.json())
-
-    shippingOptions = shipping_options
-  }
-
-  const calculateShippingOptionPrices = () => {
-    const promises = shippingOptions
-        .filter((shippingOption) => shippingOption.price_type === "calculated")
-        .map((shippingOption) => 
-          fetch(`http://localhost:9000/store/shipping-options/${shippingOption.id}/calculate`, {
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-              "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-            },
-            method: "POST",
-            body: JSON.stringify({
-              cart_id: cart.id,
-              data: {
-                // pass any data useful for calculation with third-party provider.
-              },
-            }),
-          })
-          .then((res) => res.json())
-        )
-
-    if (promises.length) {
-      Promise.allSettled(promises).then((res) => {
-        res
-          .filter((r) => r.status === "fulfilled")
-          .forEach(
-            (p) => (
-              calculatedPrices[p.value?.shipping_option.id || ""] = 
-                p.value?.shipping_option.amount
-            )
-          )
-      })
-    }
-  }
-
-  const formatPrice = (amount: number): string => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      // assuming you have access to the cart object.
-      currency: cart?.currency_code,
-    })
-    .format(amount)
-  }
-
-  const getShippingOptionPrice = (shippingOption: HttpTypes.StoreCartShippingOption) => {
-    if (shippingOption.price_type === "flat") {
-      return formatPrice(shippingOption.amount)
-    }
-
-    if (!calculatedPrices[shippingOption.id]) {
-      return
-    }
-
-    return formatPrice(calculatedPrices[shippingOption.id])
-  }
-
-  const setShippingMethod = (
-    selectedShippingOptionId: string
-  ) => {
-    fetch(`http://localhost:9000/store/carts/${
-      cart.id
-    }/shipping-methods`, {
-      credentials: "include",
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-      },
-      body: JSON.stringify({
-        option_id: selectedShippingOptionId,
-        data: {
-          // TODO add any data necessary for
-          // fulfillment provider
-        },
-      }),
-    })
-    .then((res) => res.json())
-    .then(({ cart }) => {
-      // use cart...
-      console.log(cart)
-    })
-  }
-  ```
-
-  </CodeTab>
   <CodeTab label="React" value="react">
 
 export const highlights = [
   ["4", "useCart", "The `useCart` hook was defined in the Cart React Context documentation."],
-  ["25", "fetch", "Retrieve available shipping methods of the customer's cart."],
-  ["47", "fetch", "Retrieve the price of every shipping method that has a calculated price."],
-  ["56", "data", "Pass in this property any data relevant to the fulfillment provider."],
-  ["86", "fetch", "Set the cart's shipping method using the selected shipping option."],
-  ["97", "data", "Pass in this property any data relevant to the fulfillment provider."]
+  ["26", "listCartOptions", "Retrieve available shipping methods of the customer's cart."],
+  ["42", "calculate", "Retrieve the price of every shipping method that has a calculated price."],
+  ["44", "data", "Pass in this property any data relevant to the fulfillment provider."],
+  ["72", "addShippingMethod", "Set the cart's shipping method using the selected shipping option."],
+  ["74", "data", "Pass in this property any data relevant to the fulfillment provider."]
 ]
 
   ```tsx highlights={highlights}
   "use client" // include with Next.js 13+
 
   import { useCallback, useEffect, useState } from "react"
-  import { useCart } from "../../../providers/cart"
+  import { useCart } from "@/providers/cart"
   import { HttpTypes } from "@medusajs/types"
+  import { sdk } from "@/lib/sdk"
 
   export default function CheckoutShippingStep() {
     const { cart, setCart } = useCart()
@@ -178,15 +77,9 @@ export const highlights = [
       if (!cart) {
         return
       }
-      fetch(`http://localhost:9000/store/shipping-options?cart_id=${
-        cart.id
-      }`, {
-        credentials: "include",
-        headers: {
-          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-        },
+      sdk.store.fulfillment.listCartOptions({
+        cart_id: cart.id,
       })
-      .then((res) => res.json())
       .then(({ shipping_options }) => {
         setShippingOptions(shipping_options)
       })
@@ -200,21 +93,12 @@ export const highlights = [
       const promises = shippingOptions
           .filter((shippingOption) => shippingOption.price_type === "calculated")
           .map((shippingOption) => 
-            fetch(`http://localhost:9000/store/shipping-options/${shippingOption.id}/calculate`, {
-              credentials: "include",
-              headers: {
-                "Content-Type": "application/json",
-                "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
+            sdk.store.fulfillment.calculate(shippingOption.id, {
+              cart_id: cart.id,
+              data: {
+                // pass any data useful for calculation with third-party provider.
               },
-              method: "POST",
-              body: JSON.stringify({
-                cart_id: cart.id,
-                data: {
-                  // pass any data useful for calculation with third-party provider.
-                },
-              }),
             })
-            .then((res) => res.json())
           )
 
       if (promises.length) {
@@ -239,24 +123,13 @@ export const highlights = [
       e.preventDefault()
       setLoading(true)
 
-      fetch(`http://localhost:9000/store/carts/${
-        cart.id
-      }/shipping-methods`, {
-        credentials: "include",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
+      sdk.store.cart.addShippingMethod(cart.id, {
+        option_id: selectedShippingOption,
+        data: {
+          // TODO add any data necessary for
+          // fulfillment provider
         },
-        body: JSON.stringify({
-          option_id: selectedShippingOption,
-          data: {
-            // TODO add any data necessary for
-            // fulfillment provider
-          },
-        }),
       })
-      .then((res) => res.json())
       .then(({ cart: updatedCart }) => {
         setCart(updatedCart)
       })
@@ -320,16 +193,108 @@ export const highlights = [
   ```
 
   </CodeTab>
+  <CodeTab label="JS SDK" value="js-sdk">
+
+export const fetchHighlights = [
+  ["5", "retrieveShippingOptions", "This function retrieves the shipping options of the customer's cart."],
+  ["21", "calculateShippingOptionPrices", "This function retrieves the prices of shipping options of type `calculated`."],
+  ["34", "data", "Pass in this property any data relevant to the fulfillment provider."],
+  ["56", "formatPrice", "This function formats a price based on the cart's currency."],
+  ["65", "getShippingOptionPrice", "This function gets the price of a shipping option based on its type."],
+  ["77", "setShippingMethod", "This function sets the shipping method of the cart using the selected shipping option."],
+  ["91", "data", "Pass in this property any data relevant to the fulfillment provider."],
+]
+
+  ```ts highlights={fetchHighlights}
+  const cartId = localStorage.getItem("cart_id")
+  let shippingOptions = []
+  const calculatedPrices: Record<string, number> = {}
+
+  const retrieveShippingOptions = () => {
+    const { shipping_options } = await sdk.store.fulfillment.listCartOptions({
+      cart_id: cartId,
+    })
+
+    shippingOptions = shipping_options
+  }
+
+  const calculateShippingOptionPrices = () => {
+    const promises = shippingOptions
+        .filter((shippingOption) => shippingOption.price_type === "calculated")
+        .map((shippingOption) => 
+          sdk.store.fulfillment.calculate(shippingOption.id, {
+            cart_id: cartId,
+            data: {
+              // pass any data useful for calculation with third-party provider.
+            },
+          })
+        )
+
+    if (promises.length) {
+      Promise.allSettled(promises).then((res) => {
+        res
+          .filter((r) => r.status === "fulfilled")
+          .forEach(
+            (p) => (
+              calculatedPrices[p.value?.shipping_option.id || ""] = 
+                p.value?.shipping_option.amount
+            )
+          )
+      })
+    }
+  }
+
+  const formatPrice = (amount: number): string => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      // assuming you have access to the cart object.
+      currency: cart?.currency_code,
+    })
+    .format(amount)
+  }
+
+  const getShippingOptionPrice = (shippingOption: HttpTypes.StoreCartShippingOption) => {
+    if (shippingOption.price_type === "flat") {
+      return formatPrice(shippingOption.amount)
+    }
+
+    if (!calculatedPrices[shippingOption.id]) {
+      return
+    }
+
+    return formatPrice(calculatedPrices[shippingOption.id])
+  }
+
+  const setShippingMethod = (
+    selectedShippingOptionId: string
+  ) => {
+    sdk.store.cart.addShippingMethod(cartId, {
+      option_id: selectedShippingOptionId,
+      data: {
+        // TODO add any data necessary for
+        // fulfillment provider
+      },
+    })
+    .then(({ cart }) => {
+      // use cart...
+      console.log(cart)
+    })
+  }
+  ```
+
+  </CodeTab>
 </CodeTabs>
 
 In the example above, you:
 
-- Retrieve the available shipping options of the cart to allow the customer to select from them.
-- For each shipping option, you retrieve its calculated price from the Medusa application.
-- Once the customer selects a shipping option, you send a request to the Add Shipping Method to Cart API route to update the cart's shipping method using the selected shipping option.
+- Retrieve the available shipping options of the cart to allow the customer to select from them using the [List Shipping Options API route](!api!/store#shipping-options_getshippingoptions).
+- For each shipping option, you retrieve its calculated price from the Medusa application using the [Calculate Shipping Option Price API Route](!api!/store#shipping-options_postshippingoptionsidcalculate).
+- Once the customer selects a shipping option, you send a request to the [Add Shipping Method to Cart API route](!api!/store#carts_postcartsidshippingmethods) to update the cart's shipping method using the selected shipping option.
 
-## data Request Body Parameter
+### data Request Body Parameter
 
-When calculating a shipping option's price using the Calculate Shipping Option Price API route, or when setting the shipping method using the Add Shipping Method to Cart API route, you can pass a `data` request body parameter that holds data relevant for the fulfillment provider.
+When calculating a shipping option's price using the [Calculate Shipping Option Price API Route](!api!/store#shipping-options_postshippingoptionsidcalculate), or when setting the shipping method using the [Add Shipping Method to Cart API route](!api!/store#carts_postcartsidshippingmethods), you can pass a `data` request body parameter that holds data relevant for the fulfillment provider.
 
-This isn't implemented here as it's different for each provider. Refer to the provider's documentation on details of expected data, if any.
+For example, you may pass a custom carrier code to the `data` parameter to identify the carrier of the shipping option if your fulfillment provider requires it.
+
+This isn't implemented here as it's different for each provider. Refer to your fulfillment provider's documentation on details of expected data, if any.

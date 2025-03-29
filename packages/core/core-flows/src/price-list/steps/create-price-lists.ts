@@ -9,7 +9,7 @@ import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 export const createPriceListsStepId = "create-price-lists"
 /**
  * This step creates a price list.
- * 
+ *
  * @example
  * const data = createPriceListsStep({
  *   data: [{
@@ -36,6 +36,10 @@ export const createPriceListsStep = createStep(
     const pricingModule = container.resolve<IPricingModuleService>(
       Modules.PRICING
     )
+
+    if (!data.length) {
+      return new StepResponse([])
+    }
 
     const createData = data.map((priceListDTO) => {
       const { prices = [], ...rest } = priceListDTO

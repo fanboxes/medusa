@@ -12,42 +12,21 @@ export const metadata = {
 
 # {metadata.title}
 
-You can retrieve a cart by sending a request to the [Get a Cart API route](!api!/store#carts_getcartsid).
+In this guide, you'll learn how to retrieve a cart's details in your storefront.
 
-Assuming you stored the cart's ID in the `localStorage` as explained in the [Create Cart guide](../create/page.mdx), pass that ID as a path parameter to the request.
+Assuming you stored the cart's ID in the `localStorage` as explained in the [Create Cart guide](../create/page.mdx), you can retrieve a cart by sending a request to the [Get a Cart API route](!api!/store#carts_getcartsid).
 
 For example:
 
 <CodeTabs group="store-request">
-  <CodeTab label="Fetch API" value="fetch">
-
-export const fetchHighlights = [
-  ["1", "cartId", "Pass the customer's cart ID as a path parameter."],
-]
-
-  ```ts highlights={fetchHighlights}
-  fetch(`http://localhost:9000/store/carts/${cartId}`, {
-    credentials: "include",
-    headers: {
-      "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-    },
-  })
-  .then((res) => res.json())
-  .then(({ cart }) => {
-    // use cart...
-    console.log(cart)
-  })
-  ```
-
-  </CodeTab>
   <CodeTab label="React" value="react">
 
 export const highlights = [
-  ["16", "cartId", "Retrieve the cart ID from `localStorage`."],
-  ["18", "TODO", "You can create the cart and set it here as explained in the Create Cart guide."],
-  ["22"], ["23"], ["24"], ["25"], ["26"], ["27"], ["28"], ["29"], ["30"], ["31"],
-  ["34", "formatPrice", "This function was previously created to format product prices. You can re-use the same function."],
-  ["37", "currency_code", "If you reuse the `formatPrice` function, pass the currency code as a parameter."],
+  ["17", "cartId", "Retrieve the cart ID from `localStorage`."],
+  ["19", "TODO", "You can create the cart and set it here as explained in the Create Cart guide."],
+  ["23"], ["24"], ["25"], ["26"],
+  ["29", "formatPrice", "This function was previously created to format product prices. You can re-use the same function."],
+  ["32", "currency", "If you reuse the `formatPrice` function, pass the currency code as a parameter."],
 ]
 
   ```tsx highlights={highlights}
@@ -55,6 +34,7 @@ export const highlights = [
 
   import { useEffect, useState } from "react"
   import { HttpTypes } from "@medusajs/types"
+  import { sdk } from "@/lib/sdk"
 
   export default function Cart() {
     const [cart, setCart] = useState<
@@ -72,13 +52,7 @@ export const highlights = [
         return
       }
 
-      fetch(`http://localhost:9000/store/carts/${cartId}`, {
-        credentials: "include",
-        headers: {
-          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-        },
-      })
-      .then((res) => res.json())
+      sdk.store.cart.retrieve(cartId)
       .then(({ cart: dataCart }) => {
         setCart(dataCart)
       })
@@ -116,13 +90,28 @@ export const highlights = [
   ```
 
   </CodeTab>
+  <CodeTab label="JS SDK" value="js-sdk">
+
+export const fetchHighlights = [
+  ["1", "cartId", "Pass the customer's cart ID as a parameter."],
+]
+
+  ```ts highlights={fetchHighlights}
+  sdk.store.cart.retrieve(cartId)
+  .then(({ cart }) => {
+    // use cart...
+    console.log(cart)
+  })
+  ```
+
+  </CodeTab>
 </CodeTabs>
 
-The response of the [Get Cart API](!api!/store#carts_getcartsid) route has a `cart` field, which is a cart object.
+In this example, you retrieve a cart by sending a request to the [Get a Cart API route](!api!/store#carts_getcartsid).
 
----
+The response of the [Get a Cart API route](!api!/store#carts_getcartsid) has a `cart` field, which is a [cart object](!api!/store#carts_cart_schema).
 
-## Format Prices
+### Format Prices
 
 When displaying the cart's totals or line item's price, make sure to format the price as implemented in the `formatPrice` function shown in the above snippet:
 
@@ -136,4 +125,4 @@ const formatPrice = (amount: number): string => {
 }
 ```
 
-Since this is the same function used to format the prices of products, you can define the function in one place and re-use it where necessary. In that case, make sure to pass the currency code as a parameter.
+Since this is the same function used to [format the prices of product variants](../../products/price/page.mdx), you can define the function in one place and re-use it where necessary. In that case, make sure to pass the currency code as a parameter to the `formatPrice` function.

@@ -76,7 +76,7 @@ export const product = [
     "path": "https://docs.medusajs.com/resources/storefront-development/guides/express-checkout"
   },
   {
-    "title": "List Product Categories in Storefront",
+    "title": "Show Product Categories in Storefront",
     "path": "https://docs.medusajs.com/resources/storefront-development/products/categories/list"
   },
   {
@@ -108,7 +108,7 @@ export const product = [
     "path": "https://docs.medusajs.com/resources/storefront-development/products/inventory"
   },
   {
-    "title": "List Products in Storefront",
+    "title": "Show Products in Storefront",
     "path": "https://docs.medusajs.com/resources/storefront-development/products/list"
   },
   {

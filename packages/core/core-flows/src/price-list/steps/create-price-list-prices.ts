@@ -11,7 +11,7 @@ import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 export const createPriceListPricesStepId = "create-price-list-prices"
 /**
  * This step creates prices for a price list.
- * 
+ *
  * @example
  * const data = createPriceListPricesStep({
  *   data: [{
@@ -57,6 +57,10 @@ export const createPriceListPricesStep = createStep(
           prices: pricesToAdd,
         })
       }
+    }
+
+    if (!priceListPricesToCreate.length) {
+      return new StepResponse([])
     }
 
     const createdPrices = await pricingModule.addPriceListPrices(

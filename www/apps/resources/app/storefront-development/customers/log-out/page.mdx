@@ -13,83 +13,59 @@ export const metadata = {
 
 # {metadata.title}
 
-In this document, you'll learn how to log-out a customer in the storefront based on the authentication method.
+In this guide, you'll learn how to log-out a customer in the storefront based on the authentication method.
 
-## Log-Out for JWT Token
+## Log-out using the JS SDK
 
-If you're authenticating the customer with their JWT token, remove the stored token from the browser.
+If you're using the JS SDK, you can use the `auth.logout` method to log-out the customer:
 
-For example, if you've stored the JWT token in the `localStorage`, remove the item from it:
+```ts
+sdk.auth.logout()
+.then(() => {
+  // TODO redirect customer to login page
+})
+```
+
+The JS SDK will handle the necessary actions based on the [authentication method](../login/page.mdx#js-sdk-authentication-configuration) you're using:
+
+1. If you're using the `session` authentication method, the JS SDK will send a `DELETE` request to the `/auth/session` route. Then, it will remove any stored tokens from the configured storage method (by default, `localStorage`).
+2. If you're using the `jwt` authentication method, the JS SDK will only remove the JWT token from the configured storage method (by default, `localStorage`).
+
+Once the operation succeeds, you can redirect the customer to the login page.
+
+---
+
+## Log-out without the JS SDK
+
+If you're not using the JS SDK, you need to log out the customer based on the authentication method you're using.
+
+### Log-out for JWT Token
+
+If you're authenticating the customer with their JWT token, remove the JWT token stored locally in your storefront based on your storage method.
+
+For example, if you're storing the JWT token in `localStorage`, remove the item from it:
 
 ```ts
 localStorage.removeItem(`token`)
 ```
 
----
+Where `token` is the key of the JWT token in the `localStorage`.
 
-## Log-Out for Cookie Session
+### Log-out for Cookie Session
 
-If you're authenticating the customer with their cookie session ID, send a `DELETE` request to the `/auth/session`.
+If you're authenticating the customer with their cookie session ID, you need to send a `DELETE` request to the `/auth/session` route. This will remove the session cookie from the customer's browser.
 
 For example:
 
-<CodeTabs group="store-request">
-  <CodeTab label="Fetch API" value="fetch">
-
-  ```ts
-  fetch(`http://localhost:9000/auth/session`, {
-    credentials: "include",
-    method: "DELETE",
-  })
-  .then((res) => res.json())
-  .then(() => {
-    // TODO redirect customer to login page
-  })
-  ```
-
-  </CodeTab>
-  <CodeTab label="React" value="react">
-
-export const highlights = [
-  ["3", "useCustomer", "Use the hook defined in the Customer Context guide."],
-  ["9"], ["10"], ["11"], ["12"], ["13"], ["14"], ["15"], ["16"], ["17"], ["18"]
-]
-
-  ```tsx highlights={highlights}
-  "use client" // include with Next.js 13+
-
-  import { useCustomer } from "../../../providers/customer"
-
-  export default function Profile() {
-    const { setCustomer } = useCustomer()
-
-    const handleLogOut = () => {
-      fetch(`http://localhost:9000/auth/session`, {
-        credentials: "include",
-        method: "DELETE",
-      })
-      .then((res) => res.json())
-      .then(() => {
-        setCustomer(undefined)
-        // TODO redirect to login page
-        alert("Logged out")
-      })
-    }
-
-    return (
-      <div>
-        {/* Profile details... */}
-        <button
-          onClick={handleLogOut}
-        >
-          Log Out
-        </button>
-      </div>
-    )
-  }
-  ```
-
-  </CodeTab>
-</CodeTabs>
+```ts
+fetch(`http://localhost:9000/auth/session`, {
+  credentials: "include",
+  method: "DELETE",
+})
+.then((res) => res.json())
+.then(() => {
+  // TODO redirect customer to login page
+})
+```
 
 The API route returns nothing in the response. If the request was successful, you can perform any necessary work to unset the customer and redirect them to the login page.

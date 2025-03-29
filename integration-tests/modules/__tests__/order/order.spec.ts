@@ -172,6 +172,7 @@ medusaIntegrationTestRunner({
               variant_option_values: null,
               requires_shipping: true,
               is_discountable: true,
+              is_giftcard: false,
               is_tax_inclusive: false,
               raw_compare_at_unit_price: null,
               raw_unit_price: {

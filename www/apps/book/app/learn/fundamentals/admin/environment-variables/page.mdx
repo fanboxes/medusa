@@ -8,7 +8,7 @@ In this chapter, you'll learn how to use environment variables in your admin cus
 
 <Note>
 
-To learn how envirnment variables are generally loaded in Medusa based on your application's environment, check out [this chapter](../../environment-variables/page.mdx).
+To learn how environment variables are generally loaded in Medusa based on your application's environment, check out [this chapter](../../environment-variables/page.mdx).
 
 </Note>
 
@@ -74,3 +74,10 @@ To check the current environment, Vite exposes two variables:
 
 Learn more about other Vite environment variables in the [Vite documentation](https://vite.dev/guide/env-and-mode).
 
+---
+
+## Environment Variables in Production
+
+When you build the Medusa application, including the Medusa Admin, with the `build` command, the environment variables are inlined into the build. This means that you can't change the environment variables without rebuilding the application.
+
+For example, the `VITE_MY_API_KEY` environment variable in the example above will be replaced with the actual value during the build process.

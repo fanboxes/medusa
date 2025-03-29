@@ -4,8 +4,7 @@ import getBasePath from "../../utils/get-base-path.js"
 import RouteExamplesKindGenerator from "../kinds/route-examples.js"
 import ts from "typescript"
 import type { RouteExamples } from "types"
-import getMonorepoRoot from "../../utils/get-monorepo-root.js"
-import path from "path"
+import { getRouteExamplesOutputBasePath } from "../../utils/get-output-base-paths.js"
 class RouteExamplesGenerator extends AbstractGenerator {
   protected routeExamplesKindGenerator?: RouteExamplesKindGenerator
 
@@ -91,10 +90,7 @@ class RouteExamplesGenerator extends AbstractGenerator {
    * @param routeExamples - The route examples to write.
    */
   writeJson(routeExamples: RouteExamples) {
-    const filePath = path.join(
-      getMonorepoRoot(),
-      "www/utils/generated/route-examples-output/route-examples.json"
-    )
+    const filePath = getRouteExamplesOutputBasePath()
 
     const fileContent = JSON.stringify(routeExamples, null, 2)
 

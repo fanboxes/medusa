@@ -14,3 +14,17 @@ export function getOasOutputBasePath() {
 export function getDmlOutputBasePath() {
   return path.join(getMonorepoRoot(), "www", "utils", "generated", "dml-output")
 }
+
+/**
+ * Retrieves the base path to the `route-examples-output` directory.
+ */
+export function getRouteExamplesOutputBasePath() {
+  return path.join(
+    getMonorepoRoot(),
+    "www",
+    "utils",
+    "generated",
+    "route-examples-output",
+    "route-examples.json"
+  )
+}

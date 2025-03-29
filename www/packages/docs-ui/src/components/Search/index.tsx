@@ -159,6 +159,7 @@ export const Search = ({
                 // to be applied between the items.
                 facetFilters: [facetFilters],
                 getRankingInfo: true,
+                hitsPerPage: 3,
               }}
               indices={algolia.indices}
               checkInternalPattern={checkInternalPattern}

@@ -6,6 +6,18 @@ export const metadata = {
 
 In this chapter, you’ll learn how to configure steps to allow retrial on failure.
 
+## What is a Step Retrial?
+
+A step retrial is a mechanism that allows a step to be retried automatically when it fails. This is useful for handling transient errors, such as network issues or temporary unavailability of a service.
+
+When a step fails, the workflow engine can automatically retry the step a specified number of times before marking the workflow as failed. This can help improve the reliability and resilience of your workflows.
+
+You can also configure the interval between retries, allowing you to wait for a certain period before attempting the step again. This is useful when the failure is due to a temporary issue that may resolve itself after some time.
+
+For example, if a step captures a payment, you may want to retry it the next day until the payment is successful or the maximum number of retries is reached.
+
+---
+
 ## Configure a Step’s Retrial
 
 By default, when an error occurs in a step, the step and the workflow fail, and the execution stops.
@@ -81,8 +93,33 @@ const step1 = createStep(
 )
 ```
 
+In this example, if the step fails, it will be retried after two seconds.
+
+### Maximum Retry Interval
+
+The `retryInterval` property's maximum value is [Number.MAX_SAFE_INTEGER](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER). So, you can set a very long wait time before the step is retried, allowing you to retry steps after a long period.
+
+For example, to retry a step after a day:
+
+```ts title="src/workflows/hello-world.ts" highlights={[["5"]]}
+const step1 = createStep(
+  {
+    name: "step-1",
+    maxRetries: 2,
+    retryInterval: 86400, // 1 day
+  },
+  async () => {
+    // ...
+  }
+)
+```
+
+In this example, if the step fails, it will be retried after `86400` seconds (one day).
+
 ### Interval Changes Workflow to Long-Running
 
-By setting `retryInterval` on a step, a workflow becomes a [long-running workflow](../long-running-workflow/page.mdx) that runs asynchronously in the background. So, you won't receive its result or errors immediately when you execute the workflow.
+By setting `retryInterval` on a step, a workflow that uses that step becomes a [long-running workflow](../long-running-workflow/page.mdx) that runs asynchronously in the background. This is useful when creating workflows that may fail and should run for a long time until they succeed, such as waiting for a payment to be captured or a shipment to be delivered.
+
+However, since the long-running workflow runs in the background, you won't receive its result or errors immediately when you execute the workflow.
 
 Instead, you must subscribe to the workflow's execution using the Workflow Engine Module Service. Learn more about it in [this chapter](../long-running-workflow/page.mdx#access-long-running-workflow-status-and-result).

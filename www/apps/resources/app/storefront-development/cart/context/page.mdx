@@ -12,25 +12,37 @@ export const metadata = {
 
 # {metadata.title}
 
-Throughout your storefront, you'll need to access the customer's cart to perform different actions.
+In this guide, you'll learn how to create a cart context in your storefront.
+
+## Why Create a Cart Context?
+
+Throughout your storefront, you'll need to access the customer's cart to perform different actions. For example, you may need to add a product variant to the cart from the product page.
 
 So, if your storefront is React-based, create a cart context and add it at the top of your components tree. Then, you can access the customer's cart anywhere in your storefront.
+
+---
 
 ## Create Cart Context Provider
 
 For example, create the following file that exports a `CartProvider` component and a `useCart` hook:
 
+<Note title="Tip">
+
+- This example uses the `useRegion` hook defined in the [Region React Context guide](../../regions/context/page.mdx) to associate the cart with the customer's selected region.
+- Learn how to install and configure the JS SDK in the [JS SDK documentation](../../../js-sdk/page.mdx).
+
+</Note>
+
 export const highlights = [
-  ["13", "cart", "Expose cart to children of the context provider."],
-  ["14", "setCart", "Allow the context provider's children to update the cart."],
-  ["17", "refreshCart", "Allow the context provider's children to unset and reset the cart."],
-  ["26", "CartProvider", "The provider component to use in your component tree."],
-  ["30", "useRegion", "Use the `useRegion` hook defined in the Region Context guide."],
-  ["40", "fetch", "If the customer doesn't have a cart, create a new one."],
-  ["44", "process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY", "Pass the Publishable API key to associate the correct sales channel(s)."],
-  ["58", "fetch", "Retrieve the customer's cart."],
-  ["71", "refreshCart", "This function unsets the cart, which triggers the `useEffect` callback to create a cart."],
-  ["87", "useCart", "The hook that child components of the provider use to access the cart."]
+  ["14", "cart", "Expose cart to children of the context provider."],
+  ["15", "setCart", "Allow the context provider's children to update the cart."],
+  ["18", "refreshCart", "Allow the context provider's children to unset and reset the cart."],
+  ["27", "CartProvider", "The provider component to use in your component tree."],
+  ["31", "useRegion", "Use the `useRegion` hook defined in the Region Context guide."],
+  ["41", "create", "If the customer doesn't have a cart, create a new one."],
+  ["50", "retrieve", "Retrieve the customer's cart."],
+  ["57", "refreshCart", "This function unsets the cart, which triggers the `useEffect` callback to create a cart."],
+  ["73", "useCart", "The hook that child components of the provider use to access the cart."]
 ]
 
 ```tsx highlights={highlights}
@@ -44,6 +56,7 @@ import {
 } from "react"
 import { HttpTypes } from "@medusajs/types"
 import { useRegion } from "./region"
+import { sdk } from "@/lib/sdk"
 
 type CartContextType = {
   cart?: HttpTypes.StoreCart
@@ -73,31 +86,16 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     const cartId = localStorage.getItem("cart_id")
     if (!cartId) {
       // create a cart
-      fetch(`http://localhost:9000/store/carts`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          region_id: region.id,
-        }),
+      sdk.store.cart.create({
+        region_id: region.id,
       })
-      .then((res) => res.json())
       .then(({ cart: dataCart }) => {
         localStorage.setItem("cart_id", dataCart.id)
         setCart(dataCart)
       })
     } else {
       // retrieve cart
-      fetch(`http://localhost:9000/store/carts/${cartId}`, {
-        credentials: "include",
-        headers: {
-          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-        },
-      })
-      .then((res) => res.json())
+      sdk.store.cart.retrieve(cartId)
       .then(({ cart: dataCart }) => {
         setCart(dataCart)
       })
@@ -131,9 +129,20 @@ export const useCart = () => {
 }
 ```
 
-The `CartProvider` handles retrieving or creating the customer's cart. It uses the `useRegion` hook defined in the [Region Context guide](../../regions/context/page.mdx).
+The `CartProvider` handles retrieving or creating the customer's cart. It uses the `useRegion` hook defined in the [Region Context guide](../../regions/context/page.mdx) to associate the cart with the customer's selected region.
 
 The `useCart` hook returns the value of the `CartContext`. Child components of `CartProvider` use this hook to access `cart`, `setCart`, or `refreshCart`.
+
+`refreshCart` unsets the cart, which triggers the `useEffect` callback to create a cart. This is useful when the customer logs in or out, or after the customer places an order.
+
+<Note title="Tip">
+
+You can add to the context and provider other functions useful for updating the cart and its items. Refer to the following guides for details on how to implement these functions:
+
+- [Manage Cart Items](../manage-items/page.mdx).
+- [Update Cart's Region and Customer](../update/page.mdx).
+
+</Note>
 
 ---
 
@@ -147,8 +156,8 @@ For example, if you're using Next.js, add it to the `app/layout.tsx` or `src/app
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
-import { CartProvider } from "../providers/cart"
-import { RegionProvider } from "../providers/region"
+import { CartProvider } from "@/providers/cart"
+import { RegionProvider } from "@/providers/region"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -177,9 +186,9 @@ export default function RootLayout({
 }
 ```
 
----
+Make sure to put the `CartProvider` as a child of the `RegionProvider` since it uses the `useRegion` hook defined in the [Region Context guide](../../regions/context/page.mdx).
 
-## Use useCart Hook
+### Use useCart Hook
 
 Now, you can use the `useCart` hook in child components of `CartProvider`.
 
@@ -188,10 +197,12 @@ For example:
 ```tsx
 "use client" // include with Next.js 13+
 // ...
-import { useCart } from "../providers/cart"
+import { useCart } from "@/providers/cart"
 
 export default function Products() {
   const { cart } = useCart()
   // ...
 }
 ```
+
+The `useCart` hook returns the cart details, which you can use in your components.

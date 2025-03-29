@@ -33,9 +33,15 @@ medusaIntegrationTestRunner({
         )
 
         expect(response.status).toEqual(200)
-        expect(response.data.fulfillment_providers).toEqual([
-          { id: "manual_test-provider", is_enabled: true },
-        ])
+        expect(response.data.fulfillment_providers).toEqual(
+          expect.arrayContaining([
+            { id: "manual_test-provider", is_enabled: true },
+            {
+              id: "manual-calculated_test-provider-calculated",
+              is_enabled: true,
+            },
+          ])
+        )
       })
     })
   },

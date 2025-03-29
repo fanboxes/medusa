@@ -85,7 +85,7 @@ export const authorizePaymentSessionStep = createStep(
       )
     }
 
-    return new StepResponse(payment)
+    return new StepResponse(paymentSession.payment)
   },
   // If payment or any other part of complete cart fails post payment step, we cancel any payments made
   async (payment, { container }) => {

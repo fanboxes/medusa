@@ -12,9 +12,11 @@ export const metadata = {
 
 # {metadata.title}
 
-When sending requests to the `/store` API routes, you must pass the publishable API key in the header of your request.
+In this guide, you'll learn how to create and use the publishable API key in your storefront to interact with the Medusa application's Store API routes.
 
 ## What is a Publishable API Key?
+
+When sending requests to the `/store` API routes, you must pass a publishable API key in the header of your request.
 
 Publishable API keys specify the scope of a request. Admin users create them, and they can only be used on the client-side, such as in a storefront.
 
@@ -44,7 +46,9 @@ Learn how to send authenticated admin requests in the [Admin API reference](!api
 
 </Note>
 
-To add sales channels to the publishable API key's scope, use the [Manage Sales Channels API route](!api!/admin#api-keys_postapikeysidsaleschannels):
+### Add Sales Channels to the Publishable API Key's Scope
+
+To add sales channels to the publishable API key's scope, you can either use the [Medusa Admin](!user-guide!/settings/developer/publishable-api-keys#manage-publishable-api-keys-sales-channels), or send a request to the [Manage Sales Channels API route](!api!/admin#api-keys_postapikeysidsaleschannels):
 
 ```bash
 curl -X POST 'http://localhost:9000/admin/api-keys/apk_123/sales-channels' \
@@ -63,24 +67,30 @@ Make sure to replace `apk_123` with the ID of the publishable API key, and `sc_1
 
 In your storefront, pass the `x-publishable-api-key` in the header of all your requests to the Medusa application.
 
+When using the JS SDK, set the publishable API key as an environment variable and pass it to the JS SDK's configurations.
+
 For example:
 
 export const highlights = [
-  ["4", "NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY", "An environment variable that holds the publishable API key's token."]
+  ["12", "NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY", "An environment variable that holds the publishable API key's token."]
 ]
 
 ```ts
-fetch(`http://localhost:9000/store/products`, {
-  credentials: "include",
-  headers: {
-    "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-  },
-})
-.then((res) => res.json())
-.then((data) => {
-  // use products...
-  console.log(data.products)
+import Medusa from "@medusajs/js-sdk"
+
+let MEDUSA_BACKEND_URL = "http://localhost:9000"
+
+if (process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL) {
+  MEDUSA_BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
+}
+
+export const sdk = new Medusa({
+  baseUrl: MEDUSA_BACKEND_URL,
+  debug: process.env.NODE_ENV === "development",
+  publishableKey: process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
 })
 ```
 
 Where `NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY` is an environment variable that holds your publishable API key's token.
+
+The JS SDK will now take care of passing the publishable API key in the header of all requests to the Medusa application.

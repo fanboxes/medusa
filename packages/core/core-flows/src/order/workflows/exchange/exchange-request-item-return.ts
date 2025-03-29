@@ -26,6 +26,7 @@ import {
   throwIfOrderChangeIsNotActive,
 } from "../../utils/order-validation"
 import { createOrderChangeActionsWorkflow } from "../create-order-change-actions"
+import { refreshExchangeShippingWorkflow } from "./refresh-shipping"
 
 /**
  * The data to validate that items can be returned as part of an exchange.
@@ -55,16 +56,16 @@ export type ExchangeRequestItemReturnValidationStepInput = {
 
 /**
  * This step validates that items can be returned as part of an exchange.
- * If the order, exchange, or return is canceled, the order change is not active, 
+ * If the order, exchange, or return is canceled, the order change is not active,
  * or the item doesn't exist in the order, the step will throw an error.
- * 
+ *
  * :::note
- * 
+ *
  * You can retrieve an order, order exchange, and order return details using [Query](https://docs.medusajs.com/learn/fundamentals/module-links/query),
  * or [useQueryGraphStep](https://docs.medusajs.com/resources/references/medusa-workflows/steps/useQueryGraphStep).
- * 
+ *
  * :::
- * 
+ *
  * @example
  * const data = exchangeRequestItemReturnValidationStep({
  *   order: {
@@ -113,10 +114,10 @@ export const orderExchangeRequestItemReturnWorkflowId =
 /**
  * This workflow adds inbound items to be retuned as part of the exchange. It's used
  * by the [Add Inbound Items Admin API Route](https://docs.medusajs.com/api/admin#exchanges_postexchangesidinbounditems).
- * 
+ *
  * You can use this workflow within your customizations or your own custom workflows, allowing you to add inbound items
  * to be returned as part of an exchange in your custom flow.
- * 
+ *
  * @example
  * const { result } = await orderExchangeRequestItemReturnWorkflow(container)
  * .run({
@@ -131,9 +132,9 @@ export const orderExchangeRequestItemReturnWorkflowId =
  *     ]
  *   }
  * })
- * 
+ *
  * @summary
- * 
+ *
  * Add inbound items to be returned as part of the exchange.
  */
 export const orderExchangeRequestItemReturnWorkflow = createWorkflow(
@@ -258,6 +259,21 @@ export const orderExchangeRequestItemReturnWorkflow = createWorkflow(
 
     createOrderChangeActionsWorkflow.runAsStep({
       input: orderChangeActionInput,
+    })
+
+    const refreshArgs = transform(
+      { orderChange, orderExchange },
+      ({ orderChange, orderExchange }) => {
+        return {
+          order_change_id: orderChange.id,
+          exchange_id: orderExchange.id,
+          order_id: orderExchange.order_id,
+        }
+      }
+    )
+
+    refreshExchangeShippingWorkflow.runAsStep({
+      input: refreshArgs,
     })
 
     return new WorkflowResponse(previewOrderChangeStep(orderExchange.order_id))

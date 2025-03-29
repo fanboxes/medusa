@@ -1,16 +1,40 @@
 import { OpenAPIV3 } from "openapi-types"
-import { OasArea } from "../kinds/oas.js"
 import { CodeSample } from "../../types/index.js"
-import {
-  capitalize,
-  getFakeStrValue,
-  kebabToCamel,
-  wordsToCamel,
-  wordsToKebab,
-} from "utils"
-import { API_ROUTE_PARAM_REGEX } from "../../constants.js"
+import { getFakeStrValue } from "utils"
+import { getRouteExamplesOutputBasePath } from "../../utils/get-output-base-paths.js"
+import { RouteExamples } from "types"
+import { readFileSync } from "fs"
 
 type CodeSampleData = Omit<CodeSample, "source">
+
+const JS_SDK_PREFIX = {
+  store: `import Medusa from "@medusajs/js-sdk"
+
+let MEDUSA_BACKEND_URL = "http://localhost:9000"
+
+if (process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL) {
+  MEDUSA_BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
+}
+
+export const sdk = new Medusa({
+  baseUrl: MEDUSA_BACKEND_URL,
+  debug: process.env.NODE_ENV === "development",
+  publishableKey: process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
+})
+
+`,
+  admin: `import Medusa from "@medusajs/js-sdk"
+
+export const sdk = new Medusa({
+  baseUrl: import.meta.env.VITE_BACKEND_URL || "/",
+  debug: import.meta.env.DEV,
+  auth: {
+    type: "session",
+  },
+})
+
+`,
+}
 
 /**
  * This class generates examples for OAS.
@@ -18,166 +42,46 @@ type CodeSampleData = Omit<CodeSample, "source">
 class OasExamplesGenerator {
   static JSCLIENT_CODESAMPLE_DATA: CodeSampleData = {
     lang: "JavaScript",
-    label: "JS Client",
+    label: "JS SDK",
   }
   static CURL_CODESAMPLE_DATA: CodeSampleData = {
     lang: "Shell",
     label: "cURL",
   }
-  static MEDUSAREACT_CODESAMPLE_DATA: CodeSampleData = {
-    lang: "tsx",
-    label: "Medusa React",
+
+  private routeExamples: RouteExamples
+
+  constructor() {
+    // load route examples
+    this.routeExamples = JSON.parse(
+      readFileSync(getRouteExamplesOutputBasePath(), "utf8")
+    )
   }
 
-  /**
-   * Generate JS client example for an OAS operation.
-   *
-   * @param param0 - The operation's details
-   * @returns The JS client example.
-   */
-  generateJSClientExample({
-    area,
-    tag,
-    oasPath,
-    httpMethod,
-    isAdminAuthenticated,
-    isStoreAuthenticated,
-    parameters,
-    requestBody,
-    responseBody,
+  generateJsSdkExanmple({
+    method,
+    path,
   }: {
-    /**
-     * The area of the operation.
-     */
-    area: OasArea
-    /**
-     * The tag this operation belongs to.
-     */
-    tag: string
-    /**
-     * The API route's path.
-     */
-    oasPath: string
-    /**
-     * The http method of the operation.
-     */
-    httpMethod: string
-    /**
-     * Whether the operation requires admin authentication.
-     */
-    isAdminAuthenticated?: boolean
-    /**
-     * Whether the operation requires customer authentication.
-     */
-    isStoreAuthenticated?: boolean
-    /**
-     * The path parameters that can be sent in the request, if any.
-     */
-    parameters?: OpenAPIV3.ParameterObject[]
-    /**
-     * The request body's schema, if any.
-     */
-    requestBody?: OpenAPIV3.SchemaObject
-    /**
-     * The response body's schema, if any.
-     */
-    responseBody?: OpenAPIV3.SchemaObject
-  }) {
-    const exampleArr = [
-      `import Medusa from "@medusajs/medusa-js"`,
-      `const medusa = new Medusa({ baseUrl: MEDUSA_BACKEND_URL, maxRetries: 3 })`,
-    ]
+    method: string
+    path: string
+  }): string {
+    const normalizedMethod = method.toUpperCase()
+    // Try to match route by normalizing path parameters
+    // path parameters may have different names, so we normalize them
+    // to a generic `{param}` placeholder
+    const normalizedPath = path.replaceAll(/\{[^}]+\}/g, "{param}")
+    const targetRouteKey = `${normalizedMethod} ${normalizedPath}`
+    const matchingRouteKey = Object.keys(this.routeExamples).find((key) => {
+      const normalizedKey = key.replaceAll(/\{[^}]+\}/g, "{param}")
+      return normalizedKey === targetRouteKey
+    })
 
-    if (isAdminAuthenticated) {
-      exampleArr.push(`// must be previously logged in or use api token`)
-    } else if (isStoreAuthenticated) {
-      exampleArr.push(`// must be previously logged in.`)
+    if (!matchingRouteKey || !this.routeExamples[matchingRouteKey]["js-sdk"]) {
+      return ""
     }
 
-    // infer JS method name
-    // reset regex manually
-    API_ROUTE_PARAM_REGEX.lastIndex = 0
-    const isForSingleEntity = API_ROUTE_PARAM_REGEX.test(oasPath)
-    let jsMethod = `{methodName}`
-    if (isForSingleEntity) {
-      const splitOasPath = oasPath
-        .replaceAll(API_ROUTE_PARAM_REGEX, "")
-        .replace(/\/(batch)*$/, "")
-        .split("/")
-      const isBulk = oasPath.endsWith("/batch")
-      const isOperationOnDifferentEntity =
-        wordsToKebab(tag) !== splitOasPath[splitOasPath.length - 1]
-      if (isBulk || isOperationOnDifferentEntity) {
-        const endingEntityName = capitalize(
-          isBulk &&
-            API_ROUTE_PARAM_REGEX.test(splitOasPath[splitOasPath.length - 1])
-            ? wordsToCamel(tag)
-            : kebabToCamel(splitOasPath[splitOasPath.length - 1])
-        )
-
-        jsMethod =
-          httpMethod === "get"
-            ? `list${endingEntityName}`
-            : httpMethod === "post"
-              ? `add${endingEntityName}`
-              : `remove${endingEntityName}`
-      } else {
-        jsMethod =
-          httpMethod === "get"
-            ? "retrieve"
-            : httpMethod === "post"
-              ? "update"
-              : "delete"
-      }
-    } else {
-      jsMethod =
-        httpMethod === "get"
-          ? "list"
-          : httpMethod === "post"
-            ? "create"
-            : "delete"
-    }
-
-    // collect the path/request parameters to be passed to the request.
-    const parametersArr: string[] =
-      parameters?.map((parameter) => parameter.name) || []
-    const requestData = requestBody
-      ? this.getSchemaRequiredData(requestBody)
-      : {}
-
-    // assemble the method-call line of format `medusa.{admin?}.{methodName}({...parameters,} {requestBodyDataObj})`
-    exampleArr.push(
-      `medusa${area === "admin" ? `.${area}` : ""}.${wordsToCamel(
-        tag
-      )}.${jsMethod}(${parametersArr.join(", ")}${
-        Object.keys(requestData).length
-          ? `${parametersArr.length ? ", " : ""}${JSON.stringify(
-              requestData,
-              undefined,
-              2
-            )}`
-          : ""
-      })`
-    )
-
-    // assemble then lines with response data, if any
-    const responseData = responseBody
-      ? this.getSchemaRequiredData(responseBody)
-      : {}
-    const responseRequiredItems = Object.keys(responseData)
-    const responseRequiredItemsStr = responseRequiredItems.length
-      ? `{ ${responseRequiredItems.join(", ")} }`
-      : ""
-
-    exampleArr.push(
-      `.then((${responseRequiredItemsStr}) => {\n\t\t${
-        responseRequiredItemsStr.length
-          ? `console.log(${responseRequiredItemsStr})`
-          : "// Success"
-      }\n})`
-    )
-
-    return exampleArr.join("\n")
+    const area = path.startsWith("/store") ? "store" : "admin"
+    return `${JS_SDK_PREFIX[area]}${this.routeExamples[matchingRouteKey]["js-sdk"]}`
   }
 
   /**

@@ -11,6 +11,7 @@ import {
   MiddlewareRoute,
 } from "@medusajs/framework/http"
 import { isPresent, ProductStatus } from "@medusajs/framework/utils"
+import IndexEngineFeatureFlag from "../../../loaders/feature-flags/index-engine"
 import {
   filterByValidSalesChannels,
   normalizeDataForContext,
@@ -19,7 +20,6 @@ import {
 } from "../../utils/middlewares"
 import * as QueryConfig from "./query-config"
 import { StoreGetProductsParams } from "./validators"
-import IndexEngineFeatureFlag from "../../../loaders/feature-flags/index-engine"
 
 export const storeProductRoutesMiddlewares: MiddlewareRoute[] = [
   {
@@ -35,7 +35,14 @@ export const storeProductRoutesMiddlewares: MiddlewareRoute[] = [
       ),
       filterByValidSalesChannels(),
       (req, res, next) => {
-        if (featureFlagRouter.isFeatureEnabled(IndexEngineFeatureFlag.key)) {
+        const canUseIndex = !(
+          isPresent(req.filterableFields.tags) ||
+          isPresent(req.filterableFields.categories)
+        )
+        if (
+          featureFlagRouter.isFeatureEnabled(IndexEngineFeatureFlag.key) &&
+          canUseIndex
+        ) {
           return next()
         }
 

@@ -197,7 +197,9 @@ export const ClaimOutboundSection = ({
     setIsOpen("outbound-items", false)
   }
 
-  const onShippingOptionChange = async (selectedOptionId: string) => {
+  const onShippingOptionChange = async (
+    selectedOptionId: string | undefined
+  ) => {
     const outboundShippingMethods = preview.shipping_methods.filter((s) => {
       const action = s.actions?.find(
         (a) => a.action === "SHIPPING_ADD" && !a.return_id
@@ -220,14 +222,16 @@ export const ClaimOutboundSection = ({
 
     await Promise.all(promises)
 
-    await addOutboundShipping(
-      { shipping_option_id: selectedOptionId },
-      {
-        onError: (error) => {
-          toast.error(error.message)
-        },
-      }
-    )
+    if (selectedOptionId) {
+      await addOutboundShipping(
+        { shipping_option_id: selectedOptionId },
+        {
+          onError: (error) => {
+            toast.error(error.message)
+          },
+        }
+      )
+    }
   }
 
   const showLevelsWarning = useMemo(() => {
@@ -403,10 +407,11 @@ export const ClaimOutboundSection = ({
                   <Form.Item>
                     <Form.Control>
                       <Combobox
+                        allowClear
                         value={value ?? undefined}
                         onChange={(val) => {
                           onChange(val)
-                          val && onShippingOptionChange(val)
+                          onShippingOptionChange(val)
                         }}
                         {...field}
                         options={outboundShippingOptions.map((so) => ({

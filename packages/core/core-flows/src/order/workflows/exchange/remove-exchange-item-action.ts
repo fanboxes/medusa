@@ -25,6 +25,7 @@ import {
   throwIfOrderChangeIsNotActive,
 } from "../../utils/order-validation"
 import { removeExchangeShippingMethodWorkflow } from "./remove-exchange-shipping-method"
+import { refreshExchangeShippingWorkflow } from "./refresh-shipping"
 
 /**
  * The data to validate that an outbound item can be removed from an exchange.
@@ -52,14 +53,14 @@ export type RemoveExchangeItemActionValidationStepInput = {
  * This step validates that an outbound item can be removed from an exchange.
  * If the order or exchange is canceled, the item is not found,
  * or the order change is not active, the step will throw an error.
- * 
+ *
  * :::note
- * 
+ *
  * You can retrieve an order, order exchange, and order change details using [Query](https://docs.medusajs.com/learn/fundamentals/module-links/query),
  * or [useQueryGraphStep](https://docs.medusajs.com/resources/references/medusa-workflows/steps/useQueryGraphStep).
- * 
+ *
  * :::
- * 
+ *
  * @example
  * const data = removeExchangeItemActionValidationStep({
  *   order: {
@@ -79,7 +80,7 @@ export type RemoveExchangeItemActionValidationStepInput = {
  *     action_id: "orchact_123",
  *   }
  * })
- * 
+ *
  */
 export const removeExchangeItemActionValidationStep = createStep(
   "remove-item-exchange-action-validation",
@@ -111,10 +112,10 @@ export const removeItemExchangeActionWorkflowId = "remove-item-exchange-action"
 /**
  * This workflow removes an outbound or new item from an exchange. It's used by
  * the [Remove Outbound Item API Route](https://docs.medusajs.com/api/admin#exchanges_deleteexchangesidoutbounditemsaction_id).
- * 
+ *
  * You can use this workflow within your customizations or your own custom workflows, allowing you to remove an outbound or new item
  * from an exchange in your custom flow.
- * 
+ *
  * @example
  * const { result } = await removeItemExchangeActionWorkflow(container)
  * .run({
@@ -123,9 +124,9 @@ export const removeItemExchangeActionWorkflowId = "remove-item-exchange-action"
  *     action_id: "orchact_123",
  *   }
  * })
- * 
+ *
  * @summary
- * 
+ *
  * Remove an outbound or new item from an exchange.
  */
 export const removeItemExchangeActionWorkflow = createWorkflow(
@@ -224,6 +225,28 @@ export const removeItemExchangeActionWorkflow = createWorkflow(
           exchange_id: orderExchange.id!,
           action_id: actionIdToDelete,
         },
+      })
+    })
+
+    when(
+      { actionIdToDelete, orderExchange, orderChange },
+      ({ actionIdToDelete }) => {
+        return !actionIdToDelete
+      }
+    ).then(() => {
+      const refreshArgs = transform(
+        { orderChange, orderExchange },
+        ({ orderChange, orderExchange }) => {
+          return {
+            order_change_id: orderChange.id,
+            exchange_id: orderExchange.id,
+            order_id: orderExchange.order_id,
+          }
+        }
+      )
+
+      refreshExchangeShippingWorkflow.runAsStep({
+        input: refreshArgs,
       })
     })
 

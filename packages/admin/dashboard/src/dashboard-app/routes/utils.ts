@@ -126,7 +126,8 @@ const addRoute = (
   loader?: LoaderFunction,
   handle?: object,
   parallelRoutes?: RouteExtension[],
-  fullPath?: string
+  fullPath?: string,
+  componentPath?: string
 ) => {
   if (!pathSegments.length) {
     return
@@ -137,21 +138,19 @@ const addRoute = (
 
   if (!route) {
     route = createBranchRoute(currentSegment)
+    currentLevel.push(route)
   }
 
   const currentFullPath = fullPath
     ? `${fullPath}/${currentSegment}`
     : currentSegment
 
-  if (remainingSegments.length === 0) {
+  const isComponentSegment = currentFullPath === componentPath
+
+  if (isComponentSegment || remainingSegments.length === 0) {
     route.children ||= []
     const leaf = createLeafRoute(Component, loader)
 
-    /**
-     * The handle needs to be set on the wrapper route object,
-     * in order for it to be resolved correctly thoughout
-     * the branch.
-     */
     if (handle) {
       route.handle = handle
     }
@@ -163,7 +162,17 @@ const addRoute = (
     leaf.children = processParallelRoutes(parallelRoutes, currentFullPath)
     route.children.push(leaf)
 
-    currentLevel.push(route)
+    if (remainingSegments.length > 0) {
+      addRoute(
+        remainingSegments,
+        Component,
+        route.children,
+        undefined,
+        undefined,
+        undefined,
+        currentFullPath
+      )
+    }
   } else {
     route.children ||= []
     addRoute(
@@ -173,7 +182,8 @@ const addRoute = (
       loader,
       handle,
       parallelRoutes,
-      currentFullPath
+      currentFullPath,
+      componentPath
     )
   }
 }
@@ -195,7 +205,16 @@ export const createRouteMap = (
       ? path.replace(ignore, "").replace(/^\/+/, "")
       : path.replace(/^\/+/, "")
     const pathSegments = cleanedPath.split("/").filter(Boolean)
-    addRoute(pathSegments, Component, root, loader, handle, children)
+    addRoute(
+      pathSegments,
+      Component,
+      root,
+      loader,
+      handle,
+      children,
+      undefined,
+      path
+    )
   })
 
   return root

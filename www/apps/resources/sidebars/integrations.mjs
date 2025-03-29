@@ -75,6 +75,18 @@ export const integrationsSidebar = [
   },
   {
     type: "category",
+    title: "Migration",
+    initialOpen: true,
+    children: [
+      {
+        type: "link",
+        path: "/integrations/guides/magento",
+        title: "Magento",
+      },
+    ],
+  },
+  {
+    type: "category",
     title: "Notification",
     initialOpen: true,
     children: [
@@ -99,6 +111,18 @@ export const integrationsSidebar = [
         type: "ref",
         path: "/commerce-modules/payment/payment-provider/stripe",
         title: "Stripe",
+      },
+    ],
+  },
+  {
+    type: "category",
+    title: "Search",
+    initialOpen: true,
+    children: [
+      {
+        type: "ref",
+        path: "/integrations/guides/algolia",
+        title: "Algolia",
       },
     ],
   },

@@ -790,6 +790,11 @@ export interface OrderLineItemDTO extends OrderLineItemTotalsDTO {
   is_discountable: boolean
 
   /**
+   * Indicates whether the line item is a gift card.
+   */
+  is_giftcard: boolean
+
+  /**
    * Indicates whether the line item price is tax inclusive.
    */
   is_tax_inclusive: boolean

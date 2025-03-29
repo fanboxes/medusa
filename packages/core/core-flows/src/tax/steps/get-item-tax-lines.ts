@@ -12,7 +12,7 @@ import {
   TaxableShippingDTO,
   TaxCalculationContext,
 } from "@medusajs/framework/types"
-import { MedusaError, Modules } from "@medusajs/framework/utils"
+import { isDefined, MedusaError, Modules } from "@medusajs/framework/utils"
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
 
 /**
@@ -168,6 +168,11 @@ export const getItemTaxLinesStep = createStep(
       is_return: isReturn = false,
       shipping_address: shippingAddress,
     } = data
+
+    const filteredItems = items.filter(
+      (item) => !item.is_giftcard || !isDefined(item.is_giftcard)
+    ) as OrderLineItemDTO[] | CartLineItemDTO[]
+
     const taxService = container.resolve<ITaxModuleService>(Modules.TAX)
 
     const taxContext = normalizeTaxModuleContext(
@@ -188,7 +193,7 @@ export const getItemTaxLinesStep = createStep(
 
     if (items.length) {
       stepResponseData.lineItemTaxLines = (await taxService.getTaxLines(
-        normalizeLineItemsForTax(orderOrCart, items),
+        normalizeLineItemsForTax(orderOrCart, filteredItems),
         taxContext
       )) as ItemTaxLineDTO[]
     }

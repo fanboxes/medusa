@@ -13,31 +13,34 @@ export const metadata = {
 
 # {metadata.title}
 
+In this guide, you'll learn how to retrieve a product variant's inventory quantity in a storefront.
+
+## How to Retrieve a Product Variant's Inventory Quantity?
+
 To retrieve variants' inventory quantity using either the [List Products](!api!/store#products_getproducts) or [Retrieve Products](!api!/store#products_getproductsid) API routes:
 
-1. Pass the publishable API key in the header of the request. The retrieved inventory quantity is in the locations associated with the key's sales channels.
-2. Pass in the `fields` query parameter the value `+variants.inventory_quantity`.
+1. Pass in the `fields` query parameter the value `+variants.inventory_quantity`.
+    - When also retrieving prices, make sure to include `*variants.calculated_price` in the beginning of the list of fields. For example, `?fields=*variants.calculated_price,+variants.inventory_quantity`.
+2. Pass the publishable API key in the header of the request, which you always do when sending a request to the Store API. The inventory quantity is retrieved based on the stock locations of the sales channels that belong to the API key's scope.
+    - If you're using the JS SDK, the publishable API key is automatically passed in the header of the requests as explained in the [Publishable API Keys](../../publishable-api-keys/page.mdx) guide.
 
 For example:
 
+<Note type="warning" title="Important">
+
+If you're also passing `*variants.calculated_price` in `fields` to get the product variants' prices, make sure to include it in the beginning of the list of fields. For example, `?fields=*variants.calculated_price,+variants.inventory_quantity`.
+
+</Note>
+
 export const fetchHighlights = [
   ["2", "fields", "Pass `+variants.inventory_quantity` in the fields to retrieve."],
-  ["8", "process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY", "Pass the Publishable API key to retrieve the inventory quantity based on the associated sales channels' stock locations."], 
-  ["14", "isInStock", "Consider the variant in stock either if its `manage_inventory` property is disabled, or the `inventory_quantity` is greater than `0`."]
+  ["6", "isInStock", "Consider the variant in stock either if its `manage_inventory` property is disabled, or the `inventory_quantity` is greater than `0`."]
 ]
 
 ```ts highlights={fetchHighlights}
-const queryParams = new URLSearchParams({
+sdk.store.product.retrieve(id, {
   fields: `*variants.calculated_price,+variants.inventory_quantity`,
 })
-
-fetch(`http://localhost:9000/store/products/${id}?${queryParams.toString()}`, {
-  credentials: "include",
-  headers: {
-    "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-  },
-})
-.then((res) => res.json())
 .then(({ product }) => {
   product.variants?.forEach((variant) => {
     const isInStock = variant.manage_inventory === false || 
@@ -48,11 +51,7 @@ fetch(`http://localhost:9000/store/products/${id}?${queryParams.toString()}`, {
 })
 ```
 
-<Note type="warning" title="Important">
-
-If you're also passing `*variants.calculated_price` in `fields` to get the product variants' prices, make sure to include it in the beginning of the list of fields. For example, `?fields=*variants.calculated_price,+variants.inventory_quantity`.
-
-</Note>
+In this example, you retrieve the product variants' inventory quantity by passing `+variants.inventory_quantity` in the `fields` query parameter. This will add a new `inventory_quantity` field to each variant object.
 
 ### When is a Variant in Stock?
 
@@ -65,11 +64,20 @@ A variant is in stock if:
 
 ## Full React Example
 
+For example, to show on a product's page whether a variant is in stock in a React-based storefront:
+
+<Note title="Tip">
+
+Learn how to install and configure the JS SDK in the [JS SDK documentation](../../../js-sdk/page.mdx).
+
+</Note>
+
 export const reactHighlights = [
-  ["23", "fields", "Pass `+variants.inventory_quantity` in the fields to retrieve."],
-  ["29", "process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY", "Pass the Publishable API key to retrieve the inventory quantity based on the associated sales channels' stock locations."], 
-  ["53", "isInStock", "Consider the selected variant in stock either if its `manage_inventory` property is disabled, or the `inventory_quantity` is greater than `0`."],
-  ["94", "isInStock", "Show whether the selected variant is in stock."]
+  ["23", "retrieve", "Retrieve the product with the inventory quantity."],
+  ["24", "fields", "Pass `+variants.inventory_quantity` in the fields to retrieve."],
+  ["32", "selectedVariant", "Find the selected variant."],
+  ["46", "isInStock", "Consider the selected variant in stock either if its `manage_inventory` property is disabled, or the `inventory_quantity` is greater than `0`."],
+  ["88", "isInStock", "Show whether the selected variant is in stock."]
 ]
 
 ```tsx title="React Storefront" highlights={reactHighlights}
@@ -77,6 +85,7 @@ export const reactHighlights = [
 
 import { useEffect, useMemo, useState } from "react"
 import { HttpTypes } from "@medusajs/types"
+import { sdk } from "@/lib/sdk"
 
 type Props = {
   id: string
@@ -94,17 +103,9 @@ export default function Product({ id }: Props) {
       return 
     }
 
-    const queryParams = new URLSearchParams({
-      fields: `+variants.inventory_quantity`,
+    sdk.store.product.retrieve(id, {
+      fields: `*variants.calculated_price,+variants.inventory_quantity`,
     })
-
-    fetch(`http://localhost:9000/store/products/${id}?${queryParams.toString()}`, {
-      credentials: "include",
-      headers: {
-        "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-      },
-    })
-    .then((res) => res.json())
     .then(({ product: dataProduct }) => {
       setProduct(dataProduct)
       setLoading(false)
@@ -130,7 +131,8 @@ export default function Product({ id }: Props) {
       return undefined
     }
 
-    return selectedVariant.manage_inventory === false || selectedVariant.inventory_quantity > 0
+    return selectedVariant.manage_inventory === false || 
+      (selectedVariant.inventory_quantity || 0) > 0
   }, [selectedVariant])
 
   return (
@@ -179,4 +181,12 @@ export default function Product({ id }: Props) {
 }
 ```
 
-In this example, you show whether the selected variant is in or out of stock.
+In this example, you retrieve the product variants' inventory quantity by passing `+variants.inventory_quantity` in the `fields` query parameter. This will add a new `inventory_quantity` field to each variant object.
+
+Then, you find the selected variant and show whether it's in stock. The variant is in stock if its `manage_inventory` property is disabled, or the `inventory_quantity` is greater than `0`.
+
+<Note title="Tip">
+
+Refer to the [Select Product Variants](../variants/page.mdx) guide to learn more about selecting a product variant.
+
+</Note>

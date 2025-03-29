@@ -41,11 +41,32 @@ export type PaginatedResponse<T> = {
 } & T
 
 export type BatchResponse<T> = {
+  /**
+   * The items that were created.
+   */
   created: T[]
+  /**
+   * The items that were updated.
+   */
   updated: T[]
+  /**
+   * Details of the items that were deleted.
+   */
   deleted: {
+    /**
+     * The IDs of the items that were deleted.
+     */
     ids: string[]
+    /**
+     * The type of the items that were deleted.
+     * 
+     * @example
+     * "product"
+     */
     object: string
+    /**
+     * Whether the items were deleted successfully.
+     */
     deleted: boolean
   }
 }

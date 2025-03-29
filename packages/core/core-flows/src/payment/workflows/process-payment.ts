@@ -16,10 +16,10 @@ export const processPaymentWorkflowId = "process-payment-workflow"
  * This workflow processes a payment to either complete its associated cart,
  * capture the payment, or authorize the payment session. It's used when a
  * [Webhook Event is received](https://docs.medusajs.com/resources/commerce-modules/payment/webhook-events).
- * 
+ *
  * You can use this workflow within your own customizations or custom workflows, allowing you
  * to process a payment in your custom flows based on a webhook action.
- * 
+ *
  * @example
  * const { result } = await processPaymentWorkflow(container)
  * .run({
@@ -31,9 +31,9 @@ export const processPaymentWorkflowId = "process-payment-workflow"
  *     }
  *   }
  * })
- * 
+ *
  * @summary
- * 
+ *
  * Process a payment based on a webhook event.
  */
 export const processPaymentWorkflow = createWorkflow(
@@ -66,20 +66,6 @@ export const processPaymentWorkflow = createWorkflow(
       name: "cart-payment-query",
     })
 
-    when({ cartPaymentCollection }, ({ cartPaymentCollection }) => {
-      return !!cartPaymentCollection.data.length
-    }).then(() => {
-      completeCartWorkflow
-        .runAsStep({
-          input: {
-            id: cartPaymentCollection.data[0].cart_id,
-          },
-        })
-        .config({
-          continueOnPermanentFailure: true, // Continue payment processing even if cart completion fails
-        })
-    })
-
     when({ input, paymentData }, ({ input, paymentData }) => {
       return (
         input.action === PaymentActions.SUCCESSFUL && !!paymentData.data.length
@@ -109,6 +95,20 @@ export const processPaymentWorkflow = createWorkflow(
         id: input.data!.session_id,
         context: {},
       })
+    })
+
+    when({ cartPaymentCollection }, ({ cartPaymentCollection }) => {
+      return !!cartPaymentCollection.data.length
+    }).then(() => {
+      completeCartWorkflow
+        .runAsStep({
+          input: {
+            id: cartPaymentCollection.data[0].cart_id,
+          },
+        })
+        .config({
+          continueOnPermanentFailure: true, // Continue payment processing even if cart completion fails
+        })
     })
   }
 )

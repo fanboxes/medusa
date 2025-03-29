@@ -1,4 +1,5 @@
 import {
+  AdditionalData,
   AddToCartWorkflowInputDTO,
   ConfirmVariantInventoryWorkflowInputDTO,
 } from "@medusajs/framework/types"
@@ -33,6 +34,7 @@ import {
 } from "../utils/prepare-line-item-data"
 import { confirmVariantInventoryWorkflow } from "./confirm-variant-inventory"
 import { refreshCartItemsWorkflow } from "./refresh-cart-items"
+import { pricingContextResult } from "../utils/schemas"
 
 const cartFields = ["completed_at"].concat(cartFieldsForPricingContext)
 
@@ -71,7 +73,7 @@ export const addToCartWorkflowId = "add-to-cart"
  */
 export const addToCartWorkflow = createWorkflow(
   addToCartWorkflowId,
-  (input: WorkflowData<AddToCartWorkflowInputDTO>) => {
+  (input: WorkflowData<AddToCartWorkflowInputDTO & AdditionalData>) => {
     const cartQuery = useQueryGraphStep({
       entity: "cart",
       filters: { id: input.cart_id },
@@ -93,6 +95,35 @@ export const addToCartWorkflow = createWorkflow(
       return (data.input.items ?? []).map((i) => i.variant_id).filter(Boolean)
     })
 
+    const setPricingContext = createHook(
+      "setPricingContext",
+      {
+        cart,
+        variantIds,
+        items: input.items,
+        additional_data: input.additional_data,
+      },
+      {
+        resultValidator: pricingContextResult,
+      }
+    )
+
+    const setPricingContextResult = setPricingContext.getResult()
+    const pricingContext = transform(
+      { cart, setPricingContextResult },
+      (data) => {
+        return {
+          ...data.cart,
+          ...(data.setPricingContextResult ? data.setPricingContextResult : {}),
+          currency_code: data.cart.currency_code,
+          region_id: data.cart.region_id,
+          region: data.cart.region,
+          customer_id: data.cart.customer_id,
+          customer: data.cart.customer,
+        }
+      }
+    )
+
     const variants = when({ variantIds }, ({ variantIds }) => {
       return !!variantIds.length
     }).then(() => {
@@ -102,7 +133,7 @@ export const addToCartWorkflow = createWorkflow(
         variables: {
           id: variantIds,
           calculated_price: {
-            context: cart,
+            context: pricingContext,
           },
         },
       })
@@ -201,7 +232,7 @@ export const addToCartWorkflow = createWorkflow(
     })
 
     return new WorkflowResponse(void 0, {
-      hooks: [validate],
+      hooks: [validate, setPricingContext] as const,
     })
   }
 )

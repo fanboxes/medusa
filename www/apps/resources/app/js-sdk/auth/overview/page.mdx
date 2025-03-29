@@ -1,0 +1,414 @@
+import { Table, CodeTabs, CodeTab } from "docs-ui"
+
+export const metadata = {
+  title: `Authentication in JS SDK`,
+}
+
+# {metadata.title}
+
+In this guide, you'll learn about the default authentication setup when using the JS SDK, how to customize it, and how to send authenticated requests to Medusa's APIs.
+
+## Default Authentication Settings in JS SDK
+
+The JS SDK facilitates authentication by storing and managing the necessary authorization headers or sessions for you.
+
+There are three types of authentication:
+
+<Table>
+  <Table.Header>
+    <Table.Row>
+      <Table.HeaderCell>
+        Method
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Description
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        When to use
+      </Table.HeaderCell>
+    </Table.Row>
+  </Table.Header>
+  <Table.Body>
+    <Table.Row>
+      <Table.Cell>
+        JWT token (default)
+      </Table.Cell>
+      <Table.Cell>
+        When you log in a user, the JS SDK stores the JWT for you and automatically includes it in the headers of all requests to the Medusa API. This means you don't have to manually set the authorization header for each request. When the user logs out, the SDK clears the stored JWT.
+      </Table.Cell>
+      <Table.Cell>
+        - You need stateless authentication. For example, you're building a mobile storefront with React Native.
+        - Keep in mind: when logging out, the JS SDK clears the token from storage. However, if the user still has access to the token, they can still send authenticated requests.
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        Cookie session
+      </Table.Cell>
+      <Table.Cell>
+        When you log in a user, the JS SDK stores the session cookie for you and automatically includes it in the headers of all requests to the Medusa API. This means you don't have to manually set the authorization header for each request. When the user logs out, the SDK destroys the session cookie using Medusa's API.
+      </Table.Cell>
+      <Table.Cell>
+        - You need stateful authentication. For example, you're building a web storefront with Next.js or customizations in Medusa Admin.
+        - You want to ensure the session is revoked when the user logs out.
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        Secret API Key
+      </Table.Cell>
+      <Table.Cell>
+        Only available for admin users. You pass the API key in the JS SDK configurations, and it's always passed in the headers of all requests to the Medusa API.
+      </Table.Cell>
+      <Table.Cell>
+        - You're authenticating the admin user.
+        - Keep in mind: the API key must be stored securely and not exposed to the client-side code.
+      </Table.Cell>
+    </Table.Row>
+  </Table.Body>
+</Table>
+
+---
+
+## JS SDK Authentication Configurations
+
+The JS SDK provides a set of configurations to customize the authentication method and storage. You can set these configurations when initializing the SDK.
+
+<Note title="Tip">
+
+For a full list of JS SDK configurations and their possible values, check out the [JS SDK Overview](../../page.mdx#js-sdk-configurations) documentation.
+
+</Note>
+
+### Authentication Type
+
+By default, the JS SDK uses JWT token (`jwt`) authentication. You can change the authentication method or type by setting the `auth.type` configuration to `session`.
+
+For example:
+
+```ts
+import Medusa from "@medusajs/js-sdk"
+
+export const sdk = new Medusa({
+  // ...
+  auth: {
+    type: "session",
+  },
+})
+```
+
+To use a secret API key instead, pass it in the `apiKey` configuration instead:
+
+```ts
+import Medusa from "@medusajs/js-sdk"
+
+export const sdk = new Medusa({
+  // ...
+  apiKey: "your-api-key",
+})
+```
+
+The provided API key will be passed in the headers of all requests to the Medusa API.
+
+### Change JWT Authentication Storage
+
+By default, the JS SDK stores the JWT token in the `localStorage` under the `medusa_auth_token` key.
+
+Some environments or use cases may require a different storage method or `localStorage` may not be available. For example, if you're building a mobile app with React Native, you might want to use `AsyncStorage` instead of `localStorage`.
+
+You can change the storage method by setting the `auth.jwtTokenStorageMethod` configuration to one of the following values:
+
+<Table>
+  <Table.Header>
+    <Table.Row>
+      <Table.HeaderCell>
+        Value
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Description
+      </Table.HeaderCell>
+    </Table.Row>
+  </Table.Header>
+  <Table.Body>
+    <Table.Row>
+      <Table.Cell>
+        `local` (default)
+      </Table.Cell>
+      <Table.Cell>
+        Uses `localStorage` to store the JWT token.
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        `session`
+      </Table.Cell>
+      <Table.Cell>
+        Uses `sessionStorage` to store the JWT token. This means the token will be cleared when the user closes the browser tab or window.
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        `memory`
+      </Table.Cell>
+      <Table.Cell>
+        Uses a memory storage method. This means the token will be cleared when the user refreshes the page or closes the browser tab or window. This is also useful when using the JS SDK in a server-side environment.
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        `custom`
+      </Table.Cell>
+      <Table.Cell>
+        Uses a custom storage method. This means you can provide your own implementation of the storage method. For example, you can use `AsyncStorage` in React Native or any other storage method that fits your use case.
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        `nostore`
+      </Table.Cell>
+      <Table.Cell>
+        Does not store the JWT token. This means you have to manually set the authorization header for each request. This is useful when you want to use a different authentication method or when you're using the JS SDK in a server-side environment.
+      </Table.Cell>
+    </Table.Row>
+  </Table.Body>
+</Table>
+
+#### Custom Authentication Storage in JS SDK
+
+To use a custom storage method, you need to set the `auth.jwtTokenStorageMethod` configuration to `custom` and provide your own implementation of the storage method in the `auth.storage` configuration.
+
+The object or class passed to `auth.storage` configuration must have the following methods:
+
+- `setItem`: A function that accepts a key and value to store the JWT token.
+- `getItem`: A function that accepts a key to retrieve the JWT token.
+- `removeItem`: A function that accepts a key to remove the JWT token from storage.
+
+For example, to use `AsyncStorage` in React Native:
+
+```ts
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import Medusa from "@medusajs/js-sdk"
+
+let MEDUSA_BACKEND_URL = "http://localhost:9000"
+
+if (process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL) {
+  MEDUSA_BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
+}
+
+export const sdk = new Medusa({
+  baseUrl: MEDUSA_BACKEND_URL,
+  debug: process.env.NODE_ENV === "development",
+  publishableKey: process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
+  auth: {
+    type: "jwt",
+    jwtTokenStorageMethod: "custom",
+    storge: AsyncStorage,
+  },
+})
+```
+
+In this example, you specify the `jwtTokenStorageMethod` as `custom` and set the `storage` configuration to `AsyncStorage`. This way, the JS SDK will use `AsyncStorage` to store and manage the JWT token instead of `localStorage`.
+
+### Change Cookie Session Credentials Options
+
+By default, if you set the `auth.type` configuration in the JS SDK to `session`, the JS SDK will pass the `credentials: include` option in the underlying [fetch requests](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#including_credentials).
+
+However, some platforms or environments may not support passing this option. For example, if you're using the JS SDK in a server-side environment or a mobile app, you might want to set the `credentials` option to `same-origin` or `omit`.
+
+You can change the `credentials` option by setting the `auth.fetchCredentials` configuration to one of the following values:
+
+<Table>
+  <Table.Header>
+    <Table.Row>
+      <Table.HeaderCell>
+        Value
+      </Table.HeaderCell>
+      <Table.HeaderCell>
+        Description
+      </Table.HeaderCell>
+    </Table.Row>
+  </Table.Header>
+  <Table.Body>
+    <Table.Row>
+      <Table.Cell>
+        `include` (default)
+      </Table.Cell>
+      <Table.Cell>
+        Passes the `credentials: include` option in the fetch requests. This means the JS SDK will include cookies and authorization headers in the requests to the Medusa API.
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        `same-origin`
+      </Table.Cell>
+      <Table.Cell>
+        Passes the `credentials: same-origin` option in the fetch requests. This means the JS SDK will include cookies and authorization headers in the requests to the Medusa API only if the request is made to the same origin as the current page.
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        `omit`
+      </Table.Cell>
+      <Table.Cell>
+        Passes the `credentials: omit` option in the fetch requests. This means the JS SDK will not include cookies or authorization headers in the requests to the Medusa API.
+      </Table.Cell>
+    </Table.Row>
+  </Table.Body>
+</Table>
+
+For example:
+
+```ts
+import Medusa from "@medusajs/js-sdk"
+
+export const sdk = new Medusa({
+  // ...
+  auth: {
+    type: "session",
+    fetchCredentials: "same-origin",
+  },
+})
+```
+
+In this example, you set the `fetchCredentials` configuration to `same-origin`, which means the JS SDK will include cookies and authorization headers in the requests to the Medusa API only if the request is made to the same origin as the current page.
+
+---
+
+## Sending Authenticated Requests in JS SDK
+
+<Note>
+
+If you're using an API key for authentication, you don't need to log in the user.
+
+</Note>
+
+The JS SDK has an `auth.login` method that allows you to login admin users, customers, or any [actor type](../../../commerce-modules/auth/auth-identity-and-actor-types/page.mdx) with any [auth provider](../../../commerce-modules/auth/auth-providers/page.mdx).
+
+Not only does this method log in the user, but it also stores the JWT token or session cookie for you and automatically includes it in the headers of all requests to the Medusa API. This means you don't have to manually set the authorization header for each request.
+
+For example:
+
+<CodeTabs group="auth-actor-type">
+  <CodeTab label="Admin User" value="admin">
+
+```ts
+sdk.auth.login("user", "emailpass", {
+  email,
+  password,
+})
+.then((data) => {
+  if (typeof data === "object" && data.location){
+    // authentication requires more actions
+  }
+  // user is authenticated
+})
+.catch((error) => {
+  // authentication failed
+})
+```
+
+  </CodeTab>
+  <CodeTab label="Customer" value="customer">
+
+```ts
+sdk.auth.login("customer", "emailpass", {
+  email,
+  password,
+})
+.then((data) => {
+  if (typeof data === "object" && data.location){
+    // authentication requires more actions
+  }
+  // customer is authenticated
+})
+.catch((error) => {
+  // authentication failed
+})
+```
+
+  </CodeTab>
+  <CodeTab label="Custom" value="custom">
+
+```ts
+sdk.auth.login("manager", "emailpass", {
+  email,
+  password,
+})
+.then((data) => {
+  if (typeof data === "object" && data.location){
+    // authentication requires more actions
+  }
+  // manager is authenticated
+})
+.catch((error) => {
+  // authentication failed
+})
+```
+
+  </CodeTab>
+</CodeTabs>
+
+In this example, you call the `sdk.auth.login` method passing it the actor type (for example, `user`), the provider (`emailpass`), and the credentials.
+
+If the authentication is successful, there are two types of returned data:
+
+- An object with a `location` property: This means the authentication requires more actions, which happens when using third-party authentication providers, such as [Google](../../../commerce-modules/auth/auth-providers/google/page.mdx). In that case, you need to redirect the customer to the location to complete their authentication.
+    - Refer to the [Third-Party Login in Storefront](../../../storefront-development/customers/third-party-login/page.mdx) guide for an example implementation.
+- A string: This means the authentication was successful, and the user is logged in. The JS SDK automatically stores the JWT token or session cookie for you and includes it in the headers of all requests to the Medusa API. All requests you send afterwards will be authenticated with the stored token or session cookie.
+
+If the authentication fails, the `catch` block will be executed, and you can handle the error accordingly.
+
+You can learn more about this method in the [auth.login reference](/references/js-sdk/auth/login).
+
+### Manually Set JWT Token
+
+If you need to set the JWT token manually, you can use the `sdk.client.setToken` method. All subsequent requests will be authenticated with the provided token.
+
+For example:
+
+```ts
+sdk.client.setToken("your-jwt-token")
+
+// all requests sent after this will be authenticated with the provided token
+```
+
+You can also clear the token manually as explained in the [Manually Clearing JWT Token](#manually-clearing-jwt-token) section.
+
+---
+
+## Logout in JS SDK
+
+<Note>
+
+If you're using an API key for authentication, you can't log out the user. You'll have to unset the API key in the JS SDK configurations.
+
+</Note>
+
+The JS SDK has an `auth.logout` method that allows you to log out the currently authenticated user.
+
+If the JS SDK's authentication type is `jwt`, the method will only clear the stored JWT token from the local storage. If the authentication type is `session`, the method will destroy the session cookie using Medusa's `/auth/session` API route.
+
+Any request sent after logging out will not be authenticated, and you will need to log in again to authenticate the user.
+
+For example:
+
+```ts
+sdk.auth.logout()
+.then(() => {
+  // user is logged out
+})
+```
+
+You can learn more about this method in the [auth.logout reference](/references/js-sdk/auth/logout).
+
+### Manually Clearing JWT Token
+
+If you need to clear the JWT token manually, you can use the `sdk.client.clearToken` method. This will remove the token from the local storage and all subsequent requests will not be authenticated.
+
+For example:
+
+```ts
+sdk.client.clearToken()
+
+// all requests sent after this will not be authenticated
+```

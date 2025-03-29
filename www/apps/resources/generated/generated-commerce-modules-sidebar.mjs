@@ -1066,19 +1066,11 @@ const generatedgeneratedCommerceModulesSidebarSidebar = {
           "isPathHref": true,
           "type": "category",
           "title": "Server Guides",
-          "autogenerate_tags": "server+cart",
+          "autogenerate_tags": "cart+server",
           "autogenerate_as_ref": true,
           "sort_sidebar": "alphabetize",
           "description": "Learn how to use the Cart Module in your customizations on the Medusa application server.",
           "children": [
-            {
-              "loaded": true,
-              "isPathHref": true,
-              "type": "ref",
-              "title": "Abandoned Cart Notification",
-              "path": "https://docs.medusajs.com/resources/how-to-tutorials/tutorials/abandoned-cart",
-              "children": []
-            },
             {
               "loaded": true,
               "isPathHref": true,
@@ -1101,6 +1093,14 @@ const generatedgeneratedCommerceModulesSidebarSidebar = {
               "type": "ref",
               "title": "Implement Quote Management",
               "path": "https://docs.medusajs.com/resources/examples/guides/quote-management",
+              "children": []
+            },
+            {
+              "loaded": true,
+              "isPathHref": true,
+              "type": "ref",
+              "title": "Send Abandoned Cart Notification",
+              "path": "https://docs.medusajs.com/resources/how-to-tutorials/tutorials/abandoned-cart",
               "children": []
             }
           ]
@@ -11120,24 +11120,8 @@ const generatedgeneratedCommerceModulesSidebarSidebar = {
               "loaded": true,
               "isPathHref": true,
               "type": "ref",
-              "title": "List Product Categories in Storefront",
-              "path": "https://docs.medusajs.com/resources/storefront-development/products/categories/list",
-              "children": []
-            },
-            {
-              "loaded": true,
-              "isPathHref": true,
-              "type": "ref",
               "title": "List Product Collections in Storefront",
               "path": "https://docs.medusajs.com/resources/storefront-development/products/collections/list",
-              "children": []
-            },
-            {
-              "loaded": true,
-              "isPathHref": true,
-              "type": "ref",
-              "title": "List Products in Storefront",
-              "path": "https://docs.medusajs.com/resources/storefront-development/products/list",
               "children": []
             },
             {
@@ -11210,6 +11194,22 @@ const generatedgeneratedCommerceModulesSidebarSidebar = {
               "type": "ref",
               "title": "Select Product Variants in Storefront",
               "path": "https://docs.medusajs.com/resources/storefront-development/products/variants",
+              "children": []
+            },
+            {
+              "loaded": true,
+              "isPathHref": true,
+              "type": "ref",
+              "title": "Show Product Categories in Storefront",
+              "path": "https://docs.medusajs.com/resources/storefront-development/products/categories/list",
+              "children": []
+            },
+            {
+              "loaded": true,
+              "isPathHref": true,
+              "type": "ref",
+              "title": "Show Products in Storefront",
+              "path": "https://docs.medusajs.com/resources/storefront-development/products/list",
               "children": []
             }
           ]
@@ -13615,7 +13615,7 @@ const generatedgeneratedCommerceModulesSidebarSidebar = {
               "loaded": true,
               "isPathHref": true,
               "type": "ref",
-              "title": "Region Context in Storefront",
+              "title": "Region React Context in Storefront",
               "path": "https://docs.medusajs.com/resources/storefront-development/regions/context",
               "children": []
             },
@@ -13623,7 +13623,7 @@ const generatedgeneratedCommerceModulesSidebarSidebar = {
               "loaded": true,
               "isPathHref": true,
               "type": "ref",
-              "title": "Store and Retrieve Region",
+              "title": "Store Selected Region in Storefront",
               "path": "https://docs.medusajs.com/resources/storefront-development/regions/store-retrieve-region",
               "children": []
             }

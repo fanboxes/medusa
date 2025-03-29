@@ -13,77 +13,54 @@ export const metadata = {
 
 # {metadata.title}
 
-Customers reset their password if they forget it.
+In this guide, you'll learn how to implement the flow to reset a customer's password in your storefront.
 
-To implement the flow to reset a customer's password, you need two pages in your storefront:
+## Reset Password Flow in Storefront
 
-1. A page to request the password reset.
-2. A page that prompts the customer to enter a new password.
+Customers need to reset their password if they forget it. To implement the flow to reset a customer's password, you need two pages in your storefront:  
 
----
-
-## 1. Request Reset Password Page
-
-The request password reset page prompts the customer to enter their email. Then, it sends a request to the [Request Reset Password Token API route](!api!/store#auth_postactor_typeauth_providerresetpassword) to send the customer an email with the URL to reset their password.
+1. [Request Reset Password Page](#1-request-reset-password-page): A page to request the password reset.
+    - When the customer requests to reset their password, they would receive an email (or other notification) with a URL to the Reset Password Page.
+2. [Reset Password Page](#2-reset-password-page): A page that prompts the customer to enter a new password.
 
 <Prerequisites
   items={[
     {
-      text: "While it's not required, it's recommended to implement the subscriber that sends the customer an email with the URL to reset their password.",
+      text: "To send the customer an email (or other notification) with the URL to reset their password, you must implement the subscriber that handles the notification.",
       link: "/commerce-modules/auth/reset-password"
     }
   ]}
 />
 
-For example:
+---
+
+## 1. Request Reset Password Page
+
+The request password reset page prompts the customer to enter their email. Then, it sends a request to the [Request Reset Password Token API route](!api!/store#auth_postactor_typeauth_providerresetpassword) to request resetting the password.
+
+This API route will then handle sending an email or another type of notification, if you handle it as explained in the [Reset Password Guide](../../../commerce-modules/auth/reset-password/page.mdx).
+
+For example, you can implement the following functionality in your storefront to request resetting the password:
+
+<Note title="Tip">
+
+Learn how to install and configure the JS SDK in the [JS SDK documentation](../../../js-sdk/page.mdx).
+
+</Note>
 
 <CodeTabs group="store-request">
-  <CodeTab label="Fetch API" value="fetch">
-
-export const fetchHighlights = [
-  ["5", "email", "Assuming the email is retrieved from an input field."],
-  ["10", "fetch", "Send a request to send the token to the customer."],
-  ["17", "identifier", "Pass the email in the `identifier` request body parameter."]
-]
-
-  ```ts highlights={fetchHighlights}
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement> // or other form event
-  ) => {
-    e.preventDefault()
-    if (!email) {
-      alert("Email is required")
-      return
-    }
-
-    fetch(`http://localhost:9000/auth/customer/emailpass/reset-password`, {
-      credentials: "include",
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        identifier: email,
-      }),
-    })
-    .then(() => {
-      alert("If an account exists with the specified email, it'll receive instructions to reset the password.")
-    })
-  }
-  ```
-
-  </CodeTab>
   <CodeTab label="React" value="react">
 
 export const highlights = [
-  ["19", "fetch", "Send a request to send the token to the customer."],
-  ["26", "identifier", "Pass the email in the `identifier` request body parameter."]
+  ["20", "resetPassword", "Request resetting the password."],
+  ["21", "identifier", "Pass the email in the `identifier` request body parameter."]
 ]
 
   ```tsx highlights={highlights}
   "use client" // include with Next.js 13+
 
   import { useState } from "react"
+  import { sdk } from "@/lib/sdk"
 
   export default function RequestResetPassword() {
     const [loading, setLoading] = useState(false)
@@ -99,18 +76,16 @@ export const highlights = [
       }
       setLoading(true)
 
-      fetch(`http://localhost:9000/auth/customer/emailpass/reset-password`, {
-        credentials: "include",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          identifier: email,
-        }),
+      sdk.auth.resetPassword("customer", "emailpass", {
+        identifier: email,
       })
       .then(() => {
         alert("If an account exists with the specified email, it'll receive instructions to reset the password.")
+      })
+      .catch((error) => {
+        alert(error.message)
+      })
+      .finally(() => {
         setLoading(false)
       })
     }
@@ -133,15 +108,46 @@ export const highlights = [
   ```
 
   </CodeTab>
+  <CodeTab label="JS SDK" value="js-sdk">
+
+export const fetchHighlights = [
+  ["5", "email", "Assuming the email is retrieved from an input field."],
+  ["10", "resetPassword", "Request resetting the password."],
+  ["11", "identifier", "Pass the email in the `identifier` request body parameter."]
+]
+
+  ```ts highlights={fetchHighlights}
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement> // or other form event
+  ) => {
+    e.preventDefault()
+    if (!email) {
+      alert("Email is required")
+      return
+    }
+
+    sdk.auth.resetPassword("customer", "emailpass", {
+      identifier: email,
+    })
+    .then(() => {
+      alert("If an account exists with the specified email, it'll receive instructions to reset the password.")
+    })
+    .catch((error) => {
+      alert(error.message)
+    })
+  }
+  ```
+
+  </CodeTab>
 </CodeTabs>
 
-In this example, you send a request to `http://localhost:9000/auth/customer/emailpass/reset-password` API route when the form that has the email field is submitted.
+In this example, you send a request to the [Request Reset Password Token API route](!api!/store#auth_postactor_typeauth_providerresetpassword) when the form that has the email field is submitted.
 
 In the request body, you pass an `identifier` parameter, which is the customer's email.
 
 <Note title="Tip">
 
-The Request Reset Password Token API route returns a successful response always, even if the customer's email doesn't exist. However, the customer only receives an email if they have an account with that email.
+The [Request Reset Password Token API route](!api!/store#auth_postactor_typeauth_providerresetpassword) returns a successful response always, even if the customer's email doesn't exist. This ensures that customer emails that don't exist are not exposed.
 
 </Note>
 
@@ -149,7 +155,11 @@ The Request Reset Password Token API route returns a successful response always,
 
 ## 2. Reset Password Page
 
-The reset password page is the URL used in the email sent to the customer. It receives a `token` and `email` query parameters, prompts the customer for a new password, and sends a request to the [Reset Password API route](!api!/store#auth_postactor_typeauth_providerupdate).
+Once the customer requests to reset their password, you should handle sending them a notification, such as an email, as explained in the [Reset Password Guide](../../../commerce-modules/auth/reset-password/page.mdx).
+
+The notification should include a URL in your storefront that allows the customer to update their password. In this step, you'll implement this page.
+
+The reset password page should receive a `token` and `email` query parameters. Then, it prompts the customer for a new password, and sends a request to the [Reset Password API route](!api!/store#auth_postactor_typeauth_providerupdate) to update the password.
 
 <Note>
 
@@ -160,65 +170,20 @@ If you followed [this guide](../../../commerce-modules/auth/reset-password/page.
 For example:
 
 <CodeTabs group="store-request">
-  <CodeTab label="Fetch API" value="fetch">
-
-export const resetPasswordFetchHighlights = [
-  ["2", "token", "Receive the token from a query parameter."],
-  ["3", "email", "Receive the email from a query parameter."],
-  ["9", "password", "Assuming the password is retrieved from an input field."],
-  ["14", "fetch", "Send a request to update the customer's password."],
-  ["19", "token", "Pass the token in the Authorization header."],
-  ["21", "body", "Pass the email and password in the request body."]
-]
-
-  ```ts highlights={resetPasswordFetchHighlights}
-  const queryParams = new URLSearchParams(window.location.search)
-  const token = queryParams.get("token")
-  const email = queryParams.get("email")
-
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement>
-  ) => {
-    e.preventDefault()
-    if (!password) {
-      alert("Password is required")
-      return
-    }
-
-    fetch(`http://localhost:9000/auth/customer/emailpass/update`, {
-      credentials: "include",
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    })
-    .then((res) => res.json())
-    .then(({ success }) => {
-      alert(success ? "Password reset successfully!" : "Couldn't reset password")
-    })
-  }
-  ```
-
-  </CodeTab>
   <CodeTab label="React" value="react">
 
 export const resetPasswordHighlights = [
-  ["18", "token", "Receive the token from a query parameter."],
-  ["21", "email", "Receive the email from a query parameter."],
-  ["35", "fetch", "Send a request to update the customer's password."],
-  ["40", "token", "Pass the token in the Authorization header."],
-  ["42", "body", "Pass the email and password in the request body."]
+  ["19", "token", "Receive the token from a query parameter."],
+  ["22", "email", "Receive the email from a query parameter."],
+  ["39", "updateProvider", "Send a request to update the customer's password."],
+  ["41", "password", "Pass the new password in the request body."]
 ]
 
   ```tsx highlights={resetPasswordHighlights}
   "use client" // include with Next.js 13+
 
   import { useMemo, useState } from "react"
+  import { sdk } from "@/lib/sdk"
 
   export default function ResetPassword() {
     const [loading, setLoading] = useState(false)
@@ -244,27 +209,26 @@ export const resetPasswordHighlights = [
       e: React.FormEvent<HTMLFormElement>
     ) => {
       e.preventDefault()
+      if (!token) {
+        return
+      }
       if (!password) {
         alert("Password is required")
         return
       }
       setLoading(true)
 
-      fetch(`http://localhost:9000/auth/customer/emailpass/update`, {
-        credentials: "include",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
+      sdk.auth.updateProvider("customer", "emailpass", {
+        email,
+        password,
+      }, token)
+      .then(() => {
+        alert("Password reset successfully!")
       })
-      .then((res) => res.json())
-      .then(({ success }) => {
-        alert(success ? "Password reset successfully!" : "Couldn't reset password")
+      .catch((error) => {
+        alert(`Couldn't reset password: ${error.message}`)
+      })
+      .finally(() => {
         setLoading(false)
       })
     }
@@ -287,14 +251,56 @@ export const resetPasswordHighlights = [
   ```
 
   </CodeTab>
+  <CodeTab label="JS SDK" value="js-sdk">
+
+export const resetPasswordFetchHighlights = [
+  ["2", "token", "Receive the token from a query parameter."],
+  ["3", "email", "Receive the email from a query parameter."],
+  ["17", "updateProvider", "Send a request to update the customer's password."],
+  ["19", "password", "Pass the new password in the request body."]
+]
+
+  ```ts highlights={resetPasswordFetchHighlights}
+  const queryParams = new URLSearchParams(window.location.search)
+  const token = queryParams.get("token")
+  const email = queryParams.get("email")
+
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
+    e.preventDefault()
+    if (!token) {
+      return
+    }
+    if (!password) {
+      alert("Password is required")
+      return
+    }
+
+    sdk.auth.updateProvider("customer", "emailpass", {
+      email,
+      password,
+    }, token)
+    .then(() => {
+      alert("Password reset successfully!")
+    })
+    .catch((error) => {
+      alert(`Couldn't reset password: ${error.message}`)
+    })
+  }
+  ```
+
+  </CodeTab>
 </CodeTabs>
 
 In this example, you receive the `token` and `email` from the page's query parameters.
 
-Then, when the form that has the password field is submitted, you send a request to the `http://localhost:9000/auth/customer/emailpass/update` API route. You pass it the token as in the Authorization header as a bearer token, and the email and password in the request body.
+Then, when the form that has the password field is submitted, you send a request to the [Reset Password API route](!api!/store#auth_postactor_typeauth_providerupdate), passing it the token, email, and new password.
+
+Notice that the JS SDK passes the token in the `Authorization Bearer` header. So, if you're implementing this flow without using the JS SDK, make sure to pass the token accordingly.
 
 <Note>
 
-Before [Medusa v2.6](https://github.com/medusajs/medusa/releases/tag/v2.6), you passed the token as a query parameter. Now, you must pass it in the `Authorization` header.
+Before [Medusa v2.6](https://github.com/medusajs/medusa/releases/tag/v2.6), you passed the token as a query parameter. Now, you must pass it in the `Authorization Bearer` header.
 
 </Note>

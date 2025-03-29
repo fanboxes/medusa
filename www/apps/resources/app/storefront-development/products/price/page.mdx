@@ -13,35 +13,77 @@ export const metadata = {
 
 # {metadata.title}
 
-In this document, you'll learn how to show a product's variants' prices in the storefront, including handling sale prices.
+In this guide, you'll learn how to retrieve product variants' prices in the storefront, including sale prices.
+
+<Note title="Tip">
+
+For code examples on how to show product variants' prices in your storefront, refer to the [Full Code Examples](#full-code-examples) section.
+
+</Note>
 
 ## Pricing Query Parameters
 
-When you retrieve products either with the [List Products](!api!/store#products_getproducts) or [Retrieve Products](!api!/store#products_getproductsid) API routes, you must include in the beginning of the `fields` query parameter the value `*variants.calculated_price`.
+When you retrieve products either with the [List Products](!api!/store#products_getproducts) or [Retrieve Products](!api!/store#products_getproductsid) API routes, you must include in the beginning of the `fields` query parameter the value `*variants.calculated_price` to retrieve the product variants' prices.
 
-You also must pass at least one of the following query parameters to retrieve the correct product variant price:
+You also must pass at least one of the following query parameters to retrieve an accurate product variant price:
 
-- `region_id`: The ID of the customer's region. This parameter must be included if you want to apply taxes on the product variant's price.
-- `country_code`: The customer's country code. This parameter must be included if you want to apply taxes on the product variant's price.
-- `province`: The province, which can be taken from a customer's address. This parameter helps further narrowing down the taxes applied on a the product variant's prices.
-- `cart_id`: The ID of the customer's cart, if available. If set, the cart's region and shipping address's country code and province are used instead of the `region_id`, `country_code`, and `province` parameters.
+<Table>
+  <Table.Header>
+    <Table.Row>
+      <Table.HeaderCell>Parameter</Table.HeaderCell>
+      <Table.HeaderCell>Description</Table.HeaderCell>
+    </Table.Row>
+  </Table.Header>
+  <Table.Body>
+    <Table.Row>
+      <Table.Cell>
+        `region_id`
+      </Table.Cell>
+      <Table.Cell>
+        The ID of the customer's region. This parameter must be included if you want to apply taxes on the product variant's price.
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        `country_code`
+      </Table.Cell>
+      <Table.Cell>
+        The customer's country code. This parameter must be included if you want to apply taxes on the product variant's price.
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        `province`
+      </Table.Cell>
+      <Table.Cell>
+        The province, which can be taken from a customer's address. This parameter helps further narrowing down the taxes applied on a the product variant's prices.
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        `cart_id`
+      </Table.Cell>
+      <Table.Cell>
+        The ID of the customer's cart, if available. If set, the cart's region and shipping address's country code and province are used instead of the `region_id`, `country_code`, and `province` parameters.
+      </Table.Cell>
+    </Table.Row>
+  </Table.Body>
+</Table>
 
 For example:
 
+<Note title="Tip">
+
+Learn how to install and configure the JS SDK in the [JS SDK documentation](../../../js-sdk/page.mdx).
+
+</Note>
+
 ```ts
-const queryParams = new URLSearchParams({
+sdk.store.product.retrieve(id, {
   fields: `*variants.calculated_price`,
   region_id: region.id,
 })
-
-fetch(`http://localhost:9000/store/products/${id}?${queryParams.toString()}`, {
-  credentials: "include",
-  headers: {
-    "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-  },
-})
-.then((res) => res.json())
-.then(({ product }) => {
+.then(({ product: dataProduct }) => {
   // TODO use product
   console.log(product)
 })
@@ -51,9 +93,9 @@ In this example, you pass the selected region's ID as a query parameter with the
 
 ### Prices for Authenticated Customer
 
-If you pass the customer's authentication token / session in the request, the customer and their group, if available, are used to retrieve more accurate prices.
+If you pass the customer's authentication token / session in the request, the customer and their group, if available, are automatically used to retrieve prices specific to the customer.
 
-For example, if a promotion applies to the customer's group, the promotion's prices are used.
+For example, if there's a promotion that applies to the authenticated customer's group, the promotion's prices are used instead of the default prices.
 
 ---
 
@@ -117,7 +159,9 @@ If you pass the parameters mentioned above, each variant has a `calculated_price
   </Table.Body>
 </Table>
 
-## Examples
+---
+
+## Full Code Examples
 
 - [Example: Show Product Variant's Price](./examples/show-price/page.mdx).
 - [Example: Show Product Variant's Sale Price](./examples/sale-price/page.mdx).

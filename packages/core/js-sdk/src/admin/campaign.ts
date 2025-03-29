@@ -214,6 +214,15 @@ export class Campaign {
    * @param payload - The promotions to add or remove associations to them.
    * @param headers - Headers to pass in the request
    * @returns The campaign's details.
+   * 
+   * @example
+   * sdk.admin.campaign.batchPromotions("procamp_123", {
+   *   add: ["prom_123", "prom_456"],
+   *   remove: ["prom_789"]
+   * })
+   * .then(({ campaign }) => {
+   *   console.log(campaign)
+   * })
    */
   async batchPromotions(
     id: string,

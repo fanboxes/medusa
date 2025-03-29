@@ -8,41 +8,35 @@ tags:
 import { CodeTabs, CodeTab } from "docs-ui"
 
 export const metadata = {
-  title: `List Product Categories in Storefront`,
+  title: `Show Product Categories in Storefront`,
 }
 
 # {metadata.title}
 
-In this document, you'll learn how to list product categories in the storefront, including paginating and filtering them.
+In this guide, you'll learn how to show a list of product categories in the storefront. You'll also learn how to paginate and filter them.
+
+<Note title="Good to know">
+
+Product categories allow you to organize similar products together and within a hierarchy. For example, you can have a "Shoes" category grouping together all different types of shoes. You can then allow customers to browse products by category.
+
+</Note>
 
 ## List Product Categories
 
 To retrieve the list of product categories, send a request to the [List Product Categories API route](!api!/store#product-categories_getproductcategories):
 
+<Note title="Tip">
+
+Learn how to install and configure the JS SDK in the [JS SDK documentation](../../../../js-sdk/page.mdx).
+
+</Note>
+
 <CodeTabs group="store-request">
-  <CodeTab label="Fetch API" value="fetch">
-
-  ```ts
-  fetch(`http://localhost:9000/store/product-categories`, {
-    credentials: "include",
-    headers: {
-      "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-    },
-  })
-  .then((res) => res.json())
-  .then(({ product_categories }) => {
-    // use categories...
-    console.log(product_categories)
-  })
-  ```
-
-  </CodeTab>
   <CodeTab label="React" value="react">
 
 export const highlights = [
-  ["17"], ["18"], ["19"], ["20"],
-  ["21"], ["22"], ["23"], ["24"],
-  ["25"], ["26"], ["27"]
+  ["18"], ["19"], ["20"],
+  ["21"], ["22"],
 ]
 
   ```tsx highlights={highlights}
@@ -50,6 +44,7 @@ export const highlights = [
 
   import { useEffect, useState } from "react"
   import { HttpTypes } from "@medusajs/types"
+  import { sdk } from "@/lib/sdk"
 
   export default function Categories() {
     const [loading, setLoading] = useState(true)
@@ -62,13 +57,7 @@ export const highlights = [
         return 
       }
 
-      fetch(`http://localhost:9000/store/product-categories`, {
-        credentials: "include",
-        headers: {
-          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-        },
-      })
-      .then((res) => res.json())
+      sdk.store.category.list()
       .then(({ product_categories }) => {
         setCategories(product_categories)
         setLoading(false)
@@ -94,7 +83,20 @@ export const highlights = [
   ```
 
   </CodeTab>
+  <CodeTab label="JS SDK" value="js-sdk">
+
+  ```ts
+  sdk.store.category.list()
+  .then(({ product_categories }) => {
+    // use categories...
+    console.log(product_categories)
+  })
+  ```
+
+  </CodeTab>
 </CodeTabs>
+
+In this example, you send a request to the [List Product Categories API route](!api!/store#product-categories_getproductcategories).
 
 The response has a `product_categories` field, which is an array of [product categories](!api!/store/#product-categories_productcategory_schema).
 
@@ -102,7 +104,7 @@ The response has a `product_categories` field, which is an array of [product cat
 
 ## Paginate Product Categories
 
-To paginate product categories, pass the following query parameters:
+To paginate product categories, pass the following query parameters to the [List Product Categories API route](!api!/store#product-categories_getproductcategories):
 
 - `limit`: The number of product categories to return in the request.
 - `offset`: The number of product categories to skip before the returned product categories. You can calculate this by multiplying the current page with the limit.
@@ -112,11 +114,10 @@ The response object returns a `count` field, which is the total count of product
 For example:
 
 export const paginateHighlights = [
-  ["20", "offset", "Calculate the number of product categories to skip based on the current page and limit."],
-  ["28", "searchParams.toString()", "Pass the pagination parameters in the query."], 
-  ["36", "count", "The total number of product categories in the Medusa application."],
-  ["48", "setHasMorePages", "Set whether there are more pages based on the total count."],
-  ["67", "button", "Show a button to load more product categories if there are more pages."]
+  ["21", "offset", "Calculate the number of product categories to skip based on the current page and limit."],
+  ["27", "count", "The total number of product categories in the Medusa application."],
+  ["39", "setHasMorePages", "Set whether there are more pages based on the total count."],
+  ["58", "button", "Show a button to load more product categories if there are more pages."]
 ]
 
 ```tsx highlights={paginateHighlights}
@@ -124,6 +125,7 @@ export const paginateHighlights = [
 
 import { useEffect, useState } from "react"
 import { HttpTypes } from "@medusajs/types"
+import { sdk } from "@/lib/sdk"
 
 export default function Categories() {
   const [loading, setLoading] = useState(true)
@@ -141,20 +143,10 @@ export default function Categories() {
 
     const offset = (currentPage - 1) * limit
 
-    const searchParams = new URLSearchParams({
-      limit: `${limit}`,
-      offset: `${offset}`,
+    sdk.store.category.list({
+      limit: limit,
+      offset: offset,
     })
-
-    fetch(`http://localhost:9000/store/product-categories?${
-      searchParams.toString()
-    }`, {
-      credentials: "include",
-      headers: {
-        "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-      },
-    })
-    .then((res) => res.json())
     .then(({ product_categories, count }) => {
       setCategories((prev) => {
         if (prev.length > offset) {
@@ -201,31 +193,48 @@ export default function Categories() {
 }
 ```
 
+In this example, you send a request to the [List Product Categories API route](!api!/store#product-categories_getproductcategories) with the `limit` and `offset` query parameters.
+
+The response object returns a `count` field, which is the total count of product categories. Use it to determine whether there are more product categories that can be loaded.
+
+If there are more product categories, you show a button to load more product categories on click.
+
 ---
 
 ## Filter Categories
 
-The List Product Categories API route accepts query parameters to filter the categories by description, handle, and more.
+The [List Product Categories API route](!api!/store#product-categories_getproductcategories) accepts query parameters to filter the categories by description, handle, and more.
 
-Refer to the [API reference](!api!/store#product-categories_getproductcategories) for the list of accepted query parameters.
+Refer to the [API reference](!api!/store#product-categories_getproductcategories) for the full list of accepted query parameters.
 
-For example, to run a query on the product categories:
+For example, to filter the categories by with a search query:
 
 ```ts
-const searchParams = new URLSearchParams({
+sdk.store.category.list({
   q: "Shirt",
 })
-
-fetch(`http://localhost:9000/store/product-categories?${
-  searchParams.toString()
-}`, {
-  credentials: "include",
-  headers: {
-    "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-  },
-})
-.then((res) => res.json())
 .then(({ product_categories, count }) => {
   // TODO set categories...
 })
 ```
+
+By passing the `q` parameter, you can search through the categories' searchable fields, including their title and description.
+
+---
+
+## Sort Categories
+
+To sort categories by a field, use the `order` query parameter. Its value is a comma-separated list of fields to sort by, and each field is optionally prefixed by `-` to indicate descending order.
+
+For example, to sort categories by title in descending order:
+
+```ts
+sdk.store.category.list({
+  order: "-title",
+})
+.then(({ product_categories, count }) => {
+  // TODO set categories...
+})
+```
+
+The result will be categories sorted by title in descending order.

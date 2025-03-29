@@ -213,6 +213,9 @@ export const architecturalModulesSidebar = [
       {
         type: "sub-category",
         title: "Guides",
+        autogenerate_tags: "notification+server",
+        autogenerate_as_ref: true,
+        sort_sidebar: "alphabetize",
         children: [
           {
             type: "link",

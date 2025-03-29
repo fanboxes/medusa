@@ -12,9 +12,9 @@ export const metadata = {
 
 # {metadata.title}
 
-After the customer completes the checkout process and places an order, you can show an order confirmation page to display the order details.
-
 In this guide, you'll learn how to show the different order details on the order confirmation page.
+
+After the customer completes the checkout process and places an order, you can show an order confirmation page to display the order details.
 
 ## Retrieve Order Details
 
@@ -24,25 +24,13 @@ You need the order's ID to retrieve the order. You can pass it from the [complet
 
 The following example assumes you already have the order ID:
 
+<Note title="Tip">
+
+Learn how to install and configure the JS SDK in the [JS SDK documentation](../../../js-sdk/page.mdx).
+
+</Note>
+
 <CodeTabs group="store-request">
-  <CodeTab label="Fetch API" value="fetch">
-
-```ts
-// orderId is the order ID which you can get from the complete cart step
-fetch(`http://localhost:9000/store/orders/${orderId}`, {
-  credentials: "include",
-  headers: {
-    "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-  },
-})
-.then((res) => res.json())
-.then(({ order }) => {
-  // use order...
-  console.log(order)
-})
-```
-
-  </CodeTab>
   <CodeTab label="React" value="react">
 
 ```tsx
@@ -57,13 +45,7 @@ export function OrderConfirmation({ id }: { id: string }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch(`http://localhost:9000/store/orders/${id}`, {
-      credentials: "include",
-      headers: {
-        "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-      },
-    })
-    .then((res) => res.json())
+    sdk.store.order.retrieve(id)
     .then(({ order: dataOrder }) => {
       setOrder(dataOrder)
       setLoading(false)
@@ -85,6 +67,18 @@ export function OrderConfirmation({ id }: { id: string }) {
     </div>
   )
 }
+```
+
+  </CodeTab>
+  <CodeTab label="JS SDK" value="js-sdk">
+
+```ts
+// orderId is the order ID which you can get from the complete cart step
+sdk.store.order.retrieve(orderId)
+.then(({ order }) => {
+  // use order...
+  console.log(order)
+})
 ```
 
   </CodeTab>

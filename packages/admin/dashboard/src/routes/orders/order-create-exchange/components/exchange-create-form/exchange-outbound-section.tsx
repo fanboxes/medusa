@@ -30,7 +30,6 @@ import { ItemPlaceholder } from "../../../order-create-claim/components/claim-cr
 import { AddExchangeOutboundItemsTable } from "../add-exchange-outbound-items-table"
 import { ExchangeOutboundItem } from "./exchange-outbound-item"
 import { CreateExchangeSchemaType } from "./schema"
-import { log } from "console"
 
 type ExchangeOutboundSectionProps = {
   order: AdminOrder
@@ -206,11 +205,13 @@ export const ExchangeOutboundSection = ({
     if (outboundShipping) {
       form.setValue("outbound_option_id", outboundShipping.shipping_option_id)
     } else {
-      form.setValue("outbound_option_id", null)
+      form.setValue("outbound_option_id", "")
     }
   }, [preview.shipping_methods])
 
-  const onShippingOptionChange = async (selectedOptionId: string) => {
+  const onShippingOptionChange = async (
+    selectedOptionId: string | undefined
+  ) => {
     const outboundShippingMethods = preview.shipping_methods.filter(
       (s) =>
         !!s.actions?.find((a) => a.action === "SHIPPING_ADD" && !a.return_id)
@@ -230,14 +231,16 @@ export const ExchangeOutboundSection = ({
 
     await Promise.all(promises)
 
-    await addOutboundShipping(
-      { shipping_option_id: selectedOptionId },
-      {
-        onError: (error) => {
-          toast.error(error.message)
-        },
-      }
-    )
+    if (selectedOptionId) {
+      await addOutboundShipping(
+        { shipping_option_id: selectedOptionId },
+        {
+          onError: (error) => {
+            toast.error(error.message)
+          },
+        }
+      )
+    }
   }
 
   const showLevelsWarning = useMemo(() => {
@@ -412,11 +415,12 @@ export const ExchangeOutboundSection = ({
                   <Form.Item>
                     <Form.Control>
                       <Combobox
+                        allowClear
                         noResultsPlaceholder={<OutboundShippingPlaceholder />}
                         value={value ?? undefined}
                         onChange={(val) => {
                           onChange(val)
-                          val && onShippingOptionChange(val)
+                          onShippingOptionChange(val)
                         }}
                         {...field}
                         options={outboundShippingOptions.map((so) => ({

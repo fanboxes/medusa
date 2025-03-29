@@ -42,7 +42,7 @@ export const cartSidebar = [
       {
         type: "category",
         title: "Server Guides",
-        autogenerate_tags: "server+cart",
+        autogenerate_tags: "cart+server",
         autogenerate_as_ref: true,
         sort_sidebar: "alphabetize",
         description:

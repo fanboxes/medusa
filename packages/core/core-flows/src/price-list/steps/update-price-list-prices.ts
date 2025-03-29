@@ -15,7 +15,7 @@ import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
 export const updatePriceListPricesStepId = "update-price-list-prices"
 /**
  * This step updates a price list's prices.
- * 
+ *
  * @example
  * const data = updatePriceListPricesStep({
  *   data: [{
@@ -66,6 +66,10 @@ export const updatePriceListPricesStep = createStep(
         price_list_id: id,
         prices: pricesToUpdate,
       })
+    }
+
+    if (!priceListPricesToUpdate.length) {
+      return new StepResponse([])
     }
 
     const existingPrices = priceIds.length

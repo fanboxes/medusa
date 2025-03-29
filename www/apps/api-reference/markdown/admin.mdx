@@ -76,6 +76,21 @@ To obtain a JWT token, send a request to the [authentication route](#auth_postac
 
 <DividedMarkdownCode>
 
+<CodeTabs group="request-examples">
+
+<CodeTab label="JS SDK" value="js-sdk">
+
+```js title="Obtain JWT token"
+token = await sdk.auth.login("user", "emailpass", {
+  email,
+  password
+})
+```
+
+</CodeTab>
+
+<CodeTab label="cURL" value="curl">
+
 ```bash title="Obtain JWT token"
 curl -X POST '{backend_url}/auth/user/emailpass' \
 -H 'Content-Type: application/json' \
@@ -84,6 +99,10 @@ curl -X POST '{backend_url}/auth/user/emailpass' \
   "password": "supersecret"
 }'
 ```
+
+</CodeTab>
+
+</CodeTabs>
 
 </DividedMarkdownCode>
 
@@ -116,6 +135,14 @@ If authenticated successfully, an object is returned in the response with the pr
 #### How to Use the JWT Token
 
 To use the JWT token, pass it in the authorization bearer header.
+
+If you're using the JS SDK, the `login` method automatically sets the token for you and passes it to subsequent requests. You can also set the token manually using the `client.setToken` method.
+
+<Note>
+
+Make sure you've set the `auth.type` configuration of the JS SDK to `jwt` to use the JWT token. Learn more in the [JS SDK configurations](!resources!/js-sdk#js-sdk-configurations).
+
+</Note>
 
 </DividedMarkdownContent>
 
@@ -161,6 +188,23 @@ An `api_key` object is returned in the response. You need its `token` property.
 
 <DividedMarkdownCode>
 
+<CodeTabs group="request-examples">
+
+<CodeTab label="JS SDK" value="js-sdk">
+
+```js title="Create API token"
+const { api_key } = await sdk.admin.apiKey.create({
+  title: "My Token",
+  type: "secret"
+})
+
+console.log(api_key.token)
+```
+
+</CodeTab>
+
+<CodeTab label="cURL" value="curl">
+
 ```bash title="Create API token"
 curl -X POST 'localhost:9000/admin/api-keys' \
 -H 'Content-Type: application/json' \
@@ -170,6 +214,10 @@ curl -X POST 'localhost:9000/admin/api-keys' \
     "type": "secret"
 }'
 ```
+
+</CodeTab>
+
+</CodeTabs>
 
 </DividedMarkdownCode>
 
@@ -195,6 +243,18 @@ When using the JS SDK, you only need to specify the API key token in the [config
 <DividedMarkdownCode>
 
 <CodeTabs group="app-type">
+  <CodeTab label="JS SDK" value="js-sdk">
+
+```js
+import Medusa from "@medusajs/js-sdk"
+
+export const sdk = new Medusa({
+  // other options...
+  apiKey: "{api_key_token}",
+})
+```
+
+  </CodeTab>
   <CodeTab label="Browser / Client" value="client">
 
 ```js
@@ -235,7 +295,7 @@ When you authenticate a user and create a cookie session ID for them, the cookie
 
 ### How to Obtain the Cookie Session
 
-To obtain a cookie session ID, you must have a [JWT token for bearer authentication](#bearer-authorization-with-jwt-tokens).
+To obtain a cookie session ID, you must have a [JWT token for bearer authentication](#1-bearer-authorization-with-jwt-tokens).
 
 </DividedMarkdownContent>
 
@@ -245,9 +305,9 @@ To obtain a cookie session ID, you must have a [JWT token for bearer authenticat
 
 <DividedMarkdownContent>
 
-Then, send a request to the session authentication API route.
+Then, if you're using the JS SDK, make sure the `auth.type` configuration is set to `session`, as explained in the [JS SDK configurations](!resources!/js-sdk#js-sdk-configurations) guide. The `auth.login` method will handle setting the session cookie and passing it in subsequent requests.
 
-To view the cookie session ID, pass the `-v` option to the `curl` command.
+If you're not using the JS SDK, send a request to the [session authentication API route](#auth_postsession). To view the cookie session ID, pass the `-v` option to the `curl` command.
 
 </DividedMarkdownContent>
 
@@ -266,7 +326,7 @@ curl -v -X POST '{backend_url}/auth/session' \
 
 <DividedMarkdownContent>
 
-The headers will be logged in the terminal as well as the response. You
+If you send the `cURL` request, the headers will be logged in the terminal as well as the response. You
 should find in the headers a Cookie header.
 
 </DividedMarkdownContent>
@@ -287,7 +347,9 @@ Set-Cookie: connect.sid=s%3A2Bu8B...;
 
 #### How to Use the Cookie Session ID in cURL
 
-Copy the value after `connect.sid` (without the `;` at the end) and pass
+If you're using the JS SDK, it will pass the cookie session with every request automatically after you use the `auth.login` method.
+
+If you're not using the JS SDK, copy the value after `connect.sid` (without the `;` at the end) and pass
 it as a cookie in subsequent requests.
 
 </DividedMarkdownContent>
@@ -363,13 +425,36 @@ If you've enabled HTTP Compression in your Medusa configurations, and you
 want to disable it for some requests, you can pass the `x-no-compression`
 header in your requests.
 
+If you're using the JS SDK, every method accepts a `headers` parameter as the last parameter. You can pass in it custom headers, including the `x-no-compression` header.
+
 </DividedMarkdownContent>
 
 <DividedMarkdownCode>
 
-```bash title="Enable HTTP compression"
-x-no-compression: true
+<CodeTabs group="request-examples">
+
+<CodeTab label="JS SDK" value="js-sdk">
+
+```js title="Disable HTTP compression"
+sdk.store.product.list({
+  limit,
+  offset,
+}, {
+  "x-no-compression": "false",
+})
 ```
+
+</CodeTab>
+
+<CodeTab label="cURL" value="curl">
+
+```bash title="Disable HTTP compression"
+x-no-compression: false
+```
+
+</CodeTab>
+
+</CodeTabs>
 
 </DividedMarkdownCode>
 
@@ -415,10 +500,28 @@ Fields and relations are separated by a comma `,`.
 
 <DividedMarkdownCode>
 
+<CodeTabs group="request-examples">
+
+<CodeTab label="JS SDK" value="js-sdk">
+
+```js title="Select fields"
+sdk.admin.product.list({
+  fields: "title,handle"
+})
+```
+
+</CodeTab>
+
+<CodeTab label="cURL" value="curl">
+
 ```bash title="Select fields"
 curl 'localhost:9000/admin/products?fields=title,handle' \
 -H 'Authorization: Bearer {jwt_token}'
 ```
+
+</CodeTab>
+
+</CodeTabs>
 
 This returns only the `title` and `handle` fields of a product.
 
@@ -455,10 +558,27 @@ To select a relation, pass to `fields` the relation name prefixed by `*`.
 
 <DividedMarkdownCode>
 
+<CodeTabs group="request-examples">
+
+<CodeTab label="JS SDK" value="js-sdk">
+
+```js title="Select relations"
+sdk.admin.product.list({
+  fields: "*variants"
+})
+```
+
+</CodeTab>
+
+<CodeTab label="cURL" value="curl">
+
 ```bash title="Select relations"
 curl 'localhost:9000/admin/products?fields=*variants' \
 -H 'Authorization: Bearer {jwt_token}'
 ```
+
+</CodeTab>
+</CodeTabs>
 
 This returns the variants of each product.
 
@@ -490,10 +610,28 @@ To specify multiple fields, pass each of the fields with the `<relation>.<field>
 
 <DividedMarkdownCode>
 
+<CodeTabs group="request-examples">
+
+<CodeTab label="JS SDK" value="js-sdk">
+
+```js title="Select relation's fields"
+sdk.admin.product.list({
+  fields: "variants.title,variants.sku"
+})
+```
+
+</CodeTab>
+
+<CodeTab label="cURL" value="curl">
+
 ```bash title="Select relation's fields"
 curl 'localhost:9000/admin/products?fields=variants.title,variants.sku' \
 -H 'Authorization: Bearer {jwt_token}'
 ```
+
+</CodeTab>
+
+</CodeTabs>
 
 This returns the variants of each product, but the variants only have their `id`, `title`, and `sku` fields. The `id` is always included.
 
@@ -533,10 +671,28 @@ You can pass a string value in the form of `<parameter_name>=<value>`.
 
 <DividedMarkdownCode>
 
+<CodeTabs group="request-examples">
+
+<CodeTab label="JS SDK" value="js-sdk">
+
+```js title="String filter"
+sdk.admin.product.list({
+  title: "Shirt"
+})
+```
+
+</CodeTab>
+
+<CodeTab label="cURL" value="curl">
+
 ```bash title="String filter"
 curl "http://localhost:9000/admin/products?title=Shirt" \
 -H 'Authorization: Bearer {jwt_token}'
 ```
+
+</CodeTab>
+
+</CodeTabs>
 
 </DividedMarkdownCode>
 
@@ -547,11 +703,10 @@ curl "http://localhost:9000/admin/products?title=Shirt" \
 <DividedMarkdownContent>
 
 If the string has any characters other than letters and numbers, you must
-encode them.
-
-
-For example, if the string has spaces, you can encode the space with `+` or
+encode them. For example, if the string has spaces, you can encode the space with `+` or
 `%20`.
+
+When using the JS SDK, you can pass the string directly to the query parameter. The JS SDK will encode the string for you.
 
 You can use tools like [this one](https://www.urlencoder.org/) to learn how
 a value can be encoded.
@@ -560,10 +715,28 @@ a value can be encoded.
 
 <DividedMarkdownCode>
 
+<CodeTabs group="request-examples">
+
+<CodeTab label="JS SDK" value="js-sdk">
+
+```js title="Encoded string filter"
+sdk.admin.product.list({
+  title: "Blue Shirt"
+})
+```
+
+</CodeTab>
+
+<CodeTab label="cURL" value="curl">
+
 ```bash title="Encoded string filter"
 curl "http://localhost:9000/admin/products?title=Blue%20Shirt" \
 -H 'Authorization: Bearer {jwt_token}'
 ```
+
+</CodeTab>
+
+</CodeTabs>
 
 </DividedMarkdownCode>
 
@@ -581,10 +754,28 @@ You can pass an integer value in the form of `<parameter_name>=<value>`.
 
 <DividedMarkdownCode>
 
+<CodeTabs group="request-examples">
+
+<CodeTab label="JS SDK" value="js-sdk">
+
+```js title="Integer filter"
+sdk.admin.product.list({
+  offset: 1
+})
+```
+
+</CodeTab>
+
+<CodeTab label="cURL" value="curl">
+
 ```bash title="Integer filter"
 curl "http://localhost:9000/admin/products?offset=1" \
 -H 'Authorization: Bearer {jwt_token}'
 ```
+
+</CodeTab>
+
+</CodeTabs>
 
 </DividedMarkdownCode>
 
@@ -603,10 +794,27 @@ You can pass a boolean value in the form of `<parameter_name>=<value>`.
 
 <DividedMarkdownCode>
 
+<CodeTabs group="request-examples">
+
+<CodeTab label="JS SDK" value="js-sdk">
+
+```js title="Boolean filter"
+sdk.admin.product.list({
+  is_giftcard: true
+})
+```
+
+</CodeTab>
+
+<CodeTab label="cURL" value="curl">
+
 ```bash title="Boolean filter"
 curl "http://localhost:9000/admin/products?is_giftcard=true" \
 -H 'Authorization: Bearer {jwt_token}'
 ```
+
+</CodeTab>
+</CodeTabs>
 
 </DividedMarkdownCode>
 
@@ -626,10 +834,28 @@ must be in the format `YYYY-MM-DD`.
 
 <DividedMarkdownCode>
 
+<CodeTabs group="request-examples">
+
+<CodeTab label="JS SDK" value="js-sdk">
+
+```js title="Date filter"
+sdk.admin.product.list({
+  created_at: { $lt: "2023-02-17" }
+})
+```
+
+</CodeTab>
+
+<CodeTab label="cURL" value="curl">
+
 ```bash title="Date filter"
 curl -g "http://localhost:9000/admin/products?created_at[$lt]=2023-02-17" \
 -H 'Authorization: Bearer {jwt_token}'
 ```
+
+</CodeTab>
+
+</CodeTabs>
 
 </DividedMarkdownCode>
 
@@ -646,10 +872,28 @@ note that the `T` and `Z` here are fixed.
 
 <DividedMarkdownCode>
 
+<CodeTabs group="request-examples">
+
+<CodeTab label="JS SDK" value="js-sdk">
+
+```js title="Date and time filter"
+sdk.admin.product.list({
+  created_at: { $lt: "2023-02-17T07:22:30Z" }
+})
+```
+
+</CodeTab>
+
+<CodeTab label="cURL" value="curl">
+
 ```bash title="Date and time filter"
 curl -g "http://localhost:9000/admin/products?created_at[$lt]=2023-02-17T07:22:30Z" \
 -H 'Authorization: Bearer {jwt_token}'
 ```
+
+</CodeTab>
+
+</CodeTabs>
 
 </DividedMarkdownCode>
 
@@ -667,15 +911,26 @@ Array filters can be passed either as:
 - `<parameter_name>[]=<value1>&<parameter_name>[]=<value2>`, passing each value as a separate query parameter. You can also specify the index of each
 parameter in the brackets `<parameter_name>[0]=<value>`.
 
+When using the JS SDK, you can pass the array directly to the query parameter. The JS SDK will handle the rest.
+
 </DividedMarkdownContent>
 
 <DividedMarkdownCode>
 
 <CodeTabs group="array-filter">
+  <CodeTab label="JS SDK" value="js-sdk">
+
+```js title="Array filter"
+sdk.admin.product.list({
+  sales_channel_id: ["sc_123", "sc_456"]
+})
+```
+
+  </CodeTab>
   <CodeTab label="Comma-separated" value="comma-separated">
 
 ```bash
-curl -g "http://localhost:9000/admin/products?sales_channel_id[]=sc_01GPGVB42PZ7N3YQEP2WDM7PC7,sc_234PGVB42PZ7N3YQEP2WDM7PC7" \
+curl -g "http://localhost:9000/admin/products?sales_channel_id[]=sc_123,sc_456" \
 -H 'Authorization: Bearer {jwt_token}'
 ```
 
@@ -683,7 +938,7 @@ curl -g "http://localhost:9000/admin/products?sales_channel_id[]=sc_01GPGVB42PZ7
   <CodeTab label="Separate parameters" value="separate-query-parameters">
 
 ```bash
-curl -g "http://localhost:9000/admin/products?sales_channel_id[]=sc_01GPGVB42PZ7N3YQEP2WDM7PC7&sales_channel_id[]=sc_234PGVB42PZ7N3YQEP2WDM7PC7" \
+curl -g "http://localhost:9000/admin/products?sales_channel_id[]=sc_123&sales_channel_id[]=sc_456" \
 -H 'Authorization: Bearer {jwt_token}'
 ```
 
@@ -708,14 +963,35 @@ for using the brackets. Read more
 Object parameters must be passed as separate query parameters in the form
 `<parameter_name>[<key>]=<value>`.
 
+When using the JS SDK, you can pass the object directly to the query parameter. The JS SDK will handle the rest.
+
 </DividedMarkdownContent>
 
 <DividedMarkdownCode>
+
+<CodeTabs group="request-examples">
+
+<CodeTab label="JS SDK" value="js-sdk">
+
+```js title="Object filter"
+sdk.admin.product.list({
+  created_at: { $lt: "2023-02-17", $gt: "2022-09-17" }
+})
+```
+
+</CodeTab>
+
+<CodeTab label="cURL" value="curl">
 
 ```bash title="Object filter"
 curl -g "http://localhost:9000/admin/products?created_at[$lt]=2023-02-17&created_at[$gt]=2022-09-17" \
 -H 'Authorization: Bearer {jwt_token}'
 ```
+
+</CodeTab>
+
+</CodeTabs>
+
 
 </DividedMarkdownCode>
 
@@ -768,10 +1044,29 @@ Use the `offset` query parameter to change between pages. For example, if the li
 
 <DividedMarkdownCode>
 
+<CodeTabs group="request-examples">
+
+<CodeTab label="JS SDK" value="js-sdk">
+
+```js title="Pagination query parameters"
+sdk.admin.product.list({
+  limit: 5,
+  offset: 0
+})
+```
+
+</CodeTab>
+
+<CodeTab label="cURL" value="curl">
+
 ```bash title="Pagination query parameters"
-curl "http://localhost:9000/admin/products?limit=5" \
+curl "http://localhost:9000/admin/products?limit=5&offset=0" \
 -H 'Authorization: Bearer {jwt_token}'
 ```
+
+</CodeTab>
+
+</CodeTabs>
 
 </DividedMarkdownCode>
 
@@ -814,10 +1109,28 @@ sort the retrieved items by a field of that item.
 
 <DividedMarkdownCode>
 
+<CodeTabs group="request-examples">
+
+<CodeTab label="JS SDK" value="js-sdk">
+
+```js title="Ascending sort by a field"
+sdk.admin.product.list({
+  order: "created_at"
+})
+```
+
+</CodeTab>
+
+<CodeTab label="cURL" value="curl">
+
 ```bash title="Ascending sort by a field"
 curl "http://localhost:9000/admin/products?order=created_at" \
 -H 'Authorization: Bearer {jwt_token}'
 ```
+
+</CodeTab>
+
+</CodeTabs>
 
 This sorts the products by their `created_at` field in the ascending order.
 
@@ -836,10 +1149,28 @@ descending, pass a dash (`-`) before the field name.
 
 <DividedMarkdownCode>
 
+<CodeTabs group="request-examples">
+
+<CodeTab label="JS SDK" value="js-sdk">
+
+```js title="Descending sort by a field"
+sdk.admin.product.list({
+  order: "-created_at"
+})
+```
+
+</CodeTab>
+
+<CodeTab label="cURL" value="curl">
+
 ```bash title="Descending sort by a field"
 curl "http://localhost:9000/admin/products?order=-created_at" \
 -H 'Authorization: Bearer {jwt_token}'
 ```
+
+</CodeTab>
+
+</CodeTabs>
 
 This sorts the products by their `created_at` field in the descending order.
 

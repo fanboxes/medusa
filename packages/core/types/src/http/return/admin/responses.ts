@@ -4,10 +4,16 @@ import { AdminOrderPreview } from "../../order"
 import { AdminReturn } from "./entities"
 
 export interface AdminReturnResponse {
+  /**
+   * The return's details.
+   */
   return: AdminReturn
 }
 
 export type AdminReturnsResponse = PaginatedResponse<{
+  /**
+   * The list of returns.
+   */
   returns: AdminReturn[]
 }>
 

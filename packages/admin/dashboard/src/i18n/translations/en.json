@@ -811,6 +811,7 @@
     "locationLevels": "Locations",
     "associatedVariants": "Associated variants",
     "manageLocations": "Manage locations",
+    "manageLocationQuantity": "Manage location quantity",
     "deleteWarning": "You are about to delete an inventory item. This action cannot be undone.",
     "editItemDetails": "Edit item details",
     "create": {
@@ -1133,7 +1134,7 @@
       "sendNotificationHint": "Notify customer about return.",
       "returnTotal": "Return total",
       "inboundTotal": "Inbound total",
-      "refundAmount": "Refund amount",
+      "estDifference": "Estimated difference",
       "outstandingAmount": "Outstanding amount",
       "reason": "Reason",
       "reasonHint": "Choose why the customer want to return items.",
@@ -1501,7 +1502,7 @@
       "successToast": "Location {{name}} was successfully updated."
     },
     "delete": {
-      "confirmation": "You are about to delete the stock location {{name}}. This action cannot be undone."
+      "confirmation": "You are about to delete the stock location \"{{name}}\". This action cannot be undone."
     },
     "fulfillmentProviders": {
       "header": "Fulfillment Providers",
@@ -1520,7 +1521,7 @@
         "header": "Shipping"
       },
       "disable": {
-        "confirmation": "Are you sure that you want to disable {{name}}? This will delete all associated service zones and shipping options, and cannot be undone.",
+        "confirmation": "Are you sure that you want to disable \"{{name}}\"? This will delete all associated service zones and shipping options, and cannot be undone.",
         "pickup": "Pickup was successfully disabled.",
         "shipping": "Shipping was successfully disabled."
       },
@@ -1577,7 +1578,7 @@
         "action": "Create option"
       },
       "delete": {
-        "confirmation": "You are about to delete the shipping option {{name}}. This action cannot be undone.",
+        "confirmation": "You are about to delete the shipping option \"{{name}}\". This action cannot be undone.",
         "successToast": "Shipping option {{name}} was successfully deleted."
       },
       "edit": {
@@ -1666,7 +1667,7 @@
         "successToast": "Service zone {{name}} was successfully updated."
       },
       "delete": {
-        "confirmation": "You are about to delete the service zone {{name}}. This action cannot be undone.",
+        "confirmation": "You are about to delete the service zone \"{{name}}\". This action cannot be undone.",
         "successToast": "Service zone {{name}} was successfully deleted."
       },
       "manageAreas": {
@@ -1831,7 +1832,7 @@
         "successToast": "Tax rate was successfully updated."
       },
       "delete": {
-        "confirmation": "You are about to delete the tax rate {{name}}. This action cannot be undone.",
+        "confirmation": "You are about to delete the tax rate \"{{name}}\". This action cannot be undone.",
         "successToast": "Tax rate was successfully deleted."
       }
     },
@@ -2089,11 +2090,11 @@
       },
       "value_type": {
         "fixed": {
-          "title": "Promotion Value",
+          "title": "Fixed amount",
           "description": "The amount to be discounted. eg. 100"
         },
         "percentage": {
-          "title": "Promotion Value",
+          "title": "Percentage",
           "description": "The percentage to discount off the amount. eg. 8%"
         }
       }
@@ -2206,8 +2207,8 @@
     "domain": "Price Lists",
     "subtitle": "Create sales or override prices for specific conditions.",
     "delete": {
-      "confirmation": "You are about to delete the price list {{title}}. This action cannot be undone.",
-      "successToast": "Price list {{title}} was successfully deleted."
+      "confirmation": "You are about to delete the price list \"{{title}}\". This action cannot be undone.",
+      "successToast": "Price list \"{{title}}\" was successfully deleted."
     },
     "create": {
       "header": "Create Price List",
@@ -2643,8 +2644,8 @@
       "successToast": "Return reason {{label}} was successfully updated."
     },
     "delete": {
-      "confirmation": "You are about to delete the return reason {{label}}. This action cannot be undone.",
-      "successToast": "Return reason {{label}} was successfully deleted."
+      "confirmation": "You are about to delete the return reason \"{{label}}\". This action cannot be undone.",
+      "successToast": "Return reason \"{{label}}\" was successfully deleted."
     },
     "fields": {
       "value": {
@@ -2764,8 +2765,8 @@
       "successToast": "Product type {{value}} was successfully updated."
     },
     "delete": {
-      "confirmation": "You are about to delete the product type {{value}}. This action cannot be undone.",
-      "successToast": "Product type {{value}} was successfully deleted."
+      "confirmation": "You are about to delete the product type \"{{value}}\". This action cannot be undone.",
+      "successToast": "Product type \"{{value}}\" was successfully deleted."
     },
     "fields": {
       "value": "Value"

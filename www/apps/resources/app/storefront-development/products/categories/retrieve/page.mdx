@@ -13,44 +13,33 @@ export const metadata = {
 
 # {metadata.title}
 
-In this document, learn how to retrieve a product category and its details in the storefront.
+In this guide, you'll learn how to retrieve a product category and its details in the storefront.
+
+## How to Retrieve a Product Category in Storefront?
 
 There are two ways to retrieve a product category:
 
-- Retrieve a category by its ID.
-- Retrieve a category by its `handle` field. This is useful if you're creating human-readable URLs in your storefront.
+- [Retrieve a category by its ID](#retrieve-a-product-category-by-id). This method is straightforward and useful if you only have the category's ID.
+- [Retrieve a category by its `handle` field](#retrieve-a-product-category-by-handle). This is useful if you're creating human-readable URLs in your storefront.
+
+---
 
 ## Retrieve a Product Category by ID
 
 To retrieve a product category by its ID, send a request to the [Get a Product Category API route](!api!/store#product-categories_getproductcategoriesid):
 
+<Note title="Tip">
+
+Learn how to install and configure the JS SDK in the [JS SDK documentation](../../../../js-sdk/page.mdx).
+
+</Note>
+
 <CodeTabs group="store-request">
-  <CodeTab label="Fetch API" value="fetch">
-
-export const fetchHighlights = [
-  ["1", "id", "The product category's ID."],
-]
-
-  ```ts highlights={fetchHighlights}
-  fetch(`http://localhost:9000/store/product-categories/${id}`, {
-    credentials: "include",
-    headers: {
-      "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-    },
-  })
-  .then((res) => res.json())
-  .then(({ product_category }) => {
-    // use the product...
-    console.log(product)
-  })
-  ```
-
-  </CodeTab>
   <CodeTab label="React" value="react">
 
 export const highlights = [
-  ["21"], ["22"], ["23"], ["24"],
-  ["25"], ["26"], ["27"], ["28"], ["29"], ["30"], ["31"]
+  ["22"], ["23"], ["24"],
+  ["25"], ["26"],
 ]
 
   ```tsx highlights={highlights}
@@ -58,6 +47,7 @@ export const highlights = [
 
   import { useEffect, useState } from "react"
   import { HttpTypes } from "@medusajs/types"
+  import { sdk } from "@/lib/sdk"
 
   type Props = {
     id: string
@@ -74,13 +64,7 @@ export const highlights = [
         return 
       }
 
-      fetch(`http://localhost:9000/store/product-categories/${id}`, {
-        credentials: "include",
-        headers: {
-          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-        },
-      })
-      .then((res) => res.json())
+      sdk.store.category.retrieve(id)
       .then(({ product_category }) => {
         setCategory(product_category)
         setLoading(false)
@@ -102,7 +86,24 @@ export const highlights = [
   ```
 
   </CodeTab>
+  <CodeTab label="JS SDK" value="js-sdk">
+
+export const fetchHighlights = [
+  ["1", "id", "The product category's ID."],
+]
+
+  ```ts highlights={fetchHighlights}
+  sdk.store.category.retrieve(id)
+  .then(({ product_category }) => {
+    // use the product...
+    console.log(product)
+  })
+  ```
+
+  </CodeTab>
 </CodeTabs>
+
+In this example, you send a request to the [Get a Product Category API route](!api!/store#product-categories_getproductcategoriesid) with the category's ID.
 
 The response has a `product_category` field, which is a [product category object](!api!/store/#product-categories_productcategory_schema).
 
@@ -113,39 +114,12 @@ The response has a `product_category` field, which is a [product category object
 To retrieve a product by its handle, send a request to the [List Product Categories API route](!api!/store#product-categories_getproductcategories) passing it the `handle` query parameter:
 
 <CodeTabs group="store-request">
-  <CodeTab label="Fetch API" value="fetch">
-
-export const handleFetchHighlights = [
-  ["1", "handle", "The product category's handle."],
-]
-
-  ```ts highlights={handleFetchHighlights}
-  fetch(`http://localhost:9000/store/product-categories?handle=${
-    handle
-  }`, {
-    credentials: "include",
-    headers: {
-      "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-    },
-  })
-  .then((res) => res.json())
-  .then(({ product_categories }) => {
-    if (!product_categories.length) {
-      // product categories with the specified handle doesn't exist
-      return
-    }
-    // use the product category...
-    console.log(product_categories[0])
-  })
-  ```
-
-  </CodeTab>
   <CodeTab label="React" value="react">
 
 export const handleHighlights = [
-  ["21"], ["22"], ["23"], ["24"],
+  ["22"], ["23"], ["24"],
   ["25"], ["26"], ["27"], ["28"],
-  ["29"], ["30"], ["31"], ["32"], ["33"], ["34"], ["35"]
+  ["29"], ["30"],
 ]
 
   ```tsx highlights={handleHighlights}
@@ -153,6 +127,7 @@ export const handleHighlights = [
 
   import { useEffect, useState } from "react"
   import { HttpTypes } from "@medusajs/types"
+  import { sdk } from "@/lib/sdk"
 
   type Props = {
     handle: string
@@ -169,15 +144,9 @@ export const handleHighlights = [
         return 
       }
 
-      fetch(`http://localhost:9000/store/product-categories?handle=${
-        handle
-      }`, {
-        credentials: "include",
-        headers: {
-          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-        },
+      sdk.store.category.list({
+        handle,
       })
-      .then((res) => res.json())
       .then(({ product_categories }) => {
         if (product_categories.length) {
           setCategory(product_categories[0])
@@ -204,4 +173,31 @@ export const handleHighlights = [
   ```
 
   </CodeTab>
+  <CodeTab label="JS SDK" value="js-sdk">
+
+export const handleFetchHighlights = [
+  ["2", "handle", "The product category's handle."],
+]
+
+  ```ts highlights={handleFetchHighlights}
+  sdk.store.category.list({
+    handle,
+  })
+  .then(({ product_categories }) => {
+    if (!product_categories.length) {
+      // product categories with the specified handle doesn't exist
+      return
+    }
+    // use the product category...
+    console.log(product_categories[0])
+  })
+  ```
+
+  </CodeTab>
 </CodeTabs>
+
+In this example, you filter the product categories by their handle and retrieve the first product category that matches the handle. Since handles are unique, you can be sure that the product category you retrieve is the one you're looking for.
+
+If no product category matches the handle, the product category doesn't exist, so you can show a 404 error or a custom message to the customer.
+
+The product category in the response is a [product category object](!api!/store/#product-categories_productcategory_schema).

@@ -28,6 +28,7 @@ export const useComboboxData = <
   defaultValue,
   defaultValueKey,
   pageSize = 10,
+  enabled = true,
 }: {
   queryKey: QueryKey
   queryFn: (params: TParams) => Promise<TResponse>
@@ -35,6 +36,7 @@ export const useComboboxData = <
   defaultValueKey?: keyof TParams
   defaultValue?: string | string[]
   pageSize?: number
+  enabled?: boolean
 }) => {
   const { searchValue, onSearchValueChange, query } = useDebouncedSearch()
 
@@ -47,7 +49,7 @@ export const useComboboxData = <
         limit: Array.isArray(defaultValue) ? defaultValue.length : 1,
       } as TParams)
     },
-    enabled: !!defaultValue,
+    enabled: !!defaultValue && enabled,
   })
 
   const { data, ...rest } = useInfiniteQuery({
@@ -65,6 +67,7 @@ export const useComboboxData = <
       return moreItemsExist ? lastPage.offset + lastPage.limit : undefined
     },
     placeholderData: keepPreviousData,
+    enabled: enabled,
   })
 
   const options = data?.pages.flatMap((page) => getOptions(page)) ?? []
@@ -74,7 +77,8 @@ export const useComboboxData = <
    * If there are no options and the query is empty, then the combobox should be disabled,
    * as there is no data to search for.
    */
-  const disabled = !rest.isPending && !options.length && !searchValue
+  const disabled =
+    (!rest.isPending && !options.length && !searchValue) || !enabled
 
   // make sure that the default value is included in the options
   if (defaultValue && defaultOptions.length && !searchValue) {

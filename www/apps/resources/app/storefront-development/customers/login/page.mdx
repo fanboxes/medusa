@@ -5,7 +5,7 @@ tags:
   - auth
 ---
 
-import { CodeTabs, CodeTab } from "docs-ui"
+import { CodeTabs, CodeTab, Table } from "docs-ui"
 
 export const metadata = {
   title: `Login Customer in Storefront`,
@@ -13,150 +13,203 @@ export const metadata = {
 
 # {metadata.title}
 
-In this document, you'll learn about the two ways to login a customer in a storefront.
+In this guide, you'll learn about the two ways to login a customer in your storefront.
 
-## 1. Using a JWT Token
+<Note>
 
-Using the `/auth/customer/emailpass` API route, you obtain a JSON Web Token (JWT) for the customer. Then, use that token as a bearer token in the authorization header of subsequent requests, and the customer is considered authenticated.
+This guide covers login using email and password. For authentication with third-party providers, refer to the [Third-Party Login](../third-party-login/page.mdx) guide.
 
-For example:
+</Note>
+
+## Login Customer Methods
+
+There are two ways to login a customer in your storefront:
+
+1. Using a JWT token. This JWT token is obtained from the `/auth/customer/emailpass` API route and is used as a bearer token in the authorization header of all requests.
+2. Using a cookie session. This method uses the `/auth/session` API route to set the authenticated session ID in the cookies.
+
+The JS SDK simplifies the login approach in a single `auth.login` method. The upcoming sections explain the authentication approach whether you're using the JS SDK or not.
+
+### Which Authentication Method Should You Use?
+
+The authentication method you choose depends on your use case and the type of storefront you're building.
+
+Refer to the [JS SDK Authentication](../../../js-sdk/auth/overview/page.mdx) guide to learn more about the differences between JWT and session authentication and which one is best for your use case.
+
+### JS SDK Authentication Configuration
+
+Before implementing the login flow, you need to configure in the JS SDK the authentication method you're using in your storefront. This defines how the JS SDK will handle sending authenticated requests after the customer is authenticated.
+
+For example, add the following configuration to your JS SDK initialization:
+
+<Note title="Tip">
+
+Learn how to install and configure the JS SDK in the [JS SDK documentation](../../../js-sdk/page.mdx).
+
+</Note>
+
+<CodeTabs group="authenticated-configuration">
+  <CodeTab label="JWT" value="jwt">
+
+```ts
+export const sdk = new Medusa({
+  // ...
+  auth: {
+    type: "jwt",
+  },
+})
+```
+
+  </CodeTab>
+  <CodeTab label="Session" value="session">
+
+```ts
+export const sdk = new Medusa({
+  // ...
+  auth: {
+    type: "session",
+  },
+})
+```
+
+  </CodeTab>
+</CodeTabs>
+
+The JS SDK will now pass the JWT token or the session ID cookie in the authorization header of all subsequent requests based on the authentication method you've configured.
+
+Refer to the [JS SDK Authentication](../../../js-sdk/auth/overview/page.mdx#custom-authentication-storage-in-js-sdk) guide for more information about these configurations, as well as other authentication configurations.
+
+<Note title="Tip">
+
+By default, when you choose the `jwt` method, the JWT token is stored in the browser's `localStorage`. However, you can change how the token is stored, which is useful in environments where `localStorage` is not available. For example, in React Native.
+
+To learn how to change the storage method with an example for a React Native storefront, refer to the [JS SDK Authentication](../../../js-sdk/auth/overview/page.mdx#custom-authentication-storage-in-js-sdk) guide.
+
+</Note>
+
+---
+
+## Authentication with JS SDK
+
+The JS SDK provides an `auth.login` method that handles all authentication steps based on the configured authentication method. Then, all subsequent requests will have the necessary authentication headers or cookies.
+
+For example, to implement the login flow in your storefront with the JS SDK:
 
 <CodeTabs group="store-request">
-  <CodeTab label="Fetch API" value="fetch">
+  <CodeTab label="React" value="react">
+
+export const highlights = [
+  ["24", "login", "Send a request to obtain a JWT token."],
+  ["28", "catch", "If an error occurs, show an alert and exit execution."],
+  ["33", "", "If the token is not a string, show an alert and exit execution."],
+  ["39", "retrieve", "Retrieve the customer's details as an example of testing authentication."],
+]
+
+  ```tsx highlights={highlights} collapsibleLines="45-69" expandButtonLabel="Show form"
+  "use client" // include with Next.js 13+
+
+  import { useState } from "react"
+  import { sdk } from "@/lib/sdk"
+
+  export default function Login() {
+    const [loading, setLoading] = useState(false)
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    
+    const handleLogin = async (
+      e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+      e.preventDefault()
+      if (!email || !password) {
+        return
+      }
+
+      setLoading(true)
+
+      let token: string | { location: string }
+
+      try {
+        token = await sdk.auth.login("customer", "emailpass", {
+          email,
+          password,
+        })
+      } catch (error) {
+        alert(`An error occured while logging in: ${error}`)
+        return
+      }
+
+      if (typeof token !== "string") {
+        alert("Authentication requires more actions, which isn't supported by this flow.")
+        return
+      }
+
+      // all next requests will be authenticated
+      const { customer } = await sdk.store.customer.retrieve()
+
+      console.log(customer)
+      setLoading(false)
+    }
+
+    return (
+      <form>
+        <input 
+          type="email" 
+          name="email"
+          value={email}
+          placeholder="Email"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input 
+          type="password" 
+          name="password"
+          value={password}
+          placeholder="Password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button
+          disabled={loading}
+          onClick={handleLogin}
+        >
+          Login
+        </button>
+      </form>
+    )
+  }
+  ```
+
+  </CodeTab>
+  <CodeTab label="JS SDK" value="js-sdk">
 
 export const fetchHighlights = [
-  ["3", "fetch", "Send a request to obtain a JWT token."],
-  ["21", "fetch", "Send a request as an authenticated customer."],
-  ["27", "token", "Pass as a Bearer token in the authorization header."],
+  ["5", "login", "Send a request to obtain a JWT token."],
+  ["9", "catch", "If an error occurs, show an alert and exit execution."],
+  ["14", "", "If the token is not a string, show an alert and exit execution."],
+  ["20", "retrieve", "Retrieve the customer's details as an example of testing authentication."],
 ]
 
   ```ts highlights={fetchHighlights}
   const handleLogin = async () => {
-    // obtain JWT token
-    const { token } = await fetch(
-      `http://localhost:9000/auth/customer/emailpass`,
-      {
-        credentials: "include",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      }
-    )
-    .then((res) => res.json())
+    let token: string | { location: string }
 
-    // use token in the authorization header of 
-    // all follow up requests. For example:
-    const { customer } = await fetch(
-      `http://localhost:9000/store/customers/me`,
-      {
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
-          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-        },
-      }
-    )
-    .then((res) => res.json())
-
-    console.log(customer)
-  }
-  ```
-
-  </CodeTab>
-  <CodeTab label="React" value="react">
-
-export const highlights = [
-  ["21", "fetch", "Send a request to obtain a JWT token."],
-  ["39", "fetch", "Send a request as an authenticated customer."],
-  ["45", "token", "Pass as a Bearer token in the authorization header."],
-]
-
-  ```tsx highlights={highlights} collapsibleLines="55-79" expandButtonLabel="Show form"
-  "use client" // include with Next.js 13+
-
-  import { useState } from "react"
-
-  export default function Login() {
-    const [loading, setLoading] = useState(false)
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    
-    const handleLogin = async (
-      e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-    ) => {
-      e.preventDefault()
-      if (!email || !password) {
-        return
-      }
-
-      setLoading(true)
-
-      // obtain JWT token
-      const { token } = await fetch(
-        `http://localhost:9000/auth/customer/emailpass`,
-        {
-          credentials: "include",
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email,
-            password,
-          }),
-        }
-      )
-      .then((res) => res.json())
-
-      // use token in the authorization header of 
-      // all follow up requests. For example:
-      const { customer } = await fetch(
-        `http://localhost:9000/store/customers/me`,
-        {
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
-            "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-          },
-        }
-      )
-      .then((res) => res.json())
-
-      console.log(customer)
-      setLoading(false)
+    try {
+      token = await sdk.auth.login("customer", "emailpass", {
+        email,
+        password,
+      })
+    } catch (error) {
+      alert(`An error occured while logging in: ${error}`)
+      return
     }
 
-    return (
-      <form>
-        <input 
-          type="email" 
-          name="email"
-          value={email}
-          placeholder="Email"
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input 
-          type="password" 
-          name="password"
-          value={password}
-          placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button
-          disabled={loading}
-          onClick={handleLogin}
-        >
-          Login
-        </button>
-      </form>
-    )
+    if (typeof token !== "string") {
+      alert("Authentication requires more actions, which isn't supported by this flow.")
+      return
+    }
+
+    // all next requests will be authenticated
+    const { customer } = await sdk.store.customer.retrieve()
+
+    console.log(customer)
   }
   ```
 
@@ -166,193 +219,82 @@ export const highlights = [
 In the example above, you:
 
 1. Create a `handleLogin` function that logs in a customer.
-2. In the function, you obtain a JWT token by sending a request to the `/auth/customer/emailpass`.
-3. You can then use that token in the authorization header of subsequent requests, and the customer is considered authenticated. As an example, you send a request to obtain the customer's details.
+2. In the function, you log in the customer using the `sdk.auth.login` method.
+    - If an error occurs, show an alert and exit execution.
+    - The method may return an object with a `location` property. This occurs when using third-party authentication providers. Learn more about implementing third-party authentication in the [Third-Party Login](../third-party-login/page.mdx) guide.
+    - Otherwise, the authentication was successful.
+3. All subsequent requests are now authenticated. As an example, you send a request to obtain the logged-in customer's details.
 
 ---
 
-## 2. Using a Cookie Session
+## Authentication without JS SDK
 
-Authenticating the customer with a cookie session means the customer is authenticated in subsequent requests that use that cookie.
+If you're not using the JS SDK, the next sections cover the general flow for authenticating a customer in your storefront for both methods.
 
-If you're using the Fetch API, using the `credentials: include` option ensures that your cookie session is passed in every request.
+## 1. Using a JWT Token
 
-For example:
+The first authentication approach is to pass an authenticated JWT token in the authorization header of all requests. You can do that by:
 
-<CodeTabs group="store-request">
-  <CodeTab label="Fetch API" value="fetch">
+1. Retrieving a JWT token from the `/auth/customer/emailpass` [Authenticate Customer API route](!api!/store#auth_postactor_typeauth_provider):
 
-export const fetchSessionHighlights = [
-  ["3", "fetch", "Send a request to obtain a JWT token."],
-  ["20", "fetch", "Send a request to set the authenticated session ID in the cookies."],
-  ["27", "token", "Pass as a Bearer token in the authorization header."],
-  ["35", "fetch", "Retrieve the customer's details as an example of testing authentication."],
-]
+```bash
+curl -X POST '{backend_url}/auth/customer/emailpass' \
+-H 'Content-Type: application/json' \
+--data-raw '{
+  "email": "customer@gmail.com",
+  "password": "supersecret"
+}'
+```
 
-  ```ts highlights={fetchSessionHighlights}
-  const handleLogin = async () => {
-    // obtain JWT token
-    const { token } = await fetch(
-      `http://localhost:9000/auth/customer/emailpass`,
-      {
-        credentials: "include",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      }
-    )
-    .then((res) => res.json())
+2. Passing the token in the authorization header of all subsequent requests, as explained in the [API reference](!api!/store#1-bearer-authorization-with-jwt-tokens):
 
-    // set session
-    await fetch(
-      `http://localhost:9000/auth/session`,
-      {
-        credentials: "include",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
-        },
-      }
-    )
-    .then((res) => res.json())
+```bash
+Authorization: Bearer {jwt_token}
+```
 
-    // customer is now authenticated using the
-    // cookie session. For example
-    const { customer } = await fetch(
-      `http://localhost:9000/store/customers/me`,
-      {
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-        },
-      }
-    )
-    .then((res) => res.json())
+You can store the obtained JWT token based on your use case. For example, you can store it in the browser's `localStorage` or `sessionStorage`. This way, you can retrieve it later and pass it in the authorization header of all requests.
 
-    console.log(customer)
-    setLoading(false)
-  }
-  ```
+### 2. Using a Cookie Session
 
-  </CodeTab>
-  <CodeTab label="React" value="react">
+The second authentication approach is to authenticate the customer with a cookie session. You do that by:
 
-export const sessionHighlights = [
-  ["21", "fetch", "Send a request to obtain a JWT token."],
-  ["38", "fetch", "Send a request to set the authenticated session ID in the cookies."],
-  ["45", "token", "Pass as a Bearer token in the authorization header."],
-  ["53", "fetch", "Retrieve the customer's details as an example of testing authentication."],
-]
+1. Retrieving a JWT token from the `/auth/customer/emailpass` [Authenticate Customer API route](!api!/store#auth_postactor_typeauth_provider):
 
-  ```tsx highlights={sessionHighlights} collapsibleLines="68-92" expandButtonLabel="Show form"
-  "use client" // include with Next.js 13+
+```bash
+curl -X POST '{backend_url}/auth/customer/emailpass' \
+-H 'Content-Type: application/json' \
+--data-raw '{
+  "email": "customer@gmail.com",
+  "password": "supersecret"
+}'
+```
+
+2. Sending a request to the `/auth/session` [Authentication Session API route](!api!/store#auth_postsession) passing in the authorization header the token as a Bearer token. This sets the authenticated session ID in the cookies:
+
+```bash
+curl -X POST '{backend_url}/auth/session' \
+-H 'Authorization: Bearer {jwt_token}'
+```
+
+3. Passing the cookie session ID in all subsequent requests:
+
+<CodeTabs group="request-type">
+  <CodeTab label="cURL" value="curl">
+
+```bash
+curl '{backend_url}/store/products' \
+-H 'Cookie: connect.sid={sid}'
+```
   
-  import { useState } from "react"
-
-  export default function Login() {
-    const [loading, setLoading] = useState(false)
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    
-    const handleLogin = async (
-      e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-    ) => {
-      e.preventDefault()
-      if (!email || !password) {
-        return
-      }
-
-      setLoading(true)
-
-      // obtain JWT token
-      const { token } = await fetch(
-        `http://localhost:9000/auth/customer/emailpass`,
-        {
-          credentials: "include",
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email,
-            password,
-          }),
-        }
-      )
-      .then((res) => res.json())
-
-      // set session
-      await fetch(
-        `http://localhost:9000/auth/session`,
-        {
-          credentials: "include",
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
-          },
-        }
-      )
-      .then((res) => res.json())
-
-      // customer is now authenticated using the
-      // cookie session. For example
-      const { customer } = await fetch(
-        `http://localhost:9000/store/customers/me`,
-        {
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-          },
-        }
-      )
-      .then((res) => res.json())
-
-      console.log(customer)
-      setLoading(false)
-    }
-
-    return (
-      <form>
-        <input 
-          type="email" 
-          name="email"
-          value={email}
-          placeholder="Email"
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input 
-          type="password" 
-          name="password"
-          value={password}
-          placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button
-          disabled={loading}
-          onClick={handleLogin}
-        >
-          Login
-        </button>
-      </form>
-    )
-  }
-  ```
-
   </CodeTab>
+  <CodeTab label="Fetch" value="fetch">
+
+```ts highlights={["2", "", "Passes the cookie session ID in your request."]}
+fetch(`<BACKEND_URL>/store/products`, {
+  credentials: "include",
+})
+```
+  
+  </CodeTab>
+
 </CodeTabs>
-
-In the example above, you:
-
-1. Create a `handleLogin` function that logs in a customer.
-2. In the function, you obtain a JWT token by sending a request to the `/auth/customer/emailpass`.
-3. You send a request to the `/auth/session` API route passing in the authorization header the token as a Bearer token. This sets the authenticated session ID in the cookies.
-4. You can now send authenticated requests, as long as you include the `credentials: include` option in your fetch requests. For example, you send a request to retrieve the customer's details.

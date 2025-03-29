@@ -14,5 +14,8 @@ export interface AdminFulfillmentProviderListResponse
 
 export interface AdminFulfillmentProviderOptionsListResponse
   extends PaginatedResponse<{
+    /**
+     * The list of fulfillment options.
+     */
     fulfillment_options: AdminFulfillmentProviderOption[]
   }> {}

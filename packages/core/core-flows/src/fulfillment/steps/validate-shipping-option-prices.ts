@@ -22,9 +22,9 @@ export const validateShippingOptionPricesStepId =
  *
  * For flat rate prices, it validates that regions exist for the shipping option prices.
  * For calculated prices, it validates with the fulfillment provider if the price can be calculated.
- * 
+ *
  * If not valid, the step throws an error.
- * 
+ *
  * @example
  * const data = validateShippingOptionPricesStep([
  *   {

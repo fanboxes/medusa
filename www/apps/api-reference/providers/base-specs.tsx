@@ -2,10 +2,9 @@
 
 import { OpenAPI } from "types"
 import { ReactNode, createContext, useContext, useEffect, useMemo } from "react"
-import { Sidebar } from "types"
 import getTagChildSidebarItems from "../utils/get-tag-child-sidebar-items"
 import { useRouter } from "next/navigation"
-import { UpdateActionType, UpdateSidebarItemTypes, useSidebar } from "docs-ui"
+import { UpdateActionType, useSidebar } from "docs-ui"
 import { getSectionId } from "docs-utils"
 
 type BaseSpecsContextType = {

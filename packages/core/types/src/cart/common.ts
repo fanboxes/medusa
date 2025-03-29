@@ -659,6 +659,11 @@ export interface CartLineItemDTO extends CartLineItemTotalsDTO {
   is_discountable: boolean
 
   /**
+   * Whether the line item is a gift card.
+   */
+  is_giftcard: boolean
+
+  /**
    * Whether the line item price is tax inclusive.
    */
   is_tax_inclusive: boolean

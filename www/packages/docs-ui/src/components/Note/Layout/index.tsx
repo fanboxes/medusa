@@ -10,7 +10,12 @@ type StringInfo = {
 
 type NoteLayoutProps = NoteProps
 
-export const NoteLayout = ({ type, title, children }: NoteLayoutProps) => {
+export const NoteLayout = ({
+  type,
+  title,
+  children,
+  forceMultiline = false,
+}: NoteLayoutProps) => {
   const getStringInfoFromChildren = (nodes: React.ReactNode): StringInfo => {
     let allStringChildren = true
     const stringChildren: string[] = []
@@ -63,6 +68,13 @@ export const NoteLayout = ({ type, title, children }: NoteLayoutProps) => {
     }
   }
   const { allStringChildren, stringChildren } = useMemo(() => {
+    if (forceMultiline) {
+      return {
+        allStringChildren: false,
+        stringChildren: "",
+      }
+    }
+
     const { allStringChildren, stringChildren } =
       getStringInfoFromChildren(children)
 
@@ -70,7 +82,7 @@ export const NoteLayout = ({ type, title, children }: NoteLayoutProps) => {
       allStringChildren,
       stringChildren: stringChildren.join(""),
     }
-  }, [children])
+  }, [children, forceMultiline])
 
   return (
     <div

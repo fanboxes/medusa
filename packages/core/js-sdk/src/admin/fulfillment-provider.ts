@@ -77,12 +77,18 @@ export class FulfillmentProvider {
 
   /**
    * This method retrieves a list of fulfillment options for a given fulfillment provider. It sends a request to the
-   * [List Fulfillment Options](https://docs.medusajs.com/api/admin#fulfillment-providers_getfulfillmentprovideroptions)
+   * [List Fulfillment Options](https://docs.medusajs.com/api/admin#fulfillment-providers_getfulfillmentprovidersidoptions)
    * API route.
    *
    * @param id - The ID of the fulfillment provider.
    * @param headers - Headers to pass in the request.
    * @returns The list of fulfillment options.
+   * 
+   * @example
+   * sdk.admin.fulfillmentProvider.listFulfillmentOptions("fp_123")
+   * .then(({ fulfillment_options }) => {
+   *   console.log(fulfillment_options)
+   * })
    */
   async listFulfillmentOptions(id: string, headers?: ClientHeaders) {
     return await this.client.fetch<HttpTypes.AdminFulfillmentProviderOptionsListResponse>(

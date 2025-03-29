@@ -10,6 +10,7 @@ export type NoteProps = {
   type?: "default" | "warning" | "success" | "error" | "check" | "soon"
   title?: string
   children?: React.ReactNode
+  forceMultiline?: boolean
 }
 
 export const Note = ({ type = "default", ...props }: NoteProps) => {

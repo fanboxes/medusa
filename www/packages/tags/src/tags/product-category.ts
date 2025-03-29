@@ -1,6 +1,6 @@
 export const productCategory = [
   {
-    "title": "List Product Categories in Storefront",
+    "title": "Show Product Categories in Storefront",
     "path": "https://docs.medusajs.com/resources/storefront-development/products/categories/list"
   },
   {

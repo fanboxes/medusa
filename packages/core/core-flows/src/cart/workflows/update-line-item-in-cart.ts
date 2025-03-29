@@ -1,4 +1,7 @@
-import { UpdateLineItemInCartWorkflowInputDTO } from "@medusajs/framework/types"
+import {
+  AdditionalData,
+  UpdateLineItemInCartWorkflowInputDTO,
+} from "@medusajs/framework/types"
 import { isDefined, MedusaError } from "@medusajs/framework/utils"
 import {
   createHook,
@@ -19,6 +22,7 @@ import {
 } from "../utils/fields"
 import { confirmVariantInventoryWorkflow } from "./confirm-variant-inventory"
 import { refreshCartItemsWorkflow } from "./refresh-cart-items"
+import { pricingContextResult } from "../utils/schemas"
 
 const cartFields = cartFieldsForPricingContext.concat(["items.*"])
 
@@ -26,9 +30,9 @@ export const updateLineItemInCartWorkflowId = "update-line-item-in-cart"
 /**
  * This workflow updates a line item's details in a cart. You can update the line item's quantity, unit price, and more. This workflow is executed
  * by the [Update Line Item Store API Route](https://docs.medusajs.com/api/store#carts_postcartsidlineitemsline_id).
- * 
+ *
  * You can use this workflow within your own customizations or custom workflows, allowing you to update a line item's details in your custom flows.
- * 
+ *
  * @example
  * const { result } = await updateLineItemInCartWorkflow(container)
  * .run({
@@ -40,16 +44,18 @@ export const updateLineItemInCartWorkflowId = "update-line-item-in-cart"
  *     }
  *   }
  * })
- * 
+ *
  * @summary
- * 
+ *
  * Update a cart's line item.
  *
  * @property hooks.validate - This hook is executed before all operations. You can consume this hook to perform any custom validation. If validation fails, you can throw an error to stop the workflow execution.
  */
 export const updateLineItemInCartWorkflow = createWorkflow(
   updateLineItemInCartWorkflowId,
-  (input: WorkflowData<UpdateLineItemInCartWorkflowInputDTO>) => {
+  (
+    input: WorkflowData<UpdateLineItemInCartWorkflowInputDTO & AdditionalData>
+  ) => {
     const cartQuery = useQueryGraphStep({
       entity: "cart",
       filters: { id: input.cart_id },
@@ -73,6 +79,35 @@ export const updateLineItemInCartWorkflow = createWorkflow(
       return [item.variant_id].filter(Boolean)
     })
 
+    const setPricingContext = createHook(
+      "setPricingContext",
+      {
+        cart,
+        item,
+        variantIds,
+        additional_data: input.additional_data,
+      },
+      {
+        resultValidator: pricingContextResult,
+      }
+    )
+
+    const setPricingContextResult = setPricingContext.getResult()
+    const pricingContext = transform(
+      { cart, setPricingContextResult },
+      (data) => {
+        return {
+          ...data.cart,
+          ...(data.setPricingContextResult ? data.setPricingContextResult : {}),
+          currency_code: data.cart.currency_code,
+          region_id: data.cart.region_id,
+          region: data.cart.region,
+          customer_id: data.cart.customer_id,
+          customer: data.cart.customer,
+        }
+      }
+    )
+
     const variants = when({ variantIds }, ({ variantIds }) => {
       return !!variantIds.length
     }).then(() => {
@@ -82,7 +117,7 @@ export const updateLineItemInCartWorkflow = createWorkflow(
         variables: {
           id: variantIds,
           calculated_price: {
-            context: cart,
+            context: pricingContext,
           },
         },
       }).config({ name: "fetch-variants" })
@@ -98,7 +133,7 @@ export const updateLineItemInCartWorkflow = createWorkflow(
 
     confirmVariantInventoryWorkflow.runAsStep({
       input: {
-        sales_channel_id: cart.sales_channel_id,
+        sales_channel_id: pricingContext.sales_channel_id,
         variants,
         items,
       },
@@ -147,7 +182,7 @@ export const updateLineItemInCartWorkflow = createWorkflow(
     })
 
     return new WorkflowResponse(void 0, {
-      hooks: [validate],
+      hooks: [validate, setPricingContext] as const,
     })
   }
 )

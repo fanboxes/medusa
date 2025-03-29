@@ -12,52 +12,38 @@ export const metadata = {
 
 # {metadata.title}
 
+In this guide, you'll learn how to edit the customer's profile in the storefront, which is useful if you're adding a profile page to your storefront that allows the customer to view and edit their details.
+
 To edit the customer's profile in the storefront, send a request to the [Update Customer API route](!api!/store#customers_postcustomersme).
 
 For example:
 
+<Note title="Tip">
+
+- Learn how to install and configure the JS SDK in the [JS SDK documentation](../../../js-sdk/page.mdx).
+- This example uses the `useCustomer` hook defined in the [Customer Context guide](../context/page.mdx).
+- Since only authenticated customers can edit their profile, this example assumes that the JS SDK is already configured for authentication and the customer's authentication token was set as explained in the [Login in Storefront](../login/page.mdx) and [Third-Party Login](../third-party-login/page.mdx) guides.
+
+</Note>
+
 <CodeTabs group="store-request">
-  <CodeTab label="Fetch API" value="fetch">
-
-  ```ts
-  fetch(`http://localhost:9000/store/customers/me`, {
-    credentials: "include",
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-    },
-    body: JSON.stringify({
-      first_name,
-      last_name,
-      company_name,
-      phone,
-    }),
-  })
-  .then((res) => res.json())
-  .then(({ customer }) => {
-    // use customer...
-    console.log(customer)
-  })
-  ```
-
-  </CodeTab>
   <CodeTab label="React" value="react">
 
 export const highlights = [
   ["4", "useCustomer", "Use the hook defined in the Customer Context guide."],
-  ["33"], ["34"], ["35"], ["36"], ["37"], ["38"], ["39"], ["40"], ["41"], ["42"],
-  ["43"], ["44"], ["45"], ["46"], ["47"], ["48"], ["49"], ["50"]
+  ["35"], ["36"], ["37"], ["38"], ["39"], ["40"], ["41"], ["42"], ["43"], ["44"],
 ]
 
-  ```tsx highlights={highlights} collapsibleLines="53-91" expandButtonLabel="Show form"
+  ```tsx highlights={highlights} collapsibleLines="47-85" expandButtonLabel="Show form"
   "use client" // include with Next.js 13+
 
   import { useState } from "react"
-  import { useCustomer } from "../../../providers/customer"
+  import { useCustomer } from "@/providers/customer"
+  import { sdk } from "@/lib/sdk"
 
   export default function EditProfile() {
     const { customer, setCustomer } = useCustomer()
+    console.log(customer)
     const [firstName, setFirstName] = useState(
       customer?.first_name || ""
     )
@@ -83,21 +69,12 @@ export const highlights = [
 
       setLoading(true)
 
-      fetch(`http://localhost:9000/store/customers/me`, {
-        credentials: "include",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-        },
-        body: JSON.stringify({
-          first_name: firstName,
-          last_name: lastName,
-          company_name: company,
-          phone,
-        }),
+      sdk.store.customer.update({
+        first_name: firstName,
+        last_name: lastName,
+        company_name: company,
+        phone,
       })
-      .then((res) => res.json())
       .then(({ customer: updatedCustomer }) => {
         setCustomer(updatedCustomer)
       })
@@ -146,8 +123,24 @@ export const highlights = [
   ```
 
   </CodeTab>
+  <CodeTab label="JS SDK" value="js-sdk">
+
+  ```ts
+  sdk.store.customer.update({
+    first_name: firstName,
+    last_name: lastName,
+    company_name: company,
+    phone,
+  })
+  .then(({ customer }) => {
+    // use customer...
+    console.log(customer)
+  })
+  ```
+
+  </CodeTab>
 </CodeTabs>
 
-In the example above, you send a request to the Update Customer API route to update the customer's details.
+In the example above, you send a request to the [Update Customer API route](!api!/store#customers_postcustomersme) to update the customer's details.
 
 The response of the request has a `customer` field which is a [customer object](!api!/store#customers_customer_schema).

@@ -13,56 +13,43 @@ export const metadata = {
 
 # {metadata.title}
 
-A product category has parent and child categories.
+In this guide, you'll learn how to retrieve nested categories in the storefront.
+
+## How to Retrieve Nested Categories in Storefront?
+
+A product category has parent and child categories. For example, a "Shoes" category can have a "Running Shoes" child category.
+
+There are two ways to retrieve nested categories:
+
+- [Retrieve nested categories of a category](#retrieve-nested-categories-of-a-category). This is useful if you're showing the nested categories on a category page.
+- [Retrieve all categories as a hierarchy](#retrieve-categories-as-a-hierarchy). This is useful if you're showing the categories in a tree structure, such as in a menu or navigation bar.
+
+---
+
+## Retrieve Nested Categories of a Category
 
 To retrieve the child or nested categories of a category in your storefront, pass to the [Get a Category API Route](!api!/store#product-categories_getproductcategoriesid) the following query parameters:
 
 - `include_descendants_tree=true` to retrieve each category's nested categories at all levels.
-- Add `category_children` to `fields`, which is the field that will hold a category's nested categories. You can either pass `*category_children` to retrieve all fields of a child category, or specify the fields specifically to avoid a large response size. For example, `field=category_children.id,category_children.name`.
-- `parent_category_id=null` to retrieve only the categories that don't have a parent. This avoids retrieving the child categories multiple times in the response since child categories are now set in their parent's object.
+- Add `category_children` to `fields`, which is the field that will hold a category's nested categories.
+    - You can either pass `*category_children` to retrieve all fields of a child category, or specify the fields specifically to avoid a large response size. For example, `field=category_children.id,category_children.name`.
 
 For example:
 
+<Note title="Tip">
+
+Learn how to install and configure the JS SDK in the [JS SDK documentation](../../../../js-sdk/page.mdx).
+
+</Note>
+
 <CodeTabs group="store-request">
-  <CodeTab label="Fetch API" value="fetch">
-
-export const fetchHighlights = [
-  ["2", `"category_children.id,category_children.name"`, "Select the fields of category children"],
-  ["3", `"include_descendants_tree"`, "Indicate that all nested categories should be retrieved."],
-  ["4", "parent_category_id", "Since each category will have its children, you only retrieve categories that don't have a parent."]
-]
-
-  ```ts highlights={fetchHighlights}
-  const searchParams = new URLSearchParams({
-    fields: "category_children.id,category_children.name",
-    include_descendants_tree: true,
-    parent_category_id: null,
-  })
-
-  fetch(`http://localhost:9000/store/product-categories/${id}?${
-    searchParams.toString()
-  }`, {
-    credentials: "include",
-    headers: {
-      "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-    },
-  })
-  .then((res) => res.json())
-  .then(({ product_category }) => {
-    // use the product category's children...
-    console.log(product_category.category_children)
-  })
-  ```
-
-  </CodeTab>
   <CodeTab label="React" value="react">
 
 export const highlights = [
-  ["22", `fields`, "Select the fields of category children"],
-  ["23", "parent_category_id", "Since each category will have its children, you only retrieve categories that don't have a parent."],
-  ["26"], ["27"], ["28"], 
-  ["29"], ["30"], ["31"], ["32"], ["33"], ["34"], ["35"], ["36"], ["37"], ["38"],
-  ["52", "", "Show the nested categories."],
+  ["22"], ["23", `fields`, "Select the fields of category children"],
+  ["24", "include_descendants_tree", "Indicate that all nested categories should be retrieved."],
+  ["25"], ["26"], ["27"], ["28"], ["29"],
+  ["39", "category_children", "Show the nested categories."],
 ]
 
   ```tsx highlights={highlights}
@@ -70,6 +57,7 @@ export const highlights = [
 
   import { useEffect, useState } from "react"
   import { HttpTypes } from "@medusajs/types"
+  import { sdk } from "@/lib/sdk"
 
   type Props = {
     id: string
@@ -86,20 +74,10 @@ export const highlights = [
         return 
       }
 
-      const searchParams = new URLSearchParams({
+      sdk.store.category.retrieve(id, {
         fields: "category_children.id,category_children.name",
-        parent_category_id: null,
+        include_descendants_tree: true,
       })
-
-      fetch(`http://localhost:9000/store/product-categories/${id}?${
-        searchParams.toString()
-      }`, {
-        credentials: "include",
-        headers: {
-          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-        },
-      })
-      .then((res) => res.json())
       .then(({ product_category }) => {
         setCategory(product_category)
         setLoading(false)
@@ -135,6 +113,146 @@ export const highlights = [
   ```
 
   </CodeTab>
+  <CodeTab label="JS SDK" value="js-sdk">
+
+export const fetchHighlights = [
+  ["2", `fields`, "Select the fields of category children"],
+  ["3", `include_descendants_tree`, "Indicate that all nested categories should be retrieved."],
+]
+
+  ```ts highlights={fetchHighlights}
+  sdk.store.category.retrieve(id, {
+    fields: "category_children.id,category_children.name",
+    include_descendants_tree: true,
+  })
+  .then(({ product_categories }) => {
+    // use the product category's children...
+    console.log(product_categories[0].category_children)
+  })
+  ```
+
+  </CodeTab>
 </CodeTabs>
 
-The `product_category` field in the response has a `category_children` field. It's an array of [product category objects](!api!/store/#product-categories_productcategory_schema).
+In this example, you retrieve the nested categories of a category by passing the `include_descendants_tree` query parameter to the [Get a Category API Route](!api!/store#product-categories_getproductcategoriesid). 
+
+The response has a `product_category` field, which is a [product category object](!api!/store/#product-categories_productcategory_schema). It will have a `category_children` field, which is an array of [product category objects](!api!/store/#product-categories_productcategory_schema).
+
+Then, in the React component, you show a category's children by iterating over the `category_children` field.
+
+---
+
+## Retrieve Categories as a Hierarchy
+
+Alternatively, you may want to retrieve all categories as a hierarchy.
+
+To do this, you can pass the `include_descendants_tree` query parameter to the [List Product Categories API Route](!api!/store#product-categories_getproductcategories), along with the `parent_category_id` query parameter set to `null`. This ensures that only categories with children are retrieved at the top level.
+
+For example:
+
+<CodeTabs group="store-request">
+  <CodeTab label="React" value="react">
+
+export const categoriesHighlights = [
+  ["22"], ["23"], ["24", `fields`, "Select the fields of category children"],
+  ["25", "include_descendants_tree", "Indicate that all nested categories should be retrieved."],
+  ["26", "parent_category_id", "Since each category will have its children, you only retrieve categories that don't have a parent."],
+  ["27"], ["28"], 
+  ["29"], ["30"], ["31"],
+  ["45", "category_children", "Show the nested categories."],
+]
+
+  ```tsx highlights={categoriesHighlights}
+  "use client" // include with Next.js 13+
+
+  import { useEffect, useState } from "react"
+  import { HttpTypes } from "@medusajs/types"
+  import { sdk } from "@/lib/sdk"
+
+  type Props = {
+    id: string
+  }
+
+  export default function Categories({ id }: Props) {
+    const [loading, setLoading] = useState(true)
+    const [categories, setCategories] = useState<
+      HttpTypes.StoreProductCategory[]
+    >([])
+
+    useEffect(() => {
+      if (!loading) {
+        return 
+      }
+
+      sdk.store.category.list({
+        id,
+        fields: "category_children.id,category_children.name",
+        include_descendants_tree: true,
+        parent_category_id: null,
+      })
+      .then(({ product_categories }) => {
+        setCategories(product_categories)
+        setLoading(false)
+      })
+    }, [loading])
+
+    return (
+      <div>
+        {loading && <span>Loading...</span>}
+        {categories.map((category) => (
+          <>
+            <h1>{category.name}</h1>
+            <p>{category.description}</p>
+            {(category.category_children?.length || 0) > 0 && (
+              <>
+                <span>Child Categories</span>
+                <ul>
+                  {category.category_children!.map(
+                    (childCategory) => (
+                      <li key={childCategory.id}>
+                        {childCategory.name}
+                      </li>
+                    )
+                  )}
+                </ul>
+              </>
+            )}
+          </>
+        ))}
+      </div>
+    )
+  }
+  ```
+
+  </CodeTab>
+  <CodeTab label="JS SDK" value="js-sdk">
+
+export const categoriesFetchHighlights = [
+  ["3", `"category_children.id,category_children.name"`, "Select the fields of category children"],
+  ["4", `include_descendants_tree`, "Indicate that all nested categories should be retrieved."],
+  ["5", "parent_category_id", "Since each category will have its children, you only retrieve categories that don't have a parent."]
+]
+
+  ```ts highlights={categoriesFetchHighlights}
+  sdk.store.category.list({
+    id,
+    fields: "category_children.id,category_children.name",
+    include_descendants_tree: true,
+    parent_category_id: null,
+  })
+  .then(({ product_categories }) => {
+    // use the product category's children...
+    console.log(product_categories[0].category_children)
+  })
+  ```
+
+  </CodeTab>
+</CodeTabs>
+
+In this example, you retrieve all categories as a hierarchy by passing the `include_descendants_tree` query parameter to the [List Product Categories API Route](!api!/store#product-categories_getproductcategories).
+
+The response has a `product_categories` field, which is an array of [product category objects](!api!/store/#product-categories_productcategory_schema).
+
+Each category will have a `category_children` field, which is an array of [product category objects](!api!/store/#product-categories_productcategory_schema).
+
+You can then show the categories in a tree structure by iterating over the `product_categories` field and displaying the `category_children` field for each category.

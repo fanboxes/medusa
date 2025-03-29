@@ -527,7 +527,7 @@ export const sidebars = [
           {
             type: "link",
             title: "Type Aliases",
-            path: "/learn/conventions/ts-aliases",
+            path: "/learn/configurations/ts-aliases",
           },
         ],
       },
@@ -640,7 +640,7 @@ export const sidebars = [
               },
               {
                 type: "link",
-                path: "/learn/resources//contribution-guidelines/admin-translations",
+                path: "/learn/resources/contribution-guidelines/admin-translations",
                 title: "Admin Translations",
               },
             ],

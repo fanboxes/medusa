@@ -8,10 +8,16 @@ import {
 } from "./entities"
 
 export interface AdminPromotionResponse {
+  /**
+   * The promotion's details.
+   */
   promotion: AdminPromotion
 }
 
 export type AdminPromotionListResponse = PaginatedResponse<{
+  /**
+   * The list of promotions.
+   */
   promotions: AdminPromotion[]
 }>
 
@@ -20,6 +26,9 @@ export interface PromotionRuleResponse {
 }
 
 export type AdminPromotionRuleListResponse = {
+  /**
+   * The list of promotion rules.
+   */
   rules: AdminPromotionRule[]
 }
 
@@ -28,6 +37,9 @@ export interface RuleAttributeOptionsResponse {
 }
 
 export type AdminRuleAttributeOptionsListResponse = {
+  /**
+   * The list of rule attribute options.
+   */
   attributes: AdminRuleAttributeOption[]
 }
 
@@ -49,9 +61,12 @@ export interface RuleValueOptionsResponse {
 /**
  * @experimental
  */
-export type AdminRuleValueOptionsListResponse = {
+export type AdminRuleValueOptionsListResponse = PaginatedResponse<{
+  /**
+   * The list of rule value options.
+   */
   values: AdminRuleValueOption[]
-}
+}>
 
 export type AdminPromotionRuleBatchResponse = BatchResponse<AdminPromotionRule>
 

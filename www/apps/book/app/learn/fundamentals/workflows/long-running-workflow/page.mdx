@@ -20,6 +20,8 @@ Long-running workflows are useful if:
 
 - A task takes too long. For example, you're importing data from a CSV file.
 - The workflow's steps wait for an external action to finish before resuming execution. For example, before you import the data from the CSV file, you wait until the import is confirmed by the user.
+- You want to retry workflow steps after a long period of time. For example, you want to retry a step that processes a payment every day until the payment is successful.
+    - Refer to the [Retry Failed Steps chapter](../retry-failed-steps/page.mdx) for more information.
 
 ---
 
@@ -74,11 +76,12 @@ The second step has in its configuration object `async` set to `true` and it doe
 
 So, when you execute the `hello-world` workflow, it continues its execution in the background once it reaches the second step.
 
-<Note>
+### When is a Workflow Considered Long-Running?
 
-A workflow is also considered long-running if one of its steps has their `retryInterval` option set as explained in [this chapter](../retry-failed-steps/page.mdx).
+A workflow is also considered long-running if:
 
-</Note>
+- One of its steps has its `async` configuration set to `true` and doesn't return a step response.
+- One of its steps has its `retryInterval` option set as explained in the [Retry Failed Steps chapter](../retry-failed-steps/page.mdx).
 
 ---
 

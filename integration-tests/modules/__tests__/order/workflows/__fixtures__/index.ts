@@ -13,14 +13,22 @@ import {
 } from "@medusajs/utils"
 
 const providerId = "manual_test-provider"
+const providerIdCalculated = "manual-calculated_test-provider-calculated"
+
 export async function prepareDataFixtures({ container }) {
   const fulfillmentService = container.resolve(Modules.FULFILLMENT)
   const salesChannelService = container.resolve(Modules.SALES_CHANNEL)
   const stockLocationModule: IStockLocationService = container.resolve(
     Modules.STOCK_LOCATION
   )
+  const pricingModule = container.resolve(Modules.PRICING)
   const productModule = container.resolve(Modules.PRODUCT)
   const inventoryModule = container.resolve(Modules.INVENTORY)
+  const customerService = container.resolve(Modules.CUSTOMER)
+
+  const customer = await customerService.createCustomers({
+    email: "foo@bar.com",
+  })
 
   const shippingProfile = await fulfillmentService.createShippingProfiles({
     name: "test",
@@ -71,6 +79,18 @@ export async function prepareDataFixtures({ container }) {
       },
     })
 
+  const priceSets = await pricingModule.createPriceSets([
+    {
+      prices: [
+        {
+          amount: 10,
+          region_id: region.id,
+          currency_code: "usd",
+        },
+      ],
+    },
+  ])
+
   const [product] = await productModule.createProducts([
     {
       title: "Test product",
@@ -91,7 +111,7 @@ export async function prepareDataFixtures({ container }) {
     {
       inventory_item_id: inventoryItem.id,
       location_id: location.id,
-      stocked_quantity: 2,
+      stocked_quantity: 10,
       reserved_quantity: 0,
     },
   ])
@@ -123,6 +143,14 @@ export async function prepareDataFixtures({ container }) {
         inventory_item_id: inventoryItem.id,
       },
     },
+    {
+      [Modules.PRODUCT]: {
+        variant_id: product.variants[0].id,
+      },
+      [Modules.PRICING]: {
+        price_set_id: priceSets[0].id,
+      },
+    },
   ])
 
   await remoteLink.create([
@@ -131,7 +159,16 @@ export async function prepareDataFixtures({ container }) {
         stock_location_id: location.id,
       },
       [Modules.FULFILLMENT]: {
-        fulfillment_provider_id: "manual_test-provider",
+        fulfillment_provider_id: providerId,
+      },
+    },
+
+    {
+      [Modules.STOCK_LOCATION]: {
+        stock_location_id: location.id,
+      },
+      [Modules.FULFILLMENT]: {
+        fulfillment_provider_id: providerIdCalculated,
       },
     },
   ])
@@ -160,14 +197,29 @@ export async function prepareDataFixtures({ container }) {
       ],
     }
 
+  const shippingOptionCalculatedData: FulfillmentWorkflow.CreateShippingOptionsWorkflowInput =
+    {
+      name: "Calculated shipping option",
+      service_zone_id: serviceZone.id,
+      shipping_profile_id: shippingProfile.id,
+      provider_id: providerIdCalculated,
+      price_type: "calculated",
+      type: {
+        label: "Test type",
+        description: "Test description",
+        code: "test-code",
+      },
+      rules: [],
+    }
+
   const { result } = await createShippingOptionsWorkflow(container).run({
-    input: [shippingOptionData],
+    input: [shippingOptionData, shippingOptionCalculatedData],
   })
 
   const remoteQueryObject = remoteQueryObjectFromString({
     entryPoint: "shipping_option",
     variables: {
-      id: result[0].id,
+      id: result.map((r) => r.id),
     },
     fields: [
       "id",
@@ -189,13 +241,17 @@ export async function prepareDataFixtures({ container }) {
 
   const remoteQuery = container.resolve(ContainerRegistrationKeys.REMOTE_QUERY)
 
-  const [createdShippingOption] = await remoteQuery(remoteQueryObject)
+  const shippingOptions = await remoteQuery(remoteQueryObject)
   return {
-    shippingOption: createdShippingOption,
+    shippingOption: shippingOptions.find((s) => s.price_type === "flat"),
+    shippingOptionCalculated: shippingOptions.find(
+      (s) => s.price_type === "calculated"
+    ),
     region,
     salesChannel,
     location,
     product,
+    customer,
     inventoryItem,
   }
 }
@@ -205,18 +261,31 @@ export async function createOrderFixture({
   product,
   location,
   inventoryItem,
+  region,
+  salesChannel,
+  customer,
+  overrides,
+}: {
+  container: any
+  product: any
+  location: any
+  inventoryItem: any
+  salesChannel?: any
+  customer?: any
+  region?: any
+  overrides?: { quantity?: number }
 }) {
   const orderService: IOrderModuleService = container.resolve(Modules.ORDER)
 
   let order = await orderService.createOrders({
-    region_id: "test_region_id",
-    email: "foo@bar.com",
+    region_id: region?.id || "test_region_id",
+    email: customer?.email || "foo@bar.com",
     items: [
       {
         title: "Custom Item 2",
         variant_sku: product.variants[0].sku,
         variant_title: product.variants[0].title,
-        quantity: 1,
+        quantity: overrides?.quantity ?? 1,
         unit_price: 50,
         adjustments: [
           {
@@ -235,7 +304,7 @@ export async function createOrderFixture({
         currency_code: "usd",
       },
     ],
-    sales_channel_id: "test",
+    sales_channel_id: salesChannel?.id || "test",
     shipping_address: {
       first_name: "Test",
       last_name: "Test",
@@ -277,7 +346,7 @@ export async function createOrderFixture({
       },
     ],
     currency_code: "usd",
-    customer_id: "joe",
+    customer_id: customer?.id || "joe",
   })
 
   const inventoryModule = container.resolve(Modules.INVENTORY)

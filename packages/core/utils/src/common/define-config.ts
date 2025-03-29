@@ -233,10 +233,20 @@ function resolveModules(
       options: { redisUrl: process.env.REDIS_URL },
     },
     {
-      resolve: TEMPORARY_REDIS_MODULE_PACKAGE_NAMES[Modules.LOCKING],
-      options: { redisUrl: process.env.REDIS_URL },
+      resolve: MODULE_PACKAGE_NAMES[Modules.LOCKING],
+      options: {
+        providers: [
+          {
+            id: "locking-redis",
+            resolve: TEMPORARY_REDIS_MODULE_PACKAGE_NAMES[Modules.LOCKING],
+            is_default: true,
+            options: {
+              redisUrl: process.env.REDIS_URL,
+            },
+          },
+        ],
+      },
     },
-
     {
       resolve: MODULE_PACKAGE_NAMES[Modules.FILE],
       options: {

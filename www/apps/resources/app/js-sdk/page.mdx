@@ -209,7 +209,7 @@ The `Medusa` initializer accepts as a parameter an object with the following pro
       - `getItem`: A function that accepts a key to retrieve the JWT token.
       - `removeItem`: A function that accepts a key to remove the JWT token from storage.
 
-      Learn more in [this section](#use-custom-storage).
+      Learn more in the [Authentication](./auth/overview/page.mdx#custom-authentication-storage-in-js-sdk) guide.
 
       </Table.Cell>
       <Table.Cell>
@@ -239,7 +239,7 @@ The `Medusa` initializer accepts as a parameter an object with the following pro
       </Table.Cell>
       <Table.Cell>
 
-      `local`
+      `include`
 
       </Table.Cell>
     </Table.Row>
@@ -321,6 +321,14 @@ The `Medusa` initializer accepts as a parameter an object with the following pro
 
 ---
 
+## Manage Authentication in JS SDK
+
+The JS SDK supports different types of authentication methods and allow you to flexibly configure them.
+
+To learn more about configuring authentication in the JS SDK and sending authenticated requests, refer to the [Authentication](./auth/overview/page.mdx) guide.
+
+---
+
 ## Send Requests to Custom Routes
 
 The sidebar shows the different methods that you can use to send requests to Medusa's API routes.
@@ -372,6 +380,114 @@ The `fetch` method accepts as a first parameter the route's path relative to the
 In the second parameter, you can pass an object of [request configurations](https://developer.mozilla.org/en-US/docs/Web/API/RequestInit). You don't need to configure the content-type to be JSON, or stringify the `body` or `query` value, as that's handled by the method.
 
 The method returns a Promise that, when resolved, has the data returned by the request. If the request returns a JSON object, it'll be automatically parsed to a JavaScript object and returned.
+
+---
+
+## Handle Errors
+
+If an error occurs in a request, the JS SDK throws a `FetchError` object. This object has the following properties:
+
+- `status`: The HTTP status code of the response.
+- `statusText`: The error code. For example, `Unauthorized`.
+- `message`: The error message. For example, `Invalid credentials`.
+
+You can use these properties to handle errors in your application.
+
+For example:
+
+<CodeTabs group="request-type">
+  <CodeTab label="Promise" value="promise">
+
+```ts
+sdk.store.customer.listAddress()
+.then(({ addresses, count, offset, limit }) => {
+  // no errors occurred
+  // do something with the data
+  console.log(addresses)
+})
+.catch((error) => {
+  const fetchError = error as FetchError
+
+  if (fetchError.statusText === "Unauthorized") {
+    // redirect to login page
+  } else {
+    // handle other errors
+  }
+})
+```
+
+  </CodeTab>
+  <CodeTab label="Async/Await" value="async-await">
+
+```ts
+try {
+  const { 
+    addresses, 
+    count, 
+    offset, 
+    limit,
+  } = await sdk.store.customer.listAddress()
+  // no errors occurred
+  // do something with the data
+  console.log(addresses)
+} catch (error) {
+  const fetchError = error as FetchError
+
+  if (fetchError.statusText === "Unauthorized") {
+    // redirect to login page
+  } else {
+    // handle other errors
+  }
+}
+```
+
+  </CodeTab>
+</CodeTabs>
+
+In the example above, you handle errors in two ways:
+
+- Since the JS SDK's methods return a Promise, you can use the `catch` method to handle errors.
+- You can use the `try...catch` statement to handle errors when using `async/await`. This is useful when you're executing the methods as part of a larger function.
+
+In the `catch` method or statement, you have access to the error object of type `FetchError`.
+
+An example of handling the error is to check if the error's `statusText` is `Unauthorized`. If so, you can redirect the customer to the login page. Otherwise, you can handle other errors by showing an alert, for example.
+
+---
+
+## Pass Headers in Requests
+
+There are two ways to pass custom headers in requests when using the JS SDK:
+
+1. Using the `globalHeaders` configuration: This is useful when you want to pass the same headers in all requests. For example, if you want to pass a custom header for tracking purposes:
+
+```ts
+const sdk = new Medusa({
+  // ...
+  globalHeaders: {
+    "x-tracking-id": "123456789",
+  },
+})
+```
+
+2. Using the headers parameter of a specific method. Every method has as a last parameter a headers parameter, which is an object of headers to pass in the request. This is useful when you want to pass a custom header in specific requests. For example, to disable HTTP compression for specific requests:
+
+```ts
+sdk.store.product.list({
+  limit,
+  offset,
+}, {
+  "x-no-compression": "false",
+})
+```
+
+In the example above, you pass the `x-no-compression` header in the request to disable HTTP compression. You pass it as the last parameter of the `sdk.store.product.list` method.
+
+<Note title="Tip">
+
+The JS SDK appends request-specific headers to authentication headers and headers configured in the `globalHeaders` configuration. So, in the example above, the `x-no-compression` header is passed in the request along with the authentication headers and any headers configured in the `globalHeaders` configuration.
+
+</Note>
 
 ---
 
@@ -509,49 +625,3 @@ revalidateTag("products")
 ```
 
 Learn more in the [Next.js documentation](https://nextjs.org/docs/app/building-your-application/caching#fetch-optionsnexttags-and-revalidatetag).
-
-### Use Custom Storage
-
-<Note>
-
-The `auth.storage` configuration is only available after Medusa v2.5.1.
-
-</Note>
-
-If you're using the JS SDK in an environment where Local Storage or Session Storage isn't available, such as in a React Native application, you can define custom logic to store the JWT token.
-
-To do that, set the `auth.jwtTokenStorageMethod` configuration to `custom` and define the `auth.storage` configuration with the custom logic to store the JWT token.
-
-For example, if you're using React Native's `AsyncStorage`:
-
-```ts title="config.ts"
-import AsyncStorage from "@react-native-async-storage/async-storage"
-import Medusa from "@medusajs/js-sdk"
-
-let MEDUSA_BACKEND_URL = "http://localhost:9000"
-
-if (process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL) {
-  MEDUSA_BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
-}
-
-export const sdk = new Medusa({
-  baseUrl: MEDUSA_BACKEND_URL,
-  debug: process.env.NODE_ENV === "development",
-  publishableKey: process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
-  auth: {
-    type: "jwt",
-    jwtTokenStorageMethod: "custom",
-    storge: AsyncStorage,
-  },
-})
-```
-
-In the `auth` configuration, you specify the `type` as `jwt`, the `jwtTokenStorageMethod` as `custom`, and the `storage` as `AsyncStorage`. So, the SDK uses `AsyncStorage` to store the JWT token.
-
-#### Custom Storage Methods
-
-The object or class passed to `auth.storage` configuration must have the following methods:
-
-- `setItem`: A function that accepts a key and value to store the JWT token.
-- `getItem`: A function that accepts a key to retrieve the JWT token.
-- `removeItem`: A function that accepts a key to remove the JWT token from storage.

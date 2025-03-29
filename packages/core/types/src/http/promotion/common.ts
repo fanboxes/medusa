@@ -9,10 +9,36 @@ import {
 import { AdminCampaign } from "../campaign"
 
 export interface BasePromotionRule {
+  /**
+   * The rule's ID.
+   */
   id: string
+  /**
+   * The rule's description.
+   */
   description?: string | null
+  /**
+   * The attribute to compare against when checking whether a promotion can be applied on a cart.
+   * 
+   * @example
+   * items.product_id
+   */
   attribute?: string
+  /**
+   * The operator used to check whether the buy rule applies on a cart. 
+   * For example, `eq` means that the cart's value for the specified attribute 
+   * must match the specified value.
+   * 
+   * @example
+   * eq
+   */
   operator?: PromotionRuleOperatorValues
+  /**
+   * The values to compare against when checking whether a promotion can be applied on a cart.
+   * 
+   * @example
+   * prod_123
+   */
   values: BasePromotionRuleValue[]
 }
 
@@ -47,13 +73,28 @@ export interface BasePromotion {
 }
 
 export interface BasePromotionRuleValue {
+  /**
+   * The rule value's ID.
+   */
   id: string
+  /**
+   * The rule value's value.
+   */
   value?: string
 }
 
 export interface BaseRuleAttributeOptions {
+  /**
+   * The rule attribute option's ID.
+   */
   id: string
+  /**
+   * The rule attribute option's value.
+   */
   value: string
+  /**
+   * The rule attribute option's label.
+   */
   label: string
   /**
    * @ignore
@@ -71,12 +112,24 @@ export interface BaseRuleAttributeOptions {
    * @ignore
    */
   hydrate?: boolean
+  /**
+   * The attribute option's operators.
+   */
   operators: BaseRuleOperatorOptions[]
 }
 
 export interface BaseRuleOperatorOptions {
+  /**
+   * The operator option's ID.
+   */
   id: string
+  /**
+   * The operator option's value.
+   */
   value: string
+  /**
+   * The operator option's label.
+   */
   label: string
 }
 

@@ -12,31 +12,27 @@ export const metadata = {
 
 # {metadata.title}
 
+In this guide, you'll learn how to retrieve the list of regions in your storefront.
+
+<Note title="Good to know">
+
+A region is a geographical area that you sell your products in. In your storefront, you should display regions to your customers, allowing them to select their region to see prices, taxes, and payment methods specific to their region.
+
+</Note>
+
 To list regions in your storefront, send a request to the [List Regions API route](!api!/store#regions_getregions):
 
+<Note title="Tip">
+
+Learn how to install and configure the JS SDK in the [JS SDK documentation](../../../js-sdk/page.mdx).
+
+</Note>
+
 <CodeTabs group="store-request">
-  <CodeTab label="Fetch API" value="fetch">
-
-  ```ts
-  fetch(`http://localhost:9000/store/regions`, {
-    credentials: "include",
-    headers: {
-      "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-    },
-  })
-  .then((res) => res.json())
-  .then(({ regions }) => {
-    // use regions...
-    console.log(regions)
-  })
-  ```
-
-  </CodeTab>
   <CodeTab label="React" value="react">
 
 export const highlights = [
-  ["17"], ["18"], ["19"], ["20"], ["21"], ["22"], ["23"], ["24"],
-  ["25"], ["26"], ["27"]
+  ["18"], ["19"], ["20"], ["21"], ["22"]
 ]
 
   ```tsx highlights={highlights}
@@ -44,6 +40,7 @@ export const highlights = [
 
   import { useEffect, useState } from "react"
   import { HttpTypes } from "@medusajs/types"
+  import { sdk } from "@/lib/sdk"
 
   export default function Regions() {
     const [loading, setLoading] = useState(true)
@@ -56,13 +53,7 @@ export const highlights = [
         return 
       }
 
-      fetch(`http://localhost:9000/store/regions`, {
-        credentials: "include",
-        headers: {
-          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-        },
-      })
-      .then((res) => res.json())
+      sdk.store.region.list()
       .then(({ regions: dataRegions }) => {
         setRegions(dataRegions)
         setLoading(false)
@@ -86,6 +77,19 @@ export const highlights = [
   ```
 
   </CodeTab>
+  <CodeTab label="JS SDK" value="js-sdk">
+
+  ```ts
+  sdk.store.region.list()
+  .then(({ regions: dataRegions }) => {
+    setRegions(dataRegions)
+    setLoading(false)
+  })
+  ```
+
+  </CodeTab>
 </CodeTabs>
 
 The response has a `regions` field, which is an array of [regions](!api!/store#regions_region_schema).
+
+Next, you can learn how to allow the customer to select a region in the [Store and Retrieve Region guide](../store-retrieve-region/page.mdx).

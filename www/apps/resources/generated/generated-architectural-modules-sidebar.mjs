@@ -317,13 +317,32 @@ const generatedgeneratedArchitecturalModulesSidebarSidebar = {
           "isPathHref": true,
           "type": "sub-category",
           "title": "Guides",
+          "autogenerate_tags": "notification+server",
+          "autogenerate_as_ref": true,
+          "sort_sidebar": "alphabetize",
           "children": [
+            {
+              "loaded": true,
+              "isPathHref": true,
+              "type": "ref",
+              "title": "Abandoned Cart Notification",
+              "path": "https://docs.medusajs.com/resources/how-to-tutorials/tutorials/abandoned-cart",
+              "children": []
+            },
             {
               "loaded": true,
               "isPathHref": true,
               "type": "link",
               "path": "/references/notification-provider-module",
               "title": "Create Notification Provider",
+              "children": []
+            },
+            {
+              "loaded": true,
+              "isPathHref": true,
+              "type": "ref",
+              "title": "Handle Password Reset Event",
+              "path": "https://docs.medusajs.com/resources/commerce-modules/auth/reset-password",
               "children": []
             },
             {

@@ -348,45 +348,33 @@ class OasKindGenerator extends FunctionKindGenerator {
       tagName,
     })
 
-    // retrieve code examples
-    // only generate cURL examples, and for the rest
-    // check if the --generate-examples option is enabled
-    oas["x-codeSamples"] = [
-      {
-        ...OasExamplesGenerator.CURL_CODESAMPLE_DATA,
-        source: this.oasExamplesGenerator.generateCurlExample({
-          method: methodName,
-          path: normalizedOasPath,
-          isAdminAuthenticated,
-          isStoreAuthenticated,
-          requestSchema,
-        }),
-      },
-    ]
+    const curlExample = this.oasExamplesGenerator.generateCurlExample({
+      method: methodName,
+      path: normalizedOasPath,
+      isAdminAuthenticated,
+      isStoreAuthenticated,
+      requestSchema,
+    })
+    const jsSdkExample = this.oasExamplesGenerator.generateJsSdkExanmple({
+      method: methodName,
+      path: normalizedOasPath,
+    })
 
-    if (this.options.generateExamples) {
-      oas["x-codeSamples"].push(
-        {
-          ...OasExamplesGenerator.JSCLIENT_CODESAMPLE_DATA,
-          source: this.oasExamplesGenerator.generateJSClientExample({
-            oasPath,
-            httpMethod: methodName,
-            area: splitOasPath[0] as OasArea,
-            tag: tagName || "",
-            isAdminAuthenticated,
-            isStoreAuthenticated,
-            parameters: (oas.parameters as OpenAPIV3.ParameterObject[])?.filter(
-              (parameter) => parameter.in === "path"
-            ),
-            requestBody: requestSchema,
-            responseBody: responseSchema,
-          }),
-        },
-        {
-          ...OasExamplesGenerator.MEDUSAREACT_CODESAMPLE_DATA,
-          source: "EXAMPLE", // TODO figure out if we can generate examples for medusa react
-        }
-      )
+    // retrieve code examples
+    oas["x-codeSamples"] = []
+
+    if (jsSdkExample) {
+      oas["x-codeSamples"].push({
+        ...OasExamplesGenerator.JSCLIENT_CODESAMPLE_DATA,
+        source: jsSdkExample,
+      })
+    }
+
+    if (curlExample) {
+      oas["x-codeSamples"].push({
+        ...OasExamplesGenerator.CURL_CODESAMPLE_DATA,
+        source: curlExample,
+      })
     }
 
     // add security details if applicable
@@ -672,44 +660,6 @@ class OasKindGenerator extends FunctionKindGenerator {
       }
     }
 
-    // update examples if the --generate-examples option is enabled
-    if (this.options.generateExamples) {
-      const oldJsExampleIndex = oas["x-codeSamples"]
-        ? oas["x-codeSamples"].findIndex(
-            (example) =>
-              example.label ==
-              OasExamplesGenerator.JSCLIENT_CODESAMPLE_DATA.label
-          )
-        : -1
-
-      if (oldJsExampleIndex === -1) {
-        // only generate a new example if it doesn't have an example
-        const newJsExample = this.oasExamplesGenerator.generateJSClientExample({
-          oasPath,
-          httpMethod: methodName,
-          area: splitOasPath[0] as OasArea,
-          tag: tagName || "",
-          isAdminAuthenticated,
-          isStoreAuthenticated,
-          parameters: (oas.parameters as OpenAPIV3.ParameterObject[])?.filter(
-            (parameter) => parameter.in === "path"
-          ),
-          requestBody: updatedRequestSchema?.schema,
-          responseBody: updatedResponseSchema,
-        })
-
-        oas["x-codeSamples"] = [
-          ...(oas["x-codeSamples"] || []),
-          {
-            ...OasExamplesGenerator.JSCLIENT_CODESAMPLE_DATA,
-            source: newJsExample,
-          },
-        ]
-      }
-
-      // TODO add for Medusa React once we figure out how to generate it
-    }
-
     // check if cURL example should be updated.
     const oldCurlExampleIndex = oas["x-codeSamples"]
       ? oas["x-codeSamples"].findIndex(
@@ -742,6 +692,49 @@ class OasKindGenerator extends FunctionKindGenerator {
         )
       )
     }
+
+    // generate JS SDK example
+    const oldJsSdkExampleIndex = oas["x-codeSamples"]
+      ? oas["x-codeSamples"].findIndex(
+          (example) =>
+            example.label ===
+            OasExamplesGenerator.JSCLIENT_CODESAMPLE_DATA.label
+        )
+      : -1
+    const jsSdkExample = this.oasExamplesGenerator.generateJsSdkExanmple({
+      method: methodName,
+      path: normalizedOasPath,
+    })
+    if (jsSdkExample) {
+      if (oldJsSdkExampleIndex === -1) {
+        oas["x-codeSamples"] = [
+          ...(oas["x-codeSamples"] || []),
+          {
+            ...OasExamplesGenerator.JSCLIENT_CODESAMPLE_DATA,
+            source: jsSdkExample,
+          },
+        ]
+      } else {
+        oas["x-codeSamples"]![oldJsSdkExampleIndex] = {
+          ...OasExamplesGenerator.JSCLIENT_CODESAMPLE_DATA,
+          source: jsSdkExample,
+        }
+      }
+    } else if (oldJsSdkExampleIndex !== -1) {
+      // output a warning that maybe the JS SDK should be updated
+      console.warn(
+        chalk.yellow(
+          `[WARNING] The JS SDK example of ${methodName} ${oasPath} is missing from generated route examples. Consider updating it.`
+        )
+      )
+    }
+
+    // sort the code samples to show JS SDK first
+    oas["x-codeSamples"] = oas["x-codeSamples"]?.sort((a) => {
+      return a.label === OasExamplesGenerator.JSCLIENT_CODESAMPLE_DATA.label
+        ? -1
+        : 1
+    })
 
     // push new tags to the tags property
     if (tagName) {

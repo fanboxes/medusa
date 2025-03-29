@@ -13,71 +13,51 @@ export const metadata = {
 
 # {metadata.title}
 
-The second step of the checkout flow is to ask the customer for their address. A cart has shipping and billing addresses that customers need to set.
+In this guide, you'll learn how to set the cart's shipping and billing addresses. This typically should be the second step of the checkout flow, but you can also change the steps of the checkout flow as you see fit.
 
-You can either show a form to enter the address, or, if the customer is logged in, allow them to pick an address from their account.
+## Approaches to Set the Cart's Addresses
+
+A cart has shipping and billing addresses that customers need to set. You can either:
+
+- [Show a form to enter the address](#approach-one-address-form);
+- Or [allow the customer to pick an address from their account](#approach-two-select-customer-address).
 
 This guide shows you how to implement both approaches. You can choose either or combine them, based on your use case.
 
+---
+
 ## Approach One: Address Form
 
-The first approach to setting the cart's shipping and billing addresses is to show a form to the customer to enter their address details. To update the cart's address, use the [Update Cart API route](!api!/store#carts_postcartsid) to update the cart's addresses.
+The first approach to setting the cart's shipping and billing addresses is to show a form to the customer to enter their address details.
+
+Then, to update the cart's address, use the [Update Cart API route](!api!/store#carts_postcartsid).
 
 For example:
 
+<Note title="Tip">
+
+- This example uses the `useCart` hook defined in the [Cart React Context guide](../../cart/context/page.mdx).
+- Learn how to install and configure the JS SDK in the [JS SDK documentation](../../../js-sdk/page.mdx).
+
+</Note>
+
 <CodeTabs group="store-request">
-  <CodeTab label="Fetch API" value="fetch">
-
-  ```ts
-  const cartId = localStorage.getItem("cart_id")
-
-  const address = {
-    first_name,
-    last_name,
-    address_1,
-    company,
-    postal_code,
-    city,
-    country_code,
-    province,
-    phone,
-  }
-
-  fetch(`http://localhost:9000/store/carts/${cartId}`, {
-    credentials: "include",
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-    },
-    body: JSON.stringify({
-      shipping_address: address,
-      billing_address: address,
-    }),
-  })
-  .then((res) => res.json())
-  .then(({ cart }) => {
-    // use cart...
-    console.log(cart)
-  })
-  ```
-
-  </CodeTab>
   <CodeTab label="React" value="react">
 
 export const highlights = [
   ["4", "useCart", "The `useCart` hook was defined in the Cart React Context documentation."],
-  ["29", "address", "Assemble the address object to be used for both shipping and billing addresses."],
-  ["41"], ["42"], ["43"], ["44"], ["45"], ["46"], ["47"], ["48"],
-  ["49"], ["50"], ["51"], ["52"], ["53"], ["54"], ["55"], ["56"],
-  ["103", "", "The address's country can only be within the cart's region."]
+  ["30", "address", "Assemble the address object to be used for both shipping and billing addresses."],
+  ["42"], ["43"], ["44"], ["45"], ["46"], ["47"], ["48"],
+  ["49"], ["50"],
+  ["96", "", "The address's country can only be within the cart's region."]
 ]
 
   ```tsx highlights={highlights}
   "use client" // include with Next.js 13+
 
   import { useState } from "react"
-  import { useCart } from "../../../providers/cart"
+  import { useCart } from "@/providers/cart"
+  import { sdk } from "@/lib/sdk"
   
   export default function CheckoutAddressStep() {
     const { cart, setCart } = useCart()
@@ -109,26 +89,18 @@ export const highlights = [
         company,
         postal_code: postalCode,
         city,
-        country_code: countryCode,
+        country_code: countryCode || cart.region?.countries?.[0].iso_2,
         province,
         phone: phoneNumber,
       }
 
-      fetch(`http://localhost:9000/store/carts/${cart.id}`, {
-        credentials: "include",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-        },
-        body: JSON.stringify({
-          shipping_address: address,
-          billing_address: address,
-        }),
+      sdk.store.cart.update(cart.id, {
+        shipping_address: address,
+        billing_address: address,
       })
-      .then((res) => res.json())
       .then(({ cart: updatedCart }) => {
         setCart(updatedCart)
+        console.log(updatedCart)
       })
       .finally(() => setLoading(false))
     }
@@ -209,6 +181,34 @@ export const highlights = [
   ```
 
   </CodeTab>
+  <CodeTab label="JS SDK" value="js-sdk">
+
+  ```ts
+  const cartId = localStorage.getItem("cart_id")
+
+  const address = {
+    first_name,
+    last_name,
+    address_1,
+    company,
+    postal_code,
+    city,
+    country_code,
+    province,
+    phone,
+  }
+
+  sdk.store.cart.update(cart.id, {
+    shipping_address: address,
+    billing_address: address,
+  })
+  .then(({ cart }) => {
+    // use cart...
+    console.log(cart)
+  })
+  ```
+
+  </CodeTab>
 </CodeTabs>
 
 In the example above:
@@ -216,13 +216,15 @@ In the example above:
 - The same address is used for shipping and billing for simplicity. You can provide the option to enter both addresses instead.
 - You send the address to the Update Cart API route under the `shipping_address` and `billing_address` request body parameters.
 - The updated cart object is returned in the response.
-- **React example:** in the address, the chosen country must be in the cart's region. So, only the countries part of the cart's region are shown.
+- **React example:** in the address, the chosen country must be in the cart's region. So, only the countries part of the cart's region are shown in the Country input.
 
 ---
 
 ## Approach Two: Select Customer Address
 
-The second approach to setting the cart's shipping and billing addresses is to allow the logged-in customer to select an address they added previously to their account. To retrieve the customer's addresses, use the [List Customer Addresses API route](!api!/store#customers_getcustomersmeaddresses). Then, once the customer selects an address, use the [Update Cart API route](!api!/store#carts_postcartsid) to update the cart's addresses.
+The second approach to setting the cart's shipping and billing addresses is to allow the logged-in customer to select an address they added previously to their account.
+
+To retrieve the logged-in customer's addresses, use the [List Customer Addresses API route](!api!/store#customers_getcustomersmeaddresses). Then, once the customer selects an address, use the [Update Cart API route](!api!/store#carts_postcartsid) to update the cart's addresses.
 
 <Note title="Good to Know">
 
@@ -232,89 +234,34 @@ A customer's address and a cart's address are represented by different data mode
 
 For example:
 
+<Note title="Tip">
+
+- This example uses the `useCart` hook defined in the [Cart React Context guide](../../cart/context/page.mdx).
+- This example uses the `useCustomer` hook defined in the [Customer React Context guide](../../customers/context/page.mdx).
+
+</Note>
+
 <CodeTabs group="store-request">
-  <CodeTab label="Fetch API" value="fetch">
-
-export const fetch2Highlights = [
-  ["1", "cartId", "Assuming the cart's ID is stored in the database."],
-  ["3", "retrieveCustomerAddresses", "Retrieve the customer's addresses."],
-  ["18", "updateCartAddress", "Update the cart's address with the selected customer address."],
-  ["19", "address", "Map the customer address to the expected cart address."],
-  ["39", "shipping_address", "Pass the selected address as a shipping address."],
-  ["40", "billing_address", "Pass the selected address as a billing address."],
-]
-
-```ts highlights={fetch2Highlights}
-const cartId = localStorage.getItem("cart_id")
-
-const retrieveCustomerAddresses = () => {
-  fetch("http://localhost:9000/store/customers/me/addresses", {
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-      "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-    },
-  })
-  .then((res) => res.json())
-  .then(({ addresses }) => {
-    // use addresses...
-    console.log(addresses)
-  })
-}
-
-const updateCartAddress = (customerAddress: Record<string, unknown>) => {
-  const address = {
-      first_name: customerAddress.first_name || "",
-      last_name: customerAddress.last_name || "",
-      address_1: customerAddress.address_1 || "",
-      company: customerAddress.company || "",
-      postal_code: customerAddress.postal_code || "",
-      city: customerAddress.city || "",
-      country_code: customerAddress.country_code || cart.region?.countries?.[0].iso_2,
-      province: customerAddress.province || "",
-      phone: customerAddress.phone || "",
-    }
-
-    fetch(`http://localhost:9000/store/carts/${cart.id}`, {
-      credentials: "include",
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-      },
-      body: JSON.stringify({
-        shipping_address: address,
-        billing_address: address,
-      }),
-    })
-    .then((res) => res.json())
-    .then(({ cart: updatedCart }) => {
-      // use cart...
-      console.log(cart)
-    })
-}
-```
-
-  </CodeTab>
   <CodeTab label="React" value="react">
 
 export const react2Highlights = [
   ["4", "useCart", "The `useCart` hook was defined in the Cart React Context documentation."],
   ["5", "useCustomer", "The `useCustomer` hook was defined in the Customer React Context documentation."],
-  ["11", "selectedAddress", "Store the ID of the address that the customer selects."],
-  ["20", "updateAddress", "Update the cart's shipping and billing addresses based on the selected address."],
-  ["31", "address", "Map the customer address to the expected cart address."],
-  ["51", "shipping_address", "Pass the selected address as a shipping address."],
-  ["52", "billing_address", "Pass the selected address as a billing address."],
-  ["66", "select", "Show a dropdown to select the customer's address."],
+  ["12", "selectedAddress", "Store the ID of the address that the customer selects."],
+  ["21", "updateAddress", "Update the cart's shipping and billing addresses based on the selected address."],
+  ["32", "address", "Map the customer address to the expected cart address."],
+  ["45", "shipping_address", "Pass the selected address as a shipping address."],
+  ["46", "billing_address", "Pass the selected address as a billing address."],
+  ["58", "select", "Show a select input to select from the customer's addresses."],
 ]
 
 ```tsx highlights={react2Highlights}
 "use client" // include with Next.js 13+
 
 import { useEffect, useState } from "react"
-import { useCart } from "../../../providers/cart"
-import { useCustomer } from "../../../providers/customer"
+import { useCart } from "@/providers/cart"
+import { useCustomer } from "@/providers/customer"
+import { sdk } from "@/lib/sdk"
 
 export default function CheckoutAddressStep() {
   const { cart, setCart } = useCart()
@@ -352,19 +299,10 @@ export default function CheckoutAddressStep() {
       phone: customerAddress.phone || "",
     }
 
-    fetch(`http://localhost:9000/store/carts/${cart.id}`, {
-      credentials: "include",
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-      },
-      body: JSON.stringify({
-        shipping_address: address,
-        billing_address: address,
-      }),
+    sdk.store.cart.update(cart.id, {
+      shipping_address: address,
+      billing_address: address,
     })
-    .then((res) => res.json())
     .then(({ cart: updatedCart }) => {
       setCart(updatedCart)
     })
@@ -392,14 +330,63 @@ export default function CheckoutAddressStep() {
 ```
 
   </CodeTab>
+  <CodeTab label="JS SDK" value="js-sdk">
+
+export const fetch2Highlights = [
+  ["1", "cartId", "Assuming the cart's ID is stored in the local storage."],
+  ["3", "retrieveCustomerAddresses", "Retrieve the customer's addresses from Medusa."],
+  ["11", "updateCartAddress", "Update the cart's address with the selected customer address."],
+  ["12", "address", "Map the customer address to the expected cart address."],
+  ["25", "shipping_address", "Pass the selected address as a shipping address."],
+  ["26", "billing_address", "Pass the selected address as a billing address."],
+]
+
+```ts highlights={fetch2Highlights}
+const cartId = localStorage.getItem("cart_id")
+
+const retrieveCustomerAddresses = () => {
+  sdk.store.customer.listAddress()
+  .then(({ addresses }) => {
+    // use addresses...
+    console.log(addresses)
+  })
+}
+
+const updateCartAddress = (customerAddress: Record<string, unknown>) => {
+  const address = {
+      first_name: customerAddress.first_name || "",
+      last_name: customerAddress.last_name || "",
+      address_1: customerAddress.address_1 || "",
+      company: customerAddress.company || "",
+      postal_code: customerAddress.postal_code || "",
+      city: customerAddress.city || "",
+      country_code: customerAddress.country_code || cart.region?.countries?.[0].iso_2,
+      province: customerAddress.province || "",
+      phone: customerAddress.phone || "",
+    }
+
+    sdk.store.cart.update(cart.id, {
+      shipping_address: address,
+      billing_address: address,
+    })
+    .then(({ cart: updatedCart }) => {
+      // use cart...
+      console.log(cart)
+    })
+}
+```
+
+  </CodeTab>
 </CodeTabs>
 
 In the example above, you retrieve the customer's addresses and, when the customer selects an address, you update the cart's shipping and billing addresses with the selected address.
 
-In the React example, you use the [Customer React Context](../../customers/context/page.mdx) to retrieve the logged-in customer, who has a list of addresses. You show a dropdown to select the address, and when the customer selects an address, you send a request to update the cart's addresses.
-
 <Note title="Tip">
 
-For both examples, you send a request as an authenticated customer using the cookie session. Learn about other options to send an authenticated request in [this guide](../../customers/login/page.mdx).
+The JS SDK automatically sends an authenticated request as the logged-in customer as explained in the [Login Customer guide](../../customers/login/page.mdx). If you're using the Fetch API, you can either use `credentials: include` if the customer is already authenticated with a cookie session, or pass the Authorization Bearer token in the request's header.
 
 </Note>
+
+In the React example, you use the [Customer React Context](../../customers/context/page.mdx) to retrieve the logged-in customer, who has a list of addresses. You show a select input to select an address.
+
+When the customer selects an address, you send a request to [Update Cart API route](!api!/store#carts_postcartsid) passing the selected address as a shipping and billing address.

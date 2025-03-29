@@ -7,28 +7,46 @@ tags:
 import { CodeTabs, CodeTab } from "docs-ui"
 
 export const metadata = {
-  title: `Region Context in Storefront`,
+  title: `Region React Context in Storefront`,
 }
 
 # {metadata.title}
 
-Throughout your storefront, you'll need to access the selected region to perform different actions, such as retrieve product's prices in the selected region.
+In this guide, you'll learn how to create a region context in your React storefront.
+
+## Why Create a Region Context?
+
+Throughout your storefront, you'll need to access the customer's selected region to perform different actions, such as retrieve product's prices in the selected region.
+
+<Note title="Tip">
+
+To learn how to allow customers to select their region, refer to the [Store Selected Region in Storefront](../store-retrieve-region/page.mdx) guide.
+
+</Note>
 
 So, if your storefront is React-based, create a region context and add it at the top of your components tree. Then, you can access the selected region anywhere in your storefront.
+
+---
 
 ## Create Region Context Provider
 
 For example, create the following file that exports a `RegionProvider` component and a `useRegion` hook:
 
+<Note title="Tip">
+
+Learn how to install and configure the JS SDK in the [JS SDK documentation](../../../js-sdk/page.mdx).
+
+</Note>
+
 export const highlights = [
-  ["12", "region", "Expose region to children of the context provider."],
-  ["13", "setRegion", "Allow the context provider's children to change the selected region."],
-  ["24", "RegionProvider", "The provider component to use in your component tree."],
-  ["32", "", "If a region is set, set its ID in the local storage again in case it changed."],
-  ["39", "regionId", "Retrieve the selected region from the `localStorage`."],
-  ["42", "fetch", "If no region is selected, retrieve the list of regions from the Medusa application and select the first one."],
-  ["54", "fetch", "If a region is selected, retrieve it from the Medusa application."],
-  ["77", "useRegion", "The hook that child components of the provider use to access the region."]
+  ["13", "region", "Expose region to children of the context provider."],
+  ["14", "setRegion", "Allow the context provider's children to change the selected region."],
+  ["25", "RegionProvider", "The provider component to use in your component tree."],
+  ["31", "", "If a region is set, set its ID in the local storage again in case it changed."],
+  ["38", "regionId", "Retrieve the selected region from the `localStorage`."],
+  ["41", "list", "If no region is selected, retrieve the list of regions from the Medusa application and select the first one."],
+  ["47", "retrieve", "If a region is selected, retrieve it from the Medusa application."],
+  ["6", "useRegion", "The hook that child components of the provider use to access the region."]
 ]
 
 ```tsx highlights={highlights}
@@ -41,6 +59,7 @@ import {
   useState,
 } from "react"
 import { HttpTypes } from "@medusajs/types"
+import { sdk } from "@/lib/sdk"
 
 type RegionContextType = {
   region?: HttpTypes.StoreRegion
@@ -55,9 +74,7 @@ type RegionProviderProps = {
   children: React.ReactNode
 }
 
-export const RegionProvider = (
-  { children }: RegionProviderProps
-) => {
+export const RegionProvider = ({ children }: RegionProviderProps) => {
   const [region, setRegion] = useState<
     HttpTypes.StoreRegion
   >()
@@ -73,25 +90,13 @@ export const RegionProvider = (
     const regionId = localStorage.getItem("region_id")
     if (!regionId) {
       // retrieve regions and select the first one
-      fetch(`http://localhost:9000/store/regions`, {
-        credentials: "include",
-        headers: {
-          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-        },
-      })
-      .then((res) => res.json())
+      sdk.store.region.list()
       .then(({ regions }) => {
         setRegion(regions[0])
       })
     } else {
       // retrieve selected region
-      fetch(`http://localhost:9000/store/regions/${regionId}`, {
-        credentials: "include",
-        headers: {
-          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "temp",
-        },
-      })
-      .then((res) => res.json())
+      sdk.store.region.retrieve(regionId)
       .then(({ region: dataRegion }) => {
         setRegion(dataRegion)
       })
@@ -135,8 +140,8 @@ For example, if you're using Next.js, add it to the `app/layout.tsx` or `src/app
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
-import { CartProvider } from "../providers/cart"
-import { RegionProvider } from "../providers/region"
+import { CartProvider } from "@/providers/cart"
+import { RegionProvider } from "@/providers/region"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -163,9 +168,7 @@ export default function RootLayout({
 }
 ```
 
----
-
-## Use useRegion Hook
+### Use useRegion Hook
 
 Now, you can use the `useRegion` hook in child components of `RegionProvider`.
 
@@ -174,7 +177,7 @@ For example:
 ```tsx
 "use client" // include with Next.js 13+
 // ...
-import { useRegion } from "../providers/region"
+import { useRegion } from "@/providers/region"
 
 export default function Products() {
   const { region } = useRegion()

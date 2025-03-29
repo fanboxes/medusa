@@ -19,6 +19,7 @@ import {
   GraphQLSchema,
   mergePluginModules,
   promiseAll,
+  validateModuleName,
 } from "@medusajs/framework/utils"
 import { WorkflowLoader } from "@medusajs/framework/workflows"
 import { asValue } from "awilix"
@@ -149,6 +150,10 @@ export default async ({
 
   const plugins = await getResolvedPlugins(rootDirectory, configModule, true)
   mergePluginModules(configModule, plugins)
+
+  Object.keys(configModule.modules ?? {}).forEach((key) => {
+    validateModuleName(key)
+  })
 
   const linksSourcePaths = plugins.map((plugin) =>
     join(plugin.resolve, "links")

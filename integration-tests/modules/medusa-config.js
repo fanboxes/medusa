@@ -22,6 +22,12 @@ const customFulfillmentProvider = {
   id: "test-provider",
 }
 
+const customFulfillmentProviderCalculated = {
+  resolve: require("./dist/utils/providers/fulfillment-manual-calculated")
+    .default,
+  id: "test-provider-calculated",
+}
+
 module.exports = {
   admin: {
     disable: true,
@@ -96,7 +102,10 @@ module.exports = {
     [Modules.FULFILLMENT]: {
       /** @type {import('@medusajs/fulfillment').FulfillmentModuleOptions} */
       options: {
-        providers: [customFulfillmentProvider],
+        providers: [
+          customFulfillmentProvider,
+          customFulfillmentProviderCalculated,
+        ],
       },
     },
     [Modules.NOTIFICATION]: {

@@ -28,6 +28,7 @@ import TagPaths from "../Paths"
 import useSWR from "swr"
 import basePathUrl from "../../../utils/base-path-url"
 import { getSectionId } from "docs-utils"
+import { RoutesSummary } from "./RoutesSummary"
 
 export type TagSectionProps = {
   tag: OpenAPI.TagObject
@@ -169,7 +170,9 @@ const TagSectionComponent = ({ tag }: TagSectionProps) => {
               />
             </div>
           }
-          codeContent={<></>}
+          codeContent={
+            <RoutesSummary tagName={tag.name} paths={pathsData?.paths || {}} />
+          }
         />
       </SectionContainer>
       {schemaData && (

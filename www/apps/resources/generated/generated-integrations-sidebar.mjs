@@ -110,6 +110,23 @@ const generatedgeneratedIntegrationsSidebarSidebar = {
       "loaded": true,
       "isPathHref": true,
       "type": "category",
+      "title": "Migration",
+      "initialOpen": true,
+      "children": [
+        {
+          "loaded": true,
+          "isPathHref": true,
+          "type": "link",
+          "path": "/integrations/guides/magento",
+          "title": "Magento",
+          "children": []
+        }
+      ]
+    },
+    {
+      "loaded": true,
+      "isPathHref": true,
+      "type": "category",
       "title": "Notification",
       "initialOpen": true,
       "children": [
@@ -144,6 +161,23 @@ const generatedgeneratedIntegrationsSidebarSidebar = {
           "type": "ref",
           "path": "/commerce-modules/payment/payment-provider/stripe",
           "title": "Stripe",
+          "children": []
+        }
+      ]
+    },
+    {
+      "loaded": true,
+      "isPathHref": true,
+      "type": "category",
+      "title": "Search",
+      "initialOpen": true,
+      "children": [
+        {
+          "loaded": true,
+          "isPathHref": true,
+          "type": "ref",
+          "path": "/integrations/guides/algolia",
+          "title": "Algolia",
           "children": []
         }
       ]

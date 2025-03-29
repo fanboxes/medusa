@@ -1051,9 +1051,18 @@ describe("defineConfig", function () {
           },
           "locking": {
             "options": {
-              "redisUrl": "redis://localhost:6379",
+              "providers": [
+                {
+                  "id": "locking-redis",
+                  "is_default": true,
+                  "options": {
+                    "redisUrl": "redis://localhost:6379",
+                  },
+                  "resolve": "@medusajs/medusa/locking-redis",
+                },
+              ],
             },
-            "resolve": "@medusajs/medusa/locking-redis",
+            "resolve": "@medusajs/medusa/locking",
           },
           "notification": {
             "options": {
